@@ -2,73 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5C930AFCE
-	for <lists.iommu@lfdr.de>; Mon,  1 Feb 2021 19:55:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 865E230B04D
+	for <lists.iommu@lfdr.de>; Mon,  1 Feb 2021 20:24:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 499EE81BDF;
-	Mon,  1 Feb 2021 18:55:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 29B2784FFF;
+	Mon,  1 Feb 2021 19:24:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1zlYJ584MQtA; Mon,  1 Feb 2021 18:55:29 +0000 (UTC)
+	with ESMTP id MBJ6a7CRiVso; Mon,  1 Feb 2021 19:24:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D50D581123;
-	Mon,  1 Feb 2021 18:55:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2CA7984C1E;
+	Mon,  1 Feb 2021 19:24:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B50C9C0174;
-	Mon,  1 Feb 2021 18:55:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B9F6C013A;
+	Mon,  1 Feb 2021 19:24:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D0F79C013A
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 18:55:28 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B5204C013A
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 19:24:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BDCBD2052A
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 18:55:28 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A20CC2051D
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 19:24:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HCQ7uyMoXKvW for <iommu@lists.linux-foundation.org>;
- Mon,  1 Feb 2021 18:55:28 +0000 (UTC)
-X-Greylist: delayed 00:25:05 by SQLgrey-1.7.6
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by silver.osuosl.org (Postfix) with ESMTPS id E977420526
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 18:55:27 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id b4so132111pji.4
- for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 10:55:27 -0800 (PST)
+ with ESMTP id gl1PADQDKQZ3 for <iommu@lists.linux-foundation.org>;
+ Mon,  1 Feb 2021 19:24:40 +0000 (UTC)
+X-Greylist: delayed 00:29:27 by SQLgrey-1.7.6
+Received: from mail-ot1-f74.google.com (mail-ot1-f74.google.com
+ [209.85.210.74])
+ by silver.osuosl.org (Postfix) with ESMTPS id 57DEF2052E
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 19:24:40 +0000 (UTC)
+Received: by mail-ot1-f74.google.com with SMTP id p15so7802260oth.20
+ for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 11:24:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:to;
- bh=jmVH+B5byuoeCWBByF+rlgs1IXxlR3I67Dpk6zRz3g4=;
- b=SosvEstR48V1+HoHfiXGnSkDBo6c3RZs6iuOhiDQyZjm9TnrH7JIfkwKv8wGZRq6yS
- XEA9LefU8MB1mV5RA1WAXX5j+n+LUBkbMdz/mQbd5QviOoZKCN/lnUw618TSSfUPrrYt
- xePuFn6+rn4FC4tEsd5IgP9j2ohvNJ1tDqb4IHkjJpRq0v0bTyuPGPgimqUJD9Jhcpvb
- 4eWManaTi4YMg0Rub+JEsVfoVWQEXxetnYgoJZ8btWoXceKQv1pjC9+aIMJQi1EQs479
- GVHei57xNQZbS00ckImI9fdie1QtctBpwObaFaZCvzO1heGZs6zbDzRc922TaadtIIVX
- Ui/Q==
+ h=sender:date:in-reply-to:message-id:mime-version:references:subject
+ :from:to; bh=dv/wJr+V9NRV+lolRhI4CVLaEjJrVVBI8C3cibP+WBU=;
+ b=Lj3UyKxA8lOIDGcPlpqgpnIQ+ae5rtq8GZJ3tw2mo4cgWWi5PDLt0PQL1ceiR7DkDT
+ fsn7U8UN+bqxxlHbLikEDWaglidRgQkkFYiDgTHcsS82JHwwx7gJtiYdyllzS5oNcaWC
+ Eg/jeZpIVEEtoFwS/sAagES8+4KsAUqFWJauvb3OSw+rWHAxuwBZDOO2pzJYGxTwRa3i
+ 6b9k7zhAfI8DOS7uaEO/5PWyeY3tCZ/Y8/padIigVO7e+pLSphaeaBtA4lxv18bUw0Hb
+ T0XuC3AQhuA5yRyaXcr1PL8TRMjE6yZNayj7+MSPQdQWYa+Q1XTmQ8XLb4lcAkkwvub7
+ l3Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :to; bh=jmVH+B5byuoeCWBByF+rlgs1IXxlR3I67Dpk6zRz3g4=;
- b=E6DIHJxwWnxLHA8APfenpJOCltFtMQq98QCU11X7N9MpxropLXfjNWHMr8PuwZbDPY
- Om8OS7/mMEfS8zcfFxlFmytF2K3mYPkK6hn9NZbbeVLT2hA3EyS5LEWnvZW+7bALHtOd
- xk2hdkjbUimJZcbFmZbhGcKgdVDdeVRJRbz3Xkh+RL3Ev7Fh1kUH3Llncmr5FZloPX8p
- WG523GpyXNE7x2GxIJuTXo4CyPn2ApyaIRfZLFZZ+Ph2xa4j3cPyqvVn61oRRReE8EIL
- CVR7EuytqnmOo4czbUDyR2q+VLxgRMbXkxOI9bli7mKLc9KwkLHbTv5Q3pCYGK7uL9Jg
- 8TNw==
-X-Gm-Message-State: AOAM533JJ0OvppjCcy5fln4gsTDhOtG7GJ6WnFp2km6SfGqQvnvdr5Ow
- EHQ3ckzlWK6NKOyN4US8HLDdI1jIcg==
-X-Google-Smtp-Source: ABdhPJw91byWRyJEd+QII2hd/UYZLifFIxJy6ksqPbqPXXoI12a7ZnTaYTpJH9qVyZ2rTyjQMxFgH+s6dw==
+ h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to;
+ bh=dv/wJr+V9NRV+lolRhI4CVLaEjJrVVBI8C3cibP+WBU=;
+ b=FMYIovUQ0JAzmjdtZ8aOwb63EbKWtIW+/za82cytVkQ4TvaVaoCjZT15M3z/q5I7Pm
+ w8shQrfbJV/5gPgWMJYdUKEQayJ61FAhT2nkO9S1QpAC/RK5qqmNHAG/8Le+5QAsvl6w
+ ncDdKiWBfu7bwJFjZYy3VbE7sln7FOmx+Q4mqfO8LPdo01Bu39aKjtkMlZmNVL1uVz8s
+ KxK7cBxZ0pl9nIxWN7/Or/HjL6X0+I9+4TuAjM8A9/XCplktKg0GX9AV/zlFmGCcUUlg
+ 4K1iLPJy2uEKpyuNZrLfKAiRuf/eeDQYrqF0s2An59j3HQj6w3x5U5KI2htForPjSCqz
+ QJWw==
+X-Gm-Message-State: AOAM532HrN/NZEdxhwweHPbJDV9xqi+qB+RMdFBFeZjCdqjqrff6T9tv
+ svIID/S+j2FD3XQ7X2nSnfQyvqqYIQ==
+X-Google-Smtp-Source: ABdhPJyh03Hh5IPZa/NXKVXEfxYK+v8U+Q/6t0H4LGYsfl6XIq6w4GCzICateDGeGMpAGtpLIcmYglBU8Q==
 X-Received: from jxgao.kir.corp.google.com
  ([2620:0:1008:11:695f:7f9e:413c:e3c7])
- (user=jxgao job=sendgmr) by 2002:a17:902:6b88:b029:df:ff72:7bc6 with SMTP id
- p8-20020a1709026b88b02900dfff727bc6mr18389861plk.23.1612204221515; Mon, 01
- Feb 2021 10:30:21 -0800 (PST)
-Date: Mon,  1 Feb 2021 10:30:14 -0800
-Message-Id: <20210201183017.3339130-1-jxgao@google.com>
+ (user=jxgao job=sendgmr) by 2002:a17:90a:d58a:: with SMTP id
+ v10mr196883pju.9.1612204223378; Mon, 01 Feb 2021 10:30:23 -0800 (PST)
+Date: Mon,  1 Feb 2021 10:30:15 -0800
+In-Reply-To: <20210201183017.3339130-1-jxgao@google.com>
+Message-Id: <20210201183017.3339130-2-jxgao@google.com>
 Mime-Version: 1.0
+References: <20210201183017.3339130-1-jxgao@google.com>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH V2 0/3] SWIOTLB: Preserve swiotlb map offset when needed.
+Subject: [PATCH V2 1/3] Adding page_offset_mask to device_dma_parameters
 To: jxgao@google.com, erdemaktas@google.com, marcorr@google.com, hch@lst.de, 
  m.szyprowski@samsung.com, robin.murphy@arm.com, gregkh@linuxfoundation.org,
  saravanak@google.com, heikki.krogerus@linux.intel.com, 
@@ -96,38 +98,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-NVMe driver and other applications may depend on the data offset
-to operate correctly. Currently when unaligned data is mapped via
-SWIOTLB, the data is mapped as slab aligned with the SWIOTLB. This
-patch adds an option to make sure the mapped data preserves its
-offset of the orginal addrss.
+Some devices rely on the address offset in a page to function
+correctly (NVMe driver as an example). These devices may use
+a different page size than the Linux kernel. The address offset
+has to be preserved upon mapping, and in order to do so, we
+need to record the page_offset_mask first.
 
-Without the patch when creating xfs formatted disk on NVMe backends,
-with swiotlb=force in kernel boot option, creates the following error:
-meta-data=/dev/nvme2n1   isize=512    agcount=4, agsize=131072 blks
-         =               sectsz=512   attr=2, projid32bit=1
-         =               crc=1        finobt=1, sparse=0, rmapbt=0, refl
-ink=0
-data     =               bsize=4096   blocks=524288, imaxpct=25
-         =               sunit=0      swidth=0 blks
-naming   =version 2      bsize=4096   ascii-ci=0 ftype=1
-log      =internal log   bsize=4096   blocks=2560, version=2
-         =               sectsz=512   sunit=0 blks, lazy-count=1
-realtime =none           extsz=4096   blocks=0, rtextents=0
-mkfs.xfs: pwrite failed: Input/output error
-
-Jianxiong Gao (3):
-  Adding page_offset_mask to device_dma_parameters
-  Add swiotlb offset preserving mapping when
-    dma_dma_parameters->page_offset_mask is non zero.
-  Adding device_dma_parameters->offset_preserve_mask to NVMe driver.
-
- drivers/nvme/host/pci.c     |  4 ++++
+Signed-off-by: Jianxiong Gao <jxgao@google.com>
+---
  include/linux/device.h      |  1 +
  include/linux/dma-mapping.h | 17 +++++++++++++++++
- kernel/dma/swiotlb.c        | 16 +++++++++++++++-
- 4 files changed, 37 insertions(+), 1 deletion(-)
+ 2 files changed, 18 insertions(+)
 
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 1779f90eeb4c..7960bf516dd7 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -291,6 +291,7 @@ struct device_dma_parameters {
+ 	 * sg limitations.
+ 	 */
+ 	unsigned int max_segment_size;
++	unsigned int min_align_mask;
+ 	unsigned long segment_boundary_mask;
+ };
+ 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 2e49996a8f39..27ec3cab8cbd 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -500,6 +500,23 @@ static inline int dma_set_seg_boundary(struct device *dev, unsigned long mask)
+ 	return -EIO;
+ }
+ 
++static inline unsigned int dma_get_min_align_mask(struct device *dev)
++{
++	if (dev->dma_parms)
++		return dev->dma_parms->min_align_mask;
++	return 0;
++}
++
++static inline int dma_set_min_align_mask(struct device *dev,
++		unsigned int min_align_mask)
++{
++	if (dev->dma_parms) {
++		dev->dma_parms->min_align_mask = min_align_mask;
++		return 0;
++	}
++	return -EIO;
++}
++
+ static inline int dma_get_cache_alignment(void)
+ {
+ #ifdef ARCH_DMA_MINALIGN
 -- 
 2.27.0
 
