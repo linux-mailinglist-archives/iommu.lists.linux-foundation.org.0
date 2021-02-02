@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F6030C084
-	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 15:01:10 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA0F30C0FE
+	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 15:13:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E916B867C6;
-	Tue,  2 Feb 2021 14:01:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DEB6886E6E;
+	Tue,  2 Feb 2021 14:13:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B+vbxj3Usn3p; Tue,  2 Feb 2021 14:01:06 +0000 (UTC)
+	with ESMTP id kFE8RUULQ04M; Tue,  2 Feb 2021 14:13:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4499C867D2;
-	Tue,  2 Feb 2021 14:01:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A9C0386F79;
+	Tue,  2 Feb 2021 14:13:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2962EC013A;
-	Tue,  2 Feb 2021 14:01:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 92488C013A;
+	Tue,  2 Feb 2021 14:13:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B00EDC013A
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 14:01:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 062A8C013A
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 14:13:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A15FD85A82
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 14:01:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E8E8185A5A
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 14:13:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aLLUUFWWaa_7 for <iommu@lists.linux-foundation.org>;
- Tue,  2 Feb 2021 14:01:04 +0000 (UTC)
+ with ESMTP id K_on5zVzEdtv for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Feb 2021 14:13:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2086485A49
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 14:01:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6222B85A58
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 14:13:54 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id AF3843D4; Tue,  2 Feb 2021 15:01:02 +0100 (CET)
-Date: Tue, 2 Feb 2021 15:01:01 +0100
+ id 83B4E3E6; Tue,  2 Feb 2021 15:13:51 +0100 (CET)
+Date: Tue, 2 Feb 2021 15:13:50 +0100
 From: Joerg Roedel <joro@8bytes.org>
 To: Chunyan Zhang <zhang.lyra@gmail.com>
 Subject: Re: [PATCH 2/2] iommu: add Unisoc iommu basic driver
-Message-ID: <20210202140101.GA32671@8bytes.org>
+Message-ID: <20210202141349.GB32671@8bytes.org>
 References: <20210202073258.559443-3-zhang.lyra@gmail.com>
  <20210202104257.736836-1-zhang.lyra@gmail.com>
 MIME-Version: 1.0
@@ -70,20 +70,32 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On Tue, Feb 02, 2021 at 06:42:57PM +0800, Chunyan Zhang wrote:
-> From: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> 
-> This iommu module can be used by Unisoc's multimedia devices, such as
-> display, Image codec(jpeg) and a few signal processors, including
-> VSP(video), GSP(graphic), ISP(image), and CPP(camera pixel processor), etc.
-> 
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> ---
->  drivers/iommu/Kconfig      |  12 +
->  drivers/iommu/Makefile     |   1 +
->  drivers/iommu/sprd-iommu.c | 598 +++++++++++++++++++++++++++++++++++++
+> +static phys_addr_t sprd_iommu_iova_to_phys(struct iommu_domain *domain,
+> +					   dma_addr_t iova)
+> +{
+> +	struct sprd_iommu_domain *dom = to_sprd_domain(domain);
+> +	unsigned long flags;
+> +	phys_addr_t pa;
+> +	unsigned long start = domain->geometry.aperture_start;
+> +	unsigned long end = domain->geometry.aperture_end;
+> +
+> +	if (iova < start || iova > end)
+> +		pr_err("iova (0x%llx) exceed the vpn range[0x%lx-0x%lx]!\n",
+> +		       iova, start, end);
 
-This looks like it actually belongs under drivers/iommu/arm/, no?
+It is not a good idea to continue here with an out-of-range iova. The
+code below might access random memory for its checks. Better do a
+WARN_ON here and return an invalid physical address.
 
+> +
+> +	spin_lock_irqsave(&dom->pgtlock, flags);
+> +	pa = *(dom->pgt_va + ((iova - start) >> SPRD_IOMMU_PAGE_SHIFT));
+> +	pa = (pa << SPRD_IOMMU_PAGE_SHIFT) + ((iova - start) & (SPRD_IOMMU_PAGE_SIZE - 1));
+> +	spin_unlock_irqrestore(&dom->pgtlock, flags);
+> +
+> +	return pa;
+> +}
+> +
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
