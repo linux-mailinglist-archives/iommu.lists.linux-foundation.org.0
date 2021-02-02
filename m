@@ -1,82 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C477230B466
-	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 02:06:36 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 798B930B4C1
+	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 02:37:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EEC5586FAD;
-	Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2DA8B214EB;
+	Tue,  2 Feb 2021 01:37:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4cpKgZH-VhOL; Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
+	with ESMTP id DG1qMZErR5Wb; Tue,  2 Feb 2021 01:37:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5A7E886AD4;
-	Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D1EC821537;
+	Tue,  2 Feb 2021 01:37:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3734DC013A;
-	Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B476DC013A;
+	Tue,  2 Feb 2021 01:37:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B13FAC013A
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:06:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83F4FC013A
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:37:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 93F4585823
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:06:31 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 672EB8703C
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:37:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aIYUGZ604qTZ for <iommu@lists.linux-foundation.org>;
- Tue,  2 Feb 2021 01:06:30 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DB91E85802
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:06:30 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id o16so13784301pgg.5
- for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 17:06:30 -0800 (PST)
+ with ESMTP id J8pEkepPfLze for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Feb 2021 01:37:02 +0000 (UTC)
+X-Greylist: delayed 00:21:41 by SQLgrey-1.7.6
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9BEB787038
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:37:02 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id v126so18396726qkd.11
+ for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 17:37:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5tWP56wGAsq5M1/6L0Nhx+Nff7Wx1AXO7jr86wZj1aM=;
- b=IVgPwKBKfNJ9jpRYoicL6hpd2wmOuRx6xSG+oELVY/zQuuhBTyLcF9eM/iOrSQK9XY
- hfa3wCKjPC5kjiiqsTwFOuMHg4lf3GQopkekSXhZFImOdjiGe5f1ugKUzKNiTJc/u+M4
- sNfMdGZLsEIgokugJxQ6Icjgzh4DJo2HFoVoI=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NszN4D5jzxy6frT0PN3aEj0vwxxqCzqxTFC21xlKA2c=;
+ b=mzPpODks3Hz/c3k7qugw9y9nTN+2ETWrIEmwpYHyI23BXj3J6N2CmbedBCmDvne9e2
+ uWBUZXHVTmVsGahn5gvR3D5CEcMo2U8XoFLapZ7aC00EzXj/poCNx4CLsMN4pKHclSGK
+ JVb6OfBikmgd2t++YwljcC1c0B6Oz0kJHd01E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5tWP56wGAsq5M1/6L0Nhx+Nff7Wx1AXO7jr86wZj1aM=;
- b=GLjyg56XjPgHLkixZvWynM81cNI7cRe/bAjB/wjKGMhPiFP2CqiafYg+1LOW+PCvfX
- uC+77hNuCN9lv7pWgQgxuAP2ShHEcoUGmvExNuRkvrLW2Rn0qTQxkpFsTUrbRmzGrqaZ
- wWt7M0RDFEL16IXknQeUBmY2w39fczPtNOGuwqQ1iouMyqGK9K48Z7KBZSLYYSy1QOKH
- iBNoSgMxeRrnTT4YMd7wlX4fzaPoVjQTruz/xROcR6n3zXFTfkgZ3rvuWtVwd2X/8E6h
- 9vZYDXP3Qa8UuNeVX1xrFEPEmgaok85IiBtf7DgaU53QHuR+ijI/K9jP7eVTwe1unMtI
- dmwA==
-X-Gm-Message-State: AOAM533MsezeKGDisLBbkv4q5kL7j4TITklabfwJmRtYevA1CAD5NtyD
- xudELFzZgPwHj9lST+nlFvdHqA==
-X-Google-Smtp-Source: ABdhPJwntOGwfW+QmkbBNMIa6+zYGCYzPyotiBWqhxHLBlUE+EHriVmMrDbRJc6c1OtSykVwqcKgdw==
-X-Received: by 2002:aa7:8b0f:0:b029:1c0:e782:ba29 with SMTP id
- f15-20020aa78b0f0000b02901c0e782ba29mr18490270pfd.37.1612227990480; 
- Mon, 01 Feb 2021 17:06:30 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:1:d1cd:7a42:64fe:9bae])
- by smtp.gmail.com with ESMTPSA id b17sm20003282pfp.167.2021.02.01.17.06.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 17:06:29 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: Yong Wu <yong.wu@mediatek.com>, Will Deacon <will@kernel.org>,
- joro@8bytes.org
-Subject: [PATCH] iommu: Properly pass gfp_t in _iommu_map() to avoid atomic
- sleeping
-Date: Mon,  1 Feb 2021 17:06:23 -0800
-Message-Id: <20210201170611.1.I64a7b62579287d668d7c89e105dcedf45d641063@changeid>
-X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NszN4D5jzxy6frT0PN3aEj0vwxxqCzqxTFC21xlKA2c=;
+ b=WlRdUWRYPM/rqvPMsymNrhyr+p/H/chyTQNk6/ZAvmY53O2jSoenyI0t9/gUv346Ik
+ Ug8mbEqApoqoQmO8Dq2Vjc/OVzFqHp3t0i4NeVQpkZuBc3ToxXlGvnAo+D9jXYf9a+kw
+ b4+Vkp0TAbPyxDbIgjgKWgrV5kzAT3xe5lNtQvbWsJDziZ0Ro425HGt+AUFtSdmTcgL4
+ 7BRooA4UiPNE4oeak0LOMlTlzqr/tUxeeKS81c4IGfILETjM5RpcyppXRA5ok9CstLMT
+ Cvmg3UOUlmbptdpgi+uq6/Avf9cm80RZeBzmgvNedCHEgamIwsW4mrNQB+DYNQIvI9Gs
+ jd8A==
+X-Gm-Message-State: AOAM533YWGPVjGSHnNDeWjxYVMH/tH/kqotgxCCjmic/lilJ4RcA1duV
+ 2x/qHpdWk2B2Lc8qhdTKfkbMRacqxevorA==
+X-Google-Smtp-Source: ABdhPJyR9mwVatP6MYa7vEfoOFVi0xFJvPcOlb29maWtsY7I6PPl1E3bQvNUoFTAMUPzJ2N9Lgltrw==
+X-Received: by 2002:ac8:1247:: with SMTP id g7mr17786437qtj.261.1612228054017; 
+ Mon, 01 Feb 2021 17:07:34 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171])
+ by smtp.gmail.com with ESMTPSA id c1sm16001389qke.2.2021.02.01.17.07.31
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Feb 2021 17:07:32 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id s61so15541283ybi.4
+ for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 17:07:31 -0800 (PST)
+X-Received: by 2002:a25:c683:: with SMTP id k125mr30638749ybf.32.1612228051259; 
+ Mon, 01 Feb 2021 17:07:31 -0800 (PST)
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
+References: <20210107122909.16317-1-yong.wu@mediatek.com>
+ <20210107122909.16317-2-yong.wu@mediatek.com>
+In-Reply-To: <20210107122909.16317-2-yong.wu@mediatek.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 1 Feb 2021 17:07:19 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Xkn0pVGP5R7-xKjrDUTsrWRcy3L-D_qg8_hgV=noRhxA@mail.gmail.com>
+Message-ID: <CAD=FV=Xkn0pVGP5R7-xKjrDUTsrWRcy3L-D_qg8_hgV=noRhxA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] iommu: Move iotlb_sync_map out from __iommu_map
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ chao.hao@mediatek.com, Will Deacon <will@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, Tomasz Figa <tfiga@google.com>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ David Laight <David.Laight@aculab.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, kernel-team@android.com,
+ Greg Kroah-Hartman <gregkh@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,10 +108,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Sleeping while atomic = bad.  Let's fix an obvious typo to try to avoid it.
+Hi,
 
-The warning that was seen (on a downstream kernel with the problematic
-patch backported):
+On Thu, Jan 7, 2021 at 4:31 AM Yong Wu <yong.wu@mediatek.com> wrote:
+>
+> @@ -2438,18 +2435,31 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+>         return ret;
+>  }
+>
+> +static int _iommu_map(struct iommu_domain *domain, unsigned long iova,
+> +                     phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+> +{
+> +       const struct iommu_ops *ops = domain->ops;
+> +       int ret;
+> +
+> +       ret = __iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
+
+The above is broken.  Instead of GFP_KERNEL it should be passing "gfp".
+
+
+> +       if (ret == 0 && ops->iotlb_sync_map)
+> +               ops->iotlb_sync_map(domain);
+> +
+> +       return ret;
+> +}
+> +
+>  int iommu_map(struct iommu_domain *domain, unsigned long iova,
+>               phys_addr_t paddr, size_t size, int prot)
+>  {
+>         might_sleep();
+> -       return __iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
+> +       return _iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
+>  }
+>  EXPORT_SYMBOL_GPL(iommu_map);
+>
+>  int iommu_map_atomic(struct iommu_domain *domain, unsigned long iova,
+>               phys_addr_t paddr, size_t size, int prot)
+>  {
+> -       return __iommu_map(domain, iova, paddr, size, prot, GFP_ATOMIC);
+> +       return _iommu_map(domain, iova, paddr, size, prot, GFP_ATOMIC);
+
+Specifically the above bug means we drop the "GFP_ATOMIC" here.
+
+It means we trigger a warning, like this (on a downstream kernel with
+the patch backported):
 
  BUG: sleeping function called from invalid context at mm/page_alloc.c:4726
  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 9, name: ksoftirqd/0
@@ -120,31 +174,14 @@ patch backported):
   __iommu_dma_map+0x8c/0xc4
   iommu_dma_map_page+0xac/0xf0
 
-Fixes: d8c1df02ac7f ("iommu: Move iotlb_sync_map out from __iommu_map")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-I haven't done any serious testing on this.  I saw a report of the
-warning and the fix seemed obvious so I'm shooting it out.
 
- drivers/iommu/iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+A quick (but not very tested) fix at:
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 3d099a31ddca..2b06b01850d5 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2441,7 +2441,7 @@ static int _iommu_map(struct iommu_domain *domain, unsigned long iova,
- 	const struct iommu_ops *ops = domain->ops;
- 	int ret;
- 
--	ret = __iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
-+	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
- 	if (ret == 0 && ops->iotlb_sync_map)
- 		ops->iotlb_sync_map(domain, iova, size);
- 
--- 
-2.30.0.365.g02bc693789-goog
+https://lore.kernel.org/r/20210201170611.1.I64a7b62579287d668d7c89e105dcedf45d641063@changeid/
 
+
+-Doug
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
