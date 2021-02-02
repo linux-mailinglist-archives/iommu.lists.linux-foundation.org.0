@@ -2,86 +2,81 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFCB30B410
-	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 01:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C477230B466
+	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 02:06:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DD74687029;
-	Tue,  2 Feb 2021 00:26:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EEC5586FAD;
+	Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id w1kLIbbwSVSb; Tue,  2 Feb 2021 00:26:11 +0000 (UTC)
+	with ESMTP id 4cpKgZH-VhOL; Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3594C87022;
-	Tue,  2 Feb 2021 00:26:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5A7E886AD4;
+	Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A098C013A;
-	Tue,  2 Feb 2021 00:26:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3734DC013A;
+	Tue,  2 Feb 2021 01:06:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 83E3FC013A
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 00:26:10 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B13FAC013A
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:06:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6389021509
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 00:26:10 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 93F4585823
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:06:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kiVbvTK3x4Lc for <iommu@lists.linux-foundation.org>;
- Tue,  2 Feb 2021 00:26:09 +0000 (UTC)
+ with ESMTP id aIYUGZ604qTZ for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Feb 2021 01:06:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by silver.osuosl.org (Postfix) with ESMTPS id 706AF20334
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 00:26:09 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id h14so18232120otr.4
- for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 16:26:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZaKN0kS6u64uQV+6FGLHQ/HFDrwuOhBJX+D4+gTt6r0=;
- b=tCDZIyKRfYkflVO/mtEEY/OhC27bA9kqcX/5z+t4BtDBqfjp5sZ49VjvxVeoplOarj
- AHmY7N+os6HUVETD7QEgDovkqXB9vRw9mosvTMB0EzWzWlaO05AsR204OzZKZglBwYiX
- pHQBMKa7/HwClvsBCbv5i43x7LoXh+9DL2zfBgKB+ONF2UqWACyeWSzlt2oyy3ElQkYU
- jU42fR2o3wK8iolXAqeuVQN1utwYgYnSs8VYPrrMqiVJVYcqHdUGJWMc9C9X41IuMgq9
- H5UcsTgNmbqCwr1LI57T+EnrptCtYRBZDYWAvgWbsMxvK6h1QSipoNDTD9tPto4A4sar
- N7Mg==
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DB91E85802
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 01:06:30 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id o16so13784301pgg.5
+ for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 17:06:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5tWP56wGAsq5M1/6L0Nhx+Nff7Wx1AXO7jr86wZj1aM=;
+ b=IVgPwKBKfNJ9jpRYoicL6hpd2wmOuRx6xSG+oELVY/zQuuhBTyLcF9eM/iOrSQK9XY
+ hfa3wCKjPC5kjiiqsTwFOuMHg4lf3GQopkekSXhZFImOdjiGe5f1ugKUzKNiTJc/u+M4
+ sNfMdGZLsEIgokugJxQ6Icjgzh4DJo2HFoVoI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZaKN0kS6u64uQV+6FGLHQ/HFDrwuOhBJX+D4+gTt6r0=;
- b=qIdxdU+vbGO5l7LOmefwgikrDI8tb0eJyTwuTYr3ChBt1aRV8RsylHhZo/xVG25xkm
- R6K+f5l1pPdyBQHgwI4Up9DRqHXaaaiUhc0B10mkTuUU06b4IeJJOwd/26GvQq0tohmm
- RFiGOjWwCdYAoeUqYQSPM6i99Qfyqn1Od3IQifvPknSkCwaK37hJaUimlo9mdh6iSmuc
- XQy00fS6ttX4dMETUgI48B91AAWGmFw4YWL2iC/TdWQqCRn4KLz7/EYyrGAw0mhZnxQP
- kJ33rf2SgJFRAEwvVzziAlzQE7+Q3fhpijRKoz5p6fS71Ou/1zuTm1UHaZEoSGG4V4hu
- mrEg==
-X-Gm-Message-State: AOAM530PqNM0AIigmEDyv7of0u43dxyxxOYxRT3+PdHmF8edpWoHOfEk
- 8nd5CpuJr5EZxE5mycvSwMzFk6S/hN3ADWQ7SUK5TQ==
-X-Google-Smtp-Source: ABdhPJyFgXBxhpe6iO2OHTC17kqmn9HUrbruwF7fouFTXMMPS3G9sjeY2vc7eAvB7AwHVf2zMFQpAJVvevVDT4EA30k=
-X-Received: by 2002:a9d:7d12:: with SMTP id v18mr13319071otn.205.1612225568439; 
- Mon, 01 Feb 2021 16:26:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5tWP56wGAsq5M1/6L0Nhx+Nff7Wx1AXO7jr86wZj1aM=;
+ b=GLjyg56XjPgHLkixZvWynM81cNI7cRe/bAjB/wjKGMhPiFP2CqiafYg+1LOW+PCvfX
+ uC+77hNuCN9lv7pWgQgxuAP2ShHEcoUGmvExNuRkvrLW2Rn0qTQxkpFsTUrbRmzGrqaZ
+ wWt7M0RDFEL16IXknQeUBmY2w39fczPtNOGuwqQ1iouMyqGK9K48Z7KBZSLYYSy1QOKH
+ iBNoSgMxeRrnTT4YMd7wlX4fzaPoVjQTruz/xROcR6n3zXFTfkgZ3rvuWtVwd2X/8E6h
+ 9vZYDXP3Qa8UuNeVX1xrFEPEmgaok85IiBtf7DgaU53QHuR+ijI/K9jP7eVTwe1unMtI
+ dmwA==
+X-Gm-Message-State: AOAM533MsezeKGDisLBbkv4q5kL7j4TITklabfwJmRtYevA1CAD5NtyD
+ xudELFzZgPwHj9lST+nlFvdHqA==
+X-Google-Smtp-Source: ABdhPJwntOGwfW+QmkbBNMIa6+zYGCYzPyotiBWqhxHLBlUE+EHriVmMrDbRJc6c1OtSykVwqcKgdw==
+X-Received: by 2002:aa7:8b0f:0:b029:1c0:e782:ba29 with SMTP id
+ f15-20020aa78b0f0000b02901c0e782ba29mr18490270pfd.37.1612227990480; 
+ Mon, 01 Feb 2021 17:06:30 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:d1cd:7a42:64fe:9bae])
+ by smtp.gmail.com with ESMTPSA id b17sm20003282pfp.167.2021.02.01.17.06.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Feb 2021 17:06:29 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Yong Wu <yong.wu@mediatek.com>, Will Deacon <will@kernel.org>,
+ joro@8bytes.org
+Subject: [PATCH] iommu: Properly pass gfp_t in _iommu_map() to avoid atomic
+ sleeping
+Date: Mon,  1 Feb 2021 17:06:23 -0800
+Message-Id: <20210201170611.1.I64a7b62579287d668d7c89e105dcedf45d641063@changeid>
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 MIME-Version: 1.0
-References: <20210201183017.3339130-1-jxgao@google.com>
- <20210201183017.3339130-4-jxgao@google.com>
- <20210201205759.GA2128135@dhcp-10-100-145-180.wdc.com>
- <CAMGD6P2Gz9nWELMdsAhwQvXx3PXv2aXet=Tn9Rca61obZawfgw@mail.gmail.com>
- <CAMGD6P1_cs1W8jMt7Sz6broDdnFNPrxbiZW-JZ+GAtg5aoTdOQ@mail.gmail.com>
-In-Reply-To: <CAMGD6P1_cs1W8jMt7Sz6broDdnFNPrxbiZW-JZ+GAtg5aoTdOQ@mail.gmail.com>
-Date: Mon, 1 Feb 2021 16:25:55 -0800
-Message-ID: <CAMGD6P0uwVxKuG503ahGTbPcwb+y2wRXSiE_gvzfdUrMfZ5YbA@mail.gmail.com>
-Subject: Re: [PATCH V2 3/3] Adding device_dma_parameters->offset_preserve_mask
- to NVMe driver.
-To: Keith Busch <kbusch@kernel.org>
-Cc: heikki.krogerus@linux.intel.com, sagi@grimberg.me,
- Saravana Kannan <saravanak@google.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, Marc Orr <marcorr@google.com>,
- gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, axboe@fb.com,
- bgolaszewski@baylibre.com, iommu@lists.linux-foundation.org, jroedel@suse.de,
- dan.j.williams@intel.com, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,83 +89,62 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jianxiong Gao via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jianxiong Gao <jxgao@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> Why is this setting being done and undone on each IO? Wouldn't it be
-> more efficient to set it once during device initialization?
+Sleeping while atomic = bad.  Let's fix an obvious typo to try to avoid it.
 
-I agree that setting it once is the right way of doing it.
+The warning that was seen (on a downstream kernel with the problematic
+patch backported):
 
-So I have changed the patch to enable the mask once in nvme_probe.
+ BUG: sleeping function called from invalid context at mm/page_alloc.c:4726
+ in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 9, name: ksoftirqd/0
+ CPU: 0 PID: 9 Comm: ksoftirqd/0 Not tainted 5.4.93-12508-gc10c93e28e39 #1
+ Call trace:
+  dump_backtrace+0x0/0x154
+  show_stack+0x20/0x2c
+  dump_stack+0xa0/0xfc
+  ___might_sleep+0x11c/0x12c
+  __might_sleep+0x50/0x84
+  __alloc_pages_nodemask+0xf8/0x2bc
+  __arm_lpae_alloc_pages+0x48/0x1b4
+  __arm_lpae_map+0x124/0x274
+  __arm_lpae_map+0x1cc/0x274
+  arm_lpae_map+0x140/0x170
+  arm_smmu_map+0x78/0xbc
+  __iommu_map+0xd4/0x210
+  _iommu_map+0x4c/0x84
+  iommu_map_atomic+0x44/0x58
+  __iommu_dma_map+0x8c/0xc4
+  iommu_dma_map_page+0xac/0xf0
 
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
+Fixes: d8c1df02ac7f ("iommu: Move iotlb_sync_map out from __iommu_map")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+I haven't done any serious testing on this.  I saw a report of the
+warning and the fix seemed obvious so I'm shooting it out.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 81e6389b2042..4ce78373f98d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2630,6 +2630,9 @@ static void nvme_reset_work(struct work_struct *work)
-         */
-        dma_set_max_seg_size(dev->dev, 0xffffffff);
+ drivers/iommu/iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-+       if (dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1))
-+               dev_warn(dev->dev, "dma_set_min_align_mask failed to
-set offset\n");
-+
-        mutex_unlock(&dev->shutdown_lock);
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 3d099a31ddca..2b06b01850d5 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2441,7 +2441,7 @@ static int _iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	const struct iommu_ops *ops = domain->ops;
+ 	int ret;
+ 
+-	ret = __iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
++	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
+ 	if (ret == 0 && ops->iotlb_sync_map)
+ 		ops->iotlb_sync_map(domain, iova, size);
+ 
+-- 
+2.30.0.365.g02bc693789-goog
 
-        /*
-
-However on boot of the system, the following error happens occasionally.
-The error seems related to Journal service. Whenever "Stopping Journal
-Service..."
-appears, the boot succeeds. Otherwise boot fails with the following message.
-
-----------------------------log start here--------------------------
-[  OK  ] Started Journal Service.
-[   10.774545] xfs filesystem being remounted at / supports timestamps
-until 2038 (0x7fffffff)
-[  OK  ] Started Remount Root and Kernel File Systems.
-         Starting Flush Journal to Persistent Storage...
-         Starting Load/Save Random Seed...
-         Starting Create Static [   10.804340] systemd-journald[780]:
-Received request to flush runtime journal from PID 1
-Device Nodes in /dev...
-[  OK  ] Started Load/Save Random Seed.
-[  OK  ] Started Flush Journal to Persistent Storage.
-[  OK  ] Started Create Static Device Nodes in /dev.
-         Starting udev Kernel Device Manager...
-[  OK  ] Reached target Local File Systems (Pre).
-         Starting File System Check on /dev/disk/by-uuid/7281-17FC...
-[  OK  ] Started File System Check on /dev/disk/by-uuid/7281-17FC.
-         Mounting /boot/efi...
-[  OK  ] Mounted /boo[   11.203461] systemd[1]: segfault at 2e0 ip
-000055b08607cc24 sp 00007ffe13809090 error 4 in
-systemd[55b086000000+140000]
-t/efi.
-[   11.216088] Code: 02 c7 44 24 10 fe ff ff ff 49 89 e4 89 06 48 8d
-6c 24 08 48 8d 5c 24 10 48 c7 44 24 18 00 00 00 00 eb 10 0f 1f 00 48
-8b 3c 24 <44> 39 b7 e0 02 00 00 74 3b 49 8b 7d 00 4c 89 e1 48 89 ea 48
-89 de
----------------log ends here-----------
-
-> Based on the Keith's comment it needs to be completely avoided in hot path.
->
-> Did you get a chance to bisect the problem in the rc6 ? We need to know the
-> root cause otherwise it might happen again after we add this patch.
-
-I am now trying to bisect the problem.
-I am not sure how the mapping offset could have caused the error.
-Any suggestions are appreciated.
-
---
-Jianxiong Gao
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
