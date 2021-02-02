@@ -1,62 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8702230BADE
-	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 10:25:44 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E187930BB61
+	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 10:51:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A83FC81AEC;
-	Tue,  2 Feb 2021 09:25:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 881F18589C;
+	Tue,  2 Feb 2021 09:51:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uxTSyAf94BMN; Tue,  2 Feb 2021 09:25:42 +0000 (UTC)
+	with ESMTP id Y9lUlnXySpiN; Tue,  2 Feb 2021 09:51:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 48CA686DA5;
-	Tue,  2 Feb 2021 09:25:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EEE958593F;
+	Tue,  2 Feb 2021 09:51:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E369C013A;
-	Tue,  2 Feb 2021 09:25:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7CC9C1DA8;
+	Tue,  2 Feb 2021 09:51:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C2D0C013A
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 09:25:40 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EFFE7C013A
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 09:51:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 63CE586D92
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 09:25:40 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A2219214EC
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 09:51:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AVM02nrGPvoA for <iommu@lists.linux-foundation.org>;
- Tue,  2 Feb 2021 09:25:39 +0000 (UTC)
+ with ESMTP id as8bOX+OP24t for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Feb 2021 09:51:25 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 700B881AEC
- for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 09:25:39 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 1FB102042C
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 09:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:In-Reply-To:References;
- bh=KVcoQAis9qpVojAZk6ftMIgV9FoGH70poOL+UM2Palk=; b=jMFN/LuTCF7Kdzd7ADLDJY8w77
- kYruwQQOCl92kCYLWcT6G6gsZ4lb6WoIq0XO5t7sMpAgU+dhvG/bxYiuBIX9anxZUA0xB16l/w/rV
- axXK9F72kAjhwioKmfXwWPyHP5mGv+XG0oCRe2YSYswVjstt4zqMuZ3X8VdtmFU4rf1Sh78YSgbQN
- NhwvcLLMpQWitqEsf+d1xQMXOkq/HuBda1CPDlG/DuD5E5sG0YVF3EAssj07IXfaGRfMO2DdprKbP
- DHG07wnBGP/nG+aiINHZ2PpxnqN3da6maJiFOCrQF3q6DnrSrGHU/B2AK6g5okQfE+ovWRdzKtiAi
- XEQZMjHA==;
+ bh=QTGwZsHUykjIplzXOpellqEP0wlz0ReWLq9Jccm8VmE=; b=bEaPt84LngP64M0S0FFor0M6mU
+ k2kConm0zblT0nwONmZm0KLMNpUz6aR5G4+gxRdbwpI7kjqsNiQL45IRMHIwEy1yoY1wQEjkYmgBH
+ NAO9hOgpFGFepC2hcCYmA6F+7xmltXrBFrKe2S+gtu05T8Xa8Rm7sLCyVbeDD5vZLYgb2bzzNTlO/
+ StrExNLDIGuo9gtGO1NQa03DsAxK/8m12hwmTS0AM9J7GlEtzUTqwUmkIbkcRQRtsdDZXdxTkzblY
+ 1kHfg7WZCwVNnLbrhfvHoI7LNQvQOBTZIdTdvk0P9QSD1m3JCFVJ8qcUZJzXa/SAZFEBnwZoOMM5Y
+ M6aH9/Dg==;
 Received: from [2001:4bb8:198:6bf4:7f38:755e:a6e0:73e9] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1l6rw8-00Ez5i-Fu; Tue, 02 Feb 2021 09:25:30 +0000
-Date: Tue, 2 Feb 2021 10:25:26 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [GIT PULL] dma-mapping fix for 5.11
-Message-ID: <YBkahgjZ1hnpplH1@infradead.org>
+ id 1l6sL1-00F0vV-Nz; Tue, 02 Feb 2021 09:51:13 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Tomasz Figa <tfiga@chromium.org>, Ricardo Ribalda <ribalda@chromium.org>,
+ Sergey Senozhatsky <senozhatsky@google.com>,
+ iommu@lists.linux-foundation.org
+Subject: add a new dma_alloc_noncontiguous API v2
+Date: Tue,  2 Feb 2021 10:51:03 +0100
+Message-Id: <20210202095110.1215346-1-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,29 +79,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The following changes since commit 6ee1d745b7c9fd573fba142a2efdad76a9f1cb04:
+Hi all,
 
-  Linux 5.11-rc5 (2021-01-24 16:47:14 -0800)
+this series adds the new noncontiguous DMA allocation API requested by
+various media driver maintainers.
 
-are available in the Git repository at:
-
-  git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.11-1
-
-for you to fetch changes up to d17405d52bacd14fe7fdbb10c0434934ea496914:
-
-  dma-mapping: benchmark: fix kernel crash when dma_map_single fails (2021-01-27 17:18:38 +0100)
-
-----------------------------------------------------------------
-dma-mapping fix for 5.11
-
- - fix a kernel crash in the new dma-mapping benchmark test (Barry Song)
-
-----------------------------------------------------------------
-Barry Song (1):
-      dma-mapping: benchmark: fix kernel crash when dma_map_single fails
-
- kernel/dma/map_benchmark.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Changes since v1:
+ - document that flush_kernel_vmap_range and invalidate_kernel_vmap_range
+   must be called once an allocation is mapped into KVA
+ - add dma-debug support
+ - remove the separate dma_handle argument, and instead create fully formed
+   DMA mapped scatterlists
+ - use a directional allocation in uvcvideo
+ - call invalidate_kernel_vmap_range from uvcvideo
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
