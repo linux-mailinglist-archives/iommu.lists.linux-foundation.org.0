@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6A030E45F
-	for <lists.iommu@lfdr.de>; Wed,  3 Feb 2021 21:57:35 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D48F30E461
+	for <lists.iommu@lfdr.de>; Wed,  3 Feb 2021 21:57:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C8D8D23115;
-	Wed,  3 Feb 2021 20:57:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BDDBA86B2A;
+	Wed,  3 Feb 2021 20:57:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2Z19rxt+NZFi; Wed,  3 Feb 2021 20:57:32 +0000 (UTC)
+	with ESMTP id nj1YVZ6tFCuR; Wed,  3 Feb 2021 20:57:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DD70F204A2;
+	by whitealder.osuosl.org (Postfix) with ESMTP id B50D486B0F;
 	Wed,  3 Feb 2021 20:57:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CBA3AC013A;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C431C013A;
 	Wed,  3 Feb 2021 20:57:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C6719C013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 54359C0FA7
  for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 20:57:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B3F0687164
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4F7EA871CF
  for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 20:57:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ns3QNi3TQIII for <iommu@lists.linux-foundation.org>;
+ with ESMTP id MUpFpNMzfgr4 for <iommu@lists.linux-foundation.org>;
  Wed,  3 Feb 2021 20:57:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6C6F4871C4
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B9E29871C9
  for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 20:57:29 +0000 (UTC)
-IronPort-SDR: R51TYc3gQ/cQAs7gkbac/Y536zCgweG5+VyTkhityQT6+/RQunSrYVvB/eEOQkNR1/UTecuW3w
- fMoo7FHq7lEQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160875295"
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="160875295"
+IronPort-SDR: WztMeNk04lL7ytjeyKIDpveAFqJ0NTA0KAoWkh1SpmFqcaQJw/LccWcJYWYY5HthiqO7gXDUzf
+ l7GYt2SGVrgQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160875298"
+X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="160875298"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Feb 2021 12:57:29 -0800
-IronPort-SDR: vEsPwWDwRp/bB9vfE/RdJnwAKAqrjj0TGiGqfUE3tQfYHLLcWnbKyzD3O+7yTc1u8ecIHu2bMA
- A95QSLTBqfIg==
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="372510552"
+IronPort-SDR: 4XvBfjP/iQqbBWLZ2szBUV+ObDD33PykBEc1uG1b8bXLvYgFtaa6445QuPrkFnLgTfY8JojNhn
+ y11wMRRTP6ng==
+X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="372510555"
 Received: from megha-z97x-ud7-th.sc.intel.com ([143.183.85.154])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 03 Feb 2021 12:57:28 -0800
+ 03 Feb 2021 12:57:29 -0800
 From: Megha Dey <megha.dey@intel.com>
 To: tglx@linutronix.de
-Subject: [PATCH 03/12] platform-msi: Provide default irq_chip:: Ack
-Date: Wed,  3 Feb 2021 12:56:36 -0800
-Message-Id: <1612385805-3412-4-git-send-email-megha.dey@intel.com>
+Subject: [PATCH 04/12] genirq/proc: Take buslock on affinity write
+Date: Wed,  3 Feb 2021 12:56:37 -0800
+Message-Id: <1612385805-3412-5-git-send-email-megha.dey@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1612385805-3412-1-git-send-email-megha.dey@intel.com>
 References: <1612385805-3412-1-git-send-email-megha.dey@intel.com>
@@ -81,29 +81,65 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-For the upcoming device MSI support it's required to have a default
-irq_chip::ack implementation (irq_chip_ack_parent) so the drivers do not
-need to care.
+Until now interrupt chips which support setting affinity are not locking
+the associated bus lock for two reasons:
+
+ - All chips which support affinity setting do not use buslock because they
+   just can operated directly on the hardware.
+
+ - All chips which use buslock do not support affinity setting because
+   their interrupt chips are not capable. These chips are usually connected
+   over a bus like I2C, SPI etc. and have an interrupt output which is
+   conneted to CPU interrupt of some sort. So there is no way to set the
+   affinity on the chip itself.
+
+Upcoming hardware which is PCIE based sports a non standard MSI(X) variant
+which stores the MSI message in RAM which is associated to e.g. a device
+queue. The device manages this RAM and writes have to be issued via command
+queues or similar mechanisms which is obviously not possible from interrupt
+disabled, raw spinlock held context.
+
+The buslock mechanism of irq chips can be utilized to support that. The
+affinity write to the chip writes to shadow state, marks it pending and the
+irq chip's irq_bus_sync_unlock() callback handles the command queue and
+wait for completion similar to the other chip operations on I2C or SPI
+busses.
+
+Change the locking in irq_set_affinity() to bus_lock/unlock to help with
+that. There are a few other callers than the proc interface, but none of
+them is affected by this change as none of them affects an irq chip with
+bus lock support.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Megha Dey <megha.dey@intel.com>
 ---
- drivers/base/platform-msi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ kernel/irq/manage.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/base/platform-msi.c b/drivers/base/platform-msi.c
-index 2c1e2e0..9d9ccfc 100644
---- a/drivers/base/platform-msi.c
-+++ b/drivers/base/platform-msi.c
-@@ -101,6 +101,8 @@ static void platform_msi_update_chip_ops(struct msi_domain_info *info)
- 		chip->irq_mask = irq_chip_mask_parent;
- 	if (!chip->irq_unmask)
- 		chip->irq_unmask = irq_chip_unmask_parent;
-+	if (!chip->irq_ack)
-+		chip->irq_ack = irq_chip_ack_parent;
- 	if (!chip->irq_eoi)
- 		chip->irq_eoi = irq_chip_eoi_parent;
- 	if (!chip->irq_set_affinity)
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index dec3f73..85ede4e 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -443,16 +443,16 @@ int irq_update_affinity_desc(unsigned int irq,
+ 
+ int __irq_set_affinity(unsigned int irq, const struct cpumask *mask, bool force)
+ {
+-	struct irq_desc *desc = irq_to_desc(irq);
++	struct irq_desc *desc;
+ 	unsigned long flags;
+ 	int ret;
+ 
++	desc = irq_get_desc_buslock(irq, &flags, IRQ_GET_DESC_CHECK_GLOBAL);
+ 	if (!desc)
+ 		return -EINVAL;
+ 
+-	raw_spin_lock_irqsave(&desc->lock, flags);
+ 	ret = irq_set_affinity_locked(irq_desc_get_irq_data(desc), mask, force);
+-	raw_spin_unlock_irqrestore(&desc->lock, flags);
++	irq_put_desc_busunlock(desc, flags);
+ 	return ret;
+ }
+ 
 -- 
 2.7.4
 
