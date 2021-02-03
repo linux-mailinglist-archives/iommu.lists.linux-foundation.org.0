@@ -2,89 +2,82 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CAB30DD72
-	for <lists.iommu@lfdr.de>; Wed,  3 Feb 2021 16:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C496030D870
+	for <lists.iommu@lfdr.de>; Wed,  3 Feb 2021 12:22:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7007487141;
-	Wed,  3 Feb 2021 15:03:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 818AF870E7;
+	Wed,  3 Feb 2021 11:22:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S6J0on4Ttsut; Wed,  3 Feb 2021 15:03:12 +0000 (UTC)
+	with ESMTP id 2IH7khW7zhRT; Wed,  3 Feb 2021 11:22:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4A403870EF;
-	Wed,  3 Feb 2021 15:03:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D4268870D4;
+	Wed,  3 Feb 2021 11:22:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 288D7C0FA7;
-	Wed,  3 Feb 2021 15:03:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B30D0C013A;
+	Wed,  3 Feb 2021 11:22:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0048C013A
- for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 10:13:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DBB04C013A
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 11:22:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B3D0F8653F
- for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 10:13:00 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 9CCBE2045D
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 11:22:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yRsVxVsyoqjv for <iommu@lists.linux-foundation.org>;
- Wed,  3 Feb 2021 10:12:59 +0000 (UTC)
-X-Greylist: delayed 00:25:02 by SQLgrey-1.7.6
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1D9B98618C
- for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 10:12:58 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id z22so17157045qto.7
- for <iommu@lists.linux-foundation.org>; Wed, 03 Feb 2021 02:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0x0f.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zk8/vp8JgNY876P4l17ZIlAqzB9Wo0hE+dFWOx8FtrM=;
- b=SY8KB6ZL7hu4tsDAT4WtjBrjedqhdXnJ0WfEvfJfTY4yh0iSUYYRhinj5pTMbKBDV1
- aUGstOUKrtsV6s3+W+PrL5fuzfzO0w1ItRwwVf+Gj24JPi7XOxzASbip5S8aN+T6CEwU
- +NX0nAvHbl0Z+rP1h+42oA2pbBBS/9Oc57Pzw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zk8/vp8JgNY876P4l17ZIlAqzB9Wo0hE+dFWOx8FtrM=;
- b=lMhDANsrYneiWZ8EqmIumBp8yGvWBo8ppQErgjbfowxUrY2LaHDermO3Py7zdWT2Wp
- nIOC2vYSRIiX33ORj5JcMxKLQuS/KSd9uYJ0jDYBMiXm/wPe4OSVz2DqVx8Xx2nqFQYc
- 94Z+0YzizuSdZLbTp18VnRUVCKbxM3yhGoOdCx2ZqHZeXa2v+Je3ObZoF/S60KsNX84p
- R+nyxhyrNwh8AxtVq/SF8kSTrk3rtMeHRRltrmeF4JSc9CydlcAVMHShatMZkz9pmY6z
- 0TDgCSZMb7C2c5/2hmLNdBfW0spdLNgAxdeNN48pP/3p4BjekGLiUTWQ/JGEMj4qBNzY
- hSAg==
-X-Gm-Message-State: AOAM530FaerhEC/qZyWi9yC+qg1ogaD1Z2Nk7OZeonHGIIDM2vxcbedx
- uGo1BUZ4/oLsgu2tzPssvoE7sGJY3LUvF2IG2VIt+mV9/mgm4g9T
-X-Google-Smtp-Source: ABdhPJybIlxUI+vQirOWdUqx6AbdqbGySWHXWBWrXBPSLHmsuhjkp60HqhVWg2mWEWZVLnKYEXPVHI64xIy6+ueWcow=
-X-Received: by 2002:ac8:5dc8:: with SMTP id e8mr1685704qtx.249.1612345676494; 
- Wed, 03 Feb 2021 01:47:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20210202205544.24812-1-robh@kernel.org>
-In-Reply-To: <20210202205544.24812-1-robh@kernel.org>
-From: Daniel Palmer <daniel@0x0f.com>
-Date: Wed, 3 Feb 2021 18:48:59 +0900
-Message-ID: <CAFr9PX=NmCev3c1jQ3VA89rwcTr3jpRQB-NKf+j+LOeOMHy1Og@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: Fix undocumented compatible strings in
- examples
+ with ESMTP id tZ8GEK+X8rTi for <iommu@lists.linux-foundation.org>;
+ Wed,  3 Feb 2021 11:22:27 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 633F1203DD
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 11:22:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B73E164DE8;
+ Wed,  3 Feb 2021 11:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612351346;
+ bh=wGQw7gT3qnKCIXEO+rxqRvVbPbNtV92xRV2Pv+Ej3+o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MrJAtf5mnK1C4Q4ZyKjla2kAdXf633/lnbrk7VmF4rTw8ELv9cY7AI3lYFHz5IvTs
+ gW1JO8UMu0KWxpiE11pDElcoFi2aScKR/6EtEhTveStAUFXYmhZ/2VkMZcgd1/0YfE
+ ni15CbrfkH0uB9TmCzEv5FfL+g5ymnw5CEbyZXJD4ppEFij+lOdgpYmtLPj5YnxQt2
+ S89UXBGzveoZJe7weH0eyO7487Q9x29lPyzQEfs7eq9AcnO8mCcpuFXjNyVKHYr8yx
+ p+BAk8A9gP2L8aa7Eyu5laiQUOjkYC5JRKTNmmv8FsKcsF1NgygkcixHo6F7gFSZQG
+ dH3CVM+A3lgnQ==
+Date: Wed, 3 Feb 2021 16:52:22 +0530
+From: Vinod Koul <vkoul@kernel.org>
 To: Rob Herring <robh@kernel.org>
-X-Mailman-Approved-At: Wed, 03 Feb 2021 15:03:11 +0000
-Cc: Tomer Maimon <tmaimon77@gmail.com>,
+Subject: Re: [PATCH 3/3] dt-bindings: Fix errors in 'if' schemas
+Message-ID: <20210203112222.GO2771@vkoul-mobl>
+References: <20210202205544.24812-1-robh@kernel.org>
+ <20210202205544.24812-3-robh@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210202205544.24812-3-robh@kernel.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Tomer Maimon <tmaimon77@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  Linus Walleij <linus.walleij@linaro.org>,
- Vincent Cheng <vincent.cheng.xh@renesas.com>,
- Tali Perry <tali.perry1@gmail.com>, Daniel Palmer <daniel@thingy.jp>,
- linux-i2c@vger.kernel.org, Will Deacon <will@kernel.org>,
- linux-clk@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ Vincent Cheng <vincent.cheng.xh@renesas.com>, dri-devel@lists.freedesktop.org,
+ Tali Perry <tali.perry1@gmail.com>, Eric Anholt <eric@anholt.net>,
+ Daniel Palmer <daniel@thingy.jp>, linux-i2c@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
  Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>,
- DTML <devicetree@vger.kernel.org>, linux-watchdog@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Avi Fishman <avifishman70@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>, iommu@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Ray Jui <rjui@broadcom.com>, Maxime Ripard <mripard@kernel.org>,
+ linux-gpio@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Avi Fishman <avifishman70@gmail.com>, Scott Branden <sbranden@broadcom.com>,
+ Stephen Boyd <sboyd@kernel.org>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,28 +95,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Rob,
+On 02-02-21, 14:55, Rob Herring wrote:
+> Properties in if/then schemas weren't getting checked by the meta-schemas.
+> Enabling meta-schema checks finds several errors.
+> 
+> The use of an 'items' schema (as opposed to the list form) is wrong in
+> some cases as it applies to all entries. 'contains' is the correct schema
+> to use in the case of multiple entries.
+> 
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Ray Jui <rjui@broadcom.com>
+> Cc: Scott Branden <sbranden@broadcom.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: linux-crypto@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/crypto/allwinner,sun8i-ce.yaml   | 3 +--
+>  .../devicetree/bindings/display/brcm,bcm2835-hvs.yaml    | 2 +-
+>  Documentation/devicetree/bindings/leds/ti,tca6507.yaml   | 1 +
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml  | 2 +-
+>  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml | 3 +--
+>  .../devicetree/bindings/phy/renesas,usb2-phy.yaml        | 5 ++---
 
-On Wed, 3 Feb 2021 at 05:55, Rob Herring <robh@kernel.org> wrote:
-> diff --git a/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml b/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-> index 1f2ef408bb43..fe1e1c63ffe3 100644
-> --- a/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-> @@ -46,7 +46,7 @@ examples:
->      #include <dt-bindings/gpio/msc313-gpio.h>
->
->      gpio: gpio@207800 {
-> -      compatible = "mstar,msc313e-gpio";
-> +      compatible = "mstar,msc313-gpio";
->        #gpio-cells = <2>;
->        reg = <0x207800 0x200>;
->        gpio-controller;
+For phy:
 
-This is correct. The compatible string dropped the e at some point and
-I must have missed the example.
-Thanks for the fix.
+Acked-By: Vinod Koul <vkoul@kernel.org>
 
-Reviewed-by: Daniel Palmer <daniel@thingy.jp>
+-- 
+~Vinod
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
