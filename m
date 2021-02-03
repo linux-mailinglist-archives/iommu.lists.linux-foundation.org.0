@@ -1,74 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7873A30D052
-	for <lists.iommu@lfdr.de>; Wed,  3 Feb 2021 01:34:03 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C3B30D05F
+	for <lists.iommu@lfdr.de>; Wed,  3 Feb 2021 01:42:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2B4F185C90;
-	Wed,  3 Feb 2021 00:34:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 110A2204EB;
+	Wed,  3 Feb 2021 00:42:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zj4A3pV5W70t; Wed,  3 Feb 2021 00:34:01 +0000 (UTC)
+	with ESMTP id adywee+7wOZ1; Wed,  3 Feb 2021 00:42:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 92B73861A3;
-	Wed,  3 Feb 2021 00:34:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 29676204E8;
+	Wed,  3 Feb 2021 00:42:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 79176C1DA8;
-	Wed,  3 Feb 2021 00:34:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0CFFAC013A;
+	Wed,  3 Feb 2021 00:42:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0B95C013A
- for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 00:33:59 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5A449C013A
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 00:42:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8C86585C90
- for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 00:33:59 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 41058204C3
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 00:42:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NbGAmqS6QmN4 for <iommu@lists.linux-foundation.org>;
- Wed,  3 Feb 2021 00:33:58 +0000 (UTC)
+ with ESMTP id kpcvlfOa4zFX for <iommu@lists.linux-foundation.org>;
+ Wed,  3 Feb 2021 00:42:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7898F85044
- for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 00:33:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DDCC464F6A;
- Wed,  3 Feb 2021 00:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612312438;
- bh=5Y/XoJCOn6/NGYorjRJVq5H7yCRRQePzX7xnCGRIvHs=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=a9F6yI27yX8GlW6r4oc9PzqBi9W6twsMIpsVmH7gyHNmNmblVEs1RuumPNiH0iee5
- gX3sA/jLYfrc7bRJ/GSATNIoeZPuYZe5zIf7i1OlC+uNKyCBznfuPV2gdltKWQ8gnl
- pxMIE4NK5VPTUO+AhkRVCSjleAaZEbX4YDkId77EpYoxGzIAxH2uCXAmNZs8YviG3a
- XMbnUPPakq9HH6f4R18u8zdtoeOBQ+0w/zkWhj05fStbZnEMWoX/R3dc/cvfC6udvm
- owGQ487O3z76Wejmq10QSPtB7dN9/iWjOSR3eHvfXzwkk8aDtl+mndRudxOP0cPU1m
- RyxJ/PGfPzc7w==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by silver.osuosl.org (Postfix) with ESMTPS id E3619203CF
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Feb 2021 00:42:23 +0000 (UTC)
+IronPort-SDR: L/P4xJNM1OcFBlr70STk+4MSZJwYnEEwnccjjTwJ1rKfI6TQ0kJfTTiquSgm7+NRXwWWfgv9k0
+ bDTh6nB7UwNQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="199900227"
+X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; d="scan'208";a="199900227"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2021 16:42:23 -0800
+IronPort-SDR: MMKNBch+1mmOdmWJTo+x57VCujaG3b48l/M96+PWoodyq4a31cr3LEkCDmFuMiT5MNDd7vIzh7
+ hekzoLknfkfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; d="scan'208";a="406362278"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.128])
+ ([10.239.159.128])
+ by fmsmga004.fm.intel.com with ESMTP; 02 Feb 2021 16:42:22 -0800
+Subject: Re: [PATCH 3/3] iommu/vt-d: Apply SATC policy
+To: Joerg Roedel <joro@8bytes.org>
+References: <20210202044057.615277-1-baolu.lu@linux.intel.com>
+ <20210202044057.615277-4-baolu.lu@linux.intel.com>
+ <20210202135501.GX32671@8bytes.org>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <698a0a53-d0f4-cee2-03d7-4e914276737e@linux.intel.com>
+Date: Wed, 3 Feb 2021 08:33:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210202205544.24812-1-robh@kernel.org>
-References: <20210202205544.24812-1-robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: Fix undocumented compatible strings in
- examples
-From: Stephen Boyd <sboyd@kernel.org>
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Date: Tue, 02 Feb 2021 16:33:56 -0800
-Message-ID: <161231243653.76967.3231080427102153199@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
-Cc: Tomer Maimon <tmaimon77@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Vincent Cheng <vincent.cheng.xh@renesas.com>,
- Tali Perry <tali.perry1@gmail.com>, Daniel Palmer <daniel@thingy.jp>,
- linux-i2c@vger.kernel.org, Will Deacon <will@kernel.org>,
- linux-clk@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
- Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>,
- linux-watchdog@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-gpio@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Avi Fishman <avifishman70@gmail.com>, linux-kernel@vger.kernel.org,
- Andrew Jeffery <andrew@aj.id.au>, iommu@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+In-Reply-To: <20210202135501.GX32671@8bytes.org>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org, Ashok Raj <ashok.raj@intel.com>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,44 +75,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Quoting Rob Herring (2021-02-02 12:55:42)
+On 2/2/21 9:55 PM, Joerg Roedel wrote:
+> On Tue, Feb 02, 2021 at 12:40:57PM +0800, Lu Baolu wrote:
+>> +	list_for_each_entry_rcu(satcu, &dmar_satc_units, list) {
+>> +		satc = container_of(satcu->hdr, struct acpi_dmar_satc, header);
+>> +		if (satc->segment == pci_domain_nr(dev->bus) && satcu->atc_required) {
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun9i-a80-usb-clocks.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun9i-a80-usb-clocks.yaml
-> index fa0ee03a527f..53cc6df0df96 100644
-> --- a/Documentation/devicetree/bindings/clock/allwinner,sun9i-a80-usb-clocks.yaml
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun9i-a80-usb-clocks.yaml
-> @@ -18,7 +18,7 @@ properties:
->      const: 1
->  
->    compatible:
-> -    const: allwinner,sun9i-a80-usb-clocks
-> +    const: allwinner,sun9i-a80-usb-clks
+> You can safe a level of indentation and make this look nicer if you do:
+> 
+> 		if (satc->segment != pci_domain_nr(dev->bus) || !satcu->atc_required)
+> 			continue;
+> 
+> 
 
-Should the file name change too?
+Yes. Thanks!
 
->  
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml b/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
-> index eb241587efd1..118c5543e037 100644
-> --- a/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
-> +++ b/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
-> @@ -66,8 +66,8 @@ properties:
->        - arm,syscon-icst525-integratorcp-cm-mem
->        - arm,integrator-cm-auxosc
->        - arm,versatile-cm-auxosc
-> -      - arm,impd-vco1
-> -      - arm,impd-vco2
-> +      - arm,impd1-vco1
-> +      - arm,impd1-vco2
->  
->    clocks:
->      description: Parent clock for the ICST VCO
+Best regards,
+baolu
+
+>> +			for_each_dev_scope(satcu->devices, satcu->devices_cnt, i, tmp)
+>> +				if (to_pci_dev(tmp) == dev)
+>> +					goto out;
+>> +		}
+>> +	}
+>> +	ret = 0;
+>> +out:
+>> +	rcu_read_unlock();
+>> +	return ret;
+>> +}
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
