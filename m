@@ -2,61 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BBE30FD28
-	for <lists.iommu@lfdr.de>; Thu,  4 Feb 2021 20:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8776030FD40
+	for <lists.iommu@lfdr.de>; Thu,  4 Feb 2021 20:51:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3932F8655C;
-	Thu,  4 Feb 2021 19:45:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 45B1D86502;
+	Thu,  4 Feb 2021 19:51:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UEX5xA9ecNbk; Thu,  4 Feb 2021 19:45:02 +0000 (UTC)
+	with ESMTP id 8gfCT8j9VjuY; Thu,  4 Feb 2021 19:51:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C11F886549;
-	Thu,  4 Feb 2021 19:45:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9EAF484785;
+	Thu,  4 Feb 2021 19:51:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AB229C1834;
-	Thu,  4 Feb 2021 19:45:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B81AC013A;
+	Thu,  4 Feb 2021 19:51:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1D6D0C013A
- for <iommu@lists.linux-foundation.org>; Thu,  4 Feb 2021 19:45:01 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E544EC013A
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Feb 2021 19:50:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1186286CD1
- for <iommu@lists.linux-foundation.org>; Thu,  4 Feb 2021 19:45:01 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CCB8385085
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Feb 2021 19:50:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4ZvN1aOSrUmU for <iommu@lists.linux-foundation.org>;
- Thu,  4 Feb 2021 19:45:00 +0000 (UTC)
+ with ESMTP id WORBofr2-i5u for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Feb 2021 19:50:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 893C386CC4
- for <iommu@lists.linux-foundation.org>; Thu,  4 Feb 2021 19:45:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 78B5F60235;
- Thu,  4 Feb 2021 19:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612467900;
- bh=o/iwfEt4ELC7nj2C+dTWaP5pRUR4t6umd988LIvS00A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KHRta2Y+8N1NkWgpBglcnviwIE4MFBS3tOXxhTBi+0J5dJPSnhyydSwJKVUmcC3R2
- 6U6UGg2qyI6qeDnWnbfog2uXRd/djBoafXENY600B6hWAt3XblHSqSkIIpQm2roeq2
- L4uI0dUT0QpUu1zp0ZnJzVbl22PCT7yJUybcJC/o=
-Date: Thu, 4 Feb 2021 20:44:57 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 1/8] driver core: add a min_align_mask field to struct
- device_dma_parameters
-Message-ID: <YBxOuScfAXhdcuf/@kroah.com>
-References: <20210204193035.2606838-1-hch@lst.de>
- <20210204193035.2606838-2-hch@lst.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C105484785
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Feb 2021 19:50:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25137D6E;
+ Thu,  4 Feb 2021 11:50:58 -0800 (PST)
+Received: from [10.57.49.26] (unknown [10.57.49.26])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 838793F73B;
+ Thu,  4 Feb 2021 11:50:55 -0800 (PST)
+Subject: Re: [RFC PATCH 01/11] iommu/arm-smmu-v3: Add feature detection for
+ HTTU
+To: Keqian Zhu <zhukeqian1@huawei.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+ kvmarm@lists.cs.columbia.edu, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, Alex Williamson <alex.williamson@redhat.com>,
+ Marc Zyngier <maz@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>
+References: <20210128151742.18840-1-zhukeqian1@huawei.com>
+ <20210128151742.18840-2-zhukeqian1@huawei.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <f8be5718-d4d9-0565-eaf0-b5a128897d15@arm.com>
+Date: Thu, 4 Feb 2021 19:50:53 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210204193035.2606838-2-hch@lst.de>
-Cc: saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
- linux-nvme@lists.infradead.org, kbusch@kernel.org,
- iommu@lists.linux-foundation.org, jxgao@google.com, robin.murphy@arm.com
+In-Reply-To: <20210128151742.18840-2-zhukeqian1@huawei.com>
+Content-Language: en-GB
+Cc: Mark Rutland <mark.rutland@arm.com>, jiangkunkun@huawei.com,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Cornelia Huck <cohuck@redhat.com>,
+ lushenming@huawei.com, Kirti Wankhede <kwankhede@nvidia.com>,
+ James Morse <james.morse@arm.com>, wanghaibin.wang@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,28 +73,122 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Feb 04, 2021 at 08:30:28PM +0100, Christoph Hellwig wrote:
-> From: Jianxiong Gao <jxgao@google.com>
+On 2021-01-28 15:17, Keqian Zhu wrote:
+> From: jiangkunkun <jiangkunkun@huawei.com>
 > 
-> Some devices rely on the address offset in a page to function
-> correctly (NVMe driver as an example). These devices may use
-> a different page size than the Linux kernel. The address offset
-> has to be preserved upon mapping, and in order to do so, we
-> need to record the page_offset_mask first.
+> The SMMU which supports HTTU (Hardware Translation Table Update) can
+> update the access flag and the dirty state of TTD by hardware. It is
+> essential to track dirty pages of DMA.
 > 
-> Signed-off-by: Jianxiong Gao <jxgao@google.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> This adds feature detection, none functional change.
+> 
+> Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 > ---
->  include/linux/device.h      |  1 +
->  include/linux/dma-mapping.h | 16 ++++++++++++++++
->  2 files changed, 17 insertions(+)
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++++
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  8 ++++++++
+>   include/linux/io-pgtable.h                  |  1 +
+>   3 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 8ca7415d785d..0f0fe71cc10d 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -1987,6 +1987,7 @@ static int arm_smmu_domain_finalise(struct iommu_domain *domain,
+>   		.pgsize_bitmap	= smmu->pgsize_bitmap,
+>   		.ias		= ias,
+>   		.oas		= oas,
+> +		.httu_hd	= smmu->features & ARM_SMMU_FEAT_HTTU_HD,
+>   		.coherent_walk	= smmu->features & ARM_SMMU_FEAT_COHERENCY,
+>   		.tlb		= &arm_smmu_flush_ops,
+>   		.iommu_dev	= smmu->dev,
+> @@ -3224,6 +3225,21 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
+>   	if (reg & IDR0_HYP)
+>   		smmu->features |= ARM_SMMU_FEAT_HYP;
+>   
+> +	switch (FIELD_GET(IDR0_HTTU, reg)) {
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+We need to accommodate the firmware override as well if we need this to 
+be meaningful. Jean-Philippe is already carrying a suitable patch in the 
+SVA stack[1].
+
+> +	case IDR0_HTTU_NONE:
+> +		break;
+> +	case IDR0_HTTU_HA:
+> +		smmu->features |= ARM_SMMU_FEAT_HTTU_HA;
+> +		break;
+> +	case IDR0_HTTU_HAD:
+> +		smmu->features |= ARM_SMMU_FEAT_HTTU_HA;
+> +		smmu->features |= ARM_SMMU_FEAT_HTTU_HD;
+> +		break;
+> +	default:
+> +		dev_err(smmu->dev, "unknown/unsupported HTTU!\n");
+> +		return -ENXIO;
+> +	}
+> +
+>   	/*
+>   	 * The coherency feature as set by FW is used in preference to the ID
+>   	 * register, but warn on mismatch.
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> index 96c2e9565e00..e91bea44519e 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> @@ -33,6 +33,10 @@
+>   #define IDR0_ASID16			(1 << 12)
+>   #define IDR0_ATS			(1 << 10)
+>   #define IDR0_HYP			(1 << 9)
+> +#define IDR0_HTTU			GENMASK(7, 6)
+> +#define IDR0_HTTU_NONE			0
+> +#define IDR0_HTTU_HA			1
+> +#define IDR0_HTTU_HAD			2
+>   #define IDR0_COHACC			(1 << 4)
+>   #define IDR0_TTF			GENMASK(3, 2)
+>   #define IDR0_TTF_AARCH64		2
+> @@ -286,6 +290,8 @@
+>   #define CTXDESC_CD_0_TCR_TBI0		(1ULL << 38)
+>   
+>   #define CTXDESC_CD_0_AA64		(1UL << 41)
+> +#define CTXDESC_CD_0_HD			(1UL << 42)
+> +#define CTXDESC_CD_0_HA			(1UL << 43)
+>   #define CTXDESC_CD_0_S			(1UL << 44)
+>   #define CTXDESC_CD_0_R			(1UL << 45)
+>   #define CTXDESC_CD_0_A			(1UL << 46)
+> @@ -604,6 +610,8 @@ struct arm_smmu_device {
+>   #define ARM_SMMU_FEAT_RANGE_INV		(1 << 15)
+>   #define ARM_SMMU_FEAT_BTM		(1 << 16)
+>   #define ARM_SMMU_FEAT_SVA		(1 << 17)
+> +#define ARM_SMMU_FEAT_HTTU_HA		(1 << 18)
+> +#define ARM_SMMU_FEAT_HTTU_HD		(1 << 19)
+>   	u32				features;
+>   
+>   #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
+> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+> index ea727eb1a1a9..1a00ea8562c7 100644
+> --- a/include/linux/io-pgtable.h
+> +++ b/include/linux/io-pgtable.h
+> @@ -97,6 +97,7 @@ struct io_pgtable_cfg {
+>   	unsigned long			pgsize_bitmap;
+>   	unsigned int			ias;
+>   	unsigned int			oas;
+> +	bool				httu_hd;
+
+This is very specific to the AArch64 stage 1 format, not a generic 
+capability - I think it should be a quirk flag rather than a common field.
+
+Robin.
+
+[1] 
+https://jpbrucker.net/git/linux/commit/?h=sva/current&id=1ef7d512fb9082450dfe0d22ca4f7e35625a097b
+
+>   	bool				coherent_walk;
+>   	const struct iommu_flush_ops	*tlb;
+>   	struct device			*iommu_dev;
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
