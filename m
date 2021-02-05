@@ -2,62 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8483106AA
-	for <lists.iommu@lfdr.de>; Fri,  5 Feb 2021 09:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC0B3106F5
+	for <lists.iommu@lfdr.de>; Fri,  5 Feb 2021 09:45:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D7E0F86A8D;
-	Fri,  5 Feb 2021 08:29:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0104486AB7;
+	Fri,  5 Feb 2021 08:45:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TuLOUIf4RyPT; Fri,  5 Feb 2021 08:29:50 +0000 (UTC)
+	with ESMTP id IWj_-zhK0OzD; Fri,  5 Feb 2021 08:45:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 40F4C86A88;
-	Fri,  5 Feb 2021 08:29:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 571C986AAE;
+	Fri,  5 Feb 2021 08:45:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24169C0174;
-	Fri,  5 Feb 2021 08:29:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CCD8C013A;
+	Fri,  5 Feb 2021 08:45:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C9E1C013A
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 08:29:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B51A0C013A
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 08:45:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 13EAD2E0FE
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 08:29:49 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9A00F86E67
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 08:45:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tRY99vE69TfI for <iommu@lists.linux-foundation.org>;
- Fri,  5 Feb 2021 08:29:47 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id ECA9E203DC
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 08:29:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB71331B;
- Fri,  5 Feb 2021 00:29:45 -0800 (PST)
-Received: from [10.163.93.198] (unknown [10.163.93.198])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9F6733F73B;
- Fri,  5 Feb 2021 00:29:42 -0800 (PST)
-Subject: Re: [RFC 2/3] arm64/hugetlb: Enable HUGETLB_PAGE_SIZE_VARIABLE
-To: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
- linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
- akpm@linux-foundation.org
-References: <1612422084-30429-1-git-send-email-anshuman.khandual@arm.com>
- <1612422084-30429-3-git-send-email-anshuman.khandual@arm.com>
- <616578ec-8a61-ce0a-a467-50915b3a9967@redhat.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <ca668991-4ea1-6476-8be0-8c0db96a682e@arm.com>
-Date: Fri, 5 Feb 2021 14:00:11 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ with ESMTP id YDgEf7OsTImn for <iommu@lists.linux-foundation.org>;
+ Fri,  5 Feb 2021 08:45:54 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 373E286E56
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 08:45:53 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 5561038F; Fri,  5 Feb 2021 09:45:51 +0100 (CET)
+Date: Fri, 5 Feb 2021 09:45:49 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Jon Derrick <jonathan.derrick@intel.com>
+Subject: Re: [PATCH v2 0/2] VMD MSI Remapping Bypass
+Message-ID: <20210205084549.GD27686@8bytes.org>
+References: <20210204190906.38515-1-jonathan.derrick@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <616578ec-8a61-ce0a-a467-50915b3a9967@redhat.com>
-Content-Language: en-US
-Cc: Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+Content-Disposition: inline
+In-Reply-To: <20210204190906.38515-1-jonathan.derrick@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Nirmal Patel <nirmal.patel@intel.com>, Will Deacon <will@kernel.org>,
+ linux-pci@vger.kernel.org, Kapil Karkra <kapil.karkra@intel.com>,
+ iommu@lists.linux-foundation.org, Bjorn Helgaas <helgaas@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,24 +67,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 2/5/21 1:50 PM, David Hildenbrand wrote:
-> On 04.02.21 08:01, Anshuman Khandual wrote:
->> MAX_ORDER which invariably depends on FORCE_MAX_ZONEORDER can be a variable
->> for a given page size, depending on whether TRANSPARENT_HUGEPAGE is enabled
->> or not. In certain page size and THP combinations HUGETLB_PAGE_ORDER can be
->> greater than MAX_ORDER, making it unusable as pageblock_order.
+On Thu, Feb 04, 2021 at 12:09:04PM -0700, Jon Derrick wrote:
+> Jon Derrick (2):
+>   iommu/vt-d: Use Real PCI DMA device for IRTE
+>   PCI: vmd: Disable MSI/X remapping when possible
 > 
-> Just so I understand correctly, this does not imply that we have THP that exceed the pageblock size / MAX_ORDER size, correct?
+>  drivers/iommu/intel/irq_remapping.c |  3 +-
+>  drivers/pci/controller/vmd.c        | 60 +++++++++++++++++++++++------
+>  2 files changed, 50 insertions(+), 13 deletions(-)
 
-Correct. MAX_ORDER gets incremented when THP is enabled.
+This probably goes via Bjorn's tree, so
 
-config FORCE_MAX_ZONEORDER
-        int
-        default "14" if (ARM64_64K_PAGES && TRANSPARENT_HUGEPAGE)
-        default "12" if (ARM64_16K_PAGES && TRANSPARENT_HUGEPAGE)
-        default "11"
+	Acked-by: Joerg Roedel <jroedel@suse.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
