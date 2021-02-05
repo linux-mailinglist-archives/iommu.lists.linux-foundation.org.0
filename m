@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BE431092D
-	for <lists.iommu@lfdr.de>; Fri,  5 Feb 2021 11:34:27 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC85310939
+	for <lists.iommu@lfdr.de>; Fri,  5 Feb 2021 11:36:34 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 823B4871FA;
-	Fri,  5 Feb 2021 10:34:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6B56686AFD;
+	Fri,  5 Feb 2021 10:36:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dvgm9Ax0Tx9I; Fri,  5 Feb 2021 10:34:25 +0000 (UTC)
+	with ESMTP id 3WR3U5yCdB5h; Fri,  5 Feb 2021 10:36:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E5124871F9;
-	Fri,  5 Feb 2021 10:34:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E4A686B01;
+	Fri,  5 Feb 2021 10:36:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D8290C013A;
-	Fri,  5 Feb 2021 10:34:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 51658C1DA9;
+	Fri,  5 Feb 2021 10:36:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3F877C013A
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 10:34:25 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3410C013A
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 10:36:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2D9DF86DCC
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 10:34:25 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 99F748734C
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 10:36:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xrtTAg1idCps for <iommu@lists.linux-foundation.org>;
- Fri,  5 Feb 2021 10:34:24 +0000 (UTC)
+ with ESMTP id tdDib0nub3qX for <iommu@lists.linux-foundation.org>;
+ Fri,  5 Feb 2021 10:36:30 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D8C37871F9
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 10:34:23 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 088D38730F
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 10:36:30 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 53C6A68AFE; Fri,  5 Feb 2021 11:34:18 +0100 (CET)
-Date: Fri, 5 Feb 2021 11:34:17 +0100
+ id 40F1C68AFE; Fri,  5 Feb 2021 11:36:27 +0100 (CET)
+Date: Fri, 5 Feb 2021 11:36:27 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 7/8] swiotlb: respect min_align_mask
-Message-ID: <20210205103417.GA6694@lst.de>
-References: <20210204193035.2606838-1-hch@lst.de>
- <20210204193035.2606838-8-hch@lst.de>
- <2e51481c-1591-034c-3476-1a1f8891506a@arm.com>
+To: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+Subject: Re: [PATCH v2] dma-mapping: benchmark: pretend DMA is transmitting
+Message-ID: <20210205103627.GB6694@lst.de>
+References: <20210205020035.25340-1-song.bao.hua@hisilicon.com>
+ <20210205092113.GA870@lst.de>
+ <e4c784d93cdd41d285bdddb650fb9471@hisilicon.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2e51481c-1591-034c-3476-1a1f8891506a@arm.com>
+In-Reply-To: <e4c784d93cdd41d285bdddb650fb9471@hisilicon.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
- gregkh@linuxfoundation.org, linux-nvme@lists.infradead.org, kbusch@kernel.org,
- iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>,
- jxgao@google.com
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,68 +69,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Feb 04, 2021 at 11:13:45PM +0000, Robin Murphy wrote:
->> + */
->> +static unsigned int swiotlb_align_offset(struct device *dev, u64 addr)
->> +{
->> +	unsigned min_align_mask = dma_get_min_align_mask(dev);
->> +
->> +	if (!min_align_mask)
->> +		return 0;
->
-> I doubt that's beneficial - even if the compiler can convert it into a 
-> csel, it'll then be doing unnecessary work to throw away a 
-> cheaply-calculated 0 in favour of hard-coded 0 in the one case it matters 
+On Fri, Feb 05, 2021 at 10:32:26AM +0000, Song Bao Hua (Barry Song) wrote:
+> I can keep the struct size unchanged by changing the struct to
+> 
+> struct map_benchmark {
+> 	__u64 avg_map_100ns; /* average map latency in 100ns */
+> 	__u64 map_stddev; /* standard deviation of map latency */
+> 	__u64 avg_unmap_100ns; /* as above */
+> 	__u64 unmap_stddev;
+> 	__u32 threads; /* how many threads will do map/unmap in parallel */
+> 	__u32 seconds; /* how long the test will last */
+> 	__s32 node; /* which numa node this benchmark will run on */
+> 	__u32 dma_bits; /* DMA addressing capability */
+> 	__u32 dma_dir; /* DMA data direction */
+> 	__u32 dma_trans_ns; /* time for DMA transmission in ns */
+> 
+> 	__u32 exp; /* For future use */
+> 	__u64 expansion[9];	/* For future use */
+> };
+> 
+> But the code is really ugly now.
 
-True, I'll drop the checks.
-
-> ;)
->
->> +	return addr & min_align_mask & ((1 << IO_TLB_SHIFT) - 1);
->
-> (BTW, for readability throughout, "#define IO_TLB_SIZE (1 << IO_TLB_SHIFT)" 
-> sure wouldn't go amiss...)
-
-I actually had a patch doing just that, but as it is the only patch
-touching swiotlb.h it caused endless rebuilds for me, so I dropped it
-as it only had a few uses anyway.  But I've added it back.
-
->> -	if (alloc_size >= PAGE_SIZE)
->> +	if (min_align_mask)
->> +		stride = (min_align_mask + 1) >> IO_TLB_SHIFT;
->
-> So this can't underflow because "min_align_mask" is actually just the 
-> high-order bits representing the number of iotlb slots needed to meet the 
-> requirement, right? (It took a good 5 minutes to realise this wasn't doing 
-> what I initially thought it did...)
-
-Yes.
-
-> In that case, a) could the local var be called something like 
-> iotlb_align_mask to clarify that it's *not* just a copy of the device's 
-> min_align_mask,
-
-Ok.
-
-> and b) maybe just have an unconditional initialisation that 
-> works either way:
->
-> 	stride = (min_align_mask >> IO_TLB_SHIFT) + 1;
-
-Sure.
-
-> In fact with that, I think could just mask orig_addr with ~IO_TLB_SIZE in 
-> the call to check_alignment() below, or shift everything down by 
-> IO_TLB_SHIFT in check_alignment() itself, instead of mangling 
-> min_align_mask at all (I'm assuming we do need to ignore the low-order bits 
-> of orig_addr at this point).
-
-Yes, we do need to ignore the low bits as they won't ever be set in
-tlb_dma_addr.  Not sure the shift helps as we need to mask first.
-
-I ended up killing check_alignment entirely, in favor of a new
-slot_addr helper that calculates the address based off the base and index
-and which can be used in a few other places as this one.
+Thats why we usually use __u8 fields for reserved field.  You might
+consider just switching to that instead while you're at it. I guess
+we'll just have to get the addition into 5.11 then to make sure we
+don't release a kernel with the alignment fix.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
