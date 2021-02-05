@@ -1,53 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6110131079C
-	for <lists.iommu@lfdr.de>; Fri,  5 Feb 2021 10:21:27 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E699220119;
-	Fri,  5 Feb 2021 09:21:25 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XOHKbwyzUfXb; Fri,  5 Feb 2021 09:21:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 684342E10A;
-	Fri,  5 Feb 2021 09:21:22 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BAA8C013A;
-	Fri,  5 Feb 2021 09:21:22 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BA95CC013A
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 09:21:19 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50643310824
+	for <lists.iommu@lfdr.de>; Fri,  5 Feb 2021 10:45:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8D199871B6
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 09:21:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F408687322;
+	Fri,  5 Feb 2021 09:45:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vRq5EqDi8vJZ; Fri,  5 Feb 2021 09:45:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id A222287328;
+	Fri,  5 Feb 2021 09:45:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A2F7C08A1;
+	Fri,  5 Feb 2021 09:45:21 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3B8FEC1DA9
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 09:45:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 37B2586044
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 09:45:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u471kG9ZdQPI for <iommu@lists.linux-foundation.org>;
- Fri,  5 Feb 2021 09:21:18 +0000 (UTC)
+ with ESMTP id x2uX5GtD3F1i for <iommu@lists.linux-foundation.org>;
+ Fri,  5 Feb 2021 09:45:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 43E518714E
- for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 09:21:18 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 231D185F56
+ for <iommu@lists.linux-foundation.org>; Fri,  5 Feb 2021 09:45:18 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 7F7B668B05; Fri,  5 Feb 2021 10:21:13 +0100 (CET)
-Date: Fri, 5 Feb 2021 10:21:13 +0100
+ id 9B85068AFE; Fri,  5 Feb 2021 10:45:12 +0100 (CET)
+Date: Fri, 5 Feb 2021 10:45:11 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Barry Song <song.bao.hua@hisilicon.com>
-Subject: Re: [PATCH v2] dma-mapping: benchmark: pretend DMA is transmitting
-Message-ID: <20210205092113.GA870@lst.de>
-References: <20210205020035.25340-1-song.bao.hua@hisilicon.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 3/8] swiotlb: factor out a nr_slots helper
+Message-ID: <20210205094511.GA2801@lst.de>
+References: <20210204193035.2606838-1-hch@lst.de>
+ <20210204193035.2606838-4-hch@lst.de>
+ <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210205020035.25340-1-song.bao.hua@hisilicon.com>
+In-Reply-To: <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-kernel@vger.kernel.org, linuxarm@openeuler.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
+Cc: saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
+ gregkh@linuxfoundation.org, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>,
+ jxgao@google.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,12 +69,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Feb 05, 2021 at 03:00:35PM +1300, Barry Song wrote:
-> +	__u32 dma_trans_ns; /* time for DMA transmission in ns */
->  	__u64 expansion[10];	/* For future use */
+On Thu, Feb 04, 2021 at 10:09:02PM +0000, Robin Murphy wrote:
+>> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+>> index 838dbad10ab916..0c0b81799edbdb 100644
+>> --- a/kernel/dma/swiotlb.c
+>> +++ b/kernel/dma/swiotlb.c
+>> @@ -194,6 +194,11 @@ static inline unsigned long io_tlb_offset(unsigned long val)
+>>   	return val & (IO_TLB_SEGSIZE - 1);
+>>   }
+>>   +static unsigned long nr_slots(u64 val)
+>> +{
+>> +	return ALIGN(val, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+>
+> Would DIV_ROUND_UP(val, 1 << IOTLB_SHIFT) be even clearer?
 
-We need to keep the struct size, so the expansion field needs to
-shrink by the equivalent amount of data that is added in dma_trans_ns.
+Not sure it is all that much cleaner, but it does fit a common pattern,
+so I'll switch to that.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
