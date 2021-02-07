@@ -1,71 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886F23120BC
-	for <lists.iommu@lfdr.de>; Sun,  7 Feb 2021 02:43:11 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 14BA1204D7;
-	Sun,  7 Feb 2021 01:43:10 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PTp9Tlb5sio5; Sun,  7 Feb 2021 01:43:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5BD98204A1;
-	Sun,  7 Feb 2021 01:43:08 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31342C1834;
-	Sun,  7 Feb 2021 01:43:08 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EA910C013A
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 01:43:06 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B2C3120BF
+	for <lists.iommu@lfdr.de>; Sun,  7 Feb 2021 02:45:48 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DCCA387094
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 01:43:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F2E91870BD;
+	Sun,  7 Feb 2021 01:45:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id dtIG3+W8Xz24; Sun,  7 Feb 2021 01:45:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id DFD8D870AB;
+	Sun,  7 Feb 2021 01:45:45 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6F16C013A;
+	Sun,  7 Feb 2021 01:45:45 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5FBF4C013A
+ for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 01:45:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 435DA85CD8
+ for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 01:45:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T4cMQEawRVKn for <iommu@lists.linux-foundation.org>;
- Sun,  7 Feb 2021 01:43:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by hemlock.osuosl.org (Postfix) with ESMTPS id ACDB38708F
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 01:43:04 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DYBhf58fzz164j9;
- Sun,  7 Feb 2021 09:41:38 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.498.0; Sun, 7 Feb 2021 09:42:50 +0800
-Subject: Re: [RFC PATCH 01/11] iommu/arm-smmu-v3: Add feature detection for
- HTTU
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20210128151742.18840-1-zhukeqian1@huawei.com>
- <20210128151742.18840-2-zhukeqian1@huawei.com>
- <f8be5718-d4d9-0565-eaf0-b5a128897d15@arm.com>
- <df1b8fb2-b853-e797-0072-9dbdffc4ff67@huawei.com> <YB0VErwkA0ivRXTd@myrica>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <a07eee49-e997-8e7a-f510-64d23b9c9b98@huawei.com>
-Date: Sun, 7 Feb 2021 09:42:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ with ESMTP id YI1Hvcj60iWu for <iommu@lists.linux-foundation.org>;
+ Sun,  7 Feb 2021 01:45:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8BDAC85BCF
+ for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 01:45:42 +0000 (UTC)
+X-UUID: 827f1e2f1488468593be5b168193d73c-20210207
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=UOcodyhE36vNMhq5b0qi4z7RJDMmPhWYZvVA5+EV+68=; 
+ b=I1A0/qzk9afNaXia6AWsmFc5zD8zmrMHswca9erF1+Sj5WtfKR/9iqusGc7NFkajs2Krl+ghGOMG5JyYzXG04md0fMR2yKfqxzp2uS2MdsZYHdoFVEFPdbfMMIst9RlOzPT+tFrFN76+HGMqo248uGyQrAlXyzpcx4wA4KGzdTc=;
+X-UUID: 827f1e2f1488468593be5b168193d73c-20210207
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 591288906; Sun, 07 Feb 2021 09:45:27 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sun, 7 Feb 2021 09:45:23 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sun, 7 Feb 2021 09:45:19 +0800
+Message-ID: <1612662319.2524.16.camel@mhfsdcap03>
+Subject: Re: [PATCH] iommu/mediatek: Fix error code in probe()
+From: Yong Wu <yong.wu@mediatek.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Sun, 7 Feb 2021 09:45:19 +0800
+In-Reply-To: <YB0+GU5akSdu29Vu@mwanda>
+References: <YB0+GU5akSdu29Vu@mwanda>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <YB0VErwkA0ivRXTd@myrica>
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Cc: Mark Rutland <mark.rutland@arm.com>, "Tian, Kevin" <kevin.tian@intel.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will
- Deacon <will@kernel.org>, jiangkunkun@huawei.com, lushenming@huawei.com,
- linux-kernel@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, iommu@lists.linux-foundation.org,
- James Morse <james.morse@arm.com>, Marc Zyngier <maz@kernel.org>,
- wanghaibin.wang@huawei.com, Robin Murphy <robin.murphy@arm.com>,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
+X-TM-SNTS-SMTP: A90FA4188E79EC868A03301EA33900D9514BD2F174ABA508AF7335354372B47E2000:8
+X-MTK: N
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,46 +83,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jean,
+On Fri, 2021-02-05 at 15:46 +0300, Dan Carpenter wrote:
+> This error path is supposed to return -EINVAL.  It used to return
+> directly but we added some clean up and accidentally removed the
+> error code.  Also I fixed a typo in the error message.
+> 
+> Fixes: c0b57581b73b ("iommu/mediatek: Add power-domain operation")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-On 2021/2/5 17:51, Jean-Philippe Brucker wrote:
-> Hi Keqian,
-> 
-> On Fri, Feb 05, 2021 at 05:13:50PM +0800, Keqian Zhu wrote:
->>> We need to accommodate the firmware override as well if we need this to be meaningful. Jean-Philippe is already carrying a suitable patch in the SVA stack[1].
->> Robin, Thanks for pointing it out.
->>
->> Jean, I see that the IORT HTTU flag overrides the hardware register info unconditionally. I have some concern about it:
->>
->> If the override flag has HTTU but hardware doesn't support it, then driver will use this feature but receive access fault or permission fault from SMMU unexpectedly.
->> 1) If IOPF is not supported, then kernel can not work normally.
->> 2) If IOPF is supported, kernel will perform useless actions, such as HTTU based dma dirty tracking (this series).
->>
->> As the IORT spec doesn't give an explicit explanation for HTTU override, can we comprehend it as a mask for HTTU related hardware register?
-> 
-> To me "Overrides the value of SMMU_IDR0.HTTU" is clear enough: disregard
-> the value of SMMU_IDR0.HTTU and use the one specified by IORT instead. And
-> that's both ways, since there is no validity mask for the IORT value: if
-> there is an IORT table, always ignore SMMU_IDR0.HTTU.
-> 
-> That's how the SMMU driver implements the COHACC bit, which has the same
-> wording in IORT. So I think we should implement HTTU the same way.
-OK, and Robin said that the latest IORT spec literally states it.
+Reviewed-by: Yong Wu <yong.wu@mediatek.com>
 
+> ---
+>  drivers/iommu/mtk_iommu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> One complication is that there is no equivalent override for device tree.
-> I think it can be added later if necessary, because unlike IORT it can be
-> tri state (property not present, overriden positive, overridden negative).
-Yeah, that would be more flexible. ;-)
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index 0ad14a7604b1..5f78ac0dc30e 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -886,7 +886,8 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>  	link = device_link_add(data->smicomm_dev, dev,
+>  			DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
+>  	if (!link) {
+> -		dev_err(dev, "Unable link %s.\n", dev_name(data->smicomm_dev));
+> +		dev_err(dev, "Unable to link %s.\n", dev_name(data->smicomm_dev));
+> +		ret = -EINVAL;
+>  		goto out_runtime_disable;
+>  	}
+>  
 
-> 
-> Thanks,
-> Jean
-> 
-> .
-> 
-Thanks,
-Keqian
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
