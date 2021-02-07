@@ -1,79 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1870C3127B0
-	for <lists.iommu@lfdr.de>; Sun,  7 Feb 2021 22:51:32 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 977973127E3
+	for <lists.iommu@lfdr.de>; Sun,  7 Feb 2021 23:30:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C7AB92034D;
-	Sun,  7 Feb 2021 21:51:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 477F686819;
+	Sun,  7 Feb 2021 22:30:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FwzBYHh53UTb; Sun,  7 Feb 2021 21:51:30 +0000 (UTC)
+	with ESMTP id kpRBwi4SD0n2; Sun,  7 Feb 2021 22:30:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 109C920468;
-	Sun,  7 Feb 2021 21:51:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5E2F08681C;
+	Sun,  7 Feb 2021 22:30:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EF631C013A;
-	Sun,  7 Feb 2021 21:51:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 43A44C013A;
+	Sun,  7 Feb 2021 22:30:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D1393C013A
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 21:51:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F2B80C013A
+ for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 22:30:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B8CD0854D0
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 21:51:27 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id D973586864
+ for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 22:30:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6yrpNxjYYuUn for <iommu@lists.linux-foundation.org>;
- Sun,  7 Feb 2021 21:51:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id BA725854C9
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 21:51:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5631764E42
- for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 21:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612734685;
- bh=P4hDyuNTuefulj1FdkzvYzEyjfTpJGAPCBgeIztJKCM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aiqhgWBzXV4AzmQQ3FOIpJ+8g22/cdhbfgt1J5rc7iv8CNDMRsCNdIqJRBxuy++pF
- vSSeAM9wvJXq06Lww0xXRz1OLXhX1d59B76C8CcYQE/A8LT/GkDc7YlnUeYuyyArp9
- JNonboHjp/shpuCLJEFFcApxk/KOYx9m/eOm6biB7qgn5L9hMxMclfByBeRuLj9oms
- 8zgWmgGkApMFjwpVPd7aZVjxqkhdul+WojsaSgdVwq4Anx2uZj79jxc8DMEIDQstXy
- g/Z9l8JumCrd3vhC+XaZbjK6hu5J5lspVB0tIM2OLMyS54aUxsyYEmUWPjnkDN10/3
- aG0/H10rqpiDg==
-Received: by mail-oi1-f173.google.com with SMTP id u66so11820115oig.9
- for <iommu@lists.linux-foundation.org>; Sun, 07 Feb 2021 13:51:25 -0800 (PST)
-X-Gm-Message-State: AOAM532N9MAOubFoG0Fz3m3xEWcrkx5gqx5LHIGZkBmou/zVGkcW2+Ra
- RX7iEgUuGA+q9mOwxxzlhAuS7HA47uyrjR19mrs=
-X-Google-Smtp-Source: ABdhPJztcgMCwC5vEH2C09j7j+GkAttNY0a5GTpilwvVIo0NrUu5XPRToZOgdItl3JcOdDFgY9DlSYVlj5gq9JEHorc=
-X-Received: by 2002:aca:2117:: with SMTP id 23mr318015oiz.4.1612734684591;
- Sun, 07 Feb 2021 13:51:24 -0800 (PST)
-MIME-Version: 1.0
-References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
- <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
-In-Reply-To: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Sun, 7 Feb 2021 22:51:08 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a13aGbqvTxL+5OQxu-wPa6RDHQJkJ_n8O6YeOibbJQ2yg@mail.gmail.com>
-Message-ID: <CAK8P3a13aGbqvTxL+5OQxu-wPa6RDHQJkJ_n8O6YeOibbJQ2yg@mail.gmail.com>
+ with ESMTP id cIcZO1OydmAY for <iommu@lists.linux-foundation.org>;
+ Sun,  7 Feb 2021 22:30:32 +0000 (UTC)
+X-Greylist: delayed 00:19:45 by SQLgrey-1.7.6
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E90C48667B
+ for <iommu@lists.linux-foundation.org>; Sun,  7 Feb 2021 22:30:31 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id v193so8356742oie.8
+ for <iommu@lists.linux-foundation.org>; Sun, 07 Feb 2021 14:30:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=rF9rOEV9Q8WVIOH0rqIWO7EqANQSyBnp1ft+vyl9KF0=;
+ b=QANXs0Ex159+byJKUEaE28kl3Xh1NJ9WQlAArBMiqR/LE0uHG9IpHhfqWrVmJbho7R
+ zP1u0EqWhELbEmtTGccuSGqB1fhJqbp8L6ZAFLx9BsWQEpn7+9fUeq7ZlknoiHHfRYsV
+ yCiSNhT/oz/MSrVIf+6C3avuFCznOmT2MIzTiHTudXkJ3md/uaNKYTp7OcY+zyFWUdx3
+ t2hI93ykFPrRg/ziGbbX6FfZAddsJEzERu6Jadvk5KI3v/9ZrpWsV/zrUDO5Y59dlxde
+ zHUljpHpBinHt9TpnJyq7p6CZXtVOCBYq6uXD8Si3ujOPNxK8fpJ1Q0naopg0iRuSxBm
+ +jGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=rF9rOEV9Q8WVIOH0rqIWO7EqANQSyBnp1ft+vyl9KF0=;
+ b=NGtcV3e3N30kykch2YjJLwmaUTHbR5T6bOooIYikKh9nSKeopH6lpE5jNMquQgzKRO
+ sMW5gVwU/J3cDh2Aul9MoxqRJvOqSpNlRpopNzIhYEyLDZudD8G/qaZABPryggwwFxkL
+ M5JUebVhmNXLua88bPhs0ylyxMZPYwtVSKq2fZsT8JGXJmEL127DMDfC1AkEoV/rb9zr
+ LleMnN6V+sNVxRAxfkGAx9flVgXYCvopFAeK72E3WrH3PvjoH+ZWjmRZC3ulau1q3vgT
+ y60Kk6KOmQecsB7MsMlGqHqOK2PtDKXQU4VNsdedZHRe1WwzOfctBozTSj8Ag/UTuDXT
+ TKeQ==
+X-Gm-Message-State: AOAM530XeB57jIx5syPDbHtOCeucEAaM6vhDoQqdZ8+EiyqIdJLfADGP
+ kN+RDJBEh1+CndHJbnM18HLUQRhuv7PrzS+T
+X-Google-Smtp-Source: ABdhPJzNR1bzv/JQhWJTt0CBbMKbJVt9xR9k8FE58XkDiaugfM9e0sPAPw9t+dZ9eAqufWWfnMqn+g==
+X-Received: by 2002:a17:90a:184:: with SMTP id 4mr13919868pjc.87.1612735358046; 
+ Sun, 07 Feb 2021 14:02:38 -0800 (PST)
+Received: from ?IPv6:2601:646:c200:1ef2:8e8:e217:43e7:e032?
+ ([2601:646:c200:1ef2:8e8:e217:43e7:e032])
+ by smtp.gmail.com with ESMTPSA id i25sm16435713pgb.33.2021.02.07.14.02.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Feb 2021 14:02:37 -0800 (PST)
+From: Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
+Date: Sun, 7 Feb 2021 14:02:36 -0800
+Message-Id: <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
+References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+In-Reply-To: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
 To: Zhou Wang <wangzhou1@hisilicon.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
- Sihang Chen <chensihang1@hisilicon.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Linux API <linux-api@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux-MM <linux-mm@kvack.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, gregkh <gregkh@linuxfoundation.org>,
- Zhangfei Gao <zhangfei.gao@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liguozhu \(Kenneth\)" <liguozhu@hisilicon.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+X-Mailer: iPhone Mail (18D52)
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
+ Sihang Chen <chensihang1@hisilicon.com>, jgg@ziepe.ca,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ gregkh@linuxfoundation.org, zhangfei.gao@linaro.org,
+ Andrew Morton <akpm@linux-foundation.org>, liguozhu@hisilicon.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,32 +97,44 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, Feb 7, 2021 at 9:18 AM Zhou Wang <wangzhou1@hisilicon.com> wrote:
-
-> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-> index cccfbbe..3f49529 100644
-> --- a/arch/arm64/include/asm/unistd32.h
-> +++ b/arch/arm64/include/asm/unistd32.h
-> @@ -891,6 +891,8 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
->  __SYSCALL(__NR_process_madvise, sys_process_madvise)
->  #define __NR_epoll_pwait2 441
->  __SYSCALL(__NR_epoll_pwait2, compat_sys_epoll_pwait2)
-> +#define __NR_mempinfd 442
-> +__SYSCALL(__NR_mempinfd, sys_mempinfd)
-
-This adds a compat syscall for 32-bit tasks running on arm64 without adding
-the same for the native arch/arm syscall table. Those two need to always
-stay synchronized. In fact, new system call should ideally get assigned
-on all architectures at the same time, with the same number (or +110
-on arch/alpha).
-
-         Arnd
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+Cgo+IE9uIEZlYiA3LCAyMDIxLCBhdCAxMjozMSBBTSwgWmhvdSBXYW5nIDx3YW5nemhvdTFAaGlz
+aWxpY29uLmNvbT4gd3JvdGU6Cj4gCj4g77u/U1ZBKHNoYXJlIHZpcnR1YWwgYWRkcmVzcykgb2Zm
+ZXJzIGEgd2F5IGZvciBkZXZpY2UgdG8gc2hhcmUgcHJvY2VzcyB2aXJ0dWFsCj4gYWRkcmVzcyBz
+cGFjZSBzYWZlbHksIHdoaWNoIG1ha2VzIG1vcmUgY29udmVuaWVudCBmb3IgdXNlciBzcGFjZSBk
+ZXZpY2UKPiBkcml2ZXIgY29kaW5nLiBIb3dldmVyLCBJTyBwYWdlIGZhdWx0cyBtYXkgaGFwcGVu
+IHdoZW4gZG9pbmcgRE1BCj4gb3BlcmF0aW9ucy4gQXMgdGhlIGxhdGVuY3kgb2YgSU8gcGFnZSBm
+YXVsdCBpcyByZWxhdGl2ZWx5IGJpZywgRE1BCj4gcGVyZm9ybWFuY2Ugd2lsbCBiZSBhZmZlY3Rl
+ZCBzZXZlcmVseSB3aGVuIHRoZXJlIGFyZSBJTyBwYWdlIGZhdWx0cy4KPiBGcm9tIGEgbG9uZyB0
+ZXJtIHZpZXcsIERNQSBwZXJmb3JtYW5jZSB3aWxsIGJlIG5vdCBzdGFibGUuCj4gCj4gSW4gaGln
+aC1wZXJmb3JtYW5jZSBJL08gY2FzZXMsIGFjY2VsZXJhdG9ycyBtaWdodCB3YW50IHRvIHBlcmZv
+cm0KPiBJL08gb24gYSBtZW1vcnkgd2l0aG91dCBJTyBwYWdlIGZhdWx0cyB3aGljaCBjYW4gcmVz
+dWx0IGluIGRyYW1hdGljYWxseQo+IGluY3JlYXNlZCBsYXRlbmN5LiBDdXJyZW50IG1lbW9yeSBy
+ZWxhdGVkIEFQSXMgY291bGQgbm90IGFjaGlldmUgdGhpcwo+IHJlcXVpcmVtZW50LCBlLmcuIG1s
+b2NrIGNhbiBvbmx5IGF2b2lkIG1lbW9yeSB0byBzd2FwIHRvIGJhY2t1cCBkZXZpY2UsCj4gcGFn
+ZSBtaWdyYXRpb24gY2FuIHN0aWxsIHRyaWdnZXIgSU8gcGFnZSBmYXVsdC4KPiAKPiBWYXJpb3Vz
+IGRyaXZlcnMgd29ya2luZyB1bmRlciB0cmFkaXRpb25hbCBub24tU1ZBIG1vZGUgYXJlIHVzaW5n
+Cj4gdGhlaXIgb3duIHNwZWNpZmljIGlvY3RsIHRvIGRvIHBpbi4gU3VjaCBpb2N0bCBjYW4gYmUg
+c2VlbiBpbiB2NGwyLAo+IGdwdSwgaW5maW5pYmFuZCwgbWVkaWEsIHZmaW8sIGV0Yy4gRHJpdmVy
+cyBhcmUgdXN1YWxseSBkb2luZyBkbWEKPiBtYXBwaW5nIHdoaWxlIGRvaW5nIHBpbi4KPiAKPiBC
+dXQsIGluIFNWQSBtb2RlLCBwaW4gY291bGQgYmUgYSBjb21tb24gbmVlZCB3aGljaCBpc24ndCBu
+ZWNlc3NhcmlseQo+IGJvdW5kIHdpdGggYW55IGRyaXZlcnMsIGFuZCBuZWl0aGVyIGlzIGRtYSBt
+YXBwaW5nIG5lZWRlZCBieSBkcml2ZXJzCj4gc2luY2UgZGV2aWNlcyBhcmUgdXNpbmcgdGhlIHZp
+cnR1YWwgYWRkcmVzcyBvZiBDUFUuIFRodXMsIEl0IGlzIGJldHRlcgo+IHRvIGludHJvZHVjZSBh
+IG5ldyBjb21tb24gc3lzY2FsbCBmb3IgaXQuCj4gCj4gVGhpcyBwYXRjaCBsZXZlcmFnZXMgdGhl
+IGRlc2lnbiBvZiB1c2VyZmF1bHRmZCBhbmQgYWRkcyBtZW1waW5mZCBmb3IgcGluCj4gdG8gYXZv
+aWQgbWVzc2luZyB1cCBtbV9zdHJ1Y3QuIEEgZmQgd2lsbCBiZSBnb3QgYnkgbWVtcGluZmQsIHRo
+ZW4gdXNlcgo+IHNwYWNlIGNhbiBkbyBwaW4vdW5waW4gcGFnZXMgYnkgaW9jdGxzIG9mIHRoaXMg
+ZmQsIGFsbCBwaW5uZWQgcGFnZXMgdW5kZXIKPiBvbmUgZmlsZSB3aWxsIGJlIHVucGlubmVkIGlu
+IGZpbGUgcmVsZWFzZSBwcm9jZXNzLiBMaWtlIHBpbiBwYWdlIGNhc2VzIGluCj4gb3RoZXIgcGxh
+Y2VzLCBjYW5fZG9fbWxvY2sgaXMgdXNlZCB0byBjaGVjayBwZXJtaXNzaW9uIGFuZCBpbnB1dAo+
+IHBhcmFtZXRlcnMuCgoKQ2FuIHlvdSBkb2N1bWVudCB3aGF0IHRoZSBzeXNjYWxsIGRvZXM/CgpV
+c2VyZmF1bHRmZCBpcyBhbiBmZCBiZWNhdXNlIG9uZSBwcm9ncmFtIGNvbnRyb2xzIGFub3RoZXIu
+ICBJcyBtZW1waW5mZCBsaWtlIHRoaXM/Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3Vu
+ZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0
+aW5mby9pb21tdQ==
