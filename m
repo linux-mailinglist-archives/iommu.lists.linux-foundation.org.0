@@ -1,62 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B96E3135E1
-	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 16:00:35 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8905A3138F0
+	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 17:10:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6040286960;
-	Mon,  8 Feb 2021 15:00:33 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 184BF1FE32;
+	Mon,  8 Feb 2021 16:10:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bplHSTuEuiG4; Mon,  8 Feb 2021 15:00:32 +0000 (UTC)
+	with ESMTP id iFhxK0RHDse0; Mon,  8 Feb 2021 16:10:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CA78386980;
-	Mon,  8 Feb 2021 15:00:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4A9972079A;
+	Mon,  8 Feb 2021 16:10:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC86AC013A;
-	Mon,  8 Feb 2021 15:00:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44133C013A;
+	Mon,  8 Feb 2021 16:10:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B589FC013A
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 15:00:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5601CC013A
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 16:10:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A446286945
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 15:00:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4E5F1870B6
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 16:10:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G551Ze6UbHFj for <iommu@lists.linux-foundation.org>;
- Mon,  8 Feb 2021 15:00:28 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9621986796
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 15:00:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B19364E87;
- Mon,  8 Feb 2021 15:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612796427;
- bh=N2qAaEF+3vCal/IUAEMuWldnK28lwtVGBy4zy/3xQnI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OBCVKGxgL7AwA/EBPZev3Yn27mzm1utXzMxQjebeNfn7XQ9PP/1E1llwkXFCxDjaF
- 0QTh6X60Th1mWFCBEbY5TftVWTwblcsibLMyzEULPPdOkNjbnlEc6iPkBu33yYvSiw
- L8Dge0oeh+uNAQV4c29S7Yj9xWsJzRl9s754en4k=
-Date: Mon, 8 Feb 2021 16:00:25 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christoph Hellwig <hch@lst.de>
+ with ESMTP id fhqhbXB-cZz6 for <iommu@lists.linux-foundation.org>;
+ Mon,  8 Feb 2021 16:10:48 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8EDC2870B5
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 16:10:48 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 0A05D67373; Mon,  8 Feb 2021 17:10:44 +0100 (CET)
+Date: Mon, 8 Feb 2021 17:10:43 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
 Subject: Re: [PATCH 5/6] driver core: lift dma_default_coherent into common
  code
-Message-ID: <YCFSCZz3qjdM5rJw@kroah.com>
+Message-ID: <20210208161043.GA14083@lst.de>
 References: <20210208145024.3320420-1-hch@lst.de>
  <20210208145024.3320420-6-hch@lst.de>
+ <alpine.DEB.2.21.2102081654060.35623@angie.orcam.me.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210208145024.3320420-6-hch@lst.de>
-Cc: iommu@lists.linux-foundation.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org
+In-Reply-To: <alpine.DEB.2.21.2102081654060.35623@angie.orcam.me.uk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,22 +65,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gTW9uLCBGZWIgMDgsIDIwMjEgYXQgMDM6NTA6MjNQTSArMDEwMCwgQ2hyaXN0b3BoIEhlbGx3
-aWcgd3JvdGU6Cj4gTGlmdCB0aGUgZG1hX2RlZmF1bHRfY29oZXJlbnQgdmFyaWFibGUgZnJvbSB0
-aGUgbWlwcyBhcmNoaXRlY3R1cmUgY29kZQo+IHRvIHRoZSBkcml2ZXIgY29yZS4gIFRoaXMgYWxs
-b3dzIGFuIGFyY2hpdGVjdHVyZSB0byBzZGVmYXVsdCBhbGwgZGV2aWNlCj4gdG8gYmUgRE1BIGNv
-aGVyZW50IGF0IHJ1biB0aW1lLCBldmVuIGlmIHRoZSBrZXJuZWwgaXMgYnVpbGQgd2l0aCBzdXBw
-b3J0Cj4gZm9yIERNQSBub25jb2hlcmVudCBkZXZpY2UuICBCeSBhbGxvd2luZyBkZXZpY2VfaW5p
-dGlhbGl6ZSB0byDRlWV0IHRoZQo+IC0+ZG1hX2NvaGVyZW50IGZpZWxkIHRvIHRoaXMgZGVmYXVs
-dCB0aGUgYW1vdW50IG9mIGFyY2ggaG9va3MgcmVxdWlyZWQKPiBmb3IgdGhpcyBiZWhhdmlvciBj
-YW4gYmUgZ3JlYXRseSByZWR1Y2VkLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxs
-d2lnIDxoY2hAbHN0LmRlPgoKQWNrZWQtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxp
-bnV4Zm91bmRhdGlvbi5vcmc+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
-Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
-b21tdQ==
+On Mon, Feb 08, 2021 at 04:57:33PM +0100, Maciej W. Rozycki wrote:
+> > diff --git a/arch/mips/mti-malta/malta-setup.c b/arch/mips/mti-malta/malta-setup.c
+> > index e98cc977a735b2..f8c9663e7faa10 100644
+> > --- a/arch/mips/mti-malta/malta-setup.c
+> > +++ b/arch/mips/mti-malta/malta-setup.c
+> > @@ -143,7 +143,7 @@ static void __init plat_setup_iocoherency(void)
+> >  			pr_crit("IOCU OPERATION DISABLED BY SWITCH - DEFAULTING TO SW IO COHERENCY\n");
+> >  	}
+> >  
+> > -	if (supported)
+> > +	if (supported) {
+> >  		if (dma_force_noncoherent) {
+> >  			pr_info("Hardware DMA cache coherency disabled\n");
+> >  			return;
+> 
+>  I think this has to go with 1/6; otherwise compilation breaks between 
+> then and now AFAICT.
+
+Indeed.
+
+>  Do you need to have this verified anyhow?  I only have a non-coherent 5Kc 
+> Malta though.
+
+If you get a chance to test this logic, that would be great.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
