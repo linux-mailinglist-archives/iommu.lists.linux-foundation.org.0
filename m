@@ -1,60 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2F7312E9C
-	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 11:13:30 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E418A312F29
+	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 11:37:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C93DA204BA;
-	Mon,  8 Feb 2021 10:13:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 986AF8685D;
+	Mon,  8 Feb 2021 10:37:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zZZW8THvcjGM; Mon,  8 Feb 2021 10:13:26 +0000 (UTC)
+	with ESMTP id UtT4z0pTaZV3; Mon,  8 Feb 2021 10:37:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 550EE204B7;
-	Mon,  8 Feb 2021 10:13:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7FFE78671E;
+	Mon,  8 Feb 2021 10:37:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33486C013A;
-	Mon,  8 Feb 2021 10:13:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 740A3C013A;
+	Mon,  8 Feb 2021 10:37:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CB6FEC013A
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 10:13:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71331C013A
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 10:37:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C572887036
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 10:13:24 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6A9078671E
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 10:37:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CkIqaKzpQldv for <iommu@lists.linux-foundation.org>;
- Mon,  8 Feb 2021 10:13:22 +0000 (UTC)
+ with ESMTP id 7WCrMEBPnO0m for <iommu@lists.linux-foundation.org>;
+ Mon,  8 Feb 2021 10:37:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8792D8702F
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 10:13:22 +0000 (UTC)
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4DZ1xz00dlz13rjY;
- Mon,  8 Feb 2021 18:11:02 +0800 (CST)
-Received: from dggpemm100012.china.huawei.com (7.185.36.212) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 8 Feb 2021 18:13:16 +0800
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggpemm100012.china.huawei.com (7.185.36.212) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2106.2; Mon, 8 Feb 2021 18:13:16 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
- Mon, 8 Feb 2021 18:13:16 +0800
-From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To: David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>
-Subject: RE: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
-Thread-Topic: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Thread-Index: AQHW/SrsWWMRpilf2UC1Pz29QqsBVqpMsX2AgACQE1D//7IVAIAAi2xQ///nWQCAAKIUUA==
-Date: Mon, 8 Feb 2021 10:13:15 +0000
-Message-ID: <fdee54b5ab91453d93d2f775ca2532d2@hisilicon.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 04C14865D6
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 10:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612780658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pQkWudR5NaqUhP785ZyYy4UYb1aBaulu3BBFzJEhpos=;
+ b=MjCL8JNdaKUO5dP0n3re4TrFl/exSAbBtSaeilXyBpjEY3Y89Ti0uTC+eKmeUbH1BJYjav
+ irKavMIAL9XFXhJ3LV1CFzMoMFa/VuA7hPuGfog9zUPk2yEPJzNyjdNOQjywMdknt+Bad3
+ GLvcHOx5j27os1xoDlEQKdjyMekTK9Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-wUgzenNPNBuCRVrN4cVAXQ-1; Mon, 08 Feb 2021 05:37:34 -0500
+X-MC-Unique: wUgzenNPNBuCRVrN4cVAXQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6815019611AF;
+ Mon,  8 Feb 2021 10:37:32 +0000 (UTC)
+Received: from [10.36.113.240] (ovpn-113-240.ams2.redhat.com [10.36.113.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 972F51ABE1;
+ Mon,  8 Feb 2021 10:37:24 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
+To: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+ Matthew Wilcox <willy@infradead.org>
 References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
  <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
  <20210207213409.GL308988@casper.infradead.org>
@@ -62,14 +68,17 @@ References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
  <20210208013056.GM308988@casper.infradead.org>
  <b4e2acc237e44ffe916135e96ad3ef20@hisilicon.com>
  <beb4dfb5-e9d2-a76c-f965-28cff5e4658b@redhat.com>
-In-Reply-To: <beb4dfb5-e9d2-a76c-f965-28cff5e4658b@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.200.200]
+ <fdee54b5ab91453d93d2f775ca2532d2@hisilicon.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <bbe18536-7048-d790-11bf-0b0742a59926@redhat.com>
+Date: Mon, 8 Feb 2021 11:37:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <fdee54b5ab91453d93d2f775ca2532d2@hisilicon.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
  "kevin.tian@intel.com" <kevin.tian@intel.com>,
  "chensihang \(A\)" <chensihang1@hisilicon.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
@@ -95,146 +104,146 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On 08.02.21 11:13, Song Bao Hua (Barry Song) wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On Behalf Of
+>> David Hildenbrand
+>> Sent: Monday, February 8, 2021 9:22 PM
+>> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; Matthew Wilcox
+>> <willy@infradead.org>
+>> Cc: Wangzhou (B) <wangzhou1@hisilicon.com>; linux-kernel@vger.kernel.org;
+>> iommu@lists.linux-foundation.org; linux-mm@kvack.org;
+>> linux-arm-kernel@lists.infradead.org; linux-api@vger.kernel.org; Andrew
+>> Morton <akpm@linux-foundation.org>; Alexander Viro <viro@zeniv.linux.org.uk>;
+>> gregkh@linuxfoundation.org; jgg@ziepe.ca; kevin.tian@intel.com;
+>> jean-philippe@linaro.org; eric.auger@redhat.com; Liguozhu (Kenneth)
+>> <liguozhu@hisilicon.com>; zhangfei.gao@linaro.org; chensihang (A)
+>> <chensihang1@hisilicon.com>
+>> Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+>> pin
+>>
+>> On 08.02.21 03:27, Song Bao Hua (Barry Song) wrote:
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On Behalf
+>> Of
+>>>> Matthew Wilcox
+>>>> Sent: Monday, February 8, 2021 2:31 PM
+>>>> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
+>>>> Cc: Wangzhou (B) <wangzhou1@hisilicon.com>; linux-kernel@vger.kernel.org;
+>>>> iommu@lists.linux-foundation.org; linux-mm@kvack.org;
+>>>> linux-arm-kernel@lists.infradead.org; linux-api@vger.kernel.org; Andrew
+>>>> Morton <akpm@linux-foundation.org>; Alexander Viro
+>> <viro@zeniv.linux.org.uk>;
+>>>> gregkh@linuxfoundation.org; jgg@ziepe.ca; kevin.tian@intel.com;
+>>>> jean-philippe@linaro.org; eric.auger@redhat.com; Liguozhu (Kenneth)
+>>>> <liguozhu@hisilicon.com>; zhangfei.gao@linaro.org; chensihang (A)
+>>>> <chensihang1@hisilicon.com>
+>>>> Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+>>>> pin
+>>>>
+>>>> On Sun, Feb 07, 2021 at 10:24:28PM +0000, Song Bao Hua (Barry Song) wrote:
+>>>>>>> In high-performance I/O cases, accelerators might want to perform
+>>>>>>> I/O on a memory without IO page faults which can result in dramatically
+>>>>>>> increased latency. Current memory related APIs could not achieve this
+>>>>>>> requirement, e.g. mlock can only avoid memory to swap to backup device,
+>>>>>>> page migration can still trigger IO page fault.
+>>>>>>
+>>>>>> Well ... we have two requirements.  The application wants to not take
+>>>>>> page faults.  The system wants to move the application to a different
+>>>>>> NUMA node in order to optimise overall performance.  Why should the
+>>>>>> application's desires take precedence over the kernel's desires?  And why
+>>>>>> should it be done this way rather than by the sysadmin using numactl to
+>>>>>> lock the application to a particular node?
+>>>>>
+>>>>> NUMA balancer is just one of many reasons for page migration. Even one
+>>>>> simple alloc_pages() can cause memory migration in just single NUMA
+>>>>> node or UMA system.
+>>>>>
+>>>>> The other reasons for page migration include but are not limited to:
+>>>>> * memory move due to CMA
+>>>>> * memory move due to huge pages creation
+>>>>>
+>>>>> Hardly we can ask users to disable the COMPACTION, CMA and Huge Page
+>>>>> in the whole system.
+>>>>
+>>>> You're dodging the question.  Should the CMA allocation fail because
+>>>> another application is using SVA?
+>>>>
+>>>> I would say no.
+>>>
+>>> I would say no as well.
+>>>
+>>> While IOMMU is enabled, CMA almost has one user only: IOMMU driver
+>>> as other drivers will depend on iommu to use non-contiguous memory
+>>> though they are still calling dma_alloc_coherent().
+>>>
+>>> In iommu driver, dma_alloc_coherent is called during initialization
+>>> and there is no new allocation afterwards. So it wouldn't cause
+>>> runtime impact on SVA performance. Even there is new allocations,
+>>> CMA will fall back to general alloc_pages() and iommu drivers are
+>>> almost allocating small memory for command queues.
+>>>
+>>> So I would say general compound pages, huge pages, especially
+>>> transparent huge pages, would be bigger concerns than CMA for
+>>> internal page migration within one NUMA.
+>>>
+>>> Not like CMA, general alloc_pages() can get memory by moving
+>>> pages other than those pinned.
+>>>
+>>> And there is no guarantee we can always bind the memory of
+>>> SVA applications to single one NUMA, so NUMA balancing is
+>>> still a concern.
+>>>
+>>> But I agree we need a way to make CMA success while the userspace
+>>> pages are pinned. Since pin has been viral in many drivers, I
+>>> assume there is a way to handle this. Otherwise, APIs like
+>>> V4L2_MEMORY_USERPTR[1] will possibly make CMA fail as there
+>>> is no guarantee that usersspace will allocate unmovable memory
+>>> and there is no guarantee the fallback path- alloc_pages() can
+>>> succeed while allocating big memory.
+>>>
+>>
+>> Long term pinnings cannot go onto CMA-reserved memory, and there is
+>> similar work to also fix ZONE_MOVABLE in that regard.
+>>
+>> https://lkml.kernel.org/r/20210125194751.1275316-1-pasha.tatashin@soleen.c
+>> om
+>>
+>> One of the reasons I detest using long term pinning of pages where it
+>> could be avoided. Take VFIO and RDMA as an example: these things
+>> currently can't work without them.
+>>
+>> What I read here: "DMA performance will be affected severely". That does
+>> not sound like a compelling argument to me for long term pinnings.
+>> Please find another way to achieve the same goal without long term
+>> pinnings controlled by user space - e.g., controlling when migration
+>> actually happens.
+>>
+>> For example, CMA/alloc_contig_range()/memory unplug are corner cases
+>> that happen rarely, you shouldn't have to worry about them messing with
+>> your DMA performance.
+> 
+> I agree CMA/alloc_contig_range()/memory unplug would be corner cases,
+> the major cases would be THP, NUMA balancing while we could totally
+> disable them but it seems insensible to do that only because there is
+> a process using SVA in the system.
 
+Can't you use huge pages in your application that uses SVA and prevent 
+THP/NUMA balancing from kicking in?
 
-> -----Original Message-----
-> From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On Behalf Of
-> David Hildenbrand
-> Sent: Monday, February 8, 2021 9:22 PM
-> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; Matthew Wilcox
-> <willy@infradead.org>
-> Cc: Wangzhou (B) <wangzhou1@hisilicon.com>; linux-kernel@vger.kernel.org;
-> iommu@lists.linux-foundation.org; linux-mm@kvack.org;
-> linux-arm-kernel@lists.infradead.org; linux-api@vger.kernel.org; Andrew
-> Morton <akpm@linux-foundation.org>; Alexander Viro <viro@zeniv.linux.org.uk>;
-> gregkh@linuxfoundation.org; jgg@ziepe.ca; kevin.tian@intel.com;
-> jean-philippe@linaro.org; eric.auger@redhat.com; Liguozhu (Kenneth)
-> <liguozhu@hisilicon.com>; zhangfei.gao@linaro.org; chensihang (A)
-> <chensihang1@hisilicon.com>
-> Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
-> pin
-> 
-> On 08.02.21 03:27, Song Bao Hua (Barry Song) wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On Behalf
-> Of
-> >> Matthew Wilcox
-> >> Sent: Monday, February 8, 2021 2:31 PM
-> >> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> >> Cc: Wangzhou (B) <wangzhou1@hisilicon.com>; linux-kernel@vger.kernel.org;
-> >> iommu@lists.linux-foundation.org; linux-mm@kvack.org;
-> >> linux-arm-kernel@lists.infradead.org; linux-api@vger.kernel.org; Andrew
-> >> Morton <akpm@linux-foundation.org>; Alexander Viro
-> <viro@zeniv.linux.org.uk>;
-> >> gregkh@linuxfoundation.org; jgg@ziepe.ca; kevin.tian@intel.com;
-> >> jean-philippe@linaro.org; eric.auger@redhat.com; Liguozhu (Kenneth)
-> >> <liguozhu@hisilicon.com>; zhangfei.gao@linaro.org; chensihang (A)
-> >> <chensihang1@hisilicon.com>
-> >> Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
-> >> pin
-> >>
-> >> On Sun, Feb 07, 2021 at 10:24:28PM +0000, Song Bao Hua (Barry Song) wrote:
-> >>>>> In high-performance I/O cases, accelerators might want to perform
-> >>>>> I/O on a memory without IO page faults which can result in dramatically
-> >>>>> increased latency. Current memory related APIs could not achieve this
-> >>>>> requirement, e.g. mlock can only avoid memory to swap to backup device,
-> >>>>> page migration can still trigger IO page fault.
-> >>>>
-> >>>> Well ... we have two requirements.  The application wants to not take
-> >>>> page faults.  The system wants to move the application to a different
-> >>>> NUMA node in order to optimise overall performance.  Why should the
-> >>>> application's desires take precedence over the kernel's desires?  And why
-> >>>> should it be done this way rather than by the sysadmin using numactl to
-> >>>> lock the application to a particular node?
-> >>>
-> >>> NUMA balancer is just one of many reasons for page migration. Even one
-> >>> simple alloc_pages() can cause memory migration in just single NUMA
-> >>> node or UMA system.
-> >>>
-> >>> The other reasons for page migration include but are not limited to:
-> >>> * memory move due to CMA
-> >>> * memory move due to huge pages creation
-> >>>
-> >>> Hardly we can ask users to disable the COMPACTION, CMA and Huge Page
-> >>> in the whole system.
-> >>
-> >> You're dodging the question.  Should the CMA allocation fail because
-> >> another application is using SVA?
-> >>
-> >> I would say no.
-> >
-> > I would say no as well.
-> >
-> > While IOMMU is enabled, CMA almost has one user only: IOMMU driver
-> > as other drivers will depend on iommu to use non-contiguous memory
-> > though they are still calling dma_alloc_coherent().
-> >
-> > In iommu driver, dma_alloc_coherent is called during initialization
-> > and there is no new allocation afterwards. So it wouldn't cause
-> > runtime impact on SVA performance. Even there is new allocations,
-> > CMA will fall back to general alloc_pages() and iommu drivers are
-> > almost allocating small memory for command queues.
-> >
-> > So I would say general compound pages, huge pages, especially
-> > transparent huge pages, would be bigger concerns than CMA for
-> > internal page migration within one NUMA.
-> >
-> > Not like CMA, general alloc_pages() can get memory by moving
-> > pages other than those pinned.
-> >
-> > And there is no guarantee we can always bind the memory of
-> > SVA applications to single one NUMA, so NUMA balancing is
-> > still a concern.
-> >
-> > But I agree we need a way to make CMA success while the userspace
-> > pages are pinned. Since pin has been viral in many drivers, I
-> > assume there is a way to handle this. Otherwise, APIs like
-> > V4L2_MEMORY_USERPTR[1] will possibly make CMA fail as there
-> > is no guarantee that usersspace will allocate unmovable memory
-> > and there is no guarantee the fallback path- alloc_pages() can
-> > succeed while allocating big memory.
-> >
-> 
-> Long term pinnings cannot go onto CMA-reserved memory, and there is
-> similar work to also fix ZONE_MOVABLE in that regard.
-> 
-> https://lkml.kernel.org/r/20210125194751.1275316-1-pasha.tatashin@soleen.c
-> om
-> 
-> One of the reasons I detest using long term pinning of pages where it
-> could be avoided. Take VFIO and RDMA as an example: these things
-> currently can't work without them.
-> 
-> What I read here: "DMA performance will be affected severely". That does
-> not sound like a compelling argument to me for long term pinnings.
-> Please find another way to achieve the same goal without long term
-> pinnings controlled by user space - e.g., controlling when migration
-> actually happens.
-> 
-> For example, CMA/alloc_contig_range()/memory unplug are corner cases
-> that happen rarely, you shouldn't have to worry about them messing with
-> your DMA performance.
+-- 
+Thanks,
 
-I agree CMA/alloc_contig_range()/memory unplug would be corner cases,
-the major cases would be THP, NUMA balancing while we could totally
-disable them but it seems insensible to do that only because there is
-a process using SVA in the system.
-
-> 
-> --
-> Thanks,
-> 
-> David / dhildenb
-
-Thanks
-Barry
+David / dhildenb
 
 _______________________________________________
 iommu mailing list
