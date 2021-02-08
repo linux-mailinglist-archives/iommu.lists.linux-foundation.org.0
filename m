@@ -1,59 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB951313595
-	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 15:50:45 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA99731359C
+	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 15:50:58 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 67B3A207A1;
-	Mon,  8 Feb 2021 14:50:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9224B85B4A;
+	Mon,  8 Feb 2021 14:50:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6kttw2kLH5k4; Mon,  8 Feb 2021 14:50:43 +0000 (UTC)
+	with ESMTP id RgmlP9pqboaI; Mon,  8 Feb 2021 14:50:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 87E6420794;
-	Mon,  8 Feb 2021 14:50:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E249385B25;
+	Mon,  8 Feb 2021 14:50:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 671A5C013A;
-	Mon,  8 Feb 2021 14:50:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CF70CC013A;
+	Mon,  8 Feb 2021 14:50:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4D401C013A
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5B107C013A
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 373582078B
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:42 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4ACA78589C
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AIFK1yUbFGLu for <iommu@lists.linux-foundation.org>;
- Mon,  8 Feb 2021 14:50:40 +0000 (UTC)
+ with ESMTP id xjqfJyf1hwLj for <iommu@lists.linux-foundation.org>;
+ Mon,  8 Feb 2021 14:50:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by silver.osuosl.org (Postfix) with ESMTPS id 8C31920788
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:40 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E259285BCF
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=aFhPYGLoYcGU6Ykd7tgOcPfeJpRv4i64UK7IzVFmOyw=; b=Wqn9F2nkW7EbNgVcEA0xn00cNJ
- hFeO35gRq902ZDyisNpxQ8AFhzSiiDH/qqV01qfYQWB1Q2Jte25pCcvxR434YjVVtD1agFVmfdymc
- AoWQKf5rVR/uToJTh634oN5kGvvyTyI7noVlej1gVzEECH/KS5Op/RrkhuTz2eAPv+PpMAsV9YY1L
- LnO6k3xvBNCfBqCltBPURv5KDWNbfz6LrxrZnmCNuwumtVzpBX/qHojQBvaVgGVoOEExwIxoUr3uc
- Hnj9DwW2nJLtOE+RLTp+TH4BVOaC2LllrA3evV8K34E5kPxtJjLsSHm2+sQepCAvAQLFvo06mBFO3
- YaM+kojQ==;
+ bh=+MpFIGSWgbW0vyKyZJNwqvTHMm0b/1LCjD/m/I6OcLA=; b=l8QZNkyc9h9Gkg7MHmjHOPMmeo
+ q2+IKI1aA+GcPLziFUXAqqgC6CO1mt7+UOS3oc6FeQj8r95Be1RAvxBaC+Rjg+uXJX65Dp6ciFn/w
+ Ub92Uip65LdtI3DY2x3a/YumwGtIjrEFMIVbf29fnydqca8Ez1rtsJFJpIL2VGn7FvKbeNZhlscwK
+ JIgt7E9nMLMt6iJ2OAZZprAVMhY31iQKBRCYduVyV8oR7YXz3roAqihIrYNYr8219uDfTxupvD3Mz
+ PAwB3u52Y4itHru2uLBfAFxmEsfqTa2/cY7rAWOgq6I53rWq7pE+j7x7n46s8imMB83erUpWL0roY
+ wx42sFog==;
 Received: from [2001:4bb8:184:7d04:e3ed:f9d6:78e2:6f0f] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1l97s1-0066ds-Nf; Mon, 08 Feb 2021 14:50:34 +0000
+ id 1l97s4-0066dy-2G; Mon, 08 Feb 2021 14:50:36 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 3/6] MIPS: move the {no,
- }nocoherentio options to the malta setup code
-Date: Mon,  8 Feb 2021 15:50:21 +0100
-Message-Id: <20210208145024.3320420-4-hch@lst.de>
+Subject: [PATCH 4/6] MIPS: refactor the maybe coherent DMA indicators
+Date: Mon,  8 Feb 2021 15:50:22 +0100
+Message-Id: <20210208145024.3320420-5-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208145024.3320420-1-hch@lst.de>
 References: <20210208145024.3320420-1-hch@lst.de>
@@ -79,70 +78,183 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There are only two MIPS platforms that are conditionally DMA coherent.
-Of those alchemcy forces the coherentcy base on the platform, while
-malta allows a mix of hardware defaults and manual overrides.  Move the
-command line options for these overrides to the malta setup code, as
-they can't have an effect for alchemy.
+Replace the global coherentio enum, and the hw_coherentio (fake) boolean
+variables with a single boolean dma_default_coherent flag.  Only the
+malta setup code needs two additional local boolean variables to
+preserved the command line overrides.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/mips/kernel/setup.c          | 16 ----------------
- arch/mips/mti-malta/malta-setup.c | 16 ++++++++++++++++
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ arch/mips/alchemy/common/setup.c      |  3 +--
+ arch/mips/include/asm/dma-coherence.h | 24 ++++--------------------
+ arch/mips/kernel/setup.c              |  8 +++-----
+ arch/mips/mm/c-r4k.c                  |  8 ++------
+ arch/mips/mti-malta/malta-setup.c     | 24 ++++++++++++++----------
+ arch/mips/pci/pci-alchemy.c           |  5 ++---
+ 6 files changed, 26 insertions(+), 46 deletions(-)
 
+diff --git a/arch/mips/alchemy/common/setup.c b/arch/mips/alchemy/common/setup.c
+index c2da68e7984450..39e5b9cd882b10 100644
+--- a/arch/mips/alchemy/common/setup.c
++++ b/arch/mips/alchemy/common/setup.c
+@@ -65,8 +65,7 @@ void __init plat_mem_setup(void)
+ 		/* Clear to obtain best system bus performance */
+ 		clear_c0_config(1 << 19); /* Clear Config[OD] */
+ 
+-	coherentio = alchemy_dma_coherent() ?
+-		IO_COHERENCE_ENABLED : IO_COHERENCE_DISABLED;
++	dma_default_coherent = alchemy_dma_coherent();
+ 
+ 	board_setup();	/* board specific setup */
+ 
+diff --git a/arch/mips/include/asm/dma-coherence.h b/arch/mips/include/asm/dma-coherence.h
+index 5eaa1fcc878a88..846c5ade30d12d 100644
+--- a/arch/mips/include/asm/dma-coherence.h
++++ b/arch/mips/include/asm/dma-coherence.h
+@@ -9,30 +9,14 @@
+ #ifndef __ASM_DMA_COHERENCE_H
+ #define __ASM_DMA_COHERENCE_H
+ 
+-enum coherent_io_user_state {
+-	IO_COHERENCE_DEFAULT,
+-	IO_COHERENCE_ENABLED,
+-	IO_COHERENCE_DISABLED,
+-};
+-
+-#if defined(CONFIG_DMA_PERDEV_COHERENT)
+-/* Don't provide (hw_)coherentio to avoid misuse */
+-#elif defined(CONFIG_DMA_MAYBE_COHERENT)
+-extern enum coherent_io_user_state coherentio;
+-extern int hw_coherentio;
+-
++#ifdef CONFIG_DMA_MAYBE_COHERENT
++extern bool dma_default_coherent;
+ static inline bool dev_is_dma_coherent(struct device *dev)
+ {
+-	return coherentio == IO_COHERENCE_ENABLED ||
+-		(coherentio == IO_COHERENCE_DEFAULT && hw_coherentio);
++	return dma_default_coherent;
+ }
+ #else
+-#ifdef CONFIG_DMA_NONCOHERENT
+-#define coherentio	IO_COHERENCE_DISABLED
+-#else
+-#define coherentio	IO_COHERENCE_ENABLED
++#define dma_default_coherent	(!IS_ENABLED(CONFIG_DMA_NONCOHERENT))
+ #endif
+-#define hw_coherentio	0
+-#endif /* CONFIG_DMA_MAYBE_COHERENT */
+ 
+ #endif
 diff --git a/arch/mips/kernel/setup.c b/arch/mips/kernel/setup.c
-index 7e1f8e2774373d..8e205a4e18c27b 100644
+index 8e205a4e18c27b..85690957525ac9 100644
 --- a/arch/mips/kernel/setup.c
 +++ b/arch/mips/kernel/setup.c
-@@ -811,20 +811,4 @@ arch_initcall(debugfs_mips);
- enum coherent_io_user_state coherentio = IO_COHERENCE_DEFAULT;
- EXPORT_SYMBOL_GPL(coherentio);
- int hw_coherentio;	/* Actual hardware supported DMA coherency setting. */
--
--static int __init setcoherentio(char *str)
--{
--	coherentio = IO_COHERENCE_ENABLED;
--	pr_info("Hardware DMA cache coherency (command line)\n");
--	return 0;
--}
--early_param("coherentio", setcoherentio);
--
--static int __init setnocoherentio(char *str)
--{
--	coherentio = IO_COHERENCE_DISABLED;
--	pr_info("Software DMA cache coherency (command line)\n");
--	return 0;
--}
--early_param("nocoherentio", setnocoherentio);
+@@ -806,9 +806,7 @@ static int __init debugfs_mips(void)
+ arch_initcall(debugfs_mips);
  #endif
+ 
+-#ifdef CONFIG_DMA_MAYBE_COHERENT
+-/* User defined DMA coherency from command line. */
+-enum coherent_io_user_state coherentio = IO_COHERENCE_DEFAULT;
+-EXPORT_SYMBOL_GPL(coherentio);
+-int hw_coherentio;	/* Actual hardware supported DMA coherency setting. */
++#ifdef CONFIG_DMA_NONCOHERENT
++bool dma_default_coherent;
++EXPORT_SYMBOL_GPL(dma_default_coherent);
+ #endif
+diff --git a/arch/mips/mm/c-r4k.c b/arch/mips/mm/c-r4k.c
+index 4f976d687ab007..58afbc3e4ada03 100644
+--- a/arch/mips/mm/c-r4k.c
++++ b/arch/mips/mm/c-r4k.c
+@@ -1913,15 +1913,11 @@ void r4k_cache_init(void)
+ 	__local_flush_icache_user_range	= local_r4k_flush_icache_user_range;
+ 
+ #ifdef CONFIG_DMA_NONCOHERENT
+-#ifdef CONFIG_DMA_MAYBE_COHERENT
+-	if (coherentio == IO_COHERENCE_ENABLED ||
+-	    (coherentio == IO_COHERENCE_DEFAULT && hw_coherentio)) {
++	if (dma_default_coherent) {
+ 		_dma_cache_wback_inv	= (void *)cache_noop;
+ 		_dma_cache_wback	= (void *)cache_noop;
+ 		_dma_cache_inv		= (void *)cache_noop;
+-	} else
+-#endif /* CONFIG_DMA_MAYBE_COHERENT */
+-	{
++	} else {
+ 		_dma_cache_wback_inv	= r4k_dma_cache_wback_inv;
+ 		_dma_cache_wback	= r4k_dma_cache_wback_inv;
+ 		_dma_cache_inv		= r4k_dma_cache_inv;
 diff --git a/arch/mips/mti-malta/malta-setup.c b/arch/mips/mti-malta/malta-setup.c
-index f3fec5a5a07c76..33449a2692c3a3 100644
+index 33449a2692c3a3..e98cc977a735b2 100644
 --- a/arch/mips/mti-malta/malta-setup.c
 +++ b/arch/mips/mti-malta/malta-setup.c
-@@ -90,6 +90,22 @@ static void __init fd_activate(void)
+@@ -90,9 +90,12 @@ static void __init fd_activate(void)
  }
  #endif
  
-+static int __init setcoherentio(char *str)
-+{
-+	coherentio = IO_COHERENCE_ENABLED;
-+	pr_info("Hardware DMA cache coherency (command line)\n");
-+	return 0;
-+}
-+early_param("coherentio", setcoherentio);
++static bool dma_force_coherent;
++static bool dma_force_noncoherent;
 +
-+static int __init setnocoherentio(char *str)
-+{
-+	coherentio = IO_COHERENCE_DISABLED;
-+	pr_info("Software DMA cache coherency (command line)\n");
-+	return 0;
-+}
-+early_param("nocoherentio", setnocoherentio);
-+
- static void __init plat_setup_iocoherency(void)
+ static int __init setcoherentio(char *str)
  {
- 	int supported = 0;
+-	coherentio = IO_COHERENCE_ENABLED;
++	dma_force_coherent = true;
+ 	pr_info("Hardware DMA cache coherency (command line)\n");
+ 	return 0;
+ }
+@@ -100,7 +103,7 @@ early_param("coherentio", setcoherentio);
+ 
+ static int __init setnocoherentio(char *str)
+ {
+-	coherentio = IO_COHERENCE_DISABLED;
++	dma_force_noncoherent = true;
+ 	pr_info("Software DMA cache coherency (command line)\n");
+ 	return 0;
+ }
+@@ -141,17 +144,18 @@ static void __init plat_setup_iocoherency(void)
+ 	}
+ 
+ 	if (supported)
+-		if (coherentio == IO_COHERENCE_DISABLED)
++		if (dma_force_noncoherent) {
+ 			pr_info("Hardware DMA cache coherency disabled\n");
+-		else
+-			pr_info("Hardware DMA cache coherency enabled\n");
++			return;
++		}
++		pr_info("Hardware DMA cache coherency enabled\n");
++		dma_default_coherent = true;
++	} else if (dma_force_coherent) {
++		pr_info("Hardware DMA cache coherency unsupported, but enabled from command line!\n");
++		dma_default_coherent = true;
+ 	} else {
+-		if (coherentio == IO_COHERENCE_ENABLED)
+-			pr_info("Hardware DMA cache coherency unsupported, but enabled from command line!\n");
+-		else
+-			pr_info("Software DMA cache coherency enabled\n");
++		pr_info("Software DMA cache coherency enabled\n");
+ 	}
+-	hw_coherentio = supported;
+ }
+ 
+ static void __init pci_clock_check(void)
+diff --git a/arch/mips/pci/pci-alchemy.c b/arch/mips/pci/pci-alchemy.c
+index 7285b5667568ef..54c86b40d30498 100644
+--- a/arch/mips/pci/pci-alchemy.c
++++ b/arch/mips/pci/pci-alchemy.c
+@@ -429,9 +429,8 @@ static int alchemy_pci_probe(struct platform_device *pdev)
+ 	ctx->alchemy_pci_ctrl.io_map_base = (unsigned long)virt_io;
+ 
+ 	/* Au1500 revisions older than AD have borked coherent PCI */
+-	if ((alchemy_get_cputype() == ALCHEMY_CPU_AU1500) &&
+-	    (read_c0_prid() < 0x01030202) &&
+-	    (coherentio == IO_COHERENCE_DISABLED)) {
++	if (alchemy_get_cputype() == ALCHEMY_CPU_AU1500 &&
++	    read_c0_prid() < 0x01030202 && !dma_default_coherent) {
+ 		val = __raw_readl(ctx->regs + PCI_REG_CONFIG);
+ 		val |= PCI_CONFIG_NC;
+ 		__raw_writel(val, ctx->regs + PCI_REG_CONFIG);
 -- 
 2.29.2
 
