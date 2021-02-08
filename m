@@ -1,76 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17B13132FB
-	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 14:11:15 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DCF313592
+	for <lists.iommu@lfdr.de>; Mon,  8 Feb 2021 15:50:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5627086864;
-	Mon,  8 Feb 2021 13:11:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 394912045D;
+	Mon,  8 Feb 2021 14:50:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CSz-H1XgtcF4; Mon,  8 Feb 2021 13:11:13 +0000 (UTC)
+	with ESMTP id ZEd2p7ZAR0ED; Mon,  8 Feb 2021 14:50:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B3001864EF;
-	Mon,  8 Feb 2021 13:11:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B9568204F8;
+	Mon,  8 Feb 2021 14:50:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F29AC0174;
-	Mon,  8 Feb 2021 13:11:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 88F26C013A;
+	Mon,  8 Feb 2021 14:50:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4561DC013A
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 13:11:12 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E466C013A
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 343318678B
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 13:11:12 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 028F48704D
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Hx7iHG0EtkfJ for <iommu@lists.linux-foundation.org>;
- Mon,  8 Feb 2021 13:11:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A730E867C2
- for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 13:11:10 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id w36so8506925lfu.4
- for <iommu@lists.linux-foundation.org>; Mon, 08 Feb 2021 05:11:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0+b5gxqNPJNWrAnejzYehpggD7XHAx7oZRdyZlNEzTo=;
- b=gN0z2hSVzPA6LOmyf1OZABL0JT6Di3qSwOt28sdjkuJgTM7R3ExyswTP+iqQoMhjUR
- Q/fWYWI/LOef/+SdroWd9Ec3eXt2BDWM4AT4mDCngBkQWTaGe/PtojQLxKICLslAwg9J
- Ll2KiF7qwmWFqjVbrVvvi7PJVDFbmn3qQoU4MqNOi7r4WPzpieDhNvCfofI5rmcuHGWv
- 6JjjfSo0BpSCB7o7Zmtb3Ai29O0wLeK3IA8VJwuJieGvbx6HijouhM7wmnPbsXwtnums
- F+urK5WSK4HaQ1LWmxmBmTW9pRFsxvXih2A8oe5AhQ5ZvuWzATB6hF6OPYzToJYOymUJ
- iX/w==
-X-Gm-Message-State: AOAM531G2ZIkfn424vyz4L1ry6KgzqjfR6ccvWRDyXGEtAgMOzzyfUNR
- FydqLO4SfPDAe84xqbdnP80=
-X-Google-Smtp-Source: ABdhPJyJrgoSBZIuC41bLp1cidOYHD3JHUeA3RbTakuAdRfsgyt0qEd7seIIi2UkyBGp0woVUscUag==
-X-Received: by 2002:a19:7009:: with SMTP id h9mr9987648lfc.271.1612789868792; 
- Mon, 08 Feb 2021 05:11:08 -0800 (PST)
-Received: from rocinante ([95.155.85.46])
- by smtp.gmail.com with ESMTPSA id x20sm2086063lfe.256.2021.02.08.05.11.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 05:11:08 -0800 (PST)
-Date: Mon, 8 Feb 2021 14:11:07 +0100
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Jon Derrick <jonathan.derrick@intel.com>
-Subject: Re: [PATCH v3 2/2] PCI: vmd: Disable MSI-X remapping when possible
-Message-ID: <YCE4a4swLUTw6j9Y@rocinante>
-References: <20210206033502.103964-1-jonathan.derrick@intel.com>
- <20210206033502.103964-3-jonathan.derrick@intel.com>
+ with ESMTP id t0DIHugULPpJ for <iommu@lists.linux-foundation.org>;
+ Mon,  8 Feb 2021 14:50:34 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1B0E286FAB
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Feb 2021 14:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=ukIhxkMJ7jM46pKd8JWUZEJrVcqrPrCav3ZtJdF4cz4=; b=i88GvXARBqn5eJUyVUW2EXCrrT
+ kbcFODQpKdLYONmRdIP8ActDgTb+XTOO3xa1fUrPSXQL97P5m1zvYXBfNZhtoSSWGCUN1wGxxOB0R
+ hI0TXmPbvNhkFxJwEjM6MyQHqyezs/EQp3XZw8k0iWChrBadu8u7QbnuOKLXXioxwJGzZsqzNX/SB
+ DMsBaErSRg4cI27jrKlHTswqQJkA8ArvJi1daRhpdTcU7wboqDvldKxvnSkLa/QZKzd+R2NRX9wNj
+ pu8P+MpZAldUTmi3l7U2/zWRvVBRZxLSX+5M5ORO2yJlLXHdGacW3c3wDgfQ5DKcLHDLTzwwUMz0m
+ k7bx61Qg==;
+Received: from [2001:4bb8:184:7d04:e3ed:f9d6:78e2:6f0f] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1l97rv-0066dT-88; Mon, 08 Feb 2021 14:50:27 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: MIPS noncoherent DMA cleanups
+Date: Mon,  8 Feb 2021 15:50:18 +0100
+Message-Id: <20210208145024.3320420-1-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210206033502.103964-3-jonathan.derrick@intel.com>
-Cc: Nirmal Patel <nirmal.patel@intel.com>, linux-pci@vger.kernel.org,
- Kapil Karkra <kapil.karkra@intel.com>, iommu@lists.linux-foundation.org,
- Joerg Roedel <jroedel@suse.de>, Bjorn Helgaas <helgaas@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: iommu@lists.linux-foundation.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,34 +71,17 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGkgSm9uLAoKVGhhbmsgeW91IGZvciBhbGwgdGhlIHdvcmsgaGVyZSEKCkp1c3QgYSBudW1iZXIg
-b2Ygc3VnZ2VzdGlvbnMsIG1haW5seSBuaXRwaWNrcywgc28gZmVlbCBmcmVlIHRvIGlnbm9yZQp0
-aGVzZSwgb2YgY291cnNlLgoKWy4uLl0KPiArI2RlZmluZSBWTUNGR19NU0lfUk1QX0RJUwkweDIK
-Wy4uLl0KCldoYXQgYWJvdXQgY2FsbGluZyB0aGlzIFZNQ09ORklHX01TSV9SRU1BUCBzbyB0aGF0
-IGlzIG1vcmUKc2VsZi1leHBsYW5hdG9yeSAoaXQgYWxzbyBzaGFyZXMgc29tZSBzaW1pbGFyaXR5
-IHdpdGggdGhlClBDSV9SRUdfVk1DT05GSUcgZGVmaW50aXRpb24pLgoKWy4uLl0KPiArCVZNRF9G
-RUFUX0JZUEFTU19NU0lfUkVNQVAJCT0gKDEgPDwgNCksClsuLi5dCgpGb2xsb3dpbmcgb24gdGhl
-IG5hbWluZyB0aGF0IGluY2x1ZGVkICJIQVMiIHRvIGluZGljYXRlIGEgZmVhdHVyZSAob3IKc3Vw
-cG9ydCBmb3IgdGhlcmVvZiksIHBlcmhhcHMgd2UgY291bGQgbmFtZSB0aGlzIGFzLCBmb3IgZXhh
-bXBsZToKCglWTURfRkVBVF9DQU5fQllQQVNTX01TSV9SRU1BUAoKV2hhdCBkbyB5b3UgdGhpbms/
-CgpbLi4uXSAKPiArc3RhdGljIHZvaWQgdm1kX2VuYWJsZV9tc2lfcmVtYXBwaW5nKHN0cnVjdCB2
-bWRfZGV2ICp2bWQsIGJvb2wgZW5hYmxlKQo+ICt7Cj4gKwl1MTYgcmVnOwo+ICsKPiArCXBjaV9y
-ZWFkX2NvbmZpZ193b3JkKHZtZC0+ZGV2LCBQQ0lfUkVHX1ZNQ09ORklHLCAmcmVnKTsKPiArCXJl
-ZyA9IGVuYWJsZSA/IChyZWcgJiB+Vk1DRkdfTVNJX1JNUF9ESVMpIDogKHJlZyB8IFZNQ0ZHX01T
-SV9STVBfRElTKTsKPiArCXBjaV93cml0ZV9jb25maWdfd29yZCh2bWQtPmRldiwgUENJX1JFR19W
-TUNPTkZJRywgcmVnKTsKPiArfQoKSSB3b25kZXIgaWYgY2FsbGluZyB0aGlzIGZ1bmN0aW9uIHZt
-ZF9zZXRfbXNpX3JlbWFwcGluZygpIHdvdWxkIGJlIG1vcmUKYWxpZ25lZCB3aXRoIHdoYXQgaXQg
-ZG9lcywgc2luY2UgaXQgdHVybnMgdGhlIE1TSSByZW1hcHBpbmcgc3VwcG9ydCBvbgphbmQgb2Zm
-LCBzbyB0byBzcGVhaywgYXMgbmVlZGVkLiAgRG8geW91IHRoaW5rIHRoaXMgd291bGQgYmUgT0sg
-dG8gZG8/CgpbLi4uXQo+ICsJCS8qCj4gKwkJICogT3ZlcnJpZGUgdGhlIGlycSBkb21haW4gYnVz
-IHRva2VuIHNvIHRoZSBkb21haW4gY2FuIGJlCj4gKwkJICogZGlzdGluZ3Vpc2hlZCBmcm9tIGEg
-cmVndWxhciBQQ0kvTVNJIGRvbWFpbi4KPiArCQkgKi8KCkl0IHdvdWxkIGJlICJJUlEiIGhlcmUu
-CgpSZXZpZXdlZC1ieTogS3J6eXN6dG9mIFdpbGN6ecWEc2tpIDxrd0BsaW51eC5jb20+CgpLcnp5
-c3p0b2YKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9t
-bXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8v
-bGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+Hi Thomas,
+
+this series cleans up some of the mips (maybe) noncoherent support.
+It also remove the need for the special <asm/dma-coherence.h> header only
+provided by mips.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
