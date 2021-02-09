@@ -1,66 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F79C314BA2
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 10:33:03 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78534314BE1
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 10:41:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 495896F8B9
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 08:04:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2245C87222;
+	Tue,  9 Feb 2021 09:41:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cf7txC81JKo8 for <lists.iommu@lfdr.de>;
-	Tue,  9 Feb 2021 08:04:40 +0000 (UTC)
-Received: by smtp3.osuosl.org (Postfix, from userid 1001)
-	id B38DA6F907; Tue,  9 Feb 2021 08:04:40 +0000 (UTC)
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9WcWXqKcomNh; Tue,  9 Feb 2021 09:41:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0EEAA6F675;
-	Tue,  9 Feb 2021 08:04:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E764887135;
+	Tue,  9 Feb 2021 09:41:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E2439C013A;
-	Tue,  9 Feb 2021 08:04:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E0CA6C013A;
+	Tue,  9 Feb 2021 09:41:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 58489C013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 08:04:33 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 943E3C013A;
+ Tue,  9 Feb 2021 09:41:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 43F5085036
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 08:04:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8331885784;
+ Tue,  9 Feb 2021 09:41:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kEwPMTMoMNOG for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 08:04:32 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9DF588495A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 08:04:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BE0D664E50;
- Tue,  9 Feb 2021 08:04:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612857872;
- bh=zPK+5MZsx1tSvH2HRp1p3HtPtCmnOHY9jiF0A95/QwE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Avm+GfAVXF4EksYujMA/CDdtYumq9mFdLJEs2zSEghuaaGAEeAmAE8ALnUIuCt+aM
- zb7IZIEoOJxxxT8U7DM62ZovMxPGZGcVVPmz0oBWmqNTKEf33vg9GEFOaSVsNBjQo+
- fNJYB/4IPVoWeLGW/uCJ6r0XhQ7Q6Qyb82RAit68=
-Date: Tue, 9 Feb 2021 09:04:29 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sumit Garg <sumit.garg@linaro.org>
-Subject: Re: DMA direct mapping fix for 5.4 and earlier stable branches
-Message-ID: <YCJCDZGa1Dhqv6Ni@kroah.com>
-References: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
- <YCIym62vHfbG+dWf@kroah.com>
- <CAFA6WYM+xJ0YDKenWFPMHrTz4gLWatnog84wyk31Xy2dTiT2RA@mail.gmail.com>
+ with ESMTP id PiTXot-eZo03; Tue,  9 Feb 2021 09:41:22 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 253A085624;
+ Tue,  9 Feb 2021 09:41:22 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 313FB67373; Tue,  9 Feb 2021 09:26:24 +0100 (CET)
+Date: Tue, 9 Feb 2021 09:26:23 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Subject: Re: [PATCH] swiotlb: Validate bounce size in the sync/unmap path
+Message-ID: <20210209082623.GA31955@lst.de>
+References: <X/27MSbfDGCY9WZu@martin> <20210113113017.GA28106@lst.de>
+ <YAV0uhfkimXn1izW@martin> <20210203124922.GB16923@lst.de>
+ <20210203193638.GA325136@fedora> <20210205175852.GA1021@lst.de>
+ <YCFxiTB//Iz6aIhk@Konrads-MacBook-Pro.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAFA6WYM+xJ0YDKenWFPMHrTz4gLWatnog84wyk31Xy2dTiT2RA@mail.gmail.com>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- stable <stable@vger.kernel.org>, obayashi.yoshimasa@socionext.com,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
+In-Reply-To: <YCFxiTB//Iz6aIhk@Konrads-MacBook-Pro.local>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Martin Radev <martin.b.radev@gmail.com>, thomas.lendacky@amd.com,
+ file@sect.tu-berlin.de, robert.buhren@sect.tu-berlin.de, kvm@vger.kernel.org,
+ mathias.morbitzer@aisec.fraunhofer.de, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ robin.murphy@arm.com, Christoph Hellwig <hch@lst.de>,
+ kirill.shutemov@linux.intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,113 +72,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 09, 2021 at 01:28:47PM +0530, Sumit Garg wrote:
-> Thanks Greg for your response.
+On Mon, Feb 08, 2021 at 12:14:49PM -0500, Konrad Rzeszutek Wilk wrote:
+> > ring buffer or whatever because you know I/O will be copied anyway
+> > and none of all the hard work higher layers do to make the I/O suitable
+> > for a normal device apply.
 > 
-> On Tue, 9 Feb 2021 at 12:28, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Feb 09, 2021 at 11:39:25AM +0530, Sumit Garg wrote:
-> > > Hi Christoph, Greg,
-> > >
-> > > Currently we are observing an incorrect address translation
-> > > corresponding to DMA direct mapping methods on 5.4 stable kernel while
-> > > sharing dmabuf from one device to another where both devices have
-> > > their own coherent DMA memory pools.
-> >
-> > What devices have this problem?
-> 
-> The problem is seen with V4L2 device drivers which are currently under
-> development for UniPhier PXs3 Reference Board from Socionext [1].
+> I lost you here. Sorry, are you saying have a simple ring protocol
+> (like NVME has), where the ring entries (SG or DMA phys) are statically
+> allocated and whenever NVME driver gets data from user-space it
+> would copy it in there?
 
-Ok, so it's not even a driver in the 5.4 kernel today, so there's
-nothing I can do here as there is no regression of the existing source
-tree.
-
-> Following is brief description of the test framework:
-> 
-> The issue is observed while trying to construct a Gstreamer pipeline
-> leveraging hardware video converter engine (VPE device) and hardware
-> video encode/decode engine (CODEC device) where we use dmabuf
-> framework for Zero-Copy.
-> 
-> Example GStreamer pipeline is:
-> gst-launch-1.0 -v -e videotestsrc \
-> > ! video/x-raw, width=480, height=270, format=NV15 \
-> > ! v4l2convert device=/dev/vpe0 capture-io-mode=dmabuf-import \
-> > ! video/x-raw, width=480, height=270, format=NV12 \
-> > ! v4l2h265enc device=/dev/codec0 output-io-mode=dmabuf \
-> > ! video/x-h265, format=byte-stream, width=480, height=270 \
-> > ! filesink location=out.hevc
-> 
-> Using GStreamer's V4L2 plugin,
-> - v4l2convert controls VPE driver,
-> - v4l2h265enc controls CODEC driver.
-> 
-> In the above pipeline, VPE driver imports CODEC driver's DMABUF for Zero-Copy.
-> 
-> [1] arch/arm64/boot/dts/socionext/uniphier-pxs3-ref.dts
-> 
-> > And why can't then just use 5.10 to
-> > solve this issue as that problem has always been present for them,
-> > right?
-> 
-> As the drivers are currently under development and Socionext has
-> chosen 5.4 stable kernel for their development. So I will let
-> Obayashi-san answer this if it's possible for them to migrate to 5.10
-> instead?
-
-Why pick a kernel that doesn not support the features they require?
-That seems very odd and unwise.
-
-> BTW, this problem belongs to the common code, so others may experience
-> this issue as well.
-
-Then they should move to 5.10 or newer as this just doesn't work on
-older kernels, right?
-
-> > > I am able to root cause this issue which is caused by incorrect virt
-> > > to phys translation for addresses belonging to vmalloc space using
-> > > virt_to_page(). But while looking at the mainline kernel, this patch
-> > > [1] changes address translation from virt->to->phys to dma->to->phys
-> > > which fixes the issue observed on 5.4 stable kernel as well (minimal
-> > > fix [2]).
-> > >
-> > > So I would like to seek your suggestion for backport to stable kernels
-> > > (5.4 or earlier) as to whether we should backport the complete
-> > > mainline commit [1] or we should just apply the minimal fix [2]?
-> >
-> > Whenever you try to create a "minimal" fix, 90% of the time it is wrong
-> > and does not work and I end up having to deal with the mess.
-> 
-> I agree with your concerns for having to apply a non-mainline commit
-> onto a stable kernel.
-> 
-> >  What
-> > prevents you from doing the real thing here?  Are the patches to big?
-> >
-> 
-> IMHO, yes the mainline patch is big enough to touch multiple
-> architectures. But if that's the only way preferred then I can
-> backport the mainline patch instead.
-> 
-> > And again, why not just use 5.10 for this hardware?  What hardware is
-> > it?
-> >
-> 
-> Please see my response above.
-
-If a feature in the kernel was not present on older kernels, trying to
-shoe-horn it into them is not wise at all.  You pick a kernel version
-to reflect the features/options that you require, and it sounds like 5.4
-just will not work for them, so to stick with that would be quite
-foolish.
-
-Just move to 5.10, much simpler!
-
-thanks,
-
-greg k-h
+Yes.  Basically extend the virtio or NVMe ring/queue concept to not just
+cover commands and completions, but also the data transfers.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
