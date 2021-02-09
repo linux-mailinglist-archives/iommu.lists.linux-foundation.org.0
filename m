@@ -1,105 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A59D3150D7
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 14:53:42 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0453151E2
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 15:46:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E7FB4871C4;
-	Tue,  9 Feb 2021 13:53:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9961D86B27;
+	Tue,  9 Feb 2021 14:46:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m0Yp3xgTTlE5; Tue,  9 Feb 2021 13:53:38 +0000 (UTC)
+	with ESMTP id FLZiooqMc1JG; Tue,  9 Feb 2021 14:46:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2204587167;
-	Tue,  9 Feb 2021 13:53:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 69CFD86A74;
+	Tue,  9 Feb 2021 14:46:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 067B4C013A;
-	Tue,  9 Feb 2021 13:53:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FE38C013A;
+	Tue,  9 Feb 2021 14:46:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 969BDC013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 13:53:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39ED3C013A
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 14:46:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9299F85F81
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 13:53:36 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 35BA386AFD
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 14:46:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YfWyRkuDifLt for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 13:53:33 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B017C8539A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 13:53:33 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id h8so7690029qkk.6
- for <iommu@lists.linux-foundation.org>; Tue, 09 Feb 2021 05:53:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=T8f8DDfwXSd9VRLmEP8P3umzAghI6Kqw6/qy/jeS5Qo=;
- b=gh04iuWWyfXXLlaV1RWSVt6ZQHHbXgL+7SqTdgohcZssGB7SFCglc2Da1zz58QYygR
- 9tVoLF0GKpMU5fAKOJUQeZbKmiZNBpriOh6NJ88Z8/8Oiy+02484H0DfDsD9oLpEdCJB
- iqbllGJHAulzwrFuz8zaWKtRoDWR91pkLeY3goABlW/bNnl7a7ucWFWFLWHoTWeFdCfi
- E81odK7NiX2mIG23/RyV6fotvVvwHXBJ3/Y6NQ+7HvCiAyAGmRSY3kUdW52i458n5RX4
- NyglMvima/h3o9mIMHNuMfUszee7pZjUtNzI0o4O78Zz7zTTtKPysaZeIPpMxYD972RH
- nQ7Q==
+ with ESMTP id NOfSDWRHxTbz for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 14:46:28 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E0AEA86A74
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 14:46:27 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id u15so1313968iln.12
+ for <iommu@lists.linux-foundation.org>; Tue, 09 Feb 2021 06:46:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qVmduRDg6ZoezGmMc2NOjO9dKMtO5r7SHhLDuNpUA1w=;
+ b=WFrX2nLmj6lzLxXwwRLmHplG+/4tGaqXd5F9tKmrpv0+CO88dg427I0RaNJUHcUdtl
+ s+UXjDspolANS3R9Rg9KKCc/sy5aAZFcT22cgFhNe08kUqAs0wzlF+V6nniyL9Nz/4ff
+ ABijo72HwNtukB2a0YkAo0BBqtLdSTQT9enFU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=T8f8DDfwXSd9VRLmEP8P3umzAghI6Kqw6/qy/jeS5Qo=;
- b=qNnqq+9eYi5RomRqj/bjaZC8j1te63YrGvEVR9fD/ukFolVanq363MR6utrXS4eSv7
- Ust5I4AGlz3NXWFaZRUTUeIr1vpeY/ABIBPbH4osWRRFW4iz1ke+ptMnrb0knt7qb6Pw
- cIuYfO5fquMjMpOaMzneLwp2roWP3KfiNjiAkamq8ySNuFzJuq7FC+6g6ZM0cwnfiY5o
- +R11SR+KJan8dqTUJ48v/I033YPT2zkX93zkfvF+BVzC4lOYpXY3Jom549sTQaesUwCZ
- FQ7HyrkYBu4O1Gx1/JFSU+eXu1J8qZfGTKvK5dGPIB5a9EwECArl7S8SN2mRQDRo9I1F
- XG2A==
-X-Gm-Message-State: AOAM532wpL6X6O/cYnrO+57bYtTM9ede6Mrwyq8/2R1ohWka56DUQINp
- 3zGo9ALpSdRMR9gp5bF64hQf+A==
-X-Google-Smtp-Source: ABdhPJx3et279cgNvk+uqR894IQLoOIQFoSZDGEjQvDKhVHg09126LSd7Y8VSphbQdCDRlOdHVR86w==
-X-Received: by 2002:ae9:e80e:: with SMTP id a14mr11633708qkg.103.1612878812715; 
- Tue, 09 Feb 2021 05:53:32 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.115.133])
- by smtp.gmail.com with ESMTPSA id d16sm17820271qka.44.2021.02.09.05.53.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 05:53:32 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1l9TSN-005RZu-ON; Tue, 09 Feb 2021 09:53:31 -0400
-Date: Tue, 9 Feb 2021 09:53:31 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
-Message-ID: <20210209135331.GF4718@ziepe.ca>
-References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
- <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
- <20210208183348.GV4718@ziepe.ca>
- <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
- <20210208213023.GZ4718@ziepe.ca>
- <0868d209d7424942a46d1238674cf75d@hisilicon.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qVmduRDg6ZoezGmMc2NOjO9dKMtO5r7SHhLDuNpUA1w=;
+ b=aLxA7C+8uTix/ropquMzywcNdkV0FMLhz4kX9e/FzXiWUVRpY6rXYaVNc8GSq2kEAa
+ 9bK1bu/GYueMdW+APmgK9M+xX7cAc7Fil4FqW8bXnuVPM8zifRVzbbXTaFr/gYGLqObq
+ p7AK8f+JCEc05N3KRnwJVi0fhxQy54f5685I3WWLdbL8XShImAn0DAhD3zkwt+WtC7mz
+ lzeWg6vd4IoJ2F6D8c3P99o5S5DRcK6+ct1Kt+Y0+xZJGh0sd4ighY3KZDph5tkfJG0Q
+ ERrUia/oaSKiTSeo9tOcXqUCdL0+N8aPTmV8+3TWi7kKIjJu+/PKuwGEGmwQk2tvUoi1
+ 1Nrg==
+X-Gm-Message-State: AOAM533rYcFV8eKahBcVE36fGN9OChG/czNwUQS5iN065mb6OwW/re+5
+ 1juO3fWyBmV2WfxqsIAfZQ5IUuu6jn420SKA
+X-Google-Smtp-Source: ABdhPJwVmDF0i5wd0S1Vfqn3VNYN2WkHizjtz02udNOcGU91xu0vn3LtcDQxtW0UFaqE8yu+gZgB7Q==
+X-Received: by 2002:a05:6e02:f14:: with SMTP id
+ x20mr1656654ilj.85.1612881986999; 
+ Tue, 09 Feb 2021 06:46:26 -0800 (PST)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com.
+ [209.85.166.178])
+ by smtp.gmail.com with ESMTPSA id x15sm1377472ilv.31.2021.02.09.06.46.24
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Feb 2021 06:46:25 -0800 (PST)
+Received: by mail-il1-f178.google.com with SMTP id o7so11776801ils.2
+ for <iommu@lists.linux-foundation.org>; Tue, 09 Feb 2021 06:46:24 -0800 (PST)
+X-Received: by 2002:a05:6e02:1d0e:: with SMTP id
+ i14mr18857395ila.69.1612881984309; 
+ Tue, 09 Feb 2021 06:46:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0868d209d7424942a46d1238674cf75d@hisilicon.com>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "kevin.tian@intel.com" <kevin.tian@intel.com>,
- "chensihang \(A\)" <chensihang1@hisilicon.com>,
- David Hildenbrand <david@redhat.com>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liguozhu \(Kenneth\)" <liguozhu@hisilicon.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20210202095110.1215346-1-hch@lst.de>
+ <20210207184855.GA27553@lst.de>
+ <CAAFQd5BzAvgiTLGFse+ZWUrFtZ1Ysf+p+e-4rW8gq_iP0xhWEA@mail.gmail.com>
+ <20210209082213.GA31902@lst.de>
+ <CANiDSCuzKczCnAdC9b0r-6WVBFYXYnvQHKbxSeYq2QW1uVsDLQ@mail.gmail.com>
+In-Reply-To: <CANiDSCuzKczCnAdC9b0r-6WVBFYXYnvQHKbxSeYq2QW1uVsDLQ@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 9 Feb 2021 15:46:13 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvPodsmcOi1fMwvZsyMxWsRQWNT7VkbZs4=XePYXfiXow@mail.gmail.com>
+Message-ID: <CANiDSCvPodsmcOi1fMwvZsyMxWsRQWNT7VkbZs4=XePYXfiXow@mail.gmail.com>
+Subject: Re: add a new dma_alloc_noncontiguous API v2
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sergey Senozhatsky <senozhatsky@google.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,22 +108,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 09, 2021 at 03:01:42AM +0000, Song Bao Hua (Barry Song) wrote:
+Hi Christoph
 
-> On the other hand, wouldn't it be the benefit of hardware accelerators
-> to have a lower and more stable latency zip/encryption than CPU?
+I have tested it in both arm and x86, since there are not significant
+changes with the previous version I did not do a performance test.
 
-No, I don't think so.
+Thanks!
 
-If this is an important problem then it should apply equally to CPU
-and IO jitter.
 
-Honestly I find the idea that occasional migration jitters CPU and DMA
-to not be very compelling. Such specialized applications should
-allocate special pages to avoid this, not adding an API to be able to
-lock down any page
- 
-Jason
+On Tue, Feb 9, 2021 at 9:29 AM Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Hi Christoph
+>
+> On Tue, Feb 9, 2021 at 9:22 AM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > On Mon, Feb 08, 2021 at 08:33:50PM +0900, Tomasz Figa wrote:
+> > > Sorry for the delay. The whole series looks very good to me. Thanks a lot.
+> > >
+> > > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> >
+> > Thanks.
+> >
+> > Ricardo, do the uvcvideo changes look good to you?  I'd like to queue
+> > the series up for this merge window.
+
+Tested-by: Ricardo Ribalda <ribalda@chromium.org>
+
+>
+> Let me test them in real hardware today.
+>
+> Thanks!
+>
+>
+> --
+> Ricardo Ribalda
+
+
+
+-- 
+Ricardo Ribalda
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
