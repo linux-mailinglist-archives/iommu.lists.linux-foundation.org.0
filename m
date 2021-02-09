@@ -1,69 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B48E314BB8
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 10:37:57 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBAF314D35
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 11:40:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0C8226F88F
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 09:37:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 618EB8725F;
+	Tue,  9 Feb 2021 10:40:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pHrb0FscQ5YV for <lists.iommu@lfdr.de>;
-	Tue,  9 Feb 2021 09:37:54 +0000 (UTC)
-Received: by smtp3.osuosl.org (Postfix, from userid 1001)
-	id AF1DC6F89B; Tue,  9 Feb 2021 09:37:54 +0000 (UTC)
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kMKOP0adkC2K; Tue,  9 Feb 2021 10:40:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BC40A6F519;
-	Tue,  9 Feb 2021 09:37:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4EB3987253;
+	Tue,  9 Feb 2021 10:40:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A836C013A;
-	Tue,  9 Feb 2021 09:37:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 22273C013A;
+	Tue,  9 Feb 2021 10:40:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 65ADAC013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:37:49 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1ED6BC013A
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 10:40:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 554BD87371
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:37:49 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1AFFE85EBF
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 10:40:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vqXN0+PpQ615 for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 09:37:48 +0000 (UTC)
+ with ESMTP id nHmnWfKo5dqf for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 10:39:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id BE047872B2
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:37:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E804D64E27;
- Tue,  9 Feb 2021 09:37:47 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CF32185E98
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 10:39:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4BC464E4B;
+ Tue,  9 Feb 2021 10:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612863468;
- bh=3uhgNxvkQ3DE4szNXNrRNOmM42w+TvFbEvvc39Kp9o8=;
+ s=korg; t=1612867197;
+ bh=/jh06s5G/k5IVhUW0yt0cXHDhlQpDXNonOEqGQ0F5qg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dnM8UoIu7vjUquwOGgLNI/nFIs7c5cxhJzUlDrEgEcxaM71P1VbXUNr75slYvIvip
- JxniosSVimGPVVpFt1UW4dNP6DywhSeOr4E8K+/y/jp/U1BlN9NKoE4b81YZyYVsS4
- TOZQ8fJ6UIH5YGUd0osrd5uxargdhmbZrAwT4234=
-Date: Tue, 9 Feb 2021 10:37:45 +0100
+ b=NvMFBEAJSBSoBgfeE00P1l46u1S3zR8ZgC92VkrGXNBZQuRkiv3FBf5/BWa3AU0l2
+ +Bcp0x149qDPwTIkgv9CTtwbxFBMuydrVT7JTYBcT2SpShOevWsbynTFEld/q+rWL7
+ +RbWKxPN1+fsK/BNEFqHZj5ruw1wX0KC4xxywqXU=
+Date: Tue, 9 Feb 2021 11:39:54 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhou Wang <wangzhou1@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
-Message-ID: <YCJX6QFQ4hsNRrFj@kroah.com>
-References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
- <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
+To: obayashi.yoshimasa@socionext.com
+Subject: Re: DMA direct mapping fix for 5.4 and earlier stable branches
+Message-ID: <YCJmegLycZ5hnCUr@kroah.com>
+References: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
+ <YCIym62vHfbG+dWf@kroah.com>
+ <CAFA6WYM+xJ0YDKenWFPMHrTz4gLWatnog84wyk31Xy2dTiT2RA@mail.gmail.com>
+ <YCJCDZGa1Dhqv6Ni@kroah.com>
+ <27bbe35deacb4ca49f31307f4ed551b5@SOC-EX02V.e01.socionext.com>
+ <YCJUgKDNVjJ4dUqM@kroah.com>
+ <ed485ad069af4d1481e3961db4a3e079@SOC-EX02V.e01.socionext.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
- Sihang Chen <chensihang1@hisilicon.com>, jgg@ziepe.ca,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andy Lutomirski <luto@amacapital.net>, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- zhangfei.gao@linaro.org, Andrew Morton <akpm@linux-foundation.org>,
- liguozhu@hisilicon.com, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <ed485ad069af4d1481e3961db4a3e079@SOC-EX02V.e01.socionext.com>
+Cc: sumit.garg@linaro.org, daniel.thompson@linaro.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,48 +73,30 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gVHVlLCBGZWIgMDksIDIwMjEgYXQgMDU6MTc6NDZQTSArMDgwMCwgWmhvdSBXYW5nIHdyb3Rl
-Ogo+IE9uIDIwMjEvMi84IDY6MDIsIEFuZHkgTHV0b21pcnNraSB3cm90ZToKPiA+IAo+ID4gCj4g
-Pj4gT24gRmViIDcsIDIwMjEsIGF0IDEyOjMxIEFNLCBaaG91IFdhbmcgPHdhbmd6aG91MUBoaXNp
-bGljb24uY29tPiB3cm90ZToKPiA+Pgo+ID4+IO+7v1NWQShzaGFyZSB2aXJ0dWFsIGFkZHJlc3Mp
-IG9mZmVycyBhIHdheSBmb3IgZGV2aWNlIHRvIHNoYXJlIHByb2Nlc3MgdmlydHVhbAo+ID4+IGFk
-ZHJlc3Mgc3BhY2Ugc2FmZWx5LCB3aGljaCBtYWtlcyBtb3JlIGNvbnZlbmllbnQgZm9yIHVzZXIg
-c3BhY2UgZGV2aWNlCj4gPj4gZHJpdmVyIGNvZGluZy4gSG93ZXZlciwgSU8gcGFnZSBmYXVsdHMg
-bWF5IGhhcHBlbiB3aGVuIGRvaW5nIERNQQo+ID4+IG9wZXJhdGlvbnMuIEFzIHRoZSBsYXRlbmN5
-IG9mIElPIHBhZ2UgZmF1bHQgaXMgcmVsYXRpdmVseSBiaWcsIERNQQo+ID4+IHBlcmZvcm1hbmNl
-IHdpbGwgYmUgYWZmZWN0ZWQgc2V2ZXJlbHkgd2hlbiB0aGVyZSBhcmUgSU8gcGFnZSBmYXVsdHMu
-Cj4gPj4gRnJvbSBhIGxvbmcgdGVybSB2aWV3LCBETUEgcGVyZm9ybWFuY2Ugd2lsbCBiZSBub3Qg
-c3RhYmxlLgo+ID4+Cj4gPj4gSW4gaGlnaC1wZXJmb3JtYW5jZSBJL08gY2FzZXMsIGFjY2VsZXJh
-dG9ycyBtaWdodCB3YW50IHRvIHBlcmZvcm0KPiA+PiBJL08gb24gYSBtZW1vcnkgd2l0aG91dCBJ
-TyBwYWdlIGZhdWx0cyB3aGljaCBjYW4gcmVzdWx0IGluIGRyYW1hdGljYWxseQo+ID4+IGluY3Jl
-YXNlZCBsYXRlbmN5LiBDdXJyZW50IG1lbW9yeSByZWxhdGVkIEFQSXMgY291bGQgbm90IGFjaGll
-dmUgdGhpcwo+ID4+IHJlcXVpcmVtZW50LCBlLmcuIG1sb2NrIGNhbiBvbmx5IGF2b2lkIG1lbW9y
-eSB0byBzd2FwIHRvIGJhY2t1cCBkZXZpY2UsCj4gPj4gcGFnZSBtaWdyYXRpb24gY2FuIHN0aWxs
-IHRyaWdnZXIgSU8gcGFnZSBmYXVsdC4KPiA+Pgo+ID4+IFZhcmlvdXMgZHJpdmVycyB3b3JraW5n
-IHVuZGVyIHRyYWRpdGlvbmFsIG5vbi1TVkEgbW9kZSBhcmUgdXNpbmcKPiA+PiB0aGVpciBvd24g
-c3BlY2lmaWMgaW9jdGwgdG8gZG8gcGluLiBTdWNoIGlvY3RsIGNhbiBiZSBzZWVuIGluIHY0bDIs
-Cj4gPj4gZ3B1LCBpbmZpbmliYW5kLCBtZWRpYSwgdmZpbywgZXRjLiBEcml2ZXJzIGFyZSB1c3Vh
-bGx5IGRvaW5nIGRtYQo+ID4+IG1hcHBpbmcgd2hpbGUgZG9pbmcgcGluLgo+ID4+Cj4gPj4gQnV0
-LCBpbiBTVkEgbW9kZSwgcGluIGNvdWxkIGJlIGEgY29tbW9uIG5lZWQgd2hpY2ggaXNuJ3QgbmVj
-ZXNzYXJpbHkKPiA+PiBib3VuZCB3aXRoIGFueSBkcml2ZXJzLCBhbmQgbmVpdGhlciBpcyBkbWEg
-bWFwcGluZyBuZWVkZWQgYnkgZHJpdmVycwo+ID4+IHNpbmNlIGRldmljZXMgYXJlIHVzaW5nIHRo
-ZSB2aXJ0dWFsIGFkZHJlc3Mgb2YgQ1BVLiBUaHVzLCBJdCBpcyBiZXR0ZXIKPiA+PiB0byBpbnRy
-b2R1Y2UgYSBuZXcgY29tbW9uIHN5c2NhbGwgZm9yIGl0Lgo+ID4+Cj4gPj4gVGhpcyBwYXRjaCBs
-ZXZlcmFnZXMgdGhlIGRlc2lnbiBvZiB1c2VyZmF1bHRmZCBhbmQgYWRkcyBtZW1waW5mZCBmb3Ig
-cGluCj4gPj4gdG8gYXZvaWQgbWVzc2luZyB1cCBtbV9zdHJ1Y3QuIEEgZmQgd2lsbCBiZSBnb3Qg
-YnkgbWVtcGluZmQsIHRoZW4gdXNlcgo+ID4+IHNwYWNlIGNhbiBkbyBwaW4vdW5waW4gcGFnZXMg
-YnkgaW9jdGxzIG9mIHRoaXMgZmQsIGFsbCBwaW5uZWQgcGFnZXMgdW5kZXIKPiA+PiBvbmUgZmls
-ZSB3aWxsIGJlIHVucGlubmVkIGluIGZpbGUgcmVsZWFzZSBwcm9jZXNzLiBMaWtlIHBpbiBwYWdl
-IGNhc2VzIGluCj4gPj4gb3RoZXIgcGxhY2VzLCBjYW5fZG9fbWxvY2sgaXMgdXNlZCB0byBjaGVj
-ayBwZXJtaXNzaW9uIGFuZCBpbnB1dAo+ID4+IHBhcmFtZXRlcnMuCj4gPiAKPiA+IAo+ID4gQ2Fu
-IHlvdSBkb2N1bWVudCB3aGF0IHRoZSBzeXNjYWxsIGRvZXM/Cj4gCj4gV2lsbCBhZGQgcmVsYXRl
-ZCBkb2N1bWVudCBpbiBEb2N1bWVudGF0aW9uL3ZtLgoKQSBtYW5wYWdlIGlzIGFsd2F5cyBnb29k
-LCBhbmQgd2lsbCBiZSByZXF1aXJlZCBldmVudHVhbGx5IDopCgp0aGFua3MsCgpncmVnIGstaApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWls
-aW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5s
-aW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+On Tue, Feb 09, 2021 at 10:19:07AM +0000, obayashi.yoshimasa@socionext.com wrote:
+> > How do you judge "mature"?
+> 
+>   My basic criteria are
+> * Function is exist, but bug fix is necessary: "mature"
+> * Function extension is necessary: "immature"
+> 
+> > And again, if a feature isn't present in a specific kernel version, why would you think that it would be
+> > a viable solution for you to use?
+> 
+>   So, "a feature isn't present in a specific kernel version", 
+> also means "immature" according to my criteria.
+
+Great, please use the 5.10 or newer kernel release then.
+
+thanks,
+
+greg k-h
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
