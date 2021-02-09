@@ -1,61 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2B9314933
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 07:58:44 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1819D314B82
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 10:27:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4193F8723B;
-	Tue,  9 Feb 2021 06:58:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A0A0E8737E;
+	Tue,  9 Feb 2021 09:27:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9jimpgiK1U3j; Tue,  9 Feb 2021 06:58:42 +0000 (UTC)
+	with ESMTP id jpeX6aAc+V6A; Tue,  9 Feb 2021 09:27:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 345718725F;
-	Tue,  9 Feb 2021 06:58:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E124C86B05;
+	Tue,  9 Feb 2021 09:27:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0FF4DC1834;
-	Tue,  9 Feb 2021 06:58:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5BF1C013A;
+	Tue,  9 Feb 2021 09:27:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D49F7C013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D232C013A
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:27:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id BB97587241
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 721C786B05
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:27:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RgMGnPb8Xokz for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
+ with ESMTP id jqVQiQyU84mk for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 09:27:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3C1A38723B
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA80D64E9A;
- Tue,  9 Feb 2021 06:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612853919;
- bh=dpxVE0srNtqxA2P2gotaZ3bV8h2QUfJrlvUUTfe0l7o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TXzbsFhDpAQgj9QwPWKvmB1zj6vFiKg4V4CTlVCZzGXPcxBW49yvO/txzd5T2Ii+w
- rtL1/wYnZETAmKBFTPqDlkEsOY+vxAe9mVCFLWZ97V8boxpU4loubPLrclacpCX3FY
- zrcJswcPX2TBjIjas307svqNOUapi81jMEm1i7hk=
-Date: Tue, 9 Feb 2021 07:58:35 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sumit Garg <sumit.garg@linaro.org>
-Subject: Re: DMA direct mapping fix for 5.4 and earlier stable branches
-Message-ID: <YCIym62vHfbG+dWf@kroah.com>
-References: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 7D617873C0
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:27:46 +0000 (UTC)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DZcvp1gvBz7jFf;
+ Tue,  9 Feb 2021 17:26:14 +0800 (CST)
+Received: from [127.0.0.1] (10.40.188.87) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Tue, 9 Feb 2021
+ 17:27:31 +0800
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
+To: Arnd Bergmann <arnd@kernel.org>
+References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
+ <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+ <CAK8P3a13aGbqvTxL+5OQxu-wPa6RDHQJkJ_n8O6YeOibbJQ2yg@mail.gmail.com>
+From: Zhou Wang <wangzhou1@hisilicon.com>
+Message-ID: <753db746-292c-4f1d-c79f-9a7282a19ba2@hisilicon.com>
+Date: Tue, 9 Feb 2021 17:27:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- stable <stable@vger.kernel.org>, obayashi.yoshimasa@socionext.com,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
+In-Reply-To: <CAK8P3a13aGbqvTxL+5OQxu-wPa6RDHQJkJ_n8O6YeOibbJQ2yg@mail.gmail.com>
+X-Originating-IP: [10.40.188.87]
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
+ Sihang Chen <chensihang1@hisilicon.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Linux API <linux-api@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux-MM <linux-mm@kvack.org>, "open
+ list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, gregkh <gregkh@linuxfoundation.org>,
+ Zhangfei Gao <zhangfei.gao@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liguozhu \(Kenneth\)" <liguozhu@hisilicon.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,39 +82,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 09, 2021 at 11:39:25AM +0530, Sumit Garg wrote:
-> Hi Christoph, Greg,
+On 2021/2/8 5:51, Arnd Bergmann wrote:
+> On Sun, Feb 7, 2021 at 9:18 AM Zhou Wang <wangzhou1@hisilicon.com> wrote:
 > 
-> Currently we are observing an incorrect address translation
-> corresponding to DMA direct mapping methods on 5.4 stable kernel while
-> sharing dmabuf from one device to another where both devices have
-> their own coherent DMA memory pools.
-
-What devices have this problem?  And why can't then just use 5.10 to
-solve this issue as that problem has always been present for them,
-right?
-
-> I am able to root cause this issue which is caused by incorrect virt
-> to phys translation for addresses belonging to vmalloc space using
-> virt_to_page(). But while looking at the mainline kernel, this patch
-> [1] changes address translation from virt->to->phys to dma->to->phys
-> which fixes the issue observed on 5.4 stable kernel as well (minimal
-> fix [2]).
+>> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+>> index cccfbbe..3f49529 100644
+>> --- a/arch/arm64/include/asm/unistd32.h
+>> +++ b/arch/arm64/include/asm/unistd32.h
+>> @@ -891,6 +891,8 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
+>>  __SYSCALL(__NR_process_madvise, sys_process_madvise)
+>>  #define __NR_epoll_pwait2 441
+>>  __SYSCALL(__NR_epoll_pwait2, compat_sys_epoll_pwait2)
+>> +#define __NR_mempinfd 442
+>> +__SYSCALL(__NR_mempinfd, sys_mempinfd)
 > 
-> So I would like to seek your suggestion for backport to stable kernels
-> (5.4 or earlier) as to whether we should backport the complete
-> mainline commit [1] or we should just apply the minimal fix [2]?
+> This adds a compat syscall for 32-bit tasks running on arm64 without adding
+> the same for the native arch/arm syscall table. Those two need to always
+> stay synchronized. In fact, new system call should ideally get assigned
+> on all architectures at the same time, with the same number (or +110
+> on arch/alpha).
 
-Whenever you try to create a "minimal" fix, 90% of the time it is wrong
-and does not work and I end up having to deal with the mess.  What
-prevents you from doing the real thing here?  Are the patches to big?
+Thank for pointing out this. I use an ARM64 machine to test, so
+currently only add it for ARM64 :)
 
-And again, why not just use 5.10 for this hardware?  What hardware is
-it?
+Best,
+Zhou
 
-thanks,
+> 
+>          Arnd
+> 
+> .
+> 
 
-greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
