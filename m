@@ -1,110 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EF83148C8
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 07:27:36 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2B9314933
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 07:58:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 090258709F;
-	Tue,  9 Feb 2021 06:27:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4193F8723B;
+	Tue,  9 Feb 2021 06:58:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u3YM8yBEyo9E; Tue,  9 Feb 2021 06:27:34 +0000 (UTC)
+	with ESMTP id 9jimpgiK1U3j; Tue,  9 Feb 2021 06:58:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6755D86FD2;
-	Tue,  9 Feb 2021 06:27:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 345718725F;
+	Tue,  9 Feb 2021 06:58:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CB39C013A;
-	Tue,  9 Feb 2021 06:27:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0FF4DC1834;
+	Tue,  9 Feb 2021 06:58:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 853FBC013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:27:32 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D49F7C013A
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 577D286F92
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:27:32 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id BB97587241
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O38Gt-Hsl9wM for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 06:27:31 +0000 (UTC)
+ with ESMTP id RgMGnPb8Xokz for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8935686F7D
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:27:31 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id d6so15128958ilo.6
- for <iommu@lists.linux-foundation.org>; Mon, 08 Feb 2021 22:27:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1yfWtyKyTZvhHLdRd0Os+HgXY0IXloCRl6/1X6y49yY=;
- b=I8sAs6STSD3viziWc9zjdGpRV2Ij0huuBcH4DTqpEpqza+Sa89+jcmi0lEr6QyU3Yc
- L7rP/rH0/RfRBI83gH4R47SJOVgSrDffjCf/VWsaIa4tSZ3K01/puYHwXeA+73O+NMbj
- Mayn3mIGAEUCdMMblgZt8JrLoIUQfDCTzzdMQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1yfWtyKyTZvhHLdRd0Os+HgXY0IXloCRl6/1X6y49yY=;
- b=LNxkvG7jo2O3ErQH8W+p3coELK3QPGElqAf/jYS3BtzJ34SAYU5kXftC4n/rBh19zq
- T9FIn8NKVZ5x+ZtCFmCE7/8RH5AvDhtpN4gNhjDyIa1BdY5NAymxPErHGJHsfFNJJJzu
- ryluM0ar7fvqLO3LB6mU3BPolyU3yiAh4bGoEB6S4QW5pumt7Qu1b+VKoBPBdD0dENis
- 6iEKrB4CFQU4p+K8cYPJd1HpPCTjFE1NHMIdnTC0cpdVqtHSBiavy3/yOKqHWuRYTzuU
- 1iqdhn4NmllRj3yhHQvAAImfvDqqdsUYMN6gJxbuH1U6Gt1FopkImN2PL3opJk5ksPl/
- /w3g==
-X-Gm-Message-State: AOAM532HomN0rmXep1naadPuDoz3PxyBWItBihlhfzVzsMdjCIC0i+Dq
- yMrvQzbOTxVpyZXLDbmC3TDaRm6ldneY0g==
-X-Google-Smtp-Source: ABdhPJxjPDOHEcyjNDxFSZ2GxwRjFoE7+vAnakiTM8WDOE79stV7A272AJbWZ+tQZGHvH662YC8Cog==
-X-Received: by 2002:a92:d44b:: with SMTP id r11mr18855845ilm.159.1612852050657; 
- Mon, 08 Feb 2021 22:27:30 -0800 (PST)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com.
- [209.85.166.53])
- by smtp.gmail.com with ESMTPSA id e15sm10007143iog.24.2021.02.08.22.27.29
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 22:27:29 -0800 (PST)
-Received: by mail-io1-f53.google.com with SMTP id m17so7121085ioy.4
- for <iommu@lists.linux-foundation.org>; Mon, 08 Feb 2021 22:27:29 -0800 (PST)
-X-Received: by 2002:a6b:144c:: with SMTP id 73mr18274991iou.69.1612852048986; 
- Mon, 08 Feb 2021 22:27:28 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3C1A38723B
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 06:58:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA80D64E9A;
+ Tue,  9 Feb 2021 06:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1612853919;
+ bh=dpxVE0srNtqxA2P2gotaZ3bV8h2QUfJrlvUUTfe0l7o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TXzbsFhDpAQgj9QwPWKvmB1zj6vFiKg4V4CTlVCZzGXPcxBW49yvO/txzd5T2Ii+w
+ rtL1/wYnZETAmKBFTPqDlkEsOY+vxAe9mVCFLWZ97V8boxpU4loubPLrclacpCX3FY
+ zrcJswcPX2TBjIjas307svqNOUapi81jMEm1i7hk=
+Date: Tue, 9 Feb 2021 07:58:35 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sumit Garg <sumit.garg@linaro.org>
+Subject: Re: DMA direct mapping fix for 5.4 and earlier stable branches
+Message-ID: <YCIym62vHfbG+dWf@kroah.com>
+References: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210106034124.30560-1-tientzu@chromium.org>
- <d7043239-12cf-3636-4726-2e3b90917dc6@gmail.com>
- <CALiNf28sU1VtGB7LeTXExkMwQiCeg8N5arqyEjw0CPZP72R4dg@mail.gmail.com>
- <78871151-947d-b085-db03-0d0bd0b55632@gmail.com>
- <CALiNf29_PmLJTVLksSHp3NFAaL52idqehSMOtatJ=jaM2Muq1g@mail.gmail.com>
- <23a09b9a-70fc-a7a8-f3ea-b0bfa60507f0@gmail.com>
- <CAAFQd5DX=AdaYSYQbxgnrYYojkM5q7EE_Qs-BYPOiNjcQWbN1A@mail.gmail.com>
- <c7f7941d-b8bd-f0f3-4e40-b899a77188bf@gmail.com>
- <CAAFQd5AGm4U8hD4jHmw10S7MRS1-ZUSq7eGgoUifMMyfZgP2NA@mail.gmail.com>
- <7fe99ad2-79a7-9c8b-65ce-ce8353e9d9bf@gmail.com>
-In-Reply-To: <7fe99ad2-79a7-9c8b-65ce-ce8353e9d9bf@gmail.com>
-From: Claire Chang <tientzu@chromium.org>
-Date: Tue, 9 Feb 2021 14:27:18 +0800
-X-Gmail-Original-Message-ID: <CALiNf2_rRufFoxNN=i0_LkVvw31tXetKasm3SrzYy7O8o-sfgg@mail.gmail.com>
-Message-ID: <CALiNf2_rRufFoxNN=i0_LkVvw31tXetKasm3SrzYy7O8o-sfgg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/6] Restricted DMA
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
- benh@kernel.crashing.org, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
- mpe@ellerman.id.au, "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- xen-devel@lists.xenproject.org, Thierry Reding <treding@nvidia.com>,
- linux-devicetree <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Rob Herring <robh+dt@kernel.org>, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- Robin Murphy <robin.murphy@arm.com>
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ stable <stable@vger.kernel.org>, obayashi.yoshimasa@socionext.com,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,7 +73,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-v4 here: https://lore.kernel.org/patchwork/cover/1378113/
+On Tue, Feb 09, 2021 at 11:39:25AM +0530, Sumit Garg wrote:
+> Hi Christoph, Greg,
+> 
+> Currently we are observing an incorrect address translation
+> corresponding to DMA direct mapping methods on 5.4 stable kernel while
+> sharing dmabuf from one device to another where both devices have
+> their own coherent DMA memory pools.
+
+What devices have this problem?  And why can't then just use 5.10 to
+solve this issue as that problem has always been present for them,
+right?
+
+> I am able to root cause this issue which is caused by incorrect virt
+> to phys translation for addresses belonging to vmalloc space using
+> virt_to_page(). But while looking at the mainline kernel, this patch
+> [1] changes address translation from virt->to->phys to dma->to->phys
+> which fixes the issue observed on 5.4 stable kernel as well (minimal
+> fix [2]).
+> 
+> So I would like to seek your suggestion for backport to stable kernels
+> (5.4 or earlier) as to whether we should backport the complete
+> mainline commit [1] or we should just apply the minimal fix [2]?
+
+Whenever you try to create a "minimal" fix, 90% of the time it is wrong
+and does not work and I end up having to deal with the mess.  What
+prevents you from doing the real thing here?  Are the patches to big?
+
+And again, why not just use 5.10 for this hardware?  What hardware is
+it?
+
+thanks,
+
+greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
