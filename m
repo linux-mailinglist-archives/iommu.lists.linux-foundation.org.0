@@ -1,68 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5938314E7E
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 12:58:33 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A533A314E9A
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 13:03:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7260A8736F;
-	Tue,  9 Feb 2021 11:58:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6A0BC862D4;
+	Tue,  9 Feb 2021 12:03:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0IWzBPOzeiw7; Tue,  9 Feb 2021 11:58:31 +0000 (UTC)
+	with ESMTP id nl7MXG1MYJhT; Tue,  9 Feb 2021 12:03:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8227987363;
-	Tue,  9 Feb 2021 11:58:31 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DFCD486303;
+	Tue,  9 Feb 2021 12:03:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 730D0C013A;
-	Tue,  9 Feb 2021 11:58:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C05D9C0891;
+	Tue,  9 Feb 2021 12:03:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 175FFC013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 11:58:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8E1C9C0891
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:03:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0D1E187302
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 11:58:29 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 737E88730B
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:03:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tfhWtfF01zoy for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 11:58:27 +0000 (UTC)
+ with ESMTP id dPUp7oXrtZzX for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 12:03:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 877F2872ED
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 11:58:26 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DZhFm2lTgz7hpn;
- Tue,  9 Feb 2021 19:57:00 +0800 (CST)
-Received: from [127.0.0.1] (10.40.188.87) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Tue, 9 Feb 2021
- 19:58:15 +0800
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
- <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
- <YCJX6QFQ4hsNRrFj@kroah.com>
-From: Zhou Wang <wangzhou1@hisilicon.com>
-Message-ID: <f73951ba-84be-b7f8-8c79-db84bc9081f3@hisilicon.com>
-Date: Tue, 9 Feb 2021 19:58:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 982F28725F
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:03:17 +0000 (UTC)
+IronPort-SDR: B3EtW+l7t8Nq7gn/6dfi2FasfMUTDBrKwRcmOx3WXA/X5sAEwS9l24u0lE2QtxzAVnn3KyvTBP
+ lhrtdFZTd6BQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="200940027"
+X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; d="scan'208";a="200940027"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2021 04:03:17 -0800
+IronPort-SDR: 0ieoaeAKU7d3c11pykydksMQ7vj3nDDcGmtrF0t/KBBgWNh9lq8KKHEiw0mCbglS6xKJI2v75a
+ mLYjV2Vco98Q==
+X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; d="scan'208";a="396093725"
+Received: from yisun1-ubuntu.bj.intel.com (HELO yi.y.sun) ([10.238.156.116])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 09 Feb 2021 04:03:10 -0800
+Date: Tue, 9 Feb 2021 19:57:44 +0800
+From: Yi Sun <yi.y.sun@linux.intel.com>
+To: Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [RFC PATCH 10/11] vfio/iommu_type1: Optimize dirty bitmap
+ population based on iommu HWDBM
+Message-ID: <20210209115744.GB28580@yi.y.sun>
+References: <20210128151742.18840-1-zhukeqian1@huawei.com>
+ <20210128151742.18840-11-zhukeqian1@huawei.com>
+ <20210207095630.GA28580@yi.y.sun>
+ <407d28db-1f86-8d4f-ab15-3c3ac56bbe7f@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <YCJX6QFQ4hsNRrFj@kroah.com>
-X-Originating-IP: [10.40.188.87]
-X-CFilter-Loop: Reflected
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
- Sihang Chen <chensihang1@hisilicon.com>, jgg@ziepe.ca,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andy Lutomirski <luto@amacapital.net>, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- zhangfei.gao@linaro.org, Andrew
- Morton <akpm@linux-foundation.org>, liguozhu@hisilicon.com,
- linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <407d28db-1f86-8d4f-ab15-3c3ac56bbe7f@huawei.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Will Deacon <will@kernel.org>,
+ kvmarm@lists.cs.columbia.edu, Marc Zyngier <maz@kernel.org>,
+ jiangkunkun@huawei.com, wanghaibin.wang@huawei.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Cornelia Huck <cohuck@redhat.com>,
+ linux-kernel@vger.kernel.org, lushenming@huawei.com,
+ iommu@lists.linux-foundation.org, James Morse <james.morse@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,51 +84,57 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMjAyMS8yLzkgMTc6MzcsIEdyZWcgS0ggd3JvdGU6Cj4gT24gVHVlLCBGZWIgMDksIDIwMjEg
-YXQgMDU6MTc6NDZQTSArMDgwMCwgWmhvdSBXYW5nIHdyb3RlOgo+PiBPbiAyMDIxLzIvOCA2OjAy
-LCBBbmR5IEx1dG9taXJza2kgd3JvdGU6Cj4+Pgo+Pj4KPj4+PiBPbiBGZWIgNywgMjAyMSwgYXQg
-MTI6MzEgQU0sIFpob3UgV2FuZyA8d2FuZ3pob3UxQGhpc2lsaWNvbi5jb20+IHdyb3RlOgo+Pj4+
-Cj4+Pj4g77u/U1ZBKHNoYXJlIHZpcnR1YWwgYWRkcmVzcykgb2ZmZXJzIGEgd2F5IGZvciBkZXZp
-Y2UgdG8gc2hhcmUgcHJvY2VzcyB2aXJ0dWFsCj4+Pj4gYWRkcmVzcyBzcGFjZSBzYWZlbHksIHdo
-aWNoIG1ha2VzIG1vcmUgY29udmVuaWVudCBmb3IgdXNlciBzcGFjZSBkZXZpY2UKPj4+PiBkcml2
-ZXIgY29kaW5nLiBIb3dldmVyLCBJTyBwYWdlIGZhdWx0cyBtYXkgaGFwcGVuIHdoZW4gZG9pbmcg
-RE1BCj4+Pj4gb3BlcmF0aW9ucy4gQXMgdGhlIGxhdGVuY3kgb2YgSU8gcGFnZSBmYXVsdCBpcyBy
-ZWxhdGl2ZWx5IGJpZywgRE1BCj4+Pj4gcGVyZm9ybWFuY2Ugd2lsbCBiZSBhZmZlY3RlZCBzZXZl
-cmVseSB3aGVuIHRoZXJlIGFyZSBJTyBwYWdlIGZhdWx0cy4KPj4+PiBGcm9tIGEgbG9uZyB0ZXJt
-IHZpZXcsIERNQSBwZXJmb3JtYW5jZSB3aWxsIGJlIG5vdCBzdGFibGUuCj4+Pj4KPj4+PiBJbiBo
-aWdoLXBlcmZvcm1hbmNlIEkvTyBjYXNlcywgYWNjZWxlcmF0b3JzIG1pZ2h0IHdhbnQgdG8gcGVy
-Zm9ybQo+Pj4+IEkvTyBvbiBhIG1lbW9yeSB3aXRob3V0IElPIHBhZ2UgZmF1bHRzIHdoaWNoIGNh
-biByZXN1bHQgaW4gZHJhbWF0aWNhbGx5Cj4+Pj4gaW5jcmVhc2VkIGxhdGVuY3kuIEN1cnJlbnQg
-bWVtb3J5IHJlbGF0ZWQgQVBJcyBjb3VsZCBub3QgYWNoaWV2ZSB0aGlzCj4+Pj4gcmVxdWlyZW1l
-bnQsIGUuZy4gbWxvY2sgY2FuIG9ubHkgYXZvaWQgbWVtb3J5IHRvIHN3YXAgdG8gYmFja3VwIGRl
-dmljZSwKPj4+PiBwYWdlIG1pZ3JhdGlvbiBjYW4gc3RpbGwgdHJpZ2dlciBJTyBwYWdlIGZhdWx0
-Lgo+Pj4+Cj4+Pj4gVmFyaW91cyBkcml2ZXJzIHdvcmtpbmcgdW5kZXIgdHJhZGl0aW9uYWwgbm9u
-LVNWQSBtb2RlIGFyZSB1c2luZwo+Pj4+IHRoZWlyIG93biBzcGVjaWZpYyBpb2N0bCB0byBkbyBw
-aW4uIFN1Y2ggaW9jdGwgY2FuIGJlIHNlZW4gaW4gdjRsMiwKPj4+PiBncHUsIGluZmluaWJhbmQs
-IG1lZGlhLCB2ZmlvLCBldGMuIERyaXZlcnMgYXJlIHVzdWFsbHkgZG9pbmcgZG1hCj4+Pj4gbWFw
-cGluZyB3aGlsZSBkb2luZyBwaW4uCj4+Pj4KPj4+PiBCdXQsIGluIFNWQSBtb2RlLCBwaW4gY291
-bGQgYmUgYSBjb21tb24gbmVlZCB3aGljaCBpc24ndCBuZWNlc3NhcmlseQo+Pj4+IGJvdW5kIHdp
-dGggYW55IGRyaXZlcnMsIGFuZCBuZWl0aGVyIGlzIGRtYSBtYXBwaW5nIG5lZWRlZCBieSBkcml2
-ZXJzCj4+Pj4gc2luY2UgZGV2aWNlcyBhcmUgdXNpbmcgdGhlIHZpcnR1YWwgYWRkcmVzcyBvZiBD
-UFUuIFRodXMsIEl0IGlzIGJldHRlcgo+Pj4+IHRvIGludHJvZHVjZSBhIG5ldyBjb21tb24gc3lz
-Y2FsbCBmb3IgaXQuCj4+Pj4KPj4+PiBUaGlzIHBhdGNoIGxldmVyYWdlcyB0aGUgZGVzaWduIG9m
-IHVzZXJmYXVsdGZkIGFuZCBhZGRzIG1lbXBpbmZkIGZvciBwaW4KPj4+PiB0byBhdm9pZCBtZXNz
-aW5nIHVwIG1tX3N0cnVjdC4gQSBmZCB3aWxsIGJlIGdvdCBieSBtZW1waW5mZCwgdGhlbiB1c2Vy
-Cj4+Pj4gc3BhY2UgY2FuIGRvIHBpbi91bnBpbiBwYWdlcyBieSBpb2N0bHMgb2YgdGhpcyBmZCwg
-YWxsIHBpbm5lZCBwYWdlcyB1bmRlcgo+Pj4+IG9uZSBmaWxlIHdpbGwgYmUgdW5waW5uZWQgaW4g
-ZmlsZSByZWxlYXNlIHByb2Nlc3MuIExpa2UgcGluIHBhZ2UgY2FzZXMgaW4KPj4+PiBvdGhlciBw
-bGFjZXMsIGNhbl9kb19tbG9jayBpcyB1c2VkIHRvIGNoZWNrIHBlcm1pc3Npb24gYW5kIGlucHV0
-Cj4+Pj4gcGFyYW1ldGVycy4KPj4+Cj4+Pgo+Pj4gQ2FuIHlvdSBkb2N1bWVudCB3aGF0IHRoZSBz
-eXNjYWxsIGRvZXM/Cj4+Cj4+IFdpbGwgYWRkIHJlbGF0ZWQgZG9jdW1lbnQgaW4gRG9jdW1lbnRh
-dGlvbi92bS4KPiAKPiBBIG1hbnBhZ2UgaXMgYWx3YXlzIGdvb2QsIGFuZCB3aWxsIGJlIHJlcXVp
-cmVkIGV2ZW50dWFsbHkgOikKCm1hbnBhZ2UgaXMgbWFpbnRhaW5lZCBpbiBhbm90aGVyIHJlcG8u
-IERvIHlvdSBtZWFuIGFkZCBhIG1hbnBhZ2UKcGF0Y2ggaW4gdGhpcyBzZXJpZXM/CgpCZXN0LApa
-aG91Cgo+IAo+IHRoYW5rcywKPiAKPiBncmVnIGstaAo+IAo+IC4KPiAKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21t
-dUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlv
-bi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On 21-02-07 18:40:36, Keqian Zhu wrote:
+> Hi Yi,
+> 
+> On 2021/2/7 17:56, Yi Sun wrote:
+> > Hi,
+> > 
+> > On 21-01-28 23:17:41, Keqian Zhu wrote:
+> > 
+> > [...]
+> > 
+> >> +static void vfio_dma_dirty_log_start(struct vfio_iommu *iommu,
+> >> +				     struct vfio_dma *dma)
+> >> +{
+> >> +	struct vfio_domain *d;
+> >> +
+> >> +	list_for_each_entry(d, &iommu->domain_list, next) {
+> >> +		/* Go through all domain anyway even if we fail */
+> >> +		iommu_split_block(d->domain, dma->iova, dma->size);
+> >> +	}
+> >> +}
+> > 
+> > This should be a switch to prepare for dirty log start. Per Intel
+> > Vtd spec, there is SLADE defined in Scalable-Mode PASID Table Entry.
+> > It enables Accessed/Dirty Flags in second-level paging entries.
+> > So, a generic iommu interface here is better. For Intel iommu, it
+> > enables SLADE. For ARM, it splits block.
+> Indeed, a generic interface name is better.
+> 
+> The vendor iommu driver plays vendor's specific actions to start dirty log, and Intel iommu and ARM smmu may differ. Besides, we may add more actions in ARM smmu driver in future.
+> 
+> One question: Though I am not familiar with Intel iommu, I think it also should split block mapping besides enable SLADE. Right?
+> 
+I am not familiar with ARM smmu. :) So I want to clarify if the block
+in smmu is big page, e.g. 2M page? Intel Vtd manages the memory per
+page, 4KB/2MB/1GB. There are two ways to manage dirty pages.
+1. Keep default granularity. Just set SLADE to enable the dirty track.
+2. Split big page to 4KB to get finer granularity.
+
+But question about the second solution is if it can benefit the user
+space, e.g. live migration. If my understanding about smmu block (i.e.
+the big page) is correct, have you collected some performance data to
+prove that the split can improve performance? Thanks!
+
+> Thanks,
+> Keqian
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
