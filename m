@@ -1,105 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A72F314BA1
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 10:33:03 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9908D314BD6
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 10:39:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C4CFD6F8A8
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 09:20:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7EBC88625F;
+	Tue,  9 Feb 2021 09:23:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tEmWMnYe5adb for <lists.iommu@lfdr.de>;
-	Tue,  9 Feb 2021 09:20:01 +0000 (UTC)
-Received: by smtp3.osuosl.org (Postfix, from userid 1001)
-	id 7F8026F6EA; Tue,  9 Feb 2021 09:20:01 +0000 (UTC)
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IRmRWkNqt0vz; Tue,  9 Feb 2021 09:23:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 933E56F608;
-	Tue,  9 Feb 2021 09:19:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0766B86226;
+	Tue,  9 Feb 2021 09:23:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DCE8C1834;
-	Tue,  9 Feb 2021 09:19:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7808C013A;
+	Tue,  9 Feb 2021 09:23:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15DD1C013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:19:55 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 98BACC013A
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:23:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0403F850D6
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:19:55 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 803F786226
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:23:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dkkk5ZxIfkmt for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 09:19:54 +0000 (UTC)
+ with ESMTP id e5igkAM4PjCJ for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 09:23:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 58C5A85082
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:19:54 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1199ALen133205;
- Tue, 9 Feb 2021 09:19:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=eAlfirjFPihoK/mVAVic9Bz9nKfTspoU2b002Thx3AM=;
- b=YEOpzUrNhfU54eiph6icmJICKD5YX/bSS/aQx2vG2VNy/Y+oGw8692bvsVrFesi/cNBJ
- +ZfQStgtjYGtYbatqd1sydNzQ+bLgb46Dh1rmrvaQVtS+nE+VQwe3ncX6V6UK6ENz/S1
- +KVR7R3hhXwVqXXup+VRoZXYNBdqtBOL4I13sQ1u8wGjViH0WDLWZ18AfMC+02K3L9KK
- PpJgHCxY2su25D9Hgqb5zIUueQOS5z1JqFLUeyaKwbQrLxrQKKiIAvQpeRJUA+nk+r0e
- IXCDbMH+di0ydphrfDjmOFL3IePLO6QyaaDth4STzDLTr1fGEAeW1nqXcmkLw7E6VeGG MA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 36hgmaeweh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 09 Feb 2021 09:19:38 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1199BNCv091397;
- Tue, 9 Feb 2021 09:19:36 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 36j510y9wm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 09 Feb 2021 09:19:36 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1199JXkl007635;
- Tue, 9 Feb 2021 09:19:34 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 09 Feb 2021 01:19:33 -0800
-Date: Tue, 9 Feb 2021 12:19:23 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH][next] iommu/mediatek: Fix unsigned domid comparison with
- less than zero
-Message-ID: <20210209091923.GO2696@kadam>
-References: <20210203135936.23016-1-colin.king@canonical.com>
- <20210204092558.GA20244@willie-the-truck>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CECE086224
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 09:23:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BF67C64E4F;
+ Tue,  9 Feb 2021 09:23:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1612862595;
+ bh=ZuzO8IlPH7OdvzOuM3hUuPGrV2BGw7BR18s5NWN+cQo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=2IZd9JV5qM4aI8JsCkjZZuIE+UcwO+cZ/8Tzp/xkBac6h1v5ahUFGgLchn6WAvHWP
+ TTpbmG95sCUDlWRidU6dAfH5GDSinRQmdtdG5VZuur1DwcnrvtroT/g4T4IlgJjrY5
+ 7e9KljC+q9VAdsCIo/5dP1dy/Ykm0EgIhSJoAfSo=
+Date: Tue, 9 Feb 2021 10:23:12 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: obayashi.yoshimasa@socionext.com
+Subject: Re: DMA direct mapping fix for 5.4 and earlier stable branches
+Message-ID: <YCJUgKDNVjJ4dUqM@kroah.com>
+References: <CAFA6WYNazCmYN20irLdNV+2vcv5dqR+grvaY-FA7q2WOBMs__g@mail.gmail.com>
+ <YCIym62vHfbG+dWf@kroah.com>
+ <CAFA6WYM+xJ0YDKenWFPMHrTz4gLWatnog84wyk31Xy2dTiT2RA@mail.gmail.com>
+ <YCJCDZGa1Dhqv6Ni@kroah.com>
+ <27bbe35deacb4ca49f31307f4ed551b5@SOC-EX02V.e01.socionext.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210204092558.GA20244@willie-the-truck>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9889
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 spamscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102090045
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9889
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0
- suspectscore=0 mlxscore=0 clxscore=1011 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102090045
-Cc: Anan sun <anan.sun@mediatek.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, Chao Hao <chao.hao@mediatek.com>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Colin King <colin.king@canonical.com>
+In-Reply-To: <27bbe35deacb4ca49f31307f4ed551b5@SOC-EX02V.e01.socionext.com>
+Cc: sumit.garg@linaro.org, daniel.thompson@linaro.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,51 +76,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Feb 04, 2021 at 09:25:58AM +0000, Will Deacon wrote:
-> On Wed, Feb 03, 2021 at 01:59:36PM +0000, Colin King wrote:
-> > From: Colin Ian King <colin.king@canonical.com>
-> > 
-> > Currently the check for domid < 0 is always false because domid
-> > is unsigned.  Fix this by making it signed.
-> > 
-> > Addresses-CoverityL ("Unsigned comparison against 0")
+On Tue, Feb 09, 2021 at 09:05:40AM +0000, obayashi.yoshimasa@socionext.com wrote:
+> > > As the drivers are currently under development and Socionext has
+> > > chosen 5.4 stable kernel for their development. So I will let
+> > > Obayashi-san answer this if it's possible for them to migrate to 5.10
+> > > instead?
 > 
-> Typo here ('L' instead of ':')
+>   We have started this development project from last August, 
+> so we have selected 5.4 as most recent and longest lifetime LTS 
+> version at that time.
 > 
-> > Fixes: ab1d5281a62b ("iommu/mediatek: Add iova reserved function")
-> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> > ---
-> >  drivers/iommu/mtk_iommu.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> > index 0ad14a7604b1..823d719945b2 100644
-> > --- a/drivers/iommu/mtk_iommu.c
-> > +++ b/drivers/iommu/mtk_iommu.c
-> > @@ -640,7 +640,7 @@ static void mtk_iommu_get_resv_regions(struct device *dev,
-> >  				       struct list_head *head)
-> >  {
-> >  	struct mtk_iommu_data *data = dev_iommu_priv_get(dev);
-> > -	unsigned int domid = mtk_iommu_get_domain_id(dev, data->plat_data), i;
-> > +	int domid = mtk_iommu_get_domain_id(dev, data->plat_data), i;
+>   And we have already finished to develop other device drivers, 
+> and Video converter and CODEC drivers are now in development.
 > 
-> Not sure if it's intentional, but this also makes 'i' signed. It probably
-> should remain 'unsigned' to match 'iova_region_nr' in
-> 'struct mtk_iommu_plat_data'.
+> > Why pick a kernel that doesn not support the features they require?
+> > That seems very odd and unwise.
+> 
+>   From the view point of ZeroCopy using DMABUF, is 5.4 not 
+> mature enough, and is 5.10 enough mature ?
+>   This is the most important point for judging migration.
 
+How do you judge "mature"?
 
-iova_region_nr is either 1 or 5 so unsigned doesn't matter.
+And again, if a feature isn't present in a specific kernel version, why
+would you think that it would be a viable solution for you to use?
 
-I once almost introduced a bug where the iterator was supposed to be
-size_t.  I fixed a bug by making it signed but I ended up introducing a
-new bug.  But generally that's pretty rare.  The more common case is
-that making iterators unsigned introduces bugs.
+good luck!
 
-It's better to default to "int i;" and if more complicated types are
-required that should stand out.  "size_t pg_idx;" or whatever.
-
-regards,
-dan carpenter
+greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
