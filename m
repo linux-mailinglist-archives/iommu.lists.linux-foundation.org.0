@@ -2,67 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34806314E91
-	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 13:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7CC314EA7
+	for <lists.iommu@lfdr.de>; Tue,  9 Feb 2021 13:08:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DE4D886227;
-	Tue,  9 Feb 2021 12:02:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C6CE1862C1;
+	Tue,  9 Feb 2021 12:08:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8eNoXIpSFMi2; Tue,  9 Feb 2021 12:02:00 +0000 (UTC)
+	with ESMTP id AE1UBfW5_huG; Tue,  9 Feb 2021 12:08:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 66B25862C1;
-	Tue,  9 Feb 2021 12:02:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9BFE98629C;
+	Tue,  9 Feb 2021 12:08:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 48F5FC013A;
-	Tue,  9 Feb 2021 12:02:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 78243C013A;
+	Tue,  9 Feb 2021 12:08:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 94AF9C013A
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:01:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94C43C013A
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:08:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 90E5C87363
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:01:58 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7CB70872E0
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:08:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 105ugXsL-BaA for <iommu@lists.linux-foundation.org>;
- Tue,  9 Feb 2021 12:01:58 +0000 (UTC)
+ with ESMTP id 7Df6vsKT4G5f for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Feb 2021 12:08:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 02B1F86B80
- for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:01:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2DDC64E16;
- Tue,  9 Feb 2021 12:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612872117;
- bh=KXnFUWkeE3RzAL45lDxdFx/y1wzKceAzbuyX52i4TsI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DOTJHzzs0FAsJ9XZl1aGZ5cH8m8J6FlrUnzLTsv+HQsJPyoVjmCXhXEjUCceVUmNA
- mm29z79OAsLiQ013RWN+KhCvGh3r5fqgAyfLkqw+sPpEldf1l3bGpk7z8NvUTcBD9x
- gD47PEY6W2LOY6R2YitBTaNoniiO/UE5cclIXM40=
-Date: Tue, 9 Feb 2021 13:01:23 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhou Wang <wangzhou1@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory pin
-Message-ID: <YCJ5k/Bxxkg3BNNj@kroah.com>
-References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
- <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
- <YCJX6QFQ4hsNRrFj@kroah.com>
- <f73951ba-84be-b7f8-8c79-db84bc9081f3@hisilicon.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BD76C86BA5
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Feb 2021 12:08:05 +0000 (UTC)
+IronPort-SDR: z347gOit52ZyGhlKsowbhuKWyH7EB/758LtlP+q1gDGll7DgXuE3e5SfS2XN2YyJUo6ga+jRav
+ hU5/buDhBA8g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="266703259"
+X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; d="scan'208";a="266703259"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2021 04:08:05 -0800
+IronPort-SDR: EkElaaO7PCIBA7u/r7+YS4trpQvRbTAKGLXQ9dXFuJaQMYuagqKw+/nG+EKN+fuOkgJwNMxnEj
+ bFzIa3t3AiOA==
+X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; d="scan'208";a="396095446"
+Received: from yisun1-ubuntu.bj.intel.com (HELO yi.y.sun) ([10.238.156.116])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 09 Feb 2021 04:07:59 -0800
+Date: Tue, 9 Feb 2021 20:02:31 +0800
+From: Yi Sun <yi.y.sun@linux.intel.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [RFC PATCH 10/11] vfio/iommu_type1: Optimize dirty bitmap
+ population based on iommu HWDBM
+Message-ID: <20210209120231.GC28580@yi.y.sun>
+References: <20210128151742.18840-1-zhukeqian1@huawei.com>
+ <20210128151742.18840-11-zhukeqian1@huawei.com>
+ <20210207095630.GA28580@yi.y.sun>
+ <8150bd3a-dbb9-2e2b-386b-04e66f4b68dc@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f73951ba-84be-b7f8-8c79-db84bc9081f3@hisilicon.com>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
- Sihang Chen <chensihang1@hisilicon.com>, jgg@ziepe.ca,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andy Lutomirski <luto@amacapital.net>, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- zhangfei.gao@linaro.org, Andrew Morton <akpm@linux-foundation.org>,
- liguozhu@hisilicon.com, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <8150bd3a-dbb9-2e2b-386b-04e66f4b68dc@arm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Mark Rutland <mark.rutland@arm.com>, kevin.tian@intel.com,
+ Cornelia Huck <cohuck@redhat.com>, yan.y.zhao@intel.com, kvm@vger.kernel.org,
+ Will Deacon <will@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, jiangkunkun@huawei.com,
+ Alex Williamson <alex.williamson@redhat.com>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, lushenming@huawei.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, James Morse <james.morse@arm.com>,
+ Marc Zyngier <maz@kernel.org>, wanghaibin.wang@huawei.com,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,54 +82,122 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gVHVlLCBGZWIgMDksIDIwMjEgYXQgMDc6NTg6MTVQTSArMDgwMCwgWmhvdSBXYW5nIHdyb3Rl
-Ogo+IE9uIDIwMjEvMi85IDE3OjM3LCBHcmVnIEtIIHdyb3RlOgo+ID4gT24gVHVlLCBGZWIgMDks
-IDIwMjEgYXQgMDU6MTc6NDZQTSArMDgwMCwgWmhvdSBXYW5nIHdyb3RlOgo+ID4+IE9uIDIwMjEv
-Mi84IDY6MDIsIEFuZHkgTHV0b21pcnNraSB3cm90ZToKPiA+Pj4KPiA+Pj4KPiA+Pj4+IE9uIEZl
-YiA3LCAyMDIxLCBhdCAxMjozMSBBTSwgWmhvdSBXYW5nIDx3YW5nemhvdTFAaGlzaWxpY29uLmNv
-bT4gd3JvdGU6Cj4gPj4+Pgo+ID4+Pj4g77u/U1ZBKHNoYXJlIHZpcnR1YWwgYWRkcmVzcykgb2Zm
-ZXJzIGEgd2F5IGZvciBkZXZpY2UgdG8gc2hhcmUgcHJvY2VzcyB2aXJ0dWFsCj4gPj4+PiBhZGRy
-ZXNzIHNwYWNlIHNhZmVseSwgd2hpY2ggbWFrZXMgbW9yZSBjb252ZW5pZW50IGZvciB1c2VyIHNw
-YWNlIGRldmljZQo+ID4+Pj4gZHJpdmVyIGNvZGluZy4gSG93ZXZlciwgSU8gcGFnZSBmYXVsdHMg
-bWF5IGhhcHBlbiB3aGVuIGRvaW5nIERNQQo+ID4+Pj4gb3BlcmF0aW9ucy4gQXMgdGhlIGxhdGVu
-Y3kgb2YgSU8gcGFnZSBmYXVsdCBpcyByZWxhdGl2ZWx5IGJpZywgRE1BCj4gPj4+PiBwZXJmb3Jt
-YW5jZSB3aWxsIGJlIGFmZmVjdGVkIHNldmVyZWx5IHdoZW4gdGhlcmUgYXJlIElPIHBhZ2UgZmF1
-bHRzLgo+ID4+Pj4gRnJvbSBhIGxvbmcgdGVybSB2aWV3LCBETUEgcGVyZm9ybWFuY2Ugd2lsbCBi
-ZSBub3Qgc3RhYmxlLgo+ID4+Pj4KPiA+Pj4+IEluIGhpZ2gtcGVyZm9ybWFuY2UgSS9PIGNhc2Vz
-LCBhY2NlbGVyYXRvcnMgbWlnaHQgd2FudCB0byBwZXJmb3JtCj4gPj4+PiBJL08gb24gYSBtZW1v
-cnkgd2l0aG91dCBJTyBwYWdlIGZhdWx0cyB3aGljaCBjYW4gcmVzdWx0IGluIGRyYW1hdGljYWxs
-eQo+ID4+Pj4gaW5jcmVhc2VkIGxhdGVuY3kuIEN1cnJlbnQgbWVtb3J5IHJlbGF0ZWQgQVBJcyBj
-b3VsZCBub3QgYWNoaWV2ZSB0aGlzCj4gPj4+PiByZXF1aXJlbWVudCwgZS5nLiBtbG9jayBjYW4g
-b25seSBhdm9pZCBtZW1vcnkgdG8gc3dhcCB0byBiYWNrdXAgZGV2aWNlLAo+ID4+Pj4gcGFnZSBt
-aWdyYXRpb24gY2FuIHN0aWxsIHRyaWdnZXIgSU8gcGFnZSBmYXVsdC4KPiA+Pj4+Cj4gPj4+PiBW
-YXJpb3VzIGRyaXZlcnMgd29ya2luZyB1bmRlciB0cmFkaXRpb25hbCBub24tU1ZBIG1vZGUgYXJl
-IHVzaW5nCj4gPj4+PiB0aGVpciBvd24gc3BlY2lmaWMgaW9jdGwgdG8gZG8gcGluLiBTdWNoIGlv
-Y3RsIGNhbiBiZSBzZWVuIGluIHY0bDIsCj4gPj4+PiBncHUsIGluZmluaWJhbmQsIG1lZGlhLCB2
-ZmlvLCBldGMuIERyaXZlcnMgYXJlIHVzdWFsbHkgZG9pbmcgZG1hCj4gPj4+PiBtYXBwaW5nIHdo
-aWxlIGRvaW5nIHBpbi4KPiA+Pj4+Cj4gPj4+PiBCdXQsIGluIFNWQSBtb2RlLCBwaW4gY291bGQg
-YmUgYSBjb21tb24gbmVlZCB3aGljaCBpc24ndCBuZWNlc3NhcmlseQo+ID4+Pj4gYm91bmQgd2l0
-aCBhbnkgZHJpdmVycywgYW5kIG5laXRoZXIgaXMgZG1hIG1hcHBpbmcgbmVlZGVkIGJ5IGRyaXZl
-cnMKPiA+Pj4+IHNpbmNlIGRldmljZXMgYXJlIHVzaW5nIHRoZSB2aXJ0dWFsIGFkZHJlc3Mgb2Yg
-Q1BVLiBUaHVzLCBJdCBpcyBiZXR0ZXIKPiA+Pj4+IHRvIGludHJvZHVjZSBhIG5ldyBjb21tb24g
-c3lzY2FsbCBmb3IgaXQuCj4gPj4+Pgo+ID4+Pj4gVGhpcyBwYXRjaCBsZXZlcmFnZXMgdGhlIGRl
-c2lnbiBvZiB1c2VyZmF1bHRmZCBhbmQgYWRkcyBtZW1waW5mZCBmb3IgcGluCj4gPj4+PiB0byBh
-dm9pZCBtZXNzaW5nIHVwIG1tX3N0cnVjdC4gQSBmZCB3aWxsIGJlIGdvdCBieSBtZW1waW5mZCwg
-dGhlbiB1c2VyCj4gPj4+PiBzcGFjZSBjYW4gZG8gcGluL3VucGluIHBhZ2VzIGJ5IGlvY3RscyBv
-ZiB0aGlzIGZkLCBhbGwgcGlubmVkIHBhZ2VzIHVuZGVyCj4gPj4+PiBvbmUgZmlsZSB3aWxsIGJl
-IHVucGlubmVkIGluIGZpbGUgcmVsZWFzZSBwcm9jZXNzLiBMaWtlIHBpbiBwYWdlIGNhc2VzIGlu
-Cj4gPj4+PiBvdGhlciBwbGFjZXMsIGNhbl9kb19tbG9jayBpcyB1c2VkIHRvIGNoZWNrIHBlcm1p
-c3Npb24gYW5kIGlucHV0Cj4gPj4+PiBwYXJhbWV0ZXJzLgo+ID4+Pgo+ID4+Pgo+ID4+PiBDYW4g
-eW91IGRvY3VtZW50IHdoYXQgdGhlIHN5c2NhbGwgZG9lcz8KPiA+Pgo+ID4+IFdpbGwgYWRkIHJl
-bGF0ZWQgZG9jdW1lbnQgaW4gRG9jdW1lbnRhdGlvbi92bS4KPiA+IAo+ID4gQSBtYW5wYWdlIGlz
-IGFsd2F5cyBnb29kLCBhbmQgd2lsbCBiZSByZXF1aXJlZCBldmVudHVhbGx5IDopCj4gCj4gbWFu
-cGFnZSBpcyBtYWludGFpbmVkIGluIGFub3RoZXIgcmVwby4gRG8geW91IG1lYW4gYWRkIGEgbWFu
-cGFnZQo+IHBhdGNoIGluIHRoaXMgc2VyaWVzPwoKSXQncyBnb29kIHRvIHNob3cgaG93IGl0IHdp
-bGwgYmUgdXNlZCwgZG9uJ3QgeW91IHRoaW5rPwoKdGhhbmtzLAoKZ3JlZyBrLWgKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0
-CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3Vu
-ZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On 21-02-09 11:16:08, Robin Murphy wrote:
+> On 2021-02-07 09:56, Yi Sun wrote:
+> >Hi,
+> >
+> >On 21-01-28 23:17:41, Keqian Zhu wrote:
+> >
+> >[...]
+> >
+> >>+static void vfio_dma_dirty_log_start(struct vfio_iommu *iommu,
+> >>+				     struct vfio_dma *dma)
+> >>+{
+> >>+	struct vfio_domain *d;
+> >>+
+> >>+	list_for_each_entry(d, &iommu->domain_list, next) {
+> >>+		/* Go through all domain anyway even if we fail */
+> >>+		iommu_split_block(d->domain, dma->iova, dma->size);
+> >>+	}
+> >>+}
+> >
+> >This should be a switch to prepare for dirty log start. Per Intel
+> >Vtd spec, there is SLADE defined in Scalable-Mode PASID Table Entry.
+> >It enables Accessed/Dirty Flags in second-level paging entries.
+> >So, a generic iommu interface here is better. For Intel iommu, it
+> >enables SLADE. For ARM, it splits block.
+> 
+> From a quick look, VT-D's SLADE and SMMU's HTTU appear to be the
+> exact same thing. This step isn't about enabling or disabling that
+> feature itself (the proposal for SMMU is to simply leave HTTU
+> enabled all the time), it's about controlling the granularity at
+> which the dirty status can be detected/reported at all, since that's
+> tied to the pagetable structure.
+> 
+> However, if an IOMMU were to come along with some other way of
+> reporting dirty status that didn't depend on the granularity of
+> individual mappings, then indeed it wouldn't need this operation.
+> 
+Per my thought, we can use these two start/stop interfaces to make
+user space decide when to start/stop the dirty tracking. For Intel
+SLADE, I think we can enable this bit when this start interface is
+called by user space. I don't think leave SLADE enabled all the time
+is necessary for Intel Vt-d. So I suggest a generic interface here.
+Thanks!
+
+> Robin.
+> 
+> >>+
+> >>+static void vfio_dma_dirty_log_stop(struct vfio_iommu *iommu,
+> >>+				    struct vfio_dma *dma)
+> >>+{
+> >>+	struct vfio_domain *d;
+> >>+
+> >>+	list_for_each_entry(d, &iommu->domain_list, next) {
+> >>+		/* Go through all domain anyway even if we fail */
+> >>+		iommu_merge_page(d->domain, dma->iova, dma->size,
+> >>+				 d->prot | dma->prot);
+> >>+	}
+> >>+}
+> >
+> >Same as above comment, a generic interface is required here.
+> >
+> >>+
+> >>+static void vfio_iommu_dirty_log_switch(struct vfio_iommu *iommu, bool start)
+> >>+{
+> >>+	struct rb_node *n;
+> >>+
+> >>+	/* Split and merge even if all iommu don't support HWDBM now */
+> >>+	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
+> >>+		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> >>+
+> >>+		if (!dma->iommu_mapped)
+> >>+			continue;
+> >>+
+> >>+		/* Go through all dma range anyway even if we fail */
+> >>+		if (start)
+> >>+			vfio_dma_dirty_log_start(iommu, dma);
+> >>+		else
+> >>+			vfio_dma_dirty_log_stop(iommu, dma);
+> >>+	}
+> >>+}
+> >>+
+> >>  static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
+> >>  					unsigned long arg)
+> >>  {
+> >>@@ -2812,8 +2900,10 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
+> >>  		pgsize = 1 << __ffs(iommu->pgsize_bitmap);
+> >>  		if (!iommu->dirty_page_tracking) {
+> >>  			ret = vfio_dma_bitmap_alloc_all(iommu, pgsize);
+> >>-			if (!ret)
+> >>+			if (!ret) {
+> >>  				iommu->dirty_page_tracking = true;
+> >>+				vfio_iommu_dirty_log_switch(iommu, true);
+> >>+			}
+> >>  		}
+> >>  		mutex_unlock(&iommu->lock);
+> >>  		return ret;
+> >>@@ -2822,6 +2912,7 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
+> >>  		if (iommu->dirty_page_tracking) {
+> >>  			iommu->dirty_page_tracking = false;
+> >>  			vfio_dma_bitmap_free_all(iommu);
+> >>+			vfio_iommu_dirty_log_switch(iommu, false);
+> >>  		}
+> >>  		mutex_unlock(&iommu->lock);
+> >>  		return 0;
+> >>-- 
+> >>2.19.1
+> >_______________________________________________
+> >iommu mailing list
+> >iommu@lists.linux-foundation.org
+> >https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> >
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
