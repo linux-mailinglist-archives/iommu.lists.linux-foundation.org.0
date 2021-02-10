@@ -1,61 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F584316199
-	for <lists.iommu@lfdr.de>; Wed, 10 Feb 2021 09:57:42 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF593162E5
+	for <lists.iommu@lfdr.de>; Wed, 10 Feb 2021 10:56:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 936536F4C5
-	for <lists.iommu@lfdr.de>; Wed, 10 Feb 2021 08:57:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9BDC4857CB;
+	Wed, 10 Feb 2021 09:56:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iJGxLTXxn925 for <lists.iommu@lfdr.de>;
-	Wed, 10 Feb 2021 08:57:39 +0000 (UTC)
-Received: by smtp3.osuosl.org (Postfix, from userid 1001)
-	id A0AB36F515; Wed, 10 Feb 2021 08:57:39 +0000 (UTC)
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bZa01Su_pN-O; Wed, 10 Feb 2021 09:56:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C32296F4C5;
-	Wed, 10 Feb 2021 08:57:33 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2BD1784F61;
+	Wed, 10 Feb 2021 09:56:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 868C5C013A;
-	Wed, 10 Feb 2021 08:57:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1080C1DA9;
+	Wed, 10 Feb 2021 09:56:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1CE83C013A
- for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 08:57:32 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 04D61C013A
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 09:56:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E2BA66F4B9
- for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 08:57:31 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id E77746F499
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 09:56:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dj0XXrTjas_m for <iommu@lists.linux-foundation.org>;
- Wed, 10 Feb 2021 08:57:31 +0000 (UTC)
+ with ESMTP id 1xJWgPRYicP9 for <iommu@lists.linux-foundation.org>;
+ Wed, 10 Feb 2021 09:56:54 +0000 (UTC)
 Received: by smtp3.osuosl.org (Postfix, from userid 1001)
- id 50FEF6F4E9; Wed, 10 Feb 2021 08:57:31 +0000 (UTC)
+ id 379DA6F4A4; Wed, 10 Feb 2021 09:56:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C52AE6F4B9
- for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 08:57:29 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 37B6B6736F; Wed, 10 Feb 2021 09:57:25 +0100 (CET)
-Date: Wed, 10 Feb 2021 09:57:24 +0100
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F07546F499
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 09:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=BrUYSTaTW1e8xfs22Uv2txfuMyOzowe0x7y8KWioAkI=; b=objhhjPX/Ddcl19rnluY4m3wtU
+ s1nu7oXVypTcGWPEhqSLqA2ftEA5iw4zbHgl7M8BxmplY9sUVubNj2iYzimdWnt2zYYsCwhkPR96O
+ NOyj4Jzbp+11KAFQi1lGSqrfw1FDpKGwX9jVggi9UZ6zFfoJKQGeRIEKGjXDpUHsNutenkaIth/Jk
+ AW9WvvrjCIGx9QzdFdJ22hY3idFBCr2AEl9iBHwJqJCwAr5K1Q3UKUxHqK4d/2NOA/IqGX/PWGsvB
+ wEz8RYWS52Q5lWApiySaofRWOhaB5If/ixDGOCetc4cgB/QPWTuyoujq3KYrsqVOY69rIZ+Mc7bUC
+ F7q7az8g==;
+Received: from [2001:4bb8:184:7d04:5e70:671e:7b3:191] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1l9mEl-008g47-L1; Wed, 10 Feb 2021 09:56:44 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: Re: [PATCH 4/6] MIPS: refactor the maybe coherent DMA indicators
-Message-ID: <20210210085724.GA24610@lst.de>
-References: <20210208145024.3320420-1-hch@lst.de>
- <20210208145024.3320420-5-hch@lst.de>
- <20210209131237.GB11915@alpha.franken.de>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: MIPS noncoherent DMA cleanups v2
+Date: Wed, 10 Feb 2021 10:56:35 +0100
+Message-Id: <20210210095641.23856-1-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210209131237.GB11915@alpha.franken.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: iommu@lists.linux-foundation.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,24 +78,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 09, 2021 at 02:12:37PM +0100, Thomas Bogendoerfer wrote:
-> > +#ifdef CONFIG_DMA_MAYBE_COHERENT
-> > +extern bool dma_default_coherent;
-> >  static inline bool dev_is_dma_coherent(struct device *dev)
-> >  {
-> > -	return coherentio == IO_COHERENCE_ENABLED ||
-> > -		(coherentio == IO_COHERENCE_DEFAULT && hw_coherentio);
-> > +	return dma_default_coherent;
-> 
-> this breaks overriding of coherentio via command line. plat_mem_setup/
-> plat_setup_iocoherency is called before earlyparams are handled. So
-> changing coherentio after that doesn't have any effect.
+Hi Thomas,
 
-Hmm.  In that case a manual override does actually work for alchemy,
-as that initializes coherentio from plat_mem_setup().  But the
-elaborate sanity checking that malta performs in plat_setup_iocoherency
-is rather pointless then, as coherentio will always be set to
-IO_COHERENCE_DISABLED at this point.
+this series cleans up some of the mips (maybe) noncoherent support.
+It also remove the need for the special <asm/dma-coherence.h> header only
+provided by mips.
+
+Changes since v1:
+ - fix a bisection issue due to a missing brace
+ - simplify the parameter parsing given that it happens after
+   plat_mem_init
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
