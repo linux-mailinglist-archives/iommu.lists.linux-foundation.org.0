@@ -1,66 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC8F3162EF
-	for <lists.iommu@lfdr.de>; Wed, 10 Feb 2021 10:57:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8E7B78722F;
-	Wed, 10 Feb 2021 09:57:20 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lbvvRYZLHutc; Wed, 10 Feb 2021 09:57:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2FA0A87230;
-	Wed, 10 Feb 2021 09:57:20 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B67DC0891;
-	Wed, 10 Feb 2021 09:57:20 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BEBEEC0891
- for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 09:57:18 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070C9316431
+	for <lists.iommu@lfdr.de>; Wed, 10 Feb 2021 11:47:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id ACEB38672F
- for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 09:57:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AAA7E866F3;
+	Wed, 10 Feb 2021 10:47:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4hgTi5sz-nmT; Wed, 10 Feb 2021 10:47:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2C2CA86734;
+	Wed, 10 Feb 2021 10:47:32 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 21816C013A;
+	Wed, 10 Feb 2021 10:47:32 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A4F3C013A
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 10:47:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 07D16861B2
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 10:47:30 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BLBn8zXjnyln for <iommu@lists.linux-foundation.org>;
- Wed, 10 Feb 2021 09:57:18 +0000 (UTC)
+ with ESMTP id kUs2lYlCaRfc for <iommu@lists.linux-foundation.org>;
+ Wed, 10 Feb 2021 10:47:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by whitealder.osuosl.org (Postfix) with ESMTPS id E6E5A86730
- for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 09:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=YKTLEno4BoA1uPNMvgxx9dNuxXxSTmmhndwcXjQkrV4=; b=QvU3B3H4RDAcSNbKxreIM/Nr2Q
- rINm9XHMOmzWqNGXWuaWXlZi2agPamfUhuRvESci2niE2s7ucyAxICbMghzEP0uXllV/8TgR6QSuI
- OSQWGWlyQpRdyUFkCgsKZtkFr4CATjHpCbTxxW492l0tjxG917oQSXVrPh6uuMeA4XdU62HtaEh/C
- lH/IEpNVg3r5yyM7/PRpj6U8DSc57FZRY/joYX5ZmsZX+RNFsbnrERSHBJbaExBd9XZg3qCsKbeOd
- Oc2+Ow9eu063j8/76xXN7zKFH/SzMzUAIPzlskPSjJb28IwLsAIZ7GpjU0wMwRFNiMuggLn1wg946
- 7hpObaoQ==;
-Received: from [2001:4bb8:184:7d04:5e70:671e:7b3:191] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1l9mF9-008g5d-Ea; Wed, 10 Feb 2021 09:57:09 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 6/6] MIPS: remove CONFIG_DMA_PERDEV_COHERENT
-Date: Wed, 10 Feb 2021 10:56:41 +0100
-Message-Id: <20210210095641.23856-7-hch@lst.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210210095641.23856-1-hch@lst.de>
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7539485FA2
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Feb 2021 10:47:28 +0000 (UTC)
+Received: from uucp (helo=alpha)
+ by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+ id 1l9n1q-00079N-00; Wed, 10 Feb 2021 11:47:26 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+ id 4361AC0E24; Wed, 10 Feb 2021 11:46:51 +0100 (CET)
+Date: Wed, 10 Feb 2021 11:46:51 +0100
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: MIPS noncoherent DMA cleanups v2
+Message-ID: <20210210104651.GA11540@alpha.franken.de>
 References: <20210210095641.23856-1-hch@lst.de>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: iommu@lists.linux-foundation.org, Huacai Chen <chenhuacai@kernel.org>,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20210210095641.23856-1-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ iommu@lists.linux-foundation.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,53 +69,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Just select DMA_NONCOHERENT and ARCH_HAS_SETUP_DMA_OPS from the
-MIPS_GENERIC platform instead.
+On Wed, Feb 10, 2021 at 10:56:35AM +0100, Christoph Hellwig wrote:
+> Hi Thomas,
+> 
+> this series cleans up some of the mips (maybe) noncoherent support.
+> It also remove the need for the special <asm/dma-coherence.h> header only
+> provided by mips.
+> 
+> Changes since v1:
+>  - fix a bisection issue due to a missing brace
+>  - simplify the parameter parsing given that it happens after
+>    plat_mem_init
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
----
- arch/mips/Kconfig              | 3 ++-
- arch/mips/mm/dma-noncoherent.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+LGTM and passed all tests I did so far. I'll give it a few days for
+others to look at and apply it to mips-next for 5.12.
 
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index 1f1603a08a6d2d..32a693d033adfd 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -123,6 +123,7 @@ choice
- 
- config MIPS_GENERIC_KERNEL
- 	bool "Generic board-agnostic MIPS kernel"
-+	select ARCH_HAS_SETUP_DMA_OPS
- 	select MIPS_GENERIC
- 	select BOOT_RAW
- 	select BUILTIN_DTB
-@@ -132,7 +133,7 @@ config MIPS_GENERIC_KERNEL
- 	select CPU_MIPSR2_IRQ_EI
- 	select CPU_MIPSR2_IRQ_VI
- 	select CSRC_R4K
--	select DMA_PERDEV_COHERENT
-+	select DMA_NONCOHERENT
- 	select HAVE_PCI
- 	select IRQ_MIPS_CPU
- 	select MIPS_AUTO_PFN_OFFSET
-diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
-index 90b562753eb892..212f3ce75a6bd3 100644
---- a/arch/mips/mm/dma-noncoherent.c
-+++ b/arch/mips/mm/dma-noncoherent.c
-@@ -135,7 +135,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- }
- #endif
- 
--#ifdef CONFIG_DMA_PERDEV_COHERENT
-+#ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
- void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 		const struct iommu_ops *iommu, bool coherent)
- {
+Thomas.
+
 -- 
-2.29.2
-
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
