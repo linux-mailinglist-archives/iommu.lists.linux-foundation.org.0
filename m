@@ -2,84 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1589331912D
-	for <lists.iommu@lfdr.de>; Thu, 11 Feb 2021 18:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930A1319A12
+	for <lists.iommu@lfdr.de>; Fri, 12 Feb 2021 08:02:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 96D97873E6;
-	Thu, 11 Feb 2021 17:36:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D7A1587488;
+	Fri, 12 Feb 2021 07:02:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aNRQofqkRUoT; Thu, 11 Feb 2021 17:36:23 +0000 (UTC)
+	with ESMTP id V6FlwLk5JmB1; Fri, 12 Feb 2021 07:02:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 147AF873EC;
-	Thu, 11 Feb 2021 17:36:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E6227874C1;
+	Fri, 12 Feb 2021 07:02:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F236DC0891;
-	Thu, 11 Feb 2021 17:36:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C3F73C013A;
+	Fri, 12 Feb 2021 07:02:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6820BC013A
- for <iommu@lists.linux-foundation.org>; Thu, 11 Feb 2021 17:36:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86274C013A
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Feb 2021 07:02:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4932C6F5CB
- for <iommu@lists.linux-foundation.org>; Thu, 11 Feb 2021 17:36:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6A8A487488
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Feb 2021 07:02:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FmwE1s_-GZnG for <iommu@lists.linux-foundation.org>;
- Thu, 11 Feb 2021 17:36:20 +0000 (UTC)
-Received: by smtp3.osuosl.org (Postfix, from userid 1001)
- id 405E26F55A; Thu, 11 Feb 2021 17:36:20 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9748B6F4F9
- for <iommu@lists.linux-foundation.org>; Thu, 11 Feb 2021 17:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613064977;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iI21Pcg7YQSwB2wQEIgSvnGnSK7Kb/kyFlXapjRwTPg=;
- b=aew6FnNiuNlpfXIDinakJ3EqPcCtFYpEF3MUUUhMa7N9DdNdlhTpYNue+8M0pIHjdJo++X
- hYHErRm6A9KGPu3qOJ8GpHKPAJgLdQGXhtCdF6Umijko0fcO43WuNlhm7SaxBJwIBNETUj
- w7aL1VGAP6TUkTvrefYCL08nTJQly8U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-Gj4ll3mqPfG2iEePjc3b1g-1; Thu, 11 Feb 2021 12:36:13 -0500
-X-MC-Unique: Gj4ll3mqPfG2iEePjc3b1g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 132CC803F48;
- Thu, 11 Feb 2021 17:36:10 +0000 (UTC)
-Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 298E85C1BD;
- Thu, 11 Feb 2021 17:36:02 +0000 (UTC)
-Subject: Re: [PATCH v13 05/15] iommu/smmuv3: Get prepared for nested stage
- support
-To: Keqian Zhu <zhukeqian1@huawei.com>, eric.auger.pro@gmail.com,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, will@kernel.org,
- joro@8bytes.org, maz@kernel.org, robin.murphy@arm.com,
- alex.williamson@redhat.com
-References: <20201118112151.25412-1-eric.auger@redhat.com>
- <20201118112151.25412-6-eric.auger@redhat.com>
- <118a047b-91f4-3c84-867f-6c0b89f9011e@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <0d949aef-6719-2ef4-f1cd-f323b4d4130b@redhat.com>
-Date: Thu, 11 Feb 2021 18:36:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from hemlock.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GdVEWAPGYe56 for <iommu@lists.linux-foundation.org>;
+ Fri, 12 Feb 2021 07:02:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2B12B8748B
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Feb 2021 07:02:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D507113E;
+ Thu, 11 Feb 2021 23:02:32 -0800 (PST)
+Received: from [192.168.0.130] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 313123F73D;
+ Thu, 11 Feb 2021 23:02:27 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH 0/3] mm/page_alloc: Fix pageblock_order with
+ HUGETLB_PAGE_SIZE_VARIABLE
+To: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
+ linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
+ akpm@linux-foundation.org, will@kernel.org
+References: <1613024531-19040-1-git-send-email-anshuman.khandual@arm.com>
+ <683c812a-ce3d-ef74-10d1-eaf8a3ae93d4@redhat.com>
+Message-ID: <fb562021-9981-4434-cc4a-e813a7752adb@arm.com>
+Date: Fri, 12 Feb 2021 12:32:56 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <118a047b-91f4-3c84-867f-6c0b89f9011e@huawei.com>
+In-Reply-To: <683c812a-ce3d-ef74-10d1-eaf8a3ae93d4@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Cc: jean-philippe@linaro.org, vivek.gautam@arm.com, zhangfei.gao@linaro.org
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,159 +70,91 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Keqian,
-
-On 2/2/21 8:14 AM, Keqian Zhu wrote:
-> Hi Eric,
-> 
-> On 2020/11/18 19:21, Eric Auger wrote:
->> When nested stage translation is setup, both s1_cfg and
->> s2_cfg are set.
->>
->> We introduce a new smmu domain abort field that will be set
->> upon guest stage1 configuration passing.
->>
->> arm_smmu_write_strtab_ent() is modified to write both stage
->> fields in the STE and deal with the abort field.
->>
->> In nested mode, only stage 2 is "finalized" as the host does
->> not own/configure the stage 1 context descriptor; guest does.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->> v10 -> v11:
->> - Fix an issue reported by Shameer when switching from with vSMMU
->>   to without vSMMU. Despite the spec does not seem to mention it
->>   seems to be needed to reset the 2 high 64b when switching from
->>   S1+S2 cfg to S1 only. Especially dst[3] needs to be reset (S2TTB).
->>   On some implementations, if the S2TTB is not reset, this causes
->>   a C_BAD_STE error
->> ---
->>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 64 +++++++++++++++++----
->>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  2 +
->>  2 files changed, 56 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
->> index 18ac5af1b284..412ea1bafa50 100644
->> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
->> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
->> @@ -1181,8 +1181,10 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
->>  	 * three cases at the moment:
->>  	 *
->>  	 * 1. Invalid (all zero) -> bypass/fault (init)
->> -	 * 2. Bypass/fault -> translation/bypass (attach)
->> -	 * 3. Translation/bypass -> bypass/fault (detach)
->> +	 * 2. Bypass/fault -> single stage translation/bypass (attach)
->> +	 * 3. Single or nested stage Translation/bypass -> bypass/fault (detach)
->> +	 * 4. S2 -> S1 + S2 (attach_pasid_table)
->> +	 * 5. S1 + S2 -> S2 (detach_pasid_table)
-> 
-> The following line "BUG_ON(ste_live && !nested);" forbids this transform.
-
-Yes as pointed out by Kunkun, there is always an abort in-between. I
-will restore the original comment.
-
-> And I have a look at the 6th patch, the transform seems S1 + S2 -> abort.
-> So after detach, the status is not the same as that before attach. Does it
-> match our expectation?
-
-Indeed at detach time I think I should reset the abort() flag as this
-latter is not imposed anymore by the guest.
-
-Thanks!
-
-Eric
-
-
-> 
->>  	 *
->>  	 * Given that we can't update the STE atomically and the SMMU
->>  	 * doesn't read the thing in a defined order, that leaves us
->> @@ -1193,7 +1195,8 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
->>  	 * 3. Update Config, sync
->>  	 */
->>  	u64 val = le64_to_cpu(dst[0]);
->> -	bool ste_live = false;
->> +	bool s1_live = false, s2_live = false, ste_live;
->> +	bool abort, nested = false, translate = false;
->>  	struct arm_smmu_device *smmu = NULL;
->>  	struct arm_smmu_s1_cfg *s1_cfg;
->>  	struct arm_smmu_s2_cfg *s2_cfg;
->> @@ -1233,6 +1236,8 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
->>  		default:
->>  			break;
->>  		}
->> +		nested = s1_cfg->set && s2_cfg->set;
->> +		translate = s1_cfg->set || s2_cfg->set;
->>  	}
->>  
->>  	if (val & STRTAB_STE_0_V) {
->> @@ -1240,23 +1245,36 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
->>  		case STRTAB_STE_0_CFG_BYPASS:
->>  			break;
->>  		case STRTAB_STE_0_CFG_S1_TRANS:
->> +			s1_live = true;
->> +			break;
->>  		case STRTAB_STE_0_CFG_S2_TRANS:
->> -			ste_live = true;
->> +			s2_live = true;
->> +			break;
->> +		case STRTAB_STE_0_CFG_NESTED:
->> +			s1_live = true;
->> +			s2_live = true;
->>  			break;
->>  		case STRTAB_STE_0_CFG_ABORT:
->> -			BUG_ON(!disable_bypass);
->>  			break;
->>  		default:
->>  			BUG(); /* STE corruption */
->>  		}
->>  	}
->>  
->> +	ste_live = s1_live || s2_live;
->> +
->>  	/* Nuke the existing STE_0 value, as we're going to rewrite it */
->>  	val = STRTAB_STE_0_V;
->>  
->>  	/* Bypass/fault */
->> -	if (!smmu_domain || !(s1_cfg->set || s2_cfg->set)) {
->> -		if (!smmu_domain && disable_bypass)
->> +
->> +	if (!smmu_domain)
->> +		abort = disable_bypass;
->> +	else
->> +		abort = smmu_domain->abort;
->> +
->> +	if (abort || !translate) {
->> +		if (abort)
->>  			val |= FIELD_PREP(STRTAB_STE_0_CFG, STRTAB_STE_0_CFG_ABORT);
->>  		else
->>  			val |= FIELD_PREP(STRTAB_STE_0_CFG, STRTAB_STE_0_CFG_BYPASS);
->> @@ -1274,8 +1292,16 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
->>  		return;
->>  	}
->>  
->> +	BUG_ON(ste_live && !nested);
->> +
->> +	if (ste_live) {
->> +		/* First invalidate the live STE */
->> +		dst[0] = cpu_to_le64(STRTAB_STE_0_CFG_ABORT);
->> +		arm_smmu_sync_ste_for_sid(smmu, sid);
->> +	}
->> +
-> [...]
-> 
-> Thanks,
-> Keqian
-> 
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+Ck9uIDIvMTEvMjEgMjowNyBQTSwgRGF2aWQgSGlsZGVuYnJhbmQgd3JvdGU6Cj4gT24gMTEuMDIu
+MjEgMDc6MjIsIEFuc2h1bWFuIEtoYW5kdWFsIHdyb3RlOgo+PiBUaGUgZm9sbG93aW5nIHdhcm5p
+bmcgZ2V0cyB0cmlnZ2VyZWQgd2hpbGUgdHJ5aW5nIHRvIGJvb3QgYSA2NEsgcGFnZSBzaXplCj4+
+IHdpdGhvdXQgVEhQIGNvbmZpZyBrZXJuZWwgb24gYXJtNjQgcGxhdGZvcm0uCj4+Cj4+IFdBUk5J
+Tkc6IENQVTogNSBQSUQ6IDEyNCBhdCBtbS92bXN0YXQuYzoxMDgwIF9fZnJhZ21lbnRhdGlvbl9p
+bmRleCsweGE0LzB4YzAKPj4gTW9kdWxlcyBsaW5rZWQgaW46Cj4+IENQVTogNSBQSUQ6IDEyNCBD
+b21tOiBrc3dhcGQwIE5vdCB0YWludGVkIDUuMTEuMC1yYzYtMDAwMDQtZ2EwZWE3ZDYyMDAyICMx
+NTkKPj4gSGFyZHdhcmUgbmFtZTogbGludXgsZHVtbXktdmlydCAoRFQpCj4+IFvCoMKgwqAgOC44
+MTA2NzNdIHBzdGF0ZTogMjA0MDAwMDUgKG56Q3YgZGFpZiArUEFOIC1VQU8gLVRDTyBCVFlQRT0t
+LSkKPj4gW8KgwqDCoCA4LjgxMTczMl0gcGMgOiBfX2ZyYWdtZW50YXRpb25faW5kZXgrMHhhNC8w
+eGMwCj4+IFvCoMKgwqAgOC44MTI1NTVdIGxyIDogZnJhZ21lbnRhdGlvbl9pbmRleCsweGY4LzB4
+MTM4Cj4+IFvCoMKgwqAgOC44MTMzNjBdIHNwIDogZmZmZjAwMDA4NjQwNzliMAo+PiBbwqDCoMKg
+IDguODEzOTU4XSB4Mjk6IGZmZmYwMDAwODY0MDc5YjAgeDI4OiAwMDAwMDAwMDAwMDAwMzcyCj4+
+IFvCoMKgwqAgOC44MTQ5MDFdIHgyNzogMDAwMDAwMDAwMDAwNzY4MiB4MjY6IGZmZmY4MDAwMTM1
+YjM5NDgKPj4gW8KgwqDCoCA4LjgxNTg0N10geDI1OiAxZmZmZTAwMDEwYzgwZjQ4IHgyNDogMDAw
+MDAwMDAwMDAwMDAwMAo+PiBbwqDCoMKgIDguODE2ODA1XSB4MjM6IDAwMDAwMDAwMDAwMDAwMDAg
+eDIyOiAwMDAwMDAwMDAwMDAwMDBkCj4+IFvCoMKgwqAgOC44MTc3NjRdIHgyMTogMDAwMDAwMDAw
+MDAwMDAzMCB4MjA6IGZmZmYwMDA1ZmZjYjRkNTgKPj4gW8KgwqDCoCA4LjgxODcxMl0geDE5OiAw
+MDAwMDAwMDAwMDAwMDBiIHgxODogMDAwMDAwMDAwMDAwMDAwMAo+PiBbwqDCoMKgIDguODE5NjU2
+XSB4MTc6IDAwMDAwMDAwMDAwMDAwMDAgeDE2OiAwMDAwMDAwMDAwMDAwMDAwCj4+IFvCoMKgwqAg
+OC44MjA2MTNdIHgxNTogMDAwMDAwMDAwMDAwMDAwMCB4MTQ6IGZmZmY4MDAwMTE0YzYyNTgKPj4g
+W8KgwqDCoCA4LjgyMTU2MF0geDEzOiBmZmZmNjAwMGJmZjk2OWJhIHgxMjogMWZmZmUwMDBiZmY5
+NjliOQo+PiBbwqDCoMKgIDguODIyNTE0XSB4MTE6IDFmZmZlMDAwYmZmOTY5YjkgeDEwOiBmZmZm
+NjAwMGJmZjk2OWI5Cj4+IFvCoMKgwqAgOC44MjM0NjFdIHg5IDogZGZmZjgwMDAwMDAwMDAwMCB4
+OCA6IGZmZmYwMDA1ZmZjYjRkY2YKPj4gW8KgwqDCoCA4LjgyNDQxNV0geDcgOiAwMDAwMDAwMDAw
+MDAwMDAxIHg2IDogMDAwMDAwMDA0MWI1OGFiMwo+PiBbwqDCoMKgIDguODI1MzU5XSB4NSA6IGZm
+ZmY2MDAwMTBjODBmNDggeDQgOiBkZmZmODAwMDAwMDAwMDAwCj4+IFvCoMKgwqAgOC44MjYzMTNd
+IHgzIDogZmZmZjgwMDAxMDJiZTY3MCB4MiA6IDAwMDAwMDAwMDAwMDAwMDcKPj4gW8KgwqDCoCA4
+LjgyNzI1OV0geDEgOiBmZmZmMDAwMDg2NDA3YTYwIHgwIDogMDAwMDAwMDAwMDAwMDAwZAo+PiBb
+wqDCoMKgIDguODI4MjE4XSBDYWxsIHRyYWNlOgo+PiBbwqDCoMKgIDguODI4NjY3XcKgIF9fZnJh
+Z21lbnRhdGlvbl9pbmRleCsweGE0LzB4YzAKPj4gW8KgwqDCoCA4LjgyOTQzNl3CoCBmcmFnbWVu
+dGF0aW9uX2luZGV4KzB4ZjgvMHgxMzgKPj4gW8KgwqDCoCA4LjgzMDE5NF3CoCBjb21wYWN0aW9u
+X3N1aXRhYmxlKzB4OTgvMHhiOAo+PiBbwqDCoMKgIDguODMwOTM0XcKgIHdha2V1cF9rY29tcGFj
+dGQrMHhkYy8weDEyOAo+PiBbwqDCoMKgIDguODMxNjQwXcKgIGJhbGFuY2VfcGdkYXQrMHg3MWMv
+MHg3YTAKPj4gW8KgwqDCoCA4LjgzMjMyN13CoCBrc3dhcGQrMHgzMWMvMHg1MjAKPj4gW8KgwqDC
+oCA4LjgzMjkwMl3CoCBrdGhyZWFkKzB4MjI0LzB4MjMwCj4+IFvCoMKgwqAgOC44MzM0OTFdwqAg
+cmV0X2Zyb21fZm9yaysweDEwLzB4MzAKPj4gW8KgwqDCoCA4LjgzNDE1MF0gLS0tWyBlbmQgdHJh
+Y2UgNDcyODM2Zjc5YzE1NTE2YiBdLS0tCj4+Cj4+IFRoaXMgd2FybmluZyBjb21lcyBmcm9tIF9f
+ZnJhZ21lbnRhdGlvbl9pbmRleCgpIHdoZW4gdGhlIHJlcXVlc3RlZCBvcmRlcgo+PiBpcyBncmVh
+dGVyIHRoYW4gTUFYX09SREVSLgo+Pgo+PiBzdGF0aWMgaW50IF9fZnJhZ21lbnRhdGlvbl9pbmRl
+eCh1bnNpZ25lZCBpbnQgb3JkZXIsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHN0cnVjdCBjb250aWdfcGFnZV9pbmZvICppbmZvKQo+PiB7Cj4+IMKgwqDCoMKgwqDCoMKgwqAg
+dW5zaWduZWQgbG9uZyByZXF1ZXN0ZWQgPSAxVUwgPDwgb3JkZXI7Cj4+Cj4+IMKgwqDCoMKgwqDC
+oMKgwqAgaWYgKFdBUk5fT05fT05DRShvcmRlciA+PSBNQVhfT1JERVIpKSA8PT09PT0gVHJpZ2dl
+cmVkIGhlcmUKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7Cj4+
+Cj4+IERpZ2dpbmcgaXQgZnVydGhlciByZXZlYWxzIHRoYXQgcGFnZWJsb2NrX29yZGVyIGhhcyBi
+ZWVuIGFzc2lnbmVkIGEgdmFsdWUKPj4gd2hpY2ggaXMgZ3JlYXRlciB0aGFuIE1BWF9PUkRFUiBm
+YWlsaW5nIHRoZSBhYm92ZSBjaGVjay4gQnV0IHdoeSB0aGlzCj4+IGhhcHBlbmVkID8gQmVjYXVz
+ZSBIVUdFVExCX1BBR0VfT1JERVIgZm9yIHRoZSBnaXZlbiBjb25maWcgb24gYXJtNjQgaXMKPj4g
+Z3JlYXRlciB0aGFuIE1BWF9PUkRFUi4KPj4KPj4gVGhlIHNvbHV0aW9uIGludm9sdmVzIGVuYWJs
+aW5nIEhVR0VUTEJfUEFHRV9TSVpFX1ZBUklBQkxFIHdoaWNoIHdvdWxkIG1ha2UKPj4gcGFnZWJs
+b2NrX29yZGVyIGEgdmFyaWFibGUgaW5zdGVhZCBvZiBjb25zdGFudCBIVUdFVExCX1BBR0VfT1JE
+RVIuIEJ1dCB0aGF0Cj4+IGNoYW5nZSBhbG9uZSBhbHNvIGRpZCBub3QgcmVhbGx5IHdvcmsgYXMg
+cGFnZWJsb2NrX29yZGVyIHN0aWxsIGdvdCBhc3NpZ25lZAo+PiBhcyBIVUdFVExCX1BBR0VfT1JE
+RVIgaW4gc2V0X3BhZ2VibG9ja19vcmRlcigpLiBIVUdFVExCX1BBR0VfT1JERVIgbmVlZHMgdG8K
+Pj4gYmUgbGVzcyB0aGFuIE1BWF9PUkRFUiBmb3IgaXRzIGFwcHJvcHJpYXRlbmVzcyBhcyBwYWdl
+YmxvY2tfb3JkZXIgb3RoZXJ3aXNlCj4+IGp1c3QgZmFsbGJhY2sgdG8gTUFYX09SREVSIC0gMSBh
+cyBiZWZvcmUuIFdoaWxlIGhlcmUgaXQgYWxzbyBmaXhlcyBhIGJ1aWxkCj4+IHByb2JsZW0gdmlh
+IHR5cGUgY2FzdGluZyBNQVhfT1JERVIgaW4gcm1lbV9jbWFfc2V0dXAoKS4KPiAKPiBJJ20gd29u
+ZGVyaW5nLCBpcyB0aGVyZSBhbnkgcmVhbCB2YWx1ZSBpbiBhbGxvd2luZyBGT1JDRV9NQVhfWk9O
+RU9SREVSIHRvIGJlICIxMSIgd2l0aCBBUk02NF82NEtfUEFHRVMvQVJNNjRfMTZLX1BBR0VTPwoK
+TUFYX09SREVSIHNob3VsZCBiZSBhcyBoaWdoIGFzIHdvdWxkIGJlIHJlcXVpcmVkIGZvciB0aGUg
+Y3VycmVudCBjb25maWcuClVubGVzcyBUSFAgaXMgZW5hYmxlZCwgdGhlcmUgaXMgbm8gbmVlZCBm
+b3IgaXQgdG8gYmUgYW55IGhpZ2hlciB0aGFuIDExLgpCdXQgSSBtaWdodCBiZSBtaXNzaW5nIGhp
+c3RvcmljYWwgcmVhc29ucyBhcm91bmQgdGhpcyBhcyB3ZWxsLiBQcm9iYWJseQpvdGhlcnMgZnJv
+bSBhcm02NCBjb3VsZCBoZWxwIGhlcmUuCgo+IAo+IE1lYW5pbmc6IGFyZSB0aGVyZSBhbnkgcmVh
+bCB1c2UgY2FzZXMgdGhhdCBhY3R1YWxseSBidWlsZCBhIGtlcm5lbCB3aXRob3V0IFRSQU5TUEFS
+RU5UX0hVR0VQQUdFIGFuZCB3aXRoIEFSTTY0XzY0S19QQUdFUy9BUk02NF8xNktfUEFHRVM/CgpU
+SFAgaXMgYWx3YXlzIG9wdGlvbmFsLiBCZXNpZGVzIGtlcm5lbCBidWlsZHMgd2l0aG91dCBUSFAg
+c2hvdWxkIGFsd2F5cwpiZSBzdXBwb3J0ZWQuIEFzc3VtaW5nIHRoYXQgYWxsIGJ1aWxkcyB3aWxs
+IGhhdmUgVEhQIGVuYWJsZWQsIG1pZ2h0IG5vdApiZSBhY2N1cmF0ZS4KCj4gCj4gQXMgYnVpbGRz
+IGFyZSBlc3NlbnRpYWxseSBicm9rZW4sIEkgYXNzdW1lIHRoaXMgaXMgbm90IHRoYXQgcmVsZXZh
+bnQ/IE9yIGhvdyBsb25nIGhhcyBpdCBiZWVuIGJyb2tlbj8KCkdpdCBibGFtZSBzaG93cyB0aGF0
+IGl0J3MgYmVlbiB0aGVyZSBmb3Igc29tZSB0aW1lIG5vdy4gQnV0IGhvdyBkb2VzCnRoYXQgbWFr
+ZSB0aGlzIGlycmVsZXZhbnQgPyBBIHByb2JsZW0gc2hvdWxkIGJlIGZpeGVkIG5vbmV0aGVsZXNz
+LgoKPiAKPiBJdCBtaWdodCBiZSBlYXNpZXIgdG8ganVzdCBkcm9wIHRoZSAiVFJBTlNQQVJFTlRf
+SFVHRVBBR0UiIHBhcnQgZnJvbSB0aGUgRk9SQ0VfTUFYX1pPTkVPUkRFUiBjb25maWcuCj4gCgpO
+b3Qgc3VyZSBpZiBpdCB3b3VsZCBiZSBhIGdvb2QgaWRlYSB0byB1bm5lY2Vzc2FyaWx5IGhhdmUg
+bGFyZ2VyIE1BWF9PUkRFUgp2YWx1ZSBmb3IgYSBnaXZlbiBjb25maWcuIEJ1dCBJIG1pZ2h0IGJl
+IG1pc3Npbmcgb3RoZXIgY29udGV4dHMgaGVyZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4
+LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2lvbW11
