@@ -2,48 +2,146 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4426321C96
-	for <lists.iommu@lfdr.de>; Mon, 22 Feb 2021 17:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DA6321EAA
+	for <lists.iommu@lfdr.de>; Mon, 22 Feb 2021 19:00:02 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2439E6F582;
-	Mon, 22 Feb 2021 16:17:45 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B9C646F556;
+	Mon, 22 Feb 2021 18:00:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yaepjcnHDGQG; Mon, 22 Feb 2021 16:17:43 +0000 (UTC)
+	with ESMTP id 5lXZp6T3rLBN; Mon, 22 Feb 2021 17:59:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A6D316F568;
-	Mon, 22 Feb 2021 16:17:43 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6D89D6F579;
+	Mon, 22 Feb 2021 17:59:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 84660C0001;
-	Mon, 22 Feb 2021 16:17:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41FDCC0001;
+	Mon, 22 Feb 2021 17:59:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F3CF5C0001
- for <iommu@lists.linux-foundation.org>; Mon, 22 Feb 2021 16:17:41 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 367D4C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Feb 2021 17:59:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DB9D58723B
- for <iommu@lists.linux-foundation.org>; Mon, 22 Feb 2021 16:17:41 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 24926834B6
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Feb 2021 17:59:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lkoPjtgR72GL for <iommu@lists.linux-foundation.org>;
- Mon, 22 Feb 2021 16:17:40 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C69E98720E
- for <iommu@lists.linux-foundation.org>; Mon, 22 Feb 2021 16:17:39 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id C7F432D5; Mon, 22 Feb 2021 17:17:36 +0100 (CET)
-Date: Mon, 22 Feb 2021 17:17:35 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [git pull] IOMMU Updates for Linux v5.12
-Message-ID: <20210222161729.GA26068@8bytes.org>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FscnHxBeEsMl for <iommu@lists.linux-foundation.org>;
+ Mon, 22 Feb 2021 17:59:54 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 755D9834FC
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Feb 2021 17:59:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZGa7FGojeHbmFYFsSpx7IUY2UHBSxI+4CDMDKaby+ccue9T56HYZmLDDCX/Sk56S9OETMHhUUek1gBiXAVLtdQ1cI4jUxgQNwemUsJbm9hkzMdYlPAezWps0jDDT/Fs4zVsmd8vprX1GKyyahcgFzMFi7dhiXqKu29dr1cadL1BTXiByGs8ph6DMmFPcWPuC/E3mWIv3DPdHACaNFI6+xPFmGf3TogrgIEkwqSZX17kx1uj9BVAzoRs9XdFPTXReyLF4DbNyHI8FFmZuCFNK8AaTJ1fsWqYnDBpBckZrzuYHaiwwyV1C8OLF7Mv2CQUfx1/S8j3fpYshIfNN2fxi4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d/rPX1oc6zOhNtifGe8ZR8LE0ZdRrGRB5XchlZWIq7U=;
+ b=V3AJf0CYWXCAo6dR2h6vcCQxfnEwq/Kqz5JpROqYNrcqJ9WpesyFBl8b1Bp1c+3kCbfXPEF2kbPZgmILRp1q2/Jr+DsmQj37+AM8TdAPQ0FJeKhGx+Rcskq45nXtJTEDRR7mf7Wo53HXKD4BjAyVUYcmDnN2VJCGkftD9VyJuoqr6I5nDs4pquQTmRFF7ebAIpT2b2xQK9cuwERllkrUSpZFqfo0ZKFQoARVQ8MjdCgmg7h/1jE6wMXNRBW3SaI/FIn39/sd82Sf1XPbkCO1k5WQ8PI33s2xVsr1alGNDqt4YVcjh/IB15k9BgNBINMKkb3arw7j1wvYTYgtWiP3QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d/rPX1oc6zOhNtifGe8ZR8LE0ZdRrGRB5XchlZWIq7U=;
+ b=Sbe4QlQR1kxVvlGiNkHfD+c5jnbhO0RMhDqCSqLQ+hHhC5rvYr81JYr2dvI4sZkAAr+48gHxMYCgeJwMvDz8RzMeaqSyrqflWihCu0NeU950tY/UIhSx3d6app1OUn/CAid2Z5YJxxT3Pp73hccWnpsLilIfC9kXULxWIOqQRJ8=
+Authentication-Results: 8bytes.org; dkim=none (message not signed)
+ header.d=none;8bytes.org; dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB4597.namprd12.prod.outlook.com (2603:10b6:a03:10b::14)
+ by BYAPR12MB2824.namprd12.prod.outlook.com (2603:10b6:a03:97::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.32; Mon, 22 Feb
+ 2021 17:59:52 +0000
+Received: from BYAPR12MB4597.namprd12.prod.outlook.com
+ ([fe80::a95a:7202:81db:1972]) by BYAPR12MB4597.namprd12.prod.outlook.com
+ ([fe80::a95a:7202:81db:1972%7]) with mapi id 15.20.3868.033; Mon, 22 Feb 2021
+ 17:59:52 +0000
+Subject: Re: [PATCH] iommu/amd: Fix event counter availability check
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+References: <20200529200738.1923-1-amonakov@ispras.ru>
+ <56761139-f794-39b1-4dfa-dfc05fbe5f60@amd.com>
+ <alpine.LNX.2.20.13.2006011132530.16067@monopod.intra.ispras.ru>
+ <dba1e37a-1ed7-ef7f-7252-2ebd1d6bde8c@amd.com>
+ <alpine.LNX.2.20.13.2006152346320.21123@monopod.intra.ispras.ru>
+ <b01994db-da9b-d8e6-e0c1-1af35dd62191@amd.com>
+ <alpine.LNX.2.20.13.2009172052480.29869@monopod.intra.ispras.ru>
+ <23d42e73-91ac-8f47-af64-40edff8bc027@molgen.mpg.de>
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Message-ID: <290635dc-723e-a55e-8447-95cef703b090@amd.com>
+Date: Tue, 23 Feb 2021 00:59:41 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
+In-Reply-To: <23d42e73-91ac-8f47-af64-40edff8bc027@molgen.mpg.de>
+Content-Language: en-US
+X-Originating-IP: [124.121.4.202]
+X-ClientProxiedBy: SG2PR02CA0060.apcprd02.prod.outlook.com
+ (2603:1096:4:54::24) To BYAPR12MB4597.namprd12.prod.outlook.com
+ (2603:10b6:a03:10b::14)
 MIME-Version: 1.0
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Suravees-MacBook-Pro.local (124.121.4.202) by
+ SG2PR02CA0060.apcprd02.prod.outlook.com (2603:1096:4:54::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3868.27 via Frontend Transport; Mon, 22 Feb 2021 17:59:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 61d55878-cb25-4501-6037-08d8d75ba735
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2824:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB282467083ABCDD5C4104AC70F3819@BYAPR12MB2824.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tZdbB9BoO/jbwx1sBmE1dHjtU++xBcH7REhY+KqZGK0UuK56+I1zlSTHNIN7vjS6cqPSki9gUw2nf+hd7Qidrz595uuNeXh9f+UG8wekAMwf3GAJDRfYrsFSoqjs7gLA6mR44uqVadwn5a2oAM3eTEKMQHQ/HW3Anm5fFSfRuXFlHoGLRP/93T7BKnYcGSYI2n1XzAH+GYEHa3V210HwKTiS3EwjEoQlaMI7rIwxiy9kc9cikkVBfq4mJOuJwsYvVXgpTF451XRRUJ0yZaAq0U5nOPojgMqrf6t+mSsck879qdaPDP4mP6gbtWqgK822KbVQw5hxLYZjBT+WiJXMg5GS44vQQ9ZZ7ApwD5KPhkzpJP1we+CNWLWdr2sEVNI53YK54V5urNarq39uX0lLp8Cbs5v5UTeJMabM9VyKLhDBNQvY8ckFSOqZMaB852QtS15ZfXOPGrU9/h2TTgDV5SOFwW16hnbEbYiHfQ8ab+K/ofB6hh77IBldQhoGmy7c3tXed6HJ2b/O+OWjc+Wc6FSkfmiKAHp24SpI8UtHBRqTa8qlSqZ406f5tkYccmWY9MaGwHo2Jdjo/nHk6OQa3/WRVpH1z1qIIoyMELOT2DwJ3PhxQXOtmkmDlQTCidllRWEYKzj/UJdhPtHJ9ehZBsqKY9xjGqpXX2sjluTnH2+MD0Xn7BcOoUOf0clAIqh6
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB4597.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(6666004)(6512007)(6486002)(86362001)(52116002)(2906002)(316002)(31696002)(31686004)(36756003)(6916009)(4326008)(8676002)(8936002)(16526019)(478600001)(966005)(5660300002)(66946007)(53546011)(44832011)(26005)(66476007)(83380400001)(54906003)(66556008)(186003)(956004)(6506007)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aWZZanBmWUJ0ZDZXb0doeTB2T014UThOTDh1UWRqSWdLaDhCWkRnYWRYbUZz?=
+ =?utf-8?B?Y1ZlNlVnUWlqeGc5dUZRS0hldXZEcVZMcTkyYlk2dThKOFZldXAwVTJYVGd3?=
+ =?utf-8?B?ZU50SWptbGVXZEQvU1d0NGVlUFV4d1d2aitpNlRVdVp2OVFFa28vdSt3T0lz?=
+ =?utf-8?B?Tkd0dzhJTjJYM01LWVI4L28yMTFIOWNDenN0bXlHaGZXMkRjOVNrdnNwc2h3?=
+ =?utf-8?B?T2FDN1pkenRnT1p3Yi80a0NmVllTOXpMZjRUZVdLb3NpMEt6ZTZKQWZNczZH?=
+ =?utf-8?B?MVJPVUl6ODRrM01NdXdlaWJ1Z1IzaHpHWnVFTlRtZTNqRmVBeExqelZ4b1pR?=
+ =?utf-8?B?VDBySVlGTDJiREJEU3RBdURlZUN2ZFV6MU9JVklxNXR4clBGemhJcDNuNWtP?=
+ =?utf-8?B?UlZ6SUZTYWZlazlTZTlUdHdoUW5IVmtuL2xVTWluM21XajlHS2NiRnFDb04y?=
+ =?utf-8?B?eEJtT2M4NWpvWmNvazNSbHk1V1AyeUVaYk5IbzUydTRVODlMeTljSVB3OWx3?=
+ =?utf-8?B?UzJONmJKTm04MmhtOUJCSGNmN2toZndpWXVwV0JPN1J0YjQyYytlNTZsRE02?=
+ =?utf-8?B?eS8xUTZKMHQzS1J1dVpBLys5eDI5QUNrTEtmTG1UZTJmckVKTy9saVhPWkpR?=
+ =?utf-8?B?c2lpQlVwMWxVNlhCSEZYWXB2WXNWL1dvWUVBdW5MdjVpTElSR3A4aklsVEdx?=
+ =?utf-8?B?UU1FSEZsTU1XN1N2ejZNQ0R4RjFQMTdaQmRJVEV5VDdvSkMrc25CNlplUVM5?=
+ =?utf-8?B?QUhXMzVFNjAzdmJMRG15V1JYMC9XMlVSLzVxcW0zL0dUT3V6b082eXFheUJX?=
+ =?utf-8?B?b1BTMmtVK0xlUGlSWkpkb0YzRXZHckRXV0JNVDZHSW1oSkFyZmZTdlE5SjhW?=
+ =?utf-8?B?RVc0MDZ0NkxKU0NrM0FySitCSitVYUN2N2FPemVGYnZ1MFRTenM4OXU2Mlhq?=
+ =?utf-8?B?Ym84WWF0VnBYNllUVUhzNGhGY2p3RkJPV1o1S0RoQTAzb3JHbkZ5ZlltL2hD?=
+ =?utf-8?B?SzA1R0JPTDFsczYweDRRUGU3L0JXQVRBZjhKTFFJZVdVckQ1aldsTU9aYkpL?=
+ =?utf-8?B?UURuUVNMU1VnWXBqYmtGMnU0Y3VsQm5GYnd6YUE3d3FjUmY5TndOd2lKTEYr?=
+ =?utf-8?B?SW9KeFFxNjhKdEdZNHJkaGdwR2ZGUkVUU2dISlZjVmswbjZzK2ZDekczWVVQ?=
+ =?utf-8?B?WlNlMTZYeGMwb0E1NHlYeE5xTVJESTAxVEx2YlJNZFh4WnFNZjArcW1DVTc3?=
+ =?utf-8?B?T0cyNVRSQWhQVUNyWjZyaU53Uy9nVWIraGVQVEgzb2pjckNONkJNS0txU1ND?=
+ =?utf-8?B?bWc5MU1TVXdOdDRSZVJWMk9VcDNpUm1xUnovcjVBTWlYVDA3eU9SbldwRjRt?=
+ =?utf-8?B?clJyeTgvQ3lzNWRhQTQvZTJqZEliRWZ5c2NaVGRmU1hwMUNCSG9yNGw2Z3ND?=
+ =?utf-8?B?YWdSemRjL3N6bXJ4WDRwYVM5a3kyQXNSaklaQklSdEVsS01oMC9YcFZ3MFEy?=
+ =?utf-8?B?Wmg3czB4MmlsbmMvSUtDYWtLUkZKdkF0NHJQV3RFWVBib2N6ZFZIbUhzUXRq?=
+ =?utf-8?B?OGlQMU5NSWFrM1NSQWRqRVhVQW5ZbFdaU3ZnRC9waytsODBIaXB0NVVTSDRF?=
+ =?utf-8?B?RlRySmxrWnNla3hidVNraGl4dU9SWmJwNk1Fa0ovN214eW1waXJPTW95VTJF?=
+ =?utf-8?B?Tk5pbkh5V3FBYnpTOWZkNi9IZVNDVHFlelR1cTZVQ1YzSXUwa3JlVUNySkpC?=
+ =?utf-8?Q?Ko2YE7MpoyFfbUceKPrPOhMdQvbzdHe9fOEmYrt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61d55878-cb25-4501-6037-08d8d75ba735
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4597.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 17:59:52.3512 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LxTwlgvmZScItvrx5x6vCufP8BgGSRcddj48ZDre3yfnPDk+NkyvBrPKk+MMm6f4Nlfr8aJ+ccrqpsUh6+ixsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2824
+Cc: iommu@lists.linux-foundation.org, Alexander Monakov <amonakov@ispras.ru>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -56,319 +154,33 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2634752441476882918=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
---===============2634752441476882918==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
-Content-Disposition: inline
-
-
---ReaqsoxgOBHFXBhH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Linus,
-
-The following changes since commit 92bf22614b21a2706f4993b278017e437f7785b3:
-
-  Linux 5.11-rc7 (2021-02-07 13:57:38 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-updates-v5.12
-
-for you to fetch changes up to 45e606f2726926b04094e1c9bf809bca4884c57f:
-
-  Merge branches 'arm/renesas', 'arm/smmu', 'x86/amd', 'x86/vt-d' and 'core' into next (2021-02-12 15:27:17 +0100)
-
-----------------------------------------------------------------
-IOMMU Updates for Linux v5.12
-
-Including:
-
-	- ARM SMMU and Mediatek updates from Will Deacon:
-
-		- Support for MT8192 IOMMU from Mediatek
-
-		- Arm v7s io-pgtable extensions for MT8192
-
-		- Removal of TLBI_ON_MAP quirk
-
-		- New Qualcomm compatible strings
-
-		- Allow SVA without hardware broadcast TLB maintenance
-		  on SMMUv3
-
-		- Virtualization Host Extension support for SMMUv3 (SVA)
-
-		- Allow SMMUv3 PMU (perf) driver to be built
-		  independently from IOMMU
-
-	- Some tidy-up in IOVA and core code
-
-	- Conversion of the AMD IOMMU code to use the generic
-	  IO-page-table framework
-
-	- Intel VT-d updates from Lu Baolu:
-
-		- Audit capability consistency among different IOMMUs
-
-		- Add SATC reporting structure support
-
-		- Add iotlb_sync_map callback support
-
-	- SDHI Support for Renesas IOMMU driver
-
-	- Misc Cleanups and other small improvments
-
-----------------------------------------------------------------
-Adrian Huang (1):
-      iommu/amd: Remove unnecessary assignment
-
-Bjorn Andersson (2):
-      dt-bindings: arm-smmu-qcom: Add Qualcomm SC8180X compatible
-      iommu/arm-smmu-qcom: Add Qualcomm SC8180X impl
-
-Bjorn Helgaas (1):
-      iommu/vt-d: Fix 'physical' typos
-
-Colin Ian King (1):
-      iommu/mediatek: Fix unsigned domid comparison with less than zero
-
-Dan Carpenter (1):
-      iommu/mediatek: Fix error code in probe()
-
-Douglas Anderson (1):
-      iommu: Properly pass gfp_t in _iommu_map() to avoid atomic sleeping
-
-Isaac J. Manjarres (1):
-      iommu/arm-smmu-qcom: Fix mask extraction for bootloader programmed SMRs
-
-Jean-Philippe Brucker (3):
-      iommu/arm-smmu-v3: Split arm_smmu_tlb_inv_range()
-      iommu/arm-smmu-v3: Make BTM optional for SVA
-      iommu/arm-smmu-v3: Add support for VHE
-
-Joerg Roedel (2):
-      Merge tag 'arm-smmu-updates' of git://git.kernel.org/.../will/linux into arm/smmu
-      Merge branches 'arm/renesas', 'arm/smmu', 'x86/amd', 'x86/vt-d' and 'core' into next
-
-John Garry (7):
-      iova: Make has_iova_flush_queue() private
-      iova: Delete copy_reserved_iova()
-      iova: Stop exporting some more functions
-      iommu: Stop exporting iommu_map_sg_atomic()
-      iommu: Delete iommu_domain_window_disable()
-      iommu: Delete iommu_dev_has_feature()
-      driver/perf: Remove ARM_SMMU_V3_PMU dependency on ARM_SMMU_V3
-
-Kyung Min Park (2):
-      iommu/vt-d: Audit IOMMU Capabilities and add helper functions
-      iommu/vt-d: Move capability check code to cap_audit files
-
-Lianbo Jiang (2):
-      dma-iommu: use static-key to minimize the impact in the fast-path
-      iommu: use the __iommu_attach_device() directly for deferred attach
-
-Lu Baolu (7):
-      iommu/vt-d: Consolidate duplicate cache invaliation code
-      iommu/vt-d: Add qi_submit trace event
-      iommu/vt-d: Preset Access/Dirty bits for IOVA over FL
-      iommu/vt-d: Clear PRQ overflow only when PRQ is empty
-      iommu/vt-d: Use INVALID response code instead of FAILURE
-      iommu/vt-d: Fix compile error [-Werror=implicit-function-declaration]
-      iommu/vt-d: Add iotlb_sync_map callback
-
-Lukas Bulwahn (1):
-      MAINTAINERS: repair file pattern in MEDIATEK IOMMU DRIVER
-
-Robin Murphy (3):
-      iommu/arm-smmu-v3: Remove the page 1 fixup
-      iommu/msm: Hook up iotlb_sync_map
-      iommu/io-pgtable: Remove TLBI_ON_MAP quirk
-
-Suravee Suthikulpanit (14):
-      iommu/amd: Re-define amd_iommu_domain_encode_pgtable as inline
-      iommu/amd: Prepare for generic IO page table framework
-      iommu/amd: Move pt_root to struct amd_io_pgtable
-      iommu/amd: Convert to using amd_io_pgtable
-      iommu/amd: Declare functions as extern
-      iommu/amd: Move IO page table related functions
-      iommu/amd: Restructure code for freeing page table
-      iommu/amd: Remove amd_iommu_domain_get_pgtable
-      iommu/amd: Rename variables to be consistent with struct io_pgtable_ops
-      iommu/amd: Refactor fetch_pte to use struct amd_io_pgtable
-      iommu/amd: Introduce iommu_v1_iova_to_phys
-      iommu/amd: Introduce iommu_v1_map_page and iommu_v1_unmap_page
-      iommu/amd: Adopt IO page table framework for AMD IOMMU v1 page table
-      iommu/amd: Fix performance counter initialization
-
-Tom Rix (1):
-      iommu/amd: remove h from printk format specifier
-
-Vinod Koul (2):
-      dt-bindings: arm-smmu: Add sm8350 compatible string
-      iommu: arm-smmu-impl: Add SM8350 qcom iommu implementation
-
-Will Deacon (1):
-      Merge branch 'for-joerg/mtk' into for-joerg/arm-smmu/updates
-
-Yian Chen (2):
-      iommu/vt-d: Add new enum value and structure for SATC
-      iommu/vt-d: Parse SATC reporting structure
-
-Yong Wu (38):
-      iommu: Move iotlb_sync_map out from __iommu_map
-      iommu: Add iova and size as parameters in iotlb_sync_map
-      iommu/mediatek: Add iotlb_sync_map to sync whole the iova range
-      iommu: Switch gather->end to the inclusive end
-      iommu/io-pgtable: Allow io_pgtable_tlb ops optional
-      iommu/mediatek: Gather iova in iommu_unmap to achieve tlb sync once
-      iommu/mediatek: Remove the tlb-ops for v7s
-      dt-bindings: iommu: mediatek: Convert IOMMU to DT schema
-      dt-bindings: memory: mediatek: Add a common memory header file
-      dt-bindings: memory: mediatek: Extend LARB_NR_MAX to 32
-      dt-bindings: memory: mediatek: Rename header guard for SMI header file
-      dt-bindings: mediatek: Add binding for mt8192 IOMMU
-      iommu/mediatek: Use the common mtk-memory-port.h
-      iommu/io-pgtable-arm-v7s: Use ias to check the valid iova in unmap
-      iommu/io-pgtable-arm-v7s: Extend PA34 for MediaTek
-      iommu/io-pgtable-arm-v7s: Clarify LVL_SHIFT/BITS macro
-      iommu/io-pgtable-arm-v7s: Add cfg as a param in some macros
-      iommu/io-pgtable-arm-v7s: Quad lvl1 pgtable for MediaTek
-      iommu/mediatek: Add a flag for iova 34bits case
-      iommu/mediatek: Update oas for v7s
-      iommu/mediatek: Move hw_init into attach_device
-      iommu/mediatek: Add error handle for mtk_iommu_probe
-      iommu/mediatek: Add device link for smi-common and m4u
-      iommu/mediatek: Add pm runtime callback
-      iommu/mediatek: Add power-domain operation
-      iommu/mediatek: Support up to 34bit iova in tlb flush
-      iommu/mediatek: Support report iova 34bit translation fault in ISR
-      iommu/mediatek: Adjust the structure
-      iommu/mediatek: Move domain_finalise into attach_device
-      iommu/mediatek: Move geometry.aperture updating into domain_finalise
-      iommu/mediatek: Add iova_region structure
-      iommu/mediatek: Add get_domain_id from dev->dma_range_map
-      iommu/mediatek: Support for multi domains
-      iommu/mediatek: Add iova reserved function
-      iommu/mediatek: Support master use iova over 32bit
-      iommu/mediatek: Remove unnecessary check in attach_device
-      iommu/mediatek: Add mt8192 support
-      MAINTAINERS: Add entry for MediaTek IOMMU
-
-Yoshihiro Shimoda (2):
-      iommu/ipmmu-vmsa: Refactor ipmmu_of_xlate()
-      iommu/ipmmu-vmsa: Allow SDHI devices
-
-Zhen Lei (1):
-      iommu/arm-smmu-v3: Use DEFINE_RES_MEM() to simplify code
-
-Zheng Yongjun (1):
-      iommu/amd: Use DEFINE_SPINLOCK() for spinlock
-
- .../devicetree/bindings/iommu/arm,smmu.yaml        |   2 +
- .../devicetree/bindings/iommu/mediatek,iommu.txt   | 105 ----
- .../devicetree/bindings/iommu/mediatek,iommu.yaml  | 183 ++++++
- MAINTAINERS                                        |   9 +
- drivers/iommu/amd/Kconfig                          |   1 +
- drivers/iommu/amd/Makefile                         |   2 +-
- drivers/iommu/amd/amd_iommu.h                      |  22 +
- drivers/iommu/amd/amd_iommu_types.h                |  43 +-
- drivers/iommu/amd/init.c                           |  54 +-
- drivers/iommu/amd/io_pgtable.c                     | 558 +++++++++++++++++
- drivers/iommu/amd/iommu.c                          | 672 +++------------------
- drivers/iommu/amd/iommu_v2.c                       |   4 +-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c    |  10 +-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c        | 154 +++--
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h        |  14 +-
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   5 +
- drivers/iommu/dma-iommu.c                          |  29 +-
- drivers/iommu/intel/Makefile                       |   2 +-
- drivers/iommu/intel/cap_audit.c                    | 205 +++++++
- drivers/iommu/intel/cap_audit.h                    | 130 ++++
- drivers/iommu/intel/dmar.c                         |  11 +
- drivers/iommu/intel/iommu.c                        | 279 +++++----
- drivers/iommu/intel/irq_remapping.c                |   8 +
- drivers/iommu/intel/pasid.c                        |  18 +-
- drivers/iommu/intel/svm.c                          |  73 +--
- drivers/iommu/io-pgtable-arm-v7s.c                 |  65 +-
- drivers/iommu/io-pgtable.c                         |   3 +
- drivers/iommu/iommu.c                              |  54 +-
- drivers/iommu/iova.c                               |  35 +-
- drivers/iommu/ipmmu-vmsa.c                         |  53 +-
- drivers/iommu/msm_iommu.c                          |  10 +-
- drivers/iommu/mtk_iommu.c                          | 410 +++++++++----
- drivers/iommu/mtk_iommu.h                          |  12 +-
- drivers/iommu/tegra-gart.c                         |   7 +-
- drivers/memory/mtk-smi.c                           |   8 +
- drivers/perf/Kconfig                               |   2 +-
- include/acpi/actbl1.h                              |  11 +-
- include/dt-bindings/memory/mt2701-larb-port.h      |   4 +-
- include/dt-bindings/memory/mt2712-larb-port.h      |   6 +-
- include/dt-bindings/memory/mt6779-larb-port.h      |   6 +-
- include/dt-bindings/memory/mt8167-larb-port.h      |   6 +-
- include/dt-bindings/memory/mt8173-larb-port.h      |   6 +-
- include/dt-bindings/memory/mt8183-larb-port.h      |   6 +-
- include/dt-bindings/memory/mt8192-larb-port.h      | 243 ++++++++
- include/dt-bindings/memory/mtk-memory-port.h       |  15 +
- include/linux/dmar.h                               |   2 +
- include/linux/intel-iommu.h                        |  43 +-
- include/linux/io-pgtable.h                         |  19 +-
- include/linux/iommu.h                              |  21 +-
- include/linux/iova.h                               |  12 -
- include/soc/mediatek/smi.h                         |   3 +-
- include/trace/events/intel_iommu.h                 |  39 +-
- 52 files changed, 2389 insertions(+), 1305 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
- create mode 100644 Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
- create mode 100644 drivers/iommu/amd/io_pgtable.c
- create mode 100644 drivers/iommu/intel/cap_audit.c
- create mode 100644 drivers/iommu/intel/cap_audit.h
- create mode 100644 include/dt-bindings/memory/mt8192-larb-port.h
- create mode 100644 include/dt-bindings/memory/mtk-memory-port.h
-
-Please pull.
-
-Thanks,
-
-	Joerg
-
---ReaqsoxgOBHFXBhH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEr9jSbILcajRFYWYyK/BELZcBGuMFAmAz2RkACgkQK/BELZcB
-GuOcxQ/8DUZqhE7p8cwhN0OAibSCihVltr6N8pPfA2X3lCNCPrIRAAtOSzvgxhbu
-bhLGyFHsPmJPu2lG6Or07Hwb2zzTCATC9Sg26x5YhiqokJnDRymCyYqvU93PaLGd
-3OWTSXYPvWYNGmviA9hHNA1strdANa3uF4Yo+O+ksX/KpvXOppLJ6Wxyzest5LYp
-Yecom8UJBPXZdRenkBabWxCpB+MZRLwuriythHLfJNjhtHwaHvETB6rP/A+HxRJP
-aeRlJuS/yr20Ne/kb5cGTfa6ja5m86A5SE4Vg4mGvjniHkm6oA3UNqAGlsjyuPg4
-1vECoorPO+lTh7UqEXZelsqkOYVCHMIIPF+wiYVF9t4myPn6r6rhGxsIW9CwVwRb
-e4xZAjG5xkAHndozAKypOkBDNR6iEKTx63Lg3dUUyv23ugdnY9elKOILm9s5Cuo+
-NFSnREG2+30Y+E3hOCwn3g3Qaqf2XPPxJ5w4go1+lRmy3PPHw+Lnn1f8eLiKFRQe
-+0mYLFrzixlm2CetB9WstB9Toij9tbw3AoI2vfQgKdjPXjUy74IWsmxBNZsw9sU4
-7wL/CzIoXHUcSa7w92oGEo+KfQV0fk083peXA880C6LYcKonOzJ43OCPTIcMva7A
-GgyhupU1xwcfPdlOrJHz5hlPcVWGmdk08AxgYUaud3GaDscdVzQ=
-=j+2K
------END PGP SIGNATURE-----
-
---ReaqsoxgOBHFXBhH--
-
---===============2634752441476882918==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============2634752441476882918==--
+VGhpcyBmaXggaGFzIGJlZW4gYWNjZXB0ZWQgaW4gdGhlIHVwc3RyZWFtIHJlY2VudGx5LgoKaHR0
+cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvam9yby9pb21tdS5n
+aXQvY29tbWl0Lz9oPXg4Ni9hbWQKCkNvdWxkIHlvdSBwbGVhc2UgZ2l2ZSB0aGlzIGEgdHJ5PwoK
+VGhhbmtzLApTdXJhdmVlCgpPbiAyLzIxLzIxIDg6NDkgUE0sIFBhdWwgTWVuemVsIHdyb3RlOgo+
+IERlYXIgU3VyYXZlZSwKPiAKPiAKPiBBbSAxNy4wOS4yMCB1bSAxOTo1NSBzY2hyaWViIEFsZXhh
+bmRlciBNb25ha292Ogo+PiBPbiBUdWUsIDE2IEp1biAyMDIwLCBTdXJhdmVlIFN1dGhpa3VscGFu
+aXQgd3JvdGU6Cj4+Cj4+Pj4+IEluc3RlYWQgb2YgYmxpbmRseSBtb3ZpbmcgdGhlIGNvZGUgYXJv
+dW5kIHRvIGEgc3BvdCB0aGF0IHdvdWxkIGp1c3Qgd29yaywKPj4+Pj4gSSBhbSB0cnlpbmcgdG8g
+dW5kZXJzdGFuZCB3aGF0IG1pZ2h0IGJlIHJlcXVpcmVkIGhlcmUuIEluIHRoaXMgY2FzZSwKPj4+
+Pj4gdGhlIGluaXRfZGV2aWNlX3RhYmxlX2RtYSgpc2hvdWxkIG5vdCBiZSBuZWVkZWQuIEkgc3Vz
+cGVjdCBpdCdzIHRoZSBJT01NVQo+Pj4+PiBpbnZhbGlkYXRlIGFsbCBjb21tYW5kIHRoYXQncyBh
+bHNvIG5lZWRlZCBoZXJlLgo+Pj4+Pgo+Pj4+PiBJJ20gYWxzbyBjaGVja2luZyB3aXRoIHRoZSBI
+VyBhbmQgQklPUyB0ZWFtLiBNZWFud2hpbGUsIGNvdWxkIHlvdSBwbGVhc2UKPj4+Pj4gZ2l2ZQo+
+Pj4+PiB0aGUgZm9sbG93aW5nIGNoYW5nZSBhIHRyeToKPj4+PiBIZWxsby4gQ2FuIHlvdSBnaXZl
+IGFueSB1cGRhdGUgcGxlYXNlPwo+IAo+IFvigKZdCj4gCj4+PiBTb3JyeSBmb3IgbGF0ZSByZXBs
+eS4gSSBoYXZlIGEgcmVwcm9kdWNlciBhbmQgd29ya2luZyB3aXRoIHRoZSBIVyB0ZWFtIHRvCj4+
+PiB1bmRlcnN0YW5kIHRoZSBpc3N1ZS4KPj4+IEkgc2hvdWxkIGJlIGFibGUgdG8gcHJvdmlkZSB1
+cGRhdGUgd2l0aCBzb2x1dGlvbiBieSB0aGUgZW5kIG9mIHRoaXMgd2Vlay4KPj4KPj4gSGVsbG8s
+IGhvcGUgeW91IGFyZSBkb2luZyB3ZWxsLiBIYXMgdGhpcyBpbnZlc3RpZ2F0aW9uIGZvdW5kIGFu
+eXRoaW5nPwo+IAo+IEkgYW0gd29uZGVyaW5nIHRoZSBzYW1lLiBJdOKAmWQgYmUgZ3JlYXQgdG8g
+aGF2ZSB0aGlzIGZpeGVkIGluIHRoZSB1cHN0cmVhbSBMaW51eCBrZXJuZWwuCj4gCj4gCj4gS2lu
+ZCByZWdhcmRzLAo+IAo+IFBhdWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRp
+b24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2lvbW11
