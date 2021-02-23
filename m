@@ -1,72 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C523232E1
-	for <lists.iommu@lfdr.de>; Tue, 23 Feb 2021 22:08:00 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0B63232EF
+	for <lists.iommu@lfdr.de>; Tue, 23 Feb 2021 22:08:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6F92382499;
-	Tue, 23 Feb 2021 21:07:58 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7231A6066C;
+	Tue, 23 Feb 2021 21:08:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id md7QXgQLKjm7; Tue, 23 Feb 2021 21:07:57 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FHecH0ItKhwy; Tue, 23 Feb 2021 21:08:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6332882451;
-	Tue, 23 Feb 2021 21:07:57 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9141A60656;
+	Tue, 23 Feb 2021 21:08:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 42676C000C;
-	Tue, 23 Feb 2021 21:07:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C70FC0001;
+	Tue, 23 Feb 2021 21:08:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40D27C0001
- for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 21:07:55 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3DCD8C0001
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 21:08:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2221F4E456
- for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 21:07:55 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 392C16066A
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 21:08:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vyvgCxjASqWj for <iommu@lists.linux-foundation.org>;
- Tue, 23 Feb 2021 21:07:54 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bzAA0f0sZbKF for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Feb 2021 21:08:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 27C924CFE0
- for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 21:07:54 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 78D1260656
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 21:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614114473;
+ s=mimecast20190719; t=1614114527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OlRMunM3xK5tC6gqnTLrVo8GOn+dR+b4TnZIscgtuoc=;
- b=Zg2XkuSdj6uYIJOKcmTlZgAcer3AwFSr2kDuOpdIE2ZYJMnJsx5ztzuw1F6sU+IpevYlUH
- 2P/AYb7oqfW0bA6n1VMMpQgdHAcnj/o8EyyXa6ZArzRZRlAvQXQfqOigG+YAwbCpHYXCj2
- jfSdDEXXLRKRbjQquvhPxdrmT6SLq6Q=
+ bh=wBstdMXs79EJykLHS2kM7Pc567oyQTx13taKoYZoVkE=;
+ b=OQkOqpoYKLNmiQzkvxOGyZQhZnztarxwDVG53NG4JeSi/oYpp5wfKMNH824KWVbATJyWeC
+ i7kFAkN/EEMUEf9q8FUeUxI8054J6a9fiZjyiUXr9fXJ5+eNxdUXacjEoLvvm9MuczrtO8
+ vfMVXISZQsc7zy2+XtQCyoLES1vLyD4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-U-oQ7IBQN2ayP0MjxKkqFg-1; Tue, 23 Feb 2021 16:07:19 -0500
-X-MC-Unique: U-oQ7IBQN2ayP0MjxKkqFg-1
+ us-mta-276-TVbmlccvOb6B0ll0BxUn1w-1; Tue, 23 Feb 2021 16:07:29 -0500
+X-MC-Unique: TVbmlccvOb6B0ll0BxUn1w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8965DCC632;
- Tue, 23 Feb 2021 21:07:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4886B803F59;
+ Tue, 23 Feb 2021 21:07:26 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-114-34.ams2.redhat.com [10.36.114.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E5515D9D0;
- Tue, 23 Feb 2021 21:07:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0FCF5D9D0;
+ Tue, 23 Feb 2021 21:07:16 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
  kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, will@kernel.org,
  maz@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
  alex.williamson@redhat.com, tn@semihalf.com, zhukeqian1@huawei.com
-Subject: [PATCH v12 06/13] vfio/pci: Allow to mmap the fault queue
-Date: Tue, 23 Feb 2021 22:06:18 +0100
-Message-Id: <20210223210625.604517-7-eric.auger@redhat.com>
+Subject: [PATCH v12 07/13] vfio: Use capability chains to handle device
+ specific irq
+Date: Tue, 23 Feb 2021 22:06:19 +0100
+Message-Id: <20210223210625.604517-8-eric.auger@redhat.com>
 In-Reply-To: <20210223210625.604517-1-eric.auger@redhat.com>
 References: <20210223210625.604517-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -91,121 +92,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The DMA FAULT region contains the fault ring buffer.
-There is benefit to let the userspace mmap this area.
-Expose this mmappable area through a sparse mmap entry
-and implement the mmap operation.
+From: Tina Zhang <tina.zhang@intel.com>
 
+Caps the number of irqs with fixed indexes and uses capability chains
+to chain device specific irqs.
+
+Signed-off-by: Tina Zhang <tina.zhang@intel.com>
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+[Eric: Put cap_offset at the end of the vfio_irq_info struct,
+remove GFX IRQ at the moment and remove any reference to this latter
+in the commit message]
 
 ---
-
-v8 -> v9:
-- remove unused index local variable in vfio_pci_fault_mmap
 ---
- drivers/vfio/pci/vfio_pci.c | 61 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 58 insertions(+), 3 deletions(-)
+ include/uapi/linux/vfio.h | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index ad3fe0ce2e64..a528b72b57d2 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -316,21 +316,75 @@ static void vfio_pci_dma_fault_release(struct vfio_pci_device *vdev,
- 	kfree(vdev->fault_pages);
- }
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index bc46e5d6daa4..3688215843fe 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -702,11 +702,27 @@ struct vfio_irq_info {
+ #define VFIO_IRQ_INFO_MASKABLE		(1 << 1)
+ #define VFIO_IRQ_INFO_AUTOMASKED	(1 << 2)
+ #define VFIO_IRQ_INFO_NORESIZE		(1 << 3)
++#define VFIO_IRQ_INFO_FLAG_CAPS		(1 << 4) /* Info supports caps */
+ 	__u32	index;		/* IRQ index */
+ 	__u32	count;		/* Number of IRQs within this index */
++	__u32	cap_offset;	/* Offset within info struct of first cap */
+ };
+ #define VFIO_DEVICE_GET_IRQ_INFO	_IO(VFIO_TYPE, VFIO_BASE + 9)
  
-+static int vfio_pci_dma_fault_mmap(struct vfio_pci_device *vdev,
-+				   struct vfio_pci_region *region,
-+				   struct vm_area_struct *vma)
-+{
-+	u64 phys_len, req_len, pgoff, req_start;
-+	unsigned long long addr;
-+	unsigned int ret;
++/*
++ * The irq type capability allows IRQs unique to a specific device or
++ * class of devices to be exposed.
++ *
++ * The structures below define version 1 of this capability.
++ */
++#define VFIO_IRQ_INFO_CAP_TYPE      3
 +
-+	phys_len = region->size;
++struct vfio_irq_info_cap_type {
++	struct vfio_info_cap_header header;
++	__u32 type;     /* global per bus driver */
++	__u32 subtype;  /* type specific */
++};
 +
-+	req_len = vma->vm_end - vma->vm_start;
-+	pgoff = vma->vm_pgoff &
-+		((1U << (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
-+	req_start = pgoff << PAGE_SHIFT;
-+
-+	/* only the second page of the producer fault region is mmappable */
-+	if (req_start < PAGE_SIZE)
-+		return -EINVAL;
-+
-+	if (req_start + req_len > phys_len)
-+		return -EINVAL;
-+
-+	addr = virt_to_phys(vdev->fault_pages);
-+	vma->vm_private_data = vdev;
-+	vma->vm_pgoff = (addr >> PAGE_SHIFT) + pgoff;
-+
-+	ret = remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
-+			      req_len, vma->vm_page_prot);
-+	return ret;
-+}
-+
- static int vfio_pci_dma_fault_add_capability(struct vfio_pci_device *vdev,
- 					     struct vfio_pci_region *region,
- 					     struct vfio_info_cap *caps)
- {
-+	struct vfio_region_info_cap_sparse_mmap *sparse = NULL;
- 	struct vfio_region_info_cap_fault cap = {
- 		.header.id = VFIO_REGION_INFO_CAP_DMA_FAULT,
- 		.header.version = 1,
- 		.version = 1,
- 	};
--	return vfio_info_add_capability(caps, &cap.header, sizeof(cap));
-+	size_t size = sizeof(*sparse) + sizeof(*sparse->areas);
-+	int ret;
-+
-+	ret = vfio_info_add_capability(caps, &cap.header, sizeof(cap));
-+	if (ret)
-+		return ret;
-+
-+	sparse = kzalloc(size, GFP_KERNEL);
-+	if (!sparse)
-+		return -ENOMEM;
-+
-+	sparse->header.id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
-+	sparse->header.version = 1;
-+	sparse->nr_areas = 1;
-+	sparse->areas[0].offset = PAGE_SIZE;
-+	sparse->areas[0].size = region->size - PAGE_SIZE;
-+
-+	ret = vfio_info_add_capability(caps, &sparse->header, size);
-+	if (ret)
-+		kfree(sparse);
-+
-+	return ret;
- }
- 
- static const struct vfio_pci_regops vfio_pci_dma_fault_regops = {
- 	.rw		= vfio_pci_dma_fault_rw,
- 	.release	= vfio_pci_dma_fault_release,
-+	.mmap		= vfio_pci_dma_fault_mmap,
- 	.add_capability = vfio_pci_dma_fault_add_capability,
+ /**
+  * VFIO_DEVICE_SET_IRQS - _IOW(VFIO_TYPE, VFIO_BASE + 10, struct vfio_irq_set)
+  *
+@@ -808,7 +824,8 @@ enum {
+ 	VFIO_PCI_MSIX_IRQ_INDEX,
+ 	VFIO_PCI_ERR_IRQ_INDEX,
+ 	VFIO_PCI_REQ_IRQ_INDEX,
+-	VFIO_PCI_NUM_IRQS
++	VFIO_PCI_NUM_IRQS = 5	/* Fixed user ABI, IRQ indexes >=5 use   */
++				/* device specific cap to define content */
  };
  
-@@ -404,7 +458,8 @@ static int vfio_pci_dma_fault_init(struct vfio_pci_device *vdev)
- 		VFIO_REGION_TYPE_NESTED,
- 		VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT,
- 		&vfio_pci_dma_fault_regops, size,
--		VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE,
-+		VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE |
-+		VFIO_REGION_INFO_FLAG_MMAP,
- 		vdev->fault_pages);
- 	if (ret)
- 		goto out;
-@@ -412,7 +467,7 @@ static int vfio_pci_dma_fault_init(struct vfio_pci_device *vdev)
- 	header = (struct vfio_region_dma_fault *)vdev->fault_pages;
- 	header->entry_size = sizeof(struct iommu_fault);
- 	header->nb_entries = DMA_FAULT_RING_LENGTH;
--	header->offset = sizeof(struct vfio_region_dma_fault);
-+	header->offset = PAGE_SIZE;
- 
- 	ret = iommu_register_device_fault_handler(&vdev->pdev->dev,
- 					vfio_pci_iommu_dev_fault_handler,
+ /*
 -- 
 2.26.2
 
