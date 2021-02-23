@@ -1,85 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F895322AE2
-	for <lists.iommu@lfdr.de>; Tue, 23 Feb 2021 13:57:58 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6111E323295
+	for <lists.iommu@lfdr.de>; Tue, 23 Feb 2021 21:57:40 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CAA7783638;
-	Tue, 23 Feb 2021 12:57:56 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0056743024;
+	Tue, 23 Feb 2021 20:57:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CjxBXwSraz2s; Tue, 23 Feb 2021 12:57:55 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nkbn5OeBniWV; Tue, 23 Feb 2021 20:57:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8F9FB8343F;
-	Tue, 23 Feb 2021 12:57:55 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 058C243022;
+	Tue, 23 Feb 2021 20:57:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 52DD6C0001;
-	Tue, 23 Feb 2021 12:57:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D836DC0012;
+	Tue, 23 Feb 2021 20:57:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3B977C0001
- for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 12:57:53 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 67E56C0001
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 20:57:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 29B0C85313
- for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 12:57:53 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4938C4E4BC
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 20:57:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ARW-6TYy4mzk for <iommu@lists.linux-foundation.org>;
- Tue, 23 Feb 2021 12:57:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id T_AH1ojzztzP for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Feb 2021 20:57:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 92C1785124
- for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 12:57:52 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 09F9B4E51E
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Feb 2021 20:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614085071;
+ s=mimecast20190719; t=1614113853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ejww2KN9lm9jdMXwKJXUxNSbDO+xho00yxBfGY60kHQ=;
- b=Z5JM1iOxw7XENzneWDBk71LjRuLaFxWj662m94AwUatPh7Z+2BFg347pj6sYj/FvosEXUR
- /6VObk7PHGY6GdTIxWThvlINq2Kh0VTHktv+J3B9Tdswx7z5bczyGZuG3oXG3kOjHTIsE6
- sppOJQje/md42xpyWt/k1N/vWzcrnew=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dspjyoruL6FYvLVfk5NSTgJZHzGM/NlapNw3ZfaV3DI=;
+ b=dDXRyn1iILovwQMlccrdkAHryKMw9VxBMlhSoXG2CUGZ+d2hduoJK9mu02CRNuzt+pb1Pk
+ gFmmdZy2QIe/zJQUz/blVgDLbo35h19Qj8oqAm8SxEVA83EjM6RYk05WgWIosz3UF/cj7Q
+ Nmn+DCCF7HjPV26Si1kg49+lElPVsfc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-StTCqMhkNUqtugcRrQksTQ-1; Tue, 23 Feb 2021 07:57:47 -0500
-X-MC-Unique: StTCqMhkNUqtugcRrQksTQ-1
+ us-mta-358-iiKcvpHJP16wVJHD1fCK1Q-1; Tue, 23 Feb 2021 15:56:51 -0500
+X-MC-Unique: iiKcvpHJP16wVJHD1fCK1Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B85A1005501;
- Tue, 23 Feb 2021 12:57:44 +0000 (UTC)
-Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 507585D9D0;
- Tue, 23 Feb 2021 12:57:34 +0000 (UTC)
-Subject: Re: [PATCH v11 04/13] vfio/pci: Add VFIO_REGION_TYPE_NESTED region
- type
-To: Shenming Lu <lushenming@huawei.com>, eric.auger.pro@gmail.com,
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 306A3835E25;
+ Tue, 23 Feb 2021 20:56:48 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-34.ams2.redhat.com [10.36.114.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6207F5D9D0;
+ Tue, 23 Feb 2021 20:56:36 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
  kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, will@kernel.org,
- joro@8bytes.org, maz@kernel.org, robin.murphy@arm.com,
- Alex Williamson <alex.williamson@redhat.com>
-References: <20201116110030.32335-1-eric.auger@redhat.com>
- <20201116110030.32335-5-eric.auger@redhat.com>
- <2b5031d4-fa1a-c893-e7e4-56c68da600e4@huawei.com>
- <081265c6-a579-6041-5a74-99bf74cc3d5f@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <022eec8e-ae33-720a-b882-d00cc95a2a27@redhat.com>
-Date: Tue, 23 Feb 2021 13:57:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ maz@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+ alex.williamson@redhat.com, tn@semihalf.com, zhukeqian1@huawei.com
+Subject: [PATCH v14 00/13] SMMUv3 Nested Stage Setup (IOMMU part)
+Date: Tue, 23 Feb 2021 21:56:21 +0100
+Message-Id: <20210223205634.604221-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <081265c6-a579-6041-5a74-99bf74cc3d5f@huawei.com>
-Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Cc: jean-philippe@linaro.org, Kunkun Jiang <jiangkunkun@huawei.com>,
- vivek.gautam@arm.com, wanghaibin.wang@huawei.com, zhangfei.gao@linaro.org
+Cc: jean-philippe@linaro.org, wangxingang5@huawei.com, lushenming@huawei.com,
+ jiangkunkun@huawei.com, vivek.gautam@arm.com, vsethi@nvidia.com,
+ zhangfei.gao@linaro.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,36 +88,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Shenming,
+This series brings the IOMMU part of HW nested paging support
+in the SMMUv3. The VFIO part is submitted separately.
 
-On 2/23/21 1:45 PM, Shenming Lu wrote:
->> +static int vfio_pci_dma_fault_init(struct vfio_pci_device *vdev)
->> +{
->> +	struct vfio_region_dma_fault *header;
->> +	struct iommu_domain *domain;
->> +	size_t size;
->> +	bool nested;
->> +	int ret;
->> +
->> +	domain = iommu_get_domain_for_dev(&vdev->pdev->dev);
->> +	ret = iommu_domain_get_attr(domain, DOMAIN_ATTR_NESTING, &nested);
->> +	if (ret || !nested)
->> +		return ret;
-> 
-> Hi Eric,
-> 
-> It seems that the type of nested should be int, the use of bool might trigger
-> a panic in arm_smmu_domain_get_attr().
+This is based on Jean-Philippe's
+[PATCH v12 00/10] iommu: I/O page faults for SMMUv3
+https://lore.kernel.org/linux-arm-kernel/YBfij71tyYvh8LhB@myrica/T/
 
-Thank you. That's fixed now.
+The IOMMU API is extended to support 2 new API functionalities:
+1) pass the guest stage 1 configuration
+2) pass stage 1 MSI bindings
+
+Then those capabilities gets implemented in the SMMUv3 driver.
+
+The virtualizer passes information through the VFIO user API
+which cascades them to the iommu subsystem. This allows the guest
+to own stage 1 tables and context descriptors (so-called PASID
+table) while the host owns stage 2 tables and main configuration
+structures (STE).
 
 Best Regards
 
 Eric
-> 
-> Thanks,
-> Shenming
-> 
+
+This series can be found at:
+https://github.com/eauger/linux/tree/v5.11-stallv12-2stage-v14
+(including the VFIO part in its last version: v12)
+
+The VFIO series is sent separately.
+
+History:
+
+Previous version (v13):
+https://github.com/eauger/linux/tree/5.10-rc4-2stage-v13
+
+v13 -> v14:
+- Took into account all received comments I think. Great
+  thanks to all the testers for their effort and sometimes
+  fixes. I am really grateful to you!
+- numerous fixes including guest running in
+  noiommu, iommu.strict=0, iommu.passthrough=on,
+  enable_unsafe_noiommu_mode
+
+v12 -> v13:
+- fixed compilation issue with CONFIG_ARM_SMMU_V3_SVA
+  reported by Shameer. This urged me to revisit patch 4 into
+  iommu/smmuv3: Allow s1 and s2 configs to coexist where
+  s1_cfg and s2_cfg are not dynamically allocated anymore.
+  Instead I use a new set field in existing structs
+- fixed 2 others config checks
+- Updated "iommu/arm-smmu-v3: Maintain a SID->device structure"
+  according to the last version
+
+v11 -> v12:
+- rebase on top of v5.10-rc4
+
+Eric Auger (13):
+  iommu: Introduce attach/detach_pasid_table API
+  iommu: Introduce bind/unbind_guest_msi
+  iommu/smmuv3: Allow s1 and s2 configs to coexist
+  iommu/smmuv3: Get prepared for nested stage support
+  iommu/smmuv3: Implement attach/detach_pasid_table
+  iommu/smmuv3: Allow stage 1 invalidation with unmanaged ASIDs
+  iommu/smmuv3: Implement cache_invalidate
+  dma-iommu: Implement NESTED_MSI cookie
+  iommu/smmuv3: Nested mode single MSI doorbell per domain enforcement
+  iommu/smmuv3: Enforce incompatibility between nested mode and HW MSI
+    regions
+  iommu/smmuv3: Implement bind/unbind_guest_msi
+  iommu/smmuv3: report additional recoverable faults
+  iommu/smmuv3: Accept configs with more than one context descriptor
+
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 444 ++++++++++++++++++--
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  14 +-
+ drivers/iommu/dma-iommu.c                   | 142 ++++++-
+ drivers/iommu/iommu.c                       | 106 +++++
+ include/linux/dma-iommu.h                   |  16 +
+ include/linux/iommu.h                       |  47 +++
+ include/uapi/linux/iommu.h                  |  54 +++
+ 7 files changed, 781 insertions(+), 42 deletions(-)
+
+-- 
+2.26.2
 
 _______________________________________________
 iommu mailing list
