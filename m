@@ -1,90 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95103324A85
-	for <lists.iommu@lfdr.de>; Thu, 25 Feb 2021 07:26:52 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA72324DFF
+	for <lists.iommu@lfdr.de>; Thu, 25 Feb 2021 11:29:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1134183F49;
-	Thu, 25 Feb 2021 06:26:51 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5BD754B53E;
+	Thu, 25 Feb 2021 10:29:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y3vzxBbSm-wT; Thu, 25 Feb 2021 06:26:50 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WBe_6Avo3aiJ; Thu, 25 Feb 2021 10:29:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E55F083F4E;
-	Thu, 25 Feb 2021 06:26:49 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 45F484AEA1;
+	Thu, 25 Feb 2021 10:29:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C4CCBC0001;
-	Thu, 25 Feb 2021 06:26:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C637C0001;
+	Thu, 25 Feb 2021 10:29:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CB0F7C0001
- for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 06:26:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 96734C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 10:29:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A5FF283F4A
- for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 06:26:48 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with UTF8SMTP id 843EB6F729
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 10:29:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5W2L0maxgxH3 for <iommu@lists.linux-foundation.org>;
- Thu, 25 Feb 2021 06:26:47 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B9B4983F49
- for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 06:26:47 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id 17so2627247pli.10
- for <iommu@lists.linux-foundation.org>; Wed, 24 Feb 2021 22:26:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=w8TXeKml8XM1ZbA6ShbdIyFFO1a3KVv9r8HYd21fZjk=;
- b=p19dGD+CtfMWthkM6oPMevPv6cSTY5w5I15nfN7Il0AFFuk+DDhRywx9dAOKOylpiz
- AddR9A97AT1BV89QDKGX6qVEBU+Jix+DLHuUJIxkrA/MDqJQW4gZEXw72bzrJkEZOp4V
- T8ZORrbSZNq/tw7EtYa/0C74efB9AAXr3G8oHVG8oJ+DB6njNaI3iMXZjB6Lau8EtLGM
- PlH5TlB9qEwy+HQMZpcKTlTspDuCWlllm0Dz29DysvqXwRdDxK9LKrY6WtMfxhAdAvM4
- 5x4dtODIV6QL5GClNVzeF2U5i9U0yqyAtLOXFTZzuZ0dZzabuLS9qWhFO7AxH7JiP7hn
- vprw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=w8TXeKml8XM1ZbA6ShbdIyFFO1a3KVv9r8HYd21fZjk=;
- b=kYyvr9d/uuCsrfOgq/tJRr3aQEspR5XckUL5jeHanTln2b73GTmJTRlNyRrMBCe8wF
- uARJOfrXr8RbuSqUufrCUqNPE4WXc8B62zuHIIvAqSsj+J9CgJyMmu7ROICPn2oL1T+w
- RRZ87zH1NfStyMXqJEGilwd3a5On/4g2SCOVJ2w9dyYwDk0avrAdLDmfym05MwCnJMEu
- aEUkD/NAUoB4SeETNPZtnLkVWl1dmyfoYSJtlXqWr3B2VIf4LvN9BgMOqpizgnaIe+V/
- CunUJFPXnoGD/h0b2kNu+FhRWhzyUO6v9ZHSm7XuadVavn3aGqYLRpaU8kFczg5SudW3
- Z+Dg==
-X-Gm-Message-State: AOAM531UGpoa1OMPJnW+4b6isf27lFk1LTVYulYLyxSER22N6t8suRX6
- 5hX9PYhlURFfav8zIHlXN68=
-X-Google-Smtp-Source: ABdhPJy1Weq2xf/Mb961fv+2Q+OKgsSyBof3VnceaDHKkw7fdW2LEYlYl75J31TS2Bc58lJ8GzVh3g==
-X-Received: by 2002:a17:902:b089:b029:e3:28:b8ee with SMTP id
- p9-20020a170902b089b02900e30028b8eemr1812650plr.84.1614234407056; 
- Wed, 24 Feb 2021 22:26:47 -0800 (PST)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id o3sm4407946pgm.60.2021.02.24.22.26.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 24 Feb 2021 22:26:46 -0800 (PST)
-Date: Wed, 24 Feb 2021 22:27:43 -0800
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH] iommu/tegra-smmu: Fix mc errors on tegra124-nyan
-Message-ID: <20210225062742.GA13353@Asurada-Nvidia>
-References: <20210218220702.1962-1-nicoleotsuka@gmail.com>
- <9d6445c0-9574-1650-e327-32b11716f87e@gmail.com>
- <20210223021343.GA6539@Asurada-Nvidia>
- <79bb1248-497f-8adf-663b-74448bea3849@gmail.com>
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mg.codeaurora.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with UTF8SMTP id wab4dI7uFpkw for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Feb 2021 10:29:30 +0000 (UTC)
+X-Greylist: delayed 00:05:02 by SQLgrey-1.8.0
+Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
+ by smtp3.osuosl.org (Postfix) with UTF8SMTPS id C438E6F728
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 10:29:30 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614248970; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=kZ3EMOaKS5IAZIa7bBrmkp5+qMtaCy7G4UeFlRuYhzw=;
+ b=H49/d3GYOlbwK9HO3X2zgNvcg5VpOnYAQPIZ/rd/Db2i3xkxi54z6NV87BdRtBu23dNAOe/r
+ /8Sdrnqr0BUtoKWT/UJZQI4e5S5j8Fy2rr1G2u+kryW3lTcV30BPZnP8uEOxzX3CcXExrwZo
+ d0lBDbg8vxBhnvrNR+bb1dPMqJ4=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 60377adacc1f7d7e95a0ffb2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Feb 2021 10:24:26
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 36319C43467; Thu, 25 Feb 2021 10:24:26 +0000 (UTC)
+Received: from blr-ubuntu-253.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 42383C433C6;
+ Thu, 25 Feb 2021 10:24:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 42383C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
+ smtp.mailfrom=saiprakash.ranjan@codeaurora.org
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>, Akhil P Oommen <akhilpo@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: [PATCH 0/2] iommu/arm-smmu-qcom: Add SC7280 support
+Date: Thu, 25 Feb 2021 15:54:08 +0530
+Message-Id: <cover.1614247752.git.saiprakash.ranjan@codeaurora.org>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <79bb1248-497f-8adf-663b-74448bea3849@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: guillaume.tucker@collabora.com, iommu@lists.linux-foundation.org,
- jonathanh@nvidia.com, thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
- will@kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,78 +90,29 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gVHVlLCBGZWIgMjMsIDIwMjEgYXQgMDg6MTA6NDFBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDIzLjAyLjIwMjEgMDU6MTMsIE5pY29saW4gQ2hlbiDQv9C40YjQtdGCOgo+ID4g
-SGkgRG1pdHJ5LAo+ID4gCj4gPiBPbiBTYXQsIEZlYiAyMCwgMjAyMSBhdCAwODoxNjoyMkFNICsw
-MzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gPj4gMTkuMDIuMjAyMSAwMTowNywgTmljb2xp
-biBDaGVuINC/0LjRiNC10YI6Cj4gPj4+IENvbW1pdCAyNTkzOGM3M2NkNzkgKCJpb21tdS90ZWdy
-YS1zbW11OiBSZXdvcmsgdGVncmFfc21tdV9wcm9iZV9kZXZpY2UoKSIpCj4gPj4+IHJlbW92ZWQg
-Y2VydGFpbiBoYWNrIGluIHRoZSB0ZWdyYV9zbW11X3Byb2JlKCkgYnkgcmVseWluZyBvbiBJT01N
-VSBjb3JlIHRvCj4gPj4+IG9mX3hsYXRlIFNNTVUncyBTSUQgcGVyIGRldmljZSwgc28gYXMgdG8g
-Z2V0IHJpZCBvZiB0ZWdyYV9zbW11X2ZpbmQoKSBhbmQKPiA+Pj4gdGVncmFfc21tdV9jb25maWd1
-cmUoKSB0aGF0IGFyZSB0eXBpY2FsbHkgZG9uZSBpbiB0aGUgSU9NTVUgY29yZSBhbHNvLgo+ID4+
-Pgo+ID4+PiBUaGlzIGFwcHJvYWNoIHdvcmtzIGZvciBib3RoIGV4aXN0aW5nIGRldmljZXMgdGhh
-dCBoYXZlIERUIG5vZGVzIGFuZCBvdGhlcgo+ID4+PiBkZXZpY2VzIChsaWtlIFBDSSBkZXZpY2Up
-IHRoYXQgZG9uJ3QgZXhpc3QgaW4gRFQsIG9uIFRlZ3JhMjEwIGFuZCBUZWdyYTMKPiA+Pj4gdXBv
-biB0ZXN0aW5nLiBIb3dldmVyLCBQYWdlIEZhdWx0IGVycm9ycyBhcmUgcmVwb3J0ZWQgb24gdGVn
-cmExMjQtTnlhbjoKPiA+Pj4KPiA+Pj4gICB0ZWdyYS1tYyA3MDAxOTAwMC5tZW1vcnktY29udHJv
-bGxlcjogZGlzcGxheTBhOiByZWFkIEAweGZlMDU2YjQwOgo+ID4+PiAJIEVNRU0gYWRkcmVzcyBk
-ZWNvZGUgZXJyb3IgKFNNTVUgdHJhbnNsYXRpb24gZXJyb3IgWy0tU10pCj4gPj4+ICAgdGVncmEt
-bWMgNzAwMTkwMDAubWVtb3J5LWNvbnRyb2xsZXI6IGRpc3BsYXkwYTogcmVhZCBAMHhmZTA1NmI0
-MDoKPiA+Pj4gCSBQYWdlIGZhdWx0IChTTU1VIHRyYW5zbGF0aW9uIGVycm9yIFstLVNdKQo+ID4+
-Pgo+ID4+PiBBZnRlciBkZWJ1Z2dpbmcsIEkgZm91bmQgdGhhdCB0aGUgbWVudGlvbmVkIGNvbW1p
-dCBjaGFuZ2VkIHNvbWUgZnVuY3Rpb24KPiA+Pj4gY2FsbGJhY2sgc2VxdWVuY2Ugb2YgdGVncmEt
-c21tdSdzLCByZXN1bHRpbmcgaW4gZW5hYmxpbmcgU01NVSBmb3IgZGlzcGxheQo+ID4+PiBjbGll
-bnQgYmVmb3JlIGRpc3BsYXkgZHJpdmVyIGdldHMgaW5pdGlhbGl6ZWQuIEkgY291bGRuJ3QgcmVw
-cm9kdWNlIGV4YWN0Cj4gPj4+IHNhbWUgaXNzdWUgb24gVGVncmEyMTAgYXMgVGVncmExMjQgKGFy
-bS0zMikgZGlmZmVycyBhdCBhcmNoLWxldmVsIGNvZGUuCj4gPj4KPiA+PiBIZWxsbyBOaWNvbGlu
-LAo+ID4+Cj4gPj4gQ291bGQgeW91IHBsZWFzZSBleHBsYWluIGluIGEgbW9yZSBkZXRhaWxzIHdo
-YXQgZXhhY3RseSBtYWtlcyB0aGUKPiA+PiBkaWZmZXJlbmNlIGZvciB0aGUgY2FsbGJhY2sgc2Vx
-dWVuY2U/Cj4gPiAKPiA+IEhlcmUgaXMgYSBsb2cgd2l0aCA1LjExLjAtcmM2Ogo+ID4gaHR0cHM6
-Ly9sYXZhLmNvbGxhYm9yYS5jby51ay9zY2hlZHVsZXIvam9iLzMxODc4NDkKPiA+IFtkdW1wX3N0
-YWNrIHdhcyBhZGRlZCBpbiBzb21lIHRlZ3JhLXNtbXUgZnVuY3Rpb25zXQo+ID4gCj4gPiBBbmQg
-aGVyZSBpcyBhIGNvcnJlc3BvbmRpbmcgbG9nIHdpdGggcmV2ZXJ0aW5nIHRoZSBvcmlnaW5hbCBj
-b21taXQ6Cj4gPiBodHRwczovL2xhdmEuY29sbGFib3JhLmNvLnVrL3NjaGVkdWxlci9qb2IvMzE4
-Nzg1MQo+ID4gCj4gPiBIZXJlIGlzIGEgbG9nIHdpdGggNS4xMS4wLXJjNy1uZXh0LTIwMjEwMjEw
-Ogo+ID4gaHR0cHM6Ly9sYXZhLmNvbGxhYm9yYS5jby51ay9zY2hlZHVsZXIvam9iLzMyMTAyNDUK
-PiA+IAo+ID4gQW5kIGhlcmUgaXMgYSBjb3JyZXNwb25kaW5nIGxvZyB3aXRoIHJldmVydGluZyB0
-aGUgb3JpZ2luYWwgY29tbWl0Ogo+ID4gaHR0cHM6Ly9sYXZhLmNvbGxhYm9yYS5jby51ay9zY2hl
-ZHVsZXIvam9iLzMyMTA1OTYKPiA+IAo+ID4gQm90aCBmYWlsaW5nIGxvZ3Mgc2hvdyB0aGF0IG1j
-IGVycm9ycyBzdGFydGVkIHJpZ2h0IGFmdGVyIGNsaWVudCBEQwo+ID4gZ290IGVuYWJsZWQgYnkg
-LT5hdHRhY2hfZGV2KCkgY2FsbGJhY2sgdGhhdCBpbiB0aGUgcGFzc2luZyBsb2dzIHdhcwo+ID4g
-bm90IGNhbGxlZCB1bnRpbCBIb3N0MXggZHJpdmVyIGluaXQuIEFuZCBub3RlIHRoYXQgdHdvIGZh
-aWxpbmcgbG9ncwo+ID4gc2hvdyB0aGF0IC0+YXR0YWNoX2RldigpIGNvdWxkIGJlIGNhbGxlZCBm
-cm9tIHR3byBkaWZmZXJlbnQgc291cmNlcywKPiA+IG9mX2RtYV9jb25maWd1cmVfaWQoKSBvciBh
-cmNoX3NldHVwX2RtYV9vcHMoKS4KPiA+IAo+ID4gVGhlIHJlYXNvbiB3aHkgLT5hdHRhY2hfZGV2
-KCkgZ2V0cyBjYWxsZWQgaXMgcHJvYmFibHkgcmVsYXRlZCB0byB0aGUKPiA+IGZvbGxvd2luZyBy
-ZWFzb25zIChzb3JyeSwgY2FuJ3QgYmUgMTAwJSBzdXJlIGFzIEkgZG9uJ3QgaGF2ZSBUZWdyYTEy
-NAo+ID4gb3Igb3RoZXIgMzJiaXQgVGVncmEgYm9hcmQgdG8gdGVzdCk6Cj4gPiAxKSBXaXRoIHRo
-ZSBjb21taXQgcmV2ZXJ0ZWQsIGFsbCBjbGllbnRzIGFyZSBwcm9iZWQgaW4gImFyY2giIHN0YWdl
-LAo+ID4gICAgd2hpY2ggaXMgZXZlbiBwcmlvciB0byBpb21tdSBjb3JlIGluaXRpYWxpemF0aW9u
-IC0tIGluY2x1ZGluZyBpdAo+ID4gICAgc2V0dGluZyBkZWZhdWx0IGRvbWFpbiB0eXBlLiBUaGlz
-IHByb2JhYmx5IG1lc3NlZCB1cCB0aGUgdHlwZSBvZgo+ID4gICAgYWxsb2NhdGluZyBkb21haW5z
-IGFnYWluc3QgdGhlIGRlZmF1bHQgZG9tYWluIHR5cGUuIEFsc28gaW50ZXJuYWwKPiA+ICAgIGdy
-b3VwIGlzIHNvbWVob3cgYWZmZWN0ZWQuIFNvIHNvbWUgY29uZGl0aW9uIGNoZWNrIGluIGlvbW11
-IGNvcmUKPiA+ICAgIGZhaWxlZCBhbmQgdGhlbiBpdCBieXBhc3NlZCAtPmF0dGFjaF9kZXYgY2Fs
-bGJhY2sgaW4gcmVhbGx5X3Byb2JlCj4gPiAgICBzdGFnZSwgdW50aWwgSG9zdDF4IGRyaXZlciBk
-b2VzIGF0dGFjaF9kZXYgYWdhaW4uCj4gPiAKPiA+IDIpIDMyYml0IEFSTSBoYXMgYXJjaF9zZXR1
-cF9kbWFfb3BzKCkgZG9lcyBhbiBhZGRpdGlvbmFsIHNldCBvZiBpb21tdQo+ID4gICAgZG9tYWlu
-IGFsbG9jYXRpb24gKyBhdHRhY2hfZGV2KCksIGFmdGVyIG9mX2RtYV9jb25maWd1cmVfaWQoKSBk
-aWQKPiA+ICAgIG9uY2UuIFRoaXMgaXNuJ3QgcmVwcm9kdWNpYmxlIGZvciBtZSBvbiBUZWdyYTIx
-MC4KPiA+IAo+ID4gQXMgZGVidWdnaW5nIG9ubGluZSBpc24ndCB2ZXJ5IGVmZmljaWVudCwgYW5k
-IGdpdmVuIHRoYXQgVGhpZXJyeSBoYXMKPiA+IGJlZW4gd29ya2luZyBvbiB0aGUgbGluZWFyIG1h
-cHBpbmcgb2YgZnJhbWVidWZmZXIgY2FydmVvdXQsIEkgY2hvb3NlCj4gPiB0byBwYXJ0aWFsbHkg
-cmV2ZXJ0IGFzIGEgcXVpY2sgZml4Lgo+IAo+IFRoZSBwYXJ0aWFsbHkgcmV2ZXJ0IHNob3VsZCBi
-ZSBva2F5LCBidXQgaXQncyBub3QgY2xlYXIgdG8gbWUgd2hhdCBtYWtlcwo+IGRpZmZlcmVuY2Ug
-Zm9yIFQxMjQgc2luY2UgSSBkb24ndCBzZWUgdGhhdCBwcm9ibGVtIG9uIFQzMCwgd2hpY2ggYWxz
-bwo+IGhhcyBhY3RpdmUgZGlzcGxheSBhdCBhIGJvb3QgdGltZS4KCkhtbS4uZG8geW91IHNlZSAt
-PmF0dGFjaF9kZXYoKSBpcyBjYWxsZWQgZnJvbSBob3N0MXhfY2xpZW50X2lvbW11X2F0dGFjaApv
-ciBmcm9tIG9mX2RtYV9jb25maWd1cmVfaWQvYXJjaF9zZXR1cF9kbWFfb3BzPwpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QK
-aW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5k
-YXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+Patch 1 adds the sc7280 smmu compatible.
+Patch 2 moves the adreno smmu check before apss smmu to enable
+adreno smmu specific implementation.
+
+Sai Prakash Ranjan (2):
+  iommu/arm-smmu-qcom: Add SC7280 SMMU compatible
+  iommu/arm-smmu-qcom: Move the adreno smmu specific impl earlier
+
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+
+base-commit: 7060377ce06f9cd3ed6274c0f2310463feb5baec
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
