@@ -2,58 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5E7324A92
-	for <lists.iommu@lfdr.de>; Thu, 25 Feb 2021 07:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291AE324A94
+	for <lists.iommu@lfdr.de>; Thu, 25 Feb 2021 07:36:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 545AF6F6DC;
+	by smtp3.osuosl.org (Postfix) with ESMTP id A11C560754;
 	Thu, 25 Feb 2021 06:36:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZSgRg1o7YsXt; Thu, 25 Feb 2021 06:36:06 +0000 (UTC)
+	with ESMTP id ME6eh8IPeG6L; Thu, 25 Feb 2021 06:36:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6EB4F60754;
+	by smtp3.osuosl.org (Postfix) with ESMTP id B04446F6F1;
 	Thu, 25 Feb 2021 06:36:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E5F8C0019;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B82BBC0001;
 	Thu, 25 Feb 2021 06:36:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 60F2DC0001
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B6F8EC0001
  for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 06:36:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 4F7214ED54
+ by smtp1.osuosl.org (Postfix) with ESMTP id 9845B83F62
  for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 06:36:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LbUJm5bi7-bE for <iommu@lists.linux-foundation.org>;
- Thu, 25 Feb 2021 06:36:03 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Lnd6MnYXaEgn for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Feb 2021 06:36:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 95B424ED65
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DC2EC83F4E
  for <iommu@lists.linux-foundation.org>; Thu, 25 Feb 2021 06:36:03 +0000 (UTC)
-IronPort-SDR: /qkHQBuyQZHXjrZ4ojM6nn+HfWv35VWUVsB06AdOiDNbTVUFcw+sR4FEzE0CbnepvbbIBvG2/S
- popG1f9ZAApA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="249486062"
-X-IronPort-AV: E=Sophos;i="5.81,205,1610438400"; d="scan'208";a="249486062"
+IronPort-SDR: mXuhLtDH8TrYLyEzollK1O4mhq8pQAciSUqnqZQ+6x1tQZ5fCsBGz1IXG2pVe7Z+FacOJVQdtN
+ 7PMn73qWjJbA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="249486084"
+X-IronPort-AV: E=Sophos;i="5.81,205,1610438400"; d="scan'208";a="249486084"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2021 22:36:00 -0800
-IronPort-SDR: nXtZj5RJ6TUqmWZAD+e6ayvxzUxe7wA9L/j0GStYKhkb2uLbb74L50D0K4FvrvL+3yc3EsM2HA
- qklAr2oRfjgw==
+ 24 Feb 2021 22:36:02 -0800
+IronPort-SDR: b77Wx7U87EoBv/R5GUKpFJyOs3wp1ax7LfGvkJOeaU3knlBXuh6aae18jRM+hM3611QefNyfeV
+ 1kO2D7znc7UA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,205,1610438400"; d="scan'208";a="499965268"
+X-IronPort-AV: E=Sophos;i="5.81,205,1610438400"; d="scan'208";a="499965283"
 Received: from allen-box.sh.intel.com ([10.239.159.128])
- by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2021 22:35:57 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 24 Feb 2021 22:36:00 -0800
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>
-Subject: [PATCH 2/5] iommu/vt-d: Remove WO permissions on second-level paging
- entries
-Date: Thu, 25 Feb 2021 14:26:51 +0800
-Message-Id: <20210225062654.2864322-3-baolu.lu@linux.intel.com>
+Subject: [PATCH 3/5] iommu/vt-d: Invalidate PASID cache when root/context
+ entry changed
+Date: Thu, 25 Feb 2021 14:26:52 +0800
+Message-Id: <20210225062654.2864322-4-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210225062654.2864322-1-baolu.lu@linux.intel.com>
 References: <20210225062654.2864322-1-baolu.lu@linux.intel.com>
@@ -78,36 +78,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When the first level page table is used for IOVA translation, it only
-supports Read-Only and Read-Write permissions. The Write-Only permission
-is not supported as the PRESENT bit (implying Read permission) should
-always set. When using second level, we still give separate permissions
-that allows WriteOnly which seems inconsistent and awkward. There is no
-use case we can think off, hence remove that configuration to make it
-consistent.
+When the Intel IOMMU is operating in the scalable mode, some information
+from the root and context table may be used to tag entries in the PASID
+cache. Software should invalidate the PASID-cache when changing root or
+context table entries.
 
 Suggested-by: Ashok Raj <ashok.raj@intel.com>
-Fixes: b802d070a52a1 ("iommu/vt-d: Use iova over first level")
+Fixes: 7373a8cc38197 ("iommu/vt-d: Setup context and enable RID2PASID support")
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/iommu/intel/iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/iommu/intel/iommu.c | 18 +++++++++---------
+ include/linux/intel-iommu.h |  1 +
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index ee0932307d64..19b3fd0d035b 100644
+index 19b3fd0d035b..f41b184ce6eb 100644
 --- a/drivers/iommu/intel/iommu.c
 +++ b/drivers/iommu/intel/iommu.c
-@@ -2305,8 +2305,9 @@ __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
- 		return -EINVAL;
+@@ -1340,6 +1340,11 @@ static void iommu_set_root_entry(struct intel_iommu *iommu)
+ 		      readl, (sts & DMA_GSTS_RTPS), sts);
  
- 	attr = prot & (DMA_PTE_READ | DMA_PTE_WRITE | DMA_PTE_SNP);
-+	attr |= DMA_FL_PTE_PRESENT;
- 	if (domain_use_first_level(domain)) {
--		attr |= DMA_FL_PTE_PRESENT | DMA_FL_PTE_XD | DMA_FL_PTE_US;
-+		attr |= DMA_FL_PTE_XD | DMA_FL_PTE_US;
+ 	raw_spin_unlock_irqrestore(&iommu->register_lock, flag);
++
++	iommu->flush.flush_context(iommu, 0, 0, 0, DMA_CCMD_GLOBAL_INVL);
++	if (sm_supported(iommu))
++		qi_flush_pasid_cache(iommu, 0, QI_PC_GLOBAL, 0);
++	iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
+ }
  
- 		if (domain->domain.type == IOMMU_DOMAIN_DMA) {
- 			attr |= DMA_FL_PTE_ACCESS;
+ void iommu_flush_write_buffer(struct intel_iommu *iommu)
+@@ -2423,6 +2428,10 @@ static void domain_context_clear_one(struct intel_iommu *iommu, u8 bus, u8 devfn
+ 				   (((u16)bus) << 8) | devfn,
+ 				   DMA_CCMD_MASK_NOBIT,
+ 				   DMA_CCMD_DEVICE_INVL);
++
++	if (sm_supported(iommu))
++		qi_flush_pasid_cache(iommu, did_old, QI_PC_ALL_PASIDS, 0);
++
+ 	iommu->flush.flush_iotlb(iommu,
+ 				 did_old,
+ 				 0,
+@@ -3268,8 +3277,6 @@ static int __init init_dmars(void)
+ 		register_pasid_allocator(iommu);
+ #endif
+ 		iommu_set_root_entry(iommu);
+-		iommu->flush.flush_context(iommu, 0, 0, 0, DMA_CCMD_GLOBAL_INVL);
+-		iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
+ 	}
+ 
+ #ifdef CONFIG_INTEL_IOMMU_BROKEN_GFX_WA
+@@ -3459,12 +3466,7 @@ static int init_iommu_hw(void)
+ 		}
+ 
+ 		iommu_flush_write_buffer(iommu);
+-
+ 		iommu_set_root_entry(iommu);
+-
+-		iommu->flush.flush_context(iommu, 0, 0, 0,
+-					   DMA_CCMD_GLOBAL_INVL);
+-		iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
+ 		iommu_enable_translation(iommu);
+ 		iommu_disable_protect_mem_regions(iommu);
+ 	}
+@@ -3847,8 +3849,6 @@ static int intel_iommu_add(struct dmar_drhd_unit *dmaru)
+ 		goto disable_iommu;
+ 
+ 	iommu_set_root_entry(iommu);
+-	iommu->flush.flush_context(iommu, 0, 0, 0, DMA_CCMD_GLOBAL_INVL);
+-	iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
+ 	iommu_enable_translation(iommu);
+ 
+ 	iommu_disable_protect_mem_regions(iommu);
+diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
+index 1bc46b88711a..d1f32b33415a 100644
+--- a/include/linux/intel-iommu.h
++++ b/include/linux/intel-iommu.h
+@@ -372,6 +372,7 @@ enum {
+ /* PASID cache invalidation granu */
+ #define QI_PC_ALL_PASIDS	0
+ #define QI_PC_PASID_SEL		1
++#define QI_PC_GLOBAL		3
+ 
+ #define QI_EIOTLB_ADDR(addr)	((u64)(addr) & VTD_PAGE_MASK)
+ #define QI_EIOTLB_IH(ih)	(((u64)ih) << 6)
 -- 
 2.25.1
 
