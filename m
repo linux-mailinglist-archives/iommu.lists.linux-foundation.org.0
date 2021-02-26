@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D03267ED
-	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:30 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FED43267EC
+	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E946B4341E;
-	Fri, 26 Feb 2021 20:11:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 45BBA4F0AB;
+	Fri, 26 Feb 2021 20:11:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id acKFzdxriVu2; Fri, 26 Feb 2021 20:11:26 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zSlOHW4wSoR8; Fri, 26 Feb 2021 20:11:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 20ACE43410;
-	Fri, 26 Feb 2021 20:11:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CEF684F0B5;
+	Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C812C0001;
-	Fri, 26 Feb 2021 20:11:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 148BFC0019;
+	Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 11C38C0001
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:21 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8622C0013
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5E70C842D2
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9BAC54F0A7
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ldmxcBajrTOB for <iommu@lists.linux-foundation.org>;
- Fri, 26 Feb 2021 20:11:14 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PWZehSgfOuDy for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 96E3584314
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:14 +0000 (UTC)
-IronPort-SDR: g6Vf/yMy7AwSVTHJU5hMzvKrDdE5qeK9Zp0+DXFmIAcP/GxJI3DXkF62XNj5SvPiUNkjhQ6SLS
- 7ZXpdgvb+o8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="247407457"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="247407457"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7135D4A053
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
+IronPort-SDR: Rd86kw2Ix7+zD/cX3ItxfK/zAgywGNKnr6xkObiymg1AWeBN+oTU9ZSZjtLggPKNFzIU4+BOJr
+ nOBsa1IwsGTg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="186039452"
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="186039452"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Feb 2021 12:11:14 -0800
-IronPort-SDR: 6eRWXMxbkZk4WWg4nf7WXCqgFHHUePNl/a+OsdoHo0lhY7FNfjLnXXfa+jiMWeI1DTvbAaSBUE
- 8iojhtQHcn6Q==
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109447"
+IronPort-SDR: Yo/KNtvXneOxHD6NG7HH8FE9wVW+KzGpM+KyH432qTshqa1T8Sq2664sNn9RpZibK33r8a5KZX
+ ELNvHeW965Rw==
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109452"
 Received: from megha-z97x-ud7-th.sc.intel.com ([143.183.85.154])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 26 Feb 2021 12:11:13 -0800
+ 26 Feb 2021 12:11:14 -0800
 From: Megha Dey <megha.dey@intel.com>
 To: tglx@linutronix.de
-Subject: [Patch V2 09/13] iommu/vt-d: Add DEV-MSI support
-Date: Fri, 26 Feb 2021 12:11:13 -0800
-Message-Id: <1614370277-23235-10-git-send-email-megha.dey@intel.com>
+Subject: [Patch V2 10/13] iommu: Add capability IOMMU_CAP_VIOMMU_HINT
+Date: Fri, 26 Feb 2021 12:11:14 -0800
+Message-Id: <1614370277-23235-11-git-send-email-megha.dey@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
 References: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
@@ -79,41 +79,104 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add required support in the interrupt remapping driver for devices
-which generate dev-msi interrupts and use the intel remapping
-domain as the parent domain. Set the source-id of all dev-msi
-interrupt requests to the parent PCI device associated with it.
+From: Lu Baolu <baolu.lu@linux.intel.com>
 
+Some IOMMU specification defines some kind of hint mechanism, through
+which BIOS can imply that OS runs in a virtualized environment. For
+example, the caching mode defined in VT-d spec and NpCache capability
+defined in the AMD IOMMU specification. This hint could also be used
+outside of the IOMMU subsystem, where it could be used with other known
+means (CPUID, smbios) to sense whether Linux is running in a virtualized
+environment. Add a capability bit so that it could be used there.
+
+Cc: Joerg Roedel <joro@8bytes.org>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Megha Dey <megha.dey@intel.com>
 ---
- drivers/iommu/intel/irq_remapping.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/iommu/amd/iommu.c    | 2 ++
+ drivers/iommu/intel/iommu.c  | 5 +++++
+ drivers/iommu/virtio-iommu.c | 9 +++++++++
+ include/linux/iommu.h        | 2 ++
+ 4 files changed, 18 insertions(+)
 
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index 611ef52..2a55e54 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1282,6 +1282,9 @@ static void intel_irq_remapping_prepare_irte(struct intel_ir_data *data,
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
- 		set_msi_sid(irte, msi_desc_to_pci_dev(info->desc));
- 		break;
-+	case X86_IRQ_ALLOC_TYPE_DEV_MSI:
-+		set_msi_sid(irte, to_pci_dev(info->desc->dev->parent));
-+		break;
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index a69a8b5..a912318 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -2140,6 +2140,8 @@ static bool amd_iommu_capable(enum iommu_cap cap)
+ 		return (irq_remapping_enabled == 1);
+ 	case IOMMU_CAP_NOEXEC:
+ 		return false;
++	case IOMMU_CAP_VIOMMU_HINT:
++		return amd_iommu_np_cache;
  	default:
- 		BUG_ON(1);
  		break;
-@@ -1325,7 +1328,8 @@ static int intel_irq_remapping_alloc(struct irq_domain *domain,
- 	if (!info || !iommu)
- 		return -EINVAL;
- 	if (nr_irqs > 1 && info->type != X86_IRQ_ALLOC_TYPE_PCI_MSI &&
--	    info->type != X86_IRQ_ALLOC_TYPE_PCI_MSIX)
-+	    info->type != X86_IRQ_ALLOC_TYPE_PCI_MSIX &&
-+	    info->type != X86_IRQ_ALLOC_TYPE_DEV_MSI)
- 		return -EINVAL;
+ 	}
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index ee09323..55fa198 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -294,6 +294,7 @@ static inline void context_clear_entry(struct context_entry *context)
+  */
+ static struct dmar_domain *si_domain;
+ static int hw_pass_through = 1;
++static int intel_caching_mode;
  
- 	/*
+ #define for_each_domain_iommu(idx, domain)			\
+ 	for (idx = 0; idx < g_num_of_iommus; idx++)		\
+@@ -3253,6 +3254,8 @@ static int __init init_dmars(void)
+ 
+ 		if (!ecap_pass_through(iommu->ecap))
+ 			hw_pass_through = 0;
++		if (cap_caching_mode(iommu->cap))
++			intel_caching_mode = 1;
+ 		intel_svm_check(iommu);
+ 	}
+ 
+@@ -5113,6 +5116,8 @@ static bool intel_iommu_capable(enum iommu_cap cap)
+ 		return domain_update_iommu_snooping(NULL) == 1;
+ 	if (cap == IOMMU_CAP_INTR_REMAP)
+ 		return irq_remapping_enabled == 1;
++	if (cap == IOMMU_CAP_VIOMMU_HINT)
++		return intel_caching_mode;
+ 
+ 	return false;
+ }
+diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
+index 2bfdd57..e4941ca 100644
+--- a/drivers/iommu/virtio-iommu.c
++++ b/drivers/iommu/virtio-iommu.c
+@@ -931,7 +931,16 @@ static int viommu_of_xlate(struct device *dev, struct of_phandle_args *args)
+ 	return iommu_fwspec_add_ids(dev, args->args, 1);
+ }
+ 
++static bool viommu_capable(enum iommu_cap cap)
++{
++	if (cap == IOMMU_CAP_VIOMMU_HINT)
++		return true;
++
++	return false;
++}
++
+ static struct iommu_ops viommu_ops = {
++	.capable		= viommu_capable,
+ 	.domain_alloc		= viommu_domain_alloc,
+ 	.domain_free		= viommu_domain_free,
+ 	.attach_dev		= viommu_attach_dev,
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 5e7fe51..9d0ade4 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -94,6 +94,8 @@ enum iommu_cap {
+ 					   transactions */
+ 	IOMMU_CAP_INTR_REMAP,		/* IOMMU supports interrupt isolation */
+ 	IOMMU_CAP_NOEXEC,		/* IOMMU_NOEXEC flag */
++	IOMMU_CAP_VIOMMU_HINT,		/* IOMMU can detect a hit for running in
++					   VM */
+ };
+ 
+ /*
 -- 
 2.7.4
 
