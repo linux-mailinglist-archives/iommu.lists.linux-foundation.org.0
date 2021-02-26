@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266FC3267EB
-	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:26 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2483267EA
+	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6965D842D2;
-	Fri, 26 Feb 2021 20:11:21 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6D9924F0B1;
+	Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tsDBqPaR-dEn; Fri, 26 Feb 2021 20:11:20 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id j1i94wW_yX6w; Fri, 26 Feb 2021 20:11:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E261A84352;
-	Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 68A454F0AB;
+	Fri, 26 Feb 2021 20:11:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5916EC001C;
-	Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32538C0012;
+	Fri, 26 Feb 2021 20:11:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 18487C000A
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:17 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 08A27C0001
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7C96C8433C
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:14 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id D41F6842DA
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xXQv8QMbLTsz for <iommu@lists.linux-foundation.org>;
+ with ESMTP id joShjovgZHcv for <iommu@lists.linux-foundation.org>;
  Fri, 26 Feb 2021 20:11:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp1.osuosl.org (Postfix) with ESMTPS id DE00784314
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:12 +0000 (UTC)
-IronPort-SDR: OgCCef02FNxveIBK1DTy7XbhR6t7fDTNeE0rt7u4//jmYwt2zbqrDnjR2e/oICUbrCHJQB4dVz
- ohf21g0dvVlw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="247407434"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="247407434"
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1DB7584336
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:13 +0000 (UTC)
+IronPort-SDR: HECN4T9wPxAjnr7puUr1BeZcyQqZdzulJ7Ij0lgWXeuHck2RvQDkpWdrR2vDsJsBpZTXIipimZ
+ G/uk3r6yqouw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="247407438"
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="247407438"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2021 12:11:11 -0800
-IronPort-SDR: 9a5BHwtORTSc9pmdEveYrYSpW5OSc02+TG8BWYRk565yyJcLKsOy5Z/u0qzo+h2HBNK6ChRZKM
- xUhEmdpFHWjQ==
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109427"
+ 26 Feb 2021 12:11:12 -0800
+IronPort-SDR: u4IAvGdLeToPWo/koT5J5hjXR2dHjNUyI+wV88uEkb9QnkDbyoyO6UoKv2YP3Z7gUMSeRDGQRA
+ 2O1bk3wGK+KQ==
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109431"
 Received: from megha-z97x-ud7-th.sc.intel.com ([143.183.85.154])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
  26 Feb 2021 12:11:11 -0800
 From: Megha Dey <megha.dey@intel.com>
 To: tglx@linutronix.de
-Subject: [Patch V2 03/13] platform-msi: Provide default irq_chip:: Ack
-Date: Fri, 26 Feb 2021 12:11:07 -0800
-Message-Id: <1614370277-23235-4-git-send-email-megha.dey@intel.com>
+Subject: [Patch V2 04/13] genirq/proc: Take buslock on affinity write
+Date: Fri, 26 Feb 2021 12:11:08 -0800
+Message-Id: <1614370277-23235-5-git-send-email-megha.dey@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
 References: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
@@ -81,30 +81,66 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-For the upcoming device MSI support it's required to have a default
-irq_chip::ack implementation (irq_chip_ack_parent) so the drivers do not
-need to care.
+Until now interrupt chips which support setting affinity are not locking
+the associated bus lock for two reasons:
+
+ - All chips which support affinity setting do not use buslock because they
+   just can operated directly on the hardware.
+
+ - All chips which use buslock do not support affinity setting because
+   their interrupt chips are not capable. These chips are usually connected
+   over a bus like I2C, SPI etc. and have an interrupt output which is
+   conneted to CPU interrupt of some sort. So there is no way to set the
+   affinity on the chip itself.
+
+Upcoming hardware which is PCIE based sports a non standard MSI(X) variant
+which stores the MSI message in RAM which is associated to e.g. a device
+queue. The device manages this RAM and writes have to be issued via command
+queues or similar mechanisms which is obviously not possible from interrupt
+disabled, raw spinlock held context.
+
+The buslock mechanism of irq chips can be utilized to support that. The
+affinity write to the chip writes to shadow state, marks it pending and the
+irq chip's irq_bus_sync_unlock() callback handles the command queue and
+wait for completion similar to the other chip operations on I2C or SPI
+buses.
+
+Change the locking in irq_set_affinity() to bus_lock/unlock to help with
+that. There are a few other callers than the proc interface, but none of
+them is affected by this change as none of them affects an irq chip with
+bus lock support.
 
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Megha Dey <megha.dey@intel.com>
 ---
- drivers/base/platform-msi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ kernel/irq/manage.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/base/platform-msi.c b/drivers/base/platform-msi.c
-index 2c1e2e0..9d9ccfc 100644
---- a/drivers/base/platform-msi.c
-+++ b/drivers/base/platform-msi.c
-@@ -101,6 +101,8 @@ static void platform_msi_update_chip_ops(struct msi_domain_info *info)
- 		chip->irq_mask = irq_chip_mask_parent;
- 	if (!chip->irq_unmask)
- 		chip->irq_unmask = irq_chip_unmask_parent;
-+	if (!chip->irq_ack)
-+		chip->irq_ack = irq_chip_ack_parent;
- 	if (!chip->irq_eoi)
- 		chip->irq_eoi = irq_chip_eoi_parent;
- 	if (!chip->irq_set_affinity)
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index dec3f73..85ede4e 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -443,16 +443,16 @@ int irq_update_affinity_desc(unsigned int irq,
+ 
+ int __irq_set_affinity(unsigned int irq, const struct cpumask *mask, bool force)
+ {
+-	struct irq_desc *desc = irq_to_desc(irq);
++	struct irq_desc *desc;
+ 	unsigned long flags;
+ 	int ret;
+ 
++	desc = irq_get_desc_buslock(irq, &flags, IRQ_GET_DESC_CHECK_GLOBAL);
+ 	if (!desc)
+ 		return -EINVAL;
+ 
+-	raw_spin_lock_irqsave(&desc->lock, flags);
+ 	ret = irq_set_affinity_locked(irq_desc_get_irq_data(desc), mask, force);
+-	raw_spin_unlock_irqrestore(&desc->lock, flags);
++	irq_put_desc_busunlock(desc, flags);
+ 	return ret;
+ }
+ 
 -- 
 2.7.4
 
