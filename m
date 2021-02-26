@@ -2,56 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980093267E4
-	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213C63267E6
+	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0C6BA4F0A8;
-	Fri, 26 Feb 2021 20:11:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 507414B799;
+	Fri, 26 Feb 2021 20:11:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j5smFb28qK1r; Fri, 26 Feb 2021 20:11:16 +0000 (UTC)
+	with ESMTP id ENKQd_PGf_df; Fri, 26 Feb 2021 20:11:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E27874F08E;
-	Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C93DB4F0A7;
+	Fri, 26 Feb 2021 20:11:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4BA9C0012;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DDE9CC0015;
 	Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 79FC2C0001
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:13 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 256F4C0001
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 64E978433A
+ by smtp1.osuosl.org (Postfix) with ESMTP id 84E5E842D2
  for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id enq8xixr6B0l for <iommu@lists.linux-foundation.org>;
+ with ESMTP id 7HpgwIeAbBkj for <iommu@lists.linux-foundation.org>;
  Fri, 26 Feb 2021 20:11:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 68D33842D2
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9F366842DA
  for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:12 +0000 (UTC)
-IronPort-SDR: r+iehdBTg/Su0cb+HjCcn2iJzQOHR+htq9Kpc4JXQ+9vCBeH8GMskalocL/sDQnvSYuDjO/3a8
- hdlKZK86X0CA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="247407425"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="247407425"
+IronPort-SDR: zNyHG8nDSqK80jrBtRN9oQdkESIIMTA3BLhx7oiITCy01DJA2IPzq00bkK0OhVXhMYHc6bkZeW
+ b768FOO2pCMA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="247407429"
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="247407429"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Feb 2021 12:11:11 -0800
-IronPort-SDR: bv3dIM+IbW13OExEYSXo0hhvv1rA5nhUWMSWlIzU/auQPUWDKDSD5QG824i1vJGPgpNSm87Anc
- 802IjYYcsKGQ==
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109416"
+IronPort-SDR: IyZ2IpXRfbmEHcV4hiAMmMvrpklHRgTe7EdusvO1084PNG83I0fduqXETi5E4sUMFXg4iEUdbn
+ akD/3E8MYV3A==
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109420"
 Received: from megha-z97x-ud7-th.sc.intel.com ([143.183.85.154])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 26 Feb 2021 12:11:10 -0800
+ 26 Feb 2021 12:11:11 -0800
 From: Megha Dey <megha.dey@intel.com>
 To: tglx@linutronix.de
-Subject: [Patch V2 01/13] x86/irq: Add DEV_MSI allocation type
-Date: Fri, 26 Feb 2021 12:11:05 -0800
-Message-Id: <1614370277-23235-2-git-send-email-megha.dey@intel.com>
+Subject: [Patch V2 02/13] x86/msi: Rename and rework pci_msi_prepare() to
+ cover non-PCI MSI
+Date: Fri, 26 Feb 2021 12:11:06 -0800
+Message-Id: <1614370277-23235-3-git-send-email-megha.dey@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
 References: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
@@ -81,28 +82,119 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-For the upcoming device MSI support a new allocation type is
-required.
+Rename it to x86_msi_prepare() and handle the allocation type setup
+depending on the device type.
+
+Add a new arch_msi_prepare define which will be utilized by the upcoming
+device MSI support. Define it to NULL if not provided by an architecture
+in the generic MSI header.
+
+One arch specific function for MSI support is truly enough.
 
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Megha Dey <megha.dey@intel.com>
 ---
- arch/x86/include/asm/hw_irq.h | 1 +
- 1 file changed, 1 insertion(+)
+ arch/x86/include/asm/msi.h          |  4 +++-
+ arch/x86/kernel/apic/msi.c          | 27 ++++++++++++++++++++-------
+ drivers/pci/controller/pci-hyperv.c |  2 +-
+ include/linux/msi.h                 |  4 ++++
+ 4 files changed, 28 insertions(+), 9 deletions(-)
 
-diff --git a/arch/x86/include/asm/hw_irq.h b/arch/x86/include/asm/hw_irq.h
-index d465ece..0531b9c 100644
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -41,6 +41,7 @@ enum irq_alloc_type {
- 	X86_IRQ_ALLOC_TYPE_DMAR,
- 	X86_IRQ_ALLOC_TYPE_AMDVI,
- 	X86_IRQ_ALLOC_TYPE_UV,
-+	X86_IRQ_ALLOC_TYPE_DEV_MSI,
+diff --git a/arch/x86/include/asm/msi.h b/arch/x86/include/asm/msi.h
+index b85147d..9bd214e 100644
+--- a/arch/x86/include/asm/msi.h
++++ b/arch/x86/include/asm/msi.h
+@@ -6,9 +6,11 @@
+ 
+ typedef struct irq_alloc_info msi_alloc_info_t;
+ 
+-int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
++int x86_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+ 		    msi_alloc_info_t *arg);
+ 
++#define arch_msi_prepare		x86_msi_prepare
++
+ /* Structs and defines for the X86 specific MSI message format */
+ 
+ typedef struct x86_msi_data {
+diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
+index 44ebe25..84b16c7 100644
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -153,26 +153,39 @@ static struct irq_chip pci_msi_controller = {
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE,
  };
  
- struct ioapic_alloc_info {
+-int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+-		    msi_alloc_info_t *arg)
++static void pci_msi_prepare(struct device *dev, msi_alloc_info_t *arg)
+ {
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-	struct msi_desc *desc = first_pci_msi_entry(pdev);
++	struct msi_desc *desc = first_msi_entry(dev);
+ 
+-	init_irq_alloc_info(arg, NULL);
+ 	if (desc->msi_attrib.is_msix) {
+ 		arg->type = X86_IRQ_ALLOC_TYPE_PCI_MSIX;
+ 	} else {
+ 		arg->type = X86_IRQ_ALLOC_TYPE_PCI_MSI;
+ 		arg->flags |= X86_IRQ_ALLOC_CONTIGUOUS_VECTORS;
+ 	}
++}
++
++static void dev_msi_prepare(struct device *dev, msi_alloc_info_t *arg)
++{
++	arg->type = X86_IRQ_ALLOC_TYPE_DEV_MSI;
++}
++
++int x86_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
++		    msi_alloc_info_t *arg)
++{
++	init_irq_alloc_info(arg, NULL);
++
++	if (dev_is_pci(dev))
++		pci_msi_prepare(dev, arg);
++	else
++		dev_msi_prepare(dev, arg);
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(pci_msi_prepare);
++EXPORT_SYMBOL_GPL(x86_msi_prepare);
+ 
+ static struct msi_domain_ops pci_msi_domain_ops = {
+-	.msi_prepare	= pci_msi_prepare,
++	.msi_prepare	= x86_msi_prepare,
+ };
+ 
+ static struct msi_domain_info pci_msi_domain_info = {
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 27a17a1..ac4fe8b7 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1546,7 +1546,7 @@ static struct irq_chip hv_msi_irq_chip = {
+ };
+ 
+ static struct msi_domain_ops hv_msi_ops = {
+-	.msi_prepare	= pci_msi_prepare,
++	.msi_prepare	= arch_msi_prepare,
+ 	.msi_free	= hv_msi_free,
+ };
+ 
+diff --git a/include/linux/msi.h b/include/linux/msi.h
+index aef35fd..f3e54d2 100644
+--- a/include/linux/msi.h
++++ b/include/linux/msi.h
+@@ -473,4 +473,8 @@ static inline struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev)
+ }
+ #endif /* CONFIG_PCI_MSI_IRQ_DOMAIN */
+ 
++#ifndef arch_msi_prepare
++# define arch_msi_prepare	NULL
++#endif
++
+ #endif /* LINUX_MSI_H */
 -- 
 2.7.4
 
