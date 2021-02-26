@@ -1,58 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0341C3267EF
-	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:35 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D30A3267E5
+	for <lists.iommu@lfdr.de>; Fri, 26 Feb 2021 21:11:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id AA1C44F0BA;
-	Fri, 26 Feb 2021 20:11:24 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D78126F9CA;
+	Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Gt6GqVo1glFY; Fri, 26 Feb 2021 20:11:22 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LLRfqeh1YmH2; Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B41E04F09B;
-	Fri, 26 Feb 2021 20:11:22 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E48EB6F9C3;
+	Fri, 26 Feb 2021 20:11:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95506C000C;
-	Fri, 26 Feb 2021 20:11:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90D23C000A;
+	Fri, 26 Feb 2021 20:11:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8AD83C0012
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:19 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6B8FC000A
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3C3F3842CD
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 948146F9C0
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nRdngmmW6xxz for <iommu@lists.linux-foundation.org>;
- Fri, 26 Feb 2021 20:11:14 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8Qi_ESq20Qlk for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 744228433A
- for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:14 +0000 (UTC)
-IronPort-SDR: kKvS/ePVTxOmDvHxZGwX/pZ4unMkzOif4JoniAoHvHSNLboz7qJd6v2HfNsvOUkFm1gOl9Gx/1
- CS5OTgk2pWRQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="247407454"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="247407454"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6D2BA6F99F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Feb 2021 20:11:15 +0000 (UTC)
+IronPort-SDR: g1nsOw7iZ5+nXHAOje7pvkFN/k6jvtaiCevm5HD1Ecaq0JimW7/xnAoO7w25jq+Bta46jnIage
+ xxxWTWsBFKcA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="185298054"
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="185298054"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2021 12:11:14 -0800
-IronPort-SDR: +EpK/x9VncNDE5qsC6U/B0HcBszgCBpXa4e1qFTeKEWYJgpXogusVejBQoXRMwu4tztbv7ye9z
- g5dY5zB++ODA==
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109442"
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2021 12:11:13 -0800
+IronPort-SDR: y7CQvh0OBMkfU1WnZvVOq3OpfLMKf9+PoRB9UzpxcEbdVh/52C0uVg1LfVfikdX5NAtCQdJ4a1
+ G117bxFFcWmw==
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; d="scan'208";a="405109444"
 Received: from megha-z97x-ud7-th.sc.intel.com ([143.183.85.154])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
  26 Feb 2021 12:11:13 -0800
 From: Megha Dey <megha.dey@intel.com>
 To: tglx@linutronix.de
-Subject: [Patch V2 07/13] irqdomain/msi: Provide msi_alloc/free_store()
- callbacks
-Date: Fri, 26 Feb 2021 12:11:11 -0800
-Message-Id: <1614370277-23235-8-git-send-email-megha.dey@intel.com>
+Subject: [Patch V2 08/13] genirq: Set auxiliary data for an interrupt
+Date: Fri, 26 Feb 2021 12:11:12 -0800
+Message-Id: <1614370277-23235-9-git-send-email-megha.dey@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
 References: <1614370277-23235-1-git-send-email-megha.dey@intel.com>
@@ -80,92 +79,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thomas Gleixner <tglx@linutronix.de>
-
-For devices which don't have a standard storage for MSI messages like the
-upcoming IMS (Interrupt Message Store) it's required to allocate storage
-space before allocating interrupts and after freeing them.
-
-This could be achieved with the existing callbacks, but that would be
-awkward because they operate on msi_alloc_info_t which is not uniform
-across architectures. Also these callbacks are invoked per interrupt but
-the allocation might have bulk requirements depending on the device.
-
-As such devices can operate on different architectures it is simpler to
-have separate callbacks which operate on struct device. The resulting
-storage information has to be stored in struct msi_desc so the underlying
-irq chip implementation can retrieve it for the relevant operations.
+Introduce a new function pointer in the irq_chip structure(irq_set_auxdata)
+which is responsible for updating data which is stored in a shared register
+or data storage. For example, the idxd driver uses the auxiliary data API
+to enable/set and disable PASID field that is in the IMS entry (introduced
+in a later patch) and that data are not typically present in MSI entry.
 
 Reviewed-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Megha Dey <megha.dey@intel.com>
 ---
- include/linux/msi.h |  8 ++++++++
- kernel/irq/msi.c    | 11 +++++++++++
- 2 files changed, 19 insertions(+)
+ include/linux/interrupt.h |  2 ++
+ include/linux/irq.h       |  4 ++++
+ kernel/irq/manage.c       | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 38 insertions(+)
 
-diff --git a/include/linux/msi.h b/include/linux/msi.h
-index 46e879c..e915932 100644
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -323,6 +323,10 @@ struct msi_domain_info;
-  *			function.
-  * @domain_free_irqs:	Optional function to override the default free
-  *			function.
-+ * @msi_alloc_store:	Optional callback to allocate storage in a device
-+ *			specific non-standard MSI store
-+ * @msi_alloc_free:	Optional callback to free storage in a device
-+ *			specific non-standard MSI store
-  *
-  * @get_hwirq, @msi_init and @msi_free are callbacks used by
-  * msi_create_irq_domain() and related interfaces
-@@ -372,6 +376,10 @@ struct msi_domain_ops {
- 					     struct device *dev, int nvec);
- 	void		(*domain_free_irqs)(struct irq_domain *domain,
- 					    struct device *dev);
-+	int		(*msi_alloc_store)(struct irq_domain *domain,
-+					   struct device *dev, int nvec);
-+	void		(*msi_free_store)(struct irq_domain *domain,
-+					  struct device *dev);
- };
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index 967e257..461ed1c 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -496,6 +496,8 @@ extern int irq_get_irqchip_state(unsigned int irq, enum irqchip_irq_state which,
+ extern int irq_set_irqchip_state(unsigned int irq, enum irqchip_irq_state which,
+ 				 bool state);
  
- /**
-diff --git a/kernel/irq/msi.c b/kernel/irq/msi.c
-index c54316d..047b59d 100644
---- a/kernel/irq/msi.c
-+++ b/kernel/irq/msi.c
-@@ -434,6 +434,12 @@ int __msi_domain_alloc_irqs(struct irq_domain *domain, struct device *dev,
- 	if (ret)
- 		return ret;
++int irq_set_auxdata(unsigned int irq, unsigned int which, u64 val);
++
+ #ifdef CONFIG_IRQ_FORCED_THREADING
+ # ifdef CONFIG_PREEMPT_RT
+ #  define force_irqthreads	(true)
+diff --git a/include/linux/irq.h b/include/linux/irq.h
+index 2efde6a..fc19f32 100644
+--- a/include/linux/irq.h
++++ b/include/linux/irq.h
+@@ -491,6 +491,8 @@ static inline irq_hw_number_t irqd_to_hwirq(struct irq_data *d)
+  *				irq_request_resources
+  * @irq_compose_msi_msg:	optional to compose message content for MSI
+  * @irq_write_msi_msg:	optional to write message content for MSI
++ * @irq_set_auxdata:	Optional function to update auxiliary data e.g. in
++ *			shared registers
+  * @irq_get_irqchip_state:	return the internal state of an interrupt
+  * @irq_set_irqchip_state:	set the internal state of a interrupt
+  * @irq_set_vcpu_affinity:	optional to target a vCPU in a virtual machine
+@@ -538,6 +540,8 @@ struct irq_chip {
+ 	void		(*irq_compose_msi_msg)(struct irq_data *data, struct msi_msg *msg);
+ 	void		(*irq_write_msi_msg)(struct irq_data *data, struct msi_msg *msg);
  
-+	if (ops->msi_alloc_store) {
-+		ret = ops->msi_alloc_store(domain, dev, nvec);
-+		if (ret)
-+			return ret;
++	int		(*irq_set_auxdata)(struct irq_data *data, unsigned int which, u64 auxval);
++
+ 	int		(*irq_get_irqchip_state)(struct irq_data *data, enum irqchip_irq_state which, bool *state);
+ 	int		(*irq_set_irqchip_state)(struct irq_data *data, enum irqchip_irq_state which, bool state);
+ 
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index 85ede4e..68ff559 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -2860,3 +2860,35 @@ bool irq_check_status_bit(unsigned int irq, unsigned int bitmask)
+ 	return res;
+ }
+ EXPORT_SYMBOL_GPL(irq_check_status_bit);
++
++/**
++ * irq_set_auxdata - Set auxiliary data
++ * @irq:	Interrupt to update
++ * @which:	Selector which data to update
++ * @auxval:	Auxiliary data value
++ *
++ * Function to update auxiliary data for an interrupt, e.g. to update data
++ * which is stored in a shared register or data storage (e.g. IMS).
++ */
++int irq_set_auxdata(unsigned int irq, unsigned int which, u64 val)
++{
++	struct irq_desc *desc;
++	struct irq_data *data;
++	unsigned long flags;
++	int res = -ENODEV;
++
++	desc = irq_get_desc_buslock(irq, &flags, 0);
++	if (!desc)
++		return -EINVAL;
++
++	for (data = &desc->irq_data; data; data = irqd_get_parent_data(data)) {
++		if (data->chip->irq_set_auxdata) {
++			res = data->chip->irq_set_auxdata(data, which, val);
++			break;
++		}
 +	}
 +
- 	for_each_msi_entry(desc, dev) {
- 		ops->set_desc(&arg, desc);
- 
-@@ -529,6 +535,8 @@ int msi_domain_alloc_irqs(struct irq_domain *domain, struct device *dev,
- 
- void __msi_domain_free_irqs(struct irq_domain *domain, struct device *dev)
- {
-+	struct msi_domain_info *info = domain->host_data;
-+	struct msi_domain_ops *ops = info->ops;
- 	struct msi_desc *desc;
- 
- 	for_each_msi_entry(desc, dev) {
-@@ -542,6 +550,9 @@ void __msi_domain_free_irqs(struct irq_domain *domain, struct device *dev)
- 			desc->irq = 0;
- 		}
- 	}
-+
-+	if (ops->msi_free_store)
-+		ops->msi_free_store(domain, dev);
- }
- 
- /**
++	irq_put_desc_busunlock(desc, flags);
++	return res;
++}
++EXPORT_SYMBOL_GPL(irq_set_auxdata);
 -- 
 2.7.4
 
