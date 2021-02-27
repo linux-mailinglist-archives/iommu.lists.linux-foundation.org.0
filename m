@@ -1,50 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFE732711B
-	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:25 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 731DA327121
+	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 300A66F9BE;
-	Sun, 28 Feb 2021 06:33:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6BE234F103;
+	Sun, 28 Feb 2021 06:33:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0RYJfexhjjUV; Sun, 28 Feb 2021 06:33:22 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5rPXa2YzOSDR; Sun, 28 Feb 2021 06:33:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 32DDC6F99E;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0E9974F0D5;
 	Sun, 28 Feb 2021 06:33:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 73FCFC000B;
-	Sun, 28 Feb 2021 06:33:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 421D8C001C;
+	Sun, 28 Feb 2021 06:33:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D6C1C0017
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:14 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 13B50C0010
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 8278E6F5A8
+ by smtp4.osuosl.org (Postfix) with ESMTP id EE50C4F07D
  for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KWT5gyiC9XEJ for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QfmfvT7IlXCF for <iommu@lists.linux-foundation.org>;
  Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp3.osuosl.org (Postfix) with ESMTPS id AFA3A6F5BC
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id AFC244F087
  for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
-IronPort-SDR: vz9ZvR5c9FbJ1yqWkiICSboLnA8KBHJnmEz1y7AvgKC8FozXA+LVQWOtQxOVxV0vg/53Up2cAP
- hRFiS8rME5hw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="247624809"
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="247624809"
+IronPort-SDR: CnLRgeb1FzM1qR/CnXiTl62RwneWvgIXaLGGAugsBndK5/wj7RWYFQqtDgxxCYTRBWQMsz6INz
+ KvOzRkzYAMZw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="183755902"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="183755902"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Feb 2021 22:33:10 -0800
-IronPort-SDR: wwnUe/gQ2DURd1fuukWv5FTP+PhsRLJQVbgzAvyohgvnXCCQ/Z/PK+ojVCBdGiyw0lBhOibOA2
- sZ4cXi7/Va0Q==
+IronPort-SDR: VrZJZwJodmU5qUGZ+9ceNagDJjwlny1JNhVfnRkF52W6Wr6uM7A2o27iKh6XhNJCdSkbpnNKEJ
+ de9L3zbadR6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029718"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029721"
 Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
  by orsmga004.jf.intel.com with ESMTP; 27 Feb 2021 22:33:09 -0800
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -54,9 +54,9 @@ To: LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
  cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
  Li Zefan <lizefan@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH V4 08/18] iommu/ioasid: Introduce ioasid_set private ID
-Date: Sat, 27 Feb 2021 14:01:16 -0800
-Message-Id: <1614463286-97618-9-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH V4 09/18] iommu/ioasid: Introduce notification APIs
+Date: Sat, 27 Feb 2021 14:01:17 -0800
+Message-Id: <1614463286-97618-10-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -82,196 +82,308 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When an IOASID set is used for guest SVA, each VM will acquire its
-ioasid_set for IOASID allocations. IOASIDs within the VM must have a
-host/physical IOASID backing, mapping between guest and host IOASIDs can
-be non-identical. IOASID set private ID (SPID) is introduced in this
-patch to be used as guest IOASID. However, the concept of ioasid_set
-specific namespace is generic, thus named SPID.
+Relations among IOASID users largely follow a publisher-subscriber
+pattern. E.g. to support guest SVA on Intel Scalable I/O Virtualization
+(SIOV) enabled platforms, VFIO, IOMMU, device drivers, KVM are all users
+of IOASIDs. When a state change occurs, VFIO publishes the change event
+that needs to be processed by other users/subscribers.
 
-As SPID namespace is within the IOASID set, the IOASID core can provide
-lookup services at both directions. SPIDs may not be available when its
-IOASID is allocated, the mapping between SPID and IOASID is usually
-established when a guest page table is bound to a host PASID.
+This patch introduced two types of notifications: global and per
+ioasid_set. The latter is intended for users who only needs to handle
+events related to the IOASID of a given set.
+For more information, refer to the kernel documentation at
+Documentation/ioasid.rst.
 
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Wu Hao <hao.wu@intel.com>
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/ioasid.c | 104 +++++++++++++++++++++++++++++++++++++++++
- include/linux/ioasid.h |  18 +++++++
- 2 files changed, 122 insertions(+)
+ drivers/iommu/ioasid.c | 111 +++++++++++++++++++++++++++++++++++++++--
+ include/linux/ioasid.h |  54 ++++++++++++++++++++
+ 2 files changed, 161 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-index 9a3ba157dec3..7707bb608bdd 100644
+index 7707bb608bdd..56577e745c4b 100644
 --- a/drivers/iommu/ioasid.c
 +++ b/drivers/iommu/ioasid.c
-@@ -26,6 +26,7 @@ enum ioasid_state {
-  * struct ioasid_data - Meta data about ioasid
-  *
-  * @id:		Unique ID
-+ * @spid:	Private ID unique within a set
-  * @refs:	Number of active users
-  * @state:	Track state of the IOASID
-  * @set:	ioasid_set of the IOASID belongs to
-@@ -34,6 +35,7 @@ enum ioasid_state {
-  */
- struct ioasid_data {
- 	ioasid_t id;
-+	ioasid_t spid;
- 	enum ioasid_state state;
- 	struct ioasid_set *set;
- 	void *private;
-@@ -413,6 +415,107 @@ void ioasid_detach_data(ioasid_t ioasid)
+@@ -10,12 +10,33 @@
+ #include <linux/spinlock.h>
+ #include <linux/xarray.h>
+ 
++/*
++ * An IOASID can have multiple consumers where each consumer may have
++ * hardware contexts associated with the IOASID.
++ * When a status change occurs, like on IOASID deallocation, notifier chains
++ * are used to keep the consumers in sync.
++ * This is a publisher-subscriber pattern where publisher can change the
++ * state of each IOASID, e.g. alloc/free, bind IOASID to a device and mm.
++ * On the other hand, subscribers get notified for the state change and
++ * keep local states in sync.
++ */
++static ATOMIC_NOTIFIER_HEAD(ioasid_notifier);
++static DEFINE_SPINLOCK(ioasid_nb_lock);
++
+ /* Default to PCIe standard 20 bit PASID */
+ #define PCI_PASID_MAX 0x100000
+ static ioasid_t ioasid_capacity = PCI_PASID_MAX;
+ static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
+ static DEFINE_XARRAY_ALLOC(ioasid_sets);
+ 
++struct ioasid_set_nb {
++	struct list_head	list;
++	struct notifier_block	*nb;
++	void			*token;
++	struct ioasid_set	*set;
++	bool			active;
++};
++
+ enum ioasid_state {
+ 	IOASID_STATE_IDLE,
+ 	IOASID_STATE_ACTIVE,
+@@ -415,6 +436,38 @@ void ioasid_detach_data(ioasid_t ioasid)
  }
  EXPORT_SYMBOL_GPL(ioasid_detach_data);
  
-+static ioasid_t ioasid_find_by_spid_locked(struct ioasid_set *set, ioasid_t spid, bool get)
-+{
-+	ioasid_t ioasid = INVALID_IOASID;
-+	struct ioasid_data *entry;
-+	unsigned long index;
-+
-+	if (!xa_load(&ioasid_sets, set->id)) {
-+		pr_warn("Invalid set\n");
-+		goto done;
-+	}
-+
-+	xa_for_each(&set->xa, index, entry) {
-+		if (spid == entry->spid) {
-+			if (get)
-+				refcount_inc(&entry->refs);
-+			ioasid = index;
-+		}
-+	}
-+done:
-+	return ioasid;
-+}
-+
 +/**
-+ * ioasid_attach_spid - Attach ioasid_set private ID to an IOASID
++ * ioasid_notify - Send notification on a given IOASID for status change.
 + *
-+ * @ioasid: the system-wide IOASID to attach
-+ * @spid:   the ioasid_set private ID of @ioasid
++ * @data:	The IOASID data to which the notification will send
++ * @cmd:	Notification event sent by IOASID external users, can be
++ *		IOASID_BIND or IOASID_UNBIND.
 + *
-+ * After attching SPID, future lookup can be done via ioasid_find_by_spid().
++ * @flags:	Special instructions, e.g. notify within a set or global by
++ *		IOASID_NOTIFY_FLAG_SET or IOASID_NOTIFY_FLAG_ALL flags
++ * Caller must hold ioasid_allocator_lock and reference to the IOASID
 + */
-+int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid)
++static int ioasid_notify(struct ioasid_data *data,
++			 enum ioasid_notify_val cmd, unsigned int flags)
 +{
-+	struct ioasid_data *data;
++	struct ioasid_nb_args args = { 0 };
 +	int ret = 0;
 +
-+	if (spid == INVALID_IOASID)
++	if (flags & ~(IOASID_NOTIFY_FLAG_ALL | IOASID_NOTIFY_FLAG_SET))
 +		return -EINVAL;
 +
-+	spin_lock(&ioasid_allocator_lock);
-+	data = xa_load(&active_allocator->xa, ioasid);
++	args.id = data->id;
++	args.set = data->set;
++	args.pdata = data->private;
++	args.spid = data->spid;
++	if (flags & IOASID_NOTIFY_FLAG_ALL)
++		ret = atomic_notifier_call_chain(&ioasid_notifier, cmd, &args);
++	if (flags & IOASID_NOTIFY_FLAG_SET)
++		ret = atomic_notifier_call_chain(&data->set->nh, cmd, &args);
 +
-+	if (!data) {
-+		pr_err("No IOASID entry %d to attach SPID %d\n",
-+			ioasid, spid);
-+		ret = -ENOENT;
-+		goto done_unlock;
-+	}
-+	/* Check if SPID is unique within the set */
-+	if (ioasid_find_by_spid_locked(data->set, spid, false) != INVALID_IOASID) {
-+		ret = -EINVAL;
-+		goto done_unlock;
-+	}
-+	data->spid = spid;
-+
-+done_unlock:
-+	spin_unlock(&ioasid_allocator_lock);
 +	return ret;
 +}
-+EXPORT_SYMBOL_GPL(ioasid_attach_spid);
 +
-+void ioasid_detach_spid(ioasid_t ioasid)
-+{
-+	struct ioasid_data *data;
-+
-+	spin_lock(&ioasid_allocator_lock);
-+	data = xa_load(&active_allocator->xa, ioasid);
-+
-+	if (!data || data->spid == INVALID_IOASID) {
-+		pr_err("Invalid IOASID entry %d to detach\n", ioasid);
-+		goto done_unlock;
-+	}
-+	data->spid = INVALID_IOASID;
-+
-+done_unlock:
-+	spin_unlock(&ioasid_allocator_lock);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_detach_spid);
-+
-+/**
-+ * ioasid_find_by_spid - Find the system-wide IOASID by a set private ID and
-+ * its set.
-+ *
-+ * @set:	the ioasid_set to search within
-+ * @spid:	the set private ID
-+ * @get:	flag indicates whether to take a reference once found
-+ *
-+ * Given a set private ID and its IOASID set, find the system-wide IOASID. Take
-+ * a reference upon finding the matching IOASID if @get is true. Return
-+ * INVALID_IOASID if the IOASID is not found in the set or the set is not valid.
-+ */
-+ioasid_t ioasid_find_by_spid(struct ioasid_set *set, ioasid_t spid, bool get)
-+{
-+	ioasid_t ioasid;
-+
-+	spin_lock(&ioasid_allocator_lock);
-+	ioasid = ioasid_find_by_spid_locked(set, spid, get);
-+	spin_unlock(&ioasid_allocator_lock);
-+	return ioasid;
-+}
-+EXPORT_SYMBOL_GPL(ioasid_find_by_spid);
-+
- static inline bool ioasid_set_is_valid(struct ioasid_set *set)
+ static ioasid_t ioasid_find_by_spid_locked(struct ioasid_set *set, ioasid_t spid, bool get)
  {
- 	return xa_load(&ioasid_sets, set->id) == set;
-@@ -616,6 +719,7 @@ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
+ 	ioasid_t ioasid = INVALID_IOASID;
+@@ -468,7 +521,7 @@ int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid)
+ 		goto done_unlock;
  	}
- 	data->id = id;
- 	data->state = IOASID_STATE_IDLE;
-+	data->spid = INVALID_IOASID;
+ 	data->spid = spid;
+-
++	ioasid_notify(data, IOASID_NOTIFY_BIND, IOASID_NOTIFY_FLAG_SET);
+ done_unlock:
+ 	spin_unlock(&ioasid_allocator_lock);
+ 	return ret;
+@@ -486,8 +539,8 @@ void ioasid_detach_spid(ioasid_t ioasid)
+ 		pr_err("Invalid IOASID entry %d to detach\n", ioasid);
+ 		goto done_unlock;
+ 	}
++	ioasid_notify(data, IOASID_NOTIFY_UNBIND, IOASID_NOTIFY_FLAG_SET);
+ 	data->spid = INVALID_IOASID;
+-
+ done_unlock:
+ 	spin_unlock(&ioasid_allocator_lock);
+ }
+@@ -603,6 +656,8 @@ struct ioasid_set *ioasid_set_alloc(void *token, ioasid_t quota, int type)
+ 	set->quota = quota;
+ 	set->id = id;
+ 	atomic_set(&set->nr_ioasids, 0);
++	ATOMIC_INIT_NOTIFIER_HEAD(&set->nh);
++
+ 	/*
+ 	 * Per set XA is used to store private IDs within the set, get ready
+ 	 * for ioasid_set private ID and system-wide IOASID allocation
+@@ -655,7 +710,9 @@ int ioasid_set_free(struct ioasid_set *set)
+ 	int ret = 0;
  
- 	/* Store IOASID in the per set data */
- 	if (xa_err(xa_store(&set->xa, id, data, GFP_ATOMIC))) {
+ 	spin_lock(&ioasid_allocator_lock);
++	spin_lock(&ioasid_nb_lock);
+ 	ret = ioasid_set_free_locked(set);
++	spin_unlock(&ioasid_nb_lock);
+ 	spin_unlock(&ioasid_allocator_lock);
+ 	return ret;
+ }
+@@ -728,6 +785,7 @@ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
+ 		goto exit_free;
+ 	}
+ 	atomic_inc(&set->nr_ioasids);
++	ioasid_notify(data, IOASID_NOTIFY_ALLOC, IOASID_NOTIFY_FLAG_SET);
+ 	goto done_unlock;
+ exit_free:
+ 	kfree(data);
+@@ -780,9 +838,11 @@ static void ioasid_free_locked(struct ioasid_set *set, ioasid_t ioasid)
+ 	 * If the refcount is 1, it means there is no other users of the IOASID
+ 	 * other than IOASID core itself. There is no need to notify anyone.
+ 	 */
+-	if (!refcount_dec_and_test(&data->refs))
++	if (!refcount_dec_and_test(&data->refs)) {
++		ioasid_notify(data, IOASID_NOTIFY_FREE,
++			IOASID_NOTIFY_FLAG_SET | IOASID_NOTIFY_FLAG_ALL);
+ 		return;
+-
++	}
+ 	ioasid_do_free_locked(data);
+ }
+ 
+@@ -833,15 +893,39 @@ void ioasid_free_all_in_set(struct ioasid_set *set)
+ 	if (!atomic_read(&set->nr_ioasids))
+ 		return;
+ 	spin_lock(&ioasid_allocator_lock);
++	spin_lock(&ioasid_nb_lock);
+ 	xa_for_each(&set->xa, index, entry) {
+ 		ioasid_free_locked(set, index);
+ 		/* Free from per set private pool */
+ 		xa_erase(&set->xa, index);
+ 	}
++	spin_unlock(&ioasid_nb_lock);
+ 	spin_unlock(&ioasid_allocator_lock);
+ }
+ EXPORT_SYMBOL_GPL(ioasid_free_all_in_set);
+ 
++/*
++ * ioasid_find_mm_set - Retrieve IOASID set with mm token
++ * Take a reference of the set if found.
++ */
++struct ioasid_set *ioasid_find_mm_set(struct mm_struct *token)
++{
++	struct ioasid_set *set;
++	unsigned long index;
++
++	spin_lock(&ioasid_allocator_lock);
++
++	xa_for_each(&ioasid_sets, index, set) {
++		if (set->type == IOASID_SET_TYPE_MM && set->token == token)
++			goto exit_unlock;
++	}
++	set = NULL;
++exit_unlock:
++	spin_unlock(&ioasid_allocator_lock);
++	return set;
++}
++EXPORT_SYMBOL_GPL(ioasid_find_mm_set);
++
+ /**
+  * ioasid_set_for_each_ioasid
+  * @brief
+@@ -1021,6 +1105,25 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+ }
+ EXPORT_SYMBOL_GPL(ioasid_find);
+ 
++int ioasid_register_notifier(struct ioasid_set *set, struct notifier_block *nb)
++{
++	if (set)
++		return atomic_notifier_chain_register(&set->nh, nb);
++	else
++		return atomic_notifier_chain_register(&ioasid_notifier, nb);
++}
++EXPORT_SYMBOL_GPL(ioasid_register_notifier);
++
++void ioasid_unregister_notifier(struct ioasid_set *set,
++				struct notifier_block *nb)
++{
++	if (set)
++		atomic_notifier_chain_unregister(&set->nh, nb);
++	else
++		atomic_notifier_chain_unregister(&ioasid_notifier, nb);
++}
++EXPORT_SYMBOL_GPL(ioasid_unregister_notifier);
++
+ MODULE_AUTHOR("Jean-Philippe Brucker <jean-philippe.brucker@arm.com>");
+ MODULE_AUTHOR("Jacob Pan <jacob.jun.pan@linux.intel.com>");
+ MODULE_DESCRIPTION("IO Address Space ID (IOASID) allocator");
 diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-index e7f3e6108724..dcab02886cb5 100644
+index dcab02886cb5..d8b85a04214f 100644
 --- a/include/linux/ioasid.h
 +++ b/include/linux/ioasid.h
-@@ -81,6 +81,9 @@ int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
- void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
- int ioasid_attach_data(ioasid_t ioasid, void *data);
- void ioasid_detach_data(ioasid_t ioasid);
-+int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid);
-+void ioasid_detach_spid(ioasid_t ioasid);
-+ioasid_t ioasid_find_by_spid(struct ioasid_set *set, ioasid_t spid, bool get);
+@@ -58,6 +58,47 @@ struct ioasid_allocator_ops {
+ 	void *pdata;
+ };
+ 
++/* Notification data when IOASID status changed */
++enum ioasid_notify_val {
++	IOASID_NOTIFY_ALLOC = 1,
++	IOASID_NOTIFY_FREE,
++	IOASID_NOTIFY_BIND,
++	IOASID_NOTIFY_UNBIND,
++};
++
++#define IOASID_NOTIFY_FLAG_ALL BIT(0)
++#define IOASID_NOTIFY_FLAG_SET BIT(1)
++/**
++ * enum ioasid_notifier_prios - IOASID event notification order
++ *
++ * When status of an IOASID changes, users might need to take actions to
++ * reflect the new state. For example, when an IOASID is freed due to
++ * exception, the hardware context in virtual CPU, DMA device, and IOMMU
++ * shall be cleared and drained. Order is required to prevent life cycle
++ * problems.
++ */
++enum ioasid_notifier_prios {
++	IOASID_PRIO_LAST,
++	IOASID_PRIO_DEVICE,
++	IOASID_PRIO_IOMMU,
++	IOASID_PRIO_CPU,
++};
++
++/**
++ * struct ioasid_nb_args - Argument provided by IOASID core when notifier
++ * is called.
++ * @id:		The IOASID being notified
++ * @spid:	The set private ID associated with the IOASID
++ * @set:	The IOASID set of @id
++ * @pdata:	The private data attached to the IOASID
++ */
++struct ioasid_nb_args {
++	ioasid_t id;
++	ioasid_t spid;
++	struct ioasid_set *set;
++	void *pdata;
++};
++
+ #if IS_ENABLED(CONFIG_IOASID)
+ void ioasid_install_capacity(ioasid_t total);
+ int ioasid_reserve_capacity(ioasid_t nr_ioasid);
+@@ -84,6 +125,10 @@ void ioasid_detach_data(ioasid_t ioasid);
+ int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid);
+ void ioasid_detach_spid(ioasid_t ioasid);
+ ioasid_t ioasid_find_by_spid(struct ioasid_set *set, ioasid_t spid, bool get);
++int ioasid_register_notifier(struct ioasid_set *set,
++			struct notifier_block *nb);
++void ioasid_unregister_notifier(struct ioasid_set *set,
++				struct notifier_block *nb);
  void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
  				void (*fn)(ioasid_t id, void *data),
  				void *data);
-@@ -173,6 +176,21 @@ static inline struct ioasid_set *ioasid_find_set(ioasid_t ioasid)
- 	return ERR_PTR(-ENOTSUPP);
+@@ -149,6 +194,15 @@ static inline void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+ 	return NULL;
  }
  
-+static inline int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid)
++static inline int ioasid_register_notifier(struct notifier_block *nb)
 +{
 +	return -ENOTSUPP;
 +}
 +
-+static inline void ioasid_detach_spid(ioasid_t ioasid)
++static inline void ioasid_unregister_notifier(struct notifier_block *nb)
 +{
 +}
 +
-+static inline ioasid_t ioasid_find_by_spid(struct ioasid_set *set,
-+					   ioasid_t spid, bool get)
-+{
-+	return INVALID_IOASID;
-+}
-+
- static inline void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
- 					      void (*fn)(ioasid_t id, void *data),
- 					      void *data)
+ static inline int ioasid_register_allocator(struct ioasid_allocator_ops *allocator)
+ {
+ 	return -ENOTSUPP;
 -- 
 2.25.1
 
