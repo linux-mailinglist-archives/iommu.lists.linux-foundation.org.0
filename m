@@ -1,50 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731DA327121
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F1B327120
 	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6BE234F103;
-	Sun, 28 Feb 2021 06:33:25 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7CF9B6F962;
+	Sun, 28 Feb 2021 06:33:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5rPXa2YzOSDR; Sun, 28 Feb 2021 06:33:23 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id DazTYBa6EPam; Sun, 28 Feb 2021 06:33:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0E9974F0D5;
+	by smtp3.osuosl.org (Postfix) with ESMTP id E99576F9D9;
 	Sun, 28 Feb 2021 06:33:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 421D8C001C;
-	Sun, 28 Feb 2021 06:33:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0E31C0011;
+	Sun, 28 Feb 2021 06:33:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13B50C0010
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1B621C001A
  for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id EE50C4F07D
+ by smtp3.osuosl.org (Postfix) with ESMTP id E6BDD6F893
  for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QfmfvT7IlXCF for <iommu@lists.linux-foundation.org>;
- Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZsZIjg2ch6Ii for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AFC244F087
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id ED22D6F82D
  for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
-IronPort-SDR: CnLRgeb1FzM1qR/CnXiTl62RwneWvgIXaLGGAugsBndK5/wj7RWYFQqtDgxxCYTRBWQMsz6INz
- KvOzRkzYAMZw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="183755902"
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="183755902"
+IronPort-SDR: jLpvBIdFsmKFxDHXWfEiUJPZTvjmIT67hKA5q1ftBp6l6+erGrnpKsgRe2BKm8ZmuP5xGgPAaE
+ aRca/HGodxnw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="247624810"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="247624810"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Feb 2021 22:33:10 -0800
-IronPort-SDR: VrZJZwJodmU5qUGZ+9ceNagDJjwlny1JNhVfnRkF52W6Wr6uM7A2o27iKh6XhNJCdSkbpnNKEJ
- de9L3zbadR6g==
+IronPort-SDR: qchTLFgyX916CIPRGYrZ6Gz/jgLi7dnTlsnEaeI9+8aGkJZxtP0fLvsmT6I9TZRolKwIsN+KcZ
+ K/62nW9dIV4g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029721"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029725"
 Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
  by orsmga004.jf.intel.com with ESMTP; 27 Feb 2021 22:33:09 -0800
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -54,12 +54,14 @@ To: LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
  cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
  Li Zefan <lizefan@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH V4 09/18] iommu/ioasid: Introduce notification APIs
-Date: Sat, 27 Feb 2021 14:01:17 -0800
-Message-Id: <1614463286-97618-10-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH V4 10/18] iommu/ioasid: Support mm token type ioasid_set
+ notifications
+Date: Sat, 27 Feb 2021 14:01:18 -0800
+Message-Id: <1614463286-97618-11-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
+MIME-Version: 1.0
 Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
  Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
@@ -76,318 +78,161 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Relations among IOASID users largely follow a publisher-subscriber
-pattern. E.g. to support guest SVA on Intel Scalable I/O Virtualization
-(SIOV) enabled platforms, VFIO, IOMMU, device drivers, KVM are all users
-of IOASIDs. When a state change occurs, VFIO publishes the change event
-that needs to be processed by other users/subscribers.
-
-This patch introduced two types of notifications: global and per
-ioasid_set. The latter is intended for users who only needs to handle
-events related to the IOASID of a given set.
-For more information, refer to the kernel documentation at
-Documentation/ioasid.rst.
-
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Wu Hao <hao.wu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/ioasid.c | 111 +++++++++++++++++++++++++++++++++++++++--
- include/linux/ioasid.h |  54 ++++++++++++++++++++
- 2 files changed, 161 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-index 7707bb608bdd..56577e745c4b 100644
---- a/drivers/iommu/ioasid.c
-+++ b/drivers/iommu/ioasid.c
-@@ -10,12 +10,33 @@
- #include <linux/spinlock.h>
- #include <linux/xarray.h>
- 
-+/*
-+ * An IOASID can have multiple consumers where each consumer may have
-+ * hardware contexts associated with the IOASID.
-+ * When a status change occurs, like on IOASID deallocation, notifier chains
-+ * are used to keep the consumers in sync.
-+ * This is a publisher-subscriber pattern where publisher can change the
-+ * state of each IOASID, e.g. alloc/free, bind IOASID to a device and mm.
-+ * On the other hand, subscribers get notified for the state change and
-+ * keep local states in sync.
-+ */
-+static ATOMIC_NOTIFIER_HEAD(ioasid_notifier);
-+static DEFINE_SPINLOCK(ioasid_nb_lock);
-+
- /* Default to PCIe standard 20 bit PASID */
- #define PCI_PASID_MAX 0x100000
- static ioasid_t ioasid_capacity = PCI_PASID_MAX;
- static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
- static DEFINE_XARRAY_ALLOC(ioasid_sets);
- 
-+struct ioasid_set_nb {
-+	struct list_head	list;
-+	struct notifier_block	*nb;
-+	void			*token;
-+	struct ioasid_set	*set;
-+	bool			active;
-+};
-+
- enum ioasid_state {
- 	IOASID_STATE_IDLE,
- 	IOASID_STATE_ACTIVE,
-@@ -415,6 +436,38 @@ void ioasid_detach_data(ioasid_t ioasid)
- }
- EXPORT_SYMBOL_GPL(ioasid_detach_data);
- 
-+/**
-+ * ioasid_notify - Send notification on a given IOASID for status change.
-+ *
-+ * @data:	The IOASID data to which the notification will send
-+ * @cmd:	Notification event sent by IOASID external users, can be
-+ *		IOASID_BIND or IOASID_UNBIND.
-+ *
-+ * @flags:	Special instructions, e.g. notify within a set or global by
-+ *		IOASID_NOTIFY_FLAG_SET or IOASID_NOTIFY_FLAG_ALL flags
-+ * Caller must hold ioasid_allocator_lock and reference to the IOASID
-+ */
-+static int ioasid_notify(struct ioasid_data *data,
-+			 enum ioasid_notify_val cmd, unsigned int flags)
-+{
-+	struct ioasid_nb_args args = { 0 };
-+	int ret = 0;
-+
-+	if (flags & ~(IOASID_NOTIFY_FLAG_ALL | IOASID_NOTIFY_FLAG_SET))
-+		return -EINVAL;
-+
-+	args.id = data->id;
-+	args.set = data->set;
-+	args.pdata = data->private;
-+	args.spid = data->spid;
-+	if (flags & IOASID_NOTIFY_FLAG_ALL)
-+		ret = atomic_notifier_call_chain(&ioasid_notifier, cmd, &args);
-+	if (flags & IOASID_NOTIFY_FLAG_SET)
-+		ret = atomic_notifier_call_chain(&data->set->nh, cmd, &args);
-+
-+	return ret;
-+}
-+
- static ioasid_t ioasid_find_by_spid_locked(struct ioasid_set *set, ioasid_t spid, bool get)
- {
- 	ioasid_t ioasid = INVALID_IOASID;
-@@ -468,7 +521,7 @@ int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid)
- 		goto done_unlock;
- 	}
- 	data->spid = spid;
--
-+	ioasid_notify(data, IOASID_NOTIFY_BIND, IOASID_NOTIFY_FLAG_SET);
- done_unlock:
- 	spin_unlock(&ioasid_allocator_lock);
- 	return ret;
-@@ -486,8 +539,8 @@ void ioasid_detach_spid(ioasid_t ioasid)
- 		pr_err("Invalid IOASID entry %d to detach\n", ioasid);
- 		goto done_unlock;
- 	}
-+	ioasid_notify(data, IOASID_NOTIFY_UNBIND, IOASID_NOTIFY_FLAG_SET);
- 	data->spid = INVALID_IOASID;
--
- done_unlock:
- 	spin_unlock(&ioasid_allocator_lock);
- }
-@@ -603,6 +656,8 @@ struct ioasid_set *ioasid_set_alloc(void *token, ioasid_t quota, int type)
- 	set->quota = quota;
- 	set->id = id;
- 	atomic_set(&set->nr_ioasids, 0);
-+	ATOMIC_INIT_NOTIFIER_HEAD(&set->nh);
-+
- 	/*
- 	 * Per set XA is used to store private IDs within the set, get ready
- 	 * for ioasid_set private ID and system-wide IOASID allocation
-@@ -655,7 +710,9 @@ int ioasid_set_free(struct ioasid_set *set)
- 	int ret = 0;
- 
- 	spin_lock(&ioasid_allocator_lock);
-+	spin_lock(&ioasid_nb_lock);
- 	ret = ioasid_set_free_locked(set);
-+	spin_unlock(&ioasid_nb_lock);
- 	spin_unlock(&ioasid_allocator_lock);
- 	return ret;
- }
-@@ -728,6 +785,7 @@ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
- 		goto exit_free;
- 	}
- 	atomic_inc(&set->nr_ioasids);
-+	ioasid_notify(data, IOASID_NOTIFY_ALLOC, IOASID_NOTIFY_FLAG_SET);
- 	goto done_unlock;
- exit_free:
- 	kfree(data);
-@@ -780,9 +838,11 @@ static void ioasid_free_locked(struct ioasid_set *set, ioasid_t ioasid)
- 	 * If the refcount is 1, it means there is no other users of the IOASID
- 	 * other than IOASID core itself. There is no need to notify anyone.
- 	 */
--	if (!refcount_dec_and_test(&data->refs))
-+	if (!refcount_dec_and_test(&data->refs)) {
-+		ioasid_notify(data, IOASID_NOTIFY_FREE,
-+			IOASID_NOTIFY_FLAG_SET | IOASID_NOTIFY_FLAG_ALL);
- 		return;
--
-+	}
- 	ioasid_do_free_locked(data);
- }
- 
-@@ -833,15 +893,39 @@ void ioasid_free_all_in_set(struct ioasid_set *set)
- 	if (!atomic_read(&set->nr_ioasids))
- 		return;
- 	spin_lock(&ioasid_allocator_lock);
-+	spin_lock(&ioasid_nb_lock);
- 	xa_for_each(&set->xa, index, entry) {
- 		ioasid_free_locked(set, index);
- 		/* Free from per set private pool */
- 		xa_erase(&set->xa, index);
- 	}
-+	spin_unlock(&ioasid_nb_lock);
- 	spin_unlock(&ioasid_allocator_lock);
- }
- EXPORT_SYMBOL_GPL(ioasid_free_all_in_set);
- 
-+/*
-+ * ioasid_find_mm_set - Retrieve IOASID set with mm token
-+ * Take a reference of the set if found.
-+ */
-+struct ioasid_set *ioasid_find_mm_set(struct mm_struct *token)
-+{
-+	struct ioasid_set *set;
-+	unsigned long index;
-+
-+	spin_lock(&ioasid_allocator_lock);
-+
-+	xa_for_each(&ioasid_sets, index, set) {
-+		if (set->type == IOASID_SET_TYPE_MM && set->token == token)
-+			goto exit_unlock;
-+	}
-+	set = NULL;
-+exit_unlock:
-+	spin_unlock(&ioasid_allocator_lock);
-+	return set;
-+}
-+EXPORT_SYMBOL_GPL(ioasid_find_mm_set);
-+
- /**
-  * ioasid_set_for_each_ioasid
-  * @brief
-@@ -1021,6 +1105,25 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
- }
- EXPORT_SYMBOL_GPL(ioasid_find);
- 
-+int ioasid_register_notifier(struct ioasid_set *set, struct notifier_block *nb)
-+{
-+	if (set)
-+		return atomic_notifier_chain_register(&set->nh, nb);
-+	else
-+		return atomic_notifier_chain_register(&ioasid_notifier, nb);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_register_notifier);
-+
-+void ioasid_unregister_notifier(struct ioasid_set *set,
-+				struct notifier_block *nb)
-+{
-+	if (set)
-+		atomic_notifier_chain_unregister(&set->nh, nb);
-+	else
-+		atomic_notifier_chain_unregister(&ioasid_notifier, nb);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_unregister_notifier);
-+
- MODULE_AUTHOR("Jean-Philippe Brucker <jean-philippe.brucker@arm.com>");
- MODULE_AUTHOR("Jacob Pan <jacob.jun.pan@linux.intel.com>");
- MODULE_DESCRIPTION("IO Address Space ID (IOASID) allocator");
-diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-index dcab02886cb5..d8b85a04214f 100644
---- a/include/linux/ioasid.h
-+++ b/include/linux/ioasid.h
-@@ -58,6 +58,47 @@ struct ioasid_allocator_ops {
- 	void *pdata;
- };
- 
-+/* Notification data when IOASID status changed */
-+enum ioasid_notify_val {
-+	IOASID_NOTIFY_ALLOC = 1,
-+	IOASID_NOTIFY_FREE,
-+	IOASID_NOTIFY_BIND,
-+	IOASID_NOTIFY_UNBIND,
-+};
-+
-+#define IOASID_NOTIFY_FLAG_ALL BIT(0)
-+#define IOASID_NOTIFY_FLAG_SET BIT(1)
-+/**
-+ * enum ioasid_notifier_prios - IOASID event notification order
-+ *
-+ * When status of an IOASID changes, users might need to take actions to
-+ * reflect the new state. For example, when an IOASID is freed due to
-+ * exception, the hardware context in virtual CPU, DMA device, and IOMMU
-+ * shall be cleared and drained. Order is required to prevent life cycle
-+ * problems.
-+ */
-+enum ioasid_notifier_prios {
-+	IOASID_PRIO_LAST,
-+	IOASID_PRIO_DEVICE,
-+	IOASID_PRIO_IOMMU,
-+	IOASID_PRIO_CPU,
-+};
-+
-+/**
-+ * struct ioasid_nb_args - Argument provided by IOASID core when notifier
-+ * is called.
-+ * @id:		The IOASID being notified
-+ * @spid:	The set private ID associated with the IOASID
-+ * @set:	The IOASID set of @id
-+ * @pdata:	The private data attached to the IOASID
-+ */
-+struct ioasid_nb_args {
-+	ioasid_t id;
-+	ioasid_t spid;
-+	struct ioasid_set *set;
-+	void *pdata;
-+};
-+
- #if IS_ENABLED(CONFIG_IOASID)
- void ioasid_install_capacity(ioasid_t total);
- int ioasid_reserve_capacity(ioasid_t nr_ioasid);
-@@ -84,6 +125,10 @@ void ioasid_detach_data(ioasid_t ioasid);
- int ioasid_attach_spid(ioasid_t ioasid, ioasid_t spid);
- void ioasid_detach_spid(ioasid_t ioasid);
- ioasid_t ioasid_find_by_spid(struct ioasid_set *set, ioasid_t spid, bool get);
-+int ioasid_register_notifier(struct ioasid_set *set,
-+			struct notifier_block *nb);
-+void ioasid_unregister_notifier(struct ioasid_set *set,
-+				struct notifier_block *nb);
- void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
- 				void (*fn)(ioasid_t id, void *data),
- 				void *data);
-@@ -149,6 +194,15 @@ static inline void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
- 	return NULL;
- }
- 
-+static inline int ioasid_register_notifier(struct notifier_block *nb)
-+{
-+	return -ENOTSUPP;
-+}
-+
-+static inline void ioasid_unregister_notifier(struct notifier_block *nb)
-+{
-+}
-+
- static inline int ioasid_register_allocator(struct ioasid_allocator_ops *allocator)
- {
- 	return -ENOTSUPP;
--- 
-2.25.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+QXMgYSBzeXN0ZW0td2lkZSByZXNvdXJjZSwgSU9BU0lEIGlzIG9mdGVuIHNoYXJlZCBieSBtdWx0
+aXBsZSBrZXJuZWwKc3Vic3lzdGVtcyB0aGF0IGFyZSBpbmRlcGVuZGVudCBvZiBlYWNoIG90aGVy
+LiBIb3dldmVyLCBhdCB0aGUKaW9hc2lkX3NldCBsZXZlbCwgdGhlc2Uga2VybmVsIHN1YnN5c3Rl
+bXMgbXVzdCBjb21tdW5pY2F0ZSB3aXRoIGVhY2gKb3RoZXIgZm9yIG93bmVyc2hpcCBjaGVja2lu
+ZywgZXZlbnQgbm90aWZpY2F0aW9ucywgZXRjLiBGb3IgZXhhbXBsZSwgb24KSW50ZWwgU2NhbGFi
+bGUgSU8gVmlydHVhbGl6YXRpb24gKFNJT1YpIGVuYWJsZWQgcGxhdGZvcm1zLCBLVk0gYW5kIFZG
+SU8KaW5zdGFuY2VzIHVuZGVyIHRoZSBzYW1lIHByb2Nlc3MvZ3Vlc3QgbXVzdCBiZSBhd2FyZSBv
+ZiBhIHNoYXJlZCBJT0FTSUQKc2V0LgpJT0FTSURfU0VUX1RZUEVfTU0gdG9rZW4gdHlwZSB3YXMg
+aW50cm9kdWNlZCB0byBleHBsaWNpdGx5IG1hcmsgYW4KSU9BU0lEIHNldCB0aGF0IGJlbG9uZ3Mg
+dG8gYSBwcm9jZXNzLCB0aHVzIHVzZSB0aGUgc2FtZSBtbV9zdHJ1Y3QKcG9pbnRlciBhcyBhIHRv
+a2VuLiBVc2VycyBvZiB0aGUgc2FtZSBwcm9jZXNzIGNhbiB0aGVuIGlkZW50aWZ5IHdpdGgKZWFj
+aCBvdGhlciBiYXNlZCBvbiB0aGlzIHRva2VuLgoKVGhpcyBwYXRjaCBpbnRyb2R1Y2VzIE1NIHRv
+a2VuIHNwZWNpZmljIGV2ZW50IHJlZ2lzdHJhdGlvbiBBUElzLiBFdmVudApzdWJzY3JpYmVycyBz
+dWNoIGFzIEtWTSBpbnN0YW5jZXMgY2FuIHJlZ2lzdGVyIElPQVNJRCBldmVudCBoYW5kbGVyCndp
+dGhvdXQgdGhlIGtub3dsZWRnZSBvZiBpdHMgaW9hc2lkX3NldC4gRXZlbnQgaGFuZGxlcnMgYXJl
+IHJlZ2lzdGVyZWQKYmFzZWQgb24gaXRzIG1tX3N0cnVjdCBwb2ludGVyIGFzIGEgdG9rZW4uIElu
+IGNhc2Ugd2hlbiBzdWJzY3JpYmVycwpyZWdpc3RlciBoYW5kbGVyICpwcmlvciogdG8gdGhlIGNy
+ZWF0aW9uIG9mIHRoZSBpb2FzaWRfc2V0LCB0aGUKaGFuZGxlcuKAmXMgbm90aWZpY2F0aW9uIGJs
+b2NrIGlzIHN0b3JlZCBpbiBhIHBlbmRpbmcgbGlzdCB3aXRoaW4gSU9BU0lECmNvcmUuIE9uY2Ug
+dGhlIGlvYXNpZF9zZXQgb2YgdGhlIE1NIHRva2VuIGlzIGNyZWF0ZWQsIHRoZSBub3RpZmljYXRp
+b24KYmxvY2sgd2lsbCBiZSByZWdpc3RlcmVkIGJ5IHRoZSBJT0FTSUQgY29yZS4KClNpZ25lZC1v
+ZmYtYnk6IExpdSBZaSBMIDx5aS5sLmxpdUBpbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IFd1IEhh
+byA8aGFvLnd1QGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogSmFjb2IgUGFuIDxqYWNvYi5qdW4u
+cGFuQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2lvbW11L2lvYXNpZC5jIHwgMTQyICsr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiBpbmNsdWRlL2xpbnV4L2lv
+YXNpZC5oIHwgIDE4ICsrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCAxNjAgaW5zZXJ0aW9ucygrKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW9hc2lkLmMgYi9kcml2ZXJzL2lvbW11L2lvYXNp
+ZC5jCmluZGV4IDU2NTc3ZTc0NWM0Yi4uOTZlOTQxZGZhZGE3IDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2lvbW11L2lvYXNpZC5jCisrKyBiL2RyaXZlcnMvaW9tbXUvaW9hc2lkLmMKQEAgLTIxLDYgKzIx
+LDggQEAKICAqIGtlZXAgbG9jYWwgc3RhdGVzIGluIHN5bmMuCiAgKi8KIHN0YXRpYyBBVE9NSUNf
+Tk9USUZJRVJfSEVBRChpb2FzaWRfbm90aWZpZXIpOworLyogTGlzdCB0byBob2xkIHBlbmRpbmcg
+bm90aWZpY2F0aW9uIGJsb2NrIHJlZ2lzdHJhdGlvbnMgKi8KK3N0YXRpYyBMSVNUX0hFQUQoaW9h
+c2lkX25iX3BlbmRpbmdfbGlzdCk7CiBzdGF0aWMgREVGSU5FX1NQSU5MT0NLKGlvYXNpZF9uYl9s
+b2NrKTsKIAogLyogRGVmYXVsdCB0byBQQ0llIHN0YW5kYXJkIDIwIGJpdCBQQVNJRCAqLwpAQCAt
+NTc0LDYgKzU3NiwyNyBAQCBzdGF0aWMgaW5saW5lIGJvb2wgaW9hc2lkX3NldF9pc192YWxpZChz
+dHJ1Y3QgaW9hc2lkX3NldCAqc2V0KQogCXJldHVybiB4YV9sb2FkKCZpb2FzaWRfc2V0cywgc2V0
+LT5pZCkgPT0gc2V0OwogfQogCitzdGF0aWMgdm9pZCBpb2FzaWRfYWRkX3BlbmRpbmdfbmIoc3Ry
+dWN0IGlvYXNpZF9zZXQgKnNldCkKK3sKKwlzdHJ1Y3QgaW9hc2lkX3NldF9uYiAqY3VycjsKKwor
+CWlmIChzZXQtPnR5cGUgIT0gSU9BU0lEX1NFVF9UWVBFX01NKQorCQlyZXR1cm47CisJLyoKKwkg
+KiBDaGVjayBpZiB0aGVyZSBhcmUgYW55IHBlbmRpbmcgbmIgcmVxdWVzdHMgZm9yIHRoZSBnaXZl
+biB0b2tlbiwgaWYgc28KKwkgKiBhZGQgdGhlbSB0byB0aGUgbm90aWZpZXIgY2hhaW4uCisJICov
+CisJc3Bpbl9sb2NrKCZpb2FzaWRfbmJfbG9jayk7CisJbGlzdF9mb3JfZWFjaF9lbnRyeShjdXJy
+LCAmaW9hc2lkX25iX3BlbmRpbmdfbGlzdCwgbGlzdCkgeworCQlpZiAoY3Vyci0+dG9rZW4gPT0g
+c2V0LT50b2tlbiAmJiAhY3Vyci0+YWN0aXZlKSB7CisJCQlhdG9taWNfbm90aWZpZXJfY2hhaW5f
+cmVnaXN0ZXIoJnNldC0+bmgsIGN1cnItPm5iKTsKKwkJCWN1cnItPnNldCA9IHNldDsKKwkJCWN1
+cnItPmFjdGl2ZSA9IHRydWU7CisJCX0KKwl9CisJc3Bpbl91bmxvY2soJmlvYXNpZF9uYl9sb2Nr
+KTsKK30KKwogLyoqCiAgKiBpb2FzaWRfc2V0X2FsbG9jIC0gQWxsb2NhdGUgYSBuZXcgSU9BU0lE
+IHNldCBmb3IgYSBnaXZlbiB0b2tlbgogICoKQEAgLTY1OCw2ICs2ODEsMTEgQEAgc3RydWN0IGlv
+YXNpZF9zZXQgKmlvYXNpZF9zZXRfYWxsb2Modm9pZCAqdG9rZW4sIGlvYXNpZF90IHF1b3RhLCBp
+bnQgdHlwZSkKIAlhdG9taWNfc2V0KCZzZXQtPm5yX2lvYXNpZHMsIDApOwogCUFUT01JQ19JTklU
+X05PVElGSUVSX0hFQUQoJnNldC0+bmgpOwogCisJLyoKKwkgKiBDaGVjayBpZiB0aGVyZSBhcmUg
+YW55IHBlbmRpbmcgbmIgcmVxdWVzdHMgZm9yIHRoZSBnaXZlbiB0b2tlbiwgaWYgc28KKwkgKiBh
+ZGQgdGhlbSB0byB0aGUgbm90aWZpZXIgY2hhaW4uCisJICovCisJaW9hc2lkX2FkZF9wZW5kaW5n
+X25iKHNldCk7CiAJLyoKIAkgKiBQZXIgc2V0IFhBIGlzIHVzZWQgdG8gc3RvcmUgcHJpdmF0ZSBJ
+RHMgd2l0aGluIHRoZSBzZXQsIGdldCByZWFkeQogCSAqIGZvciBpb2FzaWRfc2V0IHByaXZhdGUg
+SUQgYW5kIHN5c3RlbS13aWRlIElPQVNJRCBhbGxvY2F0aW9uCkBAIC02NzUsNiArNzAzLDcgQEAg
+RVhQT1JUX1NZTUJPTF9HUEwoaW9hc2lkX3NldF9hbGxvYyk7CiAKIHN0YXRpYyBpbnQgaW9hc2lk
+X3NldF9mcmVlX2xvY2tlZChzdHJ1Y3QgaW9hc2lkX3NldCAqc2V0KQogeworCXN0cnVjdCBpb2Fz
+aWRfc2V0X25iICpjdXJyOwogCWludCByZXQgPSAwOwogCiAJaWYgKCFpb2FzaWRfc2V0X2lzX3Zh
+bGlkKHNldCkpIHsKQEAgLTY4OCw2ICs3MTcsMTYgQEAgc3RhdGljIGludCBpb2FzaWRfc2V0X2Zy
+ZWVfbG9ja2VkKHN0cnVjdCBpb2FzaWRfc2V0ICpzZXQpCiAJfQogCiAJV0FSTl9PTigheGFfZW1w
+dHkoJnNldC0+eGEpKTsKKwkvKiBSZXN0b3JlIHBlbmRpbmcgc3RhdHVzIG9mIHRoZSBzZXQgTkJz
+ICovCisJbGlzdF9mb3JfZWFjaF9lbnRyeShjdXJyLCAmaW9hc2lkX25iX3BlbmRpbmdfbGlzdCwg
+bGlzdCkgeworCQlpZiAoY3Vyci0+dG9rZW4gPT0gc2V0LT50b2tlbikgeworCQkJaWYgKGN1cnIt
+PmFjdGl2ZSkKKwkJCQljdXJyLT5hY3RpdmUgPSBmYWxzZTsKKwkJCWVsc2UKKwkJCQlwcl93YXJu
+KCJTZXQgdG9rZW4gZXhpc3RzIGJ1dCBub3QgYWN0aXZlIVxuIik7CisJCX0KKwl9CisKIAkvKgog
+CSAqIFRva2VuIGdvdCByZWxlYXNlZCByaWdodCBhd2F5IGFmdGVyIHRoZSBpb2FzaWRfc2V0IGlz
+IGZyZWVkLgogCSAqIElmIGEgbmV3IHNldCBpcyBjcmVhdGVkIGltbWVkaWF0ZWx5IHdpdGggdGhl
+IG5ld2x5IHJlbGVhc2VkIHRva2VuLApAQCAtMTExNyw2ICsxMTU2LDIyIEBAIEVYUE9SVF9TWU1C
+T0xfR1BMKGlvYXNpZF9yZWdpc3Rlcl9ub3RpZmllcik7CiB2b2lkIGlvYXNpZF91bnJlZ2lzdGVy
+X25vdGlmaWVyKHN0cnVjdCBpb2FzaWRfc2V0ICpzZXQsCiAJCQkJc3RydWN0IG5vdGlmaWVyX2Js
+b2NrICpuYikKIHsKKwlzdHJ1Y3QgaW9hc2lkX3NldF9uYiAqY3VycjsKKworCXNwaW5fbG9jaygm
+aW9hc2lkX25iX2xvY2spOworCS8qCisJICogUGVuZGluZyBsaXN0IGlzIHJlZ2lzdGVyZWQgd2l0
+aCBhIHRva2VuIHdpdGhvdXQgYW4gaW9hc2lkX3NldCwKKwkgKiB0aGVyZWZvcmUgc2hvdWxkIG5v
+dCBiZSB1bnJlZ2lzdGVyZWQgZGlyZWN0bHkuCisJICovCisJbGlzdF9mb3JfZWFjaF9lbnRyeShj
+dXJyLCAmaW9hc2lkX25iX3BlbmRpbmdfbGlzdCwgbGlzdCkgeworCQlpZiAoY3Vyci0+bmIgPT0g
+bmIpIHsKKwkJCXByX3dhcm4oIkNhbm5vdCB1bnJlZ2lzdGVyIE5CIGZyb20gcGVuZGluZyBsaXN0
+XG4iKTsKKwkJCXNwaW5fdW5sb2NrKCZpb2FzaWRfbmJfbG9jayk7CisJCQlyZXR1cm47CisJCX0K
+Kwl9CisJc3Bpbl91bmxvY2soJmlvYXNpZF9uYl9sb2NrKTsKKwogCWlmIChzZXQpCiAJCWF0b21p
+Y19ub3RpZmllcl9jaGFpbl91bnJlZ2lzdGVyKCZzZXQtPm5oLCBuYik7CiAJZWxzZQpAQCAtMTEy
+NCw2ICsxMTc5LDkzIEBAIHZvaWQgaW9hc2lkX3VucmVnaXN0ZXJfbm90aWZpZXIoc3RydWN0IGlv
+YXNpZF9zZXQgKnNldCwKIH0KIEVYUE9SVF9TWU1CT0xfR1BMKGlvYXNpZF91bnJlZ2lzdGVyX25v
+dGlmaWVyKTsKIAorLyoqCisgKiBpb2FzaWRfcmVnaXN0ZXJfbm90aWZpZXJfbW0gLSBSZWdpc3Rl
+ciBhIG5vdGlmaWVyIGJsb2NrIG9uIHRoZSBJT0FTSUQgc2V0CisgKiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBjcmVhdGVkIGJ5IHRoZSBtbV9zdHJ1Y3QgcG9pbnRlciBhcyB0aGUgdG9r
+ZW4KKyAqCisgKiBAbW06IHRoZSBtbV9zdHJ1Y3QgdG9rZW4gb2YgdGhlIGlvYXNpZF9zZXQKKyAq
+IEBuYjogbm90ZmllciBibG9jayB0byBiZSByZWdpc3RlcmVkIG9uIHRoZSBpb2FzaWRfc2V0Cisg
+KgorICogVGhpcyBhIHZhcmlhbnQgb2YgaW9hc2lkX3JlZ2lzdGVyX25vdGlmaWVyKCkgd2hlcmUg
+dGhlIGNhbGxlciBpbnRlbmRzIHRvCisgKiBsaXN0ZW4gdG8gSU9BU0lEIGV2ZW50cyBiZWxvbmcg
+dGhlIGlvYXNpZF9zZXQgY3JlYXRlZCB1bmRlciB0aGUgc2FtZQorICogcHJvY2Vzcy4gQ2FsbGVy
+IGlzIG5vdCBhd2FyZSBvZiB0aGUgaW9hc2lkX3NldCwgbm8gbmVlZCB0byBob2xkIHJlZmVyZW5j
+ZQorICogb2YgdGhlIGlvYXNpZF9zZXQuCisgKi8KK2ludCBpb2FzaWRfcmVnaXN0ZXJfbm90aWZp
+ZXJfbW0oc3RydWN0IG1tX3N0cnVjdCAqbW0sIHN0cnVjdCBub3RpZmllcl9ibG9jayAqbmIpCit7
+CisJc3RydWN0IGlvYXNpZF9zZXRfbmIgKmN1cnI7CisJc3RydWN0IGlvYXNpZF9zZXQgKnNldDsK
+KwlpbnQgcmV0ID0gMDsKKworCXNwaW5fbG9jaygmaW9hc2lkX25iX2xvY2spOworCS8qIENoZWNr
+IGZvciBkdXBsaWNhdGVzLCBuYiBpcyB1bmlxdWUgcGVyIHNldCAqLworCWxpc3RfZm9yX2VhY2hf
+ZW50cnkoY3VyciwgJmlvYXNpZF9uYl9wZW5kaW5nX2xpc3QsIGxpc3QpIHsKKwkJaWYgKGN1cnIt
+PnRva2VuID09IG1tICYmIGN1cnItPm5iID09IG5iKSB7CisJCQlyZXQgPSAtRUJVU1k7CisJCQln
+b3RvIGV4aXRfdW5sb2NrOworCQl9CisJfQorCWN1cnIgPSBremFsbG9jKHNpemVvZigqY3Vyciks
+IEdGUF9BVE9NSUMpOworCWlmICghY3VycikgeworCQlyZXQgPSAtRU5PTUVNOworCQlnb3RvIGV4
+aXRfdW5sb2NrOworCX0KKwkvKiBDaGVjayBpZiB0aGUgdG9rZW4gaGFzIGFuIGV4aXN0aW5nIHNl
+dCAqLworCXNldCA9IGlvYXNpZF9maW5kX21tX3NldChtbSk7CisJaWYgKCFzZXQpIHsKKwkJLyog
+QWRkIHRvIHRoZSByc3ZkIGxpc3QgYXMgaW5hY3RpdmUgKi8KKwkJY3Vyci0+YWN0aXZlID0gZmFs
+c2U7CisJfSBlbHNlIHsKKwkJLyogUkVWSVNJVDogT25seSByZWdpc3RlciBlbXB0eSBzZXQgZm9y
+IG5vdy4gQ2FuIGFkZCBhbiBvcHRpb24KKwkJICogaW4gdGhlIGZ1dHVyZSB0byBwbGF5YmFjayBl
+eGlzdGluZyBQQVNJRHMuCisJCSAqLworCQlpZiAoYXRvbWljX3JlYWQoJnNldC0+bnJfaW9hc2lk
+cykpIHsKKwkJCXByX3dhcm4oIklPQVNJRCBzZXQgJWQgbm90IGVtcHR5ICVkXG4iLCBzZXQtPmlk
+LAorCQkJCWF0b21pY19yZWFkKCZzZXQtPm5yX2lvYXNpZHMpKTsKKwkJCXJldCA9IC1FQlVTWTsK
+KwkJCWdvdG8gZXhpdF9mcmVlOworCQl9CisJCWN1cnItPnRva2VuID0gbW07CisJCWN1cnItPm5i
+ID0gbmI7CisJCWN1cnItPmFjdGl2ZSA9IHRydWU7CisJCWN1cnItPnNldCA9IHNldDsKKworCQkv
+KiBTZXQgYWxyZWFkeSBjcmVhdGVkLCBhZGQgdG8gdGhlIG5vdGlmaWVyIGNoYWluICovCisJCWF0
+b21pY19ub3RpZmllcl9jaGFpbl9yZWdpc3Rlcigmc2V0LT5uaCwgbmIpOworCX0KKworCWxpc3Rf
+YWRkKCZjdXJyLT5saXN0LCAmaW9hc2lkX25iX3BlbmRpbmdfbGlzdCk7CisJZ290byBleGl0X3Vu
+bG9jazsKK2V4aXRfZnJlZToKKwlrZnJlZShjdXJyKTsKK2V4aXRfdW5sb2NrOgorCXNwaW5fdW5s
+b2NrKCZpb2FzaWRfbmJfbG9jayk7CisJcmV0dXJuIHJldDsKK30KK0VYUE9SVF9TWU1CT0xfR1BM
+KGlvYXNpZF9yZWdpc3Rlcl9ub3RpZmllcl9tbSk7CisKK3ZvaWQgaW9hc2lkX3VucmVnaXN0ZXJf
+bm90aWZpZXJfbW0oc3RydWN0IG1tX3N0cnVjdCAqbW0sIHN0cnVjdCBub3RpZmllcl9ibG9jayAq
+bmIpCit7CisJc3RydWN0IGlvYXNpZF9zZXRfbmIgKmN1cnI7CisKKwlzcGluX2xvY2soJmlvYXNp
+ZF9uYl9sb2NrKTsKKwlsaXN0X2Zvcl9lYWNoX2VudHJ5KGN1cnIsICZpb2FzaWRfbmJfcGVuZGlu
+Z19saXN0LCBsaXN0KSB7CisJCWlmIChjdXJyLT50b2tlbiA9PSBtbSAmJiBjdXJyLT5uYiA9PSBu
+YikgeworCQkJbGlzdF9kZWwoJmN1cnItPmxpc3QpOworCQkJc3Bpbl91bmxvY2soJmlvYXNpZF9u
+Yl9sb2NrKTsKKwkJCWlmIChjdXJyLT5hY3RpdmUpIHsKKwkJCQlhdG9taWNfbm90aWZpZXJfY2hh
+aW5fdW5yZWdpc3RlcigmY3Vyci0+c2V0LT5uaCwKKwkJCQkJCQkJIG5iKTsKKwkJCX0KKwkJCWtm
+cmVlKGN1cnIpOworCQkJcmV0dXJuOworCQl9CisJfQorCXByX3dhcm4oIk5vIGlvYXNpZCBzZXQg
+Zm91bmQgZm9yIG1tIHRva2VuICVsbHhcbiIsICAodTY0KW1tKTsKKwlzcGluX3VubG9jaygmaW9h
+c2lkX25iX2xvY2spOworfQorRVhQT1JUX1NZTUJPTF9HUEwoaW9hc2lkX3VucmVnaXN0ZXJfbm90
+aWZpZXJfbW0pOworCiBNT0RVTEVfQVVUSE9SKCJKZWFuLVBoaWxpcHBlIEJydWNrZXIgPGplYW4t
+cGhpbGlwcGUuYnJ1Y2tlckBhcm0uY29tPiIpOwogTU9EVUxFX0FVVEhPUigiSmFjb2IgUGFuIDxq
+YWNvYi5qdW4ucGFuQGxpbnV4LmludGVsLmNvbT4iKTsKIE1PRFVMRV9ERVNDUklQVElPTigiSU8g
+QWRkcmVzcyBTcGFjZSBJRCAoSU9BU0lEKSBhbGxvY2F0b3IiKTsKZGlmZiAtLWdpdCBhL2luY2x1
+ZGUvbGludXgvaW9hc2lkLmggYi9pbmNsdWRlL2xpbnV4L2lvYXNpZC5oCmluZGV4IGQ4Yjg1YTA0
+MjE0Zi4uYzk3ZTgwZmY2NWNjIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2lvYXNpZC5oCisr
+KyBiL2luY2x1ZGUvbGludXgvaW9hc2lkLmgKQEAgLTEzMiw2ICsxMzIsOCBAQCB2b2lkIGlvYXNp
+ZF91bnJlZ2lzdGVyX25vdGlmaWVyKHN0cnVjdCBpb2FzaWRfc2V0ICpzZXQsCiB2b2lkIGlvYXNp
+ZF9zZXRfZm9yX2VhY2hfaW9hc2lkKHN0cnVjdCBpb2FzaWRfc2V0ICpzZGF0YSwKIAkJCQl2b2lk
+ICgqZm4pKGlvYXNpZF90IGlkLCB2b2lkICpkYXRhKSwKIAkJCQl2b2lkICpkYXRhKTsKK2ludCBp
+b2FzaWRfcmVnaXN0ZXJfbm90aWZpZXJfbW0oc3RydWN0IG1tX3N0cnVjdCAqbW0sIHN0cnVjdCBu
+b3RpZmllcl9ibG9jayAqbmIpOwordm9pZCBpb2FzaWRfdW5yZWdpc3Rlcl9ub3RpZmllcl9tbShz
+dHJ1Y3QgbW1fc3RydWN0ICptbSwgc3RydWN0IG5vdGlmaWVyX2Jsb2NrICpuYik7CiAjZWxzZSAv
+KiAhQ09ORklHX0lPQVNJRCAqLwogc3RhdGljIGlubGluZSB2b2lkIGlvYXNpZF9pbnN0YWxsX2Nh
+cGFjaXR5KGlvYXNpZF90IHRvdGFsKQogewpAQCAtMjUwLDUgKzI1MiwyMSBAQCBzdGF0aWMgaW5s
+aW5lIHZvaWQgaW9hc2lkX3NldF9mb3JfZWFjaF9pb2FzaWQoc3RydWN0IGlvYXNpZF9zZXQgKnNk
+YXRhLAogCQkJCQkgICAgICB2b2lkICpkYXRhKQogewogfQorCitzdGF0aWMgaW5saW5lIGludCBp
+b2FzaWRfcmVnaXN0ZXJfbm90aWZpZXJfbW0oc3RydWN0IG1tX3N0cnVjdCAqbW0sCisJCQkJCSAg
+ICAgIHN0cnVjdCBub3RpZmllcl9ibG9jayAqbmIpCit7CisJcmV0dXJuIC1FTk9UU1VQUDsKK30K
+Kworc3RhdGljIGlubGluZSB2b2lkIGlvYXNpZF91bnJlZ2lzdGVyX25vdGlmaWVyX21tKHN0cnVj
+dCBtbV9zdHJ1Y3QgKm1tLAorCQkJCQkJIHN0cnVjdCBub3RpZmllcl9ibG9jayAqbmIpCit7Cit9
+CisKK3N0YXRpYyBpbmxpbmUgYm9vbCBpb2FzaWRfcXVldWVfd29yayhzdHJ1Y3Qgd29ya19zdHJ1
+Y3QgKndvcmspCit7CisJcmV0dXJuIGZhbHNlOworfQogI2VuZGlmIC8qIENPTkZJR19JT0FTSUQg
+Ki8KICNlbmRpZiAvKiBfX0xJTlVYX0lPQVNJRF9IICovCi0tIAoyLjI1LjEKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdApp
+b21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRh
+dGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
