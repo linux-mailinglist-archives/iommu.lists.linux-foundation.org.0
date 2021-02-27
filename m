@@ -1,50 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A11B327117
-	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:19 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EBC327116
+	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:18 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 26F8C83FFC;
+	by smtp2.osuosl.org (Postfix) with ESMTP id BEEB54340F;
 	Sun, 28 Feb 2021 06:33:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XwHxPgDUd6o4; Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oI9yUiaiVQep; Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0F79383FBB;
+	by smtp2.osuosl.org (Postfix) with ESMTP id B750D41468;
 	Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DB7EC000B;
-	Sun, 28 Feb 2021 06:33:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 486ADC001C;
+	Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 109B3C000E
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49CB1C000B
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E93036F893
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 36D836F845
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wj9YT8MrgbrN for <iommu@lists.linux-foundation.org>;
+ with ESMTP id UGONA_J4b0y7 for <iommu@lists.linux-foundation.org>;
  Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1F8236F5A4
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6A1AB6F5A8
  for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
-IronPort-SDR: oX7elOYCwTqhSciLSBN0P5/0apppA6pXSCHRxrIRZpIeFGoq4LrScqVpnsQXZtQaRZsoMvVO+W
- jDyQO8JccFng==
-X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="247624804"
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="247624804"
+IronPort-SDR: hJwA49gZC6pCXq6/OWszqghOQ6KdMeZivhQVyCkEwwdfnWnVrY/PaMBFpm+Qh24/4RZrebdDw3
+ zDI0VRV87ZyQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="247624806"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="247624806"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Feb 2021 22:33:10 -0800
-IronPort-SDR: OlMZLxJr4usjBYjQLafwEmc8+hyWUvMMEUh25wap14Nsvg8M73cK2FlaDV+SBWS9dhiJ/6dlVw
- 50492sCfZbJg==
+IronPort-SDR: uViKB7IpUnlUj71C+dfdHvaySm/kdSYhIWEQXMIrwmw5k196QwVOQ1eaDa11HjurQEQ606e+Cz
+ Xd9N9SVSujtw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029712"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029715"
 Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
  by orsmga004.jf.intel.com with ESMTP; 27 Feb 2021 22:33:09 -0800
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -54,9 +54,10 @@ To: LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
  cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
  Li Zefan <lizefan@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH V4 06/18] iommu/ioasid: Add free function and states
-Date: Sat, 27 Feb 2021 14:01:14 -0800
-Message-Id: <1614463286-97618-7-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH V4 07/18] iommu/ioasid: Add ioasid_set iterator helper
+ functions
+Date: Sat, 27 Feb 2021 14:01:15 -0800
+Message-Id: <1614463286-97618-8-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -82,153 +83,165 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When an actively used IOASID is freed due to exceptions, users must be
-notified to perform the cleanup. The IOASID shall be put in a pending
-state until all users completed their cleanup work.
+Users of an ioasid_set may not keep track of all the IOASIDs allocated
+under the set. When collective actions are needed for each IOASIDs, it
+is useful to iterate over all the IOASIDs within the set. For example,
+when the ioasid_set is freed, the user might perform the same cleanup
+operation on each IOASID.
 
-This patch adds ioasid_free() function to let the caller initiate the
-freeing process. Both ioasid_free() and ioasid_put() decrements
-reference counts. Unlike ioasid_put(), the ioasid_free() function also
-transition the IOASID to the free pending state where further
-ioasid_get() is prohibited. This paves the way for FREE event
-notifications that will be introduced next.
+This patch adds an API to iterate all the IOASIDs within the set.
 
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/ioasid.c | 73 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/ioasid.h |  5 +++
- 2 files changed, 78 insertions(+)
+ drivers/iommu/ioasid.c | 84 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/ioasid.h | 20 ++++++++++
+ 2 files changed, 104 insertions(+)
 
 diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-index d7b476651027..a10f8154c680 100644
+index a10f8154c680..9a3ba157dec3 100644
 --- a/drivers/iommu/ioasid.c
 +++ b/drivers/iommu/ioasid.c
-@@ -15,8 +15,26 @@
- static ioasid_t ioasid_capacity = PCI_PASID_MAX;
- static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
- static DEFINE_XARRAY_ALLOC(ioasid_sets);
-+
-+enum ioasid_state {
-+	IOASID_STATE_IDLE,
-+	IOASID_STATE_ACTIVE,
-+	IOASID_STATE_FREE_PENDING,
-+};
-+
-+/**
-+ * struct ioasid_data - Meta data about ioasid
-+ *
-+ * @id:		Unique ID
-+ * @refs:	Number of active users
-+ * @state:	Track state of the IOASID
-+ * @set:	ioasid_set of the IOASID belongs to
-+ * @private:	Private data associated with the IOASID
-+ * @rcu:	For free after RCU grace period
-+ */
- struct ioasid_data {
- 	ioasid_t id;
-+	enum ioasid_state state;
- 	struct ioasid_set *set;
- 	void *private;
- 	struct rcu_head rcu;
-@@ -597,6 +615,7 @@ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
- 		goto exit_free;
- 	}
- 	data->id = id;
-+	data->state = IOASID_STATE_IDLE;
- 
- 	/* Store IOASID in the per set data */
- 	if (xa_err(xa_store(&set->xa, id, data, GFP_ATOMIC))) {
-@@ -631,6 +650,56 @@ static void ioasid_do_free_locked(struct ioasid_data *data)
- 		ioasid_set_free_locked(data->set);
+@@ -700,6 +700,61 @@ void ioasid_free(struct ioasid_set *set, ioasid_t ioasid)
+ 	spin_unlock(&ioasid_allocator_lock);
  }
- 
-+static void ioasid_free_locked(struct ioasid_set *set, ioasid_t ioasid)
-+{
-+	struct ioasid_data *data;
-+
-+	data = xa_load(&active_allocator->xa, ioasid);
-+	if (!data) {
-+		pr_err_ratelimited("Trying to free unknown IOASID %u\n", ioasid);
-+		return;
-+	}
-+	if (data->set != set) {
-+		pr_warn("Cannot free IOASID %u due to set ownership\n", ioasid);
-+		return;
-+	}
-+	/* Check if the set exists */
-+	if (WARN_ON(!xa_load(&ioasid_sets, data->set->id)))
-+		return;
-+
-+	/* Free is already in progress */
-+	if (data->state == IOASID_STATE_FREE_PENDING)
-+		return;
-+
-+	data->state = IOASID_STATE_FREE_PENDING;
-+	/*
-+	 * If the refcount is 1, it means there is no other users of the IOASID
-+	 * other than IOASID core itself. There is no need to notify anyone.
-+	 */
-+	if (!refcount_dec_and_test(&data->refs))
-+		return;
-+
-+	ioasid_do_free_locked(data);
-+}
+ EXPORT_SYMBOL_GPL(ioasid_free);
 +
 +/**
-+ * ioasid_free - Drop reference on an IOASID. Free if refcount drops to 0,
-+ *               including free from its set and system-wide list.
-+ * @set:	The ioasid_set to check permission with. If not NULL, IOASID
-+ *		free will fail if the set does not match.
-+ * @ioasid:	The IOASID to remove
++ * ioasid_free_all_in_set
 + *
-+ * TODO: return true if all references dropped, false if async work is in
-+ * progress, IOASID is in FREE_PENDING state. wait queue to be used for blocking
-+ * free task.
++ * @brief
++ * Free all PASIDs from system-wide IOASID pool, all subscribers gets
++ * notified and do cleanup of their own.
++ * Note that some references of the IOASIDs within the set can still
++ * be held after the free call. This is OK in that the IOASIDs will be
++ * marked inactive, the only operations can be done is ioasid_put.
++ * No need to track IOASID set states since there is no reclaim phase.
++ *
++ * @param
++ * struct ioasid_set where all IOASIDs within the set will be freed.
 + */
-+void ioasid_free(struct ioasid_set *set, ioasid_t ioasid)
++void ioasid_free_all_in_set(struct ioasid_set *set)
 +{
++	struct ioasid_data *entry;
++	unsigned long index;
++
++	if (!ioasid_set_is_valid(set))
++		return;
++
++	if (xa_empty(&set->xa))
++		return;
++
++	if (!atomic_read(&set->nr_ioasids))
++		return;
 +	spin_lock(&ioasid_allocator_lock);
-+	ioasid_free_locked(set, ioasid);
++	xa_for_each(&set->xa, index, entry) {
++		ioasid_free_locked(set, index);
++		/* Free from per set private pool */
++		xa_erase(&set->xa, index);
++	}
 +	spin_unlock(&ioasid_allocator_lock);
 +}
-+EXPORT_SYMBOL_GPL(ioasid_free);
++EXPORT_SYMBOL_GPL(ioasid_free_all_in_set);
++
++/**
++ * ioasid_set_for_each_ioasid
++ * @brief
++ * Iterate over all the IOASIDs within the set
++ */
++void ioasid_set_for_each_ioasid(struct ioasid_set *set,
++				void (*fn)(ioasid_t id, void *data),
++				void *data)
++{
++	struct ioasid_data *entry;
++	unsigned long index;
++
++	xa_for_each(&set->xa, index, entry)
++		fn(index, data);
++}
++EXPORT_SYMBOL_GPL(ioasid_set_for_each_ioasid);
++
  int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
  {
  	struct ioasid_data *data;
-@@ -640,6 +709,10 @@ int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
- 		pr_err("Trying to get unknown IOASID %u\n", ioasid);
- 		return -EINVAL;
- 	}
-+	if (data->state == IOASID_STATE_FREE_PENDING) {
-+		pr_err("Trying to get IOASID being freed%u\n", ioasid);
-+		return -EBUSY;
-+	}
+@@ -789,6 +844,35 @@ bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
+ }
+ EXPORT_SYMBOL_GPL(ioasid_put);
  
- 	/* Check set ownership if the set is non-null */
- 	if (set && data->set != set) {
++/**
++ * @brief
++ * Find the ioasid_set of an IOASID. As long as the IOASID is valid,
++ * the set must be valid since the refcounting is based on the number of IOASID
++ * in the set.
++ *
++ * @param ioasid
++ * @return struct ioasid_set*
++ */
++struct ioasid_set *ioasid_find_set(ioasid_t ioasid)
++{
++	struct ioasid_allocator_data *idata;
++	struct ioasid_data *ioasid_data;
++	struct ioasid_set *set = NULL;
++
++	rcu_read_lock();
++	idata = rcu_dereference(active_allocator);
++	ioasid_data = xa_load(&idata->xa, ioasid);
++	if (!ioasid_data) {
++		set = ERR_PTR(-ENOENT);
++		goto unlock;
++	}
++	set = ioasid_data->set;
++unlock:
++	rcu_read_unlock();
++	return set;
++}
++EXPORT_SYMBOL_GPL(ioasid_find_set);
++
+ /**
+  * ioasid_find - Find IOASID data
+  * @set: the IOASID set
 diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-index 095f4e50dc58..cabaf0b0348f 100644
+index cabaf0b0348f..e7f3e6108724 100644
 --- a/include/linux/ioasid.h
 +++ b/include/linux/ioasid.h
-@@ -72,6 +72,7 @@ int ioasid_get(struct ioasid_set *set, ioasid_t ioasid);
- int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
+@@ -73,12 +73,17 @@ int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
  bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid);
  bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid);
-+void ioasid_free(struct ioasid_set *set, ioasid_t ioasid);
+ void ioasid_free(struct ioasid_set *set, ioasid_t ioasid);
++void ioasid_free_all_in_set(struct ioasid_set *set);
  void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
  		  bool (*getter)(void *));
++struct ioasid_set *ioasid_find_set(ioasid_t ioasid);
  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
-@@ -105,6 +106,10 @@ static inline struct ioasid_set *ioasid_set_alloc(void *token, ioasid_t quota,
- 	return ERR_PTR(-ENOTSUPP);
+ void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+ int ioasid_attach_data(ioasid_t ioasid, void *data);
+ void ioasid_detach_data(ioasid_t ioasid);
++void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
++				void (*fn)(ioasid_t id, void *data),
++				void *data);
+ #else /* !CONFIG_IOASID */
+ static inline void ioasid_install_capacity(ioasid_t total)
+ {
+@@ -158,5 +163,20 @@ static inline int ioasid_attach_data(ioasid_t ioasid, void *data)
+ static inline void ioasid_detach_data(ioasid_t ioasid)
+ {
  }
- 
-+static inline void ioasid_free(struct ioasid_set *set, ioasid_t ioasid)
++
++static inline void ioasid_free_all_in_set(struct ioasid_set *set)
 +{
 +}
 +
- static inline struct ioasid_set *ioasid_find_mm_set(struct mm_struct *token)
- {
- 	return NULL;
++static inline struct ioasid_set *ioasid_find_set(ioasid_t ioasid)
++{
++	return ERR_PTR(-ENOTSUPP);
++}
++
++static inline void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
++					      void (*fn)(ioasid_t id, void *data),
++					      void *data)
++{
++}
+ #endif /* CONFIG_IOASID */
+ #endif /* __LINUX_IOASID_H */
 -- 
 2.25.1
 
