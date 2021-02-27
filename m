@@ -1,50 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964E2327115
-	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:16 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE0C327122
+	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4162983FE0;
-	Sun, 28 Feb 2021 06:33:15 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8BED343430;
+	Sun, 28 Feb 2021 06:33:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CqmZVfA8ZNsx; Sun, 28 Feb 2021 06:33:14 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id elw8U3250zLB; Sun, 28 Feb 2021 06:33:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2F8F483FB9;
-	Sun, 28 Feb 2021 06:33:14 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8767A43150;
+	Sun, 28 Feb 2021 06:33:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E932DC000B;
-	Sun, 28 Feb 2021 06:33:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D781EC000E;
+	Sun, 28 Feb 2021 06:33:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B99BC000B
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 21395C000E
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E4E864F0A4
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 807194F062
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tGvqBH3OKbVP for <iommu@lists.linux-foundation.org>;
+ with ESMTP id FFKXD_dy_f1e for <iommu@lists.linux-foundation.org>;
  Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E56534F063
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:10 +0000 (UTC)
-IronPort-SDR: J7RQTTt7Y0TjcUv/ygzkzc+eGKFZH69BWjV1K2gt1W4VcW8lFZrc4IktOdpdWi3dYw0ZNKNhTE
- RBTIUvN1+3gw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="183755898"
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="183755898"
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 263DB4F078
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:11 +0000 (UTC)
+IronPort-SDR: 5jafcyvdLH+CDZrj9isF1lFY+Vqbm7PCvu3vQZ7p4LX0q3tw45AO3AjpRXc2X+TVkkkwv5w2Dz
+ x4Uqrvpl/F+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="183755899"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="183755899"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Feb 2021 22:33:09 -0800
-IronPort-SDR: hnVkePC/wEnT+/HL2gHIbAQbFByil5YHx+ktvhwo4sg34QFPUG9YGQGxrJ6ncZRA7lZHesKh0c
- ect8uTsA01Eg==
+IronPort-SDR: wi+8gDcvTp+PYBd2kCqS1qKX1EMyAg50s+8OiqJ/CBjarsQbElQOz4f1VxZQtliU86DxIu04u5
+ xk+d67aqFX2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029700"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029703"
 Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
  by orsmga004.jf.intel.com with ESMTP; 27 Feb 2021 22:33:09 -0800
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -54,9 +54,9 @@ To: LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
  cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
  Li Zefan <lizefan@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH V4 02/18] iommu/ioasid: Rename ioasid_set_data()
-Date: Sat, 27 Feb 2021 14:01:10 -0800
-Message-Id: <1614463286-97618-3-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH V4 03/18] iommu/ioasid: Add a separate function for detach data
+Date: Sat, 27 Feb 2021 14:01:11 -0800
+Message-Id: <1614463286-97618-4-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -82,37 +82,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Rename ioasid_set_data() to ioasid_attach_data() to avoid confusion with
-struct ioasid_set. ioasid_set is a group of IOASIDs that share a common
-token.
+IOASID private data can be cleared by ioasid_attach_data() with a NULL
+data pointer. A common use case is for a caller to free the data
+afterward. ioasid_attach_data() calls synchronize_rcu() before return
+such that free data can be sure without outstanding readers.
+However, since synchronize_rcu() may sleep, ioasid_attach_data() cannot
+be used under spinlocks.
 
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+This patch adds ioasid_detach_data() as a separate API where
+synchronize_rcu() is called only in this case. ioasid_attach_data() can
+then be used under spinlocks. In addition, this change makes the API
+symmetrical.
+
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/intel/svm.c | 6 +++---
- drivers/iommu/ioasid.c    | 6 +++---
- include/linux/ioasid.h    | 4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/iommu/intel/svm.c |  4 +--
+ drivers/iommu/ioasid.c    | 54 +++++++++++++++++++++++++++++++--------
+ include/linux/ioasid.h    |  5 +++-
+ 3 files changed, 50 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 18a9f05df407..0053df9edffc 100644
+index 0053df9edffc..68372a7eb8b5 100644
 --- a/drivers/iommu/intel/svm.c
 +++ b/drivers/iommu/intel/svm.c
-@@ -371,7 +371,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 			svm->gpasid = data->gpasid;
- 			svm->flags |= SVM_FLAG_GUEST_PASID;
- 		}
--		ioasid_set_data(data->hpasid, svm);
-+		ioasid_attach_data(data->hpasid, svm);
- 		INIT_LIST_HEAD_RCU(&svm->devs);
- 		mmput(svm->mm);
- 	}
 @@ -425,7 +425,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
  	list_add_rcu(&sdev->list, &svm->devs);
   out:
  	if (!IS_ERR_OR_NULL(svm) && list_empty(&svm->devs)) {
--		ioasid_set_data(data->hpasid, NULL);
-+		ioasid_attach_data(data->hpasid, NULL);
+-		ioasid_attach_data(data->hpasid, NULL);
++		ioasid_detach_data(data->hpasid);
  		kfree(svm);
  	}
  
@@ -120,63 +118,105 @@ index 18a9f05df407..0053df9edffc 100644
  				 * the unbind, IOMMU driver will get notified
  				 * and perform cleanup.
  				 */
--				ioasid_set_data(pasid, NULL);
-+				ioasid_attach_data(pasid, NULL);
+-				ioasid_attach_data(pasid, NULL);
++				ioasid_detach_data(pasid);
  				kfree(svm);
  			}
  		}
 diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-index 50ee27bbd04e..eeadf4586e0a 100644
+index eeadf4586e0a..4eb9b3dd1b85 100644
 --- a/drivers/iommu/ioasid.c
 +++ b/drivers/iommu/ioasid.c
-@@ -259,14 +259,14 @@ void ioasid_unregister_allocator(struct ioasid_allocator_ops *ops)
- EXPORT_SYMBOL_GPL(ioasid_unregister_allocator);
+@@ -273,23 +273,57 @@ int ioasid_attach_data(ioasid_t ioasid, void *data)
  
- /**
-- * ioasid_set_data - Set private data for an allocated ioasid
-+ * ioasid_attach_data - Set private data for an allocated ioasid
-  * @ioasid: the ID to set data
-  * @data:   the private data
-  *
-  * For IOASID that is already allocated, private data can be set
-  * via this API. Future lookup can be done via ioasid_find.
-  */
--int ioasid_set_data(ioasid_t ioasid, void *data)
-+int ioasid_attach_data(ioasid_t ioasid, void *data)
- {
- 	struct ioasid_data *ioasid_data;
- 	int ret = 0;
-@@ -288,7 +288,7 @@ int ioasid_set_data(ioasid_t ioasid, void *data)
+ 	spin_lock(&ioasid_allocator_lock);
+ 	ioasid_data = xa_load(&active_allocator->xa, ioasid);
+-	if (ioasid_data)
+-		rcu_assign_pointer(ioasid_data->private, data);
+-	else
++
++	if (!ioasid_data) {
+ 		ret = -ENOENT;
+-	spin_unlock(&ioasid_allocator_lock);
++		goto done_unlock;
++	}
+ 
+-	/*
+-	 * Wait for readers to stop accessing the old private data, so the
+-	 * caller can free it.
+-	 */
+-	if (!ret)
+-		synchronize_rcu();
++	if (ioasid_data->private) {
++		ret = -EBUSY;
++		goto done_unlock;
++	}
++	rcu_assign_pointer(ioasid_data->private, data);
++
++done_unlock:
++	spin_unlock(&ioasid_allocator_lock);
  
  	return ret;
  }
--EXPORT_SYMBOL_GPL(ioasid_set_data);
-+EXPORT_SYMBOL_GPL(ioasid_attach_data);
+ EXPORT_SYMBOL_GPL(ioasid_attach_data);
  
++/**
++ * ioasid_detach_data - Clear the private data of an ioasid
++ *
++ * @ioasid: the IOASIDD to clear private data
++ */
++void ioasid_detach_data(ioasid_t ioasid)
++{
++	struct ioasid_data *ioasid_data;
++
++	spin_lock(&ioasid_allocator_lock);
++	ioasid_data = xa_load(&active_allocator->xa, ioasid);
++
++	if (!ioasid_data) {
++		pr_warn("IOASID %u not found to detach data from\n", ioasid);
++		goto done_unlock;
++	}
++
++	if (ioasid_data->private) {
++		rcu_assign_pointer(ioasid_data->private, NULL);
++		goto done_unlock;
++	}
++
++done_unlock:
++	spin_unlock(&ioasid_allocator_lock);
++	/*
++	 * Wait for readers to stop accessing the old private data,
++	 * so the caller can free it.
++	 */
++	synchronize_rcu();
++}
++EXPORT_SYMBOL_GPL(ioasid_detach_data);
++
  /**
   * ioasid_alloc - Allocate an IOASID
+  * @set: the IOASID set
 diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-index e9dacd4b9f6b..60ea279802b8 100644
+index 60ea279802b8..f6e705f832f0 100644
 --- a/include/linux/ioasid.h
 +++ b/include/linux/ioasid.h
-@@ -40,7 +40,7 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
- 		  bool (*getter)(void *));
+@@ -41,7 +41,7 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
  void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
--int ioasid_set_data(ioasid_t ioasid, void *data);
-+int ioasid_attach_data(ioasid_t ioasid, void *data);
- 
+ int ioasid_attach_data(ioasid_t ioasid, void *data);
+-
++void ioasid_detach_data(ioasid_t ioasid);
  #else /* !CONFIG_IOASID */
  static inline ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
-@@ -73,7 +73,7 @@ static inline void ioasid_unregister_allocator(struct ioasid_allocator_ops *allo
- {
- }
- 
--static inline int ioasid_set_data(ioasid_t ioasid, void *data)
-+static inline int ioasid_attach_data(ioasid_t ioasid, void *data)
- {
+ 				    ioasid_t max, void *private)
+@@ -78,5 +78,8 @@ static inline int ioasid_attach_data(ioasid_t ioasid, void *data)
  	return -ENOTSUPP;
  }
+ 
++static inline void ioasid_detach_data(ioasid_t ioasid)
++{
++}
+ #endif /* CONFIG_IOASID */
+ #endif /* __LINUX_IOASID_H */
 -- 
 2.25.1
 
