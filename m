@@ -1,69 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51725327126
-	for <lists.iommu@lfdr.de>; Sun, 28 Feb 2021 07:33:35 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B93275A7
+	for <lists.iommu@lfdr.de>; Mon,  1 Mar 2021 01:53:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 38F256F943;
-	Sun, 28 Feb 2021 06:33:30 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E071F83C99;
+	Mon,  1 Mar 2021 00:53:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DxbA-71pF8ls; Sun, 28 Feb 2021 06:33:27 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JxHQ_gzZH5NQ; Mon,  1 Mar 2021 00:53:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9F0F76F9EC;
-	Sun, 28 Feb 2021 06:33:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E286E83B45;
+	Mon,  1 Mar 2021 00:53:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4866C000E;
-	Sun, 28 Feb 2021 06:33:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C531EC0012;
+	Mon,  1 Mar 2021 00:53:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0E852C000B
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:19 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59A3BC0001
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Mar 2021 00:53:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 83A7B6F965
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:14 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 47EF643014
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Mar 2021 00:53:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zqe6CZAd0utN for <iommu@lists.linux-foundation.org>;
- Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DQTnKH-VpllW for <iommu@lists.linux-foundation.org>;
+ Mon,  1 Mar 2021 00:53:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D47076F5BC
- for <iommu@lists.linux-foundation.org>; Sun, 28 Feb 2021 06:33:12 +0000 (UTC)
-IronPort-SDR: 1md2izVgvZGlr9wb0q26Ah2Y/EyNECg9l6tiRgFvJay/9b4hvvbNX3iq96104aK9GSFCq2GEDS
- ovycYxJ+5Wew==
-X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="247624820"
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="247624820"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2021 22:33:10 -0800
-IronPort-SDR: tbRZKK+vUMEdRufM6ZrxaDYyvvFN15WVuP4e9FL0GklsqCy35097fCgWmhpVEXYeITP4V1RJIj
- AHXAulb/mgQA==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id BF2A642FAC
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Mar 2021 00:53:35 +0000 (UTC)
+IronPort-SDR: +/ax2Eea8LW96rKDWVPuknRIyxynmki1hVx6G4MnGhqLK1kG3vumBrHznMFvFXT6EmnhxAZwZp
+ nVMg5+To2n6g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="205918296"
+X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; d="scan'208";a="205918296"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2021 16:53:34 -0800
+IronPort-SDR: aLtvsQrI8QH9YaUUUS8Mqo5aWURR0Uy3wyoquBZY82C2dk5qiZwjjBI8llH7I1nfYXpcIl/0pT
+ xNtPnoa4SDcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; d="scan'208";a="517029749"
-Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
- by orsmga004.jf.intel.com with ESMTP; 27 Feb 2021 22:33:10 -0800
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
- "Lu Baolu" <baolu.lu@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org,
- cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
- Li Zefan <lizefan@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [RFC PATCH 18/18] ioasid: Add /dev/ioasid for userspace
-Date: Sat, 27 Feb 2021 14:01:26 -0800
-Message-Id: <1614463286-97618-19-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Wu Hao <hao.wu@intel.com>
+X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; d="scan'208";a="426753275"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.128])
+ ([10.239.159.128])
+ by fmsmga004.fm.intel.com with ESMTP; 28 Feb 2021 16:53:32 -0800
+Subject: Re: [PATCH] iommu/vt-d: Fix status code for Allocate/Free PASID
+ command
+To: Zenghui Yu <yuzenghui@huawei.com>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
+References: <20210227073909.432-1-yuzenghui@huawei.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <30c18a6d-fd0f-6e63-c231-d6f068410342@linux.intel.com>
+Date: Mon, 1 Mar 2021 08:44:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210227073909.432-1-yuzenghui@huawei.com>
+Content-Language: en-US
+Cc: kevin.tian@intel.com, dwmw2@infradead.org, wanghaibin.wang@huawei.com,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,647 +75,49 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
+On 2/27/21 3:39 PM, Zenghui Yu wrote:
+> As per Intel vt-d spec, Rev 3.0 (section 10.4.45 "Virtual Command Response
+> Register"), the status code of "No PASID available" error in response to
+> the Allocate PASID command is 2, not 1. The same for "Invalid PASID" error
+> in response to the Free PASID command.
+> 
+> We will otherwise see confusing kernel log under the command failure from
+> guest side. Fix it.
+> 
+> Fixes: 24f27d32ab6b ("iommu/vt-d: Enlightened PASID allocation")
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>   drivers/iommu/intel/pasid.h | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/pasid.h b/drivers/iommu/intel/pasid.h
+> index 97dfcffbf495..444c0bec221a 100644
+> --- a/drivers/iommu/intel/pasid.h
+> +++ b/drivers/iommu/intel/pasid.h
+> @@ -30,8 +30,8 @@
+>   #define VCMD_VRSP_IP			0x1
+>   #define VCMD_VRSP_SC(e)			(((e) >> 1) & 0x3)
+>   #define VCMD_VRSP_SC_SUCCESS		0
+> -#define VCMD_VRSP_SC_NO_PASID_AVAIL	1
+> -#define VCMD_VRSP_SC_INVALID_PASID	1
+> +#define VCMD_VRSP_SC_NO_PASID_AVAIL	2
+> +#define VCMD_VRSP_SC_INVALID_PASID	2
+>   #define VCMD_VRSP_RESULT_PASID(e)	(((e) >> 8) & 0xfffff)
+>   #define VCMD_CMD_OPERAND(e)		((e) << 8)
+>   /*
+> 
 
-I/O Address Space IDs (IOASIDs) is used to tag DMA requests to target
-multiple DMA address spaces for physical devices. Its PCI terminology
-is called PASID (Process Address Space ID). Platforms with PASID support
-can provide PASID granularity DMA isolation, which is very useful for
-efficient and secure device sharing (SVA, subdevice passthrough, etc.).
+Thanks a lot for catching this.
 
-Today only kernel drivers are allowed to allocate IOASIDs [1]. This patch
-aims to extend this capability to userspace as required in device pass-
-through scenarios. For example, a userspace driver may want to create its
-own DMA address spaces besides the default IOVA address space established
-by the kernel on the assigned device (e.g. vDPA control vq [2] and guest
-SVA [3]), thus need to get IOASIDs from the kernel IOASID allocator for
-tagging. In concept, each device can have its own IOASID space, thus it's
-also possible for userspace driver to manage a private IOASID space itself,
-say, when PF/VF is assigned. However it doesn't work for subdevice pass-
-through, as multiple subdevices under the same parent device share a single
-IOASID space thus IOASIDs must be centrally managed by the kernel in such
-case.
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-This patch introduces a /dev/ioasid interface for this purpose (per discussion
-in [4]). An IOASID is just a number before it is tagged to a specific DMA
-address space. The actual IOASID tagging (to DMA requests) and association
-(with DMA address spaces) operations from userspace are scrutinized by specific
-device passthrough frameworks, which must ensure that a malicious driver
-cannot program arbitrary IOASIDs to its assigned device to access DMA address
-spaces that don't belong to it, this is out of the scope of this patch (a
-reference VFIO implementation will be posted soon).
-
-Open:
-
-PCIe PASID is 20bit implying a space with 1M IOASIDs. although it's plenty
-there was an open [4] on whether this user interface is open to all processes
-or only selective processes (e.g. with device assigned). In this patchseries,
-a cgroup controller is introduced to manage IOASID quota that a process is
-allowed to use. A cgroup-enabled system may by default set quota=0 to disallow
-IOASID allocation for most processes, and then having the virt management
-stack to adjust the quota for a process which gets device assigned. But yeah,
-we are also willing to hear more suggestions.
-
-[1] https://lore.kernel.org/linux-iommu/1565900005-62508-8-git-send-email-jacob.jun.pan@linux.intel.com/
-[2] https://lore.kernel.org/kvm/20201216064818.48239-1-jasowang@redhat.com/
-[3] https://lore.kernel.org/linux-iommu/1599734733-6431-1-git-send-email-yi.l.liu@intel.com/
-[4] https://lore.kernel.org/kvm/20201014171055.328a52f4@w520.home/
-
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- Documentation/userspace-api/index.rst  |   1 +
- Documentation/userspace-api/ioasid.rst |  49 ++++
- drivers/iommu/Kconfig                  |   5 +
- drivers/iommu/Makefile                 |   1 +
- drivers/iommu/intel/Kconfig            |   1 +
- drivers/iommu/ioasid_user.c            | 297 +++++++++++++++++++++++++
- include/linux/ioasid.h                 |  26 +++
- include/linux/miscdevice.h             |   1 +
- include/uapi/linux/ioasid.h            |  98 ++++++++
- 9 files changed, 479 insertions(+)
- create mode 100644 Documentation/userspace-api/ioasid.rst
- create mode 100644 drivers/iommu/ioasid_user.c
- create mode 100644 include/uapi/linux/ioasid.h
-
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index acd2cc2a538d..69e1be7c67ee 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -24,6 +24,7 @@ place where this information is gathered.
-    ioctl/index
-    iommu
-    media/index
-+   ioasid
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/userspace-api/ioasid.rst b/Documentation/userspace-api/ioasid.rst
-new file mode 100644
-index 000000000000..879d6cbae858
---- /dev/null
-+++ b/Documentation/userspace-api/ioasid.rst
-@@ -0,0 +1,49 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. ioasid:
-+
-+=====================================
-+IOASID Userspace API
-+=====================================
-+
-+The IOASID UAPI is used for userspace IOASID allocation/free requests,
-+thus IOASID management is centralized in the IOASID core[1] in the kernel. The
-+primary use case is guest Shared Virtual Address (SVA) today.
-+
-+Requests such as allocation/free can be issued by the users and managed
-+on a per-process basis through the ioasid core. Upon opening ("/dev/ioasid"),
-+a process obtains a unique handle associated with the process's mm_struct.
-+This handle is mapped to an FD in the userspace. Only a single open is
-+allowed per process.
-+
-+File descriptors can be transferred across processes by employing fork() or
-+UNIX domain socket. FDs obtained by transfer cannot be used to perform
-+IOASID requests. The following behaviors are recommended for the
-+applications:
-+
-+ - forked children close the parent's IOASID FDs immediately, open new
-+   /dev/ioasid FDs if IOASID allocation is desired
-+
-+ - do not share FDs via UNIX domain socket, e.g. via sendmsg
-+
-+================
-+Userspace APIs
-+================
-+
-+/dev/ioasid provides below ioctls:
-+
-+*) IOASID_GET_API_VERSION: returns the API version, userspace should check
-+   the API version first with the one it has embedded.
-+*) IOASID_GET_INFO: returns the information on the /dev/ioasid.
-+   - ioasid_bits: the ioasid bit width supported by this uAPI, userspace
-+     should check the ioasid_bits returned by this ioctl with the ioasid
-+     bits it wants and should fail if it's smaller than the one that
-+     userspace wants, otherwise, allocation will be failed.
-+*) IOASID_REQUEST_ALLOC: returns an IOASID which is allocated in kernel within
-+   the specified ioasid range.
-+*) IOASID_REQUEST_FREE: free an IOASID per userspace's request.
-+
-+For detailed definition, please see include/uapi/linux/ioasid.h.
-+
-+.. contents:: :local:
-+
-+[1] Documentation/driver-api/ioasid.rst
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 192ef8f61310..830f4ec28a16 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -7,6 +7,11 @@ config IOMMU_IOVA
- config IOASID
- 	tristate
- 
-+config IOASID_USER
-+	tristate
-+	depends on IOASID
-+	default n
-+
- # IOMMU_API always gets selected by whoever wants it.
- config IOMMU_API
- 	bool
-diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-index 61bd30cd8369..305dd019ff49 100644
---- a/drivers/iommu/Makefile
-+++ b/drivers/iommu/Makefile
-@@ -9,6 +9,7 @@ obj-$(CONFIG_IOMMU_IO_PGTABLE) += io-pgtable.o
- obj-$(CONFIG_IOMMU_IO_PGTABLE_ARMV7S) += io-pgtable-arm-v7s.o
- obj-$(CONFIG_IOMMU_IO_PGTABLE_LPAE) += io-pgtable-arm.o
- obj-$(CONFIG_IOASID) += ioasid.o
-+obj-$(CONFIG_IOASID_USER) += ioasid_user.o
- obj-$(CONFIG_IOMMU_IOVA) += iova.o
- obj-$(CONFIG_OF_IOMMU)	+= of_iommu.o
- obj-$(CONFIG_MSM_IOMMU) += msm_iommu.o
-diff --git a/drivers/iommu/intel/Kconfig b/drivers/iommu/intel/Kconfig
-index 28a3d1596c76..a6d9dea61d58 100644
---- a/drivers/iommu/intel/Kconfig
-+++ b/drivers/iommu/intel/Kconfig
-@@ -13,6 +13,7 @@ config INTEL_IOMMU
- 	select DMAR_TABLE
- 	select SWIOTLB
- 	select IOASID
-+	select IOASID_USER
- 	select IOMMU_DMA
- 	help
- 	  DMA remapping (DMAR) devices support enables independent address
-diff --git a/drivers/iommu/ioasid_user.c b/drivers/iommu/ioasid_user.c
-new file mode 100644
-index 000000000000..2f8957cd055a
---- /dev/null
-+++ b/drivers/iommu/ioasid_user.c
-@@ -0,0 +1,297 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Support IOASID allocation/free from user space.
-+ *
-+ * Copyright (C) 2021 Intel Corporation.
-+ *     Author: Liu Yi L <yi.l.liu@intel.com>
-+ *
-+ */
-+
-+#include <linux/ioasid.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/sched/mm.h>
-+#include <linux/miscdevice.h>
-+
-+#define DRIVER_VERSION  "0.1"
-+#define DRIVER_AUTHOR   "Liu Yi L <yi.l.liu@intel.com>"
-+#define DRIVER_DESC     "IOASID management for user space"
-+
-+/* Current user ioasid uapi supports 31 bits */
-+#define IOASID_BITS	31
-+
-+struct ioasid_user_token {
-+	unsigned long long val;
-+};
-+
-+struct ioasid_user {
-+	struct kref		kref;
-+	struct ioasid_set	*ioasid_set;
-+	struct mutex		lock;
-+	struct list_head	next;
-+	struct ioasid_user_token	token;
-+};
-+
-+static struct mutex		ioasid_user_lock;
-+static struct list_head		ioasid_user_list;
-+
-+/* called with ioasid_user_lock held */
-+static void ioasid_user_release(struct kref *kref)
-+{
-+	struct ioasid_user *iuser = container_of(kref, struct ioasid_user, kref);
-+
-+	ioasid_free_all_in_set(iuser->ioasid_set);
-+	list_del(&iuser->next);
-+	mutex_unlock(&ioasid_user_lock);
-+	ioasid_set_free(iuser->ioasid_set);
-+	kfree(iuser);
-+}
-+
-+void ioasid_user_put(struct ioasid_user *iuser)
-+{
-+	kref_put_mutex(&iuser->kref, ioasid_user_release, &ioasid_user_lock);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_user_put);
-+
-+static void ioasid_user_get(struct ioasid_user *iuser)
-+{
-+	kref_get(&iuser->kref);
-+}
-+
-+struct ioasid_user *ioasid_user_get_from_task(struct task_struct *task)
-+{
-+	struct mm_struct *mm = get_task_mm(task);
-+	unsigned long long val = (unsigned long long)mm;
-+	struct ioasid_user *iuser;
-+	bool found = false;
-+
-+	if (!mm)
-+		return NULL;
-+
-+	mutex_lock(&ioasid_user_lock);
-+	/* Search existing ioasid_user with current mm pointer */
-+	list_for_each_entry(iuser, &ioasid_user_list, next) {
-+		if (iuser->token.val == val) {
-+			ioasid_user_get(iuser);
-+			found = true;
-+			break;
-+		}
-+	}
-+
-+	mmput(mm);
-+
-+	mutex_unlock(&ioasid_user_lock);
-+	return found ? iuser : NULL;
-+}
-+EXPORT_SYMBOL_GPL(ioasid_user_get_from_task);
-+
-+void ioasid_user_for_each_id(struct ioasid_user *iuser, void *data,
-+			    void (*fn)(ioasid_t id, void *data))
-+{
-+	mutex_lock(&iuser->lock);
-+	ioasid_set_for_each_ioasid(iuser->ioasid_set, fn, data);
-+	mutex_unlock(&iuser->lock);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_user_for_each_id);
-+
-+static int ioasid_fops_open(struct inode *inode, struct file *filep)
-+{
-+	struct mm_struct *mm = get_task_mm(current);
-+	unsigned long long val = (unsigned long long)mm;
-+	struct ioasid_set *iset;
-+	struct ioasid_user *iuser;
-+	int ret = 0;
-+
-+	mutex_lock(&ioasid_user_lock);
-+	/* Only allow one single open per process */
-+	list_for_each_entry(iuser, &ioasid_user_list, next) {
-+		if (iuser->token.val == val) {
-+			ret = -EBUSY;
-+			goto out;
-+		}
-+	}
-+
-+	iuser = kzalloc(sizeof(*iuser), GFP_KERNEL);
-+	if (!iuser) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	/*
-+	 * IOASID core provides a 'IOASID set' concept to track all
-+	 * IOASIDs associated with a token. Here we use mm_struct as
-+	 * the token and create a IOASID set per mm_struct. All the
-+	 * containers of the process share the same IOASID set.
-+	 */
-+	iset = ioasid_set_alloc(mm, 0, IOASID_SET_TYPE_MM);
-+	if (IS_ERR(iset)) {
-+		kfree(iuser);
-+		ret = PTR_ERR(iset);
-+		goto out;
-+	}
-+
-+	iuser->ioasid_set = iset;
-+	kref_init(&iuser->kref);
-+	iuser->token.val = val;
-+	mutex_init(&iuser->lock);
-+	filep->private_data = iuser;
-+
-+	list_add(&iuser->next, &ioasid_user_list);
-+out:
-+	mutex_unlock(&ioasid_user_lock);
-+	mmput(mm);
-+	return ret;
-+}
-+
-+static int ioasid_fops_release(struct inode *inode, struct file *filep)
-+{
-+	struct ioasid_user *iuser = filep->private_data;
-+
-+	filep->private_data = NULL;
-+
-+	ioasid_user_put(iuser);
-+
-+	return 0;
-+}
-+
-+static int ioasid_get_info(struct ioasid_user *iuser, unsigned long arg)
-+{
-+	struct ioasid_info info;
-+	unsigned long minsz;
-+
-+	minsz = offsetofend(struct ioasid_info, ioasid_bits);
-+
-+	if (copy_from_user(&info, (void __user *)arg, minsz))
-+		return -EFAULT;
-+
-+	if (info.argsz < minsz || info.flags)
-+		return -EINVAL;
-+
-+	info.ioasid_bits = IOASID_BITS;
-+
-+	return copy_to_user((void __user *)arg, &info, minsz) ? -EFAULT : 0;
-+}
-+
-+static int ioasid_alloc_request(struct ioasid_user *iuser, unsigned long arg)
-+{
-+	struct ioasid_alloc_request req;
-+	unsigned long minsz;
-+	ioasid_t ioasid;
-+
-+	minsz = offsetofend(struct ioasid_alloc_request, range);
-+
-+	if (copy_from_user(&req, (void __user *)arg, minsz))
-+		return -EFAULT;
-+
-+	if (req.argsz < minsz || req.flags)
-+		return -EINVAL;
-+
-+	if (req.range.min > req.range.max ||
-+	    req.range.min >= (1 << IOASID_BITS) ||
-+	    req.range.max >= (1 << IOASID_BITS))
-+		return -EINVAL;
-+
-+	ioasid = ioasid_alloc(iuser->ioasid_set, req.range.min,
-+			    req.range.max, NULL);
-+
-+	if (ioasid == INVALID_IOASID)
-+		return -EINVAL;
-+
-+	return ioasid;
-+
-+}
-+
-+static int ioasid_free_request(struct ioasid_user *iuser, unsigned long arg)
-+{
-+	int ioasid;
-+
-+	if (copy_from_user(&ioasid, (void __user *)arg, sizeof(ioasid)))
-+		return -EFAULT;
-+
-+	if (ioasid < 0)
-+		return -EINVAL;
-+
-+	ioasid_free(iuser->ioasid_set, ioasid);
-+
-+	return 0;
-+}
-+
-+static long ioasid_fops_unl_ioctl(struct file *filep,
-+				  unsigned int cmd, unsigned long arg)
-+{
-+	struct ioasid_user *iuser = filep->private_data;
-+	long ret = -EINVAL;
-+
-+	if (!iuser)
-+		return ret;
-+
-+	mutex_lock(&iuser->lock);
-+
-+	switch (cmd) {
-+	case IOASID_GET_API_VERSION:
-+		ret = IOASID_API_VERSION;
-+		break;
-+	case IOASID_GET_INFO:
-+		ret = ioasid_get_info(iuser, arg);
-+		break;
-+	case IOASID_REQUEST_ALLOC:
-+		ret = ioasid_alloc_request(iuser, arg);
-+		break;
-+	case IOASID_REQUEST_FREE:
-+		ret = ioasid_free_request(iuser, arg);
-+		break;
-+	default:
-+		pr_err("Unsupported cmd %u\n", cmd);
-+		break;
-+	}
-+
-+	mutex_unlock(&iuser->lock);
-+	return ret;
-+}
-+
-+static const struct file_operations ioasid_user_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= ioasid_fops_open,
-+	.release	= ioasid_fops_release,
-+	.unlocked_ioctl	= ioasid_fops_unl_ioctl,
-+};
-+
-+static struct miscdevice ioasid_user = {
-+	.minor = IOASID_MINOR,
-+	.name = "ioasid_user",
-+	.fops = &ioasid_user_fops,
-+	.nodename = "ioasid",
-+	.mode = S_IRUGO | S_IWUGO,
-+};
-+
-+
-+static int __init ioasid_user_init(void)
-+{
-+	int ret;
-+
-+	ret = misc_register(&ioasid_user);
-+	if (ret) {
-+		pr_err("ioasid_user: misc device register failed\n");
-+		return ret;
-+	}
-+
-+	mutex_init(&ioasid_user_lock);
-+	INIT_LIST_HEAD(&ioasid_user_list);
-+	return 0;
-+}
-+
-+static void __exit ioasid_user_exit(void)
-+{
-+	WARN_ON(!list_empty(&ioasid_user_list));
-+	misc_deregister(&ioasid_user);
-+}
-+
-+module_init(ioasid_user_init);
-+module_exit(ioasid_user_exit);
-+
-+MODULE_VERSION(DRIVER_VERSION);
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR(DRIVER_AUTHOR);
-+MODULE_DESCRIPTION(DRIVER_DESC);
-diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-index 5ea4710efb02..b82abe6325f7 100644
---- a/include/linux/ioasid.h
-+++ b/include/linux/ioasid.h
-@@ -6,6 +6,7 @@
- #include <linux/errno.h>
- #include <linux/xarray.h>
- #include <linux/refcount.h>
-+#include <uapi/linux/ioasid.h>
- 
- #define INVALID_IOASID ((ioasid_t)-1)
- typedef unsigned int ioasid_t;
-@@ -152,6 +153,31 @@ static inline int ioasid_cg_uncharge(struct ioasid_set *set)
- #endif /* CGROUP_IOASIDS */
- bool ioasid_queue_work(struct work_struct *work);
- 
-+/* IOASID userspace support */
-+struct ioasid_user;
-+#if IS_ENABLED(CONFIG_IOASID_USER)
-+extern struct ioasid_user *ioasid_user_get_from_task(struct task_struct *task);
-+extern void ioasid_user_put(struct ioasid_user *iuser);
-+extern void ioasid_user_for_each_id(struct ioasid_user *iuser, void *data,
-+				   void (*fn)(ioasid_t id, void *data));
-+
-+#else /* CONFIG_IOASID_USER */
-+static inline struct ioasid_user *
-+ioasid_user_get_from_task(struct task_struct *task)
-+{
-+	return ERR_PTR(-ENOTTY);
-+}
-+
-+static inline void ioasid_user_put(struct ioasid_user *iuser)
-+{
-+}
-+
-+static inline void ioasid_user_for_each_id(struct ioasid_user *iuser, void *data,
-+					  void (*fn)(ioasid_t id, void *data))
-+{
-+}
-+#endif /* CONFIG_IOASID_USER */
-+
- #else /* !CONFIG_IOASID */
- 
- static inline void ioasid_install_capacity(ioasid_t total)
-diff --git a/include/linux/miscdevice.h b/include/linux/miscdevice.h
-index 0676f18093f9..9823901f11a4 100644
---- a/include/linux/miscdevice.h
-+++ b/include/linux/miscdevice.h
-@@ -21,6 +21,7 @@
- #define APOLLO_MOUSE_MINOR	7	/* unused */
- #define PC110PAD_MINOR		9	/* unused */
- /*#define ADB_MOUSE_MINOR	10	FIXME OBSOLETE */
-+#define IOASID_MINOR		129     /* /dev/ioasid     */
- #define WATCHDOG_MINOR		130	/* Watchdog timer     */
- #define TEMP_MINOR		131	/* Temperature Sensor */
- #define APM_MINOR_DEV		134
-diff --git a/include/uapi/linux/ioasid.h b/include/uapi/linux/ioasid.h
-new file mode 100644
-index 000000000000..1529070c0317
---- /dev/null
-+++ b/include/uapi/linux/ioasid.h
-@@ -0,0 +1,98 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * PASID (Processor Address Space ID) is a PCIe concept for tagging
-+ * address spaces in DMA requests. When system-wide PASID allocation
-+ * is required by the underlying iommu driver (e.g. Intel VT-d), this
-+ * provides an interface for userspace to request ioasid alloc/free
-+ * for its assigned devices.
-+ *
-+ * Copyright (C) 2021 Intel Corporation.  All rights reserved.
-+ *     Author: Liu Yi L <yi.l.liu@intel.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+#ifndef _UAPI_IOASID_H
-+#define _UAPI_IOASID_H
-+
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
-+#include <linux/ioasid.h>
-+
-+#define IOASID_API_VERSION	0
-+
-+
-+/* Kernel & User level defines for IOASID IOCTLs. */
-+
-+#define IOASID_TYPE	('i')
-+#define IOASID_BASE	100
-+
-+/* -------- IOCTLs for IOASID file descriptor (/dev/ioasid) -------- */
-+
-+/**
-+ * IOASID_GET_API_VERSION - _IO(IOASID_TYPE, IOASID_BASE + 0)
-+ *
-+ * Report the version of the IOASID API.  This allows us to bump the entire
-+ * API version should we later need to add or change features in incompatible
-+ * ways.
-+ * Return: IOASID_API_VERSION
-+ * Availability: Always
-+ */
-+#define IOASID_GET_API_VERSION		_IO(IOASID_TYPE, IOASID_BASE + 0)
-+
-+/**
-+ * IOASID_GET_INFO - _IOR(IOASID_TYPE, IOASID_BASE + 1, struct ioasid_info)
-+ *
-+ * Retrieve information about the IOASID object. Fills in provided
-+ * struct ioasid_info. Caller sets argsz.
-+ *
-+ * @argsz:	 user filled size of this data.
-+ * @flags:	 currently reserved for future extension. must set to 0.
-+ * @ioasid_bits: maximum supported PASID bits, 0 represents no PASID
-+ *		 support.
-+
-+ * Availability: Always
-+ */
-+struct ioasid_info {
-+	__u32	argsz;
-+	__u32	flags;
-+	__u32	ioasid_bits;
-+};
-+#define IOASID_GET_INFO _IO(IOASID_TYPE, IOASID_BASE + 1)
-+
-+/**
-+ * IOASID_REQUEST_ALLOC - _IOWR(IOASID_TYPE, IOASID_BASE + 2,
-+ *					struct ioasid_request)
-+ *
-+ * Alloc a PASID within @range. @range is [min, max], which means both
-+ * @min and @max are inclusive.
-+ * User space should provide min, max no more than the ioasid bits reports
-+ * in ioasid_info via IOASID_GET_INFO.
-+ *
-+ * @argsz: user filled size of this data.
-+ * @flags: currently reserved for future extension. must set to 0.
-+ * @range: allocated ioasid is expected in the range.
-+ *
-+ * returns: allocated ID on success, -errno on failure
-+ */
-+struct ioasid_alloc_request {
-+	__u32	argsz;
-+	__u32	flags;
-+	struct {
-+		__u32	min;
-+		__u32	max;
-+	} range;
-+};
-+#define IOASID_REQUEST_ALLOC	_IO(IOASID_TYPE, IOASID_BASE + 2)
-+
-+/**
-+ * IOASID_REQUEST_FREE - _IOWR(IOASID_TYPE, IOASID_BASE + 3, int)
-+ *
-+ * Free a PASID.
-+ *
-+ * returns: 0 on success, -errno on failure
-+ */
-+#define IOASID_REQUEST_FREE	_IO(IOASID_TYPE, IOASID_BASE + 3)
-+
-+#endif /* _UAPI_IOASID_H */
--- 
-2.25.1
-
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
