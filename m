@@ -1,84 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8843329A94
-	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 11:43:12 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8251C329A95
+	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 11:44:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5BC39430C9;
-	Tue,  2 Mar 2021 10:43:11 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id EBE4A4ED9C;
+	Tue,  2 Mar 2021 10:44:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V5XITkJp7fj6; Tue,  2 Mar 2021 10:43:10 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iP2olnRAZAPc; Tue,  2 Mar 2021 10:44:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 77D4C430C8;
-	Tue,  2 Mar 2021 10:43:10 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C208C4ED8F;
+	Tue,  2 Mar 2021 10:44:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5DC86C0012;
-	Tue,  2 Mar 2021 10:43:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C823C0012;
+	Tue,  2 Mar 2021 10:44:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2091CC0001
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 10:43:08 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0A2F8C0001
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 10:44:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8376A43103
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 10:43:06 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id DEF9F6F593
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 10:44:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NjtdfxAKEXLk for <iommu@lists.linux-foundation.org>;
- Tue,  2 Mar 2021 10:43:05 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linaro.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id R7Z66X_kJDAM for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Mar 2021 10:43:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 68AB1430D8
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 10:43:05 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id v15so19325977wrx.4
- for <iommu@lists.linux-foundation.org>; Tue, 02 Mar 2021 02:43:05 -0800 (PST)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A4CD86F477
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 10:43:59 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id f12so15513157wrx.8
+ for <iommu@lists.linux-foundation.org>; Tue, 02 Mar 2021 02:43:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=16ndR0culV70eBRfrAIf/Iqsopy47tMS+8Hc4+8NLq4=;
- b=LNIfD2/9kUa5gsShvPrj9HSoAezE4hGXMEtjwCwql99NspoIMcYCDiJOmWmzlZWr3N
- FflwBo7hbWoZgs62C+5WCMzHmnHq6N8sDITI9X+XJSFfbNZ2+Hs8zMsnoksPTCiZlC1s
- hA+AeEL/HCd0lwgXSH/pOhgTJSFYYFAYVdit12hO9ZsH7L5K7vqdbWoiMBfQGc1GcTHz
- mQV1e+EysS6POIx+8gQkbMAkf+pIEheLVw2qYJ5StSJ1EGORwlLuBGucducX5xG/RvXZ
- 21FASigLJUog8BQl/tn8D6rshtfS0KNvdtHOYjhsKD49Oj5oY2HDOkfLDwd4Oanb55Tl
- SLRQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8fJXMvjxuLDN6bYz0lZym+t1q3/86XVS/pchijcoEVo=;
+ b=BSmT+MRdC2Gz86qjV7VPEXzzBopRQ8WplkLVUfh1pECy7yCQRr7+i65WPII2xYcExs
+ C3Iopvu1EQmgd87vvjwruLy2aw86vBQNqxt1WhKC/OevwP9WYa4/otAO7y5Bv4Qd6EJH
+ Yy0dMKQ3s9AIUfSWWH9cZl8eZ0NHh/bK8aUfuDHbbZ+CmPq8v1KD0zb/BRRCJLsNNzxc
+ wwTQ65Hb9JUTEOzIXpI6jflgeKE3ptsWZwYfD/ENTjcLAbsiEyI1zpLPB476q98x3kjn
+ 3ZHX52999srZNjEzwgqLVWHc5JwOMxMNQsJLtTD9DJGuM61G7xuWpi3oXNeH2VFuiuaG
+ j8RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=16ndR0culV70eBRfrAIf/Iqsopy47tMS+8Hc4+8NLq4=;
- b=RByjLVELKcPBfViXDdjzLVk555Hc3YP+X4d4QdHoyOt6BdXGlVOR5iyWHjKKiG5u0e
- vcaCiLGxUZNiOm6KwNuwE8X7MMjDq2x8BnFNSFeTtYAiE5Ecu5e4C+ygL+S4mvwOKHrf
- KDoZvD2++9FpSjLbnUedjoREwflarLUdugbBBFDUHeF4R5WMcJvyJxE2jiMEweGsSk4B
- f32A/cM8UtC55Q96Iqlx8uydMV3Nw7xFCVm2ETLDH9a7JzIbr2uuYsebZZhFAEi4THMj
- lcfpgJv6nhtxQf2ePF8+rf/PEp/9+y+fU9eKQMsqPZl03KkXLJKn/cTtRgvAoV0YVcUX
- 5Ukg==
-X-Gm-Message-State: AOAM532PV/GMA8H0ck33qSkKaJhFwtP3r85V1GtDpWtme6epYR/UImPS
- 5SWZX31b3yOxIV7qEOwxy+UBjg==
-X-Google-Smtp-Source: ABdhPJw/LEgT2VB6PYvwcSM0I19tDQNUmxKIzuQ2IHCBj9pgXC2hbaDJkSeAiI1c7DsPknzgbrGKhg==
-X-Received: by 2002:adf:fecc:: with SMTP id q12mr21077411wrs.317.1614681783671; 
- Tue, 02 Mar 2021 02:43:03 -0800 (PST)
-Received: from localhost.localdomain
- ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id u63sm2146457wmg.24.2021.03.02.02.43.02
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8fJXMvjxuLDN6bYz0lZym+t1q3/86XVS/pchijcoEVo=;
+ b=Oe1vLp5quThTGS/mwXGwwHxQ91/xKdJ7d1i645QBOzBhHZTerg6qDsyNTQBCD62oh/
+ ZrHRHaZ8tJljJJrm80mTSIvHr/tKkQWGig7eqc7hNKuhxz1gtEheFYrGDrbeD7Yd1trs
+ kzgWGmnM5RlAE7zyFpXm/zuiy7wtC9kkQd/ORgs1ESZUIOe0UtltBWyPZkjw8QrebSt/
+ vKeMt5B+tLLr3SzWFayBo7AGmrrjOQQCvWWMNSAkGfeT0EI0Re4uArdWHFXrFbjwhw13
+ 75vMZxIOy9MIw4PR0wB0gb+MJuaUhybW1RXfV/xqvEPkbKPjI/8eli6T/LFoYoq2A+n9
+ 3iiA==
+X-Gm-Message-State: AOAM530aiXAdz25T0YNgfawQh3vhWYLv2ctDAfGkMNOXb7MkojCTX5Ly
+ jtGEXVUrbl75IL8Bo1WgDDXCKA==
+X-Google-Smtp-Source: ABdhPJzVmOgttgWE5aqEn9bZKhAUWJarTt1JNgnA3PjQJT6fyIa7wE85W61yCc7ilp3btYLG3uqQiw==
+X-Received: by 2002:a5d:4141:: with SMTP id c1mr22150448wrq.248.1614681837978; 
+ Tue, 02 Mar 2021 02:43:57 -0800 (PST)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id h20sm2220312wmb.1.2021.03.02.02.43.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 02:43:03 -0800 (PST)
+ Tue, 02 Mar 2021 02:43:57 -0800 (PST)
+Date: Tue, 2 Mar 2021 11:43:36 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: akpm@linux-foundation.org
-Subject: [PATCH] mm/fork: Clear PASID for new mm
-Date: Tue,  2 Mar 2021 11:38:40 +0100
-Message-Id: <20210302103837.2562625-1-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.30.1
+To: Jacob Pan <jacob.jun.pan@intel.com>
+Subject: Re: [PATCH v6 08/12] fork: Clear PASID for new mm
+Message-ID: <YD4W2GPg4OUFVWty@myrica>
+References: <1594684087-61184-1-git-send-email-fenghua.yu@intel.com>
+ <1594684087-61184-9-git-send-email-fenghua.yu@intel.com>
+ <YDYoL/zZ9YaGgwSV@myrica>
+ <YDgh53AcQHT+T3L0@otcwcpicx3.sc.intel.com>
+ <20210301150011.766e70a3@jacob-builder>
 MIME-Version: 1.0
-Cc: fenghua.yu@intel.com, Tony Luck <tony.luck@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, zhangfei.gao@foxmail.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com
+Content-Disposition: inline
+In-Reply-To: <20210301150011.766e70a3@jacob-builder>
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Ashok Raj <ashok.raj@intel.com>,
+ zhangfei.gao@foxmail.com, linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,67 +102,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Fenghua Yu <fenghua.yu@intel.com>
+On Mon, Mar 01, 2021 at 03:00:11PM -0800, Jacob Pan wrote:
+> > functionality is not a problem without this patch on x86. But I think
+> I feel the reason that x86 doesn't care is that mm->pasid is not used
+> unless bind_mm is called.
 
-When a new mm is created, its PASID should be cleared, i.e. the PASID is
-initialized to its init state 0 on both ARM and X86.
+I think vt-d also maintains the global_svm_list, that tells whether a
+PASID is already allocated for the mm. The SMMU driver relies only on
+iommu_sva_alloc_pasid() for this.
 
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
-This patch was part of the series introducing mm->pasid, but got lost
-along the way [1]. It still makes sense to have it, because each address
-space has a different PASID. And the IOMMU code in iommu_sva_alloc_pasid()
-expects the pasid field of a new mm struct to be cleared.
+> For the fork children even mm->pasid is non-zero,
+> it has no effect since it is not loaded onto MSRs.
+> Perhaps you could also add a check or WARN_ON(!mm->pasid) in load_pasid()?
+> 
+> > we do need to have this patch in the kernel because PASID is per addr
+> > space and two addr spaces shouldn't have the same PASID.
+> > 
+> Agreed.
+> 
+> > Who will accept this patch?
 
-[1] https://lore.kernel.org/linux-iommu/YDgh53AcQHT+T3L0@otcwcpicx3.sc.intel.com/
----
- include/linux/mm_types.h | 1 +
- kernel/fork.c            | 8 ++++++++
- 2 files changed, 9 insertions(+)
+It's not clear from get_maintainers.pl, but I guess it should go via
+linux-mm. Since the list wasn't cc'd on the original patch, I resent it.
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 0974ad501a47..6613b26a8894 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -23,6 +23,7 @@
- #endif
- #define AT_VECTOR_SIZE (2*(AT_VECTOR_SIZE_ARCH + AT_VECTOR_SIZE_BASE + 1))
- 
-+#define INIT_PASID	0
- 
- struct address_space;
- struct mem_cgroup;
-diff --git a/kernel/fork.c b/kernel/fork.c
-index d66cd1014211..808af2cc8ab6 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -994,6 +994,13 @@ static void mm_init_owner(struct mm_struct *mm, struct task_struct *p)
- #endif
- }
- 
-+static void mm_init_pasid(struct mm_struct *mm)
-+{
-+#ifdef CONFIG_IOMMU_SUPPORT
-+	mm->pasid = INIT_PASID;
-+#endif
-+}
-+
- static void mm_init_uprobes_state(struct mm_struct *mm)
- {
- #ifdef CONFIG_UPROBES
-@@ -1024,6 +1031,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
- 	mm_init_cpumask(mm);
- 	mm_init_aio(mm);
- 	mm_init_owner(mm, p);
-+	mm_init_pasid(mm);
- 	RCU_INIT_POINTER(mm->exe_file, NULL);
- 	mmu_notifier_subscriptions_init(mm);
- 	init_tlb_flush_pending(mm);
--- 
-2.30.1
-
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
