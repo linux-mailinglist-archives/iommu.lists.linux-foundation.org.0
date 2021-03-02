@@ -1,81 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58EC7329818
-	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 10:35:41 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 768BA32981A
+	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 10:35:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F3CB260606;
-	Tue,  2 Mar 2021 09:35:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id AA24283D89;
+	Tue,  2 Mar 2021 09:35:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZKvYcOaxg5Ja; Tue,  2 Mar 2021 09:35:39 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7YnPzry0Wo3j; Tue,  2 Mar 2021 09:35:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 045896F5DB;
-	Tue,  2 Mar 2021 09:35:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8BF1F83D7E;
+	Tue,  2 Mar 2021 09:35:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 55EE7C001A;
-	Tue,  2 Mar 2021 09:35:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 850FAC0012;
+	Tue,  2 Mar 2021 09:35:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4B45FC0001
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 09:35:37 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B9F6EC0013
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 09:35:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3A3C4430C4
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 09:35:37 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 97ACA4F133
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 09:35:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6kqfZj-b7udH for <iommu@lists.linux-foundation.org>;
- Tue,  2 Mar 2021 09:35:36 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VlyfpJQBqSeZ for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Mar 2021 09:35:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7FFF243069
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 09:35:36 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id m1so1944503wml.2
- for <iommu@lists.linux-foundation.org>; Tue, 02 Mar 2021 01:35:36 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 9C2A24F12C
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 09:35:37 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id d15so3859955wrv.5
+ for <iommu@lists.linux-foundation.org>; Tue, 02 Mar 2021 01:35:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fAwFmceeI8PT69Qzv7BbL234cbzlwFiSG33CnDCXBuk=;
- b=pVUo6Je1O9n09zMy7XzMnOeoxCf2gwvJSFjHsUpFlcN2ASmVQotVn/P3GJaA2vMsPG
- 5Oa73C/bPbSORaAchXIQza2ekIiLHAMzhiBZSlMfN6WbI9De+lb3VRTl3rQ2yQVlngcr
- V2RHEDDpBUjaRbWMvhc/3ySgIrurqPttQruKNTQF2GytX5XdWxpKNvyRtIS3TzMszIvc
- JBZB4CBm0UCJiSKiLxjvSyjWHHMuuOuEHyTWoD+ba6Xp8wX8IFgRMCwyw68DBIQ5z2iC
- eWdpOaKbSD5yQITmiRYw1xTk99A7N0QY50S3SPObJAaXzoV7J2H4ZrpqEenmZmu1CZJM
- pCiw==
+ bh=N+2wRT0d2D2HxeGkEvggn2nlXqB54onyEwHP8db/7QY=;
+ b=mur5/SaKYOVuZNj0OFEQEGwWcgveYIT+mr0Ko/887w+dI+wFoEZzBahHqx7a7+I0Jl
+ VkPi0t4z6gtLLqU3Z6W1vbzMAAndT1MZ9KrbRNHk1vEuUOIpi0ZYDRbuvoEWdg87tGOP
+ 5O4RpoYLKqHZXE3FQGWwN4CFbgtpArsvLI3oto3kHdPgIZOeSj1f4T9MAZit05DDSbcB
+ l+UQie0L3aLh2mpteK0Ee3T2cIyH0k8stxV1g5YBP8hEmJ1fa8HwNjAJVDtSafrD4aPA
+ o1og0ZnwYyUP8sWnCDCx2tzuBQAf9KmLkjLBnuLA1tg4Btab5VZJxWZlKs4Bu+NGgA6u
+ HqKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fAwFmceeI8PT69Qzv7BbL234cbzlwFiSG33CnDCXBuk=;
- b=q1HPY1sfRqah3hUtIJnt+wdp88ds/M4b6mKryyC3x6hwdrCwKVjZWr3FaoJ/8BYBIO
- /WeMIHL5Vkq50u9aeC3ZCqimQnvdkBECxF3k6XIqISg/g6lpjDmq2vxdDWPRK7+bcnhh
- 6NDwOX37UZbVXQMqpkUIECJUFEZnNuXD26XJF5Qvf/gWX4RTNQwRDUJ6tNIigdIof85R
- g4oDGleIJKquW5ulwqG3fUfDyTLm8edu27rlot6E7mQkZ8Di8C/bpNsX5gUVN4pX57Wu
- ElrqyyXOW2OUuRshB9ENXOc0DT89/nKNt9NcH8Z0Q9TdUoboxd9//SbThok9W/XGi8nE
- kQ0w==
-X-Gm-Message-State: AOAM532VhLM3rPbeTdJWLMw3p4lSXAsrNlseTliQgRXJk0vGlWhp0Wo8
- BHfJhjU85AkflDP8ePmMFNJ08Q==
-X-Google-Smtp-Source: ABdhPJwrpaQozpbifmdBMiCZvNYDUDCjs8CDLKRQmFMc/2Y3eNN20yvyuRxJXyxFUTgbOPqB1BFNww==
-X-Received: by 2002:a1c:a504:: with SMTP id o4mr3053405wme.174.1614677734793; 
- Tue, 02 Mar 2021 01:35:34 -0800 (PST)
+ bh=N+2wRT0d2D2HxeGkEvggn2nlXqB54onyEwHP8db/7QY=;
+ b=GrYDVtiZF3bm00nM4s7wnIpJx3jfY7G+PGeYJUCQ4OS6OEknNoNDuE5ZgTxqqBbRUK
+ S3TQtgDfS1h9X5Gb0FArFpfIT/pZvK7EHoGS9rLP173pnFeNnYBMwRonZhQuBoubrBNJ
+ nUHWTHKgdGw0v2yQVq4lah8wxDhGsJkPM1EINw+LOlEwt8sb56Nf+qGPR7++QwEyHm9a
+ 27wHw4P18+YrhXXyzQCVgrRX4Z01zgXvvqzYkPGoTIS3ReCnEMLRhEFBjwFCAn4wQMrl
+ emQq2EPOZh76c+LhymnQ3vyD/xouZu0GQbEnV8+toO5867DBtU7CFGqO0gnR825RwxmY
+ naXg==
+X-Gm-Message-State: AOAM5321Eqv0P0Uc7nmhHMSreg97NLNFUh09WnEb7Zy5jitNaezMUSMJ
+ gEUVyAw5k4gt0NYx8DCwqGhKWQ==
+X-Google-Smtp-Source: ABdhPJwF9FbBYZEYEJcEnxvX5Mh5YZ2ftfwCrSmxifnxS9pSwMMvYK2TmNSRxV7W9useydfpOfqpig==
+X-Received: by 2002:a05:6000:1104:: with SMTP id
+ z4mr11973344wrw.10.1614677735910; 
+ Tue, 02 Mar 2021 01:35:35 -0800 (PST)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id w131sm1963818wmb.8.2021.03.02.01.35.33
+ by smtp.gmail.com with ESMTPSA id w131sm1963818wmb.8.2021.03.02.01.35.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 01:35:34 -0800 (PST)
+ Tue, 02 Mar 2021 01:35:35 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: joro@8bytes.org,
 	will@kernel.org
-Subject: [PATCH v13 04/10] iommu/vt-d: Support IOMMU_DEV_FEAT_IOPF
-Date: Tue,  2 Mar 2021 10:26:40 +0100
-Message-Id: <20210302092644.2553014-5-jean-philippe@linaro.org>
+Subject: [PATCH v13 05/10] uacce: Enable IOMMU_DEV_FEAT_IOPF
+Date: Tue,  2 Mar 2021 10:26:41 +0100
+Message-Id: <20210302092644.2553014-6-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210302092644.2553014-1-jean-philippe@linaro.org>
 References: <20210302092644.2553014-1-jean-philippe@linaro.org>
@@ -83,8 +84,9 @@ MIME-Version: 1.0
 Cc: vivek.gautam@arm.com, guohanjun@huawei.com,
  Jean-Philippe Brucker <jean-philippe@linaro.org>, linux-acpi@vger.kernel.org,
  zhangfei.gao@linaro.org, lenb@kernel.org, devicetree@vger.kernel.org,
- kevin.tian@intel.com, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- David Woodhouse <dwmw2@infradead.org>, rjw@rjwysocki.net,
+ kevin.tian@intel.com, Arnd Bergmann <arnd@arndb.de>, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rjw@rjwysocki.net,
  iommu@lists.linux-foundation.org, sudeep.holla@arm.com, robin.murphy@arm.com,
  linux-accelerators@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -104,58 +106,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Allow drivers to query and enable IOMMU_DEV_FEAT_IOPF, which amounts to
-checking whether PRI is enabled.
+The IOPF (I/O Page Fault) feature is now enabled independently from the
+SVA feature, because some IOPF implementations are device-specific and
+do not require IOMMU support for PCIe PRI or Arm SMMU stall.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Enable IOPF unconditionally when enabling SVA for now. In the future, if
+a device driver implementing a uacce interface doesn't need IOPF
+support, it will need to tell the uacce module, for example with a new
+flag.
+
+Acked-by: Zhangfei Gao <zhangfei.gao@linaro.org>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Zhangfei Gao <zhangfei.gao@linaro.org>
+Cc: Zhou Wang <wangzhou1@hisilicon.com>
 ---
- drivers/iommu/intel/iommu.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/misc/uacce/uacce.c | 39 +++++++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index ee0932307d64..c5c5fd444779 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5343,6 +5343,8 @@ static int siov_find_pci_dvsec(struct pci_dev *pdev)
- static bool
- intel_iommu_dev_has_feat(struct device *dev, enum iommu_dev_features feat)
- {
-+	struct device_domain_info *info = get_domain_info(dev);
-+
- 	if (feat == IOMMU_DEV_FEAT_AUX) {
- 		int ret;
- 
-@@ -5357,13 +5359,13 @@ intel_iommu_dev_has_feat(struct device *dev, enum iommu_dev_features feat)
- 		return !!siov_find_pci_dvsec(to_pci_dev(dev));
- 	}
- 
--	if (feat == IOMMU_DEV_FEAT_SVA) {
--		struct device_domain_info *info = get_domain_info(dev);
-+	if (feat == IOMMU_DEV_FEAT_IOPF)
-+		return info && info->pri_supported;
- 
-+	if (feat == IOMMU_DEV_FEAT_SVA)
- 		return info && (info->iommu->flags & VTD_FLAG_SVM_CAPABLE) &&
- 			info->pasid_supported && info->pri_supported &&
- 			info->ats_supported;
--	}
- 
- 	return false;
+diff --git a/drivers/misc/uacce/uacce.c b/drivers/misc/uacce/uacce.c
+index d07af4edfcac..6db7a98486ec 100644
+--- a/drivers/misc/uacce/uacce.c
++++ b/drivers/misc/uacce/uacce.c
+@@ -385,6 +385,33 @@ static void uacce_release(struct device *dev)
+ 	kfree(uacce);
  }
-@@ -5374,6 +5376,9 @@ intel_iommu_dev_enable_feat(struct device *dev, enum iommu_dev_features feat)
- 	if (feat == IOMMU_DEV_FEAT_AUX)
- 		return intel_iommu_enable_auxd(dev);
  
-+	if (feat == IOMMU_DEV_FEAT_IOPF)
-+		return intel_iommu_dev_has_feat(dev, feat) ? 0 : -ENODEV;
++static unsigned int uacce_enable_sva(struct device *parent, unsigned int flags)
++{
++	if (!(flags & UACCE_DEV_SVA))
++		return flags;
 +
- 	if (feat == IOMMU_DEV_FEAT_SVA) {
- 		struct device_domain_info *info = get_domain_info(dev);
++	flags &= ~UACCE_DEV_SVA;
++
++	if (iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_IOPF))
++		return flags;
++
++	if (iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_SVA)) {
++		iommu_dev_disable_feature(parent, IOMMU_DEV_FEAT_IOPF);
++		return flags;
++	}
++
++	return flags | UACCE_DEV_SVA;
++}
++
++static void uacce_disable_sva(struct uacce_device *uacce)
++{
++	if (!(uacce->flags & UACCE_DEV_SVA))
++		return;
++
++	iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_SVA);
++	iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_IOPF);
++}
++
+ /**
+  * uacce_alloc() - alloc an accelerator
+  * @parent: pointer of uacce parent device
+@@ -404,11 +431,7 @@ struct uacce_device *uacce_alloc(struct device *parent,
+ 	if (!uacce)
+ 		return ERR_PTR(-ENOMEM);
  
+-	if (flags & UACCE_DEV_SVA) {
+-		ret = iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_SVA);
+-		if (ret)
+-			flags &= ~UACCE_DEV_SVA;
+-	}
++	flags = uacce_enable_sva(parent, flags);
+ 
+ 	uacce->parent = parent;
+ 	uacce->flags = flags;
+@@ -432,8 +455,7 @@ struct uacce_device *uacce_alloc(struct device *parent,
+ 	return uacce;
+ 
+ err_with_uacce:
+-	if (flags & UACCE_DEV_SVA)
+-		iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_SVA);
++	uacce_disable_sva(uacce);
+ 	kfree(uacce);
+ 	return ERR_PTR(ret);
+ }
+@@ -487,8 +509,7 @@ void uacce_remove(struct uacce_device *uacce)
+ 	mutex_unlock(&uacce->queues_lock);
+ 
+ 	/* disable sva now since no opened queues */
+-	if (uacce->flags & UACCE_DEV_SVA)
+-		iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_SVA);
++	uacce_disable_sva(uacce);
+ 
+ 	if (uacce->cdev)
+ 		cdev_device_del(uacce->cdev, &uacce->dev);
 -- 
 2.30.1
 
