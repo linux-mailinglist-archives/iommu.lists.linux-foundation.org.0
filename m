@@ -1,179 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6A9329FA4
-	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 13:58:17 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C95F329ECE
+	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 13:36:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E0B1C83F76;
-	Tue,  2 Mar 2021 12:58:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0C7F16071D;
+	Tue,  2 Mar 2021 12:36:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QALfpC2apRGc; Tue,  2 Mar 2021 12:58:15 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NYWpBAZu4JYB; Tue,  2 Mar 2021 12:36:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DAD3483F75;
-	Tue,  2 Mar 2021 12:58:14 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id CE4516F64A;
+	Tue,  2 Mar 2021 12:36:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B860CC0012;
-	Tue,  2 Mar 2021 12:58:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B08A0C0001;
+	Tue,  2 Mar 2021 12:36:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68F5AC0001
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:58:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4C67C0001
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:36:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 56DC943118
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:58:12 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id A33F443118
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:36:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KaV2FxVjzEi0 for <iommu@lists.linux-foundation.org>;
- Tue,  2 Mar 2021 12:58:11 +0000 (UTC)
+ with ESMTP id PkAfRbi1sJpg for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Mar 2021 12:36:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 1153B430A5
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:58:10 +0000 (UTC)
-IronPort-SDR: WxElojMh7HvauQtX2slpoVXIjxOjgDcEVn7GLVV0YNu7nj4ne07ONlepDl+kRVNjbDGtyiiMOk
- h3a0TtjZAEfg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="250845613"
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="250845613"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2021 04:58:10 -0800
-IronPort-SDR: aOyLQOs8PqzZNmM4QLuBHkfOufrNwnFdmRSPX6RR02p2hQSmVAoRPQIzrUSO9H2zQLhL2Cv6Pt
- YPFarVhybB+A==
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 74ED7430A5
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:36:48 +0000 (UTC)
+IronPort-SDR: LnIBCZtBIu2IPTvNmnSaWsIjI6/HsL2Ls5iw5/p8O9OffIL7XRw4bMjMeOdc2u/TZ/yalTBHS5
+ XuDElw4dwz6w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="174429424"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="174429424"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 04:36:47 -0800
+IronPort-SDR: /P+Qc/iEKgAQks6WSjR7kEqlqYljDwvgWcGDkQl4X/J8RtV0FH1TNS4nMoqLEy2E0DNSOVfSYm
+ MbkLpwsVgXMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="406695825"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga008.jf.intel.com with ESMTP; 02 Mar 2021 04:58:09 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 2 Mar 2021 04:58:09 -0800
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 2 Mar 2021 04:58:08 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Tue, 2 Mar 2021 04:58:08 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Tue, 2 Mar 2021 04:58:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HKyb94Y2vgU0vkTRYOp8H498fvRbMYvSEJ9WMOOAjCWRTAmm4jPSku2t8xzBQrWiVZ/8ey++88RlRLcznk3fAXJgiC9WJY1NALkJGqK7JRG5h7Ep03LqJ8f3AWbhqXGpsqiMCE72ncQIEcCnXCdrYpBtY6POkxGpuUTzRyj/rYbQaIMDowVPnhz4wuzVt8RKNsEmzypFFon/bhaIb5cCSWE+TIibahLbPolyrQw8KaeBXkpAsT0HNk3PM8/exI9WJFgg1Ych9shGQIpiCfWSEhW6fFhZORSFOTt4axjGqDgWI0kKIAZlve8jnRXSULkJuOddjeLrzSXQG1WefzT7Vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EABkFu3+j2V5WDiRXC0f/ppojwIHN02YS+GxyGKV6cA=;
- b=Ue4xGDbZbE5KIBsf+orOmBRwNAj8ewCxvl0ciJnyP60FPU4gAct9DcY4lcIXz63Ba633AaiTfuYODzSuzkifpGlhG5YlW3OvsqG5K9UHJIyYX+oLC27Kr0bSQus2ZHbkGP1N66bsWxHUth3TeNPon8vPHC28C/nH5L5HphVxJePkPfGSDiYRJzw+2rqzffIs3lSe6TM+yBsP7G929tWiyb7cxbt5PWsRYfvdEURUnuH/RqQZw9RXPjJRjR6DkEYUG1DjeohCeDWjV7KKQ9WkG+MpwI1jgpy6/H/SIOxHk6B/w67qt0PiibpdZWsPw+shOg5/7/2Ql9vKaVeTHOTfCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EABkFu3+j2V5WDiRXC0f/ppojwIHN02YS+GxyGKV6cA=;
- b=g4PqHbpWP7IXc99b0R9W0Z1WhQHIi2+YAUkgcVUkGtCFzKClYU3fxEUCHYpSw24P1EGD338fqVmBQZW9gUpMoYZCPc+PwQ87ERBUUUsAy5dZjug0917o9Fi2xl/fpEL/OZ7Z72jLjTgDR2h1aQpoWuJdmfVKZdYnOnbTuwoJomQ=
-Received: from BN6PR11MB4068.namprd11.prod.outlook.com (2603:10b6:405:7c::31)
- by BN8PR11MB3601.namprd11.prod.outlook.com (2603:10b6:408:84::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Tue, 2 Mar
- 2021 12:58:06 +0000
-Received: from BN6PR11MB4068.namprd11.prod.outlook.com
- ([fe80::5404:7a7d:4c2a:1c1d]) by BN6PR11MB4068.namprd11.prod.outlook.com
- ([fe80::5404:7a7d:4c2a:1c1d%3]) with mapi id 15.20.3912.017; Tue, 2 Mar 2021
- 12:58:05 +0000
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>, LKML
- <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>, Lu Baolu
- <baolu.lu@linux.intel.com>, David Woodhouse <dwmw2@infradead.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, Tejun Heo
- <tj@kernel.org>, Li Zefan <lizefan@huawei.com>, Johannes Weiner
- <hannes@cmpxchg.org>, Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: RE: [PATCH V4 00/18] IOASID extensions for guest SVA
-Thread-Topic: [PATCH V4 00/18] IOASID extensions for guest SVA
-Thread-Index: AQHXDZuqHEV3IilLX0uOrgGtapPnEKpwq4EQ
-Date: Tue, 2 Mar 2021 12:58:05 +0000
-Message-ID: <BN6PR11MB406867D75E42A34F8C2555E5C3999@BN6PR11MB4068.namprd11.prod.outlook.com>
-References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
-In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.102.204.37]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d344a3b6-3f87-4487-a6c7-08d8dd7ad227
-x-ms-traffictypediagnostic: BN8PR11MB3601:
-x-ms-exchange-minimumurldomainage: github.com#4893
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN8PR11MB3601DF935CE15B8834C4F18FC3999@BN8PR11MB3601.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zKdSGsMQKoz7MbihRXE5gg+aipHLNTDzzKMHZPf76v9YNGNxLai1s0ggxIQE2snCBNrXDor+G2+DNv0cnRcAo4TAnYAkxorYsDEmRbQubjUYDDVtinHfOQC9fBznPXf9wMFsTDTB1wvfTePMlJymJoVicZosf1nDJNtTP+PQLtBScbeevEeiBENmXEOo7wOYe3rZEEYbLIXPjFNSHIyd1QG3fP9pp+aE9KNnMMX2TRTr4BZhLum2M8oZZo7KmUgWZlvBPFsI/FfcZSmzICuUIN2bIZHDKTtXhFaT7n+qmI7OrtdHm8dVPw65eiTx4bxDSvPAMZuMuMD4yYOAr5k19LYNNu7MNKp8QBQ5l8LJ5PZ3+TcdfdnDi/6xuMTO+hNADY9Tx02UrkOWr4lrEyR0GdOePbgh+XerDb0nm84lbNh4D6DwwMxVHbTxPOFR3jQmUfImg35lLypN9MCDaNkKcsRzOiQtRCH4mZ+5imG5Z5PxH9nyp+0qeJQ+jQ1TlulMqgTNU21o6KEI6Bo4JkCV0PUvlIjXHlsr9C0vATbdi48KNKTW1CUmFGWqc6sPjjDvBphk6Tu8JqmHv9rbstebNwh8Y06ZF1BLT4WthgUh5xjKU7KtVGT7rYlLnhclF40j8JtxRZmGRdKKtV82RzDl+g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR11MB4068.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(346002)(136003)(396003)(366004)(376002)(7696005)(83380400001)(921005)(8936002)(5660300002)(86362001)(66946007)(6506007)(66446008)(66476007)(66556008)(64756008)(52536014)(33656002)(966005)(110136005)(186003)(71200400001)(26005)(4326008)(316002)(478600001)(54906003)(2906002)(8676002)(76116006)(9686003)(55016002)(7416002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?YVMrWVAzd3ZpNC9QRGtQOXdSVHJKTmlHWHoxV25uZnB1aExrVFJmM0JEUm8r?=
- =?utf-8?B?ZDlUUmJ0dWM1QmVtVnJXSWR5SjJ4MlhIRDBZNkwyQVY3K1ZlbHhRazcxWEYr?=
- =?utf-8?B?TWR5UlBCcWthR1hUOStiKzNaL0tuSUV5THhIbTdDK3J1TkdvcEF1dTJmSXQ2?=
- =?utf-8?B?R2hPRHk1NUwySWZxMXY2WXVQbDhNQWpkWTYwQUE0YW4ycEVqd3VtTkZqSXhn?=
- =?utf-8?B?VXF4N1oyVnYzdkpWRVJkU2FZaVg3S1pKMUczRG9YVEwwd3BUaWp4THpJQldz?=
- =?utf-8?B?SzEwVU5VZlM3c3UrWUxJWkdsU0RvazdZNUh1a1hUdWJrWjMwbWQxTnp0eTZ2?=
- =?utf-8?B?NW03dDhSWlRYdFRxWmVOQTd1Z1F1ZU9ZVi93eGs3alpQYk1CWFkzRW4ySmtX?=
- =?utf-8?B?V0lDZHR6dk03elZpNVJSalZJOXhyS09KcXNNTm9hN3ZKcll0VTkwVjQ5VzA2?=
- =?utf-8?B?c1JKOHAwSS8yMU8rSVFVd1RMVXVRWDMzTVpSUHFUSEE3bTNYZHBtbWF5c0wr?=
- =?utf-8?B?OEdJZ0hjblJwMm5OWExuMFR3enR2YVg3WExMRGhWWjFSQzNyNjRpZHpxMXFF?=
- =?utf-8?B?by9UNUpyMnk1MEhqUDEzTGtPbTc0QXBXTVpYRzV2VDljamVFaDFLWUZmcExT?=
- =?utf-8?B?MWk5a21uZFVhUEs4WmI3V1hMUWNSK1l5R1ROQm1qbkdxZ1RmNktmQU1WYnJk?=
- =?utf-8?B?N2JTTTJlUDFPMUJsRmg5QVB4dHZLYXFJT2gxbVdIWm9EWGVHS2RBWExEZmRZ?=
- =?utf-8?B?YUc2WTZ4UWxzV1lDVEFBSTZMdFdWajZIODJSblZ0QWRrRFQwREd0ZnFFMmpv?=
- =?utf-8?B?WXpJcnA1cnptbWp2VjZkV2cwREJDSlZSNUg5ZkZ0NjdxZllvUTBoSlRNVWNU?=
- =?utf-8?B?OGpQdzhTUTVqWTh6VnlMMTVLNi8rTW0yY2lJSEVWenNQZjVhZTdXWWtySHEx?=
- =?utf-8?B?Zm13c1RMMGV5RktaUWV2OXpoVTZUeVI1SWlCUkpGNFFNaFNYYlZlc0l0a0Zx?=
- =?utf-8?B?ZUlmNndPN2w0ekxhR1crOUlQUU9uVUNwRkVJdFdGWW0rL1NqRUFlQXAzRG1W?=
- =?utf-8?B?aFY2b3FHb2NvTU02L0xmckF6djYxQzRaSnBwOHRielFuMTNyZHcvZzZuTXlm?=
- =?utf-8?B?Vm1tRFFVS2RhWEhKSGFyVVhJVXVoVWlmeTJ4ZVo1OTJqT3RoQjZ6NEVKcDF2?=
- =?utf-8?B?TEI1NDJid3lCT1g5OTBDd0hWTklvV1d2TWEvQXd4eUdvRlhoellPbVllU3NG?=
- =?utf-8?B?VUZHM0RVZnkxUExNZDJCZSs4TjZPREFWemFweG1CMzBHRGxKNW12Q0pVeGYv?=
- =?utf-8?B?RmZsdVBRK3lEd0g1SmcyZzJhYndsVVdTMlNWaDUyOXZId1JpZU4rQXlCdXhF?=
- =?utf-8?B?azRlU2h4ZVFBcVM3TFpYOEZmWEZqbmVRaFUzQ2JIeVg0cU95REpuUStGYks3?=
- =?utf-8?B?bDRJWmxHTURvVGRtQ1lXWUdoVGs1S2ZMcmNjN3hXaU11R2ErSGdsVkk2VTFq?=
- =?utf-8?B?TkV0aHJoSElkYUVhSVk4bkdIdG1ITzlSTm5UREhNQy9xbHdaOFQvWnc3RjVB?=
- =?utf-8?B?WXZGaU0wb3Q3OXhicTc1RHdkeFMrYjZVdHp1MzM4eHFpS3FLVDhLeFQ0enl6?=
- =?utf-8?B?bFEyYTVqK05CU0ozZjJ6bFV4SEJ0dEU5Uk92djVoejJJM3NLWm1xUDhNRnht?=
- =?utf-8?B?SU5BSUZXd3hFSW13RzJVY0xaSm1ObWFkdjBKaUw1SmQremxBanpLbXNDRmh1?=
- =?utf-8?Q?CABq0uhFpCGkjkWaVtWMqoEJnGpxglK5yUQ5LES?=
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="427471978"
+Received: from yiliu-dev.bj.intel.com (HELO dual-ub.bj.intel.com)
+ ([10.238.156.135])
+ by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2021 04:36:42 -0800
+From: Liu Yi L <yi.l.liu@intel.com>
+To: alex.williamson@redhat.com, eric.auger@redhat.com,
+ baolu.lu@linux.intel.com, joro@8bytes.org
+Subject: [Patch v8 00/10] vfio: expose virtual Shared Virtual Addressing to VMs
+Date: Wed,  3 Mar 2021 04:35:35 +0800
+Message-Id: <20210302203545.436623-1-yi.l.liu@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB4068.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d344a3b6-3f87-4487-a6c7-08d8dd7ad227
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2021 12:58:05.2618 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: adoWFvKmuOJj0RuJomUAedQTP61RJsqlS7KjFhGDv02gFYe255Wp4CSz6G9+lPvPagk47419M6HGfnIsRhzxEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR11MB3601
-X-OriginatorOrg: intel.com
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Jiang, Dave" <dave.jiang@intel.com>,
- "Raj, Ashok" <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- "Wu, Hao" <hao.wu@intel.com>
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
+ kvm@vger.kernel.org, stefanha@gmail.com, jun.j.tian@intel.com,
+ iommu@lists.linux-foundation.org, vivek.gautam@arm.com, yi.y.sun@intel.com,
+ jgg@nvidia.com, Lingshan.Zhu@intel.com, jasowang@redhat.com, hao.wu@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -191,70 +77,188 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Sent: Sunday, February 28, 2021 6:01 AM
->
-> I/O Address Space ID (IOASID) core code was introduced in v5.5 as a generic
-> kernel allocator service for both PCIe Process Address Space ID (PASID) and
-> ARM SMMU's Substream ID. IOASIDs are used to associate DMA requests
-> with
-> virtual address spaces, including both host and guest.
-> 
-> In addition to providing basic ID allocation, ioasid_set was defined as a
-> token that is shared by a group of IOASIDs. This set token can be used
-> for permission checking, but lack some features to address the following
-> needs by guest Shared Virtual Address (SVA).
-> - Manage IOASIDs by group, group ownership, quota, etc.
-> - State synchronization among IOASID users (e.g. IOMMU driver, KVM,
-> device
-> drivers)
-> - Non-identity guest-host IOASID mapping
-> - Lifecycle management
-> 
-> This patchset introduces the following extensions as solutions to the
-> problems above.
-> - Redefine and extend IOASID set such that IOASIDs can be managed by
-> groups/pools.
-> - Add notifications for IOASID state synchronization
-> - Extend reference counting for life cycle alignment among multiple users
-> - Support ioasid_set private IDs, which can be used as guest IOASIDs
-> - Add a new cgroup controller for resource distribution
-> 
-> Please refer to Documentation/admin-guide/cgroup-v1/ioasids.rst and
-> Documentation/driver-api/ioasid.rst in the enclosed patches for more
-> details.
-> 
-> Based on discussions on LKML[1], a direction change was made in v4 such
-> that
-> the user interfaces for IOASID allocation are extracted from VFIO
-> subsystem. The proposed IOASID subsystem now consists of three
-> components:
-> 1. IOASID core[01-14]: provides APIs for allocation, pool management,
->   notifications, and refcounting.
-> 2. IOASID cgroup controller[RFC 15-17]: manage resource distribution[2].
-> 3. IOASID user[RFC 18]:  provides user allocation interface via /dev/ioasid
-> 
-> This patchset only included VT-d driver as users of some of the new APIs.
-> VFIO and KVM patches are coming up to fully utilize the APIs introduced
-> here.
->
-> [1] https://lore.kernel.org/linux-iommu/1599734733-6431-1-git-send-email-
-> yi.l.liu@intel.com/
-> [2] Note that ioasid quota management code can be removed once the
-> IOASIDs
-> cgroup is ratified.
-> 
-> You can find this series, VFIO, KVM, and IOASID user at:
-> https://github.com/jacobpan/linux.git ioasid_v4
-> (VFIO and KVM patches will be available at this branch when published.)
+Shared Virtual Addressing (SVA), a.k.a, Shared Virtual Memory (SVM) on
+Intel platforms allows address space sharing between device DMA and
+applications. SVA can reduce programming complexity and enhance security.
 
-VFIO and QEMU series are listed below:
+This VFIO series is intended to expose SVA usage to VMs. i.e. Sharing
+guest application address space with passthru devices. This is called
+vSVA in this series. The whole vSVA enabling requires QEMU/VFIO/IOMMU
+changes. For IOMMU and QEMU changes, they are in separate series (listed
+in the "Related series").
 
-VFIO: https://lore.kernel.org/linux-iommu/20210302203545.436623-1-yi.l.liu@intel.com/
-QEMU: https://lore.kernel.org/qemu-devel/20210302203827.437645-1-yi.l.liu@intel.com/T/#t
+The high-level architecture for SVA virtualization is as below, the key
+design of vSVA support is to utilize the dual-stage IOMMU translation (
+also known as IOMMU nesting translation) capability in host IOMMU.
+
+
+    .-------------.  .---------------------------.
+    |   vIOMMU    |  | Guest process CR3, FL only|
+    |             |  '---------------------------'
+    .----------------/
+    | PASID Entry |--- PASID cache flush -
+    '-------------'                       |
+    |             |                       V
+    |             |                CR3 in GPA
+    '-------------'
+Guest
+------| Shadow |--------------------------|--------
+      v        v                          v
+Host
+    .-------------.  .----------------------.
+    |   pIOMMU    |  | Bind FL for GVA-GPA  |
+    |             |  '----------------------'
+    .----------------/  |
+    | PASID Entry |     V (Nested xlate)
+    '----------------\.------------------------------.
+    |             |   |SL for GPA-HPA, default domain|
+    |             |   '------------------------------'
+    '-------------'
+Where:
+ - FL = First level/stage one page tables
+ - SL = Second level/stage two page tables
+
+This patch series has been updated regards to the disscussion around PASID
+allocation in v7 [1]. This series has removed the PASID allocation, and
+adapted to the /dev/ioasid solution [2]. Therefore the patches in this series
+has been re-ordered. And the Patch Overview is as below:
+
+ 1. reports IOMMU nesting info to userspace ( patch 0001, 0002, 0003, 0010)
+ 2. vfio support for binding guest page table to host (patch 0004)
+ 3. vfio support for IOMMU cache invalidation from VMs (patch 0005)
+ 4. vfio support for vSVA usage on IOMMU-backed mdevs (patch 0006, 0007)
+ 5. expose PASID capability to VM (patch 0008)
+ 6. add doc for VFIO dual stage control (patch 0009)
+
+The complete vSVA kernel upstream patches are divided into three phases:
+    1. Common APIs and PCI device direct assignment
+    2. IOMMU-backed Mediated Device assignment
+    3. Page Request Services (PRS) support
+
+This patchset is aiming for the phase 1 and phase 2. And it has dependency on IOASID
+extension from Jacobd Pan [3]. Complete set for current vSVA kernel and QEMU can be
+found in [4] and [5].
+
+[1] https://lore.kernel.org/kvm/DM5PR11MB14351121729909028D6EB365C31D0@DM5PR11MB1435.namprd11.prod.outlook.com/
+[2] https://lore.kernel.org/linux-iommu/1614463286-97618-19-git-send-email-jacob.jun.pan@linux.intel.com/
+[3] https://lore.kernel.org/linux-iommu/1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com/
+[4] https://github.com/jacobpan/linux/tree/vsva-linux-5.12-rc1-v8
+[5] https://github.com/luxis1999/qemu/tree/vsva_5.12_rc1_qemu_rfcv11
 
 Regards,
 Yi Liu
+
+Changelog:
+	- Patch v7 -> Patch v8:
+	  a) removed the PASID allocation out of this series, it is covered by below patch:
+	     https://lore.kernel.org/linux-iommu/1614463286-97618-19-git-send-email-jacob.jun.pan@linux.intel.com/
+	  Patch v7: https://lore.kernel.org/kvm/1599734733-6431-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v6 -> Patch v7:
+	  a) drop [PATCH v6 01/15] of v6 as it's merged by Alex.
+	  b) rebase on Jacob's v8 IOMMU uapi enhancement and v2 IOASID extension patchset.
+	  c) Address comments against v6 from Alex and Eric.
+	  Patch v6: https://lore.kernel.org/kvm/1595917664-33276-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v5 -> Patch v6:
+	  a) Address comments against v5 from Eric.
+	  b) rebase on Jacob's v6 IOMMU uapi enhancement
+	  Patch v5: https://lore.kernel.org/kvm/1594552870-55687-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v4 -> Patch v5:
+	  a) Address comments against v4
+	  Patch v4: https://lore.kernel.org/kvm/1593861989-35920-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v3 -> Patch v4:
+	  a) Address comments against v3
+	  b) Add rb from Stefan on patch 14/15
+	  Patch v3: https://lore.kernel.org/kvm/1592988927-48009-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v2 -> Patch v3:
+	  a) Rebase on top of Jacob's v3 iommu uapi patchset
+	  b) Address comments from Kevin and Stefan Hajnoczi
+	  c) Reuse DOMAIN_ATTR_NESTING to get iommu nesting info
+	  d) Drop [PATCH v2 07/15] iommu/uapi: Add iommu_gpasid_unbind_data
+	  Patch v2: https://lore.kernel.org/kvm/1591877734-66527-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v1 -> Patch v2:
+	  a) Refactor vfio_iommu_type1_ioctl() per suggestion from Christoph
+	     Hellwig.
+	  b) Re-sequence the patch series for better bisect support.
+	  c) Report IOMMU nesting cap info in detail instead of a format in
+	     v1.
+	  d) Enforce one group per nesting type container for vfio iommu type1
+	     driver.
+	  e) Build the vfio_mm related code from vfio.c to be a separate
+	     vfio_pasid.ko.
+	  f) Add PASID ownership check in IOMMU driver.
+	  g) Adopted to latest IOMMU UAPI design. Removed IOMMU UAPI version
+	     check. Added iommu_gpasid_unbind_data for unbind requests from
+	     userspace.
+	  h) Define a single ioctl:VFIO_IOMMU_NESTING_OP for bind/unbind_gtbl
+	     and cahce_invld.
+	  i) Document dual stage control in vfio.rst.
+	  Patch v1: https://lore.kernel.org/kvm/1584880325-10561-1-git-send-email-yi.l.liu@intel.com/
+
+	- RFC v3 -> Patch v1:
+	  a) Address comments to the PASID request(alloc/free) path
+	  b) Report PASID alloc/free availabitiy to user-space
+	  c) Add a vfio_iommu_type1 parameter to support pasid quota tuning
+	  d) Adjusted to latest ioasid code implementation. e.g. remove the
+	     code for tracking the allocated PASIDs as latest ioasid code
+	     will track it, VFIO could use ioasid_free_set() to free all
+	     PASIDs.
+	  RFC v3: https://lore.kernel.org/kvm/1580299912-86084-1-git-send-email-yi.l.liu@intel.com/
+
+	- RFC v2 -> v3:
+	  a) Refine the whole patchset to fit the roughly parts in this series
+	  b) Adds complete vfio PASID management framework. e.g. pasid alloc,
+	  free, reclaim in VM crash/down and per-VM PASID quota to prevent
+	  PASID abuse.
+	  c) Adds IOMMU uAPI version check and page table format check to ensure
+	  version compatibility and hardware compatibility.
+	  d) Adds vSVA vfio support for IOMMU-backed mdevs.
+	  RFC v2: https://lore.kernel.org/kvm/1571919983-3231-1-git-send-email-yi.l.liu@intel.com/
+
+	- RFC v1 -> v2:
+	  Dropped vfio: VFIO_IOMMU_ATTACH/DETACH_PASID_TABLE.
+	  RFC v1: https://lore.kernel.org/kvm/1562324772-3084-1-git-send-email-yi.l.liu@intel.com/
+
+---
+Eric Auger (1):
+  vfio: Document dual stage control
+
+Liu Yi L (8):
+  iommu: Report domain nesting info
+  iommu/smmu: Report empty domain nesting info
+  vfio/type1: Report iommu nesting info to userspace
+  vfio/type1: Support binding guest page tables to PASID
+  vfio/type1: Allow invalidating first-level/stage IOMMU cache
+  vfio/type1: Add vSVA support for IOMMU-backed mdevs
+  vfio/pci: Expose PCIe PASID capability to userspace
+  iommu/vt-d: Support reporting nesting capability info
+
+Yi Sun (1):
+  iommu: Pass domain to sva_unbind_gpasid()
+
+ Documentation/driver-api/vfio.rst           |  77 +++++
+ Documentation/userspace-api/iommu.rst       |   5 +-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  29 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       |  29 +-
+ drivers/iommu/intel/cap_audit.h             |   7 +
+ drivers/iommu/intel/iommu.c                 |  68 ++++-
+ drivers/iommu/intel/svm.c                   |   3 +-
+ drivers/iommu/iommu.c                       |   2 +-
+ drivers/vfio/pci/vfio_pci_config.c          |   2 +-
+ drivers/vfio/vfio_iommu_type1.c             | 321 +++++++++++++++++++-
+ include/linux/intel-iommu.h                 |   3 +-
+ include/linux/iommu.h                       |   3 +-
+ include/uapi/linux/iommu.h                  |  72 +++++
+ include/uapi/linux/vfio.h                   |  57 ++++
+ 14 files changed, 651 insertions(+), 27 deletions(-)
+
+-- 
+2.25.1
 
 _______________________________________________
 iommu mailing list
