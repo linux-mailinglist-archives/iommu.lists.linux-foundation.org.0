@@ -1,67 +1,98 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298AB329ED8
-	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 13:37:59 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6E432A4CB
+	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 16:54:39 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CE9CB83F1C;
-	Tue,  2 Mar 2021 12:37:57 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 91EF94EBC2;
+	Tue,  2 Mar 2021 15:54:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d4qkkeawVLMc; Tue,  2 Mar 2021 12:37:56 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id klYcmpFiL2H9; Tue,  2 Mar 2021 15:54:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BE5F283E51;
-	Tue,  2 Mar 2021 12:37:56 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 617724EC25;
+	Tue,  2 Mar 2021 15:54:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C237C0012;
-	Tue,  2 Mar 2021 12:37:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C22AC0012;
+	Tue,  2 Mar 2021 15:54:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3E837C0001
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:37:55 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2AACC0001
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 15:54:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2CB036F64A
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:37:55 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A173B605DB
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 15:54:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key)
+ header.d=cosmicpenguin-net.20150623.gappssmtp.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m5WU5SzSuX4o for <iommu@lists.linux-foundation.org>;
- Tue,  2 Mar 2021 12:37:54 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 696F56071D
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 12:37:54 +0000 (UTC)
-IronPort-SDR: aeruyYs86xqmb3BBTtYaFlucW9xyoGDhtDFc00at8PnWM8LFsif+2PTTP8WtcjvuVGeOdksgGn
- wXb2McOug8cw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="166675239"
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="166675239"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2021 04:37:35 -0800
-IronPort-SDR: Cw503WDu7ZdRLf3uhlRhRA1QpVjOli0pmzPL6o558oEiYtrGBh5O7aGTh+e7gtmTWvwfpRoefs
- GJMqj0+wjpPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="427472223"
-Received: from yiliu-dev.bj.intel.com (HELO dual-ub.bj.intel.com)
- ([10.238.156.135])
- by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2021 04:37:31 -0800
-From: Liu Yi L <yi.l.liu@intel.com>
-To: alex.williamson@redhat.com, eric.auger@redhat.com,
- baolu.lu@linux.intel.com, joro@8bytes.org
-Subject: [Patch v8 10/10] iommu/vt-d: Support reporting nesting capability info
-Date: Wed,  3 Mar 2021 04:35:45 +0800
-Message-Id: <20210302203545.436623-11-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210302203545.436623-1-yi.l.liu@intel.com>
-References: <20210302203545.436623-1-yi.l.liu@intel.com>
+ with ESMTP id Q3uW08aoTUfU for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Mar 2021 15:54:33 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 56E7A605A8
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 15:54:33 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id d5so18439020iln.6
+ for <iommu@lists.linux-foundation.org>; Tue, 02 Mar 2021 07:54:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cosmicpenguin-net.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4YmTDrctAKsG8cdbZH7XiMulPHMmL+Exyv4xwBQWD5M=;
+ b=x2eE6P8J5KaO4DD0hNyzGz7Bru3WjGacf4IWFcF96JbCi3uflZJ3KWwSD3mb8vBH8Y
+ a+6uictKWrojWO3H0XIV7GkIWxXJj8H/PIPNZorNQlkt6nuV7LxoNdwPgRDoAI/Gs6k/
+ vltvTCdwZe0e8BxrWARFh4IgpX5RvemqQjmiLruck622jgL4pwslhEMGk8nrZ+T7bVaH
+ j90QXNGuFzpXHZCd5Z/KHbfqh5zk14zaSDsGL+aCNySc+X9JAtxAwpSF32Dmozx8TFS4
+ cGaxFEfZ245lWW5UEgzedysJtgECdzW7klS6VkJoGydEc00k/b3sBm0j7V/JHYD4iRes
+ JH+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=4YmTDrctAKsG8cdbZH7XiMulPHMmL+Exyv4xwBQWD5M=;
+ b=Ezr0cbSQtA3GRVMbQBABvtXcwUWn3mP6qBy3q0buCPAI4bIB9kZMOz70OsmKEPjry1
+ TI7RuOle1e+9iIokpW2L3ByUoNnGBYVkEVYFkz+b7EYyBe3IzAXU0kmQgwjXpu4rDaWt
+ LXL+uGCoOChpQjK9TDMNMTgXb2e+mRzQuSZ9EDX7rM6rB/s9v/FUzsRdZNdLZ1ZjM9s/
+ die/yQW+o8muWcW3DO/nQyZhouEohEjxPJcJNHOi8UsfEdfY/mDq7XZJbGvL+CktPpow
+ +USFPFnrhnhkGcH1AW0MICPuGy1KG0OjTPh5OWPtguNkUcSOj/3heaQADmfFotqP1YBK
+ AnUA==
+X-Gm-Message-State: AOAM5338Ib+V2hKNSkW+yeBBIbLFLnhAanP6ywKSu0Rr25zO4viEoN9M
+ y9/ykoErACY6hnn4PmS/ZG0WaQ==
+X-Google-Smtp-Source: ABdhPJxklLSBBngic8Uzfbl/eBdoqe4frY99R/xM56OTzhIiYdli7cBeVq1FMv0i41nQlHiUfRCgwg==
+X-Received: by 2002:a92:c54e:: with SMTP id a14mr18413282ilj.285.1614700465998; 
+ Tue, 02 Mar 2021 07:54:25 -0800 (PST)
+Received: from cosmicpenguin.net (c-71-237-100-236.hsd1.co.comcast.net.
+ [71.237.100.236])
+ by smtp.gmail.com with ESMTPSA id k23sm11935810iol.36.2021.03.02.07.54.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Mar 2021 07:54:25 -0800 (PST)
+Date: Tue, 2 Mar 2021 08:54:23 -0700
+From: Jordan Crouse <jordan@cosmicpenguin.net>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v3 1/3] iommu/arm-smmu: Add support for driver IOMMU
+ fault handlers
+Message-ID: <20210302155423.3e7xlal3phcz26bh@cosmicpenguin.net>
+Mail-Followup-To: Robin Murphy <robin.murphy@arm.com>,
+ Jordan Crouse <jcrouse@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20210225175135.91922-1-jcrouse@codeaurora.org>
+ <20210225175135.91922-2-jcrouse@codeaurora.org>
+ <2d3c7595-0186-7231-96dc-ae52414480ee@arm.com>
 MIME-Version: 1.0
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
- kvm@vger.kernel.org, stefanha@gmail.com, jun.j.tian@intel.com,
- iommu@lists.linux-foundation.org, vivek.gautam@arm.com, yi.y.sun@intel.com,
- jgg@nvidia.com, Lingshan.Zhu@intel.com, jasowang@redhat.com, hao.wu@intel.com
+Content-Disposition: inline
+In-Reply-To: <2d3c7595-0186-7231-96dc-ae52414480ee@arm.com>
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Jordan Crouse <jcrouse@codeaurora.org>,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,140 +110,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This patch reports nesting info when iommu_domain_get_attr() is called with
-DOMAIN_ATTR_NESTING and one domain with nesting set.
+On Tue, Mar 02, 2021 at 12:17:24PM +0000, Robin Murphy wrote:
+> On 2021-02-25 17:51, Jordan Crouse wrote:
+> > Call report_iommu_fault() to allow upper-level drivers to register their
+> > own fault handlers.
+> > 
+> > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> > ---
+> > 
+> >   drivers/iommu/arm/arm-smmu/arm-smmu.c | 9 +++++++--
+> >   1 file changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> > index d8c6bfde6a61..0f3a9b5f3284 100644
+> > --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> > +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> > @@ -408,6 +408,7 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+> >   	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+> >   	struct arm_smmu_device *smmu = smmu_domain->smmu;
+> >   	int idx = smmu_domain->cfg.cbndx;
+> > +	int ret;
+> >   	fsr = arm_smmu_cb_read(smmu, idx, ARM_SMMU_CB_FSR);
+> >   	if (!(fsr & ARM_SMMU_FSR_FAULT))
+> > @@ -417,8 +418,12 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+> >   	iova = arm_smmu_cb_readq(smmu, idx, ARM_SMMU_CB_FAR);
+> >   	cbfrsynra = arm_smmu_gr1_read(smmu, ARM_SMMU_GR1_CBFRSYNRA(idx));
+> > -	dev_err_ratelimited(smmu->dev,
+> > -	"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
+> > +	ret = report_iommu_fault(domain, dev, iova,
+> 
+> Beware that "dev" here is not a struct device, so this isn't right. I'm not
+> entirely sure what we *should* be passing here, since we can't easily
+> attribute a context fault to a specific client device, and passing the IOMMU
+> device seems a bit dubious too, so maybe just NULL?
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
-v7 -> v8:
-*) tweak per latest code base
+Agreed. The GPU doesn't use it and I doubt anything else would either since the
+SMMU device is opaque to the leaf driver.
 
-v6 -> v7:
-*) split the patch in v6 into two patches:
-   [PATCH v7 15/16] iommu/vt-d: Only support nesting when nesting caps are consistent across iommu units
-   [PATCH v7 16/16] iommu/vt-d: Support reporting nesting capability info
+Jordan
 
-v2 -> v3:
-*) remove cap/ecap_mask in iommu_nesting_info.
----
- drivers/iommu/intel/cap_audit.h |  7 ++++
- drivers/iommu/intel/iommu.c     | 68 ++++++++++++++++++++++++++++++++-
- 2 files changed, 74 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/intel/cap_audit.h b/drivers/iommu/intel/cap_audit.h
-index 74cfccae0e81..787e98282a02 100644
---- a/drivers/iommu/intel/cap_audit.h
-+++ b/drivers/iommu/intel/cap_audit.h
-@@ -60,6 +60,13 @@
- #define ECAP_QI_MASK		BIT_ULL(1)
- #define ECAP_C_MASK		BIT_ULL(0)
- 
-+/* Capabilities related to nested translation */
-+#define VTD_CAP_MASK		(CAP_FL1GP_MASK | CAP_FL5LP_MASK)
-+
-+#define VTD_ECAP_MASK		(ECAP_PRS_MASK | ECAP_ERS_MASK | \
-+				 ECAP_SRS_MASK | ECAP_EAFS_MASK | \
-+				 ECAP_PASID_MASK)
-+
- /*
-  * u64 intel_iommu_cap_sanity, intel_iommu_ecap_sanity will be adjusted as each
-  * IOMMU gets audited.
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 4409d86b4e18..f7432fb1c6ea 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5508,13 +5508,79 @@ static bool domain_use_flush_queue(void)
- 	return r;
- }
- 
-+static int intel_iommu_get_nesting_info(struct iommu_domain *domain,
-+					struct iommu_nesting_info *info)
-+{
-+	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
-+	u64 cap = VTD_CAP_MASK, ecap = VTD_ECAP_MASK;
-+	struct device_domain_info *domain_info;
-+	struct iommu_nesting_info_vtd vtd;
-+	unsigned int size;
-+
-+	if (!info)
-+		return -EINVAL;
-+
-+	if (!(dmar_domain->flags & DOMAIN_FLAG_NESTING_MODE))
-+		return -ENODEV;
-+
-+	size = sizeof(struct iommu_nesting_info);
-+	/*
-+	 * if provided buffer size is smaller than expected, should
-+	 * return 0 and also the expected buffer size to caller.
-+	 */
-+	if (info->argsz < size) {
-+		info->argsz = size;
-+		return 0;
-+	}
-+
-+	/*
-+	 * arbitrary select the first domain_info as all nesting
-+	 * related capabilities should be consistent across iommu
-+	 * units.
-+	 */
-+	domain_info = list_first_entry(&dmar_domain->devices,
-+				       struct device_domain_info, link);
-+	cap &= domain_info->iommu->cap;
-+	ecap &= domain_info->iommu->ecap;
-+
-+	info->addr_width = dmar_domain->gaw;
-+	info->format = IOMMU_PASID_FORMAT_INTEL_VTD;
-+	info->features = IOMMU_NESTING_FEAT_BIND_PGTBL |
-+			 IOMMU_NESTING_FEAT_CACHE_INVLD;
-+	info->pasid_bits = ilog2(intel_pasid_max_id);
-+	memset(&info->padding, 0x0, 12);
-+
-+	vtd.flags = 0;
-+	memset(&vtd.padding, 0x0, 12);
-+	vtd.cap_reg = cap & VTD_CAP_MASK;
-+	vtd.ecap_reg = ecap & VTD_ECAP_MASK;
-+
-+	memcpy(&info->vendor.vtd, &vtd, sizeof(vtd));
-+	return 0;
-+}
-+
- static int
- intel_iommu_domain_get_attr(struct iommu_domain *domain,
- 			    enum iommu_attr attr, void *data)
- {
- 	switch (domain->type) {
- 	case IOMMU_DOMAIN_UNMANAGED:
--		return -ENODEV;
-+		switch (attr) {
-+		case DOMAIN_ATTR_NESTING:
-+		{
-+			struct iommu_nesting_info *info =
-+				(struct iommu_nesting_info *)data;
-+			unsigned long flags;
-+			int ret;
-+
-+			spin_lock_irqsave(&device_domain_lock, flags);
-+			ret = intel_iommu_get_nesting_info(domain, info);
-+			spin_unlock_irqrestore(&device_domain_lock, flags);
-+			return ret;
-+		}
-+		default:
-+			return -ENODEV;
-+		}
- 	case IOMMU_DOMAIN_DMA:
- 		switch (attr) {
- 		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
--- 
-2.25.1
-
+> Robin.
+> 
+> > +		fsynr & ARM_SMMU_FSYNR0_WNR ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ);
+> > +
+> > +	if (ret == -ENOSYS)
+> > +		dev_err_ratelimited(smmu->dev,
+> > +		"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
+> >   			    fsr, iova, fsynr, cbfrsynra, idx);
+> >   	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_FSR, fsr);
+> > 
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
