@@ -1,63 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8E6329D58
-	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 12:57:20 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADE0329D5E
+	for <lists.iommu@lfdr.de>; Tue,  2 Mar 2021 12:58:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BB17C8104C;
-	Tue,  2 Mar 2021 11:57:18 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1E711606B1;
+	Tue,  2 Mar 2021 11:58:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MOE1RzOBtN0q; Tue,  2 Mar 2021 11:57:17 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wTn_Az-oZFuf; Tue,  2 Mar 2021 11:58:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B9AEA83D05;
-	Tue,  2 Mar 2021 11:57:17 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0C09D60710;
+	Tue,  2 Mar 2021 11:58:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4FB1C0001;
-	Tue,  2 Mar 2021 11:57:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E9E5FC0001;
+	Tue,  2 Mar 2021 11:58:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2E62C0001
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 11:57:16 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 15833C0001
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 11:58:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C021F4AA04
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 11:57:15 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id E9DC883BCD
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 11:58:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id s8UvkJLKj_wl for <iommu@lists.linux-foundation.org>;
- Tue,  2 Mar 2021 11:57:14 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qErTwfmZL1y2 for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Mar 2021 11:58:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 09FA14ECFE
- for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 11:57:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6F9D764F60;
- Tue,  2 Mar 2021 11:57:12 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0898383ACA
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Mar 2021 11:58:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 76E2264F89;
+ Tue,  2 Mar 2021 11:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614686233;
- bh=YzbiNQhdh942VLjsdediUsjqpUuko2qfgVUPR6Cn+aM=;
+ s=k20201202; t=1614686289;
+ bh=4uGQELwLZagY/IK4FP7dfoQCXh4e10xNgKa3H6sin2g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HNFTxbBwoO6gwDasHbmzw8rCob/OqC7Pyra1hJRRnWM8B3fOR4VojbYvmwqJJI7L1
- xG4evv1nYqwpA5AsMkSMpSIlXywONeYs1UbZOG2nI8/5xjWagaqa5JvnW8ECtc0zpa
- IZkJ6xsD1ALKPhW+3DgnrtQDoqn9lbMWSeWWe+zr/4TKDNRxJp5Y58aWs2M1AZPr7R
- DAmeFhsOi4iOqgmFfkeCx5CdjzooWlxTq9bDhdx09S1ZznXKl4pfr8V6eCeF+2oPxU
- 4IBCmbM/rV680xxdDQPkH6s2s4VnZBrPtSNDnRV39G2lhPOtwwRcGLn2zGxHufVKTr
- JNQ14e8eCk3vA==
+ b=Lp7ai+CfapAFWwSs0gGg5J5ZnGaN7wqJUd9/UiPYGwoxr6IN+sUaVEBBsCwaJfi92
+ q7vP3lmkCubhyhFV5WdBiNtP4QoaOQp6wL7z1DXEiwpDFMQqENccgUUCpnRMZyZzun
+ NkJ2zWgVGkxJiGsC8yAf5OUsvyP2KmZJHD1n8LCsmmNCee+XpXGwEZvPeDtER6J4EK
+ Dwhc2tonD8KT027I0KK+UG2pkssgypW89Abb6rdv5SIgq/uE3gQoSl5Wkm1WyatbUG
+ hqgHs9MIuOlI11UB6iDt5VWznZfKKvwpaG2VxYjz8+VBD/nj16pF9MfSnbnK3ToDJF
+ iMpwSBD0gpF3w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 21/47] iommu/amd: Fix performance counter
+Subject: [PATCH AUTOSEL 5.4 15/33] iommu/amd: Fix performance counter
  initialization
-Date: Tue,  2 Mar 2021 06:56:20 -0500
-Message-Id: <20210302115646.62291-21-sashal@kernel.org>
+Date: Tue,  2 Mar 2021 06:57:31 -0500
+Message-Id: <20210302115749.62653-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210302115646.62291-1-sashal@kernel.org>
-References: <20210302115646.62291-1-sashal@kernel.org>
+In-Reply-To: <20210302115749.62653-1-sashal@kernel.org>
+References: <20210302115749.62653-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -102,13 +102,13 @@ Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=201753
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/amd/init.c | 45 ++++++++++++++++++++++++++++++----------
+ drivers/iommu/amd_iommu_init.c | 45 +++++++++++++++++++++++++---------
  1 file changed, 34 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index c842545368fd..3c215f0a6052 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
+diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
+index 31d7e2d4f304..ad714ff375f8 100644
+--- a/drivers/iommu/amd_iommu_init.c
++++ b/drivers/iommu/amd_iommu_init.c
 @@ -12,6 +12,7 @@
  #include <linux/acpi.h>
  #include <linux/list.h>
@@ -117,7 +117,7 @@ index c842545368fd..3c215f0a6052 100644
  #include <linux/slab.h>
  #include <linux/syscore_ops.h>
  #include <linux/interrupt.h>
-@@ -254,6 +255,8 @@ static enum iommu_init_state init_state = IOMMU_START_STATE;
+@@ -253,6 +254,8 @@ static enum iommu_init_state init_state = IOMMU_START_STATE;
  static int amd_iommu_enable_interrupts(void);
  static int __init iommu_go_to_state(enum iommu_init_state state);
  static void init_device_table_dma(void);
@@ -126,7 +126,7 @@ index c842545368fd..3c215f0a6052 100644
  
  static bool amd_iommu_pre_enabled = true;
  
-@@ -1717,13 +1720,11 @@ static int __init init_iommu_all(struct acpi_table_header *table)
+@@ -1672,13 +1675,11 @@ static int __init init_iommu_all(struct acpi_table_header *table)
  	return 0;
  }
  
@@ -143,7 +143,7 @@ index c842545368fd..3c215f0a6052 100644
  
  	if (!iommu_feature(iommu, FEATURE_PC))
  		return;
-@@ -1731,17 +1732,39 @@ static void init_iommu_perf_ctr(struct amd_iommu *iommu)
+@@ -1686,17 +1687,39 @@ static void init_iommu_perf_ctr(struct amd_iommu *iommu)
  	amd_iommu_pc_present = true;
  
  	/* save the value to restore, if writable */
