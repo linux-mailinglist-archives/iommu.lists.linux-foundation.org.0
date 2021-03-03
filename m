@@ -1,85 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7374432B968
-	for <lists.iommu@lfdr.de>; Wed,  3 Mar 2021 18:21:43 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D73A32B990
+	for <lists.iommu@lfdr.de>; Wed,  3 Mar 2021 18:47:01 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D77BA84022;
-	Wed,  3 Mar 2021 17:21:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CDEE04B2D8;
+	Wed,  3 Mar 2021 17:46:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rQsq7QbzHk8v; Wed,  3 Mar 2021 17:21:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E7B2D84014;
-	Wed,  3 Mar 2021 17:21:40 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5SC1AY0kqCzy; Wed,  3 Mar 2021 17:46:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8534C4B398;
+	Wed,  3 Mar 2021 17:46:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BD50EC0001;
-	Wed,  3 Mar 2021 17:21:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 69715C0001;
+	Wed,  3 Mar 2021 17:46:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5A440C0001
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:21:39 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82929C0001
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:46:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3EE5E4AD93
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:21:39 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 70F086F975
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:46:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c8z1XCDBJtbQ for <iommu@lists.linux-foundation.org>;
- Wed,  3 Mar 2021 17:21:38 +0000 (UTC)
-X-Greylist: delayed 00:05:08 by SQLgrey-1.8.0
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1595E4AA5E
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:21:37 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id l22so5821182wme.1
- for <iommu@lists.linux-foundation.org>; Wed, 03 Mar 2021 09:21:37 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5Cz5kyqKH5YQ for <iommu@lists.linux-foundation.org>;
+ Wed,  3 Mar 2021 17:46:56 +0000 (UTC)
+X-Greylist: delayed 00:34:45 by SQLgrey-1.8.0
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A1B3B6F820
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:46:56 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id w7so5860119wmb.5
+ for <iommu@lists.linux-foundation.org>; Wed, 03 Mar 2021 09:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=snvF1oZRAeOuQ652xF7hxq8e8Xbivy9W17OCql8Ju58=;
- b=N4GzE8TYwDr5X4gxi0SyFxRoTBr18n1OZjxbvypLvGP0Y4FoY0LysvNlydxCGejw5o
- /cBkCZJLNvfwhcIGdhFCqyxDwdKIZ6qjVhtXO7fN9azK3VGGOf3w8vj2aAp59oSB8xdN
- 0dPT6MSfpozH0a30HioSChw0qmgAqCUYwcaapdq7uWhX/Cau9DcgXlxcfIWQUMNLc/LK
- TFzBMXyK/zWnYtJMBqnKSmu5upeKLdHMql2kQ6zKb0XVFDIJl4dEbHe0xo7Qskg90KJL
- JLt1qlFufE95dlru/PO4iXTOUfQzsqlVCf9J3BlUkcK+TVC4CiGinPkkPQSne2U/TFlH
- LzWA==
+ bh=I6oAOf+1ZMeSBc0SuKKOMGczX7volpKJqxQn9uhodGs=;
+ b=VwJ+VHKJcT2Nf/kj3+7hqNO+M8Jub4xI+zPtfFYoQaqgHTl43E/lHcDJW8zwY4eHUq
+ PiLw+a7S0TTjtZt0wIdcfocKW4sdtFAs+BSeXQZ7Un71ucylyW/orAbwxZOd7ajhi3GX
+ BrLrJ0idIv26+gJboNFBabl6If2U02DArAp2HxxleK+xXxnRqmRLke66PLBm06i/jUHb
+ /08oxS3l20Pa7g0INWbcIVqHiKWSiGijLLQ2QZcfFHHpI5KTNRRHdE3+U6JeNHXDdKBq
+ A43uJFcfy0NniInhBbUpqMWuHe8aZYtoy4MIMq65vyW2fo9cxrlohPDpfXYdJndR4OVD
+ 4CPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=snvF1oZRAeOuQ652xF7hxq8e8Xbivy9W17OCql8Ju58=;
- b=hbUJWnRUwW/oAVir5dqB/0z9FQ4gDaMD/EFVaoWGlktiLQcBJDZGTOD1s/8VmhYJHH
- 93Q/mB99ZrgJ/FBUiRBi3OAjedfWgnn8CnrvjkG9lQKIxSqNG+9S2QOO8q8L1es+0IYH
- R4BYJTX9tb3UZ/TaH4tQUW9IAa9zjEJuBzchWwgLiCYO9/5Shd9VFOdBo/RzmtAtnsvq
- gXU4MHEiw2PsDVKMNc/JW90AaqPoTq23kNLg2EWxqtVteunZgCIsFIP9u6vK+jAMkhlT
- FCgzjG90ejDRA6s4T391UDpe6cxm6j+9Yhl3YCBqkB8RY0CPGP2avusgftRo1YTycW0a
- 61Pw==
-X-Gm-Message-State: AOAM533Oldx/ujY9zl2En1iM1B7SzNg1EheXvc8wbE4iQCzGeRw79OUf
- 0P+jhT92thdFg2XH3djtOpeE/g==
-X-Google-Smtp-Source: ABdhPJz0FpEULBkKSmdBklW+Kq2/Ls1+mEtrqGKqrnMSwdqjEtdd4QHizAokDIN5S9VOM4P4MLCxhg==
-X-Received: by 2002:a1c:7715:: with SMTP id t21mr74337wmi.132.1614792096379;
- Wed, 03 Mar 2021 09:21:36 -0800 (PST)
+ bh=I6oAOf+1ZMeSBc0SuKKOMGczX7volpKJqxQn9uhodGs=;
+ b=CWj9+rqOhbj9jEeAM6MoP3eUFjvW0NDKuJiQEjZAoO2+hq7uV2uUy9Jd7zzPxkSYoi
+ tUxd1gVyguqdtNckrAkOR9d7vsGNrUppprpwHaEg5bh0WVoyL6n2vixGYP1dLb7Q592/
+ zpsTkKfI9fTcZwIZAQPfT1f46m6nr2rKAe1VZP8JPuX6s2EcCSQm/hCapTGJ+bRnP8Gv
+ UXTMeL9tnlPweOcw9T0vHFmYRUh8Dz1SNWVNdWUWxGmaRNZRbAPJRiGBBwZ6kNSlKgwC
+ pIivQi5tweJWDx9YnHUQGu0RCu55bXVnjuVxAtX5jgzdTJKvtpOZ5rRy9t8H8Zxc6VaX
+ xFjA==
+X-Gm-Message-State: AOAM5305aBUsfLNULsSZTnrXuy8pt0Grre+zTk4e1TDU+QAnggQ1EP0P
+ UgW5pI/W+hwIIdvN2eECQR/YtNg+yKKK3A==
+X-Google-Smtp-Source: ABdhPJxEGFLtLtT2CVJqW85OgSqITesZWdYSO96CmRmaHjOUEzXMjLr6QhIIoiQz8us9HKvesrIHzQ==
+X-Received: by 2002:a1c:3c02:: with SMTP id j2mr62026wma.92.1614791779611;
+ Wed, 03 Mar 2021 09:16:19 -0800 (PST)
 Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id s23sm6477150wmc.35.2021.03.03.09.21.35
+ by smtp.gmail.com with ESMTPSA id o2sm6209999wme.16.2021.03.03.09.16.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 09:21:35 -0800 (PST)
-Date: Wed, 3 Mar 2021 18:21:14 +0100
+ Wed, 03 Mar 2021 09:16:18 -0800 (PST)
+Date: Wed, 3 Mar 2021 18:15:57 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Vivek Gautam <vivek.gautam@arm.com>
-Subject: Re: [PATCH RFC v1 09/15] iommu/virtio: Update table format probing
- header
-Message-ID: <YD/Fiuxd9/kThGxt@myrica>
+Subject: Re: [PATCH RFC v1 05/15] iommu/arm-smmu-v3: Set sync op from
+ consumer driver of cd-lib
+Message-ID: <YD/ETcVwWATG4M6e@myrica>
 References: <20210115121342.15093-1-vivek.gautam@arm.com>
- <20210115121342.15093-10-vivek.gautam@arm.com>
+ <20210115121342.15093-6-vivek.gautam@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210115121342.15093-10-vivek.gautam@arm.com>
+In-Reply-To: <20210115121342.15093-6-vivek.gautam@arm.com>
 Cc: kevin.tian@intel.com, alex.williamson@redhat.com, mst@redhat.com,
  will.deacon@arm.com, linux-kernel@vger.kernel.org,
  virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
@@ -101,14 +101,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jan 15, 2021 at 05:43:36PM +0530, Vivek Gautam wrote:
-> Add info about asid_bits and additional flags to table format
-> probing header.
+On Fri, Jan 15, 2021 at 05:43:32PM +0530, Vivek Gautam wrote:
+> Te change allows different consumers of arm-smmu-v3-cd-lib to set
+> their respective sync op for pasid entries.
 > 
 > Signed-off-by: Vivek Gautam <vivek.gautam@arm.com>
 > Cc: Joerg Roedel <joro@8bytes.org>
 > Cc: Will Deacon <will.deacon@arm.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
 > Cc: Robin Murphy <robin.murphy@arm.com>
 > Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
 > Cc: Eric Auger <eric.auger@redhat.com>
@@ -119,30 +118,46 @@ On Fri, Jan 15, 2021 at 05:43:36PM +0530, Vivek Gautam wrote:
 > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 > Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
 > ---
->  include/uapi/linux/virtio_iommu.h | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c | 1 -
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c        | 7 +++++++
+>  2 files changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/uapi/linux/virtio_iommu.h b/include/uapi/linux/virtio_iommu.h
-> index 43821e33e7af..8a0624bab4b2 100644
-> --- a/include/uapi/linux/virtio_iommu.h
-> +++ b/include/uapi/linux/virtio_iommu.h
-> @@ -169,7 +169,10 @@ struct virtio_iommu_probe_pasid_size {
->  struct virtio_iommu_probe_table_format {
->  	struct virtio_iommu_probe_property	head;
->  	__le16					format;
-> -	__u8					reserved[2];
-> +	__le16					asid_bits;
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c
+> index ec37476c8d09..acaa09acecdd 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c
+> @@ -265,7 +265,6 @@ struct iommu_vendor_psdtable_ops arm_cd_table_ops = {
+>  	.free	 = arm_smmu_free_cd_tables,
+>  	.prepare = arm_smmu_prepare_cd,
+>  	.write	 = arm_smmu_write_ctx_desc,
+> -	.sync	 = arm_smmu_sync_cd,
+>  };
+>  
+>  struct iommu_pasid_table *arm_smmu_register_cd_table(struct device *dev,
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 2f86c6ac42b6..0c644be22b4b 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -1869,6 +1869,13 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
+>  	if (ret)
+>  		goto out_free_cd_tables;
+>  
+> +	/*
+> +	 * Strange to setup an op here?
+> +	 * cd-lib is the actual user of sync op, and therefore the platform
+> +	 * drivers should assign this sync/maintenance ops as per need.
+> +	 */
+> +	tbl->ops->sync = arm_smmu_sync_cd;
 > +
-> +	__le32					flags;
 
-This struct should only contain the head and format fields. asid and flags
-should go in a specialized structure - virtio_iommu_probe_pgt_arm64 in the
-latest spec draft, where I dropped the asid_bits field in favor of an
-"ASID16" flag.
+Modifying a static struct from here doesn't feel right. I think the
+interface should be roughly similar to io-pgtable since the principle is
+the same. So the sync() op should be separate from arm_cd_table_ops since
+it's a callback into the driver. Maybe pass it to
+iommu_register_pasid_table().
 
 Thanks,
 Jean
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
