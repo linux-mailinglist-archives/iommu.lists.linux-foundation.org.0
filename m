@@ -2,55 +2,67 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4BA32B97D
-	for <lists.iommu@lfdr.de>; Wed,  3 Mar 2021 18:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CEE32B9D5
+	for <lists.iommu@lfdr.de>; Wed,  3 Mar 2021 19:26:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9D4F14B126;
-	Wed,  3 Mar 2021 17:36:50 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CE0724BEFB;
+	Wed,  3 Mar 2021 18:26:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gfzXv2C_Xm21; Wed,  3 Mar 2021 17:36:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7987B4B014;
-	Wed,  3 Mar 2021 17:36:49 +0000 (UTC)
+	with ESMTP id zfE_rRnvQoCk; Wed,  3 Mar 2021 18:26:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 663784C1FB;
+	Wed,  3 Mar 2021 18:26:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B594C000F;
-	Wed,  3 Mar 2021 17:36:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AA67C0001;
+	Wed,  3 Mar 2021 18:26:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14D4AC0001
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:36:47 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 80781C0001;
+ Wed,  3 Mar 2021 18:26:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id EED976F820
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:36:46 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6BA704BEFB;
+ Wed,  3 Mar 2021 18:26:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N0YyevT9kEBM for <iommu@lists.linux-foundation.org>;
- Wed,  3 Mar 2021 17:36:45 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dP3RR499s_PM; Wed,  3 Mar 2021 18:26:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by smtp3.osuosl.org (Postfix) with ESMTPS id F2A1B605E5
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:36:44 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DrLjx3KNMzjTqL;
- Thu,  4 Mar 2021 01:35:17 +0800 (CST)
-Received: from S00345302A-PC.china.huawei.com (10.47.83.26) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 4 Mar 2021 01:36:29 +0800
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>
-Subject: [PATCH v3] iommu: Check dev->iommu in iommu_dev_xxx functions
-Date: Wed, 3 Mar 2021 17:36:11 +0000
-Message-ID: <20210303173611.520-1-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 279C14B926;
+ Wed,  3 Mar 2021 18:26:38 +0000 (UTC)
+IronPort-SDR: Z0oSwv7pPzAD0wztq35d4us7Sbz0vWVd938rvZ2JKJBOJjFVY9kbRgVCrM+u0aJ3uBgv2Fe1AP
+ 7n3sm1a3IT3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="186601469"
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; d="scan'208";a="186601469"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2021 10:26:34 -0800
+IronPort-SDR: flZ7ydHew/uLhmA0gDtrMwbn8pEMwFG07GAmfz4SHyILz2W2OCSJgnBR1uJ6kAa/Ww7OBC5TmT
+ S3ny2ZIn3+Ww==
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; d="scan'208";a="428367968"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2021 10:26:33 -0800
+Date: Wed, 3 Mar 2021 10:28:48 -0800
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Vivek Gautam <vivek.gautam@arm.com>
+Subject: Re: [PATCH RFC v1 12/15] iommu/virtio: Add support for INVALIDATE
+ request
+Message-ID: <20210303102848.5d879f0e@jacob-builder>
+In-Reply-To: <20210115121342.15093-13-vivek.gautam@arm.com>
+References: <20210115121342.15093-1-vivek.gautam@arm.com>
+ <20210115121342.15093-13-vivek.gautam@arm.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Originating-IP: [10.47.83.26]
-X-CFilter-Loop: Reflected
-Cc: jean-philippe@linaro.org, will@kernel.org, linuxarm@openeuler.org,
- prime.zeng@hisilicon.com, robin.murphy@arm.com
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com, alex.williamson@redhat.com,
+ mst@redhat.com, will.deacon@arm.com, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -63,52 +75,176 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-VGhlIGRldmljZSBpb21tdSBwcm9iZS9hdHRhY2ggbWlnaHQgaGF2ZSBmYWlsZWQgbGVhdmluZyBk
-ZXYtPmlvbW11CnRvIE5VTEwgYW5kIGRldmljZSBkcml2ZXJzIG1heSBzdGlsbCBpbnZva2UgdGhl
-c2UgZnVuY3Rpb25zIHJlc3VsdGluZwppbiBhIGNyYXNoIGluIGlvbW11IHZlbmRvciBkcml2ZXIg
-Y29kZS4KCkhlbmNlIG1ha2Ugc3VyZSB3ZSBjaGVjayB0aGF0LgoKRml4ZXM6wqBhM2ExOTU5Mjlk
-NDAgKCJpb21tdTogQWRkIEFQSXMgZm9yIG11bHRpcGxlIGRvbWFpbnMgcGVyIGRldmljZSIpClNp
-Z25lZC1vZmYtYnk6IFNoYW1lZXIgS29sb3RodW0gPHNoYW1lZXJhbGkua29sb3RodW0udGhvZGlA
-aHVhd2VpLmNvbT4KLS0tCnYyIC0tPiB2MwogLVJlbW92ZWQgaW9tbXVfb3BzIGZyb20gc3RydWN0
-IGRldl9pb21tdS4KdjEgLS0+IHYyOgogLUFkZGVkIGlvbW11X29wcyB0byBzdHJ1Y3QgZGV2X2lv
-bW11IGJhc2VkIG9uIHRoZSBkaXNjdXNzaW9uIHdpdGggUm9iaW4uCiAtUmViYXNlZCBhZ2FpbnN0
-IGlvbW11LXRyZWUgY29yZSBicmFuY2guCi0tLQogZHJpdmVycy9pb21tdS9pb21tdS5jIHwgMjQg
-KysrKysrKysrKysrKysrLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygr
-KSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2lvbW11LmMgYi9k
-cml2ZXJzL2lvbW11L2lvbW11LmMKaW5kZXggZDBiMGExNWRiYTg0Li5lMTBjZmE5OTA1N2MgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvaW9tbXUvaW9tbXUuYworKysgYi9kcml2ZXJzL2lvbW11L2lvbW11
-LmMKQEAgLTI4NzgsMTAgKzI4NzgsMTIgQEAgRVhQT1JUX1NZTUJPTF9HUEwoaW9tbXVfZndzcGVj
-X2FkZF9pZHMpOwogICovCiBpbnQgaW9tbXVfZGV2X2VuYWJsZV9mZWF0dXJlKHN0cnVjdCBkZXZp
-Y2UgKmRldiwgZW51bSBpb21tdV9kZXZfZmVhdHVyZXMgZmVhdCkKIHsKLQljb25zdCBzdHJ1Y3Qg
-aW9tbXVfb3BzICpvcHMgPSBkZXYtPmJ1cy0+aW9tbXVfb3BzOworCWlmIChkZXYtPmlvbW11ICYm
-IGRldi0+aW9tbXUtPmlvbW11X2RldikgeworCQljb25zdCBzdHJ1Y3QgaW9tbXVfb3BzICpvcHMg
-PSBkZXYtPmlvbW11LT5pb21tdV9kZXYtPm9wczsKIAotCWlmIChvcHMgJiYgb3BzLT5kZXZfZW5h
-YmxlX2ZlYXQpCi0JCXJldHVybiBvcHMtPmRldl9lbmFibGVfZmVhdChkZXYsIGZlYXQpOworCQlp
-ZiAob3BzLT5kZXZfZW5hYmxlX2ZlYXQpCisJCQlyZXR1cm4gb3BzLT5kZXZfZW5hYmxlX2ZlYXQo
-ZGV2LCBmZWF0KTsKKwl9CiAKIAlyZXR1cm4gLUVOT0RFVjsKIH0KQEAgLTI4OTQsMTAgKzI4OTYs
-MTIgQEAgRVhQT1JUX1NZTUJPTF9HUEwoaW9tbXVfZGV2X2VuYWJsZV9mZWF0dXJlKTsKICAqLwog
-aW50IGlvbW11X2Rldl9kaXNhYmxlX2ZlYXR1cmUoc3RydWN0IGRldmljZSAqZGV2LCBlbnVtIGlv
-bW11X2Rldl9mZWF0dXJlcyBmZWF0KQogewotCWNvbnN0IHN0cnVjdCBpb21tdV9vcHMgKm9wcyA9
-IGRldi0+YnVzLT5pb21tdV9vcHM7CisJaWYgKGRldi0+aW9tbXUgJiYgZGV2LT5pb21tdS0+aW9t
-bXVfZGV2KSB7CisJCWNvbnN0IHN0cnVjdCBpb21tdV9vcHMgKm9wcyA9IGRldi0+aW9tbXUtPmlv
-bW11X2Rldi0+b3BzOwogCi0JaWYgKG9wcyAmJiBvcHMtPmRldl9kaXNhYmxlX2ZlYXQpCi0JCXJl
-dHVybiBvcHMtPmRldl9kaXNhYmxlX2ZlYXQoZGV2LCBmZWF0KTsKKwkJaWYgKG9wcy0+ZGV2X2Rp
-c2FibGVfZmVhdCkKKwkJCXJldHVybiBvcHMtPmRldl9kaXNhYmxlX2ZlYXQoZGV2LCBmZWF0KTsK
-Kwl9CiAKIAlyZXR1cm4gLUVCVVNZOwogfQpAQCAtMjkwNSwxMCArMjkwOSwxMiBAQCBFWFBPUlRf
-U1lNQk9MX0dQTChpb21tdV9kZXZfZGlzYWJsZV9mZWF0dXJlKTsKIAogYm9vbCBpb21tdV9kZXZf
-ZmVhdHVyZV9lbmFibGVkKHN0cnVjdCBkZXZpY2UgKmRldiwgZW51bSBpb21tdV9kZXZfZmVhdHVy
-ZXMgZmVhdCkKIHsKLQljb25zdCBzdHJ1Y3QgaW9tbXVfb3BzICpvcHMgPSBkZXYtPmJ1cy0+aW9t
-bXVfb3BzOworCWlmIChkZXYtPmlvbW11ICYmIGRldi0+aW9tbXUtPmlvbW11X2RldikgeworCQlj
-b25zdCBzdHJ1Y3QgaW9tbXVfb3BzICpvcHMgPSBkZXYtPmlvbW11LT5pb21tdV9kZXYtPm9wczsK
-IAotCWlmIChvcHMgJiYgb3BzLT5kZXZfZmVhdF9lbmFibGVkKQotCQlyZXR1cm4gb3BzLT5kZXZf
-ZmVhdF9lbmFibGVkKGRldiwgZmVhdCk7CisJCWlmIChvcHMtPmRldl9mZWF0X2VuYWJsZWQpCisJ
-CQlyZXR1cm4gb3BzLT5kZXZfZmVhdF9lbmFibGVkKGRldiwgZmVhdCk7CisJfQogCiAJcmV0dXJu
-IGZhbHNlOwogfQotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRh
-dGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGlu
-Zm8vaW9tbXU=
+Hi Vivek,
+
+On Fri, 15 Jan 2021 17:43:39 +0530, Vivek Gautam <vivek.gautam@arm.com>
+wrote:
+
+> From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+> 
+> Add support for tlb invalidation ops that can send invalidation
+> requests to back-end virtio-iommu when stage-1 page tables are
+> supported.
+> 
+Just curious if it possible to reuse the iommu uapi for invalidation and others.
+When we started out designing the iommu uapi, the intention was to support
+both emulated and virtio iommu.
+
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+> [Vivek: Refactoring the iommu_flush_ops, and adding only one pasid sync
+>         op that's needed with current iommu-pasid-table infrastructure.
+> 	Also updating uapi defines as required by latest changes]
+> Signed-off-by: Vivek Gautam <vivek.gautam@arm.com>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Liu Yi L <yi.l.liu@intel.com>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> ---
+>  drivers/iommu/virtio-iommu.c | 95 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+> 
+> diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
+> index ae5dfd3f8269..004ea94e3731 100644
+> --- a/drivers/iommu/virtio-iommu.c
+> +++ b/drivers/iommu/virtio-iommu.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/freezer.h>
+>  #include <linux/interval_tree.h>
+>  #include <linux/iommu.h>
+> +#include <linux/io-pgtable.h>
+>  #include <linux/module.h>
+>  #include <linux/of_iommu.h>
+>  #include <linux/of_platform.h>
+> @@ -63,6 +64,8 @@ struct viommu_mapping {
+>  };
+>  
+>  struct viommu_mm {
+> +	int				pasid;
+> +	u64				archid;
+>  	struct io_pgtable_ops		*ops;
+>  	struct viommu_domain		*domain;
+>  };
+> @@ -692,6 +695,98 @@ static void viommu_event_handler(struct virtqueue
+> *vq) virtqueue_kick(vq);
+>  }
+>  
+> +/* PASID and pgtable APIs */
+> +
+> +static void __viommu_flush_pasid_tlb_all(struct viommu_domain *vdomain,
+> +					 int pasid, u64 arch_id, int
+> type) +{
+> +	struct virtio_iommu_req_invalidate req = {
+> +		.head.type	= VIRTIO_IOMMU_T_INVALIDATE,
+> +		.inv_gran	=
+> cpu_to_le32(VIRTIO_IOMMU_INVAL_G_PASID),
+> +		.flags		=
+> cpu_to_le32(VIRTIO_IOMMU_INVAL_F_PASID),
+> +		.inv_type	= cpu_to_le32(type),
+> +
+> +		.domain		= cpu_to_le32(vdomain->id),
+> +		.pasid		= cpu_to_le32(pasid),
+> +		.archid		= cpu_to_le64(arch_id),
+> +	};
+> +
+> +	if (viommu_send_req_sync(vdomain->viommu, &req, sizeof(req)))
+> +		pr_debug("could not send invalidate request\n");
+> +}
+> +
+> +static void viommu_flush_tlb_add(struct iommu_iotlb_gather *gather,
+> +				 unsigned long iova, size_t granule,
+> +				 void *cookie)
+> +{
+> +	struct viommu_mm *viommu_mm = cookie;
+> +	struct viommu_domain *vdomain = viommu_mm->domain;
+> +	struct iommu_domain *domain = &vdomain->domain;
+> +
+> +	iommu_iotlb_gather_add_page(domain, gather, iova, granule);
+> +}
+> +
+> +static void viommu_flush_tlb_walk(unsigned long iova, size_t size,
+> +				  size_t granule, void *cookie)
+> +{
+> +	struct viommu_mm *viommu_mm = cookie;
+> +	struct viommu_domain *vdomain = viommu_mm->domain;
+> +	struct virtio_iommu_req_invalidate req = {
+> +		.head.type	= VIRTIO_IOMMU_T_INVALIDATE,
+> +		.inv_gran	= cpu_to_le32(VIRTIO_IOMMU_INVAL_G_VA),
+> +		.inv_type	= cpu_to_le32(VIRTIO_IOMMU_INV_T_IOTLB),
+> +		.flags		=
+> cpu_to_le32(VIRTIO_IOMMU_INVAL_F_ARCHID), +
+> +		.domain		= cpu_to_le32(vdomain->id),
+> +		.pasid		= cpu_to_le32(viommu_mm->pasid),
+> +		.archid		= cpu_to_le64(viommu_mm->archid),
+> +		.virt_start	= cpu_to_le64(iova),
+> +		.nr_pages	= cpu_to_le64(size / granule),
+> +		.granule	= ilog2(granule),
+> +	};
+> +
+> +	if (viommu_add_req(vdomain->viommu, &req, sizeof(req)))
+> +		pr_debug("could not add invalidate request\n");
+> +}
+> +
+> +static void viommu_flush_tlb_all(void *cookie)
+> +{
+> +	struct viommu_mm *viommu_mm = cookie;
+> +
+> +	if (!viommu_mm->archid)
+> +		return;
+> +
+> +	__viommu_flush_pasid_tlb_all(viommu_mm->domain, viommu_mm->pasid,
+> +				     viommu_mm->archid,
+> +				     VIRTIO_IOMMU_INV_T_IOTLB);
+> +}
+> +
+> +static struct iommu_flush_ops viommu_flush_ops = {
+> +	.tlb_flush_all		= viommu_flush_tlb_all,
+> +	.tlb_flush_walk		= viommu_flush_tlb_walk,
+> +	.tlb_add_page		= viommu_flush_tlb_add,
+> +};
+> +
+> +static void viommu_flush_pasid(void *cookie, int pasid, bool leaf)
+> +{
+> +	struct viommu_domain *vdomain = cookie;
+> +	struct virtio_iommu_req_invalidate req = {
+> +		.head.type	= VIRTIO_IOMMU_T_INVALIDATE,
+> +		.inv_gran	=
+> cpu_to_le32(VIRTIO_IOMMU_INVAL_G_PASID),
+> +		.inv_type	= cpu_to_le32(VIRTIO_IOMMU_INV_T_PASID),
+> +		.flags		=
+> cpu_to_le32(VIRTIO_IOMMU_INVAL_F_PASID), +
+> +		.domain		= cpu_to_le32(vdomain->id),
+> +		.pasid		= cpu_to_le32(pasid),
+> +	};
+> +
+> +	if (leaf)
+> +		req.flags	|=
+> cpu_to_le32(VIRTIO_IOMMU_INVAL_F_LEAF); +
+> +	if (viommu_send_req_sync(vdomain->viommu, &req, sizeof(req)))
+> +		pr_debug("could not send invalidate request\n");
+> +}
+> +
+>  /* IOMMU API */
+>  
+>  static struct iommu_domain *viommu_domain_alloc(unsigned type)
+
+
+Thanks,
+
+Jacob
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
