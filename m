@@ -1,89 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF8332B999
-	for <lists.iommu@lfdr.de>; Wed,  3 Mar 2021 18:51:01 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4BA32B97D
+	for <lists.iommu@lfdr.de>; Wed,  3 Mar 2021 18:36:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E7D7F4C419;
-	Wed,  3 Mar 2021 17:50:59 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9D4F14B126;
+	Wed,  3 Mar 2021 17:36:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WvyLUvvtkaoJ; Wed,  3 Mar 2021 17:50:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 43D9F4BDFF;
-	Wed,  3 Mar 2021 17:50:58 +0000 (UTC)
+	with ESMTP id gfzXv2C_Xm21; Wed,  3 Mar 2021 17:36:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7987B4B014;
+	Wed,  3 Mar 2021 17:36:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B60BC0001;
-	Wed,  3 Mar 2021 17:50:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B594C000F;
+	Wed,  3 Mar 2021 17:36:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 531BEC0001
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:50:57 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14D4AC0001
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:36:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 34E188424F
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:50:57 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id EED976F820
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:36:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id M09AI2Ug9HFm for <iommu@lists.linux-foundation.org>;
- Wed,  3 Mar 2021 17:50:56 +0000 (UTC)
-X-Greylist: delayed 00:24:58 by SQLgrey-1.8.0
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E99EF840B6
- for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:50:55 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id l12so24649412wry.2
- for <iommu@lists.linux-foundation.org>; Wed, 03 Mar 2021 09:50:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=sTamhW9kBjxgzkEQoLRyMj5hVf4Faxe5WhEqC1E4/4A=;
- b=PvFI6RNC5gKkiR4uElMabw36/xB+ietKweTBJ4T98xol1ziCDi0AA0R+IDtXnc5Jsx
- qEao7IHKNQZLfegHpIDSWl1V+a11e0koptzY0nszPgQYWuyYf/+Doh9jF0vbrOgXMYlz
- 21Z7Ygx6i3E7XgJgk8INKMwhBKsm7Ca0oNMrRDvzpjSda8mtQal62NDw9tqiXVTvxcLr
- fElIGrLQ9ltww+SCGkRKjuCTlAVc08d+qT8iG9D9f/PybhIBuHYcPh4JbOcQgQQ8Fasf
- X3HtjnlV2CK5gJ1vnSd5P+azVJpctQJFhMYAwenEGER4nvRFIO6/9NXh2sN5GzhjuSk4
- a48g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=sTamhW9kBjxgzkEQoLRyMj5hVf4Faxe5WhEqC1E4/4A=;
- b=kOOlO/RiHkb5dgg2KK8XHNIIzVdpTqsvAFjNpO/jlrrlGIaydNQjmnpbXmgA5BiNHJ
- ljbVXrcH9E569k7zJDNa6iS9xKZZQh5Qw6Kaffv2/MaDdcB/qaUlzQ4FQsKjaP5SuUjE
- EzpR04hMRxQURApncUMEQuNNuiLBWPO2NEsjP9IEyqCRP/nd7kGIa+aZYVrDQ/T08AGq
- e/wIFyQAkjMo994j0/O/Bag+QidOlugusPOQQ0rfM41d7y12URhs37dd4Pt4SO7MSBJE
- b29PSRzV07J6AVf2Mc7mce76N7Vj68XAJE0qZNZDEUuRldsbVVwQAuaeGvcxJRDyDTox
- RsAg==
-X-Gm-Message-State: AOAM5312f0rVhT/RQ2jRY5eOuEI8TnUiDmE2FDYy47/oeq/eoAohSITQ
- FuXbGk4+RKZecovzh634Tu2YOKCYbw/L7Q==
-X-Google-Smtp-Source: ABdhPJxEGN1rH8+VtjTLr+Dh5jEKvGOweEYJsKpNFFpw9C+4jgIY35xjxjoSoEJ/Son74X8HB1937Q==
-X-Received: by 2002:a5d:550b:: with SMTP id b11mr24476367wrv.313.1614792355644; 
- Wed, 03 Mar 2021 09:25:55 -0800 (PST)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id b65sm6127924wmh.4.2021.03.03.09.25.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 09:25:55 -0800 (PST)
-Date: Wed, 3 Mar 2021 18:25:33 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Vivek Gautam <vivek.gautam@arm.com>
-Subject: Re: [PATCH RFC v1 15/15] iommu/virtio: Update fault type and reason
- info for viommu fault
-Message-ID: <YD/GjQIKkaJ5+UJM@myrica>
-References: <20210115121342.15093-1-vivek.gautam@arm.com>
- <20210115121342.15093-16-vivek.gautam@arm.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id N0YyevT9kEBM for <iommu@lists.linux-foundation.org>;
+ Wed,  3 Mar 2021 17:36:45 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F2A1B605E5
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Mar 2021 17:36:44 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DrLjx3KNMzjTqL;
+ Thu,  4 Mar 2021 01:35:17 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.47.83.26) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 4 Mar 2021 01:36:29 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+Subject: [PATCH v3] iommu: Check dev->iommu in iommu_dev_xxx functions
+Date: Wed, 3 Mar 2021 17:36:11 +0000
+Message-ID: <20210303173611.520-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210115121342.15093-16-vivek.gautam@arm.com>
-Cc: kevin.tian@intel.com, alex.williamson@redhat.com, mst@redhat.com,
- will.deacon@arm.com, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
+X-Originating-IP: [10.47.83.26]
+X-CFilter-Loop: Reflected
+Cc: jean-philippe@linaro.org, will@kernel.org, linuxarm@openeuler.org,
+ prime.zeng@hisilicon.com, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,146 +63,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jan 15, 2021 at 05:43:42PM +0530, Vivek Gautam wrote:
-> Fault type information can tell about a page request fault or
-> an unreceoverable fault, and further additions to fault reasons
-> and the related PASID information can help in handling faults
-> efficiently.
-> 
-> Signed-off-by: Vivek Gautam <vivek.gautam@arm.com>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Will Deacon <will.deacon@arm.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Liu Yi L <yi.l.liu@intel.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-> ---
->  drivers/iommu/virtio-iommu.c      | 27 +++++++++++++++++++++++++--
->  include/uapi/linux/virtio_iommu.h | 13 ++++++++++++-
->  2 files changed, 37 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-> index 9cc3d35125e9..10ef9e98214a 100644
-> --- a/drivers/iommu/virtio-iommu.c
-> +++ b/drivers/iommu/virtio-iommu.c
-> @@ -652,9 +652,16 @@ static int viommu_fault_handler(struct viommu_dev *viommu,
->  	char *reason_str;
->  
->  	u8 reason	= fault->reason;
-> +	u16 type	= fault->flt_type;
->  	u32 flags	= le32_to_cpu(fault->flags);
->  	u32 endpoint	= le32_to_cpu(fault->endpoint);
->  	u64 address	= le64_to_cpu(fault->address);
-> +	u32 pasid	= le32_to_cpu(fault->pasid);
-> +
-> +	if (type == VIRTIO_IOMMU_FAULT_F_PAGE_REQ) {
-> +		dev_info(viommu->dev, "Page request fault - unhandled\n");
-> +		return 0;
-> +	}
->  
->  	switch (reason) {
->  	case VIRTIO_IOMMU_FAULT_R_DOMAIN:
-> @@ -663,6 +670,21 @@ static int viommu_fault_handler(struct viommu_dev *viommu,
->  	case VIRTIO_IOMMU_FAULT_R_MAPPING:
->  		reason_str = "page";
->  		break;
-> +	case VIRTIO_IOMMU_FAULT_R_WALK_EABT:
-> +		reason_str = "page walk external abort";
-> +		break;
-> +	case VIRTIO_IOMMU_FAULT_R_PTE_FETCH:
-> +		reason_str = "pte fetch";
-> +		break;
-> +	case VIRTIO_IOMMU_FAULT_R_PERMISSION:
-> +		reason_str = "permission";
-> +		break;
-> +	case VIRTIO_IOMMU_FAULT_R_ACCESS:
-> +		reason_str = "access";
-> +		break;
-> +	case VIRTIO_IOMMU_FAULT_R_OOR_ADDRESS:
-> +		reason_str = "output address";
-> +		break;
->  	case VIRTIO_IOMMU_FAULT_R_UNKNOWN:
->  	default:
->  		reason_str = "unknown";
-> @@ -671,8 +693,9 @@ static int viommu_fault_handler(struct viommu_dev *viommu,
->  
->  	/* TODO: find EP by ID and report_iommu_fault */
->  	if (flags & VIRTIO_IOMMU_FAULT_F_ADDRESS)
-> -		dev_err_ratelimited(viommu->dev, "%s fault from EP %u at %#llx [%s%s%s]\n",
-> -				    reason_str, endpoint, address,
-> +		dev_err_ratelimited(viommu->dev,
-> +				    "%s fault from EP %u PASID %u at %#llx [%s%s%s]\n",
-> +				    reason_str, endpoint, pasid, address,
->  				    flags & VIRTIO_IOMMU_FAULT_F_READ ? "R" : "",
->  				    flags & VIRTIO_IOMMU_FAULT_F_WRITE ? "W" : "",
->  				    flags & VIRTIO_IOMMU_FAULT_F_EXEC ? "X" : "");
-> diff --git a/include/uapi/linux/virtio_iommu.h b/include/uapi/linux/virtio_iommu.h
-> index 608c8d642e1f..a537d82777f7 100644
-> --- a/include/uapi/linux/virtio_iommu.h
-> +++ b/include/uapi/linux/virtio_iommu.h
-> @@ -290,19 +290,30 @@ struct virtio_iommu_req_invalidate {
->  #define VIRTIO_IOMMU_FAULT_R_UNKNOWN		0
->  #define VIRTIO_IOMMU_FAULT_R_DOMAIN		1
->  #define VIRTIO_IOMMU_FAULT_R_MAPPING		2
-> +#define VIRTIO_IOMMU_FAULT_R_WALK_EABT		3
-> +#define VIRTIO_IOMMU_FAULT_R_PTE_FETCH		4
-> +#define VIRTIO_IOMMU_FAULT_R_PERMISSION		5
-> +#define VIRTIO_IOMMU_FAULT_R_ACCESS		6
-> +#define VIRTIO_IOMMU_FAULT_R_OOR_ADDRESS	7
->  
->  #define VIRTIO_IOMMU_FAULT_F_READ		(1 << 0)
->  #define VIRTIO_IOMMU_FAULT_F_WRITE		(1 << 1)
->  #define VIRTIO_IOMMU_FAULT_F_EXEC		(1 << 2)
->  #define VIRTIO_IOMMU_FAULT_F_ADDRESS		(1 << 8)
->  
-> +#define VIRTIO_IOMMU_FAULT_F_DMA_UNRECOV	1
-> +#define VIRTIO_IOMMU_FAULT_F_PAGE_REQ		2
-
-Currently all reported faults are unrecoverable, so to be consistent
-DMA_UNRECOV should be 0. But I'd prefer having just a new "page request"
-flag in the flags field, instead of the flt_type field.
-
-For page requests we'll also need a 16-bit fault ID field to store the PRI
-"page request group index" or the stall "stag". "last" and "privileged"
-flags as well, to match the PRI page request. And a new command to
-complete a page fault.
-
-> +
->  struct virtio_iommu_fault {
->  	__u8					reason;
-> -	__u8					reserved[3];
-> +	__le16					flt_type;
-> +	__u8					reserved;
->  	__le32					flags;
->  	__le32					endpoint;
->  	__u8					reserved2[4];
-
-Why not replace reserved2 with the pasid?  It fits perfectly :)
-
-Thanks,
-Jean
-
->  	__le64					address;
-> +	__le32					pasid;
-> +	__u8					reserved3[4];
->  };
->  
->  #endif
-> -- 
-> 2.17.1
-> 
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+VGhlIGRldmljZSBpb21tdSBwcm9iZS9hdHRhY2ggbWlnaHQgaGF2ZSBmYWlsZWQgbGVhdmluZyBk
+ZXYtPmlvbW11CnRvIE5VTEwgYW5kIGRldmljZSBkcml2ZXJzIG1heSBzdGlsbCBpbnZva2UgdGhl
+c2UgZnVuY3Rpb25zIHJlc3VsdGluZwppbiBhIGNyYXNoIGluIGlvbW11IHZlbmRvciBkcml2ZXIg
+Y29kZS4KCkhlbmNlIG1ha2Ugc3VyZSB3ZSBjaGVjayB0aGF0LgoKRml4ZXM6wqBhM2ExOTU5Mjlk
+NDAgKCJpb21tdTogQWRkIEFQSXMgZm9yIG11bHRpcGxlIGRvbWFpbnMgcGVyIGRldmljZSIpClNp
+Z25lZC1vZmYtYnk6IFNoYW1lZXIgS29sb3RodW0gPHNoYW1lZXJhbGkua29sb3RodW0udGhvZGlA
+aHVhd2VpLmNvbT4KLS0tCnYyIC0tPiB2MwogLVJlbW92ZWQgaW9tbXVfb3BzIGZyb20gc3RydWN0
+IGRldl9pb21tdS4KdjEgLS0+IHYyOgogLUFkZGVkIGlvbW11X29wcyB0byBzdHJ1Y3QgZGV2X2lv
+bW11IGJhc2VkIG9uIHRoZSBkaXNjdXNzaW9uIHdpdGggUm9iaW4uCiAtUmViYXNlZCBhZ2FpbnN0
+IGlvbW11LXRyZWUgY29yZSBicmFuY2guCi0tLQogZHJpdmVycy9pb21tdS9pb21tdS5jIHwgMjQg
+KysrKysrKysrKysrKysrLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygr
+KSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2lvbW11LmMgYi9k
+cml2ZXJzL2lvbW11L2lvbW11LmMKaW5kZXggZDBiMGExNWRiYTg0Li5lMTBjZmE5OTA1N2MgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvaW9tbXUvaW9tbXUuYworKysgYi9kcml2ZXJzL2lvbW11L2lvbW11
+LmMKQEAgLTI4NzgsMTAgKzI4NzgsMTIgQEAgRVhQT1JUX1NZTUJPTF9HUEwoaW9tbXVfZndzcGVj
+X2FkZF9pZHMpOwogICovCiBpbnQgaW9tbXVfZGV2X2VuYWJsZV9mZWF0dXJlKHN0cnVjdCBkZXZp
+Y2UgKmRldiwgZW51bSBpb21tdV9kZXZfZmVhdHVyZXMgZmVhdCkKIHsKLQljb25zdCBzdHJ1Y3Qg
+aW9tbXVfb3BzICpvcHMgPSBkZXYtPmJ1cy0+aW9tbXVfb3BzOworCWlmIChkZXYtPmlvbW11ICYm
+IGRldi0+aW9tbXUtPmlvbW11X2RldikgeworCQljb25zdCBzdHJ1Y3QgaW9tbXVfb3BzICpvcHMg
+PSBkZXYtPmlvbW11LT5pb21tdV9kZXYtPm9wczsKIAotCWlmIChvcHMgJiYgb3BzLT5kZXZfZW5h
+YmxlX2ZlYXQpCi0JCXJldHVybiBvcHMtPmRldl9lbmFibGVfZmVhdChkZXYsIGZlYXQpOworCQlp
+ZiAob3BzLT5kZXZfZW5hYmxlX2ZlYXQpCisJCQlyZXR1cm4gb3BzLT5kZXZfZW5hYmxlX2ZlYXQo
+ZGV2LCBmZWF0KTsKKwl9CiAKIAlyZXR1cm4gLUVOT0RFVjsKIH0KQEAgLTI4OTQsMTAgKzI4OTYs
+MTIgQEAgRVhQT1JUX1NZTUJPTF9HUEwoaW9tbXVfZGV2X2VuYWJsZV9mZWF0dXJlKTsKICAqLwog
+aW50IGlvbW11X2Rldl9kaXNhYmxlX2ZlYXR1cmUoc3RydWN0IGRldmljZSAqZGV2LCBlbnVtIGlv
+bW11X2Rldl9mZWF0dXJlcyBmZWF0KQogewotCWNvbnN0IHN0cnVjdCBpb21tdV9vcHMgKm9wcyA9
+IGRldi0+YnVzLT5pb21tdV9vcHM7CisJaWYgKGRldi0+aW9tbXUgJiYgZGV2LT5pb21tdS0+aW9t
+bXVfZGV2KSB7CisJCWNvbnN0IHN0cnVjdCBpb21tdV9vcHMgKm9wcyA9IGRldi0+aW9tbXUtPmlv
+bW11X2Rldi0+b3BzOwogCi0JaWYgKG9wcyAmJiBvcHMtPmRldl9kaXNhYmxlX2ZlYXQpCi0JCXJl
+dHVybiBvcHMtPmRldl9kaXNhYmxlX2ZlYXQoZGV2LCBmZWF0KTsKKwkJaWYgKG9wcy0+ZGV2X2Rp
+c2FibGVfZmVhdCkKKwkJCXJldHVybiBvcHMtPmRldl9kaXNhYmxlX2ZlYXQoZGV2LCBmZWF0KTsK
+Kwl9CiAKIAlyZXR1cm4gLUVCVVNZOwogfQpAQCAtMjkwNSwxMCArMjkwOSwxMiBAQCBFWFBPUlRf
+U1lNQk9MX0dQTChpb21tdV9kZXZfZGlzYWJsZV9mZWF0dXJlKTsKIAogYm9vbCBpb21tdV9kZXZf
+ZmVhdHVyZV9lbmFibGVkKHN0cnVjdCBkZXZpY2UgKmRldiwgZW51bSBpb21tdV9kZXZfZmVhdHVy
+ZXMgZmVhdCkKIHsKLQljb25zdCBzdHJ1Y3QgaW9tbXVfb3BzICpvcHMgPSBkZXYtPmJ1cy0+aW9t
+bXVfb3BzOworCWlmIChkZXYtPmlvbW11ICYmIGRldi0+aW9tbXUtPmlvbW11X2RldikgeworCQlj
+b25zdCBzdHJ1Y3QgaW9tbXVfb3BzICpvcHMgPSBkZXYtPmlvbW11LT5pb21tdV9kZXYtPm9wczsK
+IAotCWlmIChvcHMgJiYgb3BzLT5kZXZfZmVhdF9lbmFibGVkKQotCQlyZXR1cm4gb3BzLT5kZXZf
+ZmVhdF9lbmFibGVkKGRldiwgZmVhdCk7CisJCWlmIChvcHMtPmRldl9mZWF0X2VuYWJsZWQpCisJ
+CQlyZXR1cm4gb3BzLT5kZXZfZmVhdF9lbmFibGVkKGRldiwgZmVhdCk7CisJfQogCiAJcmV0dXJu
+IGZhbHNlOwogfQotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRh
+dGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGlu
+Zm8vaW9tbXU=
