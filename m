@@ -1,58 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B0E32D192
-	for <lists.iommu@lfdr.de>; Thu,  4 Mar 2021 12:10:19 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF5732D2BC
+	for <lists.iommu@lfdr.de>; Thu,  4 Mar 2021 13:19:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 24E7A6F521;
-	Thu,  4 Mar 2021 11:10:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B93E44EBD8;
+	Thu,  4 Mar 2021 12:19:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aU5nGhZDxJLD; Thu,  4 Mar 2021 11:10:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 387DE6F512;
-	Thu,  4 Mar 2021 11:10:17 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wVE-VLQVDQVh; Thu,  4 Mar 2021 12:19:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7DD264EBCD;
+	Thu,  4 Mar 2021 12:19:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B121C000F;
-	Thu,  4 Mar 2021 11:10:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 60BEBC000F;
+	Thu,  4 Mar 2021 12:19:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F10BC0001;
- Thu,  4 Mar 2021 11:10:16 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0FF18C0001
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:19:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id ECA708430A;
- Thu,  4 Mar 2021 11:10:15 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id E4F3F4EBCE
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:19:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2aXid81c1gjh; Thu,  4 Mar 2021 11:10:13 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Dmdaawvf9mF5 for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Mar 2021 12:19:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 63709842F0;
- Thu,  4 Mar 2021 11:10:12 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B2CAD4EBCD
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:19:45 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A5EF3321; Thu,  4 Mar 2021 12:10:08 +0100 (CET)
-Date: Thu, 4 Mar 2021 12:10:04 +0100
+ id A4A0722E; Thu,  4 Mar 2021 13:19:42 +0100 (CET)
+Date: Thu, 4 Mar 2021 13:19:41 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: cleanup unused or almost unused IOMMU APIs and the FSL PAMU driver
-Message-ID: <20210304111004.GA26414@8bytes.org>
-References: <20210301084257.945454-1-hch@lst.de>
+To: Andrey Ryabinin <arbn@yandex-team.com>
+Subject: Re: [PATCH] iommu/amd: Fix sleeping in atomic in
+ increase_address_space()
+Message-ID: <20210304121941.GB26414@8bytes.org>
+References: <20210217143004.19165-1-arbn@yandex-team.com>
+ <20210217181002.GC4304@willie-the-truck>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210301084257.945454-1-hch@lst.de>
+In-Reply-To: <20210217181002.GC4304@willie-the-truck>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
- Will Deacon <will@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
- iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, virtualization@lists.linux-foundation.org,
- linuxppc-dev@lists.ozlabs.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: valesini@yandex-team.ru, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Qian Cai <cai@lca.pw>, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,34 +68,98 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Mar 01, 2021 at 09:42:40AM +0100, Christoph Hellwig wrote:
-> Diffstat:
->  arch/powerpc/include/asm/fsl_pamu_stash.h   |   12 
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |    2 
->  drivers/iommu/amd/iommu.c                   |   23 
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   85 ---
->  drivers/iommu/arm/arm-smmu/arm-smmu.c       |  122 +---
->  drivers/iommu/dma-iommu.c                   |    8 
->  drivers/iommu/fsl_pamu.c                    |  264 ----------
->  drivers/iommu/fsl_pamu.h                    |   10 
->  drivers/iommu/fsl_pamu_domain.c             |  694 ++--------------------------
->  drivers/iommu/fsl_pamu_domain.h             |   46 -
->  drivers/iommu/intel/iommu.c                 |   55 --
->  drivers/iommu/iommu.c                       |   75 ---
->  drivers/soc/fsl/qbman/qman_portal.c         |   56 --
->  drivers/vfio/vfio_iommu_type1.c             |   31 -
->  drivers/vhost/vdpa.c                        |   10 
->  include/linux/iommu.h                       |   81 ---
->  16 files changed, 214 insertions(+), 1360 deletions(-)
+On Wed, Feb 17, 2021 at 06:10:02PM +0000, Will Deacon wrote:
+> >  drivers/iommu/amd/iommu.c | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> Acked-by: Will Deacon <will@kernel.org>
 
-Nice cleanup, thanks. The fsl_pamu driver and interface has always been
-a little bit of an alien compared to other IOMMU drivers. I am inclined
-to merge this after -rc3 is out, given some reviews. Can you also please
-add changelogs to the last three patches?
+Applied for v5.12, thanks.
 
-Thanks,
+There were some conflicts which I resolved, can you please check the
+result, Andrey? The updated patch is attached.
 
-	Joerg
+From 140456f994195b568ecd7fc2287a34eadffef3ca Mon Sep 17 00:00:00 2001
+From: Andrey Ryabinin <arbn@yandex-team.com>
+Date: Wed, 17 Feb 2021 17:30:04 +0300
+Subject: [PATCH] iommu/amd: Fix sleeping in atomic in increase_address_space()
+
+increase_address_space() calls get_zeroed_page(gfp) under spin_lock with
+disabled interrupts. gfp flags passed to increase_address_space() may allow
+sleeping, so it comes to this:
+
+ BUG: sleeping function called from invalid context at mm/page_alloc.c:4342
+ in_atomic(): 1, irqs_disabled(): 1, pid: 21555, name: epdcbbf1qnhbsd8
+
+ Call Trace:
+  dump_stack+0x66/0x8b
+  ___might_sleep+0xec/0x110
+  __alloc_pages_nodemask+0x104/0x300
+  get_zeroed_page+0x15/0x40
+  iommu_map_page+0xdd/0x3e0
+  amd_iommu_map+0x50/0x70
+  iommu_map+0x106/0x220
+  vfio_iommu_type1_ioctl+0x76e/0x950 [vfio_iommu_type1]
+  do_vfs_ioctl+0xa3/0x6f0
+  ksys_ioctl+0x66/0x70
+  __x64_sys_ioctl+0x16/0x20
+  do_syscall_64+0x4e/0x100
+  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+Fix this by moving get_zeroed_page() out of spin_lock/unlock section.
+
+Fixes: 754265bcab ("iommu/amd: Fix race in increase_address_space()")
+Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
+Acked-by: Will Deacon <will@kernel.org>
+Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/r/20210217143004.19165-1-arbn@yandex-team.com
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+---
+ drivers/iommu/amd/io_pgtable.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/amd/io_pgtable.c b/drivers/iommu/amd/io_pgtable.c
+index 1c4961e05c12..bb0ee5c9fde7 100644
+--- a/drivers/iommu/amd/io_pgtable.c
++++ b/drivers/iommu/amd/io_pgtable.c
+@@ -182,6 +182,10 @@ static bool increase_address_space(struct protection_domain *domain,
+ 	bool ret = true;
+ 	u64 *pte;
+ 
++	pte = (void *)get_zeroed_page(gfp);
++	if (!pte)
++		return false;
++
+ 	spin_lock_irqsave(&domain->lock, flags);
+ 
+ 	if (address <= PM_LEVEL_SIZE(domain->iop.mode))
+@@ -191,10 +195,6 @@ static bool increase_address_space(struct protection_domain *domain,
+ 	if (WARN_ON_ONCE(domain->iop.mode == PAGE_MODE_6_LEVEL))
+ 		goto out;
+ 
+-	pte = (void *)get_zeroed_page(gfp);
+-	if (!pte)
+-		goto out;
+-
+ 	*pte = PM_LEVEL_PDE(domain->iop.mode, iommu_virt_to_phys(domain->iop.root));
+ 
+ 	domain->iop.root  = pte;
+@@ -208,10 +208,12 @@ static bool increase_address_space(struct protection_domain *domain,
+ 	 */
+ 	amd_iommu_domain_set_pgtable(domain, pte, domain->iop.mode);
+ 
++	pte = NULL;
+ 	ret = true;
+ 
+ out:
+ 	spin_unlock_irqrestore(&domain->lock, flags);
++	free_page((unsigned long)pte);
+ 
+ 	return ret;
+ }
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
