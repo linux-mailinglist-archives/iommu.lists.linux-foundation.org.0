@@ -2,55 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF5732D2BC
-	for <lists.iommu@lfdr.de>; Thu,  4 Mar 2021 13:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932A432D2ED
+	for <lists.iommu@lfdr.de>; Thu,  4 Mar 2021 13:29:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B93E44EBD8;
-	Thu,  4 Mar 2021 12:19:50 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3C2644EBE1;
+	Thu,  4 Mar 2021 12:29:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wVE-VLQVDQVh; Thu,  4 Mar 2021 12:19:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7DD264EBCD;
-	Thu,  4 Mar 2021 12:19:49 +0000 (UTC)
+	with ESMTP id pxmOR8FRYLYw; Thu,  4 Mar 2021 12:29:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3D7E44EBE0;
+	Thu,  4 Mar 2021 12:29:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60BEBC000F;
-	Thu,  4 Mar 2021 12:19:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1762AC000F;
+	Thu,  4 Mar 2021 12:29:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0FF18C0001
- for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:19:48 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2149FC0001
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:29:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E4F3F4EBCE
- for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:19:47 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id EF83184299
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:29:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Dmdaawvf9mF5 for <iommu@lists.linux-foundation.org>;
- Thu,  4 Mar 2021 12:19:45 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B2CAD4EBCD
- for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:19:45 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yIsgnPVl8v5c for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Mar 2021 12:29:26 +0000 (UTC)
+X-Greylist: delayed 00:07:51 by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org
+ [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 55A6C842A2
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Mar 2021 12:29:26 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A4A0722E; Thu,  4 Mar 2021 13:19:42 +0100 (CET)
-Date: Thu, 4 Mar 2021 13:19:41 +0100
+ id 342BF22E; Thu,  4 Mar 2021 13:21:33 +0100 (CET)
+Date: Thu, 4 Mar 2021 13:21:31 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Andrey Ryabinin <arbn@yandex-team.com>
-Subject: Re: [PATCH] iommu/amd: Fix sleeping in atomic in
- increase_address_space()
-Message-ID: <20210304121941.GB26414@8bytes.org>
-References: <20210217143004.19165-1-arbn@yandex-team.com>
- <20210217181002.GC4304@willie-the-truck>
+To: Nicolin Chen <nicoleotsuka@gmail.com>
+Subject: Re: [PATCH] iommu/tegra-smmu: Fix mc errors on tegra124-nyan
+Message-ID: <20210304122131.GC26414@8bytes.org>
+References: <20210218220702.1962-1-nicoleotsuka@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210217181002.GC4304@willie-the-truck>
+In-Reply-To: <20210218220702.1962-1-nicoleotsuka@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: valesini@yandex-team.ru, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, iommu@lists.linux-foundation.org,
- Qian Cai <cai@lca.pw>, Will Deacon <will@kernel.org>
+Cc: guillaume.tucker@collabora.com, iommu@lists.linux-foundation.org,
+ jonathanh@nvidia.com, thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+ digetx@gmail.com, will@kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,98 +67,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Feb 17, 2021 at 06:10:02PM +0000, Will Deacon wrote:
-> >  drivers/iommu/amd/iommu.c | 10 ++++++----
-> >  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> Acked-by: Will Deacon <will@kernel.org>
+On Thu, Feb 18, 2021 at 02:07:02PM -0800, Nicolin Chen wrote:
+>  drivers/iommu/tegra-smmu.c | 72 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 71 insertions(+), 1 deletion(-)
 
 Applied for v5.12, thanks.
-
-There were some conflicts which I resolved, can you please check the
-result, Andrey? The updated patch is attached.
-
-From 140456f994195b568ecd7fc2287a34eadffef3ca Mon Sep 17 00:00:00 2001
-From: Andrey Ryabinin <arbn@yandex-team.com>
-Date: Wed, 17 Feb 2021 17:30:04 +0300
-Subject: [PATCH] iommu/amd: Fix sleeping in atomic in increase_address_space()
-
-increase_address_space() calls get_zeroed_page(gfp) under spin_lock with
-disabled interrupts. gfp flags passed to increase_address_space() may allow
-sleeping, so it comes to this:
-
- BUG: sleeping function called from invalid context at mm/page_alloc.c:4342
- in_atomic(): 1, irqs_disabled(): 1, pid: 21555, name: epdcbbf1qnhbsd8
-
- Call Trace:
-  dump_stack+0x66/0x8b
-  ___might_sleep+0xec/0x110
-  __alloc_pages_nodemask+0x104/0x300
-  get_zeroed_page+0x15/0x40
-  iommu_map_page+0xdd/0x3e0
-  amd_iommu_map+0x50/0x70
-  iommu_map+0x106/0x220
-  vfio_iommu_type1_ioctl+0x76e/0x950 [vfio_iommu_type1]
-  do_vfs_ioctl+0xa3/0x6f0
-  ksys_ioctl+0x66/0x70
-  __x64_sys_ioctl+0x16/0x20
-  do_syscall_64+0x4e/0x100
-  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-Fix this by moving get_zeroed_page() out of spin_lock/unlock section.
-
-Fixes: 754265bcab ("iommu/amd: Fix race in increase_address_space()")
-Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
-Acked-by: Will Deacon <will@kernel.org>
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/r/20210217143004.19165-1-arbn@yandex-team.com
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
----
- drivers/iommu/amd/io_pgtable.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/iommu/amd/io_pgtable.c b/drivers/iommu/amd/io_pgtable.c
-index 1c4961e05c12..bb0ee5c9fde7 100644
---- a/drivers/iommu/amd/io_pgtable.c
-+++ b/drivers/iommu/amd/io_pgtable.c
-@@ -182,6 +182,10 @@ static bool increase_address_space(struct protection_domain *domain,
- 	bool ret = true;
- 	u64 *pte;
- 
-+	pte = (void *)get_zeroed_page(gfp);
-+	if (!pte)
-+		return false;
-+
- 	spin_lock_irqsave(&domain->lock, flags);
- 
- 	if (address <= PM_LEVEL_SIZE(domain->iop.mode))
-@@ -191,10 +195,6 @@ static bool increase_address_space(struct protection_domain *domain,
- 	if (WARN_ON_ONCE(domain->iop.mode == PAGE_MODE_6_LEVEL))
- 		goto out;
- 
--	pte = (void *)get_zeroed_page(gfp);
--	if (!pte)
--		goto out;
--
- 	*pte = PM_LEVEL_PDE(domain->iop.mode, iommu_virt_to_phys(domain->iop.root));
- 
- 	domain->iop.root  = pte;
-@@ -208,10 +208,12 @@ static bool increase_address_space(struct protection_domain *domain,
- 	 */
- 	amd_iommu_domain_set_pgtable(domain, pte, domain->iop.mode);
- 
-+	pte = NULL;
- 	ret = true;
- 
- out:
- 	spin_unlock_irqrestore(&domain->lock, flags);
-+	free_page((unsigned long)pte);
- 
- 	return ret;
- }
--- 
-2.26.2
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
