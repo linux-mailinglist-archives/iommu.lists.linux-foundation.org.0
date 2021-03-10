@@ -1,53 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137FB333821
-	for <lists.iommu@lfdr.de>; Wed, 10 Mar 2021 10:07:02 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50DE333820
+	for <lists.iommu@lfdr.de>; Wed, 10 Mar 2021 10:07:01 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9381D6F521;
-	Wed, 10 Mar 2021 09:07:00 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D358B431A9;
+	Wed, 10 Mar 2021 09:06:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yCtBzB_8nN-h; Wed, 10 Mar 2021 09:06:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8BBFC6F6A2;
-	Wed, 10 Mar 2021 09:06:59 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3fBOrJmvFnV7; Wed, 10 Mar 2021 09:06:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id A669743194;
+	Wed, 10 Mar 2021 09:06:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 173CCC000E;
-	Wed, 10 Mar 2021 09:06:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 24BD6C000A;
+	Wed, 10 Mar 2021 09:06:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F74BC0001
- for <iommu@lists.linux-foundation.org>; Wed, 10 Mar 2021 09:06:57 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14F48C0001
+ for <iommu@lists.linux-foundation.org>; Wed, 10 Mar 2021 09:06:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9AC83842DB
+ by smtp2.osuosl.org (Postfix) with ESMTP id 03D5E43194
  for <iommu@lists.linux-foundation.org>; Wed, 10 Mar 2021 09:06:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 85qmzWAloC5X for <iommu@lists.linux-foundation.org>;
- Wed, 10 Mar 2021 09:06:54 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id saR3RVvIrtX7 for <iommu@lists.linux-foundation.org>;
+ Wed, 10 Mar 2021 09:06:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E23B8842D8
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 0EDE64314A
  for <iommu@lists.linux-foundation.org>; Wed, 10 Mar 2021 09:06:53 +0000 (UTC)
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DwR400qkwz8vtv;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DwR400JMQz8vtf;
  Wed, 10 Mar 2021 17:05:04 +0800 (CST)
 Received: from DESKTOP-5IS4806.china.huawei.com (10.174.184.42) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 10 Mar 2021 17:06:26 +0800
+ 14.3.498.0; Wed, 10 Mar 2021 17:06:27 +0800
 From: Keqian Zhu <zhukeqian1@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <iommu@lists.linux-foundation.org>, Alex Williamson
  <alex.williamson@redhat.com>, Robin Murphy <robin.murphy@arm.com>, Yi Sun
  <yi.y.sun@linux.intel.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v2 09/11] vfio/iommu_type1: Add HWDBM status maintanance
-Date: Wed, 10 Mar 2021 17:06:12 +0800
-Message-ID: <20210310090614.26668-10-zhukeqian1@huawei.com>
+Subject: [PATCH v2 10/11] vfio/iommu_type1: Optimize dirty bitmap population
+ based on iommu HWDBM
+Date: Wed, 10 Mar 2021 17:06:13 +0800
+Message-ID: <20210310090614.26668-11-zhukeqian1@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210310090614.26668-1-zhukeqian1@huawei.com>
 References: <20210310090614.26668-1-zhukeqian1@huawei.com>
@@ -78,10 +79,18 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: jiangkunkun <jiangkunkun@huawei.com>
 
-We are going to optimize dirty log tracking based on iommu
-HWDBM feature, but the dirty log from iommu is useful only
-when all iommu backed groups are connected to iommu with
-HWDBM feature. This maintains a counter for this feature.
+In the past if vfio_iommu is not of pinned_page_dirty_scope and
+vfio_dma is iommu_mapped, we populate full dirty bitmap for this
+vfio_dma. Now we can try to get dirty log from iommu before make
+the lousy decision.
+
+In detail, if all vfio_group are of pinned_page_dirty_scope, the
+dirty bitmap population is not affected. If there are vfio_groups
+not of pinned_page_dirty_scope and their domains support HWDBM,
+then we can try to get dirty log from IOMMU. Otherwise, lead to
+full dirty bitmap.
+
+We should start dirty log for newly added dma range and domain.
 
 Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
@@ -90,97 +99,230 @@ Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 changelog:
 
 v2:
- - Simplify vfio_group_supports_hwdbm().
- - AS feature report of HWDBM has been changed, so change vfio_dev_has_feature() to
-   vfio_dev_enable_feature().
-
+ - Use new interface to start|stop dirty log. As split_block|merge_page are related to ARM SMMU. (Sun Yi)
+ - Bugfix: Start dirty log for newly added dma range and domain.
+ 
 ---
- drivers/vfio/vfio_iommu_type1.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/vfio/vfio_iommu_type1.c | 136 +++++++++++++++++++++++++++++++-
+ 1 file changed, 132 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 4bb162c1d649..876351c061e4 100644
+index 876351c061e4..a7ab0279eda0 100644
 --- a/drivers/vfio/vfio_iommu_type1.c
 +++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -79,6 +79,7 @@ struct vfio_iommu {
- 	bool			dirty_page_tracking;
- 	bool			pinned_page_dirty_scope;
- 	bool			container_open;
-+	uint64_t		num_non_hwdbm_groups;
- };
- 
- struct vfio_domain {
-@@ -116,6 +117,7 @@ struct vfio_group {
- 	struct list_head	next;
- 	bool			mdev_group;	/* An mdev group */
- 	bool			pinned_page_dirty_scope;
-+	bool			iommu_hwdbm;	/* For iommu-backed group */
- };
- 
- struct vfio_iova {
-@@ -1187,6 +1189,24 @@ static void vfio_update_pgsize_bitmap(struct vfio_iommu *iommu)
- 	}
+@@ -1207,6 +1207,25 @@ static bool vfio_group_supports_hwdbm(struct vfio_group *group)
+ 					 vfio_dev_enable_feature);
  }
  
-+static int vfio_dev_enable_feature(struct device *dev, void *data)
++static int vfio_iommu_dirty_log_clear(struct vfio_iommu *iommu,
++				      dma_addr_t start_iova, size_t size,
++				      unsigned long *bitmap_buffer,
++				      dma_addr_t base_iova, size_t pgsize)
 +{
-+	enum iommu_dev_features *feat = data;
++	struct vfio_domain *d;
++	unsigned long pgshift = __ffs(pgsize);
++	int ret;
 +
-+	if (iommu_dev_feature_enabled(dev, *feat))
-+		return 0;
++	list_for_each_entry(d, &iommu->domain_list, next) {
++		ret = iommu_clear_dirty_log(d->domain, start_iova, size,
++					    bitmap_buffer, base_iova, pgshift);
++		if (ret)
++			return ret;
++	}
 +
-+	return iommu_dev_enable_feature(dev, *feat);
-+}
-+
-+static bool vfio_group_supports_hwdbm(struct vfio_group *group)
-+{
-+	enum iommu_dev_features feat = IOMMU_DEV_FEAT_HWDBM;
-+
-+	return !iommu_group_for_each_dev(group->iommu_group, &feat,
-+					 vfio_dev_enable_feature);
++	return 0;
 +}
 +
  static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
  			      struct vfio_dma *dma, dma_addr_t base_iova,
  			      size_t pgsize)
-@@ -2435,6 +2455,12 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 	 * capable via the page pinning interface.
+@@ -1218,13 +1237,28 @@ static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
+ 	unsigned long shift = bit_offset % BITS_PER_LONG;
+ 	unsigned long leftover;
+ 
++	if (!iommu->num_non_pinned_groups || !dma->iommu_mapped)
++		goto bitmap_done;
++
++	/* try to get dirty log from IOMMU */
++	if (!iommu->num_non_hwdbm_groups) {
++		struct vfio_domain *d;
++
++		list_for_each_entry(d, &iommu->domain_list, next) {
++			if (iommu_sync_dirty_log(d->domain, dma->iova, dma->size,
++						dma->bitmap, dma->iova, pgshift))
++				return -EFAULT;
++		}
++		goto bitmap_done;
++	}
++
+ 	/*
+ 	 * mark all pages dirty if any IOMMU capable device is not able
+ 	 * to report dirty pages and all pages are pinned and mapped.
  	 */
- 	iommu->num_non_pinned_groups++;
+-	if (iommu->num_non_pinned_groups && dma->iommu_mapped)
+-		bitmap_set(dma->bitmap, 0, nbits);
++	bitmap_set(dma->bitmap, 0, nbits);
+ 
++bitmap_done:
+ 	if (shift) {
+ 		bitmap_shift_left(dma->bitmap, dma->bitmap, shift,
+ 				  nbits + shift);
+@@ -1286,6 +1320,18 @@ static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
+ 		 */
+ 		bitmap_clear(dma->bitmap, 0, dma->size >> pgshift);
+ 		vfio_dma_populate_bitmap(dma, pgsize);
 +
-+	/* Update the hwdbm status of group and iommu */
-+	group->iommu_hwdbm = vfio_group_supports_hwdbm(group);
-+	if (!group->iommu_hwdbm)
-+		iommu->num_non_hwdbm_groups++;
-+
- 	mutex_unlock(&iommu->lock);
- 	vfio_iommu_resv_free(&group_resv_regions);
- 
-@@ -2571,6 +2597,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	struct vfio_domain *domain;
- 	struct vfio_group *group;
- 	bool update_dirty_scope = false;
-+	bool update_iommu_hwdbm = false;
- 	LIST_HEAD(iova_copy);
- 
- 	mutex_lock(&iommu->lock);
-@@ -2609,6 +2636,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 
- 		vfio_iommu_detach_group(domain, group);
- 		update_dirty_scope = !group->pinned_page_dirty_scope;
-+		update_iommu_hwdbm = !group->iommu_hwdbm;
- 		list_del(&group->next);
- 		kfree(group);
- 		/*
-@@ -2651,6 +2679,8 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 		if (iommu->dirty_page_tracking)
- 			vfio_iommu_populate_bitmap_full(iommu);
++		/* Clear iommu dirty log to re-enable dirty log tracking */
++		if (!iommu->pinned_page_dirty_scope &&
++		    dma->iommu_mapped && !iommu->num_non_hwdbm_groups) {
++			ret = vfio_iommu_dirty_log_clear(iommu,	dma->iova,
++					dma->size, dma->bitmap, dma->iova,
++					pgsize);
++			if (ret) {
++				pr_warn("dma dirty log clear failed!\n");
++				return ret;
++			}
++		}
  	}
-+	if (update_iommu_hwdbm)
-+		iommu->num_non_hwdbm_groups--;
- 	mutex_unlock(&iommu->lock);
+ 	return 0;
+ }
+@@ -1561,6 +1607,9 @@ static bool vfio_iommu_iova_dma_valid(struct vfio_iommu *iommu,
+ 	return list_empty(iova);
  }
  
++static void vfio_dma_dirty_log_start(struct vfio_iommu *iommu,
++				     struct vfio_dma *dma);
++
+ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+ 			   struct vfio_iommu_type1_dma_map *map)
+ {
+@@ -1684,8 +1733,13 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+ 
+ 	if (!ret && iommu->dirty_page_tracking) {
+ 		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+-		if (ret)
++		if (ret) {
+ 			vfio_remove_dma(iommu, dma);
++			goto out_unlock;
++		}
++
++		/* Start dirty log for newly added dma */
++		vfio_dma_dirty_log_start(iommu, dma);
+ 	}
+ 
+ out_unlock:
+@@ -2262,6 +2316,9 @@ static void vfio_iommu_iova_insert_copy(struct vfio_iommu *iommu,
+ 	list_splice_tail(iova_copy, iova);
+ }
+ 
++static void vfio_domain_dirty_log_start(struct vfio_iommu *iommu,
++					struct vfio_domain *d);
++
+ static int vfio_iommu_type1_attach_group(void *iommu_data,
+ 					 struct iommu_group *iommu_group)
+ {
+@@ -2445,6 +2502,10 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
+ 
+ 	list_add(&domain->next, &iommu->domain_list);
+ 	vfio_update_pgsize_bitmap(iommu);
++
++	/* Start dirty log for newly added vfio domain */
++	if (iommu->dirty_page_tracking)
++		vfio_domain_dirty_log_start(iommu, domain);
+ done:
+ 	/* Delete the old one and insert new iova list */
+ 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
+@@ -3022,6 +3083,70 @@ static int vfio_iommu_type1_unmap_dma(struct vfio_iommu *iommu,
+ 			-EFAULT : 0;
+ }
+ 
++static void vfio_domain_dirty_log_start(struct vfio_iommu *iommu,
++					struct vfio_domain *d)
++{
++	struct rb_node *n;
++
++	/* Go through all dmas even if some dmas failed */
++	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
++		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
++
++		if (!dma->iommu_mapped)
++			continue;
++
++		iommu_start_dirty_log(d->domain, dma->iova, dma->size);
++	}
++}
++
++static void vfio_dma_dirty_log_start(struct vfio_iommu *iommu,
++				     struct vfio_dma *dma)
++{
++	struct vfio_domain *d;
++
++	if (!dma->iommu_mapped)
++		return;
++
++	/* Go through all domains even if some domain failed */
++	list_for_each_entry(d, &iommu->domain_list, next) {
++		iommu_start_dirty_log(d->domain, dma->iova, dma->size);
++	}
++}
++
++static void vfio_dma_dirty_log_stop(struct vfio_iommu *iommu,
++				    struct vfio_dma *dma)
++{
++	struct vfio_domain *d;
++
++	if (!dma->iommu_mapped)
++		return;
++
++	/* Go through all domains even if some domain failed */
++	list_for_each_entry(d, &iommu->domain_list, next) {
++		iommu_stop_dirty_log(d->domain, dma->iova, dma->size,
++				     d->prot | dma->prot);
++	}
++}
++
++static void vfio_iommu_dirty_log_switch(struct vfio_iommu *iommu, bool start)
++{
++	struct rb_node *n;
++
++	/*
++	 * Go ahead even if all iommu domains don't support HWDBM for now, as
++	 * we can get dirty log from IOMMU when these domains without HWDBM
++	 * are detached.
++	 */
++	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
++		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
++
++		if (start)
++			vfio_dma_dirty_log_start(iommu, dma);
++		else
++			vfio_dma_dirty_log_stop(iommu, dma);
++	}
++}
++
+ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
+ 					unsigned long arg)
+ {
+@@ -3054,8 +3179,10 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
+ 		pgsize = 1 << __ffs(iommu->pgsize_bitmap);
+ 		if (!iommu->dirty_page_tracking) {
+ 			ret = vfio_dma_bitmap_alloc_all(iommu, pgsize);
+-			if (!ret)
++			if (!ret) {
+ 				iommu->dirty_page_tracking = true;
++				vfio_iommu_dirty_log_switch(iommu, true);
++			}
+ 		}
+ 		mutex_unlock(&iommu->lock);
+ 		return ret;
+@@ -3064,6 +3191,7 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
+ 		if (iommu->dirty_page_tracking) {
+ 			iommu->dirty_page_tracking = false;
+ 			vfio_dma_bitmap_free_all(iommu);
++			vfio_iommu_dirty_log_switch(iommu, false);
+ 		}
+ 		mutex_unlock(&iommu->lock);
+ 		return 0;
 -- 
 2.19.1
 
