@@ -1,91 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAC2338175
-	for <lists.iommu@lfdr.de>; Fri, 12 Mar 2021 00:29:34 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6995B3381BD
+	for <lists.iommu@lfdr.de>; Fri, 12 Mar 2021 00:48:57 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 591AD43246;
-	Thu, 11 Mar 2021 23:29:33 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8166C43221;
+	Thu, 11 Mar 2021 23:48:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cpeZ2jSdHmpr; Thu, 11 Mar 2021 23:29:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 992F44305F;
-	Thu, 11 Mar 2021 23:29:31 +0000 (UTC)
+	with ESMTP id Yw7iMATV1B9e; Thu, 11 Mar 2021 23:48:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 76D454321B;
+	Thu, 11 Mar 2021 23:48:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 77428C0001;
-	Thu, 11 Mar 2021 23:29:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54073C0001;
+	Thu, 11 Mar 2021 23:48:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CC1AEC0001
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:29:29 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0FBF9C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id BA22E6F940
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:29:29 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3D99143220
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O2jhMMcAH0Nv for <iommu@lists.linux-foundation.org>;
- Thu, 11 Mar 2021 23:29:28 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by smtp3.osuosl.org (Postfix) with ESMTPS id CB9AC606E4
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:29:28 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id 75so2692370otn.4
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 15:29:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=491rIB6TbnxYKUbmp43lo7687n1uls9e/9Yv3zZ/+/M=;
- b=SMNVB6H5xpNSP+Ntt/E41bnstJS/mub/pjKkhJYxD/9m/0JdTt1Sc/JeacWsclnhIa
- saZlM35oEZUGd6GLJc1B0Z8fOHlmarLVRa320OirgMyuk3CMzsKTN3VBH5KUOauAu923
- d2ymYxIDPYCBsoGohPV+44DV5Vg2pH3P1pSno36NGadsaTHK9d6OhoL/AnG1QXTXQjq6
- WfezMMjeqBUM6N2bVJmXtEz+LPF75d9wrFoBjlOAkTBvA8q7hY2kgy7D9mi3SqDP3npX
- UArOx0eMWnVGobKk8hawyEDO7rE3C0zoYDGB3jhrj15GrhugPdE6laoOn+2Xy00KuXrQ
- srhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=491rIB6TbnxYKUbmp43lo7687n1uls9e/9Yv3zZ/+/M=;
- b=F0yiff50KF4LSyIlBJjYLKsvKbNFUEp747r+NPbCDe30tXZQjLzdvgA/pi7DMX5lcN
- 5LkUUit7byo25tg9Jmi6d+i6gXFv5TyvjpsyhNc9PbMOY7fadZk8TJeD83Dk0i7mQyEM
- dtu9OobYL43v03/i4jY32Q69BNYsKXplTBhqemCFVXiy8WQi1laWlmNQ1NNSW1b1w2At
- /VVx0ugeOFt7eKuhyKAU4Me+GDO4Fvr9XQMd9l3L+UTIozIWui66+IQyHIgZ2tiPyQ5U
- fcwXR6HIKmIO+hospPYJ8ClyUcTcZCUBJ6FnW+U+Y4fAMip37HBFkrvBykM0e+E9iF6x
- qRSw==
-X-Gm-Message-State: AOAM531IyCodni+cGb0zEhNNY40NSV/cRYuOLk7GF5WQJbonhCsR7I/L
- ymgwwJliY22fG+8GKE0NvPxK2w==
-X-Google-Smtp-Source: ABdhPJw4KQvalKBsueb6g3JYuyjaH1gcgChPlIne9ccF8RDotEH2OI5ha3PVdoOKbRbxK7d39hmllA==
-X-Received: by 2002:a05:6830:101a:: with SMTP id
- a26mr1116383otp.68.1615505367766; 
- Thu, 11 Mar 2021 15:29:27 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id l190sm639403oig.39.2021.03.11.15.29.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 15:29:27 -0800 (PST)
-Date: Thu, 11 Mar 2021 17:29:25 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCHv2 2/2] iommu/arm-smmu-qcom: Move the adreno smmu specific
- impl earlier
-Message-ID: <YEqn1SjsGgK0V8K4@builder.lan>
-References: <YDlIrjkfv16o4Nu3@builder.lan>
- <20210227135321.420-1-saiprakash.ranjan@codeaurora.org>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AyZ0XxYbdLKE for <iommu@lists.linux-foundation.org>;
+ Thu, 11 Mar 2021 23:48:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 5853943208
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+ :references:content-disposition:in-reply-to;
+ bh=kE7unqHb96tgCLiqAy7oTQD9QBaPCBADwUUVoF85ezA=; b=NgonvtaxHynX26gURA+2WbVFF7
+ EdmjT2rJo+H+u9pFbAy9IsACHfULVpJDenz/wZp/uIJ7n11VpJ4PmS3Bye0OakNE8a74IZjm9kiZr
+ HmCO0vtzmtENVocWjr8J6ARILinTKOBgkFxrQ2/zoJCo5nIyXNy4Bnqyn7uw0M3TDFbsPJBGNThgo
+ y9SPPR7K0JweAHZs5X2Ib7iIZBz6T/pQNeEPzLNj+SbWX0fVWQ2YUJ0etkvfvadDo6kE5IIEVbp8y
+ R1+iSUFNpi7MQb8lTFwrflPLEtzmvEAkRYK/jnMRPh29G2joRkm0gvJhU1WPsT4owdgClS4/omxu5
+ 9EE77grw==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1lKUmZ-0003eq-Rw; Thu, 11 Mar 2021 16:32:15 -0700
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1lKUmV-00024K-OI; Thu, 11 Mar 2021 16:31:51 -0700
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Date: Thu, 11 Mar 2021 16:31:30 -0700
+Message-Id: <20210311233142.7900-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210227135321.420-1-saiprakash.ranjan@codeaurora.org>
-Cc: linux-kernel@vger.kernel.org, will@kernel.org,
- linux-arm-msm@vger.kernel.org, jcrouse@codeaurora.org, akhilpo@codeaurora.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
+ jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
+ ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
+ jason@jlekstrand.net, dave.hansen@linux.intel.com, dan.j.williams@intel.com,
+ iweiny@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
+ jianxin.xiong@intel.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [RFC PATCH v2 00/11] Add support to dma_map_sg for P2PDMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Ira Weiny <iweiny@intel.com>, Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dan Williams <dan.j.williams@intel.com>, Stephen Bates <sbates@raithlin.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Xiong Jianxin <jianxin.xiong@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,87 +97,86 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat 27 Feb 07:53 CST 2021, Sai Prakash Ranjan wrote:
+Hi,
 
-> Hi Bjorn,
-> 
-> On 2021-02-27 00:44, Bjorn Andersson wrote:
-> > On Fri 26 Feb 12:23 CST 2021, Rob Clark wrote:
-> > 
-> > 
-> > The current logic picks one of:
-> > 1) is the compatible mentioned in qcom_smmu_impl_of_match[]
-> > 2) is the compatible an adreno
-> > 3) no quirks needed
-> > 
-> > The change flips the order of these, so the only way I can see this
-> > change affecting things is if we expected a match on #2, but we got one
-> > on #1.
-> > 
-> > Which implies that the instance that we want to act according to the
-> > adreno impl was listed in qcom_smmu_impl_of_match[] - which either is
-> > wrong, or there's a single instance that needs both behaviors.
-> > 
-> > (And I believe Jordan's answer confirms the latter - there's a single
-> > SMMU instance that needs all them quirks at once)
-> > 
-> 
-> Let me go through the problem statement in case my commit message wasn't
-> clear. There are two SMMUs (APSS and GPU) on SC7280 and both are SMMU500
-> (ARM SMMU IP).
-> 
-> APSS SMMU compatible - ("qcom,sc7280-smmu-500", "arm,mmu-500")
-> GPU SMMU compatible - ("qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500")
-> 
-> Now if we take SC7180 as an example, GPU SMMU was QSMMU(QCOM SMMU IP)
-> and APSS SMMU was SMMU500(ARM SMMU IP).
-> 
-> APSS SMMU compatible - ("qcom,sc7180-smmu-500", "arm,mmu-500")
-> GPU SMMU compatible - ("qcom,sc7180-smmu-v2", "qcom,adreno-smmu", "qcom,smmu-v2")
-> 
-> Current code sequence without this patch,
-> 
-> if (of_match_node(qcom_smmu_impl_of_match, np))
->                  return qcom_smmu_create(smmu, &qcom_smmu_impl);
-> 
-> if (of_device_is_compatible(np, "qcom,adreno-smmu"))
->         return qcom_smmu_create(smmu, &qcom_adreno_smmu_impl);
-> 
-> Now if we look at the compatible for SC7180, there is no problem because
-> the APSS SMMU will match the one in qcom_smmu_impl_of_match[] and GPU SMMU
-> will match "qcom,adreno-smmu" because the compatible strings are different.
-> But for SC7280, both the APSS SMMU and GPU SMMU compatible("qcom,sc7280-smmu-500")
-> are same. So GPU SMMU will match with the one in qcom_smmu_impl_of_match[]
-> i.e.., "qcom,sc7280-smmu-500" which functionally doesn't cause any problem
-> but we will miss settings for split pagetables which are part of GPU SMMU
-> specific implementation.
-> 
-> We can avoid this with yet another new compatible for GPU SMMU something like
-> "qcom,sc7280-adreno-smmu-500" but since we can handle this easily in the
-> driver and since the IPs are same, meaning if there was a hardware quirk
-> required, then we would need to apply to both of them and would this additional
-> compatible be of any help?
-> 
+This is a rework of the first half of my RFC for doing P2PDMA in userspace
+with O_DIRECT[1].
 
-No, I think you're doing the right thing of having them both. I just
-didn't remember us doing that.
+The largest issue with that series was the gross way of flagging P2PDMA
+SGL segments. This RFC proposes a different approach, (suggested by
+Dan Williams[2]) which uses the third bit in the page_link field of the
+SGL.
 
-> Coming to the part of quirks now, you are right saying both SMMUs will need
-> to have the same quirks in SC7280 and similar others where both are based on
-> same IPs but those should probably be *hardware quirks* and if they are
-> software based like the S2CR quirk depending on the firmware, then it might
-> not be applicable to both. In case if it is applicable, then as Jordan mentioned,
-> we can add the same quirks in GPU SMMU implementation.
-> 
+This approach is a lot less hacky but comes at the cost of adding a
+CONFIG_64BIT dependency to CONFIG_PCI_P2PDMA and using up the last
+scarce bit in the page_link. For our purposes, a 64BIT restriction is
+acceptable but it's not clear if this is ok for all usecases hoping
+to make use of P2PDMA.
 
-I do suspect that at some point (probably sooner than later) we'd have
-to support both inheriting of stream from the bootloader and the Adreno
-"quirks" in the same instance.
+Matthew Wilcox has already suggested (off-list) that this is the wrong
+approach, preferring a new dma mapping operation and an SGL replacement. I
+don't disagree that something along those lines would be a better long
+term solution, but it involves overcoming a lot of challenges to get
+there. Creating a new mapping operation still means adding support to more
+than 25 dma_map_ops implementations (many of which are on obscure
+architectures) or creating a redundant path to fallback with dma_map_sg()
+for every driver that uses the new operation. This RFC is an approach
+that doesn't require overcoming these blocks.
 
-But for now this is okay to me.
+Any alternative ideas or feedback is welcome.
 
-Regards,
-Bjorn
+These patches are based on v5.12-rc2 and a git branch is available here:
+
+  https://github.com/sbates130272/linux-p2pmem/  p2pdma_dma_map_ops_rfc
+
+A branch with the patches from the previous RFC that add userspace
+O_DIRECT support is available at the same URL with the name
+"p2pdma_dma_map_ops_rfc+user" (however, none of the issues with those
+extra patches from the feedback of the last posting have been fixed).
+
+Thanks,
+
+Logan
+
+[1] https://lore.kernel.org/linux-block/20201106170036.18713-1-logang@deltatee.com/
+[2] https://lore.kernel.org/linux-block/CAPcyv4ifGcrdOtUt8qr7pmFhmecGHqGVre9G0RorGczCGVECQQ@mail.gmail.com/
+
+--
+
+Logan Gunthorpe (11):
+  PCI/P2PDMA: Pass gfp_mask flags to upstream_bridge_distance_warn()
+  PCI/P2PDMA: Avoid pci_get_slot() which sleeps
+  PCI/P2PDMA: Attempt to set map_type if it has not been set
+  PCI/P2PDMA: Introduce pci_p2pdma_should_map_bus() and
+    pci_p2pdma_bus_offset()
+  lib/scatterlist: Add flag for indicating P2PDMA segments in an SGL
+  dma-direct: Support PCI P2PDMA pages in dma-direct map_sg
+  dma-mapping: Add flags to dma_map_ops to indicate PCI P2PDMA support
+  iommu/dma: Support PCI P2PDMA pages in dma-iommu map_sg
+  block: Add BLK_STS_P2PDMA
+  nvme-pci: Check DMA ops when indicating support for PCI P2PDMA
+  nvme-pci: Convert to using dma_map_sg for p2pdma pages
+
+ block/blk-core.c            |  2 +
+ drivers/iommu/dma-iommu.c   | 63 +++++++++++++++++++++-----
+ drivers/nvme/host/core.c    |  3 +-
+ drivers/nvme/host/nvme.h    |  2 +-
+ drivers/nvme/host/pci.c     | 38 +++++++---------
+ drivers/pci/Kconfig         |  2 +-
+ drivers/pci/p2pdma.c        | 89 +++++++++++++++++++++++++++++++------
+ include/linux/blk_types.h   |  7 +++
+ include/linux/dma-map-ops.h |  3 ++
+ include/linux/dma-mapping.h |  5 +++
+ include/linux/pci-p2pdma.h  | 11 +++++
+ include/linux/scatterlist.h | 49 ++++++++++++++++++--
+ kernel/dma/direct.c         | 35 +++++++++++++--
+ kernel/dma/mapping.c        | 21 +++++++--
+ 14 files changed, 271 insertions(+), 59 deletions(-)
+
+
+base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+--
+2.20.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
