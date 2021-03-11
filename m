@@ -2,62 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE69E3381B5
-	for <lists.iommu@lfdr.de>; Fri, 12 Mar 2021 00:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F7E3381BF
+	for <lists.iommu@lfdr.de>; Fri, 12 Mar 2021 00:49:02 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 23A546F922;
-	Thu, 11 Mar 2021 23:48:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4CB8B6F95F;
+	Thu, 11 Mar 2021 23:49:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LikaM4Xoh12l; Thu, 11 Mar 2021 23:48:34 +0000 (UTC)
+	with ESMTP id fLGfZi9CE3ZS; Thu, 11 Mar 2021 23:49:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E9AFC6F8C2;
-	Thu, 11 Mar 2021 23:48:33 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1A65A6F844;
+	Thu, 11 Mar 2021 23:49:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BAE89C0012;
-	Thu, 11 Mar 2021 23:48:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E288BC0001;
+	Thu, 11 Mar 2021 23:48:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C6851C0001
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:31 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 28221C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9F4A145D21
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:31 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0A61F43217
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8Pzod6rwwNmZ for <iommu@lists.linux-foundation.org>;
- Thu, 11 Mar 2021 23:48:30 +0000 (UTC)
-X-Greylist: delayed 00:16:30 by SQLgrey-1.8.0
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id W5VqdO_SgT-A for <iommu@lists.linux-foundation.org>;
+ Thu, 11 Mar 2021 23:48:54 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5CDCC45BF2
- for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:30 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 894D84321B
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Mar 2021 23:48:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=f6LQJfU8fKCFP6wYnRzgrCuu/xZDkoPmYFwLlI2G6Nc=; b=UuacCDLP+aPTN2kI5xuW2pW3NX
- wRncdycKWjJFExz+mnxROhQcpVF1gXWZhV65ZpSskTow6KMIgw/J9qqiVNiXAjQdpltZMGKdnPe3H
- +KW8XVmsTYTyf3+Hj6JYjWScsspdcpnvZqyKFSJQvBI9tt8Z6SpVIiSexUipSeRh8wbTHlnzMTjtp
- vpuhjUwovWzMn0zaN27WBYnRJe/uB4je0UzXq07sgXaQZ5A2eYRLhIsAvyYUxtC1CQhuVffpwLNPR
- koYdqe1tUBRPQP259Myn8zm+sN7hQU7gFB42c4U/NZxiahyacl3fCm9wlOCdBL770WTxjTS/WYfXV
- Q0RBcAjg==;
+ bh=RWXwANJSi1YHE9SXh/vkrbb+LuWGD2o8fdtHIWP0im0=; b=Il/909HX1ReIjuH/DQQRUWCbGJ
+ rwqplq8j7zCFjrGAFApqpwgRF0WhSKa9dp79xbHuG02pdcKARnuTLWP8goViDVydS9Ev8lyIlPv+v
+ FWWJIDnnyUqnBSoUN04RvsjWs4OiwrwcMQ/jN0KFAnN4q4YB0a/DHhu/OFHMBrYafzzhePOaTJx8n
+ 2ttD1xTgCwB4llOsN1PhW9D9Lo8U3/AVemwfu3FBTgqS+hyTD65gStZo+XmcrTIKv3Z7PLjhOCfAu
+ sC6+8+PT545jn/sNo86PM5hWX1sYA+iztBB/qyFL2L83oj5ucCaODvzgnGwZIjG/qNX+9ZIi+hIoR
+ ZYvSGKuw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmd-0003et-Gh; Thu, 11 Mar 2021 16:32:15 -0700
+ id 1lKUmc-0003ev-TB; Thu, 11 Mar 2021 16:31:59 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmX-00024n-6O; Thu, 11 Mar 2021 16:31:53 -0700
+ id 1lKUmX-00024q-BH; Thu, 11 Mar 2021 16:31:53 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu, 11 Mar 2021 16:31:40 -0700
-Message-Id: <20210311233142.7900-11-logang@deltatee.com>
+Date: Thu, 11 Mar 2021 16:31:41 -0700
+Message-Id: <20210311233142.7900-12-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210311233142.7900-1-logang@deltatee.com>
 References: <20210311233142.7900-1-logang@deltatee.com>
@@ -72,8 +72,8 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
  jianxin.xiong@intel.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH v2 10/11] nvme-pci: Check DMA ops when indicating support
- for PCI P2PDMA
+Subject: [RFC PATCH v2 11/11] nvme-pci: Convert to using dma_map_sg for p2pdma
+ pages
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
@@ -102,82 +102,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Introduce a supports_pci_p2pdma() operation in nvme_ctrl_ops to
-replace the fixed NVME_F_PCI_P2PDMA flag such that the dma_map_ops
-flags can be checked for PCI P2PDMA support.
+Convert to using dma_[un]map_sg() for PCI p2pdma pages.
+
+This should be equivalent, though support will be somewhat less
+(only dma-direct and dma-iommu are currently supported).
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/nvme/host/core.c |  3 ++-
- drivers/nvme/host/nvme.h |  2 +-
- drivers/nvme/host/pci.c  | 11 +++++++++--
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ drivers/nvme/host/pci.c | 27 +++++++--------------------
+ 1 file changed, 7 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e68a8c4ac5a6..501b4a979776 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3928,7 +3928,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
- 
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
--	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
-+	if (ctrl->ops->supports_pci_p2pdma &&
-+	    ctrl->ops->supports_pci_p2pdma(ctrl))
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
- 
- 	ns->queue->queuedata = ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 07b34175c6ce..9c04df982d2c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -473,7 +473,6 @@ struct nvme_ctrl_ops {
- 	unsigned int flags;
- #define NVME_F_FABRICS			(1 << 0)
- #define NVME_F_METADATA_SUPPORTED	(1 << 1)
--#define NVME_F_PCI_P2PDMA		(1 << 2)
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-@@ -481,6 +480,7 @@ struct nvme_ctrl_ops {
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
-+	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
- };
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 17ab3320d28b..7d40c6a9e58e 100644
+index 7d40c6a9e58e..89ca5acf7a62 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2759,17 +2759,24 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 	return snprintf(buf, size, "%s\n", dev_name(&pdev->dev));
+@@ -577,17 +577,6 @@ static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
+ 
  }
  
-+static bool nvme_pci_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_dev *dev = to_nvme_dev(ctrl);
-+
-+	return dma_pci_p2pdma_supported(dev->dev);
-+}
-+
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
--	.flags			= NVME_F_METADATA_SUPPORTED |
--				  NVME_F_PCI_P2PDMA,
-+	.flags			= NVME_F_METADATA_SUPPORTED,
- 	.reg_read32		= nvme_pci_reg_read32,
- 	.reg_write32		= nvme_pci_reg_write32,
- 	.reg_read64		= nvme_pci_reg_read64,
- 	.free_ctrl		= nvme_pci_free_ctrl,
- 	.submit_async_event	= nvme_pci_submit_async_event,
- 	.get_address		= nvme_pci_get_address,
-+	.supports_pci_p2pdma	= nvme_pci_supports_pci_p2pdma,
- };
+-static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
+-{
+-	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-
+-	if (is_pci_p2pdma_page(sg_page(iod->sg)))
+-		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
+-				    rq_dma_dir(req));
+-	else
+-		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
+-}
+-
+ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+@@ -600,7 +589,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
  
- static int nvme_dev_map(struct nvme_dev *dev)
+ 	WARN_ON_ONCE(!iod->nents);
+ 
+-	nvme_unmap_sg(dev, req);
++	dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
+ 	if (iod->npages == 0)
+ 		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
+ 			      iod->first_dma);
+@@ -868,13 +857,11 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	if (!iod->nents)
+ 		goto out_free_sg;
+ 
+-	if (is_pci_p2pdma_page(sg_page(iod->sg)))
+-		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
+-				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
+-	else
+-		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
+-					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
+-	if (!nr_mapped)
++	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
++				     rq_dma_dir(req), DMA_ATTR_NO_WARN);
++	if (nr_mapped < 0)
++		ret = BLK_STS_P2PDMA;
++	if (nr_mapped <= 0)
+ 		goto out_free_sg;
+ 
+ 	iod->use_sgl = nvme_pci_use_sgls(dev, req);
+@@ -887,7 +874,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	return BLK_STS_OK;
+ 
+ out_unmap_sg:
+-	nvme_unmap_sg(dev, req);
++	dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
+ out_free_sg:
+ 	mempool_free(iod->sg, dev->iod_mempool);
+ 	return ret;
 -- 
 2.20.1
 
