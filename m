@@ -1,67 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D543392E8
-	for <lists.iommu@lfdr.de>; Fri, 12 Mar 2021 17:18:39 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7823392EE
+	for <lists.iommu@lfdr.de>; Fri, 12 Mar 2021 17:19:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 52CEB8459C;
-	Fri, 12 Mar 2021 16:18:38 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 85B046FAF4;
+	Fri, 12 Mar 2021 16:19:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UlEFuPvTO0Hf; Fri, 12 Mar 2021 16:18:37 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pwlKnWXz8QFU; Fri, 12 Mar 2021 16:19:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 64991845A0;
-	Fri, 12 Mar 2021 16:18:37 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B850B6FAEF;
+	Fri, 12 Mar 2021 16:19:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D53DC0012;
-	Fri, 12 Mar 2021 16:18:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 96111C0001;
+	Fri, 12 Mar 2021 16:19:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DE473C0001;
- Fri, 12 Mar 2021 16:18:35 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9533EC0001
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Mar 2021 16:19:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id BF0634ED92;
- Fri, 12 Mar 2021 16:18:35 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 772B0831A5
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Mar 2021 16:19:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4wAwRF3ZqKAC; Fri, 12 Mar 2021 16:18:34 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id EqgqwVO_V5Vm for <iommu@lists.linux-foundation.org>;
+ Fri, 12 Mar 2021 16:19:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 83D914ED1C;
- Fri, 12 Mar 2021 16:18:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B392E1FB;
- Fri, 12 Mar 2021 08:18:33 -0800 (PST)
-Received: from [10.57.52.136] (unknown [10.57.52.136])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A040A3F7D7;
- Fri, 12 Mar 2021 08:18:30 -0800 (PST)
-Subject: Re: [PATCH 14/17] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
-To: Christoph Hellwig <hch@lst.de>
-References: <20210301084257.945454-1-hch@lst.de>
- <20210301084257.945454-15-hch@lst.de>
- <1658805c-ed28-b650-7385-a56fab3383e3@arm.com> <20210310091501.GC5928@lst.de>
- <20210310092533.GA6819@lst.de> <fdacf87a-be14-c92c-4084-1d1dd4fc7766@arm.com>
- <20210311082609.GA6990@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <dff8eb80-8f74-972b-17e9-496c1fc0396f@arm.com>
-Date: Fri, 12 Mar 2021 16:18:24 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 50D11831A0
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Mar 2021 16:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=I89VDuZejubSyokWT+qiAjRrhT4T4AjRHHyD/4UUauw=; b=YWISg10aSxm+jQaX+X6OhfxFPO
+ wP4pNsP9huRyLmE2n03E4hyIpdRH1yQeyJ+V9wg1wgsxjmVmS1xL+gBAk6XsaxpB+l0aIYU98JxQZ
+ ciEEug4Y5ay/LYN0UyHg/bEyINwquKoUxnSPKQlqr1ajywPFKVP1ujdzy7/srZYnjWdTlz12JRzIw
+ pI3U2FUOw+RIbjwTV9CMHkfRjKlk6ew/bqxHeIk3ZfYxJ+T4OZozC6OE16gN7hqtn6YLwyH0xRZPH
+ 86uvVT4Ir+w62abwFg8otMV5BX+4owBFgtQVj4Uu2xHzYQCNGi5/KyJe8bEhgCWqEgHXOqoB1UiVm
+ ehwWevcw==;
+Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1lKkV1-00079p-IQ; Fri, 12 Mar 2021 09:18:52 -0700
+To: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+References: <20210311233142.7900-1-logang@deltatee.com>
+ <6b9be188-1ec7-527c-ae47-3f5b4e153758@arm.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <c66d247e-5da9-4866-8e6b-ee2ec4bc03d5@deltatee.com>
+Date: Fri, 12 Mar 2021 09:18:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210311082609.GA6990@lst.de>
-Content-Language: en-GB
-Cc: kvm@vger.kernel.org, Will Deacon <will@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
- netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Michael Ellerman <mpe@ellerman.id.au>,
- virtualization@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
- David Woodhouse <dwmw2@infradead.org>, linux-arm-msm@vger.kernel.org
+In-Reply-To: <6b9be188-1ec7-527c-ae47-3f5b4e153758@arm.com>
+Content-Language: en-CA
+X-SA-Exim-Connect-IP: 24.64.145.4
+X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, hch@lst.de,
+ andrzej.jakowski@intel.com, sbates@raithlin.com, dan.j.williams@intel.com,
+ daniel.vetter@ffwll.ch, jason@jlekstrand.net, jgg@ziepe.ca,
+ christian.koenig@amd.com, willy@infradead.org, iweiny@intel.com,
+ dave.hansen@linux.intel.com, jhubbard@nvidia.com, dave.b.minturn@intel.com,
+ iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ robin.murphy@arm.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [RFC PATCH v2 00/11] Add support to dma_map_sg for P2PDMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Ira Weiny <iweiny@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Matthew Wilcox <willy@infradead.org>, Stephen Bates <sbates@raithlin.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,50 +100,65 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-03-11 08:26, Christoph Hellwig wrote:
-> On Wed, Mar 10, 2021 at 06:39:57PM +0000, Robin Murphy wrote:
->>> Actually... Just mirroring the iommu_dma_strict value into
->>> struct iommu_domain should solve all of that with very little
->>> boilerplate code.
+
+
+On 2021-03-12 8:51 a.m., Robin Murphy wrote:
+> On 2021-03-11 23:31, Logan Gunthorpe wrote:
+>> Hi,
 >>
->> Yes, my initial thought was to directly replace the attribute with a
->> common flag at iommu_domain level, but since in all cases the behaviour
->> is effectively global rather than actually per-domain, it seemed
->> reasonable to take it a step further. This passes compile-testing for
->> arm64 and x86, what do you think?
+>> This is a rework of the first half of my RFC for doing P2PDMA in
+>> userspace
+>> with O_DIRECT[1].
+>>
+>> The largest issue with that series was the gross way of flagging P2PDMA
+>> SGL segments. This RFC proposes a different approach, (suggested by
+>> Dan Williams[2]) which uses the third bit in the page_link field of the
+>> SGL.
+>>
+>> This approach is a lot less hacky but comes at the cost of adding a
+>> CONFIG_64BIT dependency to CONFIG_PCI_P2PDMA and using up the last
+>> scarce bit in the page_link. For our purposes, a 64BIT restriction is
+>> acceptable but it's not clear if this is ok for all usecases hoping
+>> to make use of P2PDMA.
+>>
+>> Matthew Wilcox has already suggested (off-list) that this is the wrong
+>> approach, preferring a new dma mapping operation and an SGL
+>> replacement. I
+>> don't disagree that something along those lines would be a better long
+>> term solution, but it involves overcoming a lot of challenges to get
+>> there. Creating a new mapping operation still means adding support to
+>> more
+>> than 25 dma_map_ops implementations (many of which are on obscure
+>> architectures) or creating a redundant path to fallback with dma_map_sg()
+>> for every driver that uses the new operation. This RFC is an approach
+>> that doesn't require overcoming these blocks.
 > 
-> It seems to miss a few bits, and also generally seems to be not actually
-> apply to recent mainline or something like it due to different empty
-> lines in a few places.
+> I don't really follow that argument - you're only adding support to two
+> implementations with the awkward flag, so why would using a dedicated
+> operation instead be any different? Whatever callers need to do if
+> dma_pci_p2pdma_supported() says no, they could equally do if
+> dma_map_p2p_sg() (or whatever) returns -ENXIO, no?
 
-Yeah, that was sketched out on top of some other development patches, 
-and in being so focused on not breaking any of the x86 behaviours I did 
-indeed overlook fully converting the SMMU drivers... oops!
+The thing is if the dma_map_sg doesn't support P2PDMA then P2PDMA
+transactions cannot be done, but regular transactions can still go
+through as they always did.
 
-(my thought was to do the conversion for its own sake, then clean up the 
-redundant attribute separately, but I guess it's fine either way)
+But replacing dma_map_sg() with dma_map_new() affects all operations,
+P2PDMA or otherwise. If dma_map_new() isn't supported it can't simply
+not support P2PDMA; it has to maintain a fallback path to dma_map_sg().
+Given that the inputs and outputs for dma_map_new() will be completely
+different data structures this will be quite a lot of similar paths
+required in the driver. (ie mapping a bvec to the input struct and the
+output struct to hardware requirements) If a bug crops up in the old
+dma_map_sg(), developers might not notice it for some time seeing it
+won't be used on the most popular architectures.
 
-> Let me know what you think of the version here:
-> 
-> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/iommu-cleanup
-> 
-> I'll happily switch the patch to you as the author if you're fine with
-> that as well.
-
-I still have reservations about removing the attribute API entirely and 
-pretending that io_pgtable_cfg is anything other than a SoC-specific 
-private interface, but the reworked patch on its own looks reasonable to 
-me, thanks! (I wasn't too convinced about the iommu_cmd_line wrappers 
-either...) Just iommu_get_dma_strict() needs an export since the SMMU 
-drivers can be modular - I consciously didn't add that myself since I 
-was mistakenly thinking only iommu-dma would call it.
-
-Robin.
+Logan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
