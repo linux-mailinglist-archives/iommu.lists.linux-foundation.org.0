@@ -1,53 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8374A33AF7F
-	for <lists.iommu@lfdr.de>; Mon, 15 Mar 2021 11:03:37 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DEB8C46399;
-	Mon, 15 Mar 2021 10:03:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rdN-j4HRaxrJ; Mon, 15 Mar 2021 10:03:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DB2C047E3B;
-	Mon, 15 Mar 2021 10:03:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BCE46C0001;
-	Mon, 15 Mar 2021 10:03:34 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C168BC0001
- for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 10:03:32 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EDF33AF87
+	for <lists.iommu@lfdr.de>; Mon, 15 Mar 2021 11:04:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id A1C9040196
- for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 10:03:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0F22640139;
+	Mon, 15 Mar 2021 10:04:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id boU5V4wgfvB2 for <iommu@lists.linux-foundation.org>;
- Mon, 15 Mar 2021 10:03:31 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JkqECJY7O5PG; Mon, 15 Mar 2021 10:04:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 3174640196;
+	Mon, 15 Mar 2021 10:04:31 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EC7DC0012;
+	Mon, 15 Mar 2021 10:04:31 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F160DC0001
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 10:04:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id DD1D5827F3
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 10:04:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TMAAqb9TNIGa for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Mar 2021 10:04:29 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 66B2240172
- for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 10:03:31 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 4EE8D827DD
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 10:04:29 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 95C1E68C4E; Mon, 15 Mar 2021 11:03:27 +0100 (CET)
-Date: Mon, 15 Mar 2021 11:03:27 +0100
+ id E9DD468C65; Mon, 15 Mar 2021 11:04:25 +0100 (CET)
+Date: Mon, 15 Mar 2021 11:04:25 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Wang Qing <wangqing@vivo.com>
-Subject: Re: [PATCH] include: fix inconsistent indenting in
- dma_alloc_coherent()
-Message-ID: <20210315100327.GA3305@lst.de>
-References: <1615515552-1432-1-git-send-email-wangqing@vivo.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v4 6/6] media: uvcvideo: Use dma_alloc_noncontiguous API
+Message-ID: <20210315100424.GB3305@lst.de>
+References: <20210312235521.1408503-1-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1615515552-1432-1-git-send-email-wangqing@vivo.com>
+In-Reply-To: <20210312235521.1408503-1-ribalda@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+Cc: Sergey Senozhatsky <senozhatsky@google.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -66,8 +68,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-I've applied this to the dma-mapping tree with a more useful commit
-log.
+Thanks, with all the reviews in I've applied the series to the
+dma-mapping tree for 5.13.
+
+This will eventually become a stable baseline branch for the v4l work
+and the mips drm driver that needs dma_mmap_pages, but I'd like to wait
+a bit for any issues to pop up in linux-next first.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
