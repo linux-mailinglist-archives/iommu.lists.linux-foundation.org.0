@@ -1,65 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3139233C1B3
-	for <lists.iommu@lfdr.de>; Mon, 15 Mar 2021 17:27:34 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B7C33C1CA
+	for <lists.iommu@lfdr.de>; Mon, 15 Mar 2021 17:31:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 833258300C;
-	Mon, 15 Mar 2021 16:27:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7E9A182C04;
+	Mon, 15 Mar 2021 16:30:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ABxpKcaTQYPJ; Mon, 15 Mar 2021 16:27:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 881E58309A;
-	Mon, 15 Mar 2021 16:27:31 +0000 (UTC)
+	with ESMTP id 96BjQDf2s8tG; Mon, 15 Mar 2021 16:30:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 84B9983145;
+	Mon, 15 Mar 2021 16:30:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5EAF9C0001;
-	Mon, 15 Mar 2021 16:27:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 660E8C0001;
+	Mon, 15 Mar 2021 16:30:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 82184C0001
- for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 16:27:30 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AC7E7C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 16:30:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5B91441503
- for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 16:27:30 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 8D338430EF
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 16:30:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3ZpmsjQxSfRz for <iommu@lists.linux-foundation.org>;
- Mon, 15 Mar 2021 16:27:29 +0000 (UTC)
+ with ESMTP id tJp9kjjDQm12 for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Mar 2021 16:30:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 2481640196
- for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 16:27:28 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id EC5FA40196
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Mar 2021 16:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=m8eFPt4Ky/TIsfccDRiBKAA6Im8fSHoSL1rWmfMykMo=; b=litugTKON8LXh2E4fNWf+tdFsh
- q2CsD9IDYGKKVIawn8gamhxRH644MuufqFWDCKKprPoZHtnAsUpBhIfbDLYsRIwcTEv0TojuuQngh
- 9J3WiaV60JpGFYmjOv2GNCbeGl6swiX0xF3BgMcQ26cgzBguK1z1MH20QdPZRSQUkmZ+cHM0b8weO
- nMw1zNo5ZDzrtWTjylir56GRiIHipKmvmqBkHqMQTaNXL2ccxzXkV9uRTIH6IoeArfVAH59w8/LqW
- lQKk+yTetQfXb8ka5Hd5m4l/qqdvdrI67gA7aRHbkH+i+GOkWx0VzhB9jVE/dO+eFCXLyB281bkpf
- Y9mF4fFg==;
+ bh=TLEEbGguoFgREmZB/3d8+m/o/rHO6SzO5QZnLNcOSh0=; b=LMeid5maXhumpDhtUuT0T2tgJt
+ ol9/bEh8ONmQIjUErwM7mTPXZ1CariYnc5Iw/Ra321VFnAuXOc7cZyrF/Oh3deuXUDml8vg4X+V3F
+ dm6yEWcub7AMbQD1WI1UonXf5DW+ICkxZ1h5xdC7Ffwv1G0x9MtX7QA2tm/M9hFJ88vXUo1Nzf5SB
+ P9kkd0JYhI5ah/y1eBjMZckyn6x/RLEV5sBgyhTRxDlRjDfZtUo+Nai4KkED0ZA0WOzqD0D2RtvCY
+ S73e1NapCyNIPKDTwXar4Oz8rXKqzNZzn5eBvlCnYkJL+tXFA0w2raNvLWazJGM9RhSj7JUIcCIZd
+ r2qI+iiw==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1lLq3k-0000KL-25; Mon, 15 Mar 2021 10:27:13 -0600
+ id 1lLq7B-0000Mv-Jy; Mon, 15 Mar 2021 10:30:46 -0600
 To: Ira Weiny <ira.weiny@intel.com>
 References: <20210311233142.7900-1-logang@deltatee.com>
  <20210311233142.7900-5-logang@deltatee.com>
- <20210313013856.GA3402637@iweiny-DESK2.sc.intel.com>
+ <20210313023220.GB3402637@iweiny-DESK2.sc.intel.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <7509243d-b605-953b-6941-72876a60d527@deltatee.com>
-Date: Mon, 15 Mar 2021 10:27:08 -0600
+Message-ID: <d34a2035-6077-8070-ea2c-b62a4a65422c@deltatee.com>
+Date: Mon, 15 Mar 2021 10:30:45 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210313013856.GA3402637@iweiny-DESK2.sc.intel.com>
+In-Reply-To: <20210313023220.GB3402637@iweiny-DESK2.sc.intel.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
@@ -107,56 +107,54 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
 
-On 2021-03-12 6:38 p.m., Ira Weiny wrote:
+On 2021-03-12 7:32 p.m., Ira Weiny wrote:
 > On Thu, Mar 11, 2021 at 04:31:34PM -0700, Logan Gunthorpe wrote:
 >> Introduce pci_p2pdma_should_map_bus() which is meant to be called by
->> DMA map functions to determine how to map a given p2pdma page.
->>
->> pci_p2pdma_bus_offset() is also added to allow callers to get the bus
->> offset if they need to map the bus address.
->>
->> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->> ---
->>  drivers/pci/p2pdma.c       | 50 ++++++++++++++++++++++++++++++++++++++
->>  include/linux/pci-p2pdma.h | 11 +++++++++
->>  2 files changed, 61 insertions(+)
->>
->> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index 7f6836732bce..66d16b7eb668 100644
->> --- a/drivers/pci/p2pdma.c
->> +++ b/drivers/pci/p2pdma.c
->> @@ -912,6 +912,56 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
->>  }
->>  EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
->>  
->> +/**
->> + * pci_p2pdma_bus_offset - returns the bus offset for a given page
->> + * @page: page to get the offset for
+>             ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 	    pci_p2pdma_dma_map_type() ???
+> 
+> FWIW I find this name confusing with pci_p2pdma_map_type() and looking at the
+> implementation I'm not clear why pci_p2pdma_dma_map_type() needs to exist?
+
+Yeah, there are subtle differences in prototype. But yes, they can
+probably be combined. Will do for future postings.
+
+>> + * pci_p2pdma_dma_map_type - determine if a DMA mapping should use the
+>> + *	bus address, be mapped normally or fail
+>> + * @dev: device doing the DMA request
+>> + * @pgmap: dev_pagemap structure for the mapping
 >> + *
->> + * Must be passed a PCI p2pdma page.
+>> + * Returns:
+>> + *    1 - if the page should be mapped with a bus address,
+>> + *    0 - if the page should be mapped normally through an IOMMU mapping or
+>> + *        physical address; or
+>> + *   -1 - if the device should not map the pages and an error should be
+>> + *        returned
 >> + */
->> +u64 pci_p2pdma_bus_offset(struct page *page)
+>> +int pci_p2pdma_dma_map_type(struct device *dev, struct dev_pagemap *pgmap)
 >> +{
->> +	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(page->pgmap);
+>> +	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(pgmap);
+>> +	struct pci_dev *client;
 >> +
->> +	WARN_ON(!is_pci_p2pdma_page(page));
+>> +	if (!dev_is_pci(dev))
+>> +		return -1;
+>> +
+>> +	client = to_pci_dev(dev);
+>> +
+>> +	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
+>> +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+>> +		return 0;
+>> +	case PCI_P2PDMA_MAP_BUS_ADDR:
+>> +		return 1;
+>> +	default:
+>> +		return -1;
+>> +	}
+>> +}
+>> +EXPORT_SYMBOL_GPL(pci_p2pdma_dma_map_type);
 > 
-> Shouldn't this check be before the to_p2p_pgmap() call?  
+> I guess the main point here is to export this to the DMA layer?
 
-The to_p2p_pgmap() call is just doing pointer arithmetic, so strictly
-speaking it doesn't need to be before. We just can't access p2p_pgmap
-until it has been checked.
-
-> And I've been told not
-> to introduce WARN_ON's.  Should this be?
-> 
-> 	if (!is_pci_p2pdma_page(page))
-> 		return -1;
-
-In this case the WARN_ON is just to guard against misuse of the
-function. It should never happen unless a developer changes the code in
-a way that is incorrect. So I think that's the correct use of WARN_ON.
-Though I might change it to WARN and return, that seems safer.
+Yes, that's correct.
 
 Logan
 _______________________________________________
