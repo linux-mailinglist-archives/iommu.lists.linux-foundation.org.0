@@ -1,89 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3337F33D880
-	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 17:02:50 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B99E33DA06
+	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 18:01:39 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5A7ED83E23;
-	Tue, 16 Mar 2021 16:02:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7962D4EC8F;
+	Tue, 16 Mar 2021 17:01:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1UC0G-GTgnGB; Tue, 16 Mar 2021 16:02:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6F55983D32;
-	Tue, 16 Mar 2021 16:02:47 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5_tmFtj4A9iQ; Tue, 16 Mar 2021 17:01:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5AE344ECB2;
+	Tue, 16 Mar 2021 17:01:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D145C000F;
-	Tue, 16 Mar 2021 16:02:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C0A9C000A;
+	Tue, 16 Mar 2021 17:01:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 56CDCC000A
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 16:02:45 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 28B77C000A
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 17:01:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2E70A6F635
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 16:02:45 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 180F583D8E
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 17:01:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rhtaqntNZGd7 for <iommu@lists.linux-foundation.org>;
- Tue, 16 Mar 2021 16:02:44 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A64C16F60D
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 16:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=vqqIJKKtZ0Pg96LQ/1Z1q/KlFFpVkNAe+8aEWrs/hj4=; b=aLfuYJGuyB5Vf3NXBbVi7orqFM
- EDGLeXMnQdoQH9BV1vcMoXyuK9z93wWuPACR4VyTKSTtxBcCGLJv06fHAktuwiezT1YitAoW6wR1X
- HvT8pZhWTDbPTx4/Yx8zliILh8pVR2V/Q/NfhhuJH6rkKu0rh+ZWSfM71udHN10RroyIwvdLBmi/x
- JowULXwT9MOdkxVUpQ3witDiL5FZ4SD+ANuLnpzEKngB+XqRkzhMd/UwHnEqGWuGSt5KcVGSR2qz2
- Hoa0CJ4Ud/gwHBkjHMtsgrO77SVKESL0pH0xqOtjxAQukb1UQXUpq3zW9dr/Uu471yKxzBc7lV11d
- 3TDfQv2Q==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lMC9R-0001Oz-Na; Tue, 16 Mar 2021 10:02:34 -0600
-To: Christoph Hellwig <hch@lst.de>
-References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-10-logang@deltatee.com> <20210316080051.GD15949@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <52a9e6e3-fc00-495a-69bb-26ff0b22775a@deltatee.com>
-Date: Tue, 16 Mar 2021 10:02:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DfjODfXfML1s for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Mar 2021 17:01:34 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1260D83DA1
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 17:01:33 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id 7so10851065wrz.0
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 10:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UCIspVprktpvDlW5+fJtgoq6diu33wX+IaMsKllTfxY=;
+ b=sY6DInO+ou9EU6Bj7StG/JtldJg3uJp2jwi+fveYCXCjlW6CGyIhxWQVbX+McMK4qH
+ FcpKhn/hsnBfBbQoIRMalYHLn13DDNzgljJ1tqrtb8YQTRBpE69f62B8HfhwNIapfmxH
+ QFbUXEdJbgP89VEx/vRBjLDUKvt0b1uBcMvHfNq4gnSm5zXuvfOtulLpj7G26Yt4qhg8
+ KiDHZ4H5kQqQlSOHt7Fx52e8X/OPMG9eVIOAz/nJZCmIAca0VCqdZ1k2myB6DkIXXWB3
+ 0D+IcW6/5ftScLwFb1OVb2U9QkrCWPbHVORnT88Ag5KEKqb+yW8CnBY1MA0RoDxRrFlV
+ RbEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UCIspVprktpvDlW5+fJtgoq6diu33wX+IaMsKllTfxY=;
+ b=DRTGRtIjTVp54bWI7KzQumSAMgLlHrzBPWSHa/7aKl6HQd32qHfLgpWxzG4HHixMmS
+ LS6udxmOcbVrLdI8VS2NvVP2Y3MLql0XjRx4rZCMq/X/hVUQsRWEgTENsjKXy93BAEOX
+ RC+idnK7MDyVL6NUavtyMliPmcPANkrqALz4cw1FWJvCxxJnUYgp+naIsByZiRNl1Quz
+ meTqZSsHvLe2jc3yZaSNb/SSMsd5a5PVswOrFp7p74De55Jpivva8melS45yOjYEJQBQ
+ R7C1bjKSrumiY+fqqJNSMk+TQz3xIbraxxpdV2onZO52FyeOIRz64eVc+mWYLWU0osHZ
+ tAew==
+X-Gm-Message-State: AOAM531pVAlgwlNhgx6V5LTSlpKKkUmN5+NGA1L5kgiA5CiypnwB5ttR
+ 9qsFhHnVf6dF3/ThdSsL4oxO2ZLriBuHg2/S5Go=
+X-Google-Smtp-Source: ABdhPJwxaly562xGO9/e9dVg9dSISs69Ku2PSlFcGVrT7G5fdJJCPPJorQFVU/+BrptWiffWmgj7D+Nyp2DpI1MhHNY=
+X-Received: by 2002:adf:b30f:: with SMTP id j15mr10173wrd.132.1615914092247;
+ Tue, 16 Mar 2021 10:01:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210316080051.GD15949@lst.de>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
- jhubbard@nvidia.com, iweiny@intel.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH v2 09/11] block: Add BLK_STS_P2PDMA
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Minturn Dave B <dave.b.minturn@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, Ira Weiny <iweiny@intel.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Stephen Bates <sbates@raithlin.com>, linux-block@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Matthew Wilcox <willy@infradead.org>, Jason Ekstrand <jason@jlekstrand.net>,
- John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210129090516.GB3998@willie-the-truck>
+ <5d23fce629323bcda71594010824aad0@codeaurora.org>
+ <20210201111556.GA7172@willie-the-truck>
+ <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
+ <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+ <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
+ <20210203214612.GB19847@willie-the-truck>
+ <CAF6AEGvjzkRqr8-z56tJdMs-LsoLMr1m5cVAq_++xCdHjTPKrQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGvjzkRqr8-z56tJdMs-LsoLMr1m5cVAq_++xCdHjTPKrQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 16 Mar 2021 10:04:42 -0700
+Message-ID: <CAF6AEGveB=t0gQ0-WZn_qy=scYR60DEcum53saovg5h31ZMHog@mail.gmail.com>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+To: Will Deacon <will@kernel.org>
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, "list@263.net:IOMMU DRIVERS ,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Kristian H Kristensen <hoegsberg@google.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,26 +111,99 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Wed, Feb 3, 2021 at 2:14 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Wed, Feb 3, 2021 at 1:46 PM Will Deacon <will@kernel.org> wrote:
+> >
+> > On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
+> > > On 2021-02-01 23:50, Jordan Crouse wrote:
+> > > > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
+> > > > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
+> > > > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > On 2021-01-29 14:35, Will Deacon wrote:
+> > > > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > > > +#define IOMMU_LLC        (1 << 6)
+> > > > > > > >
+> > > > > > > > On reflection, I'm a bit worried about exposing this because I think it
+> > > > > > > > will
+> > > > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
+> > > > > > > > MAIR
+> > > > > > > > set up for this memory type). Now, we also have that issue for the PTW,
+> > > > > > > > but
+> > > > > > > > since we always use cache maintenance (i.e. the streaming API) for
+> > > > > > > > publishing the page-tables to a non-coheren walker, it works out.
+> > > > > > > > However,
+> > > > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
+> > > > > > > > allocation, then they're potentially in for a nasty surprise due to the
+> > > > > > > > mismatched outer-cacheability attributes.
+> > > > > > > >
+> > > > > > >
+> > > > > > > Can't we add the syscached memory type similar to what is done on android?
+> > > > > >
+> > > > > > Maybe. How does the GPU driver map these things on the CPU side?
+> > > > >
+> > > > > Currently we use writecombine mappings for everything, although there
+> > > > > are some cases that we'd like to use cached (but have not merged
+> > > > > patches that would give userspace a way to flush/invalidate)
+> > > > >
+> > > >
+> > > > LLC/system cache doesn't have a relationship with the CPU cache.  Its
+> > > > just a
+> > > > little accelerator that sits on the connection from the GPU to DDR and
+> > > > caches
+> > > > accesses. The hint that Sai is suggesting is used to mark the buffers as
+> > > > 'no-write-allocate' to prevent GPU write operations from being cached in
+> > > > the LLC
+> > > > which a) isn't interesting and b) takes up cache space for read
+> > > > operations.
+> > > >
+> > > > Its easiest to think of the LLC as a bonus accelerator that has no cost
+> > > > for
+> > > > us to use outside of the unfortunate per buffer hint.
+> > > >
+> > > > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
+> > > > different hint) and in that case we have all of concerns that Will
+> > > > identified.
+> > > >
+> > >
+> > > For mismatched outer cacheability attributes which Will mentioned, I was
+> > > referring to [1] in android kernel.
+> >
+> > I've lost track of the conversation here :/
+> >
+> > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also mapped
+> > into the CPU and with what attributes? Rob said "writecombine for
+> > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
+>
+> Currently userspace asks for everything WC, so pgprot_writecombine()
+>
+> The kernel doesn't enforce this, but so far provides no UAPI to do
+> anything useful with non-coherent cached mappings (although there is
+> interest to support this)
+>
 
+btw, I'm looking at a benchmark (gl_driver2_off) where (after some
+other in-flight optimizations land) we end up bottlenecked on writing
+to WC cmdstream buffers.  I assume in the current state, WC goes all
+the way to main memory rather than just to system cache?
 
-On 2021-03-16 2:00 a.m., Christoph Hellwig wrote:
-> On Thu, Mar 11, 2021 at 04:31:39PM -0700, Logan Gunthorpe wrote:
->> Create a specific error code for when P2PDMA pages are passed to a block
->> devices that cannot map them (due to no IOMMU support or ACS protections).
->>
->> This makes request errors in these cases more informative of as to what
->> caused the error.
-> 
-> I really don't think we should bother with a specific error code here,
-> we don't add a new status for every single possible logic error in the
-> caller.
+BR,
+-R
 
-I originally had BLK_STS_IOERR but those errors suggested to people that
-the hardware had failed on the request when in fact it was a user error.
-I'll try BLK_STS_TARGET unless there's any objection or someone thinks
-another error code would make more sense.
-
-Logan
+> BR,
+> -R
+>
+> > Finally, we need to be careful when we use the word "hint" as "allocation
+> > hint" has a specific meaning in the architecture, and if we only mismatch on
+> > those then we're actually ok. But I think IOMMU_LLC is more than just a
+> > hint, since it actually drives eviction policy (i.e. it enables writeback).
+> >
+> > Sorry for the pedantry, but I just want to make sure we're all talking
+> > about the same things!
+> >
+> > Cheers,
+> >
+> > Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
