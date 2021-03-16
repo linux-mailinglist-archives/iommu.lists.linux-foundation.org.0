@@ -1,73 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0CC33D949
-	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 17:24:40 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3337F33D880
+	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 17:02:50 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1AF484ED02;
-	Tue, 16 Mar 2021 16:24:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5A7ED83E23;
+	Tue, 16 Mar 2021 16:02:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ox6UGTw4GEbH; Tue, 16 Mar 2021 16:24:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C1F5F4ECB6;
-	Tue, 16 Mar 2021 16:24:37 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1UC0G-GTgnGB; Tue, 16 Mar 2021 16:02:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6F55983D32;
+	Tue, 16 Mar 2021 16:02:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98C0FC000A;
-	Tue, 16 Mar 2021 16:24:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D145C000F;
+	Tue, 16 Mar 2021 16:02:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E6929C000A;
- Tue, 16 Mar 2021 16:24:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 56CDCC000A
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 16:02:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C01E8431A0;
- Tue, 16 Mar 2021 16:24:35 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2E70A6F635
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 16:02:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zcWIjl2AlqJO; Tue, 16 Mar 2021 16:24:35 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 1893E43003;
- Tue, 16 Mar 2021 16:24:34 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id rhtaqntNZGd7 for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Mar 2021 16:02:44 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A64C16F60D
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 16:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=nmzQgJQP6/DetTH6ZnA1qw8ORAxBI+pbM/MkV+zmkmM=; b=a9NlqK95hTbckfpKvpR6egtslo
- D5Cs2CPLERcnJMpuvBKT6+Fk9+YpL/guhrXme3vHDBoSsqUDEAH65xtcz9BCAiG/0FFzklTz1vkn8
- /I38qdA9QrRTBss/rIBIYuO832voCNt/UzkX8SwtEFkwKxCzseejM9GPWwHpmshqTNl/O4VzUBTMa
- Se2ssSHLo7rOnuausx/YzYs+UJmnpCYrJoXg3c+kIA7uVwe3V1sCuq6KuPYaIZi4vmGmqdM686sAc
- MuRWyTE65hBd/dO7BGLtvXs+fAbNq6+YI1TNHLmyJHNoqVY0tv1YWgPasuYqJ7ATRO4H0JQwViRw2
- 28OvVVwA==;
-Received: from 089144199244.atnat0008.highway.a1.net ([89.144.199.244]
- helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lMCTa-000J9w-2k; Tue, 16 Mar 2021 16:23:24 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Li Yang <leoyang.li@nxp.com>
-Subject: [PATCH 18/18] iommu: remove iommu_domain_{get,set}_attr
-Date: Tue, 16 Mar 2021 16:38:24 +0100
-Message-Id: <20210316153825.135976-19-hch@lst.de>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210316153825.135976-1-hch@lst.de>
-References: <20210316153825.135976-1-hch@lst.de>
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=vqqIJKKtZ0Pg96LQ/1Z1q/KlFFpVkNAe+8aEWrs/hj4=; b=aLfuYJGuyB5Vf3NXBbVi7orqFM
+ EDGLeXMnQdoQH9BV1vcMoXyuK9z93wWuPACR4VyTKSTtxBcCGLJv06fHAktuwiezT1YitAoW6wR1X
+ HvT8pZhWTDbPTx4/Yx8zliILh8pVR2V/Q/NfhhuJH6rkKu0rh+ZWSfM71udHN10RroyIwvdLBmi/x
+ JowULXwT9MOdkxVUpQ3witDiL5FZ4SD+ANuLnpzEKngB+XqRkzhMd/UwHnEqGWuGSt5KcVGSR2qz2
+ Hoa0CJ4Ud/gwHBkjHMtsgrO77SVKESL0pH0xqOtjxAQukb1UQXUpq3zW9dr/Uu471yKxzBc7lV11d
+ 3TDfQv2Q==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtp (Exim 4.92)
+ (envelope-from <logang@deltatee.com>)
+ id 1lMC9R-0001Oz-Na; Tue, 16 Mar 2021 10:02:34 -0600
+To: Christoph Hellwig <hch@lst.de>
+References: <20210311233142.7900-1-logang@deltatee.com>
+ <20210311233142.7900-10-logang@deltatee.com> <20210316080051.GD15949@lst.de>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <52a9e6e3-fc00-495a-69bb-26ff0b22775a@deltatee.com>
+Date: Tue, 16 Mar 2021 10:02:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20210316080051.GD15949@lst.de>
+Content-Language: en-CA
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
+ jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
+ daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
+ jhubbard@nvidia.com, iweiny@intel.com, christian.koenig@amd.com, jgg@ziepe.ca,
+ dan.j.williams@intel.com, sbates@raithlin.com,
+ iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [RFC PATCH v2 09/11] block: Add BLK_STS_P2PDMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Minturn Dave B <dave.b.minturn@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Ira Weiny <iweiny@intel.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Stephen Bates <sbates@raithlin.com>, linux-block@vger.kernel.org,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Matthew Wilcox <willy@infradead.org>, Jason Ekstrand <jason@jlekstrand.net>,
+ John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,129 +101,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Remove the now unused iommu attr infrastructure.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/iommu/iommu.c | 26 --------------------------
- include/linux/iommu.h | 36 ------------------------------------
- 2 files changed, 62 deletions(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index afd21b37e319ee..d8df26d13c7371 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2662,32 +2662,6 @@ static int __init iommu_init(void)
- }
- core_initcall(iommu_init);
- 
--int iommu_domain_get_attr(struct iommu_domain *domain,
--			  enum iommu_attr attr, void *data)
--{
--	if (!domain->ops->domain_get_attr)
--		return -EINVAL;
--	return domain->ops->domain_get_attr(domain, attr, data);
--}
--EXPORT_SYMBOL_GPL(iommu_domain_get_attr);
--
--int iommu_domain_set_attr(struct iommu_domain *domain,
--			  enum iommu_attr attr, void *data)
--{
--	int ret = 0;
--
--	switch (attr) {
--	default:
--		if (domain->ops->domain_set_attr == NULL)
--			return -EINVAL;
--
--		ret = domain->ops->domain_set_attr(domain, attr, data);
--	}
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(iommu_domain_set_attr);
--
- int iommu_enable_nesting(struct iommu_domain *domain)
- {
- 	if (domain->type != IOMMU_DOMAIN_UNMANAGED)
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index a53d74f2007b14..9319333ca0b827 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -96,20 +96,6 @@ enum iommu_cap {
- 	IOMMU_CAP_NOEXEC,		/* IOMMU_NOEXEC flag */
- };
- 
--/*
-- * Following constraints are specifc to FSL_PAMUV1:
-- *  -aperture must be power of 2, and naturally aligned
-- *  -number of windows must be power of 2, and address space size
-- *   of each window is determined by aperture size / # of windows
-- *  -the actual size of the mapped region of a window must be power
-- *   of 2 starting with 4KB and physical address must be naturally
-- *   aligned.
-- */
--
--enum iommu_attr {
--	DOMAIN_ATTR_MAX,
--};
--
- /* These are the possible reserved region types */
- enum iommu_resv_type {
- 	/* Memory regions which must be mapped 1:1 at all times */
-@@ -191,8 +177,6 @@ struct iommu_iotlb_gather {
-  * @probe_finalize: Do final setup work after the device is added to an IOMMU
-  *                  group and attached to the groups domain
-  * @device_group: find iommu group for a particular device
-- * @domain_get_attr: Query domain attributes
-- * @domain_set_attr: Change domain attributes
-  * @enable_nesting: Enable nesting
-  * @set_pgtable_quirks: Set io page table quirks (IO_PGTABLE_QUIRK_*)
-  * @get_resv_regions: Request list of reserved regions for a device
-@@ -243,10 +227,6 @@ struct iommu_ops {
- 	void (*release_device)(struct device *dev);
- 	void (*probe_finalize)(struct device *dev);
- 	struct iommu_group *(*device_group)(struct device *dev);
--	int (*domain_get_attr)(struct iommu_domain *domain,
--			       enum iommu_attr attr, void *data);
--	int (*domain_set_attr)(struct iommu_domain *domain,
--			       enum iommu_attr attr, void *data);
- 	int (*enable_nesting)(struct iommu_domain *domain);
- 	int (*set_pgtable_quirks)(struct iommu_domain *domain,
- 				  unsigned long quirks);
-@@ -493,10 +473,6 @@ extern int iommu_page_response(struct device *dev,
- extern int iommu_group_id(struct iommu_group *group);
- extern struct iommu_domain *iommu_group_default_domain(struct iommu_group *);
- 
--extern int iommu_domain_get_attr(struct iommu_domain *domain, enum iommu_attr,
--				 void *data);
--extern int iommu_domain_set_attr(struct iommu_domain *domain, enum iommu_attr,
--				 void *data);
- int iommu_enable_nesting(struct iommu_domain *domain);
- int iommu_set_pgtable_quirks(struct iommu_domain *domain,
- 		unsigned long quirks);
-@@ -869,18 +845,6 @@ static inline int iommu_group_id(struct iommu_group *group)
- 	return -ENODEV;
- }
- 
--static inline int iommu_domain_get_attr(struct iommu_domain *domain,
--					enum iommu_attr attr, void *data)
--{
--	return -EINVAL;
--}
--
--static inline int iommu_domain_set_attr(struct iommu_domain *domain,
--					enum iommu_attr attr, void *data)
--{
--	return -EINVAL;
--}
--
- static inline int iommu_set_pgtable_quirks(struct iommu_domain *domain,
- 		unsigned long quirks)
- {
--- 
-2.30.1
+On 2021-03-16 2:00 a.m., Christoph Hellwig wrote:
+> On Thu, Mar 11, 2021 at 04:31:39PM -0700, Logan Gunthorpe wrote:
+>> Create a specific error code for when P2PDMA pages are passed to a block
+>> devices that cannot map them (due to no IOMMU support or ACS protections).
+>>
+>> This makes request errors in these cases more informative of as to what
+>> caused the error.
+> 
+> I really don't think we should bother with a specific error code here,
+> we don't add a new status for every single possible logic error in the
+> caller.
 
+I originally had BLK_STS_IOERR but those errors suggested to people that
+the hardware had failed on the request when in fact it was a user error.
+I'll try BLK_STS_TARGET unless there's any objection or someone thinks
+another error code would make more sense.
+
+Logan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
