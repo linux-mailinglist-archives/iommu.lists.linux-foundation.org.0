@@ -1,51 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCA233CF1A
-	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 09:00:59 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3084433CF62
+	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 09:12:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E6FC8605E0;
-	Tue, 16 Mar 2021 08:00:57 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B87284EBF8;
+	Tue, 16 Mar 2021 08:12:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e-WFQwRf09QL; Tue, 16 Mar 2021 08:00:57 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fYVq2uzEKN9F; Tue, 16 Mar 2021 08:12:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 14CFA60641;
-	Tue, 16 Mar 2021 08:00:57 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B06404CE53;
+	Tue, 16 Mar 2021 08:12:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 004B9C000A;
-	Tue, 16 Mar 2021 08:00:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EAB5C000A;
+	Tue, 16 Mar 2021 08:12:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5CDA4C000A
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 08:00:55 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7674CC000A
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 08:12:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4A55660641
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 08:00:55 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 572184EC34
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 08:12:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FJLaXsCxA1kS for <iommu@lists.linux-foundation.org>;
- Tue, 16 Mar 2021 08:00:54 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9MbV6B3uOTHA for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Mar 2021 08:12:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B39F66060E
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 08:00:54 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 416034CE53
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 08:12:04 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 7AA4368C65; Tue, 16 Mar 2021 09:00:52 +0100 (CET)
-Date: Tue, 16 Mar 2021 09:00:52 +0100
+ id 68EB168C4E; Tue, 16 Mar 2021 09:11:57 +0100 (CET)
+Date: Tue, 16 Mar 2021 09:11:56 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [RFC PATCH v2 09/11] block: Add BLK_STS_P2PDMA
-Message-ID: <20210316080051.GD15949@lst.de>
+Subject: Re: [RFC PATCH v2 06/11] dma-direct: Support PCI P2PDMA pages in
+ dma-direct map_sg
+Message-ID: <20210316081156.GA16595@lst.de>
 References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-10-logang@deltatee.com>
+ <20210311233142.7900-7-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210311233142.7900-10-logang@deltatee.com>
+In-Reply-To: <20210311233142.7900-7-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
  Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -76,16 +77,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Mar 11, 2021 at 04:31:39PM -0700, Logan Gunthorpe wrote:
-> Create a specific error code for when P2PDMA pages are passed to a block
-> devices that cannot map them (due to no IOMMU support or ACS protections).
-> 
-> This makes request errors in these cases more informative of as to what
-> caused the error.
+On Thu, Mar 11, 2021 at 04:31:36PM -0700, Logan Gunthorpe wrote:
+>  	for_each_sg(sgl, sg, nents, i) {
+> +		if (is_pci_p2pdma_page(sg_page(sg))) {
+> +			if (sg_page(sg)->pgmap != pgmap) {
+> +				pgmap = sg_page(sg)->pgmap;
+> +				map = pci_p2pdma_dma_map_type(dev, pgmap);
+> +				bus_off = pci_p2pdma_bus_offset(sg_page(sg));
+> +			}
+> +
+> +			if (map < 0) {
+> +				sg->dma_address = DMA_MAPPING_ERROR;
+> +				ret = -EREMOTEIO;
+> +				goto out_unmap;
+> +			}
+> +
+> +			if (map) {
+> +				sg->dma_address = sg_phys(sg) + sg->offset -
+> +					bus_off;
+> +				sg_dma_len(sg) = sg->length;
+> +				sg_mark_pci_p2pdma(sg);
+> +				continue;
+> +			}
+> +		}
 
-I really don't think we should bother with a specific error code here,
-we don't add a new status for every single possible logic error in the
-caller.
+This code needs to go into a separate noinline helper to reduce the impact
+on the fast path.  Also as Robin noted the offset is already
+accounted for in sg_phys.  We also don't ever set the dma_address in
+the scatterlist to DMA_MAPPING_ERROR, that is just a return value
+for the single entry mapping routines.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
