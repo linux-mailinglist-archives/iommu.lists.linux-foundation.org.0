@@ -1,95 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4239E33D852
-	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 16:55:13 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0879B33D88C
+	for <lists.iommu@lfdr.de>; Tue, 16 Mar 2021 17:03:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D48006F649;
-	Tue, 16 Mar 2021 15:55:11 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 731F883D32;
+	Tue, 16 Mar 2021 16:03:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n4WM2UTTltOh; Tue, 16 Mar 2021 15:55:11 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LFRBn9Hqr3vI; Tue, 16 Mar 2021 16:03:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 041696F641;
-	Tue, 16 Mar 2021 15:55:11 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8201183E09;
+	Tue, 16 Mar 2021 16:03:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC426C000F;
-	Tue, 16 Mar 2021 15:55:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 66C0CC000B;
+	Tue, 16 Mar 2021 16:03:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EDE0DC000A
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 15:55:09 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E48DCC000B;
+ Tue, 16 Mar 2021 16:03:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D81CC4EC90
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 15:55:09 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id C44F283E09;
+ Tue, 16 Mar 2021 16:03:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EkSMaqc_RokX for <iommu@lists.linux-foundation.org>;
- Tue, 16 Mar 2021 15:55:09 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 264294EBF4
- for <iommu@lists.linux-foundation.org>; Tue, 16 Mar 2021 15:55:09 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3Mr5R_E66J8X; Tue, 16 Mar 2021 16:03:09 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 089A083D32;
+ Tue, 16 Mar 2021 16:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=oFF8o/RVegrG3G5YG5dTK44WOWDv57bdoGVgR2ktNWc=; b=dsqiw2UqRHpc2m6czITifyPazC
- l3KC3T9j57KTF3XoWiyV+LPgw4lbLtgOWKdd598bgRLfvrtkF2yuQDTcMKhGG9vB+KiBIJHVKMqOo
- mz5L+MEsdNsRbgo0gzz/8XPLL0CEathKtt+ZC61Qu6pAMYwbwCzqpb34Hfj+pEJnqN+lbJ6lzm9Ih
- wMlXJ7CnBmVPIFSao3qYHQjM/uSXXdMUZqbGyOWB+ccwh0ZmHoBC+XWjsMT4ETu8VxhHGEnyC4uu8
- 9v/yv+i4wmpSzCRFdT+0I+6inCilQdZbbQP3yiENwxiLiBsWDTPHNXrs7QPi+fZVB9gawHTLngfEt
- /Q9Irqsg==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lMC27-00012D-3W; Tue, 16 Mar 2021 09:54:59 -0600
-To: Christoph Hellwig <hch@lst.de>
-References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-7-logang@deltatee.com>
- <215e1472-5294-d20a-a43a-ff6dfe8cd66e@arm.com>
- <d7ead722-7356-8e0f-22de-cb9dea12b556@deltatee.com>
- <a8205c02-a43f-d4e8-a9fe-5963df3a7b40@arm.com>
- <367fa81e-588d-5734-c69c-8cdc800dcb7e@deltatee.com>
- <20210316075821.GB15949@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <093b77cb-e8b1-c8a8-620b-ab36cdb7f3cc@deltatee.com>
-Date: Tue, 16 Mar 2021 09:54:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=FprZHhSdge2856Gd5JohVLHbL8L1JTLngMKWflrsS70=; b=UCenjwndqegn0MZYJ+0h2/ZJp+
+ RMykJIDQnEk5cjLs1Szm8v6aeUAIFaAPjAa/8x78t1iMup3JAcGg5FrrdxxXaRhmr+5MdEkI6xalp
+ 6qwRS0AROF2x9w4GJJ6Nbq4XHBFONyZPXpMcORLK/G1RDRKlEKaT3k4cLClrKCIUjR06C6VBvksqs
+ OQNguLUGQKRnpOZCa3CrNcbcZdaoJ+m1HgMBlgokeX/DGPeOXYmpSQ2PJbqzRgetxh893JfeDSBzV
+ aBGuN/0Zos5DY1VonindEgL+DGp3eSf1Ui5gQqQ1r00vT7xOJ07hzUOMkuDmd4wN2LgQaXlpmAdfe
+ rpBkkzig==;
+Received: from 089144199244.atnat0008.highway.a1.net ([89.144.199.244]
+ helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lMC97-000HA8-9T; Tue, 16 Mar 2021 16:02:14 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Li Yang <leoyang.li@nxp.com>
+Subject: [PATCH 09/18] iommu/fsl_pamu: merge handle_attach_device into
+ fsl_pamu_attach_device
+Date: Tue, 16 Mar 2021 16:38:15 +0100
+Message-Id: <20210316153825.135976-10-hch@lst.de>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210316153825.135976-1-hch@lst.de>
+References: <20210316153825.135976-1-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20210316075821.GB15949@lst.de>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, andrzej.jakowski@intel.com,
- sbates@raithlin.com, dan.j.williams@intel.com, daniel.vetter@ffwll.ch,
- jason@jlekstrand.net, jgg@ziepe.ca, christian.koenig@amd.com,
- willy@infradead.org, dave.hansen@linux.intel.com, jhubbard@nvidia.com,
- dave.b.minturn@intel.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- robin.murphy@arm.com, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH v2 06/11] dma-direct: Support PCI P2PDMA pages in
- dma-direct map_sg
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Minturn Dave B <dave.b.minturn@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>, linux-pci@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Matthew Wilcox <willy@infradead.org>,
- Jason Ekstrand <jason@jlekstrand.net>, John Hubbard <jhubbard@nvidia.com>,
- Dan Williams <dan.j.williams@intel.com>, Robin Murphy <robin.murphy@arm.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,30 +84,102 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+No good reason to split this functionality over two functions.
 
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Li Yang <leoyang.li@nxp.com>
+---
+ drivers/iommu/fsl_pamu_domain.c | 59 +++++++++++----------------------
+ 1 file changed, 20 insertions(+), 39 deletions(-)
 
-On 2021-03-16 1:58 a.m., Christoph Hellwig wrote:
-> On Fri, Mar 12, 2021 at 11:27:46AM -0700, Logan Gunthorpe wrote:
->> So then we reject the patches that make that change. Seems like an odd
->> argument to say that we can't do something that won't cause problems
->> because someone might use it as an example and do something that will
->> cause problems. Reject the change that causes the problem.
-> 
-> No, the problem is a mess of calling conventions.  A calling convention
-> returning 0 for error, positive values for success is fine.  One returning
-> a negative errno for error and positive values for success is fine a well.
-> One returning 0 for the usual errors and negativ errnos for an unusual
-> corner case is just a complete mess.
+diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
+index 4a4944332674f7..962cdc1a4a1924 100644
+--- a/drivers/iommu/fsl_pamu_domain.c
++++ b/drivers/iommu/fsl_pamu_domain.c
+@@ -240,45 +240,13 @@ static int update_domain_stash(struct fsl_dma_domain *dma_domain, u32 val)
+ 	return ret;
+ }
+ 
+-/*
+- * Attach the LIODN to the DMA domain and configure the geometry
+- * and window mappings.
+- */
+-static int handle_attach_device(struct fsl_dma_domain *dma_domain,
+-				struct device *dev, const u32 *liodn,
+-				int num)
+-{
+-	unsigned long flags;
+-	int ret = 0;
+-	int i;
+-
+-	spin_lock_irqsave(&dma_domain->domain_lock, flags);
+-	for (i = 0; i < num; i++) {
+-		/* Ensure that LIODN value is valid */
+-		if (liodn[i] >= PAACE_NUMBER_ENTRIES) {
+-			pr_debug("Invalid liodn %d, attach device failed for %pOF\n",
+-				 liodn[i], dev->of_node);
+-			ret = -EINVAL;
+-			break;
+-		}
+-
+-		attach_device(dma_domain, liodn[i], dev);
+-		ret = pamu_set_liodn(dma_domain, dev, liodn[i]);
+-		if (ret)
+-			break;
+-	}
+-	spin_unlock_irqrestore(&dma_domain->domain_lock, flags);
+-
+-	return ret;
+-}
+-
+ static int fsl_pamu_attach_device(struct iommu_domain *domain,
+ 				  struct device *dev)
+ {
+ 	struct fsl_dma_domain *dma_domain = to_fsl_dma_domain(domain);
++	unsigned long flags;
++	int len, ret = 0, i;
+ 	const u32 *liodn;
+-	u32 liodn_cnt;
+-	int len, ret = 0;
+ 	struct pci_dev *pdev = NULL;
+ 	struct pci_controller *pci_ctl;
+ 
+@@ -298,14 +266,27 @@ static int fsl_pamu_attach_device(struct iommu_domain *domain,
+ 	}
+ 
+ 	liodn = of_get_property(dev->of_node, "fsl,liodn", &len);
+-	if (liodn) {
+-		liodn_cnt = len / sizeof(u32);
+-		ret = handle_attach_device(dma_domain, dev, liodn, liodn_cnt);
+-	} else {
++	if (!liodn) {
+ 		pr_debug("missing fsl,liodn property at %pOF\n", dev->of_node);
+-		ret = -EINVAL;
++		return -EINVAL;
+ 	}
+ 
++	spin_lock_irqsave(&dma_domain->domain_lock, flags);
++	for (i = 0; i < len / sizeof(u32); i++) {
++		/* Ensure that LIODN value is valid */
++		if (liodn[i] >= PAACE_NUMBER_ENTRIES) {
++			pr_debug("Invalid liodn %d, attach device failed for %pOF\n",
++				 liodn[i], dev->of_node);
++			ret = -EINVAL;
++			break;
++		}
++
++		attach_device(dma_domain, liodn[i], dev);
++		ret = pamu_set_liodn(dma_domain, dev, liodn[i]);
++		if (ret)
++			break;
++	}
++	spin_unlock_irqrestore(&dma_domain->domain_lock, flags);
+ 	return ret;
+ }
+ 
+-- 
+2.30.1
 
-Fair enough. I can try implementing a dma_map_sg_p2p() roughly as Robin
-suggested that has a more reasonable calling convention.
-
-Most of your other feedback seems easy enough so I'll address it in a
-future series.
-
-Thanks,
-
-Logan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
