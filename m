@@ -1,70 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F3433F0C9
-	for <lists.iommu@lfdr.de>; Wed, 17 Mar 2021 13:59:59 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D543633F12E
+	for <lists.iommu@lfdr.de>; Wed, 17 Mar 2021 14:32:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E0A9F83026;
-	Wed, 17 Mar 2021 12:59:57 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5E11760641;
+	Wed, 17 Mar 2021 13:32:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1aQBTTvBIVca; Wed, 17 Mar 2021 12:59:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2AB568300C;
-	Wed, 17 Mar 2021 12:59:55 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YOQmglFCB5pY; Wed, 17 Mar 2021 13:32:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7C4B86F701;
+	Wed, 17 Mar 2021 13:32:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EF5BAC0001;
-	Wed, 17 Mar 2021 12:59:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F188C0001;
+	Wed, 17 Mar 2021 13:32:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EBA09C0001
- for <iommu@lists.linux-foundation.org>; Wed, 17 Mar 2021 12:59:52 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E733BC0001
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Mar 2021 13:32:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id DE16C42FFE
- for <iommu@lists.linux-foundation.org>; Wed, 17 Mar 2021 12:59:52 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id BF6C742FA6
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Mar 2021 13:32:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T4Sl79PWxa-m for <iommu@lists.linux-foundation.org>;
- Wed, 17 Mar 2021 12:59:51 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by smtp2.osuosl.org (Postfix) with ESMTPS id F2FC7414D5
- for <iommu@lists.linux-foundation.org>; Wed, 17 Mar 2021 12:59:50 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F0qvN2WStz90W0;
- Wed, 17 Mar 2021 20:57:52 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 17 Mar 2021 20:59:38 +0800
-Subject: Re: [PATCH v2 06/11] iommu/arm-smmu-v3: Scan leaf TTD to sync
- hardware dirty log
-To: Yi Sun <yi.y.sun@linux.intel.com>
-References: <20210310090614.26668-1-zhukeqian1@huawei.com>
- <20210310090614.26668-7-zhukeqian1@huawei.com>
- <20210317104429.GT28580@yi.y.sun>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <82fd0514-dc2e-c908-56d1-73143762540b@huawei.com>
-Date: Wed, 17 Mar 2021 20:59:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ with ESMTP id 9l6MqdYasIxD for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Mar 2021 13:32:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org
+ [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 0D446414D5
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Mar 2021 13:32:42 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 5B8992DA; Wed, 17 Mar 2021 14:32:38 +0100 (CET)
+Date: Wed, 17 Mar 2021 14:32:35 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Subject: Re: [PATCH 2/3] iommu/amd: Don't call early_amd_iommu_init() when
+ AMD IOMMU is disabled
+Message-ID: <YFIE8xnr/HWqxm4p@8bytes.org>
+References: <20210317091037.31374-1-joro@8bytes.org>
+ <20210317091037.31374-3-joro@8bytes.org>
+ <449d4a2d192d23eb504e43b13c35c326f2d0309a.camel@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20210317104429.GT28580@yi.y.sun>
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Cc: Mark Rutland <mark.rutland@arm.com>, jiangkunkun@huawei.com,
- Catalin Marinas <catalin.marinas@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- Cornelia
- Huck <cohuck@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-kernel@vger.kernel.org,
- lushenming@huawei.com, iommu@lists.linux-foundation.org,
- James Morse <james.morse@arm.com>, Marc Zyngier <maz@kernel.org>,
- wanghaibin.wang@huawei.com, Will
- Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <449d4a2d192d23eb504e43b13c35c326f2d0309a.camel@infradead.org>
+Cc: Joerg Roedel <jroedel@suse.de>, Xiaojian Du <xiaojian.du@amd.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Huang Rui <ray.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,70 +70,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021/3/17 18:44, Yi Sun wrote:
-> On 21-03-10 17:06:09, Keqian Zhu wrote:
->> From: jiangkunkun <jiangkunkun@huawei.com>
->>
->> During dirty log tracking, user will try to retrieve dirty log from
->> iommu if it supports hardware dirty log.
->>
->> This adds a new interface named sync_dirty_log in iommu layer and
->> arm smmuv3 implements it, which scans leaf TTD and treats it's dirty
->> if it's writable (As we just enable HTTU for stage1, so check whether
->> AP[2] is not set).
->>
->> Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
->> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
->> ---
->>
->> changelog:
->>
->> v2:
->>  - Add new sanity check in arm_smmu_sync_dirty_log(). (smmu_domain->stage != ARM_SMMU_DOMAIN_S1)
->>  - Document the purpose of flush_iotlb in arm_smmu_sync_dirty_log(). (Robin)
->>  
->> ---
->>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 30 +++++++
->>  drivers/iommu/io-pgtable-arm.c              | 90 +++++++++++++++++++++
->>  drivers/iommu/iommu.c                       | 38 +++++++++
->>  include/linux/io-pgtable.h                  |  4 +
->>  include/linux/iommu.h                       | 18 +++++
->>  5 files changed, 180 insertions(+)
->>
-> Please split iommu common interface out. Thanks!
-Yes, I will do it in v3.
+On Wed, Mar 17, 2021 at 11:47:11AM +0000, David Woodhouse wrote:
+> If you've already moved the Stoney Ridge check out of the way, there's
+> no real reason why you can't just set init_state=IOMMU_CMDLINE_DISABLED
+> directly from parse_amd_iommu_options(), is there? Then you don't need
+> the condition here at all?
 
-> 
-> [...]
-> 
->> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->> index 2a10294b62a3..44dfb78f9050 100644
->> --- a/drivers/iommu/iommu.c
->> +++ b/drivers/iommu/iommu.c
->> @@ -2850,6 +2850,44 @@ int iommu_stop_dirty_log(struct iommu_domain *domain, unsigned long iova,
->>  }
->>  EXPORT_SYMBOL_GPL(iommu_stop_dirty_log);
->>  
->> +int iommu_sync_dirty_log(struct iommu_domain *domain, unsigned long iova,
->> +			 size_t size, unsigned long *bitmap,
->> +			 unsigned long base_iova, unsigned long bitmap_pgshift)
-> 
-> One open question: shall we add PASID as one parameter to make iommu
-> know which address space to visit?
-> 
-> For live migration, the pasid should not be necessary. But considering
-Sure, for live migration we just need to care about level/stage 2 mapping under nested mode.
+True, there is even more room for optimization. The amd_iommu_disabled
+variable can go away entirely, including its checks in
+early_amd_iommu_init(). I will do a patch-set on-top of this for v5.13
+which does more cleanups.
 
-> future extension, it may be required.
-It sounds a good idea. I will consider this, thanks!
-
-> 
-> BRs,
-> Yi Sun
-> .
-> 
 Thanks,
-Keqian
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
