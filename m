@@ -1,59 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27493340284
-	for <lists.iommu@lfdr.de>; Thu, 18 Mar 2021 10:55:59 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1044334029E
+	for <lists.iommu@lfdr.de>; Thu, 18 Mar 2021 11:01:37 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AFADF841E0;
-	Thu, 18 Mar 2021 09:55:57 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9222E60655;
+	Thu, 18 Mar 2021 10:01:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cLAqac54xD4l; Thu, 18 Mar 2021 09:55:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D3FD38418F;
-	Thu, 18 Mar 2021 09:55:56 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9zHWTF-tZ-Q9; Thu, 18 Mar 2021 10:01:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id BDCBC60008;
+	Thu, 18 Mar 2021 10:01:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ACACDC0010;
-	Thu, 18 Mar 2021 09:55:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D4DAC0001;
+	Thu, 18 Mar 2021 10:01:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 344E5C0001
- for <iommu@lists.linux-foundation.org>; Thu, 18 Mar 2021 09:55:56 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2E4BC0001
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Mar 2021 10:01:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 22DE060655
- for <iommu@lists.linux-foundation.org>; Thu, 18 Mar 2021 09:55:56 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 9C61560655
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Mar 2021 10:01:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jEe8oTT7HC_P for <iommu@lists.linux-foundation.org>;
- Thu, 18 Mar 2021 09:55:54 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 73BBD60650
- for <iommu@lists.linux-foundation.org>; Thu, 18 Mar 2021 09:55:53 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F1Mmh10mJz8ylP;
- Thu, 18 Mar 2021 17:53:56 +0800 (CST)
-Received: from [127.0.0.1] (10.40.193.166) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Thu, 18 Mar 2021
- 17:55:46 +0800
-Subject: Re: [PATCH] iommu/dma: Fix a typo in a comment
-To: Will Deacon <will@kernel.org>
-References: <1616037684-59399-1-git-send-email-chenxiang66@hisilicon.com>
- <20210318093410.GA6574@willie-the-truck>
-From: "chenxiang (M)" <chenxiang66@hisilicon.com>
-Message-ID: <c378734f-33d5-1426-fa41-2bd8064ceec4@hisilicon.com>
-Date: Thu, 18 Mar 2021 17:55:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+ with ESMTP id dGrvtGZIwvJZ for <iommu@lists.linux-foundation.org>;
+ Thu, 18 Mar 2021 10:01:33 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 0FF4460008
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Mar 2021 10:01:32 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id AFDC62D8; Thu, 18 Mar 2021 11:01:30 +0100 (CET)
+Date: Thu, 18 Mar 2021 11:01:29 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 1/2] iommu/iova: Add rbtree entry helper
+Message-ID: <YFMk+fLh7KGp4ZdR@8bytes.org>
+References: <03931d86c0ad71f44b29394e3a8d38bfc32349cd.1614962123.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210318093410.GA6574@willie-the-truck>
-X-Originating-IP: [10.40.193.166]
-X-CFilter-Loop: Reflected
-Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com
+Content-Disposition: inline
+In-Reply-To: <03931d86c0ad71f44b29394e3a8d38bfc32349cd.1614962123.git.robin.murphy@arm.com>
+Cc: vjitta@codeaurora.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,38 +59,22 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGkgd2lsbCwKCgrlnKggMjAyMS8zLzE4IDE3OjM0LCBXaWxsIERlYWNvbiDlhpnpgZM6Cj4gT24g
-VGh1LCBNYXIgMTgsIDIwMjEgYXQgMTE6MjE6MjRBTSArMDgwMCwgY2hlbnhpYW5nIHdyb3RlOgo+
-PiBGcm9tOiBYaWFuZyBDaGVuIDxjaGVueGlhbmc2NkBoaXNpbGljb24uY29tPgo+Pgo+PiBGaXgg
-YSB0eXBlICJTQUMiIHRvICJEQUMiIGluIHRoZSBjb21tZW50IG9mIGZ1bmN0aW9uCj4+IGlvbW11
-X2RtYV9hbGxvY19pb3ZhKCkuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IFhpYW5nIENoZW4gPGNoZW54
-aWFuZzY2QGhpc2lsaWNvbi5jb20+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvaW9tbXUvZG1hLWlvbW11
-LmMgfCAyICstCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2RtYS1pb21tdS5jIGIvZHJpdmVy
-cy9pb21tdS9kbWEtaW9tbXUuYwo+PiBpbmRleCBhZjc2NWM4Li4zYmMxN2VlIDEwMDY0NAo+PiAt
-LS0gYS9kcml2ZXJzL2lvbW11L2RtYS1pb21tdS5jCj4+ICsrKyBiL2RyaXZlcnMvaW9tbXUvZG1h
-LWlvbW11LmMKPj4gQEAgLTQ0Myw3ICs0NDMsNyBAQCBzdGF0aWMgZG1hX2FkZHJfdCBpb21tdV9k
-bWFfYWxsb2NfaW92YShzdHJ1Y3QgaW9tbXVfZG9tYWluICpkb21haW4sCj4+ICAgCWlmIChkb21h
-aW4tPmdlb21ldHJ5LmZvcmNlX2FwZXJ0dXJlKQo+PiAgIAkJZG1hX2xpbWl0ID0gbWluKGRtYV9s
-aW1pdCwgKHU2NClkb21haW4tPmdlb21ldHJ5LmFwZXJ0dXJlX2VuZCk7Cj4+ICAgCj4+IC0JLyog
-VHJ5IHRvIGdldCBQQ0kgZGV2aWNlcyBhIFNBQyBhZGRyZXNzICovCj4+ICsJLyogVHJ5IHRvIGdl
-dCBQQ0kgZGV2aWNlcyBhIERBQyBhZGRyZXNzICovCj4+ICAgCWlmIChkbWFfbGltaXQgPiBETUFf
-QklUX01BU0soMzIpICYmIGRldl9pc19wY2koZGV2KSkKPj4gICAJCWlvdmEgPSBhbGxvY19pb3Zh
-X2Zhc3QoaW92YWQsIGlvdmFfbGVuLAo+PiAgIAkJCQkgICAgICAgRE1BX0JJVF9NQVNLKDMyKSA+
-PiBzaGlmdCwgZmFsc2UpOwo+IFRoaXMgZG9lc24ndCBsb29rIGxpa2UgYSB0eXBvIHRvIG1lLi4u
-IFBsZWFzZSBleHBsYWluLgoKSSB0aGluayBpdCBtZWFucyBkb3VibGUtYWRkcmVzcyBjeWNsZShE
-QUMpLCBhbmQgaW4gTExEMyA0NTIgcGFnZSwgdGhlcmUgCmlzIGEgZGVzY3JpcHRpb24gYWJvdXQg
-aXQgIlBDSSBkb3VibGUtYWRkcmVzcyBjeWNsZSBtYXBwaW5ncyBOb3JtYWxseSwKdGhlIERNQSBz
-dXBwb3J0IGxheWVyIHdvcmtzIHdpdGggMzItYml0IGJ1cyBhZGRyZXNzZXMsIHBvc3NpYmx5IApy
-ZXN0cmljdGVkIGJ5IGEgc3BlY2lmaWMgZGV2aWNl4oCZcyBETUEgbWFzay4gVGhlIFBDSSBidXMs
-IGhvd2V2ZXIsIGFsc28gCnN1cHBvcnRzIGEgNjQtYml0IGFkZHJlc3NpbmcgbW9kZSwgdGhlIGRv
-dWJsZS1hZGRyZXNzIGN5Y2xlIChEQUMpLiIKUGxlYXNlIHBvaW50IGl0IG91dCBpZiBpIGFtIHdy
-b25nIDopCgpCZXN0IFJlZ2FyZHMsCmNoZW54aWFuZwoKPgo+IFdpbGwKPgo+IC4KPgoKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcg
-bGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
-Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Fri, Mar 05, 2021 at 04:35:22PM +0000, Robin Murphy wrote:
+> Repeating the rb_entry() boilerplate all over the place gets old fast.
+> Before adding yet more instances, add a little hepler to tidy it up.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/iommu/iova.c | 23 ++++++++++++++---------
+>  1 file changed, 14 insertions(+), 9 deletions(-)
+
+Applied both, thanks Robin.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
