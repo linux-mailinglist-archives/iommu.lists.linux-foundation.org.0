@@ -1,94 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339A634238E
-	for <lists.iommu@lfdr.de>; Fri, 19 Mar 2021 18:43:34 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBE53423F1
+	for <lists.iommu@lfdr.de>; Fri, 19 Mar 2021 19:04:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D95A440153;
-	Fri, 19 Mar 2021 17:43:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1647D40163;
+	Fri, 19 Mar 2021 18:04:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CK2pZMxhJ9l9; Fri, 19 Mar 2021 17:43:32 +0000 (UTC)
+	with ESMTP id UTv3GxWzZ_Cn; Fri, 19 Mar 2021 18:04:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 07C5740150;
-	Fri, 19 Mar 2021 17:43:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5DD2B4015D;
+	Fri, 19 Mar 2021 18:04:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CEC9FC0010;
-	Fri, 19 Mar 2021 17:43:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33493C0010;
+	Fri, 19 Mar 2021 18:04:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 369CFC0001
- for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 17:43:30 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8885EC0001
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 18:04:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 1C6BA40153
- for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 17:43:30 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 803134EE42
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 18:04:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8wsqY5_jn1Tm for <iommu@lists.linux-foundation.org>;
- Fri, 19 Mar 2021 17:43:29 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 4525540150
- for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 17:43:29 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id h7so7365089qtx.3
- for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 10:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iWTtZbypaf/PF2oQYz1A8g+KNh4Q43Kmkq97Z+9FFUk=;
- b=RZ8KV58bU6hT5xo1d8j69eB+xYu9PwsR1DUzm4JnjujlbFPkxX19l+TrXPhFoENqI9
- UekvOvessVkWGvQzjwXdRZo/Xtz+Pd2X6yr/faMZrkpS1kgw3YFLV8BUBlfxl+yqTOyl
- nIDNs4K0qzG4VawE/gPrVmbPq35/269R7x0foWrqOS+u8/r1+5eMEl8eJ9mpI3rYNlCX
- x98lwBlwszN78buHwV+wrxFvSjXQQeIuk/m9Kvr5IB9g8shrutwn8M3Yh9V7HjnaT1qO
- 0FwnRVnPEvTrg26od1exkj5aIc0H/v0NJ5djK6caq1hRRQBxRc4dQdmGtQfAVfovcjct
- DNLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iWTtZbypaf/PF2oQYz1A8g+KNh4Q43Kmkq97Z+9FFUk=;
- b=rx1kjGsQNAyhytZbh1735ViIB/vDdD0Kd6QiAyE45P8w2ZH1K1T7wi0L0nrwp4VRSg
- eKb3auxYKYNOmux+ZFvkqTinje4AsoOQLRuD9Ky2qXkxWyXZlwsd4jUTzB63RBlkaJ6M
- ld1qrAeF886vtWU84+8YViLHq2sSBvHzN/bhYhgryzl6NonGqbNbA4kDJ+fChTUcJS1J
- H2pthzykrO+tumM9utIAS50JyNHbSA6kNfo62OYaboIKrs+qmtHuUMjyrjaud0X87eK7
- W/M6jZWXs9gAROCCtYLvKPZiEFP5w0EIjsacFN7DMn6YZlEv1YyZTdOsqlQEzJQUujaN
- lFfA==
-X-Gm-Message-State: AOAM532UeQ2P2vWBvKMcVtxFr72iznPO9dtFB7nvfXble9GwnUqENJOE
- LrX8LGEatXpYEsPwIfdTvuI=
-X-Google-Smtp-Source: ABdhPJzsKP4zRyN3mmwQMyhxZcSpQe+K/iD/QF4iLyw7BrQBsrz5LJu85mN8QYNj7cytu/OQKAJc6Q==
-X-Received: by 2002:ac8:a4c:: with SMTP id f12mr9582644qti.329.1616175808072; 
- Fri, 19 Mar 2021 10:43:28 -0700 (PDT)
-Received: from ?IPv6:2600:1700:dfe0:49f0:4c4a:ea4e:c31a:9352?
- ([2600:1700:dfe0:49f0:4c4a:ea4e:c31a:9352])
- by smtp.gmail.com with ESMTPSA id p5sm5151652qkj.35.2021.03.19.10.43.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 10:43:27 -0700 (PDT)
-Subject: Re: [PATCH] ARM: Qualify enabling of swiotlb_init()
-To: Christoph Hellwig <hch@lst.de>
-References: <20210319040333.183827-1-f.fainelli@gmail.com>
- <20210319130731.GB2624@lst.de>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <d4308ead-d561-19f6-510c-45e61613de54@gmail.com>
-Date: Fri, 19 Mar 2021 10:43:22 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.8.1
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vTmBr51UrgWT for <iommu@lists.linux-foundation.org>;
+ Fri, 19 Mar 2021 18:04:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B87924EE52
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Mar 2021 18:04:17 +0000 (UTC)
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4F2BVc5JBFz681CR;
+ Sat, 20 Mar 2021 01:59:36 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 19 Mar 2021 19:04:14 +0100
+Received: from [10.47.10.104] (10.47.10.104) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 19 Mar
+ 2021 18:04:13 +0000
+Subject: Re: [PATCH 5/6] dma-mapping/iommu: Add dma_set_max_opt_size()
+To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>, 
+ <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <hch@lst.de>,
+ <m.szyprowski@samsung.com>
+References: <1616160348-29451-1-git-send-email-john.garry@huawei.com>
+ <1616160348-29451-6-git-send-email-john.garry@huawei.com>
+ <9ecb6980-7f40-0333-572f-f9d4b8238353@arm.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <e45a649f-f133-1f80-554a-3c5e955148e3@huawei.com>
+Date: Fri, 19 Mar 2021 18:02:02 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <20210319130731.GB2624@lst.de>
+In-Reply-To: <9ecb6980-7f40-0333-572f-f9d4b8238353@arm.com>
 Content-Language: en-US
-Cc: opendmb@gmail.com, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- open list <linux-kernel@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
- Max Filippov <jcmvbkbc@gmail.com>,
- "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>,
- Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>, Ard Biesheuvel <ardb@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+X-Originating-IP: [10.47.10.104]
+X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linuxarm@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,42 +79,57 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 3/19/2021 6:07 AM, Christoph Hellwig wrote:
-> On Thu, Mar 18, 2021 at 09:03:33PM -0700, Florian Fainelli wrote:
->>  #ifdef CONFIG_ARM_LPAE
->> +	if (swiotlb_force == SWIOTLB_FORCE ||
->> +	    max_pfn > arm_dma_pfn_limit)
+On 19/03/2021 17:00, Robin Murphy wrote:
+> On 2021-03-19 13:25, John Garry wrote:
+>> Add a function to allow the max size which we want to optimise DMA 
+>> mappings
+>> for.
 > 
-> Does arm_dma_pfn_limit do the right thing even with the weirdest
-> remapping ranges?  Maybe a commen here would be useful.
+> It seems neat in theory - particularly for packet-based interfaces that 
+> might have a known fixed size of data unit that they're working on at 
+> any given time - but aren't there going to be many cases where the 
+> driver has no idea because it depends on whatever size(s) of request 
+> userspace happens to throw at it? Even if it does know the absolute 
+> maximum size of thing it could ever transfer, that could be 
+> impractically large in areas like video/AI/etc., so it could still be 
+> hard to make a reasonable decision.
 
-It gets assigned to either 0xffffffff or PHYS_OFFSET + arm_dma_zone_size
-- 1 which is obtained from the machine descriptor, so I expect it to do
-the right thing, it works for a Pi 4 in 32-bit mode for instance. This
-is conditional upon enabling CONFIG_ZONE_DMA for ARM, and will otherwise
-keep its original value of 0, so this should be safe AFAICT.
+So if you consider the SCSI stack, which is my interest, we know the max 
+segment size and we know the max number of segments per request, so we 
+should know the theoretical upper limit of the actual IOVA length we can 
+get.
+
+Indeed, from my experiment on my SCSI host, max IOVA len is found to be 
+507904, which is PAGE_SIZE * 124 (that is max sg ents there). 
+Incidentally that means that we want RCACHE RANGE MAX of 8, not 6.
 
 > 
->> +		swiotlb_init(1);
->> +	else
->> +		swiotlb_force = SWIOTLB_NO_FORCE;
+> Being largely workload-dependent is why I still think this should be a 
+> command-line or sysfs tuneable - we could set the default based on how 
+> much total memory is available, but ultimately it's the end user who 
+> knows what the workload is going to be and what they care about 
+> optimising for.
+
+If that hardware is only found in a server, then the extra memory cost 
+would be trivial, so setting to max is standard approach.
+
 > 
-> Konrad: what do you think of setting swiotlb_force to SWIOTLB_NO_FORCE
-> and only switching it to SWIOTLB_NORMAL when swiotlb_init* is called?
-> That kind makes more sense than forcing the callers to do it.
+> Another thought (which I'm almost reluctant to share) is that I would 
+> *love* to try implementing a self-tuning strategy that can detect high 
+> contention on particular allocation sizes and adjust the caches on the 
+> fly, but I can easily imagine that having enough inherent overhead to 
+> end up being an impractical (but fun) waste of time.
 > 
-> While we're at it, I think swiotlb_force should probably be renamed to
-> swiotlb_mode or somethng like that.
-Agreed.
--- 
-Florian
+
+For now, I just want to recover the performance lost recently :)
+
+Thanks,
+John
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
