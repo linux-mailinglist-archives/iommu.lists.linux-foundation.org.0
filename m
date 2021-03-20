@@ -1,64 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A72342A1F
-	for <lists.iommu@lfdr.de>; Sat, 20 Mar 2021 04:03:57 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B749340329;
-	Sat, 20 Mar 2021 03:03:52 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Xks6rwLsUf_i; Sat, 20 Mar 2021 03:03:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BBE7C4035E;
-	Sat, 20 Mar 2021 03:03:51 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D144C0016;
-	Sat, 20 Mar 2021 03:03:51 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 39C18C0001
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 03:03:50 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66551342E24
+	for <lists.iommu@lfdr.de>; Sat, 20 Mar 2021 17:05:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 23697401B0
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 03:03:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4130E401D6;
+	Sat, 20 Mar 2021 16:05:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OEOECOMPW968 for <iommu@lists.linux-foundation.org>;
- Sat, 20 Mar 2021 03:03:49 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 82829401AF
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 03:03:49 +0000 (UTC)
-IronPort-SDR: ++2fAZK3DJmXn5z4UfjP/g/Pq7Fa79Ak7sZOPJlwU7cGSfLfBolmDoEJTH2sXAaFLKUGaA/k57
- rqzZXYmOix2g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="177134320"
-X-IronPort-AV: E=Sophos;i="5.81,263,1610438400"; d="scan'208";a="177134320"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2021 20:03:49 -0700
-IronPort-SDR: GtzBBybHgTE+q3gu17H1/MN7s+4+3UH6qtj1OQ6e8CwwqZDyOkXzcS0jT7MpqN0HdGy37AVFAE
- tRcWQAiNCrTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,263,1610438400"; d="scan'208";a="441520667"
-Received: from allen-box.sh.intel.com ([10.239.159.128])
- by FMSMGA003.fm.intel.com with ESMTP; 19 Mar 2021 20:03:47 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>
-Subject: [PATCH v2 5/5] iommu/vt-d: Avoid unnecessary cache flush in pasid
- entry teardown
-Date: Sat, 20 Mar 2021 10:54:15 +0800
-Message-Id: <20210320025415.641201-6-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210320025415.641201-1-baolu.lu@linux.intel.com>
-References: <20210320025415.641201-1-baolu.lu@linux.intel.com>
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1mt8cTfByN-p; Sat, 20 Mar 2021 16:05:08 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id E4561401DA;
+	Sat, 20 Mar 2021 16:05:07 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 53F90C0016;
+	Sat, 20 Mar 2021 16:05:07 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C70BBC0001
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:29:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id A0B7E40345
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:29:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=svenpeter.dev
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gyGMthYzdPvB for <iommu@lists.linux-foundation.org>;
+ Sat, 20 Mar 2021 15:29:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
+ [185.70.41.104])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2972B40344
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:29:50 +0000 (UTC)
+Received: from mail-02.mail-europe.com (mail-02.mail-europe.com
+ [51.89.119.103])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4F2kvn02Gtz4xn8V
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:19:48 +0000 (UTC)
+Authentication-Results: mail-41104.protonmail.ch;
+ dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev
+ header.b="RkCqzYsp"
+Date: Sat, 20 Mar 2021 15:19:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ s=protonmail3; t=1616253575;
+ bh=rRb0CjHmraJyeX+g9eakf9Qm7lh28jtpNuhNTu/RlwY=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=RkCqzYspbvUCMMsy777eroY/bnpCj4qZJg+IEZvKlr2YFE7M6Hdw+mZpZWo5GcI7w
+ 9x6vrc7I+OieqMiQ7QsdsLk3jQuSUSHY3Rn7JbcexUXVt4NCn/PsmjoXGH34vkQNkk
+ 0CkWJHu8Yf6ztHIPbQU4AK4eqM3TCr4iUkDvbBM8HJAKYnHyVunlMDX0ZS9j56lRnw
+ JURq8ktUnC6bscDInomvcHgpZdUpgqHFNMCxnP9ZqJDHd5bgllEDop1SXjEyQyeTdh
+ Upi3/K2G3ZeBRcxeDz5irK1VM7VXyb7mWD77l++lETMSNooQXJyEuvcGwiURyqzls0
+ 6Mn0vD7ohrQtw==
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH 0/3] Apple M1 DART IOMMU driver
+Message-ID: <20210320151903.60759-1-sven@svenpeter.dev>
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+X-Mailman-Approved-At: Sat, 20 Mar 2021 16:05:05 +0000
+Cc: Arnd Bergmann <arnd@kernel.org>, devicetree@vger.kernel.org,
+ Will Deacon <will@kernel.org>, Hector Martin <marcan@marcan.st>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Marc Zyngier <maz@kernel.org>,
+ Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+ Stan Skowronek <stan@corellium.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Mark Kettenis <mark.kettenis@xs4all.nl>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,38 +82,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Sven Peter via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Sven Peter <sven@svenpeter.dev>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When a present pasid entry is disassembled, all kinds of pasid related
-caches need to be flushed. But when a pasid entry is not being used
-(PRESENT bit not set), we don't need to do this. Check the PRESENT bit
-in intel_pasid_tear_down_entry() and avoid flushing caches if it's not
-set.
+Hi,
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel/pasid.c | 3 +++
- 1 file changed, 3 insertions(+)
+After Hector's initial work [1] to bring up Linux on Apple's M1 it's time to
+bring up more devices. Most peripherals connected to the SoC are behind a iommu
+which Apple calls "Device Address Resolution Table", or DART for short [2].
+Unfortunately, it only shares the name with PowerPC's DART.
+Configuring this iommu is mandatory if these peripherals require DMA access.
 
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index dd69df5a188a..7a73385edcc0 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -502,6 +502,9 @@ void intel_pasid_tear_down_entry(struct intel_iommu *iommu, struct device *dev,
- 	if (WARN_ON(!pte))
- 		return;
- 
-+	if (!(pte->val[0] & PASID_PTE_PRESENT))
-+		return;
-+
- 	did = pasid_get_domain_id(pte);
- 	intel_pasid_clear_entry(dev, pasid, fault_ignore);
- 
--- 
-2.25.1
+This patchset implements initial support for this iommu. The hardware itself
+uses a pagetable format that's very similar to the one already implement in
+io-pgtable.c. There are some minor modifications, namely some details of the
+PTE format and that there are always three pagetable levels, which I've
+implement as a new format variant.
+
+I have mainly tested this with the USB controller in device mode which is
+compatible with Linux's dwc3 driver. Some custom PHY initialization (which is
+not yet ready or fully understood) is required though to bring up the ports,
+see e.g. my patches to our m1n1 bootloader [3,4]. If you want to test the same
+setup you will probably need that branch for now and add the nodes from
+the DT binding specification example to your device tree.
+
+Even though each DART instances could support up to 16 devices usually only
+a single device is actually connected. Different devices generally just use
+an entirely separate DART instance with a seperate MMIO range, IRQ, etc.
+
+I have just noticed today though that at least the USB DWC3 controller in host
+mode uses *two* darts at the same time. I'm not sure yet which parts seem to
+require which DART instance.
+
+This means that we might need to support devices attached to two iommus
+simultaneously and just create the same iova mappings. Currently this only
+seems to be required for USB according to Apple's Device Tree.
+
+I see two options for this and would like to get feedback before
+I implement either one:
+
+    1) Change #iommu-cells = <1>; to #iommu-cells = <2>; and use the first cell
+       to identify the DART and the second one to identify the master.
+       The DART DT node would then also take two register ranges that would
+       correspond to the two DARTs. Both instances use the same IRQ and the
+       same clocks according to Apple's device tree and my experiments.
+       This would keep a single device node and the DART driver would then
+       simply map iovas in both DARTs if required.
+
+    2) Keep #iommu-cells as-is but support
+            iommus = <&usb_dart1a 1>, <&usb_dart1b 0>;
+       instead.
+       This would then require two devices nodes for the two DART instances and
+       some housekeeping in the DART driver to support mapping iovas in both
+       DARTs.
+       I believe omap-iommu.c supports this setup but I will have to read
+       more code to understand the details there and figure out how to implement
+       this in a sane way.
+
+I currently prefer the first option but I don't understand enough details of
+the iommu system to actually make an informed decision.
+I'm obviously also open to more options :-)
+
+
+Best regards,
+
+
+Sven
+
+[1] https://lore.kernel.org/linux-arch/20210304213902.83903-1-marcan@marcan.st/
+[2] https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/IOKitFundamentals/DataMgmt/DataMgmt.html
+[3] https://github.com/svenpeter42/m1n1/commit/1e2661abf5ea2c820297b3ff591235c408d19a34
+[4] https://github.com/svenpeter42/m1n1/tree/usb-uartproxy-console-wip
+
+
 
 _______________________________________________
 iommu mailing list
