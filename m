@@ -1,72 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66551342E24
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1575D342E23
 	for <lists.iommu@lfdr.de>; Sat, 20 Mar 2021 17:05:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4130E401D6;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 486B140361;
 	Sat, 20 Mar 2021 16:05:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1mt8cTfByN-p; Sat, 20 Mar 2021 16:05:08 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5H2nPhDDq_3m; Sat, 20 Mar 2021 16:05:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E4561401DA;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 542D14034B;
 	Sat, 20 Mar 2021 16:05:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53F90C0016;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A2D6C0001;
 	Sat, 20 Mar 2021 16:05:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C70BBC0001
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:29:51 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37435C0001
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:27:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A0B7E40345
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:29:51 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 102EF83AA7
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:27:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=svenpeter.dev
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gyGMthYzdPvB for <iommu@lists.linux-foundation.org>;
- Sat, 20 Mar 2021 15:29:50 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2972B40344
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:29:50 +0000 (UTC)
-Received: from mail-02.mail-europe.com (mail-02.mail-europe.com
- [51.89.119.103])
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Jyn_WBpZICkS for <iommu@lists.linux-foundation.org>;
+ Sat, 20 Mar 2021 15:27:15 +0000 (UTC)
+X-Greylist: delayed 00:07:23 by SQLgrey-1.8.0
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
+ [185.70.41.103])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id BF55583A99
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:27:14 +0000 (UTC)
+Received: from mail-03.mail-europe.com (mail-03.mail-europe.com
+ [91.134.188.129])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4F2kvn02Gtz4xn8V
- for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:19:48 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
+ by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4F2kwB4Zrhz4x0dH
+ for <iommu@lists.linux-foundation.org>; Sat, 20 Mar 2021 15:20:10 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
  dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev
- header.b="RkCqzYsp"
-Date: Sat, 20 Mar 2021 15:19:33 +0000
+ header.b="fsOp8RQJ"
+Date: Sat, 20 Mar 2021 15:19:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- s=protonmail3; t=1616253575;
- bh=rRb0CjHmraJyeX+g9eakf9Qm7lh28jtpNuhNTu/RlwY=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=RkCqzYspbvUCMMsy777eroY/bnpCj4qZJg+IEZvKlr2YFE7M6Hdw+mZpZWo5GcI7w
- 9x6vrc7I+OieqMiQ7QsdsLk3jQuSUSHY3Rn7JbcexUXVt4NCn/PsmjoXGH34vkQNkk
- 0CkWJHu8Yf6ztHIPbQU4AK4eqM3TCr4iUkDvbBM8HJAKYnHyVunlMDX0ZS9j56lRnw
- JURq8ktUnC6bscDInomvcHgpZdUpgqHFNMCxnP9ZqJDHd5bgllEDop1SXjEyQyeTdh
- Upi3/K2G3ZeBRcxeDz5irK1VM7VXyb7mWD77l++lETMSNooQXJyEuvcGwiURyqzls0
- 6Mn0vD7ohrQtw==
+ s=protonmail3; t=1616253599;
+ bh=UmBJ19FRNdQXRczXhAbcIfSvSxmkFnUO3Bq5JKvNzm4=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=fsOp8RQJauPiKI+aSzOXutFeZjwRHtDBIoMZCO44lpdoyPTgn38/PDhPAwXA9C4Eo
+ qG13iUY5rRpS2WrrF4Z/67tO1l7tTZo6qR+6gJ/Ju2OG35nS5Ftt7dr9Rjxx647uLl
+ eKue8xA3PtyNAi5seCk6ZGbdxbv+d9CdVl+OmMTlnr9Q0H4mhv6O3W1/AerEXroMRT
+ +tXFhO/FXdC5YQdnBejMvFR+ZwMcE2+20nUgUDsbRF2WRXC8ZIi/UBlnVsaVVY5gpF
+ MLpH5AILG+0axnQtDjgF7feZiGkA9qfILeWJJcoVgset9eC3HVz3GIF84ThxWV7OOI
+ UzrJ19V3e8Prg==
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 0/3] Apple M1 DART IOMMU driver
-Message-ID: <20210320151903.60759-1-sven@svenpeter.dev>
+Subject: [PATCH 1/3] iommu: io-pgtable: add DART pagetable format
+Message-ID: <20210320151903.60759-2-sven@svenpeter.dev>
+In-Reply-To: <20210320151903.60759-1-sven@svenpeter.dev>
+References: <20210320151903.60759-1-sven@svenpeter.dev>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 20 Mar 2021 16:05:05 +0000
 Cc: Arnd Bergmann <arnd@kernel.org>, devicetree@vger.kernel.org,
  Will Deacon <will@kernel.org>, Hector Martin <marcan@marcan.st>,
  linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Marc Zyngier <maz@kernel.org>,
+ Sven Peter <sven@svenpeter.dev>, Marc Zyngier <maz@kernel.org>,
  Mohamed Mediouni <mohamed.mediouni@caramail.com>,
  Stan Skowronek <stan@corellium.com>, Robin Murphy <robin.murphy@arm.com>,
  linux-arm-kernel@lists.infradead.org, Mark Kettenis <mark.kettenis@xs4all.nl>
@@ -89,75 +91,190 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+Apple's DART iommu uses a pagetable format that's very similar to the ones
+already implemented by io-pgtable.c.
+Add a new format variant to support the required differences.
 
-After Hector's initial work [1] to bring up Linux on Apple's M1 it's time to
-bring up more devices. Most peripherals connected to the SoC are behind a iommu
-which Apple calls "Device Address Resolution Table", or DART for short [2].
-Unfortunately, it only shares the name with PowerPC's DART.
-Configuring this iommu is mandatory if these peripherals require DMA access.
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ drivers/iommu/Kconfig          | 13 +++++++
+ drivers/iommu/io-pgtable-arm.c | 70 ++++++++++++++++++++++++++++++++++
+ drivers/iommu/io-pgtable.c     |  3 ++
+ include/linux/io-pgtable.h     |  6 +++
+ 4 files changed, 92 insertions(+)
 
-This patchset implements initial support for this iommu. The hardware itself
-uses a pagetable format that's very similar to the one already implement in
-io-pgtable.c. There are some minor modifications, namely some details of the
-PTE format and that there are always three pagetable levels, which I've
-implement as a new format variant.
+diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+index 192ef8f61310..3c95c8524abe 100644
+--- a/drivers/iommu/Kconfig
++++ b/drivers/iommu/Kconfig
+@@ -39,6 +39,19 @@ config IOMMU_IO_PGTABLE_LPAE
+ 	  sizes at both stage-1 and stage-2, as well as address spaces
+ 	  up to 48-bits in size.
 
-I have mainly tested this with the USB controller in device mode which is
-compatible with Linux's dwc3 driver. Some custom PHY initialization (which is
-not yet ready or fully understood) is required though to bring up the ports,
-see e.g. my patches to our m1n1 bootloader [3,4]. If you want to test the same
-setup you will probably need that branch for now and add the nodes from
-the DT binding specification example to your device tree.
++config IOMMU_IO_PGTABLE_APPLE_DART
++	bool "Apple DART Descriptor Format"
++	select IOMMU_IO_PGTABLE
++	select IOMMU_IO_PGTABLE_LPAE
++	depends on ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
++	help
++	  Enable support for the Apple DART iommu pagetable format.
++	  This format is a variant of the ARMv7/v8 Long Descriptor
++	  Format specific to Apple's iommu found in their SoCs.
++
++	  Say Y here if you have a Apple SoC like the M1 which
++	  contains DART iommus.
++
+ config IOMMU_IO_PGTABLE_LPAE_SELFTEST
+ 	bool "LPAE selftests"
+ 	depends on IOMMU_IO_PGTABLE_LPAE
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index 87def58e79b5..18674469313d 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -127,6 +127,10 @@
+ #define ARM_MALI_LPAE_MEMATTR_IMP_DEF	0x88ULL
+ #define ARM_MALI_LPAE_MEMATTR_WRITE_ALLOC 0x8DULL
 
-Even though each DART instances could support up to 16 devices usually only
-a single device is actually connected. Different devices generally just use
-an entirely separate DART instance with a seperate MMIO range, IRQ, etc.
++/* APPLE_DART_PTE_PROT_NO_WRITE actually maps to ARM_LPAE_PTE_AP_RDONLY  */
++#define APPLE_DART_PTE_PROT_NO_WRITE (1<<7)
++#define APPLE_DART_PTE_PROT_NO_READ (1<<8)
++
+ /* IOPTE accessors */
+ #define iopte_deref(pte,d) __va(iopte_to_paddr(pte, d))
 
-I have just noticed today though that at least the USB DWC3 controller in host
-mode uses *two* darts at the same time. I'm not sure yet which parts seem to
-require which DART instance.
+@@ -381,6 +385,17 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+ {
+ 	arm_lpae_iopte pte;
 
-This means that we might need to support devices attached to two iommus
-simultaneously and just create the same iova mappings. Currently this only
-seems to be required for USB according to Apple's Device Tree.
++#ifdef CONFIG_IOMMU_IO_PGTABLE_APPLE_DART
++	if (data->iop.fmt == ARM_APPLE_DART) {
++		pte = 0;
++		if (!(prot & IOMMU_WRITE))
++			pte |= APPLE_DART_PTE_PROT_NO_WRITE;
++		if (!(prot & IOMMU_READ))
++			pte |= APPLE_DART_PTE_PROT_NO_READ;
++		return pte;
++	}
++#endif
++
+ 	if (data->iop.fmt == ARM_64_LPAE_S1 ||
+ 	    data->iop.fmt == ARM_32_LPAE_S1) {
+ 		pte = ARM_LPAE_PTE_nG;
+@@ -1043,6 +1058,54 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+ 	return NULL;
+ }
 
-I see two options for this and would like to get feedback before
-I implement either one:
++#ifdef CONFIG_IOMMU_IO_PGTABLE_APPLE_DART
++static struct io_pgtable *
++apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
++{
++	struct arm_lpae_io_pgtable *data;
++
++	if (cfg->ias > 38)
++		return NULL;
++	if (cfg->oas > 36)
++		return NULL;
++
++	if (!cfg->coherent_walk)
++		return NULL;
++
++	cfg->pgsize_bitmap &= SZ_16K;
++	if (!cfg->pgsize_bitmap)
++		return NULL;
++
++	data = arm_lpae_alloc_pgtable(cfg);
++	if (!data)
++		return NULL;
++
++	/*
++	 * the hardware only supports this specific three level pagetable layout with
++	 * the first level being encoded into four hardware registers
++	 */
++	data->start_level = ARM_LPAE_MAX_LEVELS - 2;
++	data->pgd_bits = 13;
++	data->bits_per_level = 11;
++
++	data->pgd = __arm_lpae_alloc_pages(ARM_LPAE_PGD_SIZE(data), GFP_KERNEL,
++					   cfg);
++	if (!data->pgd)
++		goto out_free_data;
++
++	cfg->apple_dart_cfg.pgd[0] = virt_to_phys(data->pgd);
++	cfg->apple_dart_cfg.pgd[1] = virt_to_phys(data->pgd + 0x4000);
++	cfg->apple_dart_cfg.pgd[2] = virt_to_phys(data->pgd + 0x8000);
++	cfg->apple_dart_cfg.pgd[3] = virt_to_phys(data->pgd + 0xc000);
++
++	return &data->iop;
++
++out_free_data:
++	kfree(data);
++	return NULL;
++}
++#endif
++
+ struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns = {
+ 	.alloc	= arm_64_lpae_alloc_pgtable_s1,
+ 	.free	= arm_lpae_free_pgtable,
+@@ -1068,6 +1131,13 @@ struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns = {
+ 	.free	= arm_lpae_free_pgtable,
+ };
 
-    1) Change #iommu-cells = <1>; to #iommu-cells = <2>; and use the first cell
-       to identify the DART and the second one to identify the master.
-       The DART DT node would then also take two register ranges that would
-       correspond to the two DARTs. Both instances use the same IRQ and the
-       same clocks according to Apple's device tree and my experiments.
-       This would keep a single device node and the DART driver would then
-       simply map iovas in both DARTs if required.
++#ifdef CONFIG_IOMMU_IO_PGTABLE_APPLE_DART
++struct io_pgtable_init_fns io_pgtable_apple_dart_init_fns = {
++	.alloc	= apple_dart_alloc_pgtable,
++	.free	= arm_lpae_free_pgtable,
++};
++#endif
++
+ #ifdef CONFIG_IOMMU_IO_PGTABLE_LPAE_SELFTEST
 
-    2) Keep #iommu-cells as-is but support
-            iommus = <&usb_dart1a 1>, <&usb_dart1b 0>;
-       instead.
-       This would then require two devices nodes for the two DART instances and
-       some housekeeping in the DART driver to support mapping iovas in both
-       DARTs.
-       I believe omap-iommu.c supports this setup but I will have to read
-       more code to understand the details there and figure out how to implement
-       this in a sane way.
+ static struct io_pgtable_cfg *cfg_cookie __initdata;
+diff --git a/drivers/iommu/io-pgtable.c b/drivers/iommu/io-pgtable.c
+index 6e9917ce980f..d86590b0673a 100644
+--- a/drivers/iommu/io-pgtable.c
++++ b/drivers/iommu/io-pgtable.c
+@@ -27,6 +27,9 @@ io_pgtable_init_table[IO_PGTABLE_NUM_FMTS] = {
+ #ifdef CONFIG_AMD_IOMMU
+ 	[AMD_IOMMU_V1] = &io_pgtable_amd_iommu_v1_init_fns,
+ #endif
++#ifdef CONFIG_IOMMU_IO_PGTABLE_APPLE_DART
++	[ARM_APPLE_DART] = &io_pgtable_apple_dart_init_fns,
++#endif
+ };
 
-I currently prefer the first option but I don't understand enough details of
-the iommu system to actually make an informed decision.
-I'm obviously also open to more options :-)
+ struct io_pgtable_ops *alloc_io_pgtable_ops(enum io_pgtable_fmt fmt,
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index a4c9ca2c31f1..19d9b631d319 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -16,6 +16,7 @@ enum io_pgtable_fmt {
+ 	ARM_V7S,
+ 	ARM_MALI_LPAE,
+ 	AMD_IOMMU_V1,
++	ARM_APPLE_DART,
+ 	IO_PGTABLE_NUM_FMTS,
+ };
 
+@@ -136,6 +137,10 @@ struct io_pgtable_cfg {
+ 			u64	transtab;
+ 			u64	memattr;
+ 		} arm_mali_lpae_cfg;
++
++		struct {
++			u64 pgd[4];
++		} apple_dart_cfg;
+ 	};
+ };
 
-Best regards,
+@@ -250,5 +255,6 @@ extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s2_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_amd_iommu_v1_init_fns;
++extern struct io_pgtable_init_fns io_pgtable_apple_dart_init_fns;
 
-
-Sven
-
-[1] https://lore.kernel.org/linux-arch/20210304213902.83903-1-marcan@marcan.st/
-[2] https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/IOKitFundamentals/DataMgmt/DataMgmt.html
-[3] https://github.com/svenpeter42/m1n1/commit/1e2661abf5ea2c820297b3ff591235c408d19a34
-[4] https://github.com/svenpeter42/m1n1/tree/usb-uartproxy-console-wip
-
+ #endif /* __IO_PGTABLE_H */
+--
+2.25.1
 
 
 _______________________________________________
