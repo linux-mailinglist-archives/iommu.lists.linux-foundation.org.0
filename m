@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D097134667B
-	for <lists.iommu@lfdr.de>; Tue, 23 Mar 2021 18:36:53 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B6B346681
+	for <lists.iommu@lfdr.de>; Tue, 23 Mar 2021 18:37:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 73F5383FA6;
-	Tue, 23 Mar 2021 17:36:52 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0CF3D404D5;
+	Tue, 23 Mar 2021 17:37:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CnUVUug5RZ3r; Tue, 23 Mar 2021 17:36:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A5C7E83F9E;
-	Tue, 23 Mar 2021 17:36:51 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RkWhob_zxpJt; Tue, 23 Mar 2021 17:37:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id DC339404CD;
+	Tue, 23 Mar 2021 17:37:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7518CC0012;
-	Tue, 23 Mar 2021 17:36:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BB1B6C0001;
+	Tue, 23 Mar 2021 17:37:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7FE7FC0001
- for <iommu@lists.linux-foundation.org>; Tue, 23 Mar 2021 17:36:49 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B36AC0001
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Mar 2021 17:37:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6D8456069E
- for <iommu@lists.linux-foundation.org>; Tue, 23 Mar 2021 17:36:49 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5CECB400B9
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Mar 2021 17:37:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id W8AB-mcAZFjp for <iommu@lists.linux-foundation.org>;
- Tue, 23 Mar 2021 17:36:48 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oqCguzjVZTXz for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Mar 2021 17:37:41 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A449A6069C
- for <iommu@lists.linux-foundation.org>; Tue, 23 Mar 2021 17:36:48 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2DF8F400B8
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Mar 2021 17:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
  References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TduDshJQGkQTjlXrbKj6sW7pDov6LaUmnXncWO3w/7Y=; b=b5tQHF2+SVbcHrAfokqu3fZeIN
- X5xgQjPTckJ/wRBvW02WErtEBqHyWn7JOzdl8jQqw2xPs168p/Xrmnaf0YF4/eDPWMmLR68bTSy4u
- I6x1UB3yoAKCfBr3qH6cTZAS8NL8rItv4AmIyUyVc2Rroa8hU+lZ/ZYSw0q3aYZFRJETKNbVn5L1X
- oRwCw4ygN9MLtQg22Qvq0/pwNNWvrc3aOLYxxwP0IqqeW8lDV012aKJj5M3P9MOnNDjiP1uAuwTde
- yOXUaIMby4buKf4maMlPPoFypmz7jkWhp2EGfehdusaIfTRWOLqRc4Em04fi45MPnBbes9KBEZQG/
- DdeuVLRQ==;
+ bh=Yco9lEeprdhGCEE6HK4haJS01ehzRP1EIp35HUW10WA=; b=tH2VnIedWVKpR/Jk3w7khUgEvB
+ 3Fv6Sy9eGiZe1SCHBOsyoOkPLO4KOo+ciyc1df2ErRMU+czLwlpEAyp+4plLFTBzoA/7ALcVQrUO3
+ zgbKkmLCoNCPyIXz15/xkSBECtPZ4rx7gKa8UO1y2AMgkt8NhyrJa9Z1bNCxdE3CB5ICnZXkNXr/F
+ kyxh+zLA0rvrgktyOYxe7XUMc/W04ZAfNh9VSi36lDyNJkVf5xVCMlOiWISs6RW8NGFr4eFnkM5uM
+ 8YpOyXecZLVZJfmZE85GyL94828IJP4YSu6TH/R8GSTFAyB7rygsiBt2ZfH4GJvb6YVy2YeJV48iZ
+ g/8sEZ/A==;
 Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lOkwO-00ALgm-DC; Tue, 23 Mar 2021 17:35:50 +0000
-Date: Tue, 23 Mar 2021 17:35:40 +0000
+ Linux)) id 1lOkxg-00ALkt-Us; Tue, 23 Mar 2021 17:37:12 +0000
+Date: Tue, 23 Mar 2021 17:37:00 +0000
 From: Christoph Hellwig <hch@infradead.org>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 4/5] iommu/vt-d: Remove unused function declarations
-Message-ID: <20210323173540.GE2463754@infradead.org>
+Subject: Re: [PATCH 5/5] iommu/vt-d: Make unnecessarily global functions static
+Message-ID: <20210323173700.GF2463754@infradead.org>
 References: <20210323010600.678627-1-baolu.lu@linux.intel.com>
- <20210323010600.678627-5-baolu.lu@linux.intel.com>
+ <20210323010600.678627-6-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210323010600.678627-5-baolu.lu@linux.intel.com>
+In-Reply-To: <20210323010600.678627-6-baolu.lu@linux.intel.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
 Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
@@ -81,13 +81,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Mar 23, 2021 at 09:05:59AM +0800, Lu Baolu wrote:
-> Some functions have been deprecated. Remove the remaining function
-> delarations.
+On Tue, Mar 23, 2021 at 09:06:00AM +0800, Lu Baolu wrote:
+> Make some functions static as they are only used inside pasid.c.
+> 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-s/deprecated/removed/g
-
-Otherwise looks good:
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
