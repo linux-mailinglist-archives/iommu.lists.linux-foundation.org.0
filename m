@@ -1,79 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D624348458
-	for <lists.iommu@lfdr.de>; Wed, 24 Mar 2021 23:10:09 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CC5348795
+	for <lists.iommu@lfdr.de>; Thu, 25 Mar 2021 04:42:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D32F040163;
-	Wed, 24 Mar 2021 22:10:07 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id F1F9E40EFC;
+	Thu, 25 Mar 2021 03:42:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EhEXv5rX7Twj; Wed, 24 Mar 2021 22:10:07 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 55CCbadVlEkU; Thu, 25 Mar 2021 03:42:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E08F140133;
-	Wed, 24 Mar 2021 22:10:06 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DBD7440EEF;
+	Thu, 25 Mar 2021 03:42:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C231BC000A;
-	Wed, 24 Mar 2021 22:10:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AE4F9C000A;
+	Thu, 25 Mar 2021 03:42:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 080E2C000A
- for <iommu@lists.linux-foundation.org>; Wed, 24 Mar 2021 22:10:05 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5250EC000A
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 03:42:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id DC6318490B
- for <iommu@lists.linux-foundation.org>; Wed, 24 Mar 2021 22:10:04 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 400C760AD6
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 03:42:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id caO7ZQc_22qO for <iommu@lists.linux-foundation.org>;
- Wed, 24 Mar 2021 22:10:04 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HA3ividB98IX for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Mar 2021 03:42:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3C478848FD
- for <iommu@lists.linux-foundation.org>; Wed, 24 Mar 2021 22:10:04 +0000 (UTC)
-IronPort-SDR: OpeULTy7JcDH/Ayje8i4z2YhKxsTm+oUJUDcgR8HkpReg7fsxov/e5TA1F4x9B1189EzMb+bXY
- 1YbkSa/AxvMg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="177913773"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="177913773"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 15:10:03 -0700
-IronPort-SDR: DQZSaLihhzL2eMMuOF5/+Gq/kYGub32TVjHTLJr/fySOgtaPJemHSPHFCx7OFGJFZBYCPKhCq1
- tkpDOzoJ4dTA==
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="413927681"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 15:10:03 -0700
-Date: Wed, 24 Mar 2021 15:12:30 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
- allocation APIs
-Message-ID: <20210324151230.466fd47a@jacob-builder>
-In-Reply-To: <20210324170338.GM2356281@nvidia.com>
-References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1614463286-97618-6-git-send-email-jacob.jun.pan@linux.intel.com>
- <20210318172234.3e8c34f7@jacob-builder> <YFR10eeDVf5ZHV5l@myrica>
- <20210319124645.GP2356281@nvidia.com> <YFSqDNJ5yagk4eO+@myrica>
- <20210319135432.GT2356281@nvidia.com>
- <20210319112221.5123b984@jacob-builder> <YFhiMLR35WWMW/Hu@myrica>
- <20210324100246.4e6b8aa1@jacob-builder>
- <20210324170338.GM2356281@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BC47060725
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 03:42:44 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F5W9B0HJRzkfX3;
+ Thu, 25 Mar 2021 11:41:02 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 25 Mar 2021 11:42:30 +0800
+From: chenxiang <chenxiang66@hisilicon.com>
+To: <yong.wu@mediatek.com>, <robin.murphy@arm.com>, <will@kernel.org>
+Subject: [PATCH] iommu: Fix a boundary issue to avoid performance drop
+Date: Thu, 25 Mar 2021 11:38:24 +0800
+Message-ID: <1616643504-120688-1-git-send-email-chenxiang66@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- iommu@lists.linux-foundation.org, Li Zefan <lizefan@huawei.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org, Wu Hao <hao.wu@intel.com>,
- David Woodhouse <dwmw2@infradead.org>
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, linuxarm@openeuler.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,46 +67,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-On Wed, 24 Mar 2021 14:03:38 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
+After the change of patch ("iommu: Switch gather->end to the 
+inclusive end"), the performace drops from 1600+K IOPS to 1200K in our 
+kunpeng ARM64 platform.
+We find that the range [start1, end1) actually is joint from the range
+[end1, end2), but it is considered as disjoint after the change,
+so it needs more times of TLB sync, and spends more time on it.
+So fix the boundary issue to avoid performance drop.
 
-> On Wed, Mar 24, 2021 at 10:02:46AM -0700, Jacob Pan wrote:
-> > > Also wondering about device driver allocating auxiliary domains for
-> > > their private use, to do iommu_map/unmap on private PASIDs (a clean
-> > > replacement to super SVA, for example). Would that go through the
-> > > same path as /dev/ioasid and use the cgroup of current task?  
-> >
-> > For the in-kernel private use, I don't think we should restrict based on
-> > cgroup, since there is no affinity to user processes. I also think the
-> > PASID allocation should just use kernel API instead of /dev/ioasid. Why
-> > would user space need to know the actual PASID # for device private
-> > domains? Maybe I missed your idea?  
-> 
-> There is not much in the kernel that isn't triggered by a process, I
-> would be careful about the idea that there is a class of users that
-> can consume a cgroup controlled resource without being inside the
-> cgroup.
-> 
-> We've got into trouble before overlooking this and with something
-> greenfield like PASID it would be best built in to the API to prevent
-> a mistake. eg accepting a cgroup or process input to the allocator.
-> 
-Make sense. But I think we only allow charging the current cgroup, how about
-I add the following to ioasid_alloc():
+Fixes: 862c3715de8f ("iommu: Switch gather->end to the inclusive end")
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+---
+ include/linux/iommu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	misc_cg = get_current_misc_cg();
-	ret = misc_cg_try_charge(MISC_CG_RES_IOASID, misc_cg, 1);
-	if (ret) {
-		put_misc_cg(misc_cg);
-		return ret;
-	}
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index ae8eddd..4d5bcc2 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -547,7 +547,7 @@ static inline void iommu_iotlb_gather_add_page(struct iommu_domain *domain,
+ 	 * structure can be rewritten.
+ 	 */
+ 	if (gather->pgsize != size ||
+-	    end < gather->start || start > gather->end) {
++	    end + 1 < gather->start || start > gather->end + 1) {
+ 		if (gather->pgsize)
+ 			iommu_iotlb_sync(domain, gather);
+ 		gather->pgsize = size;
+-- 
+2.8.1
 
-BTW, IOASID will be one of the resources under the proposed misc cgroup.
-
-Thanks,
-
-Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
