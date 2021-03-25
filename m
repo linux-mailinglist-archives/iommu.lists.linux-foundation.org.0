@@ -1,62 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E409234979C
-	for <lists.iommu@lfdr.de>; Thu, 25 Mar 2021 18:09:02 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B403497A8
+	for <lists.iommu@lfdr.de>; Thu, 25 Mar 2021 18:12:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 683096076C;
-	Thu, 25 Mar 2021 17:09:01 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2C35660773;
+	Thu, 25 Mar 2021 17:12:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8Bs26ISS_w7z; Thu, 25 Mar 2021 17:09:00 +0000 (UTC)
+	with ESMTP id r4_wdOVIV5-F; Thu, 25 Mar 2021 17:12:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7FAB26075D;
-	Thu, 25 Mar 2021 17:09:00 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 32A746076B;
+	Thu, 25 Mar 2021 17:12:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6737FC000A;
-	Thu, 25 Mar 2021 17:09:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0CC61C000A;
+	Thu, 25 Mar 2021 17:12:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42D9DC000A
- for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 17:08:59 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C8AB1C000A
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 17:12:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3F654401D4
- for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 17:08:59 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id BD084401DD
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 17:12:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AmcvLu73aPHD for <iommu@lists.linux-foundation.org>;
- Thu, 25 Mar 2021 17:08:58 +0000 (UTC)
+ with ESMTP id k-GqvFLgDwWe for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Mar 2021 17:12:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BA0AB40191
- for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 17:08:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D909619E4;
- Thu, 25 Mar 2021 17:08:57 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 365E4401DA
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 17:12:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BC1C861A16;
+ Thu, 25 Mar 2021 17:12:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616692138;
- bh=56A0l6+2zQ5O9rkIHutwsEMDBdqlpzUskFaOTpTah6s=;
+ s=k20201202; t=1616692350;
+ bh=aqaTJDnsiWJX1tcMgPNk2oK/dylyp4jFTDSiVv4TkL8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GDkVZOYAKaFCu9XhG9L6xlZbZpW0FDhNpktbHw7nxXpTlKGvTOW17UDX7lFkpPVJV
- vXCCZaLsNUjtc6IoKIr8pnqm+gVceFCpouLM0mKP/nlO9IHre6h+/zjhDpXzhg2x9e
- TDTNluUinlB5azg/97/5Dd5a7MKmcwIcbbMlPOEqm4NJJntlWYKoShXcrb/o7iQWIk
- 4Lm8Ve4UdIyZObOtCUeGKNfRbZI7Ifdlxh3euALR6Mp/XKOWEy2l4UPi6htlmNlwmD
- 03K7HvBQPH4SJ/ttC5uIrmmGUBTKhRa9LMaD2V7m4wDitiOzCG3qx8QbjcLA3yP7IM
- ofYPAgelluGBg==
-Date: Thu, 25 Mar 2021 17:08:54 +0000
+ b=e8s9UlmvUgL8hsE8u0OJZZIEfxRCZpwfagHYQPLEy+4E05INhNQxkc1j33kXKp3uk
+ lDpWZ1TrzmwVcY+dfTqNjGmIeCyZfrzJGz1YZJcrge7sFegetsVF5tOpT8aG3zuhxU
+ tyVcYA2PF9EdUkkHX5q2lwcnZNOzG6XXUJXwqCe15f12Q3HdxF94CEjj9PX0SHSB0C
+ JZFe+yI/rogzFYBc9vmVKw2xibZGvpwF528+cuz9+/tCBM8cAvuaasRH7fVz3pg8FE
+ v6FrCi+2yOkTT/pG1GoZ6glBMJy9grkgV7jOTbwLtTNh+lF0jx8vIWjs2yBr6ZU3ll
+ 5tDMPRoFL+fdg==
+Date: Thu, 25 Mar 2021 17:12:26 +0000
 From: Will Deacon <will@kernel.org>
 To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 1/2] iommu: Statically set module owner
-Message-ID: <20210325170853.GA15337@willie-the-truck>
+Subject: Re: [PATCH 2/2] iommu: Streamline registration interface
+Message-ID: <20210325171226.GB15337@willie-the-truck>
 References: <f4de29d8330981301c1935e667b507254a2691ae.1616157612.git.robin.murphy@arm.com>
+ <95f69c593aa9dd57a5333e490dc06b8bae27fedf.1616157612.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f4de29d8330981301c1935e667b507254a2691ae.1616157612.git.robin.murphy@arm.com>
+In-Reply-To: <95f69c593aa9dd57a5333e490dc06b8bae27fedf.1616157612.git.robin.murphy@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -76,27 +77,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Mar 19, 2021 at 12:52:01PM +0000, Robin Murphy wrote:
-> It happens that the 3 drivers which first supported being modular are
-> also ones which play games with their pgsize_bitmap, so have non-const
-> iommu_ops where dynamically setting the owner manages to work out OK.
-> However, it's less than ideal to force that upon all drivers which want
-> to be modular - like the new sprd-iommu driver which now has a potential
-> bug in that regard - so let's just statically set the module owner and
-> let ops remain const wherever possible.
+On Fri, Mar 19, 2021 at 12:52:02PM +0000, Robin Murphy wrote:
+> Rather than have separate opaque setter functions that are easy to
+> overlook and lead to repetitive boilerplate in drivers, let's pass the
+> relevant initialisation parameters directly to iommu_device_register().
 > 
 > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 > ---
-> 
-> This is something I hadn't got round to sending earlier, so now rebased
-> onto iommu/next to accommodate the new driver :)
-> 
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 1 +
->  drivers/iommu/arm/arm-smmu/arm-smmu.c       | 1 +
->  drivers/iommu/sprd-iommu.c                  | 1 +
->  drivers/iommu/virtio-iommu.c                | 1 +
->  include/linux/iommu.h                       | 9 +--------
->  5 files changed, 5 insertions(+), 8 deletions(-)
+>  drivers/iommu/amd/init.c                    |  3 +--
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  5 +---
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c       |  5 +---
+>  drivers/iommu/arm/arm-smmu/qcom_iommu.c     |  5 +---
+>  drivers/iommu/exynos-iommu.c                |  5 +---
+>  drivers/iommu/fsl_pamu_domain.c             |  4 +--
+>  drivers/iommu/intel/dmar.c                  |  4 +--
+>  drivers/iommu/intel/iommu.c                 |  3 +--
+>  drivers/iommu/iommu.c                       |  7 ++++-
+>  drivers/iommu/ipmmu-vmsa.c                  |  6 +----
+>  drivers/iommu/msm_iommu.c                   |  5 +---
+>  drivers/iommu/mtk_iommu.c                   |  5 +---
+>  drivers/iommu/mtk_iommu_v1.c                |  4 +--
+>  drivers/iommu/omap-iommu.c                  |  5 +---
+>  drivers/iommu/rockchip-iommu.c              |  5 +---
+>  drivers/iommu/s390-iommu.c                  |  4 +--
+>  drivers/iommu/sprd-iommu.c                  |  5 +---
+>  drivers/iommu/sun50i-iommu.c                |  5 +---
+>  drivers/iommu/tegra-gart.c                  |  5 +---
+>  drivers/iommu/tegra-smmu.c                  |  5 +---
+>  drivers/iommu/virtio-iommu.c                |  5 +---
+>  include/linux/iommu.h                       | 29 ++++-----------------
+>  22 files changed, 31 insertions(+), 98 deletions(-)
+
+I was worried this might blow up with !CONFIG_IOMMU_API, but actually
+it all looks fine and is much cleaner imo so:
 
 Acked-by: Will Deacon <will@kernel.org>
 
