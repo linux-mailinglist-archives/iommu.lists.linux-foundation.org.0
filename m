@@ -1,72 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FE73494E2
-	for <lists.iommu@lfdr.de>; Thu, 25 Mar 2021 16:05:16 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D8C34950D
+	for <lists.iommu@lfdr.de>; Thu, 25 Mar 2021 16:13:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 402A540F51;
-	Thu, 25 Mar 2021 15:05:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 227A184A47;
+	Thu, 25 Mar 2021 15:12:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id t08isajyGmnp; Thu, 25 Mar 2021 15:05:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EE69C40EDA;
-	Thu, 25 Mar 2021 15:05:13 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jfvsGq86iAKN; Thu, 25 Mar 2021 15:12:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 31AE684A43;
+	Thu, 25 Mar 2021 15:12:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1597C0012;
-	Thu, 25 Mar 2021 15:05:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02B57C0012;
+	Thu, 25 Mar 2021 15:12:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35698C000A
- for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 15:05:13 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3FEEC000A
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 15:12:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2393F84A66
- for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 15:05:13 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 959A184A3C
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 15:12:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8llrHm-rmiAf for <iommu@lists.linux-foundation.org>;
- Thu, 25 Mar 2021 15:05:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 74B4984A64
- for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 15:05:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3605661A10;
- Thu, 25 Mar 2021 15:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616684712;
- bh=n14K+ZB1lA7IMk1Xs/vk0MsKfm+3TbQdanrbmyKqpNM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FHwTNUwG1zuMokZAgMv+sMZgUup0IwNDeUPoK80BWyBn6qBaK8/0r77noT9b22CO1
- +QgJ4wRl9+tw0cyi4qCWLyJF/8jj4VXdjJWlroSsAGz5sTz+4hqG+gID7Zopt9ijcM
- Nq1V2NLzcjRvgMF5It9za/kecF7ySF4YGllMEHjAMZxuFr+e7443N9/wcoh72w8n1H
- PrLPze1Dj5JEvhLsmuOYyVYE0/fcFm79OMJ3h9TeiLoJt3KK3tUPr1YWoU9xfO44D2
- kv94bWZc/lZUuS4UIQhWJQb6A5Bg3xT14NfpujrO4I3P4si32tHsCWOSAtyyx7ZcT0
- P3uFFMlej36iQ==
-Date: Thu, 25 Mar 2021 15:05:07 +0000
-From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCHv2 2/2] iommu/arm-smmu-qcom: Move the adreno smmu specific
- impl earlier
-Message-ID: <20210325150506.GD15172@willie-the-truck>
-References: <YDlIrjkfv16o4Nu3@builder.lan>
- <20210227135321.420-1-saiprakash.ranjan@codeaurora.org>
- <YEqn1SjsGgK0V8K4@builder.lan>
- <8cfaed1915ad6dd0c34ac7eb2391b410@codeaurora.org>
- <727fa9fe2e644f88ba35c2877d71788e@codeaurora.org>
+ with ESMTP id xL5dEAJGohrq for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Mar 2021 15:12:56 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B076884861
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 15:12:55 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id n138so3056572lfa.3
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Mar 2021 08:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WnTFrwAfePNw9Aef52Q1wEY1qtEOTDfqn1ojM94Ae6E=;
+ b=HV/Oi4NVHDSvuB6pwSTtE5OHNnFx3BahyrSAm/Q3kYMPZ61nMuhvNBJCTFUPc817n+
+ DFOfmZ2QK197axzyyG70IYRB8nR2v1hpVUKRuh3KAqRXXRIesLKGPpofgqZUgvj3Nkx2
+ hgELWoa7aWpFjntG5Ky2SNPl8vXmz5cqudVormd4LnVgfwawChaNWzE14qHu4Uafho1k
+ oTSEhNnajyVlc16FzDMCwdoTAuT1u0uZqOdPhIuuWVRG3+CXNpUJzExTDHFxFbdcr1cr
+ fSEpq+0pOJ4PoRrwZEdqc2JF22tGmpCy08eMUH15qLqC4fS8Q7UHOc145Yo/RJKQB/A2
+ PDXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WnTFrwAfePNw9Aef52Q1wEY1qtEOTDfqn1ojM94Ae6E=;
+ b=qGmUgXtFtvguPQK2aSwqneCJA6eiHD0gQpZiMml2tthm/FmDz4TFTt2DdQ6LJQsNf7
+ 6Vj2PXuVAdS2MJXAbmf1Fj4znbsY1Doxh1RoNTsBZk4CgTN7HbkVPoAgd1SJVbX0+D2u
+ 0UHNsNJtdkomyBDbbLPhXXlwC3+UmV+5hr3SBgEfV47QpaWHlaD9MYdd0k7VG5a+BjOh
+ Vjq6p/V+c9kPfwtYs/QZm/WG9O3IQjPJAE2aOXkLbdH70pUX/IknGXHq0BJ69s61/oFd
+ FSlXhWk9T02HuRU7NmNJk8TBzmt6ajckfCkMOb/YdcpLYA2vi6QBIPWcIoGH8aml8c+N
+ jxmg==
+X-Gm-Message-State: AOAM533Sddgg2aFbmxxa4ms/+QWpntyoI5mZ3gSKF0d8ca6BCcMDQXUC
+ SwmUzbrhfaz4w5GlvC1siaQ=
+X-Google-Smtp-Source: ABdhPJz02RpX7reky+R0Ku0sSImOsnP5BRrwqX8XYuEODRAbMoFD7wkcixfdZIytwGQAHadGb2lA2g==
+X-Received: by 2002:a05:6512:3481:: with SMTP id
+ v1mr5328599lfr.193.1616685173799; 
+ Thu, 25 Mar 2021 08:12:53 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru.
+ [109.252.193.60])
+ by smtp.googlemail.com with ESMTPSA id g14sm796314ljj.3.2021.03.25.08.12.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 08:12:53 -0700 (PDT)
+Subject: Re: [PATCH 1/9] memory: tegra: Move internal data structures into
+ separate header
+To: Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+References: <20210325130332.778208-1-thierry.reding@gmail.com>
+ <20210325130332.778208-2-thierry.reding@gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ca70b07a-608a-51b3-3c30-ff04bdf8bcc0@gmail.com>
+Date: Thu, 25 Mar 2021 18:12:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <727fa9fe2e644f88ba35c2877d71788e@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- jcrouse@codeaurora.org, akhilpo@codeaurora.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20210325130332.778208-2-thierry.reding@gmail.com>
+Content-Language: en-US
+Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Nicolin Chen <nicolinc@nvidia.com>, linux-arm-kernel@lists.infradead.org,
+ Jon Hunter <jonathanh@nvidia.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,125 +100,37 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Mar 25, 2021 at 01:10:12PM +0530, Sai Prakash Ranjan wrote:
-> On 2021-03-15 00:31, Sai Prakash Ranjan wrote:
-> > On 2021-03-12 04:59, Bjorn Andersson wrote:
-> > > On Sat 27 Feb 07:53 CST 2021, Sai Prakash Ranjan wrote:
-> > > > On 2021-02-27 00:44, Bjorn Andersson wrote:
-> > > > > On Fri 26 Feb 12:23 CST 2021, Rob Clark wrote:
-> > > > >
-> > > > >
-> > > > > The current logic picks one of:
-> > > > > 1) is the compatible mentioned in qcom_smmu_impl_of_match[]
-> > > > > 2) is the compatible an adreno
-> > > > > 3) no quirks needed
-> > > > >
-> > > > > The change flips the order of these, so the only way I can see this
-> > > > > change affecting things is if we expected a match on #2, but we got one
-> > > > > on #1.
-> > > > >
-> > > > > Which implies that the instance that we want to act according to the
-> > > > > adreno impl was listed in qcom_smmu_impl_of_match[] - which either is
-> > > > > wrong, or there's a single instance that needs both behaviors.
-> > > > >
-> > > > > (And I believe Jordan's answer confirms the latter - there's a single
-> > > > > SMMU instance that needs all them quirks at once)
-> > > > >
-> > > > 
-> > > > Let me go through the problem statement in case my commit
-> > > > message wasn't
-> > > > clear. There are two SMMUs (APSS and GPU) on SC7280 and both are
-> > > > SMMU500
-> > > > (ARM SMMU IP).
-> > > > 
-> > > > APSS SMMU compatible - ("qcom,sc7280-smmu-500", "arm,mmu-500")
-> > > > GPU SMMU compatible - ("qcom,sc7280-smmu-500",
-> > > > "qcom,adreno-smmu", "arm,mmu-500")
-> > > > 
-> > > > Now if we take SC7180 as an example, GPU SMMU was QSMMU(QCOM SMMU IP)
-> > > > and APSS SMMU was SMMU500(ARM SMMU IP).
-> > > > 
-> > > > APSS SMMU compatible - ("qcom,sc7180-smmu-500", "arm,mmu-500")
-> > > > GPU SMMU compatible - ("qcom,sc7180-smmu-v2",
-> > > > "qcom,adreno-smmu", "qcom,smmu-v2")
-> > > > 
-> > > > Current code sequence without this patch,
-> > > > 
-> > > > if (of_match_node(qcom_smmu_impl_of_match, np))
-> > > >                  return qcom_smmu_create(smmu, &qcom_smmu_impl);
-> > > > 
-> > > > if (of_device_is_compatible(np, "qcom,adreno-smmu"))
-> > > >         return qcom_smmu_create(smmu, &qcom_adreno_smmu_impl);
-> > > > 
-> > > > Now if we look at the compatible for SC7180, there is no problem
-> > > > because
-> > > > the APSS SMMU will match the one in qcom_smmu_impl_of_match[]
-> > > > and GPU SMMU
-> > > > will match "qcom,adreno-smmu" because the compatible strings are
-> > > > different.
-> > > > But for SC7280, both the APSS SMMU and GPU SMMU
-> > > > compatible("qcom,sc7280-smmu-500")
-> > > > are same. So GPU SMMU will match with the one in
-> > > > qcom_smmu_impl_of_match[]
-> > > > i.e.., "qcom,sc7280-smmu-500" which functionally doesn't cause
-> > > > any problem
-> > > > but we will miss settings for split pagetables which are part of
-> > > > GPU SMMU
-> > > > specific implementation.
-> > > > 
-> > > > We can avoid this with yet another new compatible for GPU SMMU
-> > > > something like
-> > > > "qcom,sc7280-adreno-smmu-500" but since we can handle this
-> > > > easily in the
-> > > > driver and since the IPs are same, meaning if there was a
-> > > > hardware quirk
-> > > > required, then we would need to apply to both of them and would
-> > > > this additional
-> > > > compatible be of any help?
-> > > > 
-> > > 
-> > > No, I think you're doing the right thing of having them both. I just
-> > > didn't remember us doing that.
-> > > 
-> > > > Coming to the part of quirks now, you are right saying both
-> > > > SMMUs will need
-> > > > to have the same quirks in SC7280 and similar others where both
-> > > > are based on
-> > > > same IPs but those should probably be *hardware quirks* and if
-> > > > they are
-> > > > software based like the S2CR quirk depending on the firmware,
-> > > > then it might
-> > > > not be applicable to both. In case if it is applicable, then as
-> > > > Jordan mentioned,
-> > > > we can add the same quirks in GPU SMMU implementation.
-> > > > 
-> > > 
-> > > I do suspect that at some point (probably sooner than later) we'd have
-> > > to support both inheriting of stream from the bootloader and the
-> > > Adreno
-> > > "quirks" in the same instance.
-> > > 
-> > > But for now this is okay to me.
-> > > 
-> > 
-> > Sure, let me know if you or anyone face any issues without it and I will
-> > add it. I will resend this series with the dt-bindings patch for sc7280
-> > smmu
-> > which wasn't cc'd to smmu folks by mistake.
-> > 
-> 
-> I think there is consensus on this series. I can resend if required but it
-> still applies cleanly, let me know if you have any comments?
-
-Please resend with the bindings patch, and I'd like Bjorn's Ack as well.
-
-Will
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+MjUuMDMuMjAyMSAxNjowMywgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBGcm9tOiBUaGll
+cnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IAo+IEZyb20gVGVncmEyMCB0aHJvdWdo
+IFRlZ3JhMjEwLCBlaXRoZXIgdGhlIEdBUlQgb3IgU01NVSBkcml2ZXJzIG5lZWQKPiBhY2Nlc3Mg
+dG8gdGhlIGludGVybmFscyBvZiB0aGUgbWVtb3J5IGNvbnRyb2xsZXIgZHJpdmVyIGJlY2F1c2Ug
+dGhleSBhcmUKPiB0aWdodGx5IGNvdXBsZWQgKGluIGZhY3QsIHRoZSBHQVJUIGFuZCBTTU1VIGFy
+ZSBwYXJ0IG9mIHRoZSBtZW1vcnkKPiBjb250cm9sbGVyKS4gT24gbGF0ZXIgY2hpcHMsIGEgc2Vw
+YXJhdGUgaGFyZHdhcmUgYmxvY2sgaW1wbGVtZW50cyB0aGUKPiBTTU1VIGZ1bmN0aW9uYWxpdHks
+IHNvIHRoaXMgaXMgbm8gbG9uZ2VyIG5lZWRlZC4gSG93ZXZlciwgd2Ugc3RpbGwgd2FudAo+IHRv
+IHJldXNlIHNvbWUgb2YgdGhlIGV4aXN0aW5nIGluZnJhc3RydWN0dXJlIG9uIGxhdGVyIGNoaXBz
+LCBzbyBzcGxpdAo+IHRoZSBtZW1vcnkgY29udHJvbGxlciBpbnRlcm5hbHMgaW50byBhIHNlcGFy
+YXRlIGhlYWRlciBmaWxlIHRvIGF2b2lkCj4gY29uZmxpY3RzIHdpdGggdGhlIGltcGxlbWVudGF0
+aW9uIG9uIG5ld2VyIGNoaXBzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRoaWVycnkgUmVkaW5nIDx0
+cmVkaW5nQG52aWRpYS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvaW9tbXUvdGVncmEtZ2FydC5jICAg
+ICAgfCAgMiArLQo+ICBkcml2ZXJzL2lvbW11L3RlZ3JhLXNtbXUuYyAgICAgIHwgIDIgKy0KPiAg
+ZHJpdmVycy9tZW1vcnkvdGVncmEvbWMuaCAgICAgICB8ICAyICstCj4gIGRyaXZlcnMvbWVtb3J5
+L3RlZ3JhL3RlZ3JhMTg2LmMgfCAxMiArKysrLS0tCj4gIGluY2x1ZGUvc29jL3RlZ3JhL21jLWlu
+dGVybmFsLmggfCA2MiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgaW5jbHVk
+ZS9zb2MvdGVncmEvbWMuaCAgICAgICAgICB8IDUwIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+Cj4gIDYgZmlsZXMgY2hhbmdlZCwgNzIgaW5zZXJ0aW9ucygrKSwgNTggZGVsZXRpb25zKC0pCj4g
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL3NvYy90ZWdyYS9tYy1pbnRlcm5hbC5oCgpXaGF0
+IGFib3V0IHRvIG1ha2UgVDE4NiB0byByZS11c2UgdGhlIGV4aXN0aW5nIHRlZ3JhX21jIHN0cnVj
+dD8gU2VlbXMKdGhlcmUgaXMgbm90aGluZyBzcGVjaWFsIGluIHRoYXQgc3RydWN0IHdoaWNoIGRv
+ZXNuJ3QgZml0IGZvciB0aGUgbmV3ZXIKU29Dcy4gUGxlYXNlIG5vdGljZSB0aGF0IGJvdGggU01N
+VSBhbmQgR0FSVCBhcmUgYWxyZWFkeSBvcHRpb25hbCBhbmQgYWxsCnRoZSBTb0MgZGlmZmVyZW5j
+ZXMgYXJlIHNwZWNpZmllZCB3aXRoaW4gdGhlIHRlZ3JhX21jX3NvYy4gSXQgbG9va3MgdG8KbWUg
+dGhhdCB0aGlzIGNvdWxkIGJlIGEgbXVjaCBuaWNlciBhbmQgY2xlYW5lciB2YXJpYW50LgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5n
+IGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51
+eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
