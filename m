@@ -1,94 +1,107 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D69834ACEB
-	for <lists.iommu@lfdr.de>; Fri, 26 Mar 2021 17:56:05 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2153534AD15
+	for <lists.iommu@lfdr.de>; Fri, 26 Mar 2021 18:06:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8FE1F41865;
-	Fri, 26 Mar 2021 16:56:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 988A960D69;
+	Fri, 26 Mar 2021 17:06:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5jGO4C-K1dRw; Fri, 26 Mar 2021 16:56:02 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Z2gkFoYFf9IG; Fri, 26 Mar 2021 17:06:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6528A4185C;
-	Fri, 26 Mar 2021 16:56:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B242460D64;
+	Fri, 26 Mar 2021 17:06:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ABDBC000A;
-	Fri, 26 Mar 2021 16:56:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90012C0012;
+	Fri, 26 Mar 2021 17:06:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 81579C000A
- for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 16:56:00 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1F903C000A
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 17:06:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5A9BA84C8F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 16:56:00 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0067360D64
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 17:06:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 20F9ABtSA561 for <iommu@lists.linux-foundation.org>;
- Fri, 26 Mar 2021 16:55:59 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8C39A84C8A
- for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 16:55:59 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id u20so8102022lja.13
- for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 09:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lhyOjxCs+l3MNv905gvs5Nsa/THv4syTxxBwZP4KE3k=;
- b=s1LmS7BwlxUC5fYMpsY/r5C0k4N6uMyMEUBhMb17FwH4VuESuMHAMS+KHxbscsX19N
- i4xsWCLrCi+OI7Bid2JBoFbyPFGc5h2P8lh2A6GVQqGP+zv95VqHmvO07Iv5aehTID9i
- 7W2rceZ6u8ep51Mhbji64UpFRI8zxu2QDAzy/tG/dsVL179EvspQNrqNe1GrZ0ghrYQl
- hckCvtWHouLxJS+QsUL4MuFUAGgy4ATUv2Oo3Cta5KdURJ53AVSf5pQzVWfMpxztFCrI
- YzEqH2ajthweRg/ivIiA0k2nJIHYXGGTEafm6/a7Plbe75862iA6ctEzGlRzDmslkQ9R
- PnOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lhyOjxCs+l3MNv905gvs5Nsa/THv4syTxxBwZP4KE3k=;
- b=SNyeHOmZrZrqhnXB1L6BXZUX46cDS8n6XBKB23C3yLn7PyvBCYJ3Bzt1PSZRsfVgq/
- lzyNpU8837OoYJpvzeI3QYoIQcf7EaJrPJ1cdgtIao7VldLfaCskvLbeqrstIUgXs/yR
- Son6MtS+ZFzW+xRzYlbeCJ879OIA1kIPRc9NqqZ/VL+sGsgs/HQJVndHJOmdVExvf0YC
- 3DoURYgH/cueJvypTZt9G7xGXymjAovL9hV3qvQNE2jquWISvTvPU36GBRajbN1OG3B8
- nJnCSm6YRsweZ8pACCGWqgNSqwuPMZfaYneixQEYPpM5eed8rhK2KToZfE8A9+m2yr4d
- U/BA==
-X-Gm-Message-State: AOAM532QVWSmtNwdNPXrvPtOHgf5tx4zzzOIkDftwtZsIgOhsT0bQHv+
- v2giYJZs4UIfCgoXlpdUnC0=
-X-Google-Smtp-Source: ABdhPJxK3x5g1sh4ng3XERSxCJLJcMj4mSTpotrlnRxwSesJwLiNTIVymxaoExRzGAnlMWjU9yZeMQ==
-X-Received: by 2002:a2e:8e36:: with SMTP id r22mr9826222ljk.427.1616777757503; 
- Fri, 26 Mar 2021 09:55:57 -0700 (PDT)
-Received: from ?IPv6:2a00:1370:814d:99a9:a10:76ff:fe69:21b6?
- ([2a00:1370:814d:99a9:a10:76ff:fe69:21b6])
- by smtp.googlemail.com with ESMTPSA id x13sm1232656ljj.4.2021.03.26.09.55.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 09:55:57 -0700 (PDT)
-Subject: Re: [PATCH 0/9] arm64: tegra: Prevent early SMMU faults
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20210325130332.778208-1-thierry.reding@gmail.com>
- <197876d1-0046-f673-5d3e-818d1002542b@gmail.com>
- <YF4NQPee+/Qi6zVd@orome.fritz.box>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9f1a8455-f7a6-1f66-f36c-032abacf71f5@gmail.com>
-Date: Fri, 26 Mar 2021 19:55:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <YF4NQPee+/Qi6zVd@orome.fritz.box>
-Content-Language: en-US
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Will Deacon <will@kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
- iommu@lists.linux-foundation.org, Nicolin Chen <nicolinc@nvidia.com>,
- linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ie67BYOIS_T8 for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Mar 2021 17:06:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 51A2D60D62
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 17:06:50 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 208075807EA;
+ Fri, 26 Mar 2021 13:06:47 -0400 (EDT)
+Received: from imap21 ([10.202.2.71])
+ by compute3.internal (MEProxy); Fri, 26 Mar 2021 13:06:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ h=mime-version:message-id:in-reply-to:references:date:from:to
+ :cc:subject:content-type; s=fm1; bh=Cto+EyA1XyjcLE2PX+93/pQcMeag
+ m1IAD58rKTDVk4M=; b=bvq3t6Ypz3kHuIIjz44HfJzMpasxPpDj2mZeWxVz90Vi
+ 7yUFJby512eLEBQKPm58HSjeT/kZQExI86nRBhZp8FBKsSoLzwaLkIhi0Mv2aPes
+ Pwbcc1DxqyxbMHiI9NPYT1sCqzuCSGexpjW6NP2jeM6S16btQ9O+U3fuBVj/Nlmu
+ m4OqpXNdCGWKUAHf5quASINGzi52Q0CT6ohcQwtMpf+ZK2NtxRMAHCCYQHDP9sa3
+ 4rMBPzAuXf0VPt+dlDsXEhHEKpibH0o0spCAKgM3fo6idVpXEd/TV8EjXF7s00zQ
+ LIwYsx+N9dLX78aEwrfrGxCZetSMYleU4ehsghawsQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Cto+Ey
+ A1XyjcLE2PX+93/pQcMeagm1IAD58rKTDVk4M=; b=t9Uuqvot2Mg61iccRpYVgS
+ hRijFfGbvs5ElZ0yP60DTOdjleZDCqvxlueEsPWjdbOH+pa4nsYXLNK5J33e7g7d
+ XiHg457+wQWfR1o0t9XFVqXXMbTHt9dAUdvqZbFBBjS1SBm71xySxK65gQ8Q6x4s
+ JzSDuXS6wJ/aQqgkZ8gjhB0HBzjcUZbk28b3dH4vJ3QBQZ56GUb0NCERH0qJ/Vd+
+ 9J1H6OYvULhGRcBXz7dzNL2EicGcxM+O0xX2/uvBaZFhteuVOZJSRDIDuzbZ2Awk
+ dc94FfgWZLIst1x+8X6sexb/ZvFx+xp6sjTn1DO1AWJl8Ny0LGVlTg5sfF/eCxsA
+ ==
+X-ME-Sender: <xms:pBReYObo6zn-am-chkHUkDXtGNOZJcGnzxRACWzJKK6Pv-YUjC-tTA>
+ <xme:pBReYBbqrgz8L0bDpHThXGpRygzQa93Or9UsdMiJIQlIU7MSNmHh-08X3S3-xsTEs
+ byV2-Lw73TawQH1LCU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehvddgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
+ nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
+ htthgvrhhnpefgieegieffuefhtedtjefgteejteefleefgfefgfdvvddtgffhffduhedv
+ feekffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:pBReYI_HcWQBkUqaYLRjQl10c9Q86o1cTpDITKyX6UeWnJ0ra-fOCw>
+ <xmx:pBReYAreczweL8wq4fZ_qelo28s1-XS2rh_h6gqqHK-YfqnXB20FFg>
+ <xmx:pBReYJpKTnDItHpCS3p9Jp9dYP-TFWaJaHVUFBHZ1-f-vHHdlUcMSw>
+ <xmx:phReYKSPRyHNf48Z_o1QYw7YAmk7XjVfEBAbCG925V5oT5G8Fly-q1EHj-M>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 4981F51C005E; Fri, 26 Mar 2021 13:06:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
+Mime-Version: 1.0
+Message-Id: <5907bd2e-858e-4f54-a3d1-3c3905e22422@www.fastmail.com>
+In-Reply-To: <CAK8P3a2b7k6JkxecW=yu-NF+fkNCxJ3Ja36nQ7LK8hsuO=4=sw@mail.gmail.com>
+References: <20210320151903.60759-1-sven@svenpeter.dev>
+ <c1bcc0609e920bc6@bloch.sibelius.xs4all.nl>
+ <20210323205346.GA1283560@robh.at.kernel.org>
+ <43685c67-6d9c-4e72-b320-0462c2273bf0@www.fastmail.com>
+ <CAK8P3a0fvnYLrG=cGiOQ6u8aZnriTeM0R=MW7FX=94mO13Rq0w@mail.gmail.com>
+ <c1bcd90d344c2b68@bloch.sibelius.xs4all.nl>
+ <9f06872d-f0ec-43c3-9b53-d144337100b3@www.fastmail.com>
+ <CAK8P3a2b7k6JkxecW=yu-NF+fkNCxJ3Ja36nQ7LK8hsuO=4=sw@mail.gmail.com>
+Date: Fri, 26 Mar 2021 18:06:23 +0100
+To: "Arnd Bergmann" <arnd@kernel.org>
+Subject: Re: [PATCH 0/3] Apple M1 DART IOMMU driver
+Cc: Rob Herring <robh@kernel.org>, DTML <devicetree@vger.kernel.org>,
+ Will Deacon <will@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Marc Zyngier <maz@kernel.org>,
+ Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+ Stan Skowronek <stan@corellium.com>, Robin Murphy <robin.murphy@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,58 +114,64 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Sven Peter via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Sven Peter <sven@svenpeter.dev>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-MjYuMDMuMjAyMSAxOTozNSwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBGcmksIE1h
-ciAyNiwgMjAyMSBhdCAwNjoyOToyOFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
-IDI1LjAzLjIwMjEgMTY6MDMsIFRoaWVycnkgUmVkaW5nINC/0LjRiNC10YI6Cj4+PiBGcm9tOiBU
-aGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+Pj4KPj4+IEhpLAo+Pj4KPj4+IHRo
-aXMgaXMgYSBzZXQgb2YgcGF0Y2hlcyB0aGF0IGlzIHRoZSByZXN1bHQgb2YgZWFybGllciBkaXNj
-dXNzaW9ucwo+Pj4gcmVnYXJkaW5nIGVhcmx5IGlkZW50aXR5IG1hcHBpbmdzIHRoYXQgYXJlIG5l
-ZWRlZCB0byBhdm9pZCBTTU1VIGZhdWx0cwo+Pj4gZHVyaW5nIGVhcmx5IGJvb3QuCj4+Pgo+Pj4g
-VGhlIGdvYWwgaGVyZSBpcyB0byBhdm9pZCBlYXJseSBpZGVudGl0eSBtYXBwaW5ncyBhbHRvZ2V0
-aGVyIGFuZCBpbnN0ZWFkCj4+PiBwb3N0cG9uZSB0aGUgbmVlZCBmb3IgdGhlIGlkZW50aXR5IG1h
-cHBpbmdzIHRvIHdoZW4gZGV2aWNlcyBhcmUgYXR0YWNoZWQKPj4+IHRvIHRoZSBTTU1VLiBUaGlz
-IHdvcmtzIGJ5IG1ha2luZyB0aGUgU01NVSBkcml2ZXIgY29vcmRpbmF0ZSB3aXRoIHRoZQo+Pj4g
-bWVtb3J5IGNvbnRyb2xsZXIgZHJpdmVyIG9uIHdoZW4gdG8gc3RhcnQgZW5mb3JjaW5nIFNNTVUg
-dHJhbnNsYXRpb25zLgo+Pj4gVGhpcyBtYWtlcyBUZWdyYSBiZWhhdmUgaW4gYSBtb3JlIHN0YW5k
-YXJkIHdheSBhbmQgcHVzaGVzIHRoZSBjb2RlIHRvCj4+PiBkZWFsIHdpdGggdGhlIFRlZ3JhLXNw
-ZWNpZmljIHByb2dyYW1taW5nIGludG8gdGhlIE5WSURJQSBTTU1VCj4+PiBpbXBsZW1lbnRhdGlv
-bi4KPj4KPj4gSXQgaXMgYW4gaW50ZXJlc3RpbmcgaWRlYSB3aGljaCBpbnNwaXJlZCBtZSB0byB0
-cnkgdG8gYXBwbHkgYSBzb21ld2hhdCBzaW1pbGFyIHRoaW5nIHRvIFRlZ3JhIFNNTVUgZHJpdmVy
-IGJ5IGhvbGRpbmcgdGhlIFNNTVUgQVNJRCBlbmFibGUtYml0IHVudGlsIGRpc3BsYXkgZHJpdmVy
-IGFsbG93cyB0byB0b2dnbGUgaXQuIFRoaXMgbWVhbnMgdGhhdCB3ZSB3aWxsIG5lZWQgYW4gZXh0
-cmEgc21hbGwgdGVncmEtc3BlY2lmaWMgU01NVSBBUEkgZnVuY3Rpb24sIGJ1dCBpdCBzaG91bGQg
-YmUgb2theS4KPj4KPj4gSSB0eXBlZCBhIHBhdGNoIGFuZCBzZWVtcyBpdCdzIHdvcmtpbmcgZ29v
-ZCwgSSdsbCBwcmVwYXJlIGEgcHJvcGVyIHBhdGNoIGlmIHlvdSBsaWtlIGl0Lgo+IAo+IFRoYXQg
-d291bGQgYWN0dWFsbHkgYmUgd29ya2luZyBhcm91bmQgdGhlIHByb2JsZW0gdGhhdCB0aGlzIHBh
-dGNoIHdhcwo+IHN1cHBvc2VkIHRvIHByZXBhcmUgZm9yLiBUaGUgcmVhc29uIGZvciB0aGlzIGN1
-cnJlbnQgcGF0Y2ggc2VyaWVzIGlzIHRvCj4gbWFrZSBzdXJlIFNNTVUgdHJhbnNsYXRpb24gaXNu
-J3QgZW5hYmxlZCB1bnRpbCBhIGRldmljZSBoYXMgYWN0dWFsbHkKPiBiZWVuIGF0dGFjaGVkIHRv
-IHRoZSBTTU1VLiBPbmNlIGl0IGhhcyBiZWVuIGF0dGFjaGVkLCB0aGUgYXNzdW1wdGlvbiBpcwo+
-IHRoYXQgYW55IGlkZW50aXR5IG1hcHBpbmdzIHdpbGwgaGF2ZSBiZWVuIGNyZWF0ZWQuCj4gCj4g
-T25lIFRlZ3JhIFNNTVUgdGhhdCBzaG91bGRuJ3QgYmUgYSBwcm9ibGVtIGJlY2F1c2UgdHJhbnNs
-YXRpb25zIGFyZW4ndAo+IGVuYWJsZWQgdW50aWwgZGV2aWNlIGF0dGFjaCB0aW1lLiBTbyBpbiBv
-dGhlciB3b3JkcyB0aGlzIHBhdGNoIHNldCBpcyB0bwo+IGdldCBUZWdyYTE4NiBhbmQgbGF0ZXIg
-dG8gcGFyaXR5IHdpdGggZWFybGllciBjaGlwcyBmcm9tIHRoaXMgcG9pbnQgb2YKPiB2aWV3Lgo+
-IAo+IEkgdGhpbmsgdGhlIHByb2JsZW0gdGhhdCB5b3UncmUgdHJ5aW5nIHRvIHdvcmsgYXJvdW5k
-IGlzIGJldHRlciBzb2x2ZWQKPiBieSBlc3RhYmxpc2hpbmcgdGhlc2UgaWRlbnRpdHkgbWFwcGlu
-Z3MuIEkgZG8gaGF2ZSBwYXRjaGVzIHRvIGltcGxlbWVudAo+IHRoaXMgZm9yIFRlZ3JhMjEwIGFu
-ZCBlYXJsaWVyLCB0aG91Z2ggdGhleSBtYXkgcmVxdWlyZSBhZGRpdGlvbmFsIHdvcmsKPiBpZiB5
-b3UgaGF2ZSBib290bG9hZGVycyB0aGF0IGRvbid0IHVzZSBzdGFuZGFyZCBEVCBiaW5kaW5ncyBm
-b3IgcGFzc2luZwo+IGluZm9ybWF0aW9uIGFib3V0IHRoZSBmcmFtZWJ1ZmZlciB0byB0aGUga2Vy
-bmVsLgoKSSdtIG5vdCBzdXJlIHdoYXQgZWxzZSByZWFzb25hYmxlIGNvdWxkIGJlIGRvbmUgd2l0
-aG91dCB1cGdyYWRpbmcgdG8gYQp2ZXJ5IHNwZWNpZmljIHZlcnNpb24gb2YgZmlybXdhcmUsIHdo
-aWNoIGRlZmluaXRlbHkgaXNuJ3QgYSB2YXJpYW50IGZvcgpvbGRlciBkZXZpY2VzIHdoaWNoIGhh
-dmUgYSB3aWxkIHZhcmlldHkgb2YgYm9vdGxvYWRlcnMsIGN1c3RvbWl6ZWQKdXNlLWNhc2VzIGFu
-ZCBldGMuCgpXZSBjb3VsZCBhZGQgYSBrbHVkZ2UgdGhhdCBJJ20gc3VnZ2VzdGluZyBhcyBhIHVu
-aXZlcnNhbCBmYWxsYmFjawpzb2x1dGlvbiwgaXQgc2hvdWxkIHdvcmsgd2VsbCBmb3IgYWxsIGNh
-c2VzIHRoYXQgSSBjYXJlIGFib3V0LgoKU28gd2UgY291bGQgaGF2ZSB0aGUgdmFyaWFudCB3aXRo
-IGlkZW50aXR5IG1hcHBpbmdzLCBhbmQgaWYgbWFwcGluZwppc24ndCBwcm92aWRlZCwgdGhlbiBm
-YWxsIGJhY2sgdG8gdGhlIGtsdWRnZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5k
-YXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2lvbW11
+
+
+On Fri, Mar 26, 2021, at 17:38, Arnd Bergmann wrote:
+> On Fri, Mar 26, 2021 at 5:10 PM Sven Peter <sven@svenpeter.dev> wrote:
+> > On Fri, Mar 26, 2021, at 16:59, Mark Kettenis wrote:
+> > > Some of the DARTs provide a bypass facility.  That code make using the
+> > > standard "dma-ranges" property tricky.  That property would need to
+> > > contain the bypass address range.  But that would mean that if the
+> > > DART driver needs to look at that property to figure out the address
+> > > range that supports translation it will need to be able to distinguish
+> > > between the translatable address range and the bypass address range.
+> >
+> > Do we understand if and why we even need to bypass certain streams?
+> 
+> My guess is that this is a performance optimization.
+
+Makes sense.
+
+> 
+> There are generally three reasons to want an iommu in the first place:
+>  - Pass a device down to a guest or user process without giving
+>    access to all of memory
+>  - Avoid problems with limitations in the device, typically when it
+> only supports
+>    32-bit bus addressing, but the installed memory is larger than 4GB
+>  - Protect kernel memory from broken drivers
+> 
+> If you care about none of the above, but you do care about data transfer
+> speed, you are better off just leaving the IOMMU in bypass mode.
+> I don't think we have to support it if the IOMMU works reliably, but it's
+> something that users might want.
+
+Right now the IOMMU works very reliably while bypass mode seems to be tricky
+at best. I think I partly know how to enable it but it looks like either not
+every DART or DART/master combination even supports it or that there is
+some additional configuration required to make it work reliably.
+
+I had it working with the USB DART at one point but I needed to enable it in
+all 16 streams of the IOMMU even though the pagetables only need to be setup
+in one stream as indicated by the ADT.
+I couldn't get it to work at all for the framebuffer IOMMU.
+
+I think it's fine to skip it for now until it's either actually required due
+to some hardware quirk or once we have users requesting support. Apple uses
+almost all IOMMUs without bypass mode if that ADT is to be believed though.
+
+
+Best,
+
+Sven
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
