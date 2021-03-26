@@ -1,51 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E7134A495
-	for <lists.iommu@lfdr.de>; Fri, 26 Mar 2021 10:37:07 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6142C34A499
+	for <lists.iommu@lfdr.de>; Fri, 26 Mar 2021 10:37:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AFE8484B6D;
-	Fri, 26 Mar 2021 09:37:05 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5D12B40257;
+	Fri, 26 Mar 2021 09:37:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ev5Zs3Mf6uVD; Fri, 26 Mar 2021 09:37:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D67EF84B83;
-	Fri, 26 Mar 2021 09:37:04 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fYpFWobn3eAr; Fri, 26 Mar 2021 09:37:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6174C40251;
+	Fri, 26 Mar 2021 09:37:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23A6CC0017;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 89F4FC000F;
 	Fri, 26 Mar 2021 09:37:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 294E5C000A
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BEB99C000A
  for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 09:37:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 09DDE414D1
+ by smtp2.osuosl.org (Postfix) with ESMTP id ADF7E40249
  for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 09:37:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CdOvc7MAOCfd for <iommu@lists.linux-foundation.org>;
- Fri, 26 Mar 2021 09:37:00 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ot_UT7nkqWNh for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Mar 2021 09:37:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AFF4A40F87
- for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 09:37:00 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 602D040239
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Mar 2021 09:37:01 +0000 (UTC)
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F6GyR61PHzPn9f;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F6GyR5LQszPn9Z;
  Fri, 26 Mar 2021 17:34:23 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 26 Mar 2021 17:36:49 +0800
+ 14.3.498.0; Fri, 26 Mar 2021 17:36:50 +0800
 From: Zhiqi Song <songzhiqi1@huawei.com>
 To: <will@kernel.org>, <joro@8bytes.org>, <robin.murphy@arm.com>,
  <robdclark@gmail.com>
-Subject: [PATCH 2/3] drivers: iommu/amd - coding style fix
-Date: Fri, 26 Mar 2021 17:37:16 +0800
-Message-ID: <1616751437-59956-3-git-send-email-songzhiqi1@huawei.com>
+Subject: [PATCH 3/3] drivers: iommu/arm - coding style fix
+Date: Fri, 26 Mar 2021 17:37:17 +0800
+Message-ID: <1616751437-59956-4-git-send-email-songzhiqi1@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1616751437-59956-1-git-send-email-songzhiqi1@huawei.com>
 References: <1616751437-59956-1-git-send-email-songzhiqi1@huawei.com>
@@ -71,37 +71,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Fixed following checkpatch errors:
-- code indent should use tabs where possible
-- space prohibited before ','
+Fixed following checkpatch error:
+- spaces required around '='
+- space required before the open parenthesis '('
+- "foo * bar" should be "foo *bar"
 
 Signed-off-by: Zhiqi Song <songzhiqi1@huawei.com>
 ---
- drivers/iommu/amd/init.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       | 6 +++---
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c     | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 6a1f704..958fa17 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -997,7 +997,7 @@ static bool copy_device_table(void)
- 				return false;
- 			}
-
--		        old_dev_tbl_cpy[devid].data[2] = old_devtb[devid].data[2];
-+			old_dev_tbl_cpy[devid].data[2] = old_devtb[devid].data[2];
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 8ca7415..53e24f0 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -2479,7 +2479,7 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
  		}
- 	}
- 	memunmap(old_devtb);
-@@ -1248,7 +1248,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
-
- 			devid = e->devid;
- 			devid_to = e->ext >> 8;
--			set_dev_entry_from_acpi(iommu, devid   , e->flags, 0);
-+			set_dev_entry_from_acpi(iommu, devid, e->flags, 0);
- 			set_dev_entry_from_acpi(iommu, devid_to, e->flags, 0);
- 			amd_iommu_alias_table[devid] = devid_to;
+ 		break;
+ 	case IOMMU_DOMAIN_DMA:
+-		switch(attr) {
++		switch (attr) {
+ 		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
+ 			smmu_domain->non_strict = *(int *)data;
  			break;
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index d8c6bfd..1496033 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -1261,7 +1261,7 @@ static phys_addr_t arm_smmu_iova_to_phys_hard(struct iommu_domain *domain,
+ 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+ 	struct arm_smmu_device *smmu = smmu_domain->smmu;
+ 	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
+-	struct io_pgtable_ops *ops= smmu_domain->pgtbl_ops;
++	struct io_pgtable_ops *ops = smmu_domain->pgtbl_ops;
+ 	struct device *dev = smmu->dev;
+ 	void __iomem *reg;
+ 	u32 tmp;
+@@ -1486,7 +1486,7 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
+ {
+ 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+
+-	switch(domain->type) {
++	switch (domain->type) {
+ 	case IOMMU_DOMAIN_UNMANAGED:
+ 		switch (attr) {
+ 		case DOMAIN_ATTR_NESTING:
+@@ -1527,7 +1527,7 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
+
+ 	mutex_lock(&smmu_domain->init_mutex);
+
+-	switch(domain->type) {
++	switch (domain->type) {
+ 	case IOMMU_DOMAIN_UNMANAGED:
+ 		switch (attr) {
+ 		case DOMAIN_ATTR_NESTING:
+diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+index 7f280c8..f3985f3 100644
+--- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
++++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+@@ -81,7 +81,7 @@ static struct qcom_iommu_domain *to_qcom_iommu_domain(struct iommu_domain *dom)
+
+ static const struct iommu_ops qcom_iommu_ops;
+
+-static struct qcom_iommu_dev * to_iommu(struct device *dev)
++static struct qcom_iommu_dev *to_iommu(struct device *dev)
+ {
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+
+@@ -91,7 +91,7 @@ static struct qcom_iommu_dev * to_iommu(struct device *dev)
+ 	return dev_iommu_priv_get(dev);
+ }
+
+-static struct qcom_iommu_ctx * to_ctx(struct qcom_iommu_domain *d, unsigned asid)
++static struct qcom_iommu_ctx *to_ctx(struct qcom_iommu_domain *d, unsigned asid)
+ {
+ 	struct qcom_iommu_dev *qcom_iommu = d->iommu;
+ 	if (!qcom_iommu)
 --
 2.7.4
 
