@@ -1,81 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5255534C07D
-	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:24 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B27E34C077
+	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B0DAB83A60;
+	by smtp4.osuosl.org (Postfix) with ESMTP id BC5AD4033F;
 	Mon, 29 Mar 2021 00:11:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uJaepPTnPOBu; Mon, 29 Mar 2021 00:11:00 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OGrNnM4CgbGX; Mon, 29 Mar 2021 00:11:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4A46B83A53;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7F94A4035D;
 	Mon, 29 Mar 2021 00:11:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 76737C0014;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B1A2CC0028;
 	Mon, 29 Mar 2021 00:10:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6922EC000A
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DF2EDC000A
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:58:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 57AE0605BF
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:58 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id CD5AA40314
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:58:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UvFXfjUzKa-g for <iommu@lists.linux-foundation.org>;
- Sun, 28 Mar 2021 23:57:57 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8lt29Bwn0X4u for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Mar 2021 23:58:03 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
- [IPv6:2607:f8b0:4864:20::831])
- by smtp3.osuosl.org (Postfix) with ESMTPS id BFDDB605A7
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:57 +0000 (UTC)
-Received: by mail-qt1-x831.google.com with SMTP id h7so8243762qtx.3
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:57:57 -0700 (PDT)
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id EAC5D40312
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:58:02 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id f12so8253539qtq.4
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rk0U560xdi7ATXezYweBgD2EUyZ4bnHBlHOPTcEoREY=;
- b=ZLnI2Hw3GmiFb+BW4FldFixdVOm0/gTAYYcPGeNweT29zSncqaCxQl2ULX/m3x6yjk
- FlPvPCq6g1oh13jD6EQyG1JSSdz9G8bm3HGZ2akxZG2GJMQ9BC7QedLKEm34PtSwYA9Q
- 9GLpxWPlLC/j45fuB1CB2u0k+GONoOh9eOlRvew+eCtM4IXd3/dem3muwmJ2LGUvv9pZ
- rKataNLRCg25wm/swBsArGMvPBDO2BXQknOCELLoUmLYNgIAwbOCOSxAGx2PbdugPEc1
- E84l/Bt6cNoKU6NHkm/vCejz/HyOc3AwND0Z16aeHxg7CDZpOR9OV5YCqN3yJaJzc09z
- OoNg==
+ bh=bpe0M5+HDAqDdeQIOejQbDfFbOvYGihGTywPqCQfPxk=;
+ b=UBnTpPl9V62AUBrqC/YSqABPupQ76JLXTf9wdWJSwN8Y02M91Cv2rn4ZwjhokBjvOT
+ caKPPonpNMbkYJsmubQ2Bumfsz0OvmkkTWS8FwgdpAJJ2UjLRJp7acfTyFudWVBAqVM4
+ mAaT3aHaultxmZCgXXXV5OvJ6J1msraQIsZAdfJkw4uSiaZABZyAHr7r8flbrOwvpPZH
+ zBFD5EMOq2xPgbxunhlKskRUqPhi8QLQoyZ1kqDj7sVSl05HXPEVHwZylycvJDJMix34
+ BhEq84yLvrSkLfYTrEw/MPY6YGk4Ihk/VSSgfbjYkcNwFP0GEpF+EGDzHiMvb4HSukdQ
+ PlRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rk0U560xdi7ATXezYweBgD2EUyZ4bnHBlHOPTcEoREY=;
- b=H9JVBF4zZWiTrQHsUCnGgmtUYqkECzSotpqzutJsXhe0KShRFcVva3/+Aa5eWY2OJe
- XsluOzkvRuwbJR5kEduOEQUSH0/1WawtTm1d0Fs0Gv3TfunCte7xXGIR6AGoyHI/4eWZ
- cHBrFS433EciZojgl+AMW9foFv8/XUYhONmxpL+f0DcNBLunn7VgaPIBCASub2rBtE4N
- mpZ+WbFauEyq6EEwICKptMa7ioHlqh6aKMAoWiritrDHtHmUqPodpI5fh4ZqSljjYmlm
- /fuVcXxIymyMON5Z9Qs8voMy50FdfoupQSHq86RoHRJBIW7VVAWtRatqIl4nE0frFNEi
- BuGQ==
-X-Gm-Message-State: AOAM532VRSWI4UM5eli0MBz5KR1lQqGXxk3txJA9tusR8dCQyYYnFubi
- JDkVS4uOISELws9He30IgWI=
-X-Google-Smtp-Source: ABdhPJzfb/lAvD1VavVqudcTSNWwFXh9v8R3VckD2GeZAMNUEqCjOYPLz+1Z1e0dwqaRcAS+cSxIlw==
-X-Received: by 2002:ac8:7e95:: with SMTP id w21mr19593417qtj.244.1616975876781; 
- Sun, 28 Mar 2021 16:57:56 -0700 (PDT)
+ bh=bpe0M5+HDAqDdeQIOejQbDfFbOvYGihGTywPqCQfPxk=;
+ b=C+7mp3Qg+mvkYjDRIKa0imCupywwlPsrFgZ1wopzxGEFenAQXAWtKmNOX3+RKcdGzs
+ Zn3lFxnkKwnmPoBSAdrjSAznkYyyBABh6pWxlNqigxikrtUQj9RMUqxjvmuCdqOfzdqB
+ A2Z8F4uQCtWnWgSl38Dk8yV08EY7an0j7qCNY7SkAI5bWMgBSqBGPEmmy1JiM+IdlAqm
+ 4ZRL2LkcS5oVG/9tL1QCAXRQ/ITdxJHsERSqDuXkygmMcAPu82iTWMKkCagVvwXj9xex
+ 1mYZKbwyiJv2/nFLac8PbT9o106/sGpTmOKtY24DE4IzCzGjVgSBagtSBg24H4rBM7cS
+ 3+/w==
+X-Gm-Message-State: AOAM533CbsiQCtEBsFnGjtwoXp3w/jV5vVk0VNRVBCdx9AZ57uwOclM8
+ WqHItlnIixeAb6jfX/vozl8XfL4aXn8FxGjW
+X-Google-Smtp-Source: ABdhPJz4aA7ldRQgsCMEBAdvXkEvBGcKpJz3Kr32GBN9DAQyr64A5Qqw5tpT7IRp1HeHqf9g6ttT3w==
+X-Received: by 2002:ac8:698f:: with SMTP id o15mr21281625qtq.39.1616975881895; 
+ Sun, 28 Mar 2021 16:58:01 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.52
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:57:56 -0700 (PDT)
+ Sun, 28 Mar 2021 16:58:01 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 24/30] Kconfig: Change Synopsys to Synopsis
-Date: Mon, 29 Mar 2021 05:23:20 +0530
-Message-Id: <1262e9e62498f961e5172205e66a9ef7c6f0f69d.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 25/30] ste_dma40.c: Few spello fixes
+Date: Mon, 29 Mar 2021 05:23:21 +0530
+Message-Id: <ef2c19d475895f8a627335e37560a18d28c062e9.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -100,48 +98,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-s/Synopsys/Synopsis/  .....two different places.
-
-..and for some unknown reason it introduce a empty line deleted and added
-back.
+s/ealier/earlier/
+s/orignal/original/
+s/manouver/maneuver/
+s/transfer/transfer/
+s/succees/success/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/Kconfig | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/dma/ste_dma40.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
-index 0c2827fd8c19..30e8cc26f43b 100644
---- a/drivers/dma/Kconfig
-+++ b/drivers/dma/Kconfig
-@@ -170,15 +170,15 @@ config DMA_SUN6I
- 	  Support for the DMA engine first found in Allwinner A31 SoCs.
+diff --git a/drivers/dma/ste_dma40.c b/drivers/dma/ste_dma40.c
+index 265d7c07b348..39fa2fb74057 100644
+--- a/drivers/dma/ste_dma40.c
++++ b/drivers/dma/ste_dma40.c
+@@ -155,7 +155,7 @@ static __maybe_unused u32 d40_backup_regs[] = {
 
- config DW_AXI_DMAC
--	tristate "Synopsys DesignWare AXI DMA support"
-+	tristate "Synopsis DesignWare AXI DMA support"
- 	depends on OF || COMPILE_TEST
- 	depends on HAS_IOMEM
- 	select DMA_ENGINE
- 	select DMA_VIRTUAL_CHANNELS
- 	help
--	  Enable support for Synopsys DesignWare AXI DMA controller.
-+	  Enable support for Synopsis DesignWare AXI DMA controller.
- 	  NOTE: This driver wasn't tested on 64 bit platform because
--	  of lack 64 bit platform with Synopsys DW AXI DMAC.
-+	  of lack 64 bit platform with Synopsis DW AXI DMAC.
+ /*
+  * since 9540 and 8540 has the same HW revision
+- * use v4a for 9540 or ealier
++ * use v4a for 9540 or earlier
+  * use v4b for 8540 or later
+  * HW revision:
+  * DB8500ed has revision 0
+@@ -382,7 +382,7 @@ struct d40_desc {
+  *
+  * @base: The virtual address of LCLA. 18 bit aligned.
+  * @dma_addr: DMA address, if mapped
+- * @base_unaligned: The orignal kmalloc pointer, if kmalloc is used.
++ * @base_unaligned: The original kmalloc pointer, if kmalloc is used.
+  * This pointer is only there for clean-up on error.
+  * @pages: The number of pages needed for all physical channels.
+  * Only used later for clean-up on error
+@@ -1630,7 +1630,7 @@ static void dma_tasklet(struct tasklet_struct *t)
 
- config EP93XX_DMA
- 	bool "Cirrus Logic EP93xx DMA support"
-@@ -394,7 +394,7 @@ config MOXART_DMA
- 	select DMA_VIRTUAL_CHANNELS
- 	help
- 	  Enable support for the MOXA ART SoC DMA controller.
--
-+
- 	  Say Y here if you enabled MMP ADMA, otherwise say N.
+ 	return;
+  check_pending_tx:
+-	/* Rescue manouver if receiving double interrupts */
++	/* Rescue maneuver if receiving double interrupts */
+ 	if (d40c->pending_tx > 0)
+ 		d40c->pending_tx--;
+ 	spin_unlock_irqrestore(&d40c->lock, flags);
+@@ -1970,7 +1970,7 @@ static int d40_config_memcpy(struct d40_chan *d40c)
+ 		   dma_has_cap(DMA_SLAVE, cap)) {
+ 		d40c->dma_cfg = dma40_memcpy_conf_phy;
 
- config MPC512X_DMA
+-		/* Generate interrrupt at end of transfer or relink. */
++		/* Generate interrupt at end of transfer or relink. */
+ 		d40c->dst_def_cfg |= BIT(D40_SREG_CFG_TIM_POS);
+
+ 		/* Generate interrupt on error. */
+@@ -3415,7 +3415,7 @@ static int __init d40_lcla_allocate(struct d40_base *base)
+ 		base->lcla_pool.base = (void *)page_list[i];
+ 	} else {
+ 		/*
+-		 * After many attempts and no succees with finding the correct
++		 * After many attempts and no success with finding the correct
+ 		 * alignment, try with allocating a big buffer.
+ 		 */
+ 		dev_warn(base->dev,
 --
 2.26.3
 
