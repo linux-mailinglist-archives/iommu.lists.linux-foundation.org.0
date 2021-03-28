@@ -1,81 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855C634C064
-	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:10:57 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD2234C067
+	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:10:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D18B383984;
-	Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5B70383976;
+	Mon, 29 Mar 2021 00:10:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 84IQZ4jSFd7N; Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
+	with ESMTP id kJG595Z7qeR4; Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E1A4383938;
-	Mon, 29 Mar 2021 00:10:54 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2B92483947;
+	Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D2EA7C0014;
-	Mon, 29 Mar 2021 00:10:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 10F6FC0017;
+	Mon, 29 Mar 2021 00:10:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 306C6C000A
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:24 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3B6B6C000A
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 11CBC605BE
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:24 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 1D3144030C
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AbQ94sE75af7 for <iommu@lists.linux-foundation.org>;
- Sun, 28 Mar 2021 23:56:23 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YmPEuMhpDp8D for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Mar 2021 23:56:28 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 73BFC605A7
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:23 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id y18so10893827qky.11
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:56:23 -0700 (PDT)
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 4FFD440214
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:28 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id q26so10931743qkm.6
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z1jriUq1sL9lb0mtxN9KbapTjAFOd4HdFdy/Egjy5og=;
- b=rGFcWETJr6kx1FhK2VwuyFhj5mEQ2a9w1BMQGwfNSg69VWO2NHz6DRFrgg4SGJ3Z+8
- +nckc0b33f7uTjbCD27I2Gl2Jdn2HT3qvcYJdS4WPW1YXJNFE46lhkK9BighwwVM7M6Z
- sbmrrRJH2t3VrRNWQZyiWfEew9FMNFhk6Zl5kKcli7J7b4abKENXJWSILGRJkqUTX2+t
- WHSb9X1FAt5JDH4q/BeU5ocKsg/w33VbP7p3+NQRcRhAMcotq7sULiWyjAlOYf/mHOqB
- H9GvMPiPug0qb8cAXChS8dbpZy4uTWPDejj82uflrDF2gz/fTxAhbelewAFroVWE3qew
- 2RaA==
+ bh=b+g6kPIG/jwFitPzoitjd4fSzc6P/hya8rywnHeMN/8=;
+ b=HBBLF/SJTiVQWcLhNqq7bzpHR2fKW9LP6DWRvUsmYI7rcgdhmE09hx9CIxGfTsumKX
+ isRs8nn27xIKkAFpC/ZbyFrFtAkA1tz5NS7xJ3Ovmkz+afQ30TBK5a8we2BRZXGgjxxr
+ z6kTysKHQ1ynwBd9QItRNqLsEpW7uXvoTnvwnv8XkMp+fdf3Uuptl6dTZMalYNMRHWxF
+ NM0QNQoHDeEh0fx03RO8xhl/6Q0tu1MW6TIguY4L/6GIaX3v1qxLcUp3UUYUodE+6H6H
+ XAXaSfBSUy0AypaInMTUVAZebzJYkGqKi/dXcHv+x3xT9jmB94ueRb/JpcSu+XrxdLCF
+ ALaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z1jriUq1sL9lb0mtxN9KbapTjAFOd4HdFdy/Egjy5og=;
- b=W7xWlchFk9RSX5dauwL7qAKgsEbxb6jrhtPPc/Mm2tXrY8h+C+flcl3LBm8y2JQRf9
- usEwB3Git+MuPLEbjw0us/WXMifaC+yhRw4e94veHyPfYXWEX+yFszlZqZNyZ8QiqE94
- OoGXR73RADgCzu77te3kd+beL9xsXf2GVqRAMTeBYGplT8gNpxcviypcDnjnGyTuVRFP
- 7UklNNDnBS+wu62R4LlpPCTWdvzaw6pIOV6ZZTZI1aIpeV2gMRNbg8QkC+r1W4EbnGN8
- Cz2rXeuksFSDj5mPs5D5UoGKA3JnduJXtmUctUKHkrAxZaCFOPRWiGJXKUFFRiiuTYgF
- vZvA==
-X-Gm-Message-State: AOAM531Egy7DQN9wCJfGdqkaFXzvLVRVq3DQzd6L1cuUAdDiRN1zbQ/D
- b51bGbyLoPADq0oKRTLTOKk=
-X-Google-Smtp-Source: ABdhPJyKy/81JUq/KZUC1NO8pklpNrg2DlDqj4i3GsKGyS2IOzo8E/4XiQGvp7DS8QS7skiReIXQZA==
-X-Received: by 2002:a37:584:: with SMTP id 126mr22223976qkf.274.1616975782447; 
- Sun, 28 Mar 2021 16:56:22 -0700 (PDT)
+ bh=b+g6kPIG/jwFitPzoitjd4fSzc6P/hya8rywnHeMN/8=;
+ b=bP8Sa8Ww8Aoz8pV5csLbM1rLyzHdeJi3cbI0i3WME2vTdbu8keqEjWeLauLenSnUw9
+ MwqUzHAugV5HTWKaBL8FVMJH1U55edKZyVoUq3DVO4fGc2gxy4Vzj3TnEErZHysU1Iqp
+ b0TYP0MG97NQr1p6oiDyFiGbkjUdC2rSVhaexbSbwlR6BtlPGSbT2/8m1TDh+kp/UIk9
+ 3J+QlHHfrQSjL2cyofsxoPmftTf2lwuXz3tLLbzoy7RDqU9bUH49xMHeky7nC/j2S0Cw
+ 21cWDtulssWh9euX/oybG6CyVNOw2kRNHI/22LoWZejfn4UUTVuL9wEKYYGTbx7fkSvW
+ ertg==
+X-Gm-Message-State: AOAM533WAk2ZjPhsU6l86VeDn+k25LIU3ty0VKq7CYgBAw0o3/OD5mBY
+ 91iWPF79punc8Fgp8ZzMgNE=
+X-Google-Smtp-Source: ABdhPJyldMxvnEBh7c5nmTQttLQPp8mr5BNjSHH3pinXqHmSCm2R9IbveYuxti7c4ebHxEhEJg5Pcg==
+X-Received: by 2002:a05:620a:cf4:: with SMTP id
+ c20mr22555044qkj.134.1616975787315; 
+ Sun, 28 Mar 2021 16:56:27 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.56.17
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.56.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:56:21 -0700 (PDT)
+ Sun, 28 Mar 2021 16:56:26 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 05/30] bcm2835-dma.c: Fix a typo
-Date: Mon, 29 Mar 2021 05:23:01 +0530
-Message-Id: <77d89989f1cb7362f0a3a5a279d7846a93ae3968.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 06/30] idma64.c: Fix couple of typos
+Date: Mon, 29 Mar 2021 05:23:02 +0530
+Message-Id: <0e722d154cb5b29d8bad59481e74fc4853ee930e.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -100,26 +101,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-s/missmatch/mismatch/
+s/transfered/transferred/  ...two different places
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/bcm2835-dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma/idma64.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma/bcm2835-dma.c b/drivers/dma/bcm2835-dma.c
-index 630dfbb01a40..e6baf17b0434 100644
---- a/drivers/dma/bcm2835-dma.c
-+++ b/drivers/dma/bcm2835-dma.c
-@@ -369,7 +369,7 @@ static struct bcm2835_desc *bcm2835_dma_create_cb_chain(
- 	/* the last frame requires extra flags */
- 	d->cb_list[d->frames - 1].cb->info |= finalextrainfo;
+diff --git a/drivers/dma/idma64.c b/drivers/dma/idma64.c
+index f4c07ad3be15..3d0d48b12e28 100644
+--- a/drivers/dma/idma64.c
++++ b/drivers/dma/idma64.c
+@@ -282,7 +282,7 @@ static void idma64_desc_fill(struct idma64_chan *idma64c,
+ 		desc->length += hw->len;
+ 	} while (i);
 
--	/* detect a size missmatch */
-+	/* detect a size mismatch */
- 	if (buf_len && (d->size != buf_len))
- 		goto error_cb;
+-	/* Trigger an interrupt after the last block is transfered */
++	/* Trigger an interrupt after the last block is transferred */
+ 	lli->ctllo |= IDMA64C_CTLL_INT_EN;
 
+ 	/* Disable LLP transfer in the last block */
+@@ -356,7 +356,7 @@ static size_t idma64_active_desc_size(struct idma64_chan *idma64c)
+ 	if (!i)
+ 		return bytes;
+
+-	/* The current chunk is not fully transfered yet */
++	/* The current chunk is not fully transferred yet */
+ 	bytes += desc->hw[--i].len;
+
+ 	return bytes - IDMA64C_CTLH_BLOCK_TS(ctlhi);
 --
 2.26.3
 
