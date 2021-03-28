@@ -1,80 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6604734C076
-	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:12 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5975334C078
+	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1AEA4839E0;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 29102839E9;
 	Mon, 29 Mar 2021 00:11:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aFTMka7NaTuO; Mon, 29 Mar 2021 00:10:58 +0000 (UTC)
+	with ESMTP id 3VWPPigcMJZe; Mon, 29 Mar 2021 00:10:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9214F839BC;
+	by smtp1.osuosl.org (Postfix) with ESMTP id BE76283A0C;
 	Mon, 29 Mar 2021 00:10:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AEB2C0022;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56BA9C0016;
 	Mon, 29 Mar 2021 00:10:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 890FDC000A
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:28 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 70DE2C000A
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6B783838DE
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:28 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 54057400C8
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id j_AESaCkOrCe for <iommu@lists.linux-foundation.org>;
- Sun, 28 Mar 2021 23:57:28 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oFS4CvrHVHhP for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Mar 2021 23:57:32 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
 Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
  [IPv6:2607:f8b0:4864:20::72b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D0D728387D
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:27 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id q26so10933082qkm.6
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:57:27 -0700 (PDT)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id AC3FC400B9
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:32 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id 7so10924196qka.7
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r/yLPPo841dOFvgXTquZIbBYSrAfKw7ph65+PVkCETM=;
- b=kqSj7aCUIqDznfRqoW0QgxanHBokTPho/STAgy/fC8CA3oXoCgHhFZhBx0bJLndhc8
- wZXHyS8nNnyL4m3H41Q5sXrJUArJwb4e3uvpRO6ZiiPmvqonD2DdrFEfo3DQvOZ5GNLc
- saLjVc0lRUjJtgagE8u6Yu8CITfDcO85EeHQWIC6qGIwBV9GPuHXwhP71WdYcSnqksrV
- FNU26qKEnM5rl5JDN5FsqwYdmveQ1Fh4viKid8oVbsEdm6o45iKO9Hgzr7Yxaox21zzb
- ww77wgJoQflTxFMPJgrI3Y4ozqFjMr9xfHfwriPaNfSlEl7FNt79jmEG4sqtEa2Qq+uS
- lsLA==
+ bh=CRQ66svHtz0NbMeMT9Zx0iC/2wAaIP+Km/fepuW/VfI=;
+ b=lhF2PkYeKxZ0OGzjM1bBzGIAbKjSfHQkFcs2C27Ecdb0THCTBERC5T8aj/+CORXigi
+ n616eugbkVpcCcWOibNxul8RyH5dqWEqKKkgEPag7IAtO1wIHraKQFrl6zJF1poQ+l/b
+ l4gr6oRHPIYD9JSm8bV8I4eaJ/HWeZreeqN1heEG18VeXYvPGT7mIxrkvRUKeCBCctG6
+ kwu9TfPac45671YXZgPWyFX6uZIgmzX1lHqm9rWuWRszCfTaoym5DsDyvHsArK4pope4
+ 2V++RpddLlJAODW8ec9vU7dCOvdwVpIAwPI0KLCpB4FbC0QCvF/clKntX08Z9XocOVxl
+ t/Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r/yLPPo841dOFvgXTquZIbBYSrAfKw7ph65+PVkCETM=;
- b=ZIt+nRhiDUfBMaJ3N9xfVg27mE5TG1C35Ls75d8kR7L8SgNxJi6QGrvCigLocaDvXQ
- iBoqsi9VqFl6RQ90fzkUYl/Q3DpCxAOcgIkiT/uihUt9NRLIYHFt/RuTWBY85MDtgmYb
- 2oqP8VZF5bHFYiT0//AhLdF5DgEPXmCK4595lMuZRt/VMCgFlGaFxuXELB5PkY6NRMpm
- nrqNlhDVV7A/714qutOWc55IjTF/LL7dR/4sEY0Gre+/PDBOiNzok2ja4kiXQmbtX+lE
- HugCMYHqCSW0MviOGkPir4aojacLBZpZinLT7XQQ63y0gZD6pt5NEOdorctofrGoFY7g
- 2uoQ==
-X-Gm-Message-State: AOAM531z0O5uQRPxh9uE+RAd8pXTNMe6Ivup55ZfCrXv+LDYg7QVwMp8
- Wxgu7XqyhcqnPFIuXiN4ulJzImuBoSqXQwDW
-X-Google-Smtp-Source: ABdhPJzlIJVsP1+e9L67X5sWl3v37tzXkq6IkG/ls+Iz+DhefXkxs3HuwQvPjNj/yaULuKiNhdk4uA==
-X-Received: by 2002:a05:620a:1650:: with SMTP id
- c16mr23014988qko.477.1616975846867; 
- Sun, 28 Mar 2021 16:57:26 -0700 (PDT)
+ bh=CRQ66svHtz0NbMeMT9Zx0iC/2wAaIP+Km/fepuW/VfI=;
+ b=Ico5gfXmEVdddKgyHnPx/f+ZvnL72TSkL+Wc8SOiY0PBYf88hyevkOrn1UEso9k9ng
+ uoVNmolxkgwXKNVheFbwaZulSircQHWuT3pMGs3c9yZ9Til4whHM+Z/4pq76I8ew0fip
+ Qk0FcYHfxNn9LhOoAVCD169x59pltjNXKKTu6VSolFVljvoc4vSGf7Y1J1Z9yUVLZnOa
+ vzgkZvtYrOTyKtEBNVnWkHwumXu7HHTUYC2PmeT5XhUG+LDnypZkwPt1Y1rZUWtgqUKx
+ lRVm22+IMYlZpBhIeF3WQ5u4ki5RqSHqhYABTVjPaJG1SUw2LtB3WbC3p1lb9r2g5dVd
+ D5OQ==
+X-Gm-Message-State: AOAM531dzVa4HybiN0gO/DBEGNoAeDyx0SGjZIXV7DunpturCuJl8cvV
+ EMWK7qNTLESJYJPbGEjpg8g=
+X-Google-Smtp-Source: ABdhPJz562Hr6JC/eu+femI5ulDAe6zWcMiureMKHuCOy+N3i/aJwFXT/YJj4Ol1H2CmKTh/PKph0g==
+X-Received: by 2002:a05:620a:31a:: with SMTP id
+ s26mr23223111qkm.355.1616975851673; 
+ Sun, 28 Mar 2021 16:57:31 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.22
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:57:26 -0700 (PDT)
+ Sun, 28 Mar 2021 16:57:31 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 18/30] tegra20-apb-dma.c: Fixed a typo
-Date: Mon, 29 Mar 2021 05:23:14 +0530
-Message-Id: <58f465e8c502b9f5cb07a2174a8103133defcbb9.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 19/30] xgene-dma.c: Few spello fixes
+Date: Mon, 29 Mar 2021 05:23:15 +0530
+Message-Id: <4703d96a617c2244e2753d579790edbbb49382ab.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -99,26 +101,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-s/programing/programming/
+s/definations/definitions/   ....two different places.
+s/Configue/Configure/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/tegra20-apb-dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma/xgene-dma.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index 71827d9b0aa1..e64789432587 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -475,7 +475,7 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
+diff --git a/drivers/dma/xgene-dma.c b/drivers/dma/xgene-dma.c
+index 3589b4ef50b8..9b0010b6e033 100644
+--- a/drivers/dma/xgene-dma.c
++++ b/drivers/dma/xgene-dma.c
+@@ -23,7 +23,7 @@
 
- 	/*
- 	 * If interrupt is pending then do nothing as the ISR will handle
--	 * the programing for new request.
-+	 * the programming for new request.
- 	 */
- 	if (status & TEGRA_APBDMA_STATUS_ISE_EOC) {
- 		dev_err(tdc2dev(tdc),
+ #include "dmaengine.h"
+
+-/* X-Gene DMA ring csr registers and bit definations */
++/* X-Gene DMA ring csr registers and bit definitions */
+ #define XGENE_DMA_RING_CONFIG			0x04
+ #define XGENE_DMA_RING_ENABLE			BIT(31)
+ #define XGENE_DMA_RING_ID			0x08
+@@ -102,7 +102,7 @@
+ #define XGENE_DMA_BLK_MEM_RDY_VAL		0xFFFFFFFF
+ #define XGENE_DMA_RING_CMD_SM_OFFSET		0x8000
+
+-/* X-Gene SoC EFUSE csr register and bit defination */
++/* X-Gene SoC EFUSE csr register and bit definition */
+ #define XGENE_SOC_JTAG1_SHADOW			0x18
+ #define XGENE_DMA_PQ_DISABLE_MASK		BIT(13)
+
+@@ -1741,7 +1741,7 @@ static int xgene_dma_probe(struct platform_device *pdev)
+ 	/* Initialize DMA channels software state */
+ 	xgene_dma_init_channels(pdma);
+
+-	/* Configue DMA rings */
++	/* Configure DMA rings */
+ 	ret = xgene_dma_init_rings(pdma);
+ 	if (ret)
+ 		goto err_clk_enable;
 --
 2.26.3
 
