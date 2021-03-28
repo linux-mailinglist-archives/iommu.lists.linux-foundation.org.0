@@ -1,82 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6328334C069
-	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:01 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 855C634C064
+	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:10:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 369D140347;
-	Mon, 29 Mar 2021 00:10:56 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D18B383984;
+	Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q9B5gj-dDpAc; Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9023F40336;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 84IQZ4jSFd7N; Mon, 29 Mar 2021 00:10:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTP id E1A4383938;
 	Mon, 29 Mar 2021 00:10:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A71A2C0020;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D2EA7C0014;
 	Mon, 29 Mar 2021 00:10:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E2C7C000C
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:20 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 306C6C000A
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4624D400C4
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:19 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 11CBC605BE
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9WQvJ2JzI9Ou for <iommu@lists.linux-foundation.org>;
- Sun, 28 Mar 2021 23:56:18 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AbQ94sE75af7 for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Mar 2021 23:56:23 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 8BA1C400C9
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:18 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id g8so5711271qvx.1
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:56:18 -0700 (PDT)
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 73BFC605A7
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:56:23 +0000 (UTC)
+Received: by mail-qk1-x735.google.com with SMTP id y18so10893827qky.11
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qPii/xX6YhM4hcBO+zp3OVMgz+jDeBjNcGIvzkkQGYk=;
- b=bObaSHbQgF7HnhhFevByLeRAEjwh9Xgx/6poqOyVrhU9nI9SQbKZibaot0nVJHtdHK
- o79A8Sp+Gz79oGtGsF5SxsTYB9AMcZOuDAKRePAi8OQlhWEu8LqzdcK18F1hIKWGpwTt
- +hcuXkQ52IF+FdKd1u3A+2KvczRYSW2FxnhgIJbngK13+y5D665LByLLaOIYq5prJ2BB
- q0KPV1xmQES9uuwOigJWctcX+oM6I0mAu6NH+RzVkz/A8hrPHIr5VI27yaHxNHMRhJ9S
- ZkZNPLNBdVtA2r2vkh1TOiWiTBT+BsXGquBT60jgmW2VoagfFPx16zh5v8S/U1Z6V3eJ
- yCKA==
+ bh=Z1jriUq1sL9lb0mtxN9KbapTjAFOd4HdFdy/Egjy5og=;
+ b=rGFcWETJr6kx1FhK2VwuyFhj5mEQ2a9w1BMQGwfNSg69VWO2NHz6DRFrgg4SGJ3Z+8
+ +nckc0b33f7uTjbCD27I2Gl2Jdn2HT3qvcYJdS4WPW1YXJNFE46lhkK9BighwwVM7M6Z
+ sbmrrRJH2t3VrRNWQZyiWfEew9FMNFhk6Zl5kKcli7J7b4abKENXJWSILGRJkqUTX2+t
+ WHSb9X1FAt5JDH4q/BeU5ocKsg/w33VbP7p3+NQRcRhAMcotq7sULiWyjAlOYf/mHOqB
+ H9GvMPiPug0qb8cAXChS8dbpZy4uTWPDejj82uflrDF2gz/fTxAhbelewAFroVWE3qew
+ 2RaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qPii/xX6YhM4hcBO+zp3OVMgz+jDeBjNcGIvzkkQGYk=;
- b=LNKq0LgiON2aTo3dHcE8r55iCo+c5o+2UeeHVT5MIzM1LSdQOiILGzCL+JGwKO8YJL
- d9Vc9zVU0AjnnVeVKdtVgLY+Kyw+JBtcw8UJovMCSjWsZgmwmbNu+GWy0rsP0n9iUo33
- 4nbNIbq1Bhzq1bor4ddwOde6jXi8y277I7aEeqiQVb7qjGj4h3JluawQ53RuLw89V30r
- RpyRp7w2ZT47KQLr8Glhxzcf2WcQYWqMgtGyEW6t4npTRMosIuX2g5DqoFbuK9a3bsJi
- q6Hk5mIefxnNOHh6pwWtFRJcxvEvVdfpih4d0NotBlByKd984suo0Xc28RWWBFEDismX
- irmQ==
-X-Gm-Message-State: AOAM530iYdzx0UVtYnGvnaFKRAr7lRBuMdWCiMPJc4kBhS2nxIgPgBIk
- RKr7uEsCz498ePMKeiW1/cw=
-X-Google-Smtp-Source: ABdhPJyIwQh8O82d8qyrfIuUZz0SqJYcgUURzt27W+q5h1fBWMUvMvJGKHkKfG17NwqDAaW/0JNrSg==
-X-Received: by 2002:a05:6214:d85:: with SMTP id
- e5mr22653184qve.36.1616975777547; 
- Sun, 28 Mar 2021 16:56:17 -0700 (PDT)
+ bh=Z1jriUq1sL9lb0mtxN9KbapTjAFOd4HdFdy/Egjy5og=;
+ b=W7xWlchFk9RSX5dauwL7qAKgsEbxb6jrhtPPc/Mm2tXrY8h+C+flcl3LBm8y2JQRf9
+ usEwB3Git+MuPLEbjw0us/WXMifaC+yhRw4e94veHyPfYXWEX+yFszlZqZNyZ8QiqE94
+ OoGXR73RADgCzu77te3kd+beL9xsXf2GVqRAMTeBYGplT8gNpxcviypcDnjnGyTuVRFP
+ 7UklNNDnBS+wu62R4LlpPCTWdvzaw6pIOV6ZZTZI1aIpeV2gMRNbg8QkC+r1W4EbnGN8
+ Cz2rXeuksFSDj5mPs5D5UoGKA3JnduJXtmUctUKHkrAxZaCFOPRWiGJXKUFFRiiuTYgF
+ vZvA==
+X-Gm-Message-State: AOAM531Egy7DQN9wCJfGdqkaFXzvLVRVq3DQzd6L1cuUAdDiRN1zbQ/D
+ b51bGbyLoPADq0oKRTLTOKk=
+X-Google-Smtp-Source: ABdhPJyKy/81JUq/KZUC1NO8pklpNrg2DlDqj4i3GsKGyS2IOzo8E/4XiQGvp7DS8QS7skiReIXQZA==
+X-Received: by 2002:a37:584:: with SMTP id 126mr22223976qkf.274.1616975782447; 
+ Sun, 28 Mar 2021 16:56:22 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.56.13
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.56.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:56:17 -0700 (PDT)
+ Sun, 28 Mar 2021 16:56:21 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 04/30] bcm-sba-raid.c: Few typos fixed
-Date: Mon, 29 Mar 2021 05:23:00 +0530
-Message-Id: <a421c27ea6dc2808edec25b18238941ab5aefcf4.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 05/30] bcm2835-dma.c: Fix a typo
+Date: Mon, 29 Mar 2021 05:23:01 +0530
+Message-Id: <77d89989f1cb7362f0a3a5a279d7846a93ae3968.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -101,56 +100,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-s/Maibox/Mailbox/
-s/alloced/allocated/
-s/atleast/"at least"/
-s/parallely/parallel/
+s/missmatch/mismatch/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/bcm-sba-raid.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/dma/bcm2835-dma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/bcm-sba-raid.c b/drivers/dma/bcm-sba-raid.c
-index 64239da02e74..fba1585eb7ad 100644
---- a/drivers/dma/bcm-sba-raid.c
-+++ b/drivers/dma/bcm-sba-raid.c
-@@ -25,7 +25,7 @@
-  * number of hardware rings over one or more SBA hardware devices. By
-  * design, the internal buffer size of SBA hardware device is limited
-  * but all offload operations supported by SBA can be broken down into
-- * multiple small size requests and executed parallely on multiple SBA
-+ * multiple small size requests and executed parallel on multiple SBA
-  * hardware devices for achieving high through-put.
-  *
-  * The Broadcom SBA RAID driver does not require any register programming
-@@ -143,7 +143,7 @@ struct sba_device {
- 	u32 max_xor_srcs;
- 	u32 max_resp_pool_size;
- 	u32 max_cmds_pool_size;
--	/* Maibox client and Mailbox channels */
-+	/* Mailbox client and Mailbox channels */
- 	struct mbox_client client;
- 	struct mbox_chan *mchan;
- 	struct device *mbox_dev;
-@@ -328,7 +328,7 @@ static void sba_cleanup_nonpending_requests(struct sba_device *sba)
+diff --git a/drivers/dma/bcm2835-dma.c b/drivers/dma/bcm2835-dma.c
+index 630dfbb01a40..e6baf17b0434 100644
+--- a/drivers/dma/bcm2835-dma.c
++++ b/drivers/dma/bcm2835-dma.c
+@@ -369,7 +369,7 @@ static struct bcm2835_desc *bcm2835_dma_create_cb_chain(
+ 	/* the last frame requires extra flags */
+ 	d->cb_list[d->frames - 1].cb->info |= finalextrainfo;
 
- 	spin_lock_irqsave(&sba->reqs_lock, flags);
+-	/* detect a size missmatch */
++	/* detect a size mismatch */
+ 	if (buf_len && (d->size != buf_len))
+ 		goto error_cb;
 
--	/* Freeup all alloced request */
-+	/* Freeup all allocated request */
- 	list_for_each_entry_safe(req, req1, &sba->reqs_alloc_list, node)
- 		_sba_free_request(sba, req);
-
-@@ -1633,7 +1633,7 @@ static int sba_probe(struct platform_device *pdev)
- 	sba->dev = &pdev->dev;
- 	platform_set_drvdata(pdev, sba);
-
--	/* Number of mailbox channels should be atleast 1 */
-+	/* Number of mailbox channels should be at least 1 */
- 	ret = of_count_phandle_with_args(pdev->dev.of_node,
- 					 "mboxes", "#mbox-cells");
- 	if (ret <= 0)
 --
 2.26.3
 
