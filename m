@@ -1,80 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EAD34C074
-	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:10 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3A434C072
+	for <lists.iommu@lfdr.de>; Mon, 29 Mar 2021 02:11:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BE6A5839DD;
+	by smtp1.osuosl.org (Postfix) with ESMTP id C566383A35;
 	Mon, 29 Mar 2021 00:10:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VA85EN-7H_h7; Mon, 29 Mar 2021 00:10:57 +0000 (UTC)
+	with ESMTP id MU-MDkIkIqyi; Mon, 29 Mar 2021 00:10:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4E9048392C;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 94396839DB;
 	Mon, 29 Mar 2021 00:10:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 261C4C0019;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 67856C000B;
 	Mon, 29 Mar 2021 00:10:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E542EC000A
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:08 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D01B6C000A
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C74DB838DE
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:08 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B145B605BE
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 55DIAWdbAvq9 for <iommu@lists.linux-foundation.org>;
- Sun, 28 Mar 2021 23:57:08 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8aLRMOBu5XL7 for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Mar 2021 23:57:13 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 286F98387D
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:08 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id g15so10929676qkl.4
- for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:57:07 -0700 (PDT)
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1220F605A7
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 23:57:12 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id g24so8230709qts.6
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Mar 2021 16:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7ZQIptdaKO+NG6KGHA5S2pjM0OS7naQnCt9zgnNYCE0=;
- b=Gm9tUcw1/+mThRDpyyzzMTwMHDKH9vZpafertqfrSZ5YO9KbE3sAww3oZ8XGMiAhRt
- kgtAGKj9dtXo99Szxu7K4JpbuKgBBIZREfyljwoHuiTIM5ZAd/CKQ0umxuj//O71kbxD
- Eorzfcnc99sIfIq6B+POBj5vgl6pz1tdC7ugns0aQrf9x/NJct0viJIWVNhC6Y2Bw3k5
- +zV83HR64ZTrH1sIkOEbsmWYi035hsyGGF+Rxz5h3YrJ34Fc/SSZo4abf7eLvn47HyCZ
- 1VehmmjVpqRm3naf7dKNpOzu4sq3YMJBnKtBt196sX4MubPgCqv7idERRFBCAhH7OBQ+
- GtVw==
+ bh=VFtxWE0StKfcC+URsv7nAjsC2Kf78xuu9a0HtqKdSlU=;
+ b=nofPQHYz+R+Oh7tBn2NrHqcJ60wz0I6awH3+nn+VeY57PjK9/aNKapSiLLecIClvPE
+ Wv+VWFlug249FdqQUEnblJ5mnlCINYaNx63BE/qOihUhCU+JaQ/WqSPiCuKhfSjQbhGv
+ sBRNZ9lVKQXJGBC11+kHxahv9pSjNr/fTi0d+YVlFs4PWEH7ZQGtYbkuhE6TF9M1XIi2
+ OaPcpcSIEMOOc32j/1qRcNe0pfEquahJ0sNCoEtLMNpLSu5FueclTvKRvW/OcNHihNtC
+ 0IMi3H/cpoMpeAJG9jiZpJyTWlCGbUvhb9/0lczXT1gcHms5Qe+Z9kXEzBI1StWYjMxW
+ 2wag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7ZQIptdaKO+NG6KGHA5S2pjM0OS7naQnCt9zgnNYCE0=;
- b=tyOjjB/4lq/9OwphctYWOx2/OU8DB4g6aTu6nu7uQL1xQdnRZkyKMg7DFCn4YABeFv
- JzdnWBQjbiMcRZW6Gfva1mkJa9QQvATmlWUO/2iR2SMg6tG1hnsKRJG1aIN26I7KaO/A
- Tz+dlY3TodZOJZBFDu/h7RR31haWfNa7GcTBIgk3F15hZ1EIIQrihPayrgB/xO11+i9U
- zmIixUdqC01cz6U1klKslTcH5j2+K65MQ1MuJptJNhL9FeOIjv+QcMInGKmEY4gOk2s/
- kF7KTQusd0x3YXEJwFj3RGFPjob77MbbhvFDSYP/2+swrrpBxKBMhDrc+sQkUZkNeaDk
- YUUA==
-X-Gm-Message-State: AOAM5322vUTRSEJODf7AZCkFm16n3Rjrs4vRXihxXKCGcPp1hsvU7Ura
- bNcHF7oVSvgcm3qVOf6XlNY=
-X-Google-Smtp-Source: ABdhPJwgPDn63+t8WI0ESglt0cdz3qRSIBNoBZJfy0KnIfKji8LoJbUHTl3eZXAtTJ+tyoAIdpJzMw==
-X-Received: by 2002:a05:620a:cf4:: with SMTP id
- c20mr22556318qkj.134.1616975827140; 
- Sun, 28 Mar 2021 16:57:07 -0700 (PDT)
+ bh=VFtxWE0StKfcC+URsv7nAjsC2Kf78xuu9a0HtqKdSlU=;
+ b=UBwKcSJueWdjzR5e6lMZqPBr1xsTRlIIF1eZOQU5QoNylzuk7vxCli/EgvfW8t3CEo
+ 0HBWIuWCPW9pRKipX5+MA+650IpNyZRfoCAwWZkdz0xYOhAm/kgMCQcRI17+UfaOrPCI
+ SJthFZE0Wszwv3ajoNHQlWtqE78RtINkArOO0zZK79jwZSo6Ty735ZEYvOqhnLeVnoNF
+ k3lweX7AjDOTBp7dCER29GQj0Uw2HK4oP6Hmn5i7apJSr3YjITbvcuDbo53ebtSL1/rG
+ iaFxsivTf2vl0CzJQ3aqyQMNCcSTBr+zHfM3fYWmp4s+v6F8HB57E8wHPxM1VTewuXtD
+ RevA==
+X-Gm-Message-State: AOAM533QlUkiYTO1H6dV+R16r9j7IVs4gcFnrI1NsNaGdURkoX1+efBW
+ xgcUw4uxL+Qjg3oDRJYGFeU=
+X-Google-Smtp-Source: ABdhPJzdepGd4ibSSylbqz3lykO6e7Iu/C1yudQOjI9dZGJHJpjheIp8QepnwzKrjFLrJcsbOfjQlg==
+X-Received: by 2002:ac8:7fcd:: with SMTP id b13mr20277139qtk.68.1616975832021; 
+ Sun, 28 Mar 2021 16:57:12 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.02
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:57:06 -0700 (PDT)
+ Sun, 28 Mar 2021 16:57:11 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 14/30] Revert "s3c24xx-dma.c: Fix a typo"
-Date: Mon, 29 Mar 2021 05:23:10 +0530
-Message-Id: <1d989f71fbebd15de633c187d88cb3be3a0f2723.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 15/30] s3c24xx-dma.c: Few typos fixed
+Date: Mon, 29 Mar 2021 05:23:11 +0530
+Message-Id: <062bbb694c995aad9ca17a80bbc63716f116fd9f.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -99,26 +100,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-s/transferred/transfered/
+s/transfered/transferred/
+s/desintation/destination/  ...two different places.
 
-This reverts commit a2ddb8aea8106bd5552f8516ad7a8a26b9282a8f.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/s3c24xx-dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma/s3c24xx-dma.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/dma/s3c24xx-dma.c b/drivers/dma/s3c24xx-dma.c
-index c98ae73cdcc3..8e14c72d03f0 100644
+index 8e14c72d03f0..045f2f531876 100644
 --- a/drivers/dma/s3c24xx-dma.c
 +++ b/drivers/dma/s3c24xx-dma.c
 @@ -156,7 +156,7 @@ struct s3c24xx_sg {
   * struct s3c24xx_txd - wrapper for struct dma_async_tx_descriptor
   * @vd: virtual DMA descriptor
   * @dsg_list: list of children sg's
-- * @at: sg currently being transferred
-+ * @at: sg currently being transfered
+- * @at: sg currently being transfered
++ * @at: sg currently being transferred
   * @width: transfer width
   * @disrcc: value for source control register
   * @didstc: value for destination control register
+@@ -920,7 +920,7 @@ static struct dma_async_tx_descriptor *s3c24xx_dma_prep_dma_cyclic(
+ 	}
+
+ 	/*
+-	 * Always assume our peripheral desintation is a fixed
++	 * Always assume our peripheral destination is a fixed
+ 	 * address in memory.
+ 	 */
+ 	hwcfg |= S3C24XX_DISRCC_INC_FIXED;
+@@ -1009,7 +1009,7 @@ static struct dma_async_tx_descriptor *s3c24xx_dma_prep_slave_sg(
+ 	}
+
+ 	/*
+-	 * Always assume our peripheral desintation is a fixed
++	 * Always assume our peripheral destination is a fixed
+ 	 * address in memory.
+ 	 */
+ 	hwcfg |= S3C24XX_DISRCC_INC_FIXED;
 --
 2.26.3
 
