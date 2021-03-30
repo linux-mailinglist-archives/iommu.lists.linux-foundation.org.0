@@ -1,80 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC27834DC16
-	for <lists.iommu@lfdr.de>; Tue, 30 Mar 2021 00:53:04 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB6F34DD68
+	for <lists.iommu@lfdr.de>; Tue, 30 Mar 2021 03:22:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2C38583B65;
-	Mon, 29 Mar 2021 22:53:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D39F060819;
+	Tue, 30 Mar 2021 01:22:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ck3lY-3Llj6M; Mon, 29 Mar 2021 22:53:02 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1BG-VcUQUqGm; Tue, 30 Mar 2021 01:22:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E43F083B3A;
-	Mon, 29 Mar 2021 22:53:01 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id F325A60828;
+	Tue, 30 Mar 2021 01:22:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B1949C000A;
-	Mon, 29 Mar 2021 22:53:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A41B5C000A;
+	Tue, 30 Mar 2021 01:22:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 350E1C000A
- for <iommu@lists.linux-foundation.org>; Mon, 29 Mar 2021 22:53:00 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A4DFC000A
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Mar 2021 01:22:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 29154402C6
- for <iommu@lists.linux-foundation.org>; Mon, 29 Mar 2021 22:53:00 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 14AA683DB1
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Mar 2021 01:22:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kEPuB3D-RTJJ for <iommu@lists.linux-foundation.org>;
- Mon, 29 Mar 2021 22:52:59 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xxKyxtzs8foW for <iommu@lists.linux-foundation.org>;
+ Tue, 30 Mar 2021 01:22:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E3035401C0
- for <iommu@lists.linux-foundation.org>; Mon, 29 Mar 2021 22:52:58 +0000 (UTC)
-IronPort-SDR: 1UZWxQW3HWy73FXHUx+Ys5xzQGYv6Hu+AOrDUUf9BBta4bm5MXlrNdb7zuPZcJ8jf89FMoh7Ms
- 6uQNZVX+6PgQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="191739825"
-X-IronPort-AV: E=Sophos;i="5.81,289,1610438400"; d="scan'208";a="191739825"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 15:52:56 -0700
-IronPort-SDR: BbuVBvkJFfwvrB6unbwRQKYGhL6XPctz9D0tCu6eZh40ZhOgWyBcdI39fFDo7z1lXLu7R+xtfS
- GsUhsM5+sVDA==
-X-IronPort-AV: E=Sophos;i="5.81,289,1610438400"; d="scan'208";a="417883683"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 15:52:56 -0700
-Date: Mon, 29 Mar 2021 15:55:26 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
- allocation APIs
-Message-ID: <20210329155526.2ad791a9@jacob-builder>
-In-Reply-To: <20210329163147.GG2356281@nvidia.com>
-References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1614463286-97618-6-git-send-email-jacob.jun.pan@linux.intel.com>
- <20210318172234.3e8c34f7@jacob-builder> <YFR10eeDVf5ZHV5l@myrica>
- <20210319124645.GP2356281@nvidia.com> <YFSqDNJ5yagk4eO+@myrica>
- <20210319135432.GT2356281@nvidia.com>
- <20210319112221.5123b984@jacob-builder>
- <20210322120300.GU2356281@nvidia.com>
- <20210324120528.24d82dbd@jacob-builder>
- <20210329163147.GG2356281@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C4F4C83A3C
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Mar 2021 01:22:30 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F8WpZ3n0Dz9t5K;
+ Tue, 30 Mar 2021 09:20:22 +0800 (CST)
+Received: from [127.0.0.1] (10.40.193.166) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Tue, 30 Mar 2021
+ 09:22:21 +0800
+Subject: Re: [PATCH] iommu: Add a check to avoid invalid iotlb sync
+To: Will Deacon <will@kernel.org>
+References: <1616826190-77035-1-git-send-email-chenxiang66@hisilicon.com>
+ <20210329144554.GA4203@willie-the-truck>
+From: "chenxiang (M)" <chenxiang66@hisilicon.com>
+Message-ID: <2b0b7a7d-7162-bef9-9730-cbe3767d14f9@hisilicon.com>
+Date: Tue, 30 Mar 2021 09:22:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- iommu@lists.linux-foundation.org, Li Zefan <lizefan@huawei.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org, Wu Hao <hao.wu@intel.com>,
- David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <20210329144554.GA4203@willie-the-truck>
+X-Originating-IP: [10.40.193.166]
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ linuxarm@openeuler.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,232 +67,37 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
-
-On Mon, 29 Mar 2021 13:31:47 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Wed, Mar 24, 2021 at 12:05:28PM -0700, Jacob Pan wrote:
-> 
-> > > IMHO a use created PASID is either bound to a mm (current) at creation
-> > > time, or it will never be bound to a mm and its page table is under
-> > > user control via /dev/ioasid.
-> > >   
-> > True for PASID used in native SVA bind. But for binding with a guest mm,
-> > PASID is allocated first (VT-d virtual cmd interface Spec 10.4.44), the
-> > bind with the host IOMMU when vIOMMU PASID cache is invalidated.
-> > 
-> > Our intention is to have two separate interfaces:
-> > 1. /dev/ioasid (allocation/free only)
-> > 2. /dev/sva (handles all SVA related activities including page tables)  
-> 
-> I'm not sure I understand why you'd want to have two things. Doesn't
-> that just complicate everything?
-> 
-> Manipulating the ioasid, including filling it with page tables, seems
-> an integral inseperable part of the whole interface. Why have two ?
-> 
-In one of the earlier discussions, I was made aware of some use cases (by
-AMD, iirc) where PASID can be used w/o IOMMU. That is why I tried to keep
-ioasid a separate subsystem. Other than that, I don't see an issue
-combining the two.
-
-> > > I thought the whole point of something like a /dev/ioasid was to get
-> > > away from each and every device creating its own PASID interface?
-> > >   
-> > yes, but only for the use cases that need to expose PASID to the
-> > userspace.  
-> 
-> Why "but only"? This thing should reach for a higher generality, not
-> just be contained to solve some problem within qemu.
-> 
-I totally agree in terms of generality. I was just trying to point out
-existing framework or drivers such as uacce and idxd driver does not have a
-need to use /dev/ioasid.
-
-> > > It maybe somewhat reasonable that some devices could have some easy
-> > > 'make a SVA PASID on current' interface built in,  
-> > I agree, this is the case PASID is hidden from the userspace, right?
-> > e.g. uacce.  
-> 
-> "hidden", I guess, but does it matter so much?
-> 
-it matters when it comes to which interface to choose. Use /dev/ioasid to
-allocate if PASID value cannot be hidden. Use some other interface for bind
-current and allocate if a PASID is not visible to the user.
-
-> The PASID would still consume a cgroup credit
-> 
-yes, credit still consumed. Just the PASID value is hidden.
-
-> > > but anything more
-> > > complicated should use /dev/ioasid, and anything consuming PASID
-> > > should also have an API to import and attach a PASID from /dev/ioasid.
-> > >   
-> > Would the above two use cases constitute the "complicated" criteria? Or
-> > we should say anything that need the explicit PASID value has to through
-> > /dev/ioasid?  
-> 
-> Anything that needs more that creating a hidden PASID link'd to
-> current should use the full interface.
-> 
-Yes, I think we are on the same page. For example, today's uacce or idxd
-driver creates a hidden PASID when user does open(), where a new WQ is
-provisioned and bound to current mm. This is the case where /dev/ioasid is
-not needed.
-
-> > In terms of usage for guest SVA, an ioasid_set is mostly tied to a host
-> > mm, the use case is as the following:  
-> 
-> From that doc:
-> 
->   It is imperative to enforce
->   VM-IOASID ownership such that a malicious guest cannot target DMA
->   traffic outside its own IOASIDs, or free an active IOASID that belongs
->   to another VM.
-> 
-> Huh?
-> 
-Sorry, I am not following. In the doc, I have an example to show the
-ioasid_set to VM/mm mapping. We use mm as the ioasid_set token to identify
-who the owner of an IOASID is. i.e. who allocated the IOASID. Non-owner
-cannot perform bind page table or free operations.
-
-Section: IOASID Set Private ID (SPID)
- .------------------.    .------------------.
- |   VM 1           |    |   VM 2           |
- |                  |    |                  |
- |------------------|    |------------------|
- | GPASID/SPID 101  |    | GPASID/SPID 101  |
- '------------------'    -------------------'     Guest
- __________|______________________|____________________
-           |                      |               Host
-           v                      v
- .------------------.    .------------------.
- | Host IOASID 201  |    | Host IOASID 202  |
- '------------------'    '------------------'
- |   IOASID set 1   |    |   IOASID set 2   |
- '------------------'    '------------------'
-
-
-> Security in a PASID world comes from the IOMMU blocking access to the
-> PASID except from approved PCI-ID's. If a VF/PF is assigned to a guest
-> then that guest can cause the device to issue any PASID by having
-> complete control and the vIOMMU is supposed to tell the real IOMMU
-> what PASID's the device is alowed to access.
-> 
-Yes, each PF/VF has its own PASID table. The device can do whatever
-it wants as long as the PASID is present in the table. Programming of the
-pIOMMU PASID table entry, however, is controlled by the host.
-
-IMHO, there are two levels of security here:
-1. A PASID can only be used by a secure context
-2. A device can only use allowed PASIDs (PASID namespace is system-wide but
-PASID table storage is per PF/VF)
-
-IOASID set is designed for #1.
-
-> If a device is sharing a single PCI function with different security
-> contexts (eg vfio mdev) then the device itself is responsible to
-> ensure that only the secure interface can program a PASID and a less
-> secure context can never self-enroll. 
-> 
-If two mdevs from the same PF dev are assigned to two VMs, the PASID
-table will be shared. IOASID set ensures one VM cannot program another VM's
-PASIDs. I assume 'secure context' is per VM when it comes to host PASID.
-
-> Here the mdev driver would have to consule with the vIOMMU to ensure
-> the mdev device is allowed to access the PASID - is that what this
-> set stuff is about? 
-> 
-No. the mdev driver consults with IOASID core When the guest programs a
-guest PASID on to he mdev. VDCM driver does a lookup:
-host_pasid = ioasid_find_by_spid(ioasid_set, guest_pasid);
-
-If the guest_pasid does not exist in the ioasid_set, the mdev programming
-fails; if the guest_pasid does exist but it maps to a wrong host PASID, the
-damage is limited to the guest itself.
-
-> If yes, it is backwards. The MDEV is the thing doing the security, the
-> MDEV should have the list of allowed PASID's and a single PASID
-> created under /dev/ioasid should be loaded into MDEV with some 'Ok you
-> can use PASID xyz from FD abc' command.
-> 
-I guess that is not the case. For VT-d dedicated WQ, there is only one
-PASID can be programmed onto the device. Programming the PASID with
-/dev/sva FD abc command will be checked against its mm where /dev/ioasid is
-used to do the allocation.
-
-For a single shared WQ assigned to multiple VMs, there will be one mdev per
-VM. Again, FD commands is limited to the PASIDs allocated for the VM.
-
-For a single share WQ assigned to one VM, it can be bound to multiple guest
-processes/PASIDs. Host IOMMU driver maintains a list of the PASIDs and
-ensures that they are only programmed on to the per device PASID table.
-
-> Because you absolutely don't want to have a generic 'set' that all the
-> mdevs are sharing as that violates the basic security principle at the
-> start - each and every device must have a unique list of what PASID's
-> it can talk to.
-> 
-I agree, I don't think this is the case. The ioasid_set is some what
-orthogonal to mdev collections.
-
-> > 1. Identify a pool of PASIDs for permission checking (below to the same
-> > VM), e.g. only allow SVA binding for PASIDs allocated from the same set.
-> > 
-> > 2. Allow different PASID-aware kernel subsystems to associate, e.g. KVM,
-> > device drivers, and IOMMU driver. i.e. each KVM instance only cares
-> > about the ioasid_set associated with the VM. Events notifications are
-> > also within the ioasid_set to synchronize PASID states.
-> > 
-> > 3. Guest-Host PASID look up (each set has its own XArray to store the
-> > mapping)
-> > 
-> > 4. Quota control (going away once we have cgroup)  
-> 
-> It sounds worrysome things have gone this way.
-> 
-Could you expand on that? Guaranteeing quota is very difficult. cgroup
-limit model fits most scalar resources.
-
-> I'd say you shoul have a single /dev/ioasid per VM and KVM should
-> attach to that - it should get all the global events/etc that are not
-> device specific.
-> 
-You mean a single /dev/ioasid FD per VM and KVM? I think that is what we
-are doing in this set. A VM process can only open /dev/ioasid once, then
-use the FD for allocation and pass the PASID for bind page table etc.
-
-> permission checking *must* be done on a per-device level, either inside
-> the mdev driver, or inside the IOMMU at a per-PCI device level.
-> 
-I think we are on the same page. For mdev, VDCM driver makes sure the guest
-PASID programmed is allocated by the same VM that also performed the bind SVA.
-
-For PF/VF which is not mediated, the permission is implied by the IOMMU
-driver/HW since PASID table is per device.
-
-> Not sure what guest-host PASID means, these have to be 1:1 for device
-> assignment to work - why would use something else for mdev?
-> 
-We have G-H PASID translation. They don't have to be 1:1.
-IOASID Set Private ID (SPID) is intended as a generic solution for guest PASID.
-Could you review the secion Section: IOASID Set Private ID (SPID) in the
-doc patch?
-
-We also had some slides from last year. Slide 3s-6 mostly.
-https://static.sched.com/hosted_files/kvmforum2020/9f/KVM_forum_2020_PASID_MGMT_Yi_Jacob_final.pdf
-
-Really appreciated your time!
-
-
-Jacob
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgV2lsbCwKCgrlnKggMjAyMS8zLzI5IDIyOjQ1LCBXaWxsIERlYWNvbiDlhpnpgZM6Cj4gT24g
+U2F0LCBNYXIgMjcsIDIwMjEgYXQgMDI6MjM6MTBQTSArMDgwMCwgY2hlbnhpYW5nIHdyb3RlOgo+
+PiBGcm9tOiBYaWFuZyBDaGVuIDxjaGVueGlhbmc2NkBoaXNpbGljb24uY29tPgo+Pgo+PiBDdXJy
+ZW50bHkgaXQgd2lsbCBzZW5kIGEgaW90bGIgc3luYyBhdCBlbmQgb2YgaW9tbXUgdW5tYXAgZXZl
+biBpZgo+PiBpb3RsYl9nYXRoZXIgaXMgbm90IHZhbGlkIChpb3RsYl9nYXRoZXItPnBnc2l6ZSA9
+IDApLiBBY3R1YWxseSBpdCBpcyBub3QKPj4gbmVjZXNzYXJ5LCBzbyBhZGQgYSBjaGVjayB0byBh
+dm9pZCBpbnZhbGlkIGlvdGxiIHN5bmMuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IFhpYW5nIENoZW4g
+PGNoZW54aWFuZzY2QGhpc2lsaWNvbi5jb20+Cj4+IC0tLQo+PiAgIGluY2x1ZGUvbGludXgvaW9t
+bXUuaCB8IDMgKysrCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+Pgo+PiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9pb21tdS5oIGIvaW5jbHVkZS9saW51eC9pb21tdS5o
+Cj4+IGluZGV4IDljYTZlNmIuLjZhZmE2MWIgMTAwNjQ0Cj4+IC0tLSBhL2luY2x1ZGUvbGludXgv
+aW9tbXUuaAo+PiArKysgYi9pbmNsdWRlL2xpbnV4L2lvbW11LmgKPj4gQEAgLTUyOSw2ICs1Mjks
+OSBAQCBzdGF0aWMgaW5saW5lIHZvaWQgaW9tbXVfZmx1c2hfaW90bGJfYWxsKHN0cnVjdCBpb21t
+dV9kb21haW4gKmRvbWFpbikKPj4gICBzdGF0aWMgaW5saW5lIHZvaWQgaW9tbXVfaW90bGJfc3lu
+YyhzdHJ1Y3QgaW9tbXVfZG9tYWluICpkb21haW4sCj4+ICAgCQkJCSAgc3RydWN0IGlvbW11X2lv
+dGxiX2dhdGhlciAqaW90bGJfZ2F0aGVyKQo+PiAgIHsKPj4gKwlpZiAoIWlvdGxiX2dhdGhlci0+
+cGdzaXplKQo+PiArCQlyZXR1cm47Cj4gSW4gd2hpY2ggY2lyY3Vtc3RhbmNlcyBkb2VzIHRoaXMg
+b2NjdXI/Cj4KPiBXaWxsCgpXaGVuIGlvbW11X3VubWFwLCBpdCBpbml0aWFsaXplcyBpb3RsYl9n
+YXRoZXIgKHRoZW4gaW90bGJfZ2F0aGVyLT5wZ3NpemUgCj0gMCkuCklmIHRoZSB1bm1hcCBzaXpl
+ID0gQVJNX0xQQUVfQkxPQ0tfU0laRShsdmwpICYmIGlvcHRlX2xlYWYoKSwgaXQgd2lsbCAKZmls
+bCB0aGUgaW90bGJfZ2F0aGVyIChzZXQgaW90bGJfZ2F0aGVyLT5wZ3NpemUgPSBncmFudWxlKTsK
+YnV0IGlmIHRoZSB1bm1hcCBzaXplID0gQVJNX0xQQUVfQkxPQ0tfU0laRShsdmwpICYmICFpb3B0
+ZV9sZWFmKCkgKHRsYiAKZmx1c2ggd2FsayBzaXR1YXRpb24pLCBpb3RsYl9nYXRoZXIgaXMgbm90
+IGZpbGxlZCAoaW90bGJfZ2F0aGVyLT5wZ3NpemUgCj0gMCksCml0IHdpbGwgc3RpbGwgc2VuZCBp
+b21tdV9pb3RsYl9zeW5jKGRvbWFpbiwgJmlvdGxiX2dhdGhlcikgd2hpY2ggaXMgCmFjdHVhbGx5
+IGludmFsaWQgaW90bGIgc3luYyBhdCBsYXN0LgoKCj4KPiAuCj4KCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVA
+bGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24u
+b3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
