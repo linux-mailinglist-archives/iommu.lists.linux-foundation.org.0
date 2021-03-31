@@ -1,80 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C55634F54A
-	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 02:08:20 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B36CA34F71B
+	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 05:06:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B8F9C405CE;
-	Wed, 31 Mar 2021 00:08:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 297C440634;
+	Wed, 31 Mar 2021 03:06:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 313VbCwqlp_8; Wed, 31 Mar 2021 00:08:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8855B405C8;
-	Wed, 31 Mar 2021 00:08:17 +0000 (UTC)
+	with ESMTP id oqACNFv0X4rI; Wed, 31 Mar 2021 03:06:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 132DC40636;
+	Wed, 31 Mar 2021 03:06:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D77CC000A;
-	Wed, 31 Mar 2021 00:08:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E05B3C0011;
+	Wed, 31 Mar 2021 03:06:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C263C000A
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 00:08:15 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F149C000A
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:06:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1D29D84240
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 00:08:15 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with UTF8SMTP id 510A0842A2
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:06:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mg.codeaurora.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9xlzQFAVIh0d for <iommu@lists.linux-foundation.org>;
- Wed, 31 Mar 2021 00:08:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 62A898423C
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 00:08:13 +0000 (UTC)
-IronPort-SDR: tKNLJAtWxWMWcDBWWMVusS6Sp5+glT7PYb5kloy39aGP4sG54nxAlHqO6GQXngphf99chZFHgd
- tlhldWUflVnA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="191357652"
-X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="191357652"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2021 17:08:11 -0700
-IronPort-SDR: HUurJyYDUTND8ozX4erY0t4tlGlrQCC5ScJGMIGUlQMd5+m5YuCEtkemwmeM+oxQ3k2dIQN7sZ
- ngtIj+/noGFA==
-X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="377035543"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2021 17:08:10 -0700
-Date: Tue, 30 Mar 2021 17:10:41 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
- allocation APIs
-Message-ID: <20210330171041.70f2d7d0@jacob-builder>
-In-Reply-To: <20210330134313.GP2356281@nvidia.com>
-References: <20210318172234.3e8c34f7@jacob-builder> <YFR10eeDVf5ZHV5l@myrica>
- <20210319124645.GP2356281@nvidia.com> <YFSqDNJ5yagk4eO+@myrica>
- <20210319135432.GT2356281@nvidia.com>
- <20210319112221.5123b984@jacob-builder>
- <20210322120300.GU2356281@nvidia.com>
- <20210324120528.24d82dbd@jacob-builder>
- <20210329163147.GG2356281@nvidia.com>
- <20210329155526.2ad791a9@jacob-builder>
- <20210330134313.GP2356281@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ with UTF8SMTP id hb1SgaLFXTq2 for <iommu@lists.linux-foundation.org>;
+ Wed, 31 Mar 2021 03:05:59 +0000 (UTC)
+X-Greylist: delayed 00:05:01 by SQLgrey-1.8.0
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by smtp1.osuosl.org (Postfix) with UTF8SMTPS id 8D55784299
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:05:59 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1617159959; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=LA0HvulGChES4Iq3dFXt9FdLxjexMjVouvPCQ5TYibM=;
+ b=Fp14x4xRIZ9aKJ3LAj/P57INjDmGdBns+pfDkLQ1FfJcPGN8l7nOoIpHOySqO40mC+yCZ2ia
+ ez5BHAcATPCDj9aI2e687oq7Wa36XMkv+zqgzWgWPjYSjkOMJ51kfGgo5192e4BHy81d0juO
+ djYzlExUIbPGulGxivJiisYj7hE=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 6063e5e903cfff345233c07c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 31 Mar 2021 03:00:57
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 7E67AC43462; Wed, 31 Mar 2021 03:00:56 +0000 (UTC)
+Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: isaacm)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5BE97C433C6;
+ Wed, 31 Mar 2021 03:00:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5BE97C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=isaacm@codeaurora.org
+From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+To: iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [RFC PATCH 0/5] Optimization for unmapping iommu mapped buffers
+Date: Tue, 30 Mar 2021 20:00:37 -0700
+Message-Id: <20210331030042.13348-1-isaacm@codeaurora.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- iommu@lists.linux-foundation.org, Li Zefan <lizefan@huawei.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org, Wu Hao <hao.wu@intel.com>,
- David Woodhouse <dwmw2@infradead.org>
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, will@kernel.org,
+ robin.murphy@arm.com, pratikp@codeaurora.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,89 +92,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
+When unmapping a buffer from an IOMMU domain, the IOMMU framework unmaps
+the buffer at a granule of the largest page size that is supported by
+the IOMMU hardware and fits within the buffer. For every block that
+is unmapped, the IOMMU framework will call into the IOMMU driver, and
+then the io-pgtable framework to walk the page tables to find the entry
+that corresponds to the IOVA, and then unmaps the entry.
 
-On Tue, 30 Mar 2021 10:43:13 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
+This can be suboptimal in scenarios where a buffer or a piece of a
+buffer can be split into several contiguous page blocks of the same size.
+For example, consider an IOMMU that supports 4 KB page blocks, 2 MB page
+blocks, and 1 GB page blocks, and a buffer that is 4 MB in size is being
+unmapped at IOVA 0. The current call-flow will result in 4 indirect calls,
+and 2 page table walks, to unmap 2 entries that are next to each other in
+the page-tables, when both entries could have been unmapped in one shot
+by clearing both page table entries in the same call.
 
-> > If two mdevs from the same PF dev are assigned to two VMs, the PASID
-> > table will be shared. IOASID set ensures one VM cannot program another
-> > VM's PASIDs. I assume 'secure context' is per VM when it comes to host
-> > PASID.  
-> 
-> No, the mdev device driver must enforce this directly. It is the one
-> that programms the physical shared HW, it is the one that needs a list
-> of PASID's it is allowed to program *for each mdev*
-> 
-This requires the mdev driver to obtain a list of allowed PASIDs(possibly
-during PASID bind time) prior to do enforcement. IMHO, the PASID enforcement
-points are:
-1. During WQ configuration (e.g.program MSI)
-2. During work submission
+These patches implement a callback called unmap_pages to the io-pgtable
+code and IOMMU drivers which unmaps an IOVA range that consists of a
+number of pages of the same page size that is supported by the IOMMU
+hardware, and allows for clearing multiple entries in the same set of
+indirect calls. The reason for introducing unmap_pages is to give
+other IOMMU drivers/io-pgtable formats time to change to using the new
+unmap_pages callback, so that the transition to using this approach can be
+done piecemeal.
 
-For VT-d shared workqueue, there is no way to enforce #2 in mdev driver in
-that the PASID is obtained from PASID MSR from the CPU and submitted w/o
-driver involvement. The enforcement for #2 is in the KVM PASID translation
-table, which is per VM.
+The same optimization is applicable for mapping buffers, however, the
+error handling in the io-pgtable layer couldn't be handled cleanly, as we
+would need to invoke iommu_unmap to unmap the parts of the buffer that
+were mapped, and then do any TLB maintenance. However, that seemed like a
+layering violation.
 
-For our current VFIO mdev model, bind guest page table does not involve
-mdev driver. So this is a gap we must fill, i.e. include a callback from
-mdev driver?
-
-> ioasid_set doesn't seem to help at all, certainly not as a concept
-> tied to /dev/ioasid.
-> 
-Yes, we can take the security role off ioasid_set once we have per mdev
-list. However, ioasid_set being a per VM/mm entity also bridge
-communications among kernel subsystems that don't have direct call path.
-e.g. KVM, VDCM and IOMMU.
-
-> > No. the mdev driver consults with IOASID core When the guest programs a
-> > guest PASID on to he mdev. VDCM driver does a lookup:
-> > host_pasid = ioasid_find_by_spid(ioasid_set, guest_pasid);  
-> 
-> This is the wrong layering. Tell the mdev device directly what it is
-> allowed to do. Do not pollute the ioasid core with security stuff.
-> 
-> > > I'd say you shoul have a single /dev/ioasid per VM and KVM should
-> > > attach to that - it should get all the global events/etc that are not
-> > > device specific.
-> > >   
-> > You mean a single /dev/ioasid FD per VM and KVM? I think that is what we
-> > are doing in this set. A VM process can only open /dev/ioasid once, then
-> > use the FD for allocation and pass the PASID for bind page table etc.  
-> 
-> Yes, I think that is reasonable.
-> 
-> Tag all the IOCTL's with the IOASID number.
->  
-> > > Not sure what guest-host PASID means, these have to be 1:1 for device
-> > > assignment to work - why would use something else for mdev?
-> > >   
-> > We have G-H PASID translation. They don't have to be 1:1.
-> > IOASID Set Private ID (SPID) is intended as a generic solution for
-> > guest PASID. Could you review the secion Section: IOASID Set Private ID
-> > (SPID) in the doc patch?  
-> 
-> Again this only works for MDEV? How would you do translation for a
-> real PF/VF?
-> 
-Right, we will need some mediation for PF/VF.
-
-> So when you 'allow' a mdev to access a PASID you want to say:
->  Allow Guest PASID A, map it to host PASID B on this /dev/ioasid FD
-> 
-> ?
-> 
-Host and guest PASID value, as well as device info are available through
-iommu_uapi_sva_bind_gpasid(), we just need to feed that info to mdev driver.
-
-> That seems like a good helper library to provide for drivers to use,
-> but it should be a construct entirely contained in the driver.
-why? would it be cleaner if it is in the common code?
+Any feedback is very much appreciated.
 
 Thanks,
+Isaac
 
-Jacob
+Isaac J. Manjarres (5):
+  iommu/io-pgtable: Introduce unmap_pages() as a page table op
+  iommu: Add an unmap_pages() op for IOMMU drivers
+  iommu: Add support for the unmap_pages IOMMU callback
+  iommu/io-pgtable-arm: Implement arm_lpae_unmap_pages()
+  iommu/arm-smmu: Implement the unmap_pages IOMMU driver callback
+
+ drivers/iommu/arm/arm-smmu/arm-smmu.c |  19 +++++
+ drivers/iommu/io-pgtable-arm.c        | 114 +++++++++++++++++++++-----
+ drivers/iommu/iommu.c                 |  44 ++++++++--
+ include/linux/io-pgtable.h            |   4 +
+ include/linux/iommu.h                 |   4 +
+ 5 files changed, 159 insertions(+), 26 deletions(-)
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
