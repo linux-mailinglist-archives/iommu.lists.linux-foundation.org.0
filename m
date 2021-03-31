@@ -1,70 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584F034FDC3
-	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 12:05:00 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7A234FE55
+	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 12:53:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 77A1A84824;
-	Wed, 31 Mar 2021 10:04:57 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A63BF40141;
+	Wed, 31 Mar 2021 10:53:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id P5j4ne7dVVGJ; Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 80A8584822;
-	Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bzlAwrppKErn; Wed, 31 Mar 2021 10:53:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id B44C2400CA;
+	Wed, 31 Mar 2021 10:53:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C0549C0017;
-	Wed, 31 Mar 2021 10:04:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 943BEC0011;
+	Wed, 31 Mar 2021 10:53:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0988C000C
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0E5AFC000A
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:53:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id AAA5860ABA
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 08EC4606AE
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:53:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sHhlw4t_2VQI for <iommu@lists.linux-foundation.org>;
- Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
-X-Greylist: delayed 00:05:01 by SQLgrey-1.8.0
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A8FF460AB0
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:52 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:ada2:b4da:6568:5ad5])
- by andre.telenet-ops.be with bizsmtp
- id mxzc2400c5W9KJv01xzcoU; Wed, 31 Mar 2021 11:59:49 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1lRXdQ-00BseR-3H; Wed, 31 Mar 2021 11:59:36 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1lRXdP-001cdD-ED; Wed, 31 Mar 2021 11:59:35 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Petr Mladek <pmladek@suse.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: [PATCH] clk: Align provider-specific CLK_* bit definitions
-Date: Wed, 31 Mar 2021 11:59:19 +0200
-Message-Id: <505e19bac2deb6015e76391ce7ad044c43499681.1617184676.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+ with ESMTP id SgFBfwyhmkk7 for <iommu@lists.linux-foundation.org>;
+ Wed, 31 Mar 2021 10:53:47 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2629A6061F
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:53:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84B5111B3;
+ Wed, 31 Mar 2021 03:53:41 -0700 (PDT)
+Received: from [10.57.24.208] (unknown [10.57.24.208])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B32EC3F719;
+ Wed, 31 Mar 2021 03:53:39 -0700 (PDT)
+Subject: Re: [PATCH 3/6] iova: Allow rcache range upper limit to be
+ configurable
+To: John Garry <john.garry@huawei.com>, joro@8bytes.org, will@kernel.org,
+ jejb@linux.ibm.com, martin.petersen@oracle.com, hch@lst.de,
+ m.szyprowski@samsung.com
+References: <1616160348-29451-1-git-send-email-john.garry@huawei.com>
+ <1616160348-29451-4-git-send-email-john.garry@huawei.com>
+ <26fb1b79-2e46-09f6-1814-48fec4205f32@arm.com>
+ <3375b67f-438c-32d3-a5a6-7e08f37b04e3@huawei.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e2d873d9-3529-caff-d4ae-cca456857ff1@arm.com>
+Date: Wed, 31 Mar 2021 11:53:34 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Cc: Marco Elver <elver@google.com>, linux-embedded@vger.kernel.org,
- John Ogness <john.ogness@linutronix.de>, Gary R Hook <gary.hook@amd.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <3375b67f-438c-32d3-a5a6-7e08f37b04e3@huawei.com>
+Content-Language: en-GB
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linuxarm@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,64 +71,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The definition of CLK_MULTIPLIER_ROUND_CLOSEST is not aligned to the two
-bit definitions next to it.  A deeper inspection reveals that the
-alignment of CLK_MULTIPLIER_ROUND_CLOSEST does match the most common
-alignment.
-
-Align the bit definitions for the various provider types throughout the
-file at 40 columns, to increase uniformity.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- include/linux/clk-provider.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-index 58f6fe866ae9b797..8f37829565f9640e 100644
---- a/include/linux/clk-provider.h
-+++ b/include/linux/clk-provider.h
-@@ -342,7 +342,7 @@ struct clk_fixed_rate {
- 	unsigned long	flags;
- };
- 
--#define CLK_FIXED_RATE_PARENT_ACCURACY		BIT(0)
-+#define CLK_FIXED_RATE_PARENT_ACCURACY	BIT(0)
- 
- extern const struct clk_ops clk_fixed_rate_ops;
- struct clk_hw *__clk_hw_register_fixed_rate(struct device *dev,
-@@ -984,8 +984,8 @@ struct clk_fractional_divider {
- 
- #define to_clk_fd(_hw) container_of(_hw, struct clk_fractional_divider, hw)
- 
--#define CLK_FRAC_DIVIDER_ZERO_BASED		BIT(0)
--#define CLK_FRAC_DIVIDER_BIG_ENDIAN		BIT(1)
-+#define CLK_FRAC_DIVIDER_ZERO_BASED	BIT(0)
-+#define CLK_FRAC_DIVIDER_BIG_ENDIAN	BIT(1)
- 
- extern const struct clk_ops clk_fractional_divider_ops;
- struct clk *clk_register_fractional_divider(struct device *dev,
-@@ -1033,9 +1033,9 @@ struct clk_multiplier {
- 
- #define to_clk_multiplier(_hw) container_of(_hw, struct clk_multiplier, hw)
- 
--#define CLK_MULTIPLIER_ZERO_BYPASS		BIT(0)
-+#define CLK_MULTIPLIER_ZERO_BYPASS	BIT(0)
- #define CLK_MULTIPLIER_ROUND_CLOSEST	BIT(1)
--#define CLK_MULTIPLIER_BIG_ENDIAN		BIT(2)
-+#define CLK_MULTIPLIER_BIG_ENDIAN	BIT(2)
- 
- extern const struct clk_ops clk_multiplier_ops;
- 
--- 
-2.25.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAyMS0wMy0xOSAxNzoyNiwgSm9obiBHYXJyeSB3cm90ZToKWy4uLl0KPj4+IEBAIC0yNSw3
+ICsyNSw4IEBAIHN0cnVjdCBpb3ZhIHsKPj4+IMKgIHN0cnVjdCBpb3ZhX21hZ2F6aW5lOwo+Pj4g
+wqAgc3RydWN0IGlvdmFfY3B1X3JjYWNoZTsKPj4+IC0jZGVmaW5lIElPVkFfUkFOR0VfQ0FDSEVf
+TUFYX1NJWkUgNsKgwqDCoCAvKiBsb2cgb2YgbWF4IGNhY2hlZCBJT1ZBIAo+Pj4gcmFuZ2Ugc2l6
+ZSAoaW4gcGFnZXMpICovCj4+PiArI2RlZmluZSBJT1ZBX1JBTkdFX0NBQ0hFX0RFRkFVTFRfU0la
+RSA2Cj4+PiArI2RlZmluZSBJT1ZBX1JBTkdFX0NBQ0hFX01BWF9TSVpFIDEwIC8qIGxvZyBvZiBt
+YXggY2FjaGVkIElPVkEgcmFuZ2UgCj4+PiBzaXplIChpbiBwYWdlcykgKi8KPj4KPj4gTm8uCj4+
+Cj4+IEFuZCB3aHk/IElmIHdlJ3JlIGdvaW5nIHRvIGFsbG9jYXRlIG1hc3NpdmUgY2FjaGVzIGFu
+eXdheSwgd2hhdGV2ZXIgaXMgCj4+IHRoZSBwb2ludCBvZiAqbm90KiB1c2luZyBhbGwgb2YgdGhl
+bT8KPj4KPiAKPiBJIHdhbnRlZCB0byBrZWVwIHRoZSBzYW1lIGVmZmVjdGl2ZSB0aHJlc2hvbGQg
+Zm9yIGRldmljZXMgdG9kYXksIHVubGVzcyAKPiBzZXQgb3RoZXJ3aXNlLgo+IAo+IFRoZSByZWFz
+b24gaXMgdGhhdCBJIGRpZG4ndCBrbm93IGlmIGEgYmxhbmtldCBpbmNyZWFzZSB3b3VsZCBjYXVz
+ZSAKPiByZWdyZXNzaW9ucywgYW5kIEkgd2FzIHRha2luZyB0aGUgc3VwZXItc2FmZSByb2FkLiBT
+cGVjaWZpY2FsbHkgc29tZSAKPiBzeXN0ZW1zIG1heSBiZSB2ZXJ5IElPVkEgc3BhY2UgbGltaXRl
+ZCwgYW5kIGp1c3Qgd29yayB0b2RheSBieSBub3QgCj4gY2FjaGluZyBsYXJnZSBJT1ZBcy4KCmFs
+bG9jX2lvdmFfZmFzdCgpIHdpbGwgYWxyZWFkeSBjbGVhciBvdXQgdGhlIGNhY2hlcyBpZiBzcGFj
+ZSBpcyBydW5uaW5nIApsb3csIHNvIHRoZSBjYWNoaW5nIGl0c2VsZiBzaG91bGRuJ3QgYmUgYW4g
+aXNzdWUuCgo+IEFuZCBpbiB0aGUgcHJlY3Vyc29yIHRocmVhZCB5b3Ugd3JvdGUgIldlIGNhbid0
+IGFyYml0cmFyaWx5ICppbmNyZWFzZSogCj4gdGhlIHNjb3BlIG9mIGNhY2hpbmcgb25jZSBhIGRv
+bWFpbiBpcyBhY3RpdmUgZHVlIHRvIHRoZSBzaXplLXJvdW5kaW5nLXVwIAo+IHJlcXVpcmVtZW50
+LCB3aGljaCB3b3VsZCBiZSBwcm9oaWJpdGl2ZSB0byBsYXJnZXIgYWxsb2NhdGlvbnMgaWYgYXBw
+bGllZCAKPiB1bml2ZXJzYWxseSIgKHNvcnJ5IGZvciBxdW90aW5nKQo+IAo+IEkgdG9vayB0aGUg
+bGFzdCBwYXJ0IHRvIG1lYW4gdGhhdCB3ZSBzaG91bGRuJ3QgYXBwbHkgdGhpcyBpbmNyZWFzZSBp
+biAKPiB0aHJlc2hvbGQgZ2xvYmFsbHkuCgpJIG1lYW50IHdlIGNhbid0IGluY3JlYXNlIHRoZSBj
+YWNoaW5nIHRocmVzaG9sZCBhcy1pcyBvbmNlIHRoZSBkb21haW4gaXMgCmluIHVzZSwgYmVjYXVz
+ZSB0aGF0IGNvdWxkIHJlc3VsdCBpbiBvZGQtc2l6ZWQgSU9WQXMgcHJldmlvdXNseSAKYWxsb2Nh
+dGVkIGFib3ZlIHRoZSBvbGQgdGhyZXNob2xkIGJlaW5nIGxhdGVyIGZyZWVkIGJhY2sgaW50byBj
+YWNoZXMsIAp0aGVuIGNhdXNpbmcgaGF2b2MgdGhlIG5leHQgdGltZSB0aGV5IGdldCBhbGxvY2F0
+ZWQgKGJlY2F1c2UgdGhleSdyZSBub3QgCmFzIGJpZyBhcyB0aGUgYWN0dWFsIHNpemUgYmVpbmcg
+YXNrZWQgZm9yKS4gSG93ZXZlciwgdHJ5aW5nIHRvIGFkZHJlc3MgCnRoYXQgYnkganVzdCBzaXpl
+LWFsaWduaW5nIGV2ZXJ5dGhpbmcgZXZlbiBhYm92ZSB0aGUgY2FjaGluZyB0aHJlc2hvbGQgCmlz
+IGxpYWJsZSB0byB3YXN0ZSB0b28gbXVjaCBzcGFjZSBvbiBJT1ZBLWNvbnN0cmFpbmVkIHN5c3Rl
+bXMgKGUuZy4gYSAKc2luZ2xlIDRLIHZpZGVvIGZyYW1lIG1heSBiZSB+MzVNQiAtIHJvdW5kaW5n
+IHRoYXQgdXAgdG8gNjRNQiBlYWNoIHRpbWUgCndvdWxkIGJlIGhhcmQgdG8ganVzdGlmeSkuCgpJ
+dCBmb2xsb3dzIGZyb20gdGhhdCB0aGF0IHRoZXJlJ3MgcmVhbGx5IG5vIHBvaW50IGluIGRlY291
+cGxpbmcgdGhlIApyb3VuZGluZy11cCB0aHJlc2hvbGQgZnJvbSB0aGUgYWN0dWFsIGNhY2hpbmcg
+dGhyZXNob2xkIC0geW91IGdldCBhbGwgCnRoZSB3YXN0YWdlIChib3RoIElPVkEgc3BhY2UgYW5k
+IGFjdHVhbCBtZW1vcnkgZm9yIHRoZSBjYWNoZSBhcnJheXMpIGZvciAKbm8gb2J2aW91cyBiZW5l
+Zml0LgoKPj4gSXQgb25seSBtYWtlcyBzZW5zZSBmb3IgYSBjb25maWd1cmF0aW9uIGtub2IgdG8g
+YWZmZWN0IHRoZSBhY3R1YWwgCj4+IHJjYWNoZSBhbmQgZGVwb3QgYWxsb2NhdGlvbnMgLSB0aGF0
+IHdheSwgYmlnIGhpZ2gtdGhyb3VnaHB1dCBzeXN0ZW1zIAo+PiB3aXRoIHBsZW50eSBvZiBtZW1v
+cnkgY2FuIHNwZW5kIGl0IG9uIGJldHRlciBwZXJmb3JtYW5jZSwgd2hpbGUgc21hbGwgCj4+IHN5
+c3RlbXMgLSB0aGF0IG9mdGVuIG5lZWQgSU9NTVUgc2NhdHRlci1nYXRoZXIgcHJlY2lzZWx5ICpi
+ZWNhdXNlKiAKPj4gbWVtb3J5IGlzIHRpZ2h0IGFuZCB0aHVzIGVhc2lseSBmcmFnbWVudGVkIC0g
+ZG9uJ3QgaGF2ZSB0byBwYXkgdGhlIAo+PiAobm90IGluc2lnbmlmaWNhbnQpIGNvc3QgZm9yIGNh
+Y2hlcyB0aGV5IGRvbid0IG5lZWQuCj4gCj4gU28gZG8geW91IHN1Z2dlc3QgdG8ganVzdCBtYWtl
+IElPVkFfUkFOR0VfQ0FDSEVfTUFYX1NJWkUgYSBrY29uZmlnIG9wdGlvbj8KCkFnYWluLCBJJ20g
+bGVzcyBjb252aW5jZWQgYnkgS2NvbmZpZyBzaW5jZSBJIGltYWdpbmUgbWFueSBwZW9wbGUgdHVu
+aW5nIApzZXJ2ZXItY2xhc3Mgc3lzdGVtcyBmb3IgdGhlaXIgb3duIHBhcnRpY3VsYXIgd29ya2xv
+YWRzIHdpbGwgYmUgcnVubmluZyAKc3RhbmRhcmQgZW50ZXJwcmlzZSBkaXN0cm9zLCBzbyBJIHRo
+aW5rIGVuZC11c2VyLWFjY2Vzc2libGUga25vYnMgd2lsbCAKYmUgdGhlIG1vc3QgdmFsdWFibGUu
+IFRoYXQncyBub3QgdG8gc2F5IHRoYXQgYSBLY29uZmlnIG9wdGlvbiB0byBzZXQgdGhlIApkZWZh
+dWx0IHN0YXRlIG9mIGEgY29tbWFuZC1saW5lIG9wdGlvbiAoYXMgd2UgZG8gZWxzZXdoZXJlKSB3
+b24ndCBiZSAKdXNlZnVsIGZvciBlbWJlZGRlZCB1c2VycywgY2xvdWQgcHJvdmlkZXJzLCBldGMu
+LCBqdXN0IHRoYXQgSSdtIG5vdCBzdXJlIAppdCdzIHdvcnRoIGl0IGJlaW5nIHRoZSAqb25seSog
+b3B0aW9uLgoKUm9iaW4uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9y
+ZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21t
+dQ==
