@@ -1,81 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E3834F70E
-	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 05:01:11 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3217434F74E
+	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 05:17:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 19AB940231;
-	Wed, 31 Mar 2021 03:01:10 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9D5E3842A2;
+	Wed, 31 Mar 2021 03:17:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SKrfYU-mGS2b; Wed, 31 Mar 2021 03:01:09 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id U3uVCRXcxQQW; Wed, 31 Mar 2021 03:17:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2AF2F4021B;
-	Wed, 31 Mar 2021 03:01:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C68388418E;
+	Wed, 31 Mar 2021 03:17:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E9464C000A;
-	Wed, 31 Mar 2021 03:01:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A9FEAC000A;
+	Wed, 31 Mar 2021 03:17:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 25D39C000A
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:01:07 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1C33C000A
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:17:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with UTF8SMTP id EBDB440225
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:01:06 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id C87C184299
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:17:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id 5H-nmeRjtCqx for <iommu@lists.linux-foundation.org>;
- Wed, 31 Mar 2021 03:01:05 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by smtp2.osuosl.org (Postfix) with UTF8SMTPS id 9789A401E4
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:01:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1617159665; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=fVM0T8FZiMfl9AyPoNrLna97gSt9YHDnAXFXNdJP+Ik=;
- b=KwivTIt2MdqItUEgX90BQa6ezavhqXGrv7ozU5/3eeLazGn94JdDeAyH636uPJ0Cxlcpq5hB
- OmpTkU22IgqQ7JVlk83nsG9Em0p5CbocNsvGJAJa3lXWSPHWmglFhdqarZxZ3f5gX9Z8N16i
- fxA5JFmksJAxujxem2yutQapE0Q=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 6063e5ef197975f05e067af4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 31 Mar 2021 03:01:03
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 929DEC43463; Wed, 31 Mar 2021 03:01:03 +0000 (UTC)
-Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id DE527C433C6;
- Wed, 31 Mar 2021 03:01:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DE527C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=isaacm@codeaurora.org
-From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-To: iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [RFC PATCH 5/5] iommu/arm-smmu: Implement the unmap_pages IOMMU
- driver callback
-Date: Tue, 30 Mar 2021 20:00:42 -0700
-Message-Id: <20210331030042.13348-6-isaacm@codeaurora.org>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210331030042.13348-1-isaacm@codeaurora.org>
-References: <20210331030042.13348-1-isaacm@codeaurora.org>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 23nX4avMrbLE for <iommu@lists.linux-foundation.org>;
+ Wed, 31 Mar 2021 03:17:00 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C11BD8418E
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 03:17:00 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id f3so3962290pgv.0
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Mar 2021 20:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YH7VyiloQmk21ZwkKDneMtghe+woErBUyGKt9DFQjxs=;
+ b=M1Tx1fUmT1JZxICY8e/FPzijoytFN1mZY9tk4CIinK2+uwuX2m0XQgS+Z9e8taB8R5
+ 2ITcVOgv+upLlraexefx1xv9llhTWV0WONT+op8/4RDPgvRbs0B14UWgFDgvzhwfB/79
+ vOw0HQV4torLVutoe9riI8nsuCs79yx0iH9jXbqNQUtKE7Ck0QaIs5jFHVMfVLG1MmWM
+ lvVwY2l/oANDY3DPgh6snCF/OHggdnKWZbe/oxdT63nploswOVK2UG5buUFn3/mSXJfZ
+ /6gP85L2fR5by6Cw5wmfi2S6SzgbDyVS+UfRis4mfgAcBPzfeR7Vel9jqjNa1ywxewGK
+ xPGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YH7VyiloQmk21ZwkKDneMtghe+woErBUyGKt9DFQjxs=;
+ b=cYXyH+yheDR0bXhgDVXrLsoY7OcsCZnQV3WzA+6wJbHz4iC7O8/dZC9RH31Ivajucv
+ TDqLCVRuh5tj/KjPGzWRFCmUksFBY1oHakh4iYLuwHLD+d8hMV9hqvdc6KGyxrgm/sMR
+ RxsRmYsr7lSOvSMwL3rFBLPINEIE6+Cbm50flzrmhDJ1u6F5mbgh7A4jBmlGrPRHGgFE
+ PKNvZbCT8waFthj8pXSR42rf84iTR67ScGhIT20L6uPbuLwSxBcHZJTPS+2f2fj1iLTx
+ yuMUVaiALaIJJQ9r48pW8qp4po9j0owrv3n2mP36FP34KiG3n3VJn5vervFaBwD879UI
+ 6dQw==
+X-Gm-Message-State: AOAM533VfkUp7fw+KVjf/s6JooVEtesa2KBXOJHseMl2O8I+RPN749IC
+ 5vemXSjUPYk3kqaMurs0TM0=
+X-Google-Smtp-Source: ABdhPJy8eCVIy9HA8af7r53Q+VB4Rdwh8r/F74zYBiwOL5AvZFNsag+DAvSF2ZRDijJ5mzKgEdVMew==
+X-Received: by 2002:a62:6451:0:b029:20e:f351:f1e with SMTP id
+ y78-20020a6264510000b029020ef3510f1emr1013447pfb.54.1617160620192; 
+ Tue, 30 Mar 2021 20:17:00 -0700 (PDT)
+Received: from ubt.spreadtrum.com ([117.18.48.102])
+ by smtp.gmail.com with ESMTPSA id j26sm390204pfn.47.2021.03.30.20.16.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Mar 2021 20:16:59 -0700 (PDT)
+From: Chunyan Zhang <zhang.lyra@gmail.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH] iommu: sprd: Fix parameter type warning
+Date: Wed, 31 Mar 2021 11:16:45 +0800
+Message-Id: <20210331031645.1001913-1-zhang.lyra@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, will@kernel.org,
- robin.murphy@arm.com, pratikp@codeaurora.org
+Cc: Chunyan Zhang <zhang.lyra@gmail.com>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Chunyan Zhang <chunyan.zhang@unisoc.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,55 +94,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Implement the unmap_pages IOMMU driver callback for the ARM
-SMMU driver.
+From: Chunyan Zhang <chunyan.zhang@unisoc.com>
 
-Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-Suggested-by: Will Deacon <will@kernel.org>
+The second parameter of clk_get_optional() is "const char *", so use NULL
+instead of integer 0 to fix a sparse warning like:
+
+">> drivers/iommu/sprd-iommu.c:456:42: sparse: sparse: Using plain integer as NULL pointer"
+
+Also this patch changes to use the resource-managed variant of
+clk_get_optional(), then there's no need to add clk_put() which
+is missed in the current driver.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/iommu/sprd-iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index d8c6bfde6a61..a65ff92cb6e3 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -1225,6 +1225,24 @@ static size_t arm_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
- 	return ret;
- }
- 
-+static size_t arm_smmu_unmap_pages(struct iommu_domain *domain, unsigned long iova,
-+				   size_t pgsize, size_t pgcount,
-+				   struct iommu_iotlb_gather *gather)
-+{
-+	struct io_pgtable_ops *ops = to_smmu_domain(domain)->pgtbl_ops;
-+	struct arm_smmu_device *smmu = to_smmu_domain(domain)->smmu;
-+	size_t ret;
-+
-+	if (!ops)
-+		return 0;
-+
-+	arm_smmu_rpm_get(smmu);
-+	ret = ops->unmap_pages(ops, iova, pgsize, pgcount, gather);
-+	arm_smmu_rpm_put(smmu);
-+
-+	return ret;
-+}
-+
- static void arm_smmu_flush_iotlb_all(struct iommu_domain *domain)
+diff --git a/drivers/iommu/sprd-iommu.c b/drivers/iommu/sprd-iommu.c
+index 7100ed17dcce..371d5715cbc9 100644
+--- a/drivers/iommu/sprd-iommu.c
++++ b/drivers/iommu/sprd-iommu.c
+@@ -453,7 +453,7 @@ static int sprd_iommu_clk_enable(struct sprd_iommu_device *sdev)
  {
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-@@ -1625,6 +1643,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.attach_dev		= arm_smmu_attach_dev,
- 	.map			= arm_smmu_map,
- 	.unmap			= arm_smmu_unmap,
-+	.unmap_pages		= arm_smmu_unmap_pages,
- 	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
- 	.iotlb_sync		= arm_smmu_iotlb_sync,
- 	.iova_to_phys		= arm_smmu_iova_to_phys,
+ 	struct clk *eb;
+ 
+-	eb = clk_get_optional(sdev->dev, 0);
++	eb = devm_clk_get_optional(sdev->dev, NULL);
+ 	if (!eb)
+ 		return 0;
+ 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.25.1
 
 _______________________________________________
 iommu mailing list
