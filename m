@@ -1,69 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445C434FD95
-	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 11:58:52 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 584F034FDC3
+	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 12:05:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BFC846086C;
-	Wed, 31 Mar 2021 09:58:50 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 77A1A84824;
+	Wed, 31 Mar 2021 10:04:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UFAMsdmRm_lm; Wed, 31 Mar 2021 09:58:49 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id P5j4ne7dVVGJ; Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BE19D607F2;
-	Wed, 31 Mar 2021 09:58:49 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 80A8584822;
+	Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98413C000A;
-	Wed, 31 Mar 2021 09:58:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C0549C0017;
+	Wed, 31 Mar 2021 10:04:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 78087C000A
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 09:58:47 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0988C000C
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 72F844063D
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 09:58:47 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id AAA5860ABA
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2vdwWLk5I5oZ for <iommu@lists.linux-foundation.org>;
- Wed, 31 Mar 2021 09:58:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id B86C8405F0
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 09:58:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CB561042;
- Wed, 31 Mar 2021 02:58:42 -0700 (PDT)
-Received: from [10.57.24.208] (unknown [10.57.24.208])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5A3F3F792;
- Wed, 31 Mar 2021 02:58:40 -0700 (PDT)
-Subject: Re: [PATCH 1/6] iommu: Move IOVA power-of-2 roundup into allocator
-To: John Garry <john.garry@huawei.com>, "joro@8bytes.org" <joro@8bytes.org>,
- "will@kernel.org" <will@kernel.org>, "jejb@linux.ibm.com"
- <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>, "hch@lst.de" <hch@lst.de>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>
-References: <1616160348-29451-1-git-send-email-john.garry@huawei.com>
- <1616160348-29451-2-git-send-email-john.garry@huawei.com>
- <ee935a6d-a94c-313e-f0ed-e14cc6dac055@arm.com>
- <73d459de-b5cc-e2f5-bcd7-2ee23c8d5075@huawei.com>
- <afc2fc05-a799-cb14-debd-d36afed8f456@arm.com>
- <08c0f4b9-8713-fa97-3986-3cfb0d6b820b@huawei.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e4b9146a-ca32-50f5-4fe0-42aa0b66d2d6@arm.com>
-Date: Wed, 31 Mar 2021 10:58:36 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id sHhlw4t_2VQI for <iommu@lists.linux-foundation.org>;
+ Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
+X-Greylist: delayed 00:05:01 by SQLgrey-1.8.0
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A8FF460AB0
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:52 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:ada2:b4da:6568:5ad5])
+ by andre.telenet-ops.be with bizsmtp
+ id mxzc2400c5W9KJv01xzcoU; Wed, 31 Mar 2021 11:59:49 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lRXdQ-00BseR-3H; Wed, 31 Mar 2021 11:59:36 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lRXdP-001cdD-ED; Wed, 31 Mar 2021 11:59:35 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
+ Petr Mladek <pmladek@suse.com>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Subject: [PATCH] clk: Align provider-specific CLK_* bit definitions
+Date: Wed, 31 Mar 2021 11:59:19 +0200
+Message-Id: <505e19bac2deb6015e76391ce7ad044c43499681.1617184676.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <08c0f4b9-8713-fa97-3986-3cfb0d6b820b@huawei.com>
-Content-Language: en-GB
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- Linuxarm <linuxarm@huawei.com>
+Cc: Marco Elver <elver@google.com>, linux-embedded@vger.kernel.org,
+ John Ogness <john.ogness@linutronix.de>, Gary R Hook <gary.hook@amd.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Vlastimil Babka <vbabka@suse.cz>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,42 +77,63 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-03-22 15:01, John Garry wrote:
-> On 19/03/2021 19:20, Robin Murphy wrote:
-> 
-> Hi Robin,
-> 
->>> So then we have the issue of how to dynamically increase this rcache
->>> threshold. The problem is that we may have many devices associated with
->>> the same domain. So, in theory, we can't assume that when we increase
->>> the threshold that some other device will try to fast free an IOVA which
->>> was allocated prior to the increase and was not rounded up.
->>>
->>> I'm very open to better (or less bad) suggestions on how to do this ...
->> ...but yes, regardless of exactly where it happens, rounding up or not
->> is the problem for rcaches in general. I've said several times that my
->> preferred approach is to not change it that dynamically at all, but
->> instead treat it more like we treat the default domain type.
->>
-> 
-> Can you remind me of that idea? I don't remember you mentioning using 
-> default domain handling as a reference in any context.
+The definition of CLK_MULTIPLIER_ROUND_CLOSEST is not aligned to the two
+bit definitions next to it.  A deeper inspection reveals that the
+alignment of CLK_MULTIPLIER_ROUND_CLOSEST does match the most common
+alignment.
 
-Sorry if the phrasing was unclear there - the allusion to default 
-domains is new, it just occurred to me that what we do there is in fact 
-fairly close to what I've suggested previously for this. In that case, 
-we have a global policy set by the command line, which *can* be 
-overridden per-domain via sysfs at runtime, provided the user is willing 
-to tear the whole thing down. Using a similar approach here would give a 
-fair degree of flexibility but still mean that changes never have to be 
-made dynamically to a live domain.
+Align the bit definitions for the various provider types throughout the
+file at 40 columns, to increase uniformity.
 
-Robin.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ include/linux/clk-provider.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index 58f6fe866ae9b797..8f37829565f9640e 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -342,7 +342,7 @@ struct clk_fixed_rate {
+ 	unsigned long	flags;
+ };
+ 
+-#define CLK_FIXED_RATE_PARENT_ACCURACY		BIT(0)
++#define CLK_FIXED_RATE_PARENT_ACCURACY	BIT(0)
+ 
+ extern const struct clk_ops clk_fixed_rate_ops;
+ struct clk_hw *__clk_hw_register_fixed_rate(struct device *dev,
+@@ -984,8 +984,8 @@ struct clk_fractional_divider {
+ 
+ #define to_clk_fd(_hw) container_of(_hw, struct clk_fractional_divider, hw)
+ 
+-#define CLK_FRAC_DIVIDER_ZERO_BASED		BIT(0)
+-#define CLK_FRAC_DIVIDER_BIG_ENDIAN		BIT(1)
++#define CLK_FRAC_DIVIDER_ZERO_BASED	BIT(0)
++#define CLK_FRAC_DIVIDER_BIG_ENDIAN	BIT(1)
+ 
+ extern const struct clk_ops clk_fractional_divider_ops;
+ struct clk *clk_register_fractional_divider(struct device *dev,
+@@ -1033,9 +1033,9 @@ struct clk_multiplier {
+ 
+ #define to_clk_multiplier(_hw) container_of(_hw, struct clk_multiplier, hw)
+ 
+-#define CLK_MULTIPLIER_ZERO_BYPASS		BIT(0)
++#define CLK_MULTIPLIER_ZERO_BYPASS	BIT(0)
+ #define CLK_MULTIPLIER_ROUND_CLOSEST	BIT(1)
+-#define CLK_MULTIPLIER_BIG_ENDIAN		BIT(2)
++#define CLK_MULTIPLIER_BIG_ENDIAN	BIT(2)
+ 
+ extern const struct clk_ops clk_multiplier_ops;
+ 
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
