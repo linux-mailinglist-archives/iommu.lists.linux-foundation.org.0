@@ -1,59 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE034FDC5
-	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 12:05:02 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B7D34FDC1
+	for <lists.iommu@lfdr.de>; Wed, 31 Mar 2021 12:04:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D04E68481B;
-	Wed, 31 Mar 2021 10:04:57 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id AA01183D8C;
+	Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8vG1p5xPR6KX; Wed, 31 Mar 2021 10:04:57 +0000 (UTC)
+	with ESMTP id VyEiwrfGPKJj; Wed, 31 Mar 2021 10:04:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D1E3984827;
-	Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C35B684812;
+	Wed, 31 Mar 2021 10:04:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05F54C000A;
-	Wed, 31 Mar 2021 10:04:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F65DC000A;
+	Wed, 31 Mar 2021 10:04:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E640CC000A
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A785DC000A
  for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C55238481B
+ by smtp2.osuosl.org (Postfix) with ESMTP id 80C1240230
  for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wL-rHxAD7NVE for <iommu@lists.linux-foundation.org>;
- Wed, 31 Mar 2021 10:04:53 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3NizpxqrJ3UL for <iommu@lists.linux-foundation.org>;
+ Wed, 31 Mar 2021 10:04:52 +0000 (UTC)
 X-Greylist: delayed 00:05:01 by SQLgrey-1.8.0
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B6B0584812
- for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:52 +0000 (UTC)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A77DF40141
+ for <iommu@lists.linux-foundation.org>; Wed, 31 Mar 2021 10:04:51 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:ada2:b4da:6568:5ad5])
- by andre.telenet-ops.be with bizsmtp
- id mxzd240055W9KJv01xzdoY; Wed, 31 Mar 2021 11:59:49 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id mxzd240015W9KJv01xzdKe; Wed, 31 Mar 2021 11:59:48 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1lRXdQ-00BseR-AW; Wed, 31 Mar 2021 11:59:36 +0200
+ id 1lRXdQ-00BseR-73; Wed, 31 Mar 2021 11:59:36 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1lRXBt-001bpk-Cn; Wed, 31 Mar 2021 11:31:09 +0200
+ id 1lRXBt-001bpo-DX; Wed, 31 Mar 2021 11:31:09 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
  Petr Mladek <pmladek@suse.com>,
  Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: [PATCH 2/3] tracing: Use pr_crit() instead of long fancy messages
-Date: Wed, 31 Mar 2021 11:31:03 +0200
-Message-Id: <20210331093104.383705-3-geert+renesas@glider.be>
+Subject: [PATCH 3/3] lib/vsprintf: Use pr_crit() instead of long fancy messages
+Date: Wed, 31 Mar 2021 11:31:04 +0200
+Message-Id: <20210331093104.383705-4-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210331093104.383705-1-geert+renesas@glider.be>
 References: <20210331093104.383705-1-geert+renesas@glider.be>
@@ -100,40 +100,40 @@ KERN_CRIT, and removing irrelevant text and graphics.
 
 This reduces kernel size by ca. 0.5 KiB.
 
-Fixes: 2184db46e425c2b8 ("tracing: Print nasty banner when trace_printk() is in use")
+Fixes: 5ead723a20e0447b ("lib/vsprintf: no_hash_pointers prints all addresses as unhashed")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- kernel/trace/trace.c | 17 +++--------------
+ lib/vsprintf.c | 17 +++--------------
  1 file changed, 3 insertions(+), 14 deletions(-)
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index eccb4e1187cc788e..b3a93aff01045923 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -3175,20 +3175,9 @@ void trace_printk_init_buffers(void)
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 9b423359bb6433d3..0293f1b89064b287 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2193,20 +2193,9 @@ static int __init no_hash_pointers_enable(char *str)
  
- 	/* trace_printk() is for debug use only. Don't use it in production. */
+ 	no_hash_pointers = true;
  
--	pr_warn("\n");
 -	pr_warn("**********************************************************\n");
 -	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
 -	pr_warn("**                                                      **\n");
--	pr_warn("** trace_printk() being used. Allocating extra memory.  **\n");
--	pr_warn("**                                                      **\n");
--	pr_warn("** This means that this is a DEBUG kernel and it is     **\n");
--	pr_warn("** unsafe for production use.                           **\n");
+-	pr_warn("** This system shows unhashed kernel memory addresses   **\n");
+-	pr_warn("** via the console, logs, and other interfaces. This    **\n");
+-	pr_warn("** might reduce the security of your system.            **\n");
 -	pr_warn("**                                                      **\n");
 -	pr_warn("** If you see this message and you are not debugging    **\n");
--	pr_warn("** the kernel, report this immediately to your vendor!  **\n");
+-	pr_warn("** the kernel, report this immediately to your system   **\n");
+-	pr_warn("** administrator!                                       **\n");
 -	pr_warn("**                                                      **\n");
 -	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
 -	pr_warn("**********************************************************\n");
-+	pr_crit("trace_printk() being used. Allocating extra memory.\n");
-+	pr_crit("This means that this is a DEBUG kernel and it is\n");
-+	pr_crit("unsafe for production use.\n");
- 
- 	/* Expand the buffers to set size */
- 	tracing_update_buffers();
+-
++	pr_crit("This system shows unhashed kernel memory addresses\n");
++	pr_crit("via the console, logs, and other interfaces. This\n");
++	pr_crit("might reduce the security of your system.\n");
+ 	return 0;
+ }
+ early_param("no_hash_pointers", no_hash_pointers_enable);
 -- 
 2.25.1
 
