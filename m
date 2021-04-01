@@ -1,90 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC8E35114F
-	for <lists.iommu@lfdr.de>; Thu,  1 Apr 2021 10:57:55 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6F3351150
+	for <lists.iommu@lfdr.de>; Thu,  1 Apr 2021 10:58:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3EB4340297;
-	Thu,  1 Apr 2021 08:57:54 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6C0E74029B;
+	Thu,  1 Apr 2021 08:58:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pV8ZT4Sns8Ge; Thu,  1 Apr 2021 08:57:53 +0000 (UTC)
+	with ESMTP id TyqmOUnyIemd; Thu,  1 Apr 2021 08:58:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5E90C400C2;
-	Thu,  1 Apr 2021 08:57:53 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9E66D40296;
+	Thu,  1 Apr 2021 08:58:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 413A5C000A;
-	Thu,  1 Apr 2021 08:57:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B14DC000A;
+	Thu,  1 Apr 2021 08:58:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9EEACC000A
- for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 08:57:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 81D2FC000A
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 08:58:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8023440296
- for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 08:57:51 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 62C584029B
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 08:58:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BwtAdqnKx2Vk for <iommu@lists.linux-foundation.org>;
- Thu,  1 Apr 2021 08:57:51 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id F30F1400C2
- for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 08:57:50 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- x21-20020a17090a5315b029012c4a622e4aso671485pjh.2
- for <iommu@lists.linux-foundation.org>; Thu, 01 Apr 2021 01:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=oXtJ821yB9S8peS7jwk7jXIhvNxqy4kwSPnw73VGxuY=;
- b=aA5+PCF5ZjUkVztXBPOOYY2ElzvNGYpU+nmwQbZeikkytPRSBL3KM0UIJYvlGV43eZ
- jMCLFVWtv0tNz/qNiQPUDKTbOuAKOXQT4Go8yTJZx6BLJP5iiPI7E2pbfp6ObQK7cNGo
- NGpuNX7kaEnW/v3sJsAQnq1p21TchRmAm8ofsDXDzn786S0o+0sTpP7zb49tQ5mZ0BE6
- WwyMNvXZVwqy6nMZ0SfONJmIxRNDW885ZzzFzjySanxNQrl3E1un6u8Zl9S8DZjXTpCm
- eCqk0n3W/gKZkEH/ySIRus1BQ6SeM9T/sv16mkNcKIok3heNI6DMJdfbjqaElZfyHiZs
- CyJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=oXtJ821yB9S8peS7jwk7jXIhvNxqy4kwSPnw73VGxuY=;
- b=TVggU4OM7jiGla/06lNiP+QlvpHVrbK1JaxczIh3CShSnDM/TmIiMLhqhNyrA4Gtjg
- XG/sM1zh/TU1Oz2DCNXkIFDDsFXKPz+aHUE6oaGgkhPz/wjGkuuNWvZ5MxS0KIpCjow5
- W4W0xEcxEOD2fv7H9O1LyX3WpGg05em5ZOPNjxhqVYaF8tmbDR79IAppzBEM+ENcu3ab
- 8rVU+LAYT2CgwAgz7pU9ayyry7U06ebXNXfwtLhhlISykTJ1L7xWHUDk2f7ybACstesN
- nJWA6ThZTlVsyRf/HpsvlT9NMj6v91exo3mlT+lPT+ubWHKuUMMP2IvHIg2TyGLq3bkh
- G4FA==
-X-Gm-Message-State: AOAM532VOQIchJokDUB0zDF9GblxQ0uM0kBVulbxknDLtCSfbxNouiX4
- XQFb7lvWTvk5wjyVnYFoFg4=
-X-Google-Smtp-Source: ABdhPJzvGu1N/wS8TdEjPhRmZPGQtvMqhoK8l4yaacUdBjiNF8CVAyTyrCf93DCUjT3hj2p3hpmsTg==
-X-Received: by 2002:a17:902:a502:b029:e8:3a40:bc6d with SMTP id
- s2-20020a170902a502b02900e83a40bc6dmr4974818plq.14.1617267470411; 
- Thu, 01 Apr 2021 01:57:50 -0700 (PDT)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id y7sm4824167pja.25.2021.04.01.01.57.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 01 Apr 2021 01:57:50 -0700 (PDT)
-Date: Thu, 1 Apr 2021 01:55:49 -0700
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 2/2] iommu/tegra-smmu: Revert workaround that was
- needed for Nyan Big Chromebook
-Message-ID: <20210401085549.GA31146@Asurada-Nvidia>
-References: <20210328233256.20494-1-digetx@gmail.com>
- <20210328233256.20494-2-digetx@gmail.com>
+ with ESMTP id YPsoxpr3afCj for <iommu@lists.linux-foundation.org>;
+ Thu,  1 Apr 2021 08:58:02 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 51F0940296
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 08:58:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CBF966023B;
+ Thu,  1 Apr 2021 08:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617267480;
+ bh=qO5GnDQBxqX1f7x9zAi73eBzkaFPHd3HL6PpBB85bdk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OMfEcbl8tYPuX5WDV/d/OgcbQ4JUHkcqvauo65fQCWGZLSdEOyJdCKSebhVJ5N139
+ /fRmtaxVbip3YDuWsFYMDKtqOs4Xd6epo3gS2N5xpJGPgHVdEmamYy7AzcvpXEosP2
+ qaAd6IDmnhCg0n7BzRjeM+uRDfm+lbEw99nW4yPoCwBO0cqaESOj+V5MerHHeW8TwP
+ w/xULX4IvKezvZLKNY9Q++cRvNJE/SGXScv/NODcscd25v0fvpY8fZHzqK5YpQ/PLl
+ VRd1Aqr7RG76L5N8GCV0LhxcM4vdJWBwAMaTWReNAjFSSH9L/gNBndS5BG4l0MiV54
+ I1y0PfrhuBuIw==
+Date: Thu, 1 Apr 2021 09:57:52 +0100
+From: Will Deacon <will@kernel.org>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v13 00/10] iommu: I/O page faults for SMMUv3
+Message-ID: <20210401085752.GA8781@willie-the-truck>
+References: <20210302092644.2553014-1-jean-philippe@linaro.org>
+ <YGNdQ863Mohizx7A@myrica>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210328233256.20494-2-digetx@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, guillaume.tucker@collabora.com,
- linux-tegra@vger.kernel.org, Will Deacon <will@kernel.org>
+In-Reply-To: <YGNdQ863Mohizx7A@myrica>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: vivek.gautam@arm.com, guohanjun@huawei.com, linux-acpi@vger.kernel.org,
+ zhangfei.gao@linaro.org, lenb@kernel.org, devicetree@vger.kernel.org,
+ kevin.tian@intel.com, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ rjw@rjwysocki.net, iommu@lists.linux-foundation.org, sudeep.holla@arm.com,
+ robin.murphy@arm.com, linux-accelerators@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,17 +79,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Mar 29, 2021 at 02:32:56AM +0300, Dmitry Osipenko wrote:
-> The previous commit fixes problem where display client was attaching too
-> early to IOMMU during kernel boot in a multi-platform kernel configuration
-> which enables CONFIG_ARM_DMA_USE_IOMMU=y. The workaround that helped to
-> defer the IOMMU attachment for Nyan Big Chromebook isn't needed anymore,
-> revert it.
+On Tue, Mar 30, 2021 at 07:17:55PM +0200, Jean-Philippe Brucker wrote:
+> On Tue, Mar 02, 2021 at 10:26:36AM +0100, Jean-Philippe Brucker wrote:
+> > Add stall support to the SMMUv3 driver, along with a common I/O Page
+> > Fault handler.
+> 
+> I only have review/ack tags and one assert_lockdep to add to this series.
+> Should I send a v14 now or wait a little longer?  Just making sure we can
+> get at least patches 1-6 in v5.13.
 
-Sorry for the late reply. I have been busy with downstream tasks.
+Easiest thing is probably to send a v14 containing just the patches
+targetting v5.13, so that Joerg can queue them up.
 
-I will give them a try by the end of the week. Yet, probably it'd
-be better to include Guillaume also as he has the Nyan platform.
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
