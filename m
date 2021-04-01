@@ -1,59 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C796E3516FA
-	for <lists.iommu@lfdr.de>; Thu,  1 Apr 2021 18:56:54 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 923993516F0
+	for <lists.iommu@lfdr.de>; Thu,  1 Apr 2021 18:56:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7143E84AEB;
-	Thu,  1 Apr 2021 16:56:53 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 185E041880;
+	Thu,  1 Apr 2021 16:56:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8ON8I21HnqUY; Thu,  1 Apr 2021 16:56:52 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QeqlLcofQDju; Thu,  1 Apr 2021 16:56:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3C26C84A28;
-	Thu,  1 Apr 2021 16:56:52 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E43E441878;
+	Thu,  1 Apr 2021 16:56:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 18280C000A;
-	Thu,  1 Apr 2021 16:56:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C3033C000A;
+	Thu,  1 Apr 2021 16:56:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 36ECBC000A;
- Thu,  1 Apr 2021 16:56:50 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 57B31C000A;
+ Thu,  1 Apr 2021 16:56:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 196658499B;
- Thu,  1 Apr 2021 16:56:50 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 385CA60BE8;
+ Thu,  1 Apr 2021 16:56:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GkpJiklbuews; Thu,  1 Apr 2021 16:56:49 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=infradead.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id w-SYc8bUfr0o; Thu,  1 Apr 2021 16:56:33 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3A6F384AC5;
- Thu,  1 Apr 2021 16:56:49 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A7CE560BE4;
+ Thu,  1 Apr 2021 16:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=MtrgxLAhlmFvv8x4VG4k1DXS4PlVeDyHR2V3cdc5JxE=; b=pUIeUNeiL/4HYl953OPKY62Bfq
- vFuTZt21nqi+J780PmtN+4IsKOQ6/bBEQNK3aagrrdsOmR5LhNQaopJ89QKUkNOVc0epFdtmVT13W
- I0XmojLkt3BRMYA5YaYj4UrX2+RPr6RRX4kmeG+1LF+/KL9zKSIsZQOIHBt/LjO+EYXrCK3Cc1PpP
- hsPMjxow3gshW5u3Ibc9JQD4U79AgekCU0hiL47keuNRQfn2vaLhwYvvS5PgVo7TVlBMc1+J1edJG
- lhauINKog6Gob5o5C/qV+BriV0HB7L/KRpc3emFnddYods4k3mNgdEzqs4Pj0Dfr51OVwLuzVLjt5
- r8uyBuOw==;
+ bh=g/lYlQLJmKIelbYGsJOMK8K3baqJu4KrHdTwHylUH98=; b=yk7zp4/a/VVy/qjNyBy+25HhKE
+ M3MLuAAEGCHkhoP6K+6R5Jrd2o9QTpPa/n+D+jPbw8PfF0Hj+LlRVl4uxYQG9l3BZZ+4dc5I8r9e2
+ IjqvjarJiebl1F9i4ul0iOVUIzj1oDsJXbYJ2qkBZ0gl0i5I6XA+OeaYxW2MRRFfMRRV32/ae8F5J
+ dDH6vXR/maOTz6DfB53SyQcBbg8iRcUEK8qYomkv4uD4P3cJvtU6CBHm5BwRr30BFkiHIqeNzDoDA
+ LbAzmQekckWvz0YH4pL5dkKd9Izu6Dwi1ld24zxZdieLRhcx6J9vWJ1Ig/OL/cF1UeinsSVUXpGco
+ +Rs+TVvQ==;
 Received: from [2001:4bb8:180:7517:83e4:a809:b0aa:ca74] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lRzdo-00CieJ-PY; Thu, 01 Apr 2021 15:53:53 +0000
+ id 1lRzdr-00Ciee-IE; Thu, 01 Apr 2021 15:53:56 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Li Yang <leoyang.li@nxp.com>
-Subject: [PATCH 16/20] iommu: remove DOMAIN_ATTR_NESTING
-Date: Thu,  1 Apr 2021 17:52:52 +0200
-Message-Id: <20210401155256.298656-17-hch@lst.de>
+Subject: [PATCH 17/20] iommu: remove iommu_set_cmd_line_dma_api and
+ iommu_cmd_line_dma_api
+Date: Thu,  1 Apr 2021 17:52:53 +0200
+Message-Id: <20210401155256.298656-18-hch@lst.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210401155256.298656-1-hch@lst.de>
 References: <20210401155256.298656-1-hch@lst.de>
@@ -83,288 +86,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use an explicit enable_nesting method instead.
+Don't obsfucate the trivial bit flag check.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Acked-by: Will Deacon <will@kernel.org>
-Acked-by: Li Yang <leoyang.li@nxp.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 43 ++++++++-------------
- drivers/iommu/arm/arm-smmu/arm-smmu.c       | 30 +++++++-------
- drivers/iommu/intel/iommu.c                 | 31 +++++----------
- drivers/iommu/iommu.c                       | 10 +++++
- drivers/vfio/vfio_iommu_type1.c             |  5 +--
- include/linux/iommu.h                       |  4 +-
- 6 files changed, 55 insertions(+), 68 deletions(-)
+ drivers/iommu/iommu.c | 23 +++++------------------
+ 1 file changed, 5 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 8594b4a8304375..f1e38526d5bd40 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2455,15 +2455,6 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
- 
- 	switch (domain->type) {
--	case IOMMU_DOMAIN_UNMANAGED:
--		switch (attr) {
--		case DOMAIN_ATTR_NESTING:
--			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
--			return 0;
--		default:
--			return -ENODEV;
--		}
--		break;
- 	case IOMMU_DOMAIN_DMA:
- 		switch (attr) {
- 		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-@@ -2487,23 +2478,6 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
- 	mutex_lock(&smmu_domain->init_mutex);
- 
- 	switch (domain->type) {
--	case IOMMU_DOMAIN_UNMANAGED:
--		switch (attr) {
--		case DOMAIN_ATTR_NESTING:
--			if (smmu_domain->smmu) {
--				ret = -EPERM;
--				goto out_unlock;
--			}
--
--			if (*(int *)data)
--				smmu_domain->stage = ARM_SMMU_DOMAIN_NESTED;
--			else
--				smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
--			break;
--		default:
--			ret = -ENODEV;
--		}
--		break;
- 	case IOMMU_DOMAIN_DMA:
- 		switch(attr) {
- 		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-@@ -2517,11 +2491,25 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
- 		ret = -EINVAL;
- 	}
- 
--out_unlock:
- 	mutex_unlock(&smmu_domain->init_mutex);
- 	return ret;
- }
- 
-+static int arm_smmu_enable_nesting(struct iommu_domain *domain)
-+{
-+	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-+	int ret = 0;
-+
-+	mutex_lock(&smmu_domain->init_mutex);
-+	if (smmu_domain->smmu)
-+		ret = -EPERM;
-+	else
-+		smmu_domain->stage = ARM_SMMU_DOMAIN_NESTED;
-+	mutex_unlock(&smmu_domain->init_mutex);
-+
-+	return ret;
-+}
-+
- static int arm_smmu_of_xlate(struct device *dev, struct of_phandle_args *args)
- {
- 	return iommu_fwspec_add_ids(dev, args->args, 1);
-@@ -2621,6 +2609,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.device_group		= arm_smmu_device_group,
- 	.domain_get_attr	= arm_smmu_domain_get_attr,
- 	.domain_set_attr	= arm_smmu_domain_set_attr,
-+	.enable_nesting		= arm_smmu_enable_nesting,
- 	.of_xlate		= arm_smmu_of_xlate,
- 	.get_resv_regions	= arm_smmu_get_resv_regions,
- 	.put_resv_regions	= generic_iommu_put_resv_regions,
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index d8c6bfde6a6158..0aa6d667274970 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -1489,9 +1489,6 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
- 	switch(domain->type) {
- 	case IOMMU_DOMAIN_UNMANAGED:
- 		switch (attr) {
--		case DOMAIN_ATTR_NESTING:
--			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
--			return 0;
- 		case DOMAIN_ATTR_IO_PGTABLE_CFG: {
- 			struct io_pgtable_domain_attr *pgtbl_cfg = data;
- 			*pgtbl_cfg = smmu_domain->pgtbl_cfg;
-@@ -1519,6 +1516,21 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
- 	}
- }
- 
-+static int arm_smmu_enable_nesting(struct iommu_domain *domain)
-+{
-+	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-+	int ret = 0;
-+
-+	mutex_lock(&smmu_domain->init_mutex);
-+	if (smmu_domain->smmu)
-+		ret = -EPERM;
-+	else
-+		smmu_domain->stage = ARM_SMMU_DOMAIN_NESTED;
-+	mutex_unlock(&smmu_domain->init_mutex);
-+
-+	return ret;
-+}
-+
- static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
- 				    enum iommu_attr attr, void *data)
- {
-@@ -1530,17 +1542,6 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
- 	switch(domain->type) {
- 	case IOMMU_DOMAIN_UNMANAGED:
- 		switch (attr) {
--		case DOMAIN_ATTR_NESTING:
--			if (smmu_domain->smmu) {
--				ret = -EPERM;
--				goto out_unlock;
--			}
--
--			if (*(int *)data)
--				smmu_domain->stage = ARM_SMMU_DOMAIN_NESTED;
--			else
--				smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
--			break;
- 		case DOMAIN_ATTR_IO_PGTABLE_CFG: {
- 			struct io_pgtable_domain_attr *pgtbl_cfg = data;
- 
-@@ -1633,6 +1634,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.device_group		= arm_smmu_device_group,
- 	.domain_get_attr	= arm_smmu_domain_get_attr,
- 	.domain_set_attr	= arm_smmu_domain_set_attr,
-+	.enable_nesting		= arm_smmu_enable_nesting,
- 	.of_xlate		= arm_smmu_of_xlate,
- 	.get_resv_regions	= arm_smmu_get_resv_regions,
- 	.put_resv_regions	= generic_iommu_put_resv_regions,
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index ee0932307d646b..070ba76242e819 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5423,32 +5423,19 @@ static bool intel_iommu_is_attach_deferred(struct iommu_domain *domain,
- }
- 
- static int
--intel_iommu_domain_set_attr(struct iommu_domain *domain,
--			    enum iommu_attr attr, void *data)
-+intel_iommu_enable_nesting(struct iommu_domain *domain)
- {
- 	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
- 	unsigned long flags;
--	int ret = 0;
--
--	if (domain->type != IOMMU_DOMAIN_UNMANAGED)
--		return -EINVAL;
-+	int ret = -ENODEV;
- 
--	switch (attr) {
--	case DOMAIN_ATTR_NESTING:
--		spin_lock_irqsave(&device_domain_lock, flags);
--		if (nested_mode_support() &&
--		    list_empty(&dmar_domain->devices)) {
--			dmar_domain->flags |= DOMAIN_FLAG_NESTING_MODE;
--			dmar_domain->flags &= ~DOMAIN_FLAG_USE_FIRST_LEVEL;
--		} else {
--			ret = -ENODEV;
--		}
--		spin_unlock_irqrestore(&device_domain_lock, flags);
--		break;
--	default:
--		ret = -EINVAL;
--		break;
-+	spin_lock_irqsave(&device_domain_lock, flags);
-+	if (nested_mode_support() && list_empty(&dmar_domain->devices)) {
-+		dmar_domain->flags |= DOMAIN_FLAG_NESTING_MODE;
-+		dmar_domain->flags &= ~DOMAIN_FLAG_USE_FIRST_LEVEL;
-+		ret = 0;
- 	}
-+	spin_unlock_irqrestore(&device_domain_lock, flags);
- 
- 	return ret;
- }
-@@ -5577,7 +5564,7 @@ const struct iommu_ops intel_iommu_ops = {
- 	.domain_alloc		= intel_iommu_domain_alloc,
- 	.domain_free		= intel_iommu_domain_free,
- 	.domain_get_attr        = intel_iommu_domain_get_attr,
--	.domain_set_attr	= intel_iommu_domain_set_attr,
-+	.enable_nesting		= intel_iommu_enable_nesting,
- 	.attach_dev		= intel_iommu_attach_device,
- 	.detach_dev		= intel_iommu_detach_device,
- 	.aux_attach_dev		= intel_iommu_aux_attach_device,
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 23daaea7883b75..58d1d11a8d5c10 100644
+index 58d1d11a8d5c10..052cef11ae30df 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -2690,6 +2690,16 @@ int iommu_domain_set_attr(struct iommu_domain *domain,
- }
- EXPORT_SYMBOL_GPL(iommu_domain_set_attr);
+@@ -70,16 +70,6 @@ static const char * const iommu_group_resv_type_string[] = {
  
-+int iommu_enable_nesting(struct iommu_domain *domain)
-+{
-+	if (domain->type != IOMMU_DOMAIN_UNMANAGED)
-+		return -EINVAL;
-+	if (!domain->ops->enable_nesting)
-+		return -EINVAL;
-+	return domain->ops->enable_nesting(domain);
-+}
-+EXPORT_SYMBOL_GPL(iommu_enable_nesting);
-+
- void iommu_get_resv_regions(struct device *dev, struct list_head *list)
- {
- 	const struct iommu_ops *ops = dev->bus->iommu_ops;
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index ae6d72f17aee78..3c8048d78282ae 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -2330,10 +2330,7 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 	}
+ #define IOMMU_CMD_LINE_DMA_API		BIT(0)
  
- 	if (iommu->nesting) {
--		int attr = 1;
+-static void iommu_set_cmd_line_dma_api(void)
+-{
+-	iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
+-}
 -
--		ret = iommu_domain_set_attr(domain->domain, DOMAIN_ATTR_NESTING,
--					    &attr);
-+		ret = iommu_enable_nesting(domain->domain);
- 		if (ret)
- 			goto out_domain;
- 	}
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index c15a8658daad64..670e7a3523f286 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -107,7 +107,6 @@ enum iommu_cap {
-  */
+-static bool iommu_cmd_line_dma_api(void)
+-{
+-	return !!(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API);
+-}
+-
+ static int iommu_alloc_default_domain(struct iommu_group *group,
+ 				      struct device *dev);
+ static struct iommu_domain *__iommu_domain_alloc(struct bus_type *bus,
+@@ -130,9 +120,7 @@ static const char *iommu_domain_type_str(unsigned int t)
  
- enum iommu_attr {
--	DOMAIN_ATTR_NESTING,	/* two stages of translation */
- 	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
- 	DOMAIN_ATTR_IO_PGTABLE_CFG,
- 	DOMAIN_ATTR_MAX,
-@@ -196,6 +195,7 @@ struct iommu_iotlb_gather {
-  * @device_group: find iommu group for a particular device
-  * @domain_get_attr: Query domain attributes
-  * @domain_set_attr: Change domain attributes
-+ * @enable_nesting: Enable nesting
-  * @get_resv_regions: Request list of reserved regions for a device
-  * @put_resv_regions: Free list of reserved regions for a device
-  * @apply_resv_region: Temporary helper call-back for iova reserved ranges
-@@ -248,6 +248,7 @@ struct iommu_ops {
- 			       enum iommu_attr attr, void *data);
- 	int (*domain_set_attr)(struct iommu_domain *domain,
- 			       enum iommu_attr attr, void *data);
-+	int (*enable_nesting)(struct iommu_domain *domain);
+ static int __init iommu_subsys_init(void)
+ {
+-	bool cmd_line = iommu_cmd_line_dma_api();
+-
+-	if (!cmd_line) {
++	if (!(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API)) {
+ 		if (IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH))
+ 			iommu_set_default_passthrough(false);
+ 		else
+@@ -146,7 +134,8 @@ static int __init iommu_subsys_init(void)
  
- 	/* Request/Free a list of reserved regions for a device */
- 	void (*get_resv_regions)(struct device *dev, struct list_head *list);
-@@ -495,6 +496,7 @@ extern int iommu_domain_get_attr(struct iommu_domain *domain, enum iommu_attr,
- 				 void *data);
- extern int iommu_domain_set_attr(struct iommu_domain *domain, enum iommu_attr,
- 				 void *data);
-+int iommu_enable_nesting(struct iommu_domain *domain);
+ 	pr_info("Default domain type: %s %s\n",
+ 		iommu_domain_type_str(iommu_def_domain_type),
+-		cmd_line ? "(set via kernel command line)" : "");
++		(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API) ?
++			"(set via kernel command line)" : "");
  
- extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
- 			      unsigned long iova, int flags);
+ 	return 0;
+ }
+@@ -2757,16 +2746,14 @@ EXPORT_SYMBOL_GPL(iommu_alloc_resv_region);
+ void iommu_set_default_passthrough(bool cmd_line)
+ {
+ 	if (cmd_line)
+-		iommu_set_cmd_line_dma_api();
+-
++		iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
+ 	iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
+ }
+ 
+ void iommu_set_default_translated(bool cmd_line)
+ {
+ 	if (cmd_line)
+-		iommu_set_cmd_line_dma_api();
+-
++		iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
+ 	iommu_def_domain_type = IOMMU_DOMAIN_DMA;
+ }
+ 
 -- 
 2.30.1
 
