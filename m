@@ -1,72 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1AA635119A
-	for <lists.iommu@lfdr.de>; Thu,  1 Apr 2021 11:14:55 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574BE35123D
+	for <lists.iommu@lfdr.de>; Thu,  1 Apr 2021 11:30:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6C5014062E;
-	Thu,  1 Apr 2021 09:14:54 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B459C40F9D;
+	Thu,  1 Apr 2021 09:30:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QURc5YOHbjZb; Thu,  1 Apr 2021 09:14:53 +0000 (UTC)
+	with ESMTP id J7WmVF6zljuT; Thu,  1 Apr 2021 09:30:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2673A4062D;
-	Thu,  1 Apr 2021 09:14:53 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B493F40FB1;
+	Thu,  1 Apr 2021 09:30:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E8ABDC0012;
-	Thu,  1 Apr 2021 09:14:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D159BC0017;
+	Thu,  1 Apr 2021 09:30:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5A9F1C000A
- for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 09:14:52 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6D7B8C000A;
+ Thu,  1 Apr 2021 09:30:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 336894062D
- for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 09:14:52 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5A11440544;
+ Thu,  1 Apr 2021 09:30:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eNXALUrmS2Ap for <iommu@lists.linux-foundation.org>;
- Thu,  1 Apr 2021 09:14:50 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AE32B40629
- for <iommu@lists.linux-foundation.org>; Thu,  1 Apr 2021 09:14:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1617268488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fNVeVEJsE2NrNnpG1ONXT+uOw5bYJLkau4SXRA3zVtY=;
- b=GRFP7NyKhoU4R3Df8eXeg/mty4f651aCNMyk12y/rdwQeK6fl4bVrfiimdQlcVB0giY/k6
- NLUIG/qpYN1Odp3Xmygn+0Z+MjnFMv47Lp9hQJTw4JhqBOsBl8MNXXPsZhYruek/IXkQzp
- GNzwnEg1mD2Q4UsVtqYP3SO7sHaryIc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F3BD8AE6D;
- Thu,  1 Apr 2021 09:14:47 +0000 (UTC)
-Date: Thu, 1 Apr 2021 11:14:47 +0200
-To: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 2/3] tracing: Use pr_crit() instead of long fancy messages
-Message-ID: <YGWPB8hPVVOIx4AG@alley>
-References: <20210331093104.383705-1-geert+renesas@glider.be>
- <20210331093104.383705-3-geert+renesas@glider.be>
- <20210331094007.77aa5194@gandalf.local.home>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YfV9upoI1Uyc; Thu,  1 Apr 2021 09:30:03 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 643DA4029B;
+ Thu,  1 Apr 2021 09:30:03 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 3942A68B05; Thu,  1 Apr 2021 11:29:58 +0200 (CEST)
+Date: Thu, 1 Apr 2021 11:29:57 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 05/18] iommu/fsl_pamu: remove support for multiple windows
+Message-ID: <20210401092957.GB2934@lst.de>
+References: <20210316153825.135976-1-hch@lst.de>
+ <20210316153825.135976-6-hch@lst.de> <20210330122234.GE5908@willie-the-truck>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210331094007.77aa5194@gandalf.local.home>
-Cc: Marco Elver <elver@google.com>, linux-embedded@vger.kernel.org,
- John Ogness <john.ogness@linutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Will Deacon <will@kernel.org>, Gary R Hook <gary.hook@amd.com>
+In-Reply-To: <20210330122234.GE5908@willie-the-truck>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,61 +66,22 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Petr Mladek via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Petr Mladek <pmladek@suse.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed 2021-03-31 09:40:07, Steven Rostedt wrote:
-> On Wed, 31 Mar 2021 11:31:03 +0200
-> Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+On Tue, Mar 30, 2021 at 01:22:34PM +0100, Will Deacon wrote:
+> >  	 * win_arr contains information of the configured
+> >  	 * windows for a domain. This is allocated only
+> >  	 * when the number of windows for the domain are
+> >  	 * set.
+> >  	 */
 > 
-> > This reduces kernel size by ca. 0.5 KiB.
-> 
-> If you are worried about size, disable tracing and it will go away
-> entirely. 0.5KiB is a drop in the bucket compared to what tracing adds in
-> size overhead.
-> 
-> Sorry, but NAK.
-> 
-> This has been very successful in stopping people from adding trace_printk()
-> to the kernel, and I like to keep it that way.
+> The last part of this comment is now stale ^^
 
-I agree with Steven. I believe that the eye-catching form is
-important.
-
-Anyway, all three patches are replacing text that have
-many common parts. It is:
-
-	pr_warn("\n");
-	pr_warn("**********************************************************\n");
-	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** <Something is enabled/used.>			 **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** <Description of the effect and why it should not     **\n");
-	pr_warn("** happen on production kernel>			**\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** If you see this message and you are not debugging    **\n");
-	pr_warn("** the kernel, report this immediately to your vendor!  **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
-	pr_warn("**********************************************************\n");
-
-It might be useful to avoid cut&pasting this entire blob and unify the
-common parts.
-
-My only concern is how to define the caller-specific lines so that
-they fit with the common ones. They should not be longer than the
-header and footer. We need to find a good compromise between
-usability and over-engineering.
-
-Also we have to keep bikeshading under control ;-)
-
-Best Regards,
-Petr
+I've updated it, although the comment will go away entirely a little
+bit later anyway.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
