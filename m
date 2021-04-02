@@ -1,78 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE51352539
-	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 03:39:52 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EEF35253F
+	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 03:45:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D4AAC606B3;
-	Fri,  2 Apr 2021 01:39:50 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id BF53B4191A;
+	Fri,  2 Apr 2021 01:45:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CnhJoJOVYFnU; Fri,  2 Apr 2021 01:39:50 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jNHrxHGM1H-X; Fri,  2 Apr 2021 01:45:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D7DCF60673;
-	Fri,  2 Apr 2021 01:39:49 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9FA3241919;
+	Fri,  2 Apr 2021 01:45:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC981C000A;
-	Fri,  2 Apr 2021 01:39:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 811B1C0011;
+	Fri,  2 Apr 2021 01:45:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C7B9C000A
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:39:47 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D5C81C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:45:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with UTF8SMTP id 8612E84B9D
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:39:47 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id BB9AD4191A
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:45:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=mg.codeaurora.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id QS2Z9Zt8eFvg for <iommu@lists.linux-foundation.org>;
- Fri,  2 Apr 2021 01:39:44 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by smtp1.osuosl.org (Postfix) with UTF8SMTPS id BCCB984B8A
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:39:43 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1617327584; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=RmuH0hhJr6wxUwqCriDjPq7/6SvyZdBMyqGQoZGSs+g=;
- b=CT5Hx8Ey736rkisXrhsmB+9TTz5TOZkNptd4ApJwUQoY884pKtsTXqE/lBZ1D2EVTsPbg0Pc
- p+oVzx+5ZOrrbqKxHlfuf0TAanbRoTGe/8oRn/NHvbw9z+1Drg+ysDKCg8ojt+pisFuQLUNn
- MpmlSzQTIoGri9YpLyaq+LXKHnk=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 606675d88166b7eff7737c3e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 02 Apr 2021 01:39:36
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 24C56C43463; Fri,  2 Apr 2021 01:39:36 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6FEAAC433C6;
- Fri,  2 Apr 2021 01:39:35 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id h7vVw54NYBjO for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Apr 2021 01:45:16 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 06BAF41919
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:45:15 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FBN9P0psmz1BFlH;
+ Fri,  2 Apr 2021 09:43:05 +0800 (CST)
+Received: from [127.0.0.1] (10.40.188.87) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Fri, 2 Apr 2021
+ 09:45:02 +0800
+Subject: Re: [PATCH v14 10/10] iommu/arm-smmu-v3: Add stall support for
+ platform devices
+To: Will Deacon <will@kernel.org>, Jean-Philippe Brucker
+ <jean-philippe@linaro.org>
+References: <20210401154718.307519-1-jean-philippe@linaro.org>
+ <20210401154718.307519-11-jean-philippe@linaro.org>
+ <20210401171101.GB9447@willie-the-truck>
+From: Zhou Wang <wangzhou1@hisilicon.com>
+Message-ID: <8e55e807-69f2-6492-e4a0-0dd9250142bc@hisilicon.com>
+Date: Fri, 2 Apr 2021 09:45:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Date: Thu, 01 Apr 2021 18:39:35 -0700
-From: isaacm@codeaurora.org
-To: Will Deacon <will@kernel.org>
-Subject: Re: [RFC PATCH 3/6] iommu: Use bitmap to calculate page size in
- iommu_pgsize()
-In-Reply-To: <20210401164738.9513-4-will@kernel.org>
-References: <20210401164738.9513-1-will@kernel.org>
- <20210401164738.9513-4-will@kernel.org>
-Message-ID: <7c012a63e8a5ad1856aac08995e6f154@codeaurora.org>
-X-Sender: isaacm@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
- Pratik Patel <pratikp@codeaurora.org>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20210401171101.GB9447@willie-the-truck>
+X-Originating-IP: [10.40.188.87]
+X-CFilter-Loop: Reflected
+Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, vivek.gautam@arm.com,
+ guohanjun@huawei.com, rjw@rjwysocki.net, linux-acpi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, sudeep.holla@arm.com,
+ zhangfei.gao@linaro.org, robin.murphy@arm.com,
+ linux-accelerators@lists.ozlabs.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,90 +74,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-04-01 09:47, Will Deacon wrote:
-> Avoid the potential for shifting values by amounts greater than the
-> width of their type by using a bitmap to compute page size in
-> iommu_pgsize().
-> 
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  drivers/iommu/iommu.c | 31 ++++++++++++-------------------
->  1 file changed, 12 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index d0b0a15dba84..bcd623862bf9 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -8,6 +8,7 @@
-> 
->  #include <linux/device.h>
->  #include <linux/kernel.h>
-> +#include <linux/bits.h>
->  #include <linux/bug.h>
->  #include <linux/types.h>
->  #include <linux/init.h>
-> @@ -2360,30 +2361,22 @@ static size_t iommu_pgsize(struct iommu_domain 
-> *domain,
->  			   unsigned long addr_merge, size_t size)
->  {
->  	unsigned int pgsize_idx;
-> +	unsigned long pgsizes;
->  	size_t pgsize;
-> 
-> -	/* Max page size that still fits into 'size' */
-> -	pgsize_idx = __fls(size);
-> +	/* Page sizes supported by the hardware and small enough for @size */
-> +	pgsizes = domain->pgsize_bitmap & GENMASK(__fls(size), 0);
-I've fixed this in the latest RFC for the iommu_map/unmap optimization 
-patches,
-but for the sake of completeness: I think this should be GENMASK_ULL, in 
-case
-__fls(size) >= 32.
-
-Thank you for these patches, by the way. I've looked through them and 
-they
-make sense/seem correct. I've integrated them into the latest RFC: 
-https://lore.kernel.org/linux-iommu/20210402013452.4013-1-isaacm@codeaurora.org/T/#t.
-
-Thanks,
-Isaac
-> 
-> -	/* need to consider alignment requirements ? */
-> -	if (likely(addr_merge)) {
-> -		/* Max page size allowed by address */
-> -		unsigned int align_pgsize_idx = __ffs(addr_merge);
-> -		pgsize_idx = min(pgsize_idx, align_pgsize_idx);
-> -	}
-> -
-> -	/* build a mask of acceptable page sizes */
-> -	pgsize = (1UL << (pgsize_idx + 1)) - 1;
-> -
-> -	/* throw away page sizes not supported by the hardware */
-> -	pgsize &= domain->pgsize_bitmap;
-> +	/* Constrain the page sizes further based on the maximum alignment */
-> +	if (likely(addr_merge))
-> +		pgsizes &= GENMASK(__ffs(addr_merge), 0);
-> 
-> -	/* make sure we're still sane */
-> -	BUG_ON(!pgsize);
-> +	/* Make sure we have at least one suitable page size */
-> +	BUG_ON(!pgsizes);
-> 
-> -	/* pick the biggest page */
-> -	pgsize_idx = __fls(pgsize);
-> -	pgsize = 1UL << pgsize_idx;
-> +	/* Pick the biggest page size remaining */
-> +	pgsize_idx = __fls(pgsizes);
-> +	pgsize = BIT(pgsize_idx);
-> 
->  	return pgsize;
->  }
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAyMS80LzIgMToxMSwgV2lsbCBEZWFjb24gd3JvdGU6Cj4gT24gVGh1LCBBcHIgMDEsIDIw
+MjEgYXQgMDU6NDc6MTlQTSArMDIwMCwgSmVhbi1QaGlsaXBwZSBCcnVja2VyIHdyb3RlOgo+PiBU
+aGUgU01NVSBwcm92aWRlcyBhIFN0YWxsIG1vZGVsIGZvciBoYW5kbGluZyBwYWdlIGZhdWx0cyBp
+biBwbGF0Zm9ybQo+PiBkZXZpY2VzLiBJdCBpcyBzaW1pbGFyIHRvIFBDSWUgUFJJLCBidXQgZG9l
+c24ndCByZXF1aXJlIGRldmljZXMgdG8gaGF2ZQo+PiB0aGVpciBvd24gdHJhbnNsYXRpb24gY2Fj
+aGUuIEluc3RlYWQsIGZhdWx0aW5nIHRyYW5zYWN0aW9ucyBhcmUgcGFya2VkCj4+IGFuZCB0aGUg
+T1MgaXMgZ2l2ZW4gYSBjaGFuY2UgdG8gZml4IHRoZSBwYWdlIHRhYmxlcyBhbmQgcmV0cnkgdGhl
+Cj4+IHRyYW5zYWN0aW9uLgo+Pgo+PiBFbmFibGUgc3RhbGwgZm9yIGRldmljZXMgdGhhdCBzdXBw
+b3J0IGl0IChvcHQtaW4gYnkgZmlybXdhcmUpLiBXaGVuIGFuCj4+IGV2ZW50IGNvcnJlc3BvbmRz
+IHRvIGEgdHJhbnNsYXRpb24gZXJyb3IsIGNhbGwgdGhlIElPTU1VIGZhdWx0IGhhbmRsZXIuCj4+
+IElmIHRoZSBmYXVsdCBpcyByZWNvdmVyYWJsZSwgaXQgd2lsbCBjYWxsIHVzIGJhY2sgdG8gdGVy
+bWluYXRlIG9yCj4+IGNvbnRpbnVlIHRoZSBzdGFsbC4KPiAKPiBXaGljaCBoYXJkd2FyZSBpcyB0
+aGlzIHVzZWZ1bCBmb3I/IFN0YWxsaW5nIGFkZHMgYSBmYWlyIGFtb3VudCBvZiBjb21wbGV4aXR5
+Cj4gdG8gdGhlIGRyaXZlciwgc28gSSBkb24ndCB0aGluayB3ZSBzaG91bGQgc3VwcG9ydCBpdCB1
+bmxlc3Mgd2UncmUgbGlrZWx5IHRvCj4gc2VlIHBsYXRmb3JtcyB0aGF0IGJvdGggaW1wbGVtZW50
+IGl0IGFuZCBkbyBzb21ldGhpbmcgdXNlZnVsIHdpdGggaXQuCgpIaSBXaWxs77yMCgpIaVNpbGlj
+b24gS3VucGVuZzkyMCdzIFpJUC9TRUMvSFBSRSBlbmdpbmVzKGRyaXZlcnMvY3J5cHRvL2hpc2ls
+aWNvbi8pIGFyZSB1c2luZwpzdGFsbCBtb2RlLgoKVUFDQ0UgZHJpdmVyKGRyaXZlcnMvbWlzYy91
+YWNjZS8pIGlzIHVzZWQgdG8gZXhwb3J0IHRoZXNlIGVuZ2luZXMgdG8gdXNlciBzcGFjZS4KQSB1
+c2VyIHNwYWNlIGxpYnJhcnk6IGh0dHBzOi8vZ2l0aHViLmNvbS9MaW5hcm8vdWFkayBvZmZlcnMg
+QVBJcyB0byBoZWxwIHVzZXJzCnRvIHVzZSB0aGVzZSBlbmdpbmVzLgoKSW4gZmFjdCwgd2Ugb25s
+eSBuZWVkIGEgcXVpcmsoaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMjEvMy84LzE1MDYpIGJhc2Vk
+IG9uIHRoaXMKSU9QRiBzZXJpZXMgdG8gbWFrZSB3aG9sZSBzb2x1dGlvbiBtYWlubGluZSByZWFk
+eS4gU28gcGxlYXNlIGFsc28gdGFrZSB0aGlzCnBhdGNoLCB3ZSBuZWVkIGl0ISA6KQoKQmVzdCwK
+WmhvdQoKPiAKPiBXaWxsCj4gCj4gLgo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZv
+dW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2lvbW11
