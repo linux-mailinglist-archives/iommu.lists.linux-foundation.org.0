@@ -1,81 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60163352533
-	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 03:35:24 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE51352539
+	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 03:39:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BC9BB40605;
-	Fri,  2 Apr 2021 01:35:22 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D4AAC606B3;
+	Fri,  2 Apr 2021 01:39:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KRh1w1ohYCLt; Fri,  2 Apr 2021 01:35:22 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id CnhJoJOVYFnU; Fri,  2 Apr 2021 01:39:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C8A9840627;
-	Fri,  2 Apr 2021 01:35:21 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D7DCF60673;
+	Fri,  2 Apr 2021 01:39:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EDABC001F;
-	Fri,  2 Apr 2021 01:35:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AC981C000A;
+	Fri,  2 Apr 2021 01:39:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 335D0C000B
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:35:19 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C7B9C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:39:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with UTF8SMTP id 5350140605
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:35:18 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with UTF8SMTP id 8612E84B9D
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:39:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id ihOhZIIMv7BQ for <iommu@lists.linux-foundation.org>;
- Fri,  2 Apr 2021 01:35:17 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mg.codeaurora.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with UTF8SMTP id QS2Z9Zt8eFvg for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Apr 2021 01:39:44 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by smtp2.osuosl.org (Postfix) with UTF8SMTPS id A8CFE40402
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:35:17 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with UTF8SMTPS id BCCB984B8A
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 01:39:43 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1617327317; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=/aZbpiGEBvcuJ8U/EDIuL3sEyIREaVAupzXHoM8cJLQ=;
- b=oM6nvv28xX1DNeewPrlC53U9s/NKRnbzYmes5Blut8NP29/YcU7iy5IHKi2MRsnCf/wyRCu1
- xcGxwTCF623okzoH82cYuD1sLroR8yUxwmci59RvMKhm/S2sAaQRcxroQ7t1kQYmBxRxPgnO
- N0We+epKxlWzaRgz4mEg3SOsj70=
+ s=smtp; t=1617327584; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=RmuH0hhJr6wxUwqCriDjPq7/6SvyZdBMyqGQoZGSs+g=;
+ b=CT5Hx8Ey736rkisXrhsmB+9TTz5TOZkNptd4ApJwUQoY884pKtsTXqE/lBZ1D2EVTsPbg0Pc
+ p+oVzx+5ZOrrbqKxHlfuf0TAanbRoTGe/8oRn/NHvbw9z+1Drg+ysDKCg8ojt+pisFuQLUNn
+ MpmlSzQTIoGri9YpLyaq+LXKHnk=
 X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 606674d22cc44d3aeac61cee (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 02 Apr 2021 01:35:14
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 606675d88166b7eff7737c3e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 02 Apr 2021 01:39:36
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id C1C8BC433ED; Fri,  2 Apr 2021 01:35:14 +0000 (UTC)
-Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ id 24C56C43463; Fri,  2 Apr 2021 01:39:36 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id F3E58C433CA;
- Fri,  2 Apr 2021 01:35:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F3E58C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=isaacm@codeaurora.org
-From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-To: iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 12/12] iommu/arm-smmu: Implement the map_pages() IOMMU
- driver callback
-Date: Thu,  1 Apr 2021 18:34:51 -0700
-Message-Id: <20210402013452.4013-13-isaacm@codeaurora.org>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210402013452.4013-1-isaacm@codeaurora.org>
-References: <20210402013452.4013-1-isaacm@codeaurora.org>
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6FEAAC433C6;
+ Fri,  2 Apr 2021 01:39:35 +0000 (UTC)
 MIME-Version: 1.0
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, robin.murphy@arm.com,
- will@kernel.org, pratikp@codeaurora.org
+Date: Thu, 01 Apr 2021 18:39:35 -0700
+From: isaacm@codeaurora.org
+To: Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH 3/6] iommu: Use bitmap to calculate page size in
+ iommu_pgsize()
+In-Reply-To: <20210401164738.9513-4-will@kernel.org>
+References: <20210401164738.9513-1-will@kernel.org>
+ <20210401164738.9513-4-will@kernel.org>
+Message-ID: <7c012a63e8a5ad1856aac08995e6f154@codeaurora.org>
+X-Sender: isaacm@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
+ Pratik Patel <pratikp@codeaurora.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,62 +85,89 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Implement the unmap_pages() callback for the ARM SMMU driver
-to allow calls from iommu_unmap to unmap multiple pages of
-the same size in one call.
+On 2021-04-01 09:47, Will Deacon wrote:
+> Avoid the potential for shifting values by amounts greater than the
+> width of their type by using a bitmap to compute page size in
+> iommu_pgsize().
+> 
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  drivers/iommu/iommu.c | 31 ++++++++++++-------------------
+>  1 file changed, 12 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index d0b0a15dba84..bcd623862bf9 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -8,6 +8,7 @@
+> 
+>  #include <linux/device.h>
+>  #include <linux/kernel.h>
+> +#include <linux/bits.h>
+>  #include <linux/bug.h>
+>  #include <linux/types.h>
+>  #include <linux/init.h>
+> @@ -2360,30 +2361,22 @@ static size_t iommu_pgsize(struct iommu_domain 
+> *domain,
+>  			   unsigned long addr_merge, size_t size)
+>  {
+>  	unsigned int pgsize_idx;
+> +	unsigned long pgsizes;
+>  	size_t pgsize;
+> 
+> -	/* Max page size that still fits into 'size' */
+> -	pgsize_idx = __fls(size);
+> +	/* Page sizes supported by the hardware and small enough for @size */
+> +	pgsizes = domain->pgsize_bitmap & GENMASK(__fls(size), 0);
+I've fixed this in the latest RFC for the iommu_map/unmap optimization 
+patches,
+but for the sake of completeness: I think this should be GENMASK_ULL, in 
+case
+__fls(size) >= 32.
 
-Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-Suggested-by: Will Deacon <will@kernel.org>
----
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Thank you for these patches, by the way. I've looked through them and 
+they
+make sense/seem correct. I've integrated them into the latest RFC: 
+https://lore.kernel.org/linux-iommu/20210402013452.4013-1-isaacm@codeaurora.org/T/#t.
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index f29f1fb109f8..fe7a452ce24e 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -1208,6 +1208,24 @@ static int arm_smmu_map(struct iommu_domain *domain, unsigned long iova,
- 	return ret;
- }
- 
-+static int arm_smmu_map_pages(struct iommu_domain *domain, unsigned long iova,
-+			      phys_addr_t paddr, size_t pgsize, size_t pgcount,
-+			      int prot, gfp_t gfp, size_t *mapped)
-+{
-+	struct io_pgtable_ops *ops = to_smmu_domain(domain)->pgtbl_ops;
-+	struct arm_smmu_device *smmu = to_smmu_domain(domain)->smmu;
-+	int ret;
-+
-+	if (!ops)
-+		return -ENODEV;
-+
-+	arm_smmu_rpm_get(smmu);
-+	ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot, gfp, mapped);
-+	arm_smmu_rpm_put(smmu);
-+
-+	return ret;
-+}
-+
- static size_t arm_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
- 			     size_t size, struct iommu_iotlb_gather *gather)
- {
-@@ -1642,6 +1660,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.domain_free		= arm_smmu_domain_free,
- 	.attach_dev		= arm_smmu_attach_dev,
- 	.map			= arm_smmu_map,
-+	.map_pages		= arm_smmu_map_pages,
- 	.unmap			= arm_smmu_unmap,
- 	.unmap_pages		= arm_smmu_unmap_pages,
- 	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Thanks,
+Isaac
+> 
+> -	/* need to consider alignment requirements ? */
+> -	if (likely(addr_merge)) {
+> -		/* Max page size allowed by address */
+> -		unsigned int align_pgsize_idx = __ffs(addr_merge);
+> -		pgsize_idx = min(pgsize_idx, align_pgsize_idx);
+> -	}
+> -
+> -	/* build a mask of acceptable page sizes */
+> -	pgsize = (1UL << (pgsize_idx + 1)) - 1;
+> -
+> -	/* throw away page sizes not supported by the hardware */
+> -	pgsize &= domain->pgsize_bitmap;
+> +	/* Constrain the page sizes further based on the maximum alignment */
+> +	if (likely(addr_merge))
+> +		pgsizes &= GENMASK(__ffs(addr_merge), 0);
+> 
+> -	/* make sure we're still sane */
+> -	BUG_ON(!pgsize);
+> +	/* Make sure we have at least one suitable page size */
+> +	BUG_ON(!pgsizes);
+> 
+> -	/* pick the biggest page */
+> -	pgsize_idx = __fls(pgsize);
+> -	pgsize = 1UL << pgsize_idx;
+> +	/* Pick the biggest page size remaining */
+> +	pgsize_idx = __fls(pgsizes);
+> +	pgsize = BIT(pgsize_idx);
+> 
+>  	return pgsize;
+>  }
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
