@@ -1,59 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981D4352B4D
-	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 16:33:25 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD42C352B4E
+	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 16:33:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 10784400AF;
-	Fri,  2 Apr 2021 14:33:24 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 43BFA40667;
+	Fri,  2 Apr 2021 14:33:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jSDb6fzjIBbU; Fri,  2 Apr 2021 14:33:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1C49A40272;
-	Fri,  2 Apr 2021 14:33:23 +0000 (UTC)
+	with ESMTP id LzFnGDHV72P1; Fri,  2 Apr 2021 14:33:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4B79C40664;
+	Fri,  2 Apr 2021 14:33:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E9538C000A;
-	Fri,  2 Apr 2021 14:33:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 29A16C000A;
+	Fri,  2 Apr 2021 14:33:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64599C000A
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:33:21 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 30CE1C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:33:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 456254064A
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:33:21 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0D81D84C81
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:33:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Me2eZnaJgOoM for <iommu@lists.linux-foundation.org>;
- Fri,  2 Apr 2021 14:33:20 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=infradead.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id NVZUgzb9wCqr for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Apr 2021 14:33:23 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B35C240224
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:33:20 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 7042F84C77
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=7d4w1MQ58wkPpyi6Y13RnhFSX3lz3QOpT4LAyaT/2YA=; b=d0eU+IBGV6Je7o6EmQNVav3ZW2
- HjyGUVNqPy29mzvqWxofRtCrzdOo+Nt/FB783Vn/65LFLXhNfBfrelbblSvPCHO8quU+qKy3pO73Y
- UgMESRwhxQfrWmghdA1v6bSFxC+WW0lGFXbq0NUvb9/4FC7aUQ4JzGpSnLxl3SAX/hKqbefygFGCx
- MI7fDXdiZv2hELACGKUwDs00U1Lgl7YUroiOspi+xGSU2YitpXAah9p6NMkxGwgTeN+RmPOqjkADg
- Q9DqRFS+T8tyyLu25gu6fR1G85dLFkiP9qz1jRgBNkaNZIS3f8AHCnSk6njTrYsRfdRbW9jpJ7ISf
- AvUtYy4Q==;
+ bh=O6atzcUAuHyx4KNuM3iyA6420Zclk51V2q1xoL6iKGk=; b=MZwBTi/4DHEnvBYR+ioQbSquSs
+ TE6eVxdeJ6A37dOCVfGkKXaudLWmC5j2miFI9ipDqXQvi3qXqFlGW7zGAuY0djSUGWmU8lt66iScH
+ bTD7Rbhehf9rebFA4C3DhyvipBTjc4bIm3AsBba7xDac1gL7RmqjKfuLtsLpWUXqxsO5Hzo2bLyKE
+ fYYESK5GsvK8mLh/kNWg3N2KR8smeSlK2PFoYMycQOcPbz4NDHoZ9KcEdR+rsana11UC5YnOtYc3z
+ FSnTompFd7AHGESj13xY5SjwTFZJUqNTQMmhala9VxFxA9DSQDRZXsgUYNz1ZFYkjzASQDU1WqV5m
+ IbqzDgdA==;
 Received: from [2001:4bb8:180:7517:6acc:e698:6fa4:15da] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lSKrP-00FAFX-Mf; Fri, 02 Apr 2021 14:33:20 +0000
+ id 1lSKrS-00FAFc-Cs; Fri, 02 Apr 2021 14:33:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 2/4] iommu/amd: remove the unused amd_iommu_get_v2_domain
- function
-Date: Fri,  2 Apr 2021 16:33:10 +0200
-Message-Id: <20210402143312.372386-3-hch@lst.de>
+Subject: [PATCH 3/4] iommu/amd: remove a few unused exports
+Date: Fri,  2 Apr 2021 16:33:11 +0200
+Message-Id: <20210402143312.372386-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210402143312.372386-1-hch@lst.de>
 References: <20210402143312.372386-1-hch@lst.de>
@@ -78,69 +79,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Remove exports for functions that are only used in the AMD IOMMU driver
+itself, or the also always builtin perf events support.
+
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/iommu/amd/amd_iommu.h |  1 -
- drivers/iommu/amd/iommu.c     | 34 ----------------------------------
- 2 files changed, 35 deletions(-)
+ drivers/iommu/amd/init.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
-index 026ce7f8d993b0..ed46dc754a2ad4 100644
---- a/drivers/iommu/amd/amd_iommu.h
-+++ b/drivers/iommu/amd/amd_iommu.h
-@@ -65,7 +65,6 @@ extern int amd_iommu_flush_tlb(struct iommu_domain *dom, u32 pasid);
- extern int amd_iommu_domain_set_gcr3(struct iommu_domain *dom, u32 pasid,
- 				     unsigned long cr3);
- extern int amd_iommu_domain_clear_gcr3(struct iommu_domain *dom, u32 pasid);
--extern struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev);
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 321f5906e6ed3a..52ede54d7cc97a 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -208,7 +208,6 @@ u16 *amd_iommu_alias_table;
+  * for a specific device. It is also indexed by the PCI device id.
+  */
+ struct amd_iommu **amd_iommu_rlookup_table;
+-EXPORT_SYMBOL(amd_iommu_rlookup_table);
  
- #ifdef CONFIG_IRQ_REMAP
- extern int amd_iommu_create_irq_domain(struct amd_iommu *iommu);
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 65ef07b048934c..42bd8f93e74ddf 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -2525,40 +2525,6 @@ int amd_iommu_complete_ppr(struct pci_dev *pdev, u32 pasid,
- }
- EXPORT_SYMBOL(amd_iommu_complete_ppr);
- 
--struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev)
--{
--	struct protection_domain *pdomain;
--	struct iommu_dev_data *dev_data;
--	struct device *dev = &pdev->dev;
--	struct iommu_domain *io_domain;
--
--	if (!check_device(dev))
--		return NULL;
--
--	dev_data  = dev_iommu_priv_get(&pdev->dev);
--	pdomain   = dev_data->domain;
--	io_domain = iommu_get_domain_for_dev(dev);
--
--	if (pdomain == NULL && dev_data->defer_attach) {
--		dev_data->defer_attach = false;
--		pdomain = to_pdomain(io_domain);
--		attach_device(dev, pdomain);
--	}
--
--	if (pdomain == NULL)
--		return NULL;
--
--	if (io_domain->type != IOMMU_DOMAIN_DMA)
--		return NULL;
--
--	/* Only return IOMMUv2 domains */
--	if (!(pdomain->flags & PD_IOMMUV2_MASK))
--		return NULL;
--
--	return &pdomain->domain;
--}
--EXPORT_SYMBOL(amd_iommu_get_v2_domain);
--
- int amd_iommu_device_info(struct pci_dev *pdev,
-                           struct amd_iommu_device_info *info)
+ /*
+  * This table is used to find the irq remapping table for a given device id
+@@ -268,7 +267,6 @@ bool translation_pre_enabled(struct amd_iommu *iommu)
  {
+ 	return (iommu->flags & AMD_IOMMU_FLAG_TRANS_PRE_ENABLED);
+ }
+-EXPORT_SYMBOL(translation_pre_enabled);
+ 
+ static void clear_translation_pre_enabled(struct amd_iommu *iommu)
+ {
+@@ -3277,7 +3275,6 @@ struct amd_iommu *get_amd_iommu(unsigned int idx)
+ 			return iommu;
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(get_amd_iommu);
+ 
+ /****************************************************************************
+  *
+@@ -3359,7 +3356,6 @@ int amd_iommu_pc_get_reg(struct amd_iommu *iommu, u8 bank, u8 cntr, u8 fxn, u64
+ 
+ 	return iommu_pc_get_set_reg(iommu, bank, cntr, fxn, value, false);
+ }
+-EXPORT_SYMBOL(amd_iommu_pc_get_reg);
+ 
+ int amd_iommu_pc_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr, u8 fxn, u64 *value)
+ {
+@@ -3368,4 +3364,3 @@ int amd_iommu_pc_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr, u8 fxn, u64
+ 
+ 	return iommu_pc_get_set_reg(iommu, bank, cntr, fxn, value, true);
+ }
+-EXPORT_SYMBOL(amd_iommu_pc_set_reg);
 -- 
 2.30.1
 
