@@ -1,54 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C954352B54
-	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 16:41:52 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AA1352B55
+	for <lists.iommu@lfdr.de>; Fri,  2 Apr 2021 16:41:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BB62884C89;
-	Fri,  2 Apr 2021 14:41:50 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C689360699;
+	Fri,  2 Apr 2021 14:41:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qZv4dVXIRw3V; Fri,  2 Apr 2021 14:41:50 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wqdM2ufsJrdM; Fri,  2 Apr 2021 14:41:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DCFF684C86;
-	Fri,  2 Apr 2021 14:41:49 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0748B60607;
+	Fri,  2 Apr 2021 14:41:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BB1ABC000A;
-	Fri,  2 Apr 2021 14:41:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7DD8C000A;
+	Fri,  2 Apr 2021 14:41:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5CA77C000A
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:41:48 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E54B9C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:41:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5913084C89
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:41:48 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id D4698414F8
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:41:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JpGugpmoGHVh for <iommu@lists.linux-foundation.org>;
- Fri,  2 Apr 2021 14:41:47 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iEmpX7krJUCU for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Apr 2021 14:41:52 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8DF5384C86
- for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:41:47 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 37739414EF
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Apr 2021 14:41:51 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 1758968BEB; Fri,  2 Apr 2021 16:41:42 +0200 (CEST)
-Date: Fri, 2 Apr 2021 16:41:42 +0200
+ id E4F6B68BFE; Fri,  2 Apr 2021 16:41:48 +0200 (CEST)
+Date: Fri, 2 Apr 2021 16:41:48 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: chenxiang <chenxiang66@hisilicon.com>
-Subject: Re: [PATCH] dma-mapping: benchmark: Add support for multi-pages
- map/unmap
-Message-ID: <20210402144142.GA19219@lst.de>
-References: <1616059770-194515-1-git-send-email-chenxiang66@hisilicon.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [PATCH] dma-mapping: add unlikely hint to error path in
+ dma_mapping_error
+Message-ID: <20210402144148.GB19219@lst.de>
+References: <78757abc-ef8f-9a29-9020-967370eec365@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1616059770-194515-1-git-send-email-chenxiang66@hisilicon.com>
+In-Reply-To: <78757abc-ef8f-9a29-9020-967370eec365@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linuxarm@openeuler.org, iommu@lists.linux-foundation.org,
- linux-kselftest@vger.kernel.org, robin.murphy@arm.com, hch@lst.de
+Cc: "open list:AMD IOMMU \(AMD-VI\)" <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
