@@ -2,178 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B75C3549BF
-	for <lists.iommu@lfdr.de>; Tue,  6 Apr 2021 02:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12113549E0
+	for <lists.iommu@lfdr.de>; Tue,  6 Apr 2021 03:07:42 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3DA8B849A3;
-	Tue,  6 Apr 2021 00:37:45 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 310FA84B03;
+	Tue,  6 Apr 2021 01:07:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v9kae3oQ-EVZ; Tue,  6 Apr 2021 00:37:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2B1D1830A7;
-	Tue,  6 Apr 2021 00:37:44 +0000 (UTC)
+	with ESMTP id g2H7LtUH7JPj; Tue,  6 Apr 2021 01:07:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4C57D84AFE;
+	Tue,  6 Apr 2021 01:07:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EF8CC0011;
-	Tue,  6 Apr 2021 00:37:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B2F5C0011;
+	Tue,  6 Apr 2021 01:07:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EEAD1C000A
- for <iommu@lists.linux-foundation.org>; Tue,  6 Apr 2021 00:37:42 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5FE1CC000A
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Apr 2021 01:07:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C12244028A
- for <iommu@lists.linux-foundation.org>; Tue,  6 Apr 2021 00:37:42 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 47DA084AF3
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Apr 2021 01:07:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SfS5cco4s20P for <iommu@lists.linux-foundation.org>;
- Tue,  6 Apr 2021 00:37:41 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8J2S9SOIzBdF for <iommu@lists.linux-foundation.org>;
+ Tue,  6 Apr 2021 01:07:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 49F7E40289
- for <iommu@lists.linux-foundation.org>; Tue,  6 Apr 2021 00:37:41 +0000 (UTC)
-IronPort-SDR: Yse3aiR1YmfpmxjgFjESVEGmy8Je+LCZ7Hea9Sb6urt5rXkaTp4UMPGvgSY04aePVJ9NcL5Sdb
- KAJeivpGWOeQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="254287075"
-X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; d="scan'208";a="254287075"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2021 17:37:40 -0700
-IronPort-SDR: CBpVpxUAMyWu262HKEnI/S5KfB7WLBvNWw+WKISq4vS2wYw3RWzyqkfNy46lD9GgviE3WjyeWY
- iRM38bDE1cVw==
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0031D84AB8
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Apr 2021 01:07:37 +0000 (UTC)
+IronPort-SDR: FtvBiWRkVlKi5oGvl7kWdHMj/hWbUj9eHMrE6p0/s7j3B/jg/KqYRciCIBxTNi54/0PjfkGNGy
+ wLeNds3oWvag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="256942306"
+X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; d="scan'208";a="256942306"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2021 18:07:36 -0700
+IronPort-SDR: Wtwhc4FlTpvJsuXZDx/ruo9zOYrdhP9yb/4kWwe7nLyGVLSKtTejyMTw8aQadzl5gMAJGAKmyB
+ +fG8nCb/dG4g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; d="scan'208";a="448291843"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2021 17:37:38 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 5 Apr 2021 17:37:37 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Mon, 5 Apr 2021 17:37:37 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Mon, 5 Apr 2021 17:37:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cLuO4Ga0hNzovjn6I80g1qZEUhFE+w5Fphr1F1VT4CvF+9UKuaCln3Ntg46gydG+AXtiA5rV1wXkdKopSRlnkc6BV+FK5TM4wk2bNoMxQx+CZmG/CdyQ1aIcOEPO00XilY3n4cBDULMXUqv1i09NhD2vaOjaJ1colOxceSOQbUZoxiKy6thnjMBUSeqPocRvWC3tAP/tn0ZgCmdVI6r+NuzSvsgonrkd4N6CotAIMpb+knhXWowieCshe07XDPomHSOdN1vaAjyVHKLnXRgKx8zxbEW74D2NNZbzyGYfAd8rEQhw5BTQWW+QRcqgum6RLx/oFPquqY7lQwhDewcmwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zyw4OneNeXJqKL9NBPjmYCJ76IrpWZauWPyDllAWzuw=;
- b=cza3FXBVgO+ttUTN1lOlKR1HancXR158/8bIe9L2E3yGjgFtZeWiOXRebiFxyXzB2Fi+nyEcbyFt6nqy/X5FSGX+Fc4Hil08PGsSjfnpyZcgxkva1AzF0eKz4n1a0WMVxtjvY4voGii9AsbWOE+v3Z5ytb2e8EOSUipUWpof7jmPLuVuVCjbjbzRGD7288rSRju8gUHCJoRLWteTAyM9OTzv+5J5+3Oib2EN9EYeChT36qwbZ5dJ2pQ5R9BlOwOu3VMyoCCDKFVV8J6QvfdYxj4z/1vYA4DESsAMZUgT/EooaexhhQyhKq3LJ/OmqI5CxoRK5zuq9TbrnE152BqcRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zyw4OneNeXJqKL9NBPjmYCJ76IrpWZauWPyDllAWzuw=;
- b=Ppiujj22mWzJhwmUmkyj2GExLjOqXidQIHb3RhngltsxJYEe3cwtXI5ZhNjARtW1c4XFHlZMvZF19UXPMgfuZWS18Om7iMMY9KGtB1Hxlk8L3OhTR3ixXNVSxKZndEm5i+Rp+ciGNr1CH5zpcvUJV9JpVCaKW+hmYK/VDhaXEQ8=
-Received: from MWHPR11MB1886.namprd11.prod.outlook.com (2603:10b6:300:110::9)
- by CO1PR11MB5139.namprd11.prod.outlook.com (2603:10b6:303:95::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.27; Tue, 6 Apr
- 2021 00:37:35 +0000
-Received: from MWHPR11MB1886.namprd11.prod.outlook.com
- ([fe80::75b0:a8e9:60cb:7a29]) by MWHPR11MB1886.namprd11.prod.outlook.com
- ([fe80::75b0:a8e9:60cb:7a29%9]) with mapi id 15.20.3999.032; Tue, 6 Apr 2021
- 00:37:35 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: RE: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and allocation
- APIs
-Thread-Topic: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
- allocation APIs
-Thread-Index: AQHXDZub0CDG82VGXUmLEYgvMuPs4KqKkLIAgACg94CAAC72gIAAD04AgAADogCAAErUgIAETQEAgAOaswCAB7C3gIAAhxQwgADYDACAATCSAIAAVGMAgAELsQCAACiXgIAAVBgAgAAaMwCAAAESAIAABy2AgAAgOYCAAPrDQIAFzM0AgAAN9gA=
-Date: Tue, 6 Apr 2021 00:37:35 +0000
-Message-ID: <MWHPR11MB18862BF4EA4DC0CFDE6CD2238C769@MWHPR11MB1886.namprd11.prod.outlook.com>
-References: <BN6PR11MB40688F5AA2323AB8CC8E65E7C37C9@BN6PR11MB4068.namprd11.prod.outlook.com>
- <20210331124038.GE1463678@nvidia.com>
- <BN6PR11MB406854CAE9D7CE86BEAB3E23C37B9@BN6PR11MB4068.namprd11.prod.outlook.com>
- <BN6PR11MB40687428F0D0F3B5F13EA3E0C37B9@BN6PR11MB4068.namprd11.prod.outlook.com>
- <YGW27KFt9eQB9X2z@myrica>
- <BN6PR11MB4068171CD1D4B823515F7EFBC37B9@BN6PR11MB4068.namprd11.prod.outlook.com>
- <20210401134236.GF1463678@nvidia.com>
- <BN6PR11MB4068C4DE7AF43D44DE70F4C1C37B9@BN6PR11MB4068.namprd11.prod.outlook.com>
- <20210401160337.GJ1463678@nvidia.com>
- <MWHPR11MB18866AB35A13A139262347FD8C7A9@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210405233526.GD7405@nvidia.com>
-In-Reply-To: <20210405233526.GD7405@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.210]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 80bd1b22-1892-4771-2509-08d8f8942c6e
-x-ms-traffictypediagnostic: CO1PR11MB5139:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CO1PR11MB51392D547A8D7A5FB57D2B7D8C769@CO1PR11MB5139.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5429ftMopp8pTp717tpwKDoETky8mh9bJMcpx8uSzDRQNla+A2Zy9krJl6EjZINnxwSb0NNUOdxigFkPyI8GhBpzY+O1OfeBZDpDP7KxrKYEtNQ3D2Nco7l0XxUmGnoUE+tb2AE/rT46QhxbNO/4q/XdpF8FwvTnx0jx91DrjTYYIkEBakJ+nOyYLlO7fXoTb9HVbtKd5aFABe0HmnXjRyJa9zD/aY490P04PbakDaFVkkmAba5F8xny0zX8Z034iyEhbfm7DehYYg14vjPXqjYGQf1ky4S/E+Y4gAgiXHyGUf7q7PO6EEn3ZDOL0QluYcoCHC64i8U9MVxn6SbdhwAhAc9X/OiJu/8WS6skNK94+Q1N5XS1Tu2TUMsxld1i5+vBQpm40x06qbmSOzh/l8LIvTL4ku8gCiN3vVEGbVPppeI6d0w93tatsHY2O+TnSVpOosUzCzVIZ15qFRErhklD8qA5icd3zci9hc08xcimOntS8ZkYKd8Lzjqdu0UAM6R7xuICa9Nydu/CXWaWHKyBekq051KatUAz5uAK23TOnIpePkTRGJiu45zh3QQl95ceeR6oC0G8IZsRoHnsJ+Or3nD/gtuzvbOCuSHa++LTkgNwvDrmJNRU+qQvQEr2E5n4pOB5ft1z5Vp3fQ3FVSTBzWrfrSMbuV5N3Il0ueQMHUTUY2wDnZr9NiBqq8uFh4GwCNb0VzFIxRMFP8Y3TlcRDgha34uNRVkgykZu/Kc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1886.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(39860400002)(396003)(346002)(136003)(366004)(8676002)(33656002)(86362001)(26005)(66476007)(76116006)(66446008)(9686003)(66946007)(8936002)(4326008)(7696005)(6916009)(186003)(7416002)(966005)(5660300002)(64756008)(71200400001)(66556008)(83380400001)(2906002)(6506007)(478600001)(52536014)(55016002)(38100700001)(316002)(54906003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?6nnPR4PjWltzvBCNY2rdgu7VKloRFaTFQACs6cnn1ZhLpxXmlHB9F/5kV2sw?=
- =?us-ascii?Q?2EZnD7CRBfJlgia+aGJ254YXLw6Ik8UWLe7jcy3R9yRZe3q4LjJ65cQIOEmJ?=
- =?us-ascii?Q?kNfJ+bH1/Y4auK/7JjiOH1DV0UDx54RGQTcHuZGodwHbIAGxkDVQoPmzf7BM?=
- =?us-ascii?Q?h7v3rQ9CFqmPYt0h2bkpqXY0uSsW72hrpLuxz7uobxCJ3HHv3l4xyIM0yJF6?=
- =?us-ascii?Q?YJBtMW6kbJFmunXNU20XkxJCJg2cTg0HrDMhhPLV4Lk2vVrg0FgtJzP/wT5N?=
- =?us-ascii?Q?Old3pn93z5n1cFKluSGx2N9ZtebWq2iYCd6E1sZlE97Us3qtaJ8lYd8wcRwy?=
- =?us-ascii?Q?mZAhaG3FZypPLlP2RY7/VuzN3XRY7xgRiCOVnMq2aLEeh+mg+LT0G3ZG9fru?=
- =?us-ascii?Q?nX0zu9xerInWP0xfV7SAbJZaApb/JPkH26DSwyh3qyuXCiQXY9hJdJNBi676?=
- =?us-ascii?Q?B99XFbc//qyaS+ujz2TB1sG8zgPpY2UG4HSR5j1Q8dbgYzT5u2jL4qOvoWFg?=
- =?us-ascii?Q?u3qSvyrh1bDiq/RhxrXM7boeCgGwYET/8LxsBA+WWLeDvtsY40BJpABnXN0c?=
- =?us-ascii?Q?GJROh0BIwORZFVAOBgTIy4SpNp6UADCh3y4EURBrgyXzNVDpkfc+PcBMxxZ1?=
- =?us-ascii?Q?2oNLw4+bo21eMES2gYT6ZRzf2kDg+EvWVELJovqE9vjtoUe4Uquay0fh6Khn?=
- =?us-ascii?Q?9GRGayVri/irL9UU/emOV1shX5WzQxkE2LwCGY8Q3VSc0gFznA6nUn9xTHoD?=
- =?us-ascii?Q?80BtziFsOaRz2CAfYzHPcRMI4r9KokH12cizZpWExF8E3AiwjtYVV6gHr/Kd?=
- =?us-ascii?Q?V91of5YyyD8Amf9zJQmVXDn+VCOvHrwWI0s1hsu18boVivg/EBWaBsMRJphr?=
- =?us-ascii?Q?kejrpGCuPdpQLwe4misGP9TBpa0X1qkSn/ZTWvD6foam/WQjqh40SF0yp5o8?=
- =?us-ascii?Q?tBXwsY+f/aV/SCA0aEYJu/3yakX1TGUmXzoPTUNr38uZkYGu2vWwCjZ3ekaV?=
- =?us-ascii?Q?iHMskLA8rZHZH9a9I3FbHbtpB6vx8nsqJHOPJOedGhvCxhrOjEfGzmy+0dpp?=
- =?us-ascii?Q?2KkYX6pcQuUR2LZ2ycwtNSZBxTzTvMqE/R6izKWgyAfVz/CN/5mjEMMSjaH0?=
- =?us-ascii?Q?S/W8T7g4ntp1IdxFX4gOytv5v5qjvbAbZ+7GVOYYa/qqmLIrHciz87FsRVeP?=
- =?us-ascii?Q?EDRiIyDSVC0LVL8wCNoLrY71X701BOHVJ6CDsNkdnkBf7ZvR20UR12AvJolY?=
- =?us-ascii?Q?2Uoi40pt3g0EAKFIlhTjHSD2G42hVW4mlm7vGp3J+b9z/43I3JEtZPO8d2FU?=
- =?us-ascii?Q?D6x5TtRVF+/1ckdcTRn6nvBM?=
+X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; d="scan'208";a="440713227"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.128])
+ ([10.239.159.128])
+ by fmsmga004.fm.intel.com with ESMTP; 05 Apr 2021 18:07:34 -0700
+Subject: Re: [PATCH v2 4/5] iommu/vt-d: Use user privilege for RID2PASID
+ translation
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+References: <20210320025415.641201-1-baolu.lu@linux.intel.com>
+ <20210320025415.641201-5-baolu.lu@linux.intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <84f0ca29-04e0-446b-745a-73e2f9e49f3b@linux.intel.com>
+Date: Tue, 6 Apr 2021 08:58:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1886.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80bd1b22-1892-4771-2509-08d8f8942c6e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2021 00:37:35.5050 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /NC1TqiCytAXI4lbR/bAwBo11jgnABacWy3q4FX5Di1Xw9Sq0P7EWCMTkG+3bHp3ddyTLPBeIuwdo2k1uKYv3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5139
-X-OriginatorOrg: intel.com
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Li Zefan <lizefan@huawei.com>, Alex
- Williamson <alex.williamson@redhat.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, "Jiang, Dave" <dave.jiang@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "Wu, 
- Hao" <hao.wu@intel.com>, David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <20210320025415.641201-5-baolu.lu@linux.intel.com>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -186,112 +74,76 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Tuesday, April 6, 2021 7:35 AM
+On 3/20/21 10:54 AM, Lu Baolu wrote:
+> When first-level page tables are used for IOVA translation, we use user
+> privilege by setting U/S bit in the page table entry. This is to make it
+> consistent with the second level translation, where the U/S enforcement
+> is not available. Clear the SRE (Supervisor Request Enable) field in the
+> pasid table entry of RID2PASID so that requests requesting the supervisor
+> privilege are blocked and treated as DMA remapping faults.
 > 
-> On Fri, Apr 02, 2021 at 07:30:23AM +0000, Tian, Kevin wrote:
-> > > From: Jason Gunthorpe <jgg@nvidia.com>
-> > > Sent: Friday, April 2, 2021 12:04 AM
-> > >
-> > > On Thu, Apr 01, 2021 at 02:08:17PM +0000, Liu, Yi L wrote:
-> > >
-> > > > DMA page faults are delivered to root-complex via page request
-> message
-> > > and
-> > > > it is per-device according to PCIe spec. Page request handling flow is:
-> > > >
-> > > > 1) iommu driver receives a page request from device
-> > > > 2) iommu driver parses the page request message. Get the RID,PASID,
-> > > faulted
-> > > >    page and requested permissions etc.
-> > > > 3) iommu driver triggers fault handler registered by device driver with
-> > > >    iommu_report_device_fault()
-> > >
-> > > This seems confused.
-> > >
-> > > The PASID should define how to handle the page fault, not the driver.
-> > >
-> > > I don't remember any device specific actions in ATS, so what is the
-> > > driver supposed to do?
-> > >
-> > > > 4) device driver's fault handler signals an event FD to notify userspace
-> to
-> > > >    fetch the information about the page fault. If it's VM case, inject the
-> > > >    page fault to VM and let guest to solve it.
-> > >
-> > > If the PASID is set to 'report page fault to userspace' then some
-> > > event should come out of /dev/ioasid, or be reported to a linked
-> > > eventfd, or whatever.
-> > >
-> > > If the PASID is set to 'SVM' then the fault should be passed to
-> > > handle_mm_fault
-> > >
-> > > And so on.
-> > >
-> > > Userspace chooses what happens based on how they configure the PASID
-> > > through /dev/ioasid.
-> > >
-> > > Why would a device driver get involved here?
-> > >
-> > > > Eric has sent below series for the page fault reporting for VM with
-> passthru
-> > > > device.
-> > > > https://lore.kernel.org/kvm/20210223210625.604517-5-
-> > > eric.auger@redhat.com/
-> > >
-> > > It certainly should not be in vfio pci. Everything using a PASID needs
-> > > this infrastructure, VDPA, mdev, PCI, CXL, etc.
-> > >
-> >
-> > This touches an interesting fact:
-> >
-> > The fault may be triggered in either 1st-level or 2nd-level page table,
-> > when nested translation is enabled (in vSVA case). The 1st-level is bound
-> > by the user space, which therefore needs to receive the fault event. The
-> > 2nd-level is managed by VFIO (or vDPA), which needs to fix the fault in
-> > kernel (e.g. find HVA per faulting GPA, call handle_mm_fault and map
-> > GPA->HPA to IOMMU). Yi's current proposal lets VFIO to register the
-> > device fault handler, which then forward the event through /dev/ioasid
-> > to userspace only if it is a 1st-level fault. Are you suggesting a pgtable-
-> > centric fault reporting mechanism to separate handlers in each level,
-> > i.e. letting VFIO register handler only for 2nd-level fault and then /dev/
-> > ioasid register handler for 1st-level fault?
-> 
-> This I'm struggling to understand. /dev/ioasid should handle all the
-> faults cases, why would VFIO ever get involved in a fault? What would
-> it even do?
-> 
-> If the fault needs to be fixed in the hypervisor then it is a kernel
-> fault and it does handle_mm_fault. This absolutely should not be in
-> VFIO or VDPA
+> Suggested-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Fixes: b802d070a52a1 ("iommu/vt-d: Use iova over first level")
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-With nested translation it is GVA->GPA->HPA. The kernel needs to
-fix fault related to GPA->HPA (managed by VFIO/VDPA) while 
-handle_mm_fault only handles HVA->HPA. In this case, the 2nd-level
-page fault is expected to be delivered to VFIO/VDPA first which then
-find HVA related to GPA, call handle_mm_fault to fix HVA->HPA,
-and then call iommu_map to fix GPA->HPA in the IOMMU page table.
-This is exactly like how CPU EPT violation is handled.
+We found some devices still require SRE to be set during internal tests.
+I will drop this patch from my queue for v5.13 for now.
 
+Best regards,
+baolu
+
+> ---
+>   drivers/iommu/intel/iommu.c | 7 +++++--
+>   drivers/iommu/intel/pasid.c | 3 ++-
+>   2 files changed, 7 insertions(+), 3 deletions(-)
 > 
-> If the fault needs to be fixed in the guest, then it needs to be
-> delivered over /dev/ioasid in some way and injected into the
-> vIOMMU. VFIO and VDPA have nothing to do with vIOMMU driver in quemu.
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 868f195f55ff..7354f9ce47d8 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -2494,9 +2494,9 @@ static int domain_setup_first_level(struct intel_iommu *iommu,
+>   				    struct device *dev,
+>   				    u32 pasid)
+>   {
+> -	int flags = PASID_FLAG_SUPERVISOR_MODE;
+>   	struct dma_pte *pgd = domain->pgd;
+>   	int agaw, level;
+> +	int flags = 0;
+>   
+>   	/*
+>   	 * Skip top levels of page tables for iommu which has
+> @@ -2512,7 +2512,10 @@ static int domain_setup_first_level(struct intel_iommu *iommu,
+>   	if (level != 4 && level != 5)
+>   		return -EINVAL;
+>   
+> -	flags |= (level == 5) ? PASID_FLAG_FL5LP : 0;
+> +	if (pasid != PASID_RID2PASID)
+> +		flags |= PASID_FLAG_SUPERVISOR_MODE;
+> +	if (level == 5)
+> +		flags |= PASID_FLAG_FL5LP;
+>   
+>   	return intel_pasid_setup_first_level(iommu, dev, (pgd_t *)pgd, pasid,
+>   					     domain->iommu_did[iommu->seq_id],
+> diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
+> index 0bf7e0a76890..dd69df5a188a 100644
+> --- a/drivers/iommu/intel/pasid.c
+> +++ b/drivers/iommu/intel/pasid.c
+> @@ -673,7 +673,8 @@ int intel_pasid_setup_second_level(struct intel_iommu *iommu,
+>   	 * Since it is a second level only translation setup, we should
+>   	 * set SRE bit as well (addresses are expected to be GPAs).
+>   	 */
+> -	pasid_set_sre(pte);
+> +	if (pasid != PASID_RID2PASID)
+> +		pasid_set_sre(pte);
+>   	pasid_set_present(pte);
+>   	pasid_flush_caches(iommu, pte, pasid, did);
+>   
 > 
-> You need to have an interface under /dev/ioasid to create both page
-> table levels and part of that will be to tell the kernel what VA is
-> mapped and how to handle faults.
-
-VFIO/VDPA already have their own interface to manage GPA->HPA
-mappings. Why do we want to duplicate it in /dev/ioasid? 
-
-Thanks
-Kevin
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
