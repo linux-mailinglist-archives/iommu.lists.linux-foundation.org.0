@@ -1,65 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC91C35682A
-	for <lists.iommu@lfdr.de>; Wed,  7 Apr 2021 11:37:12 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE96735687F
+	for <lists.iommu@lfdr.de>; Wed,  7 Apr 2021 11:54:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 5DD56403B4;
-	Wed,  7 Apr 2021 09:37:11 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 55CFB4016F;
+	Wed,  7 Apr 2021 09:54:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tAGrAtFce8DT; Wed,  7 Apr 2021 09:37:10 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UrdRBe9VKOyU; Wed,  7 Apr 2021 09:54:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A4F6141891;
-	Wed,  7 Apr 2021 09:37:08 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5D4A1400BF;
+	Wed,  7 Apr 2021 09:54:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 70936C000F;
-	Wed,  7 Apr 2021 09:37:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32A0BC000A;
+	Wed,  7 Apr 2021 09:54:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D240C000A
- for <iommu@lists.linux-foundation.org>; Wed,  7 Apr 2021 09:37:07 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F324EC000A
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Apr 2021 09:54:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 39C2440345
- for <iommu@lists.linux-foundation.org>; Wed,  7 Apr 2021 09:34:05 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id D572083A8C
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Apr 2021 09:54:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h8swGErauA2P for <iommu@lists.linux-foundation.org>;
- Wed,  7 Apr 2021 09:34:04 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id U6YMUTyKb3xK for <iommu@lists.linux-foundation.org>;
+ Wed,  7 Apr 2021 09:54:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 01AA14043B
- for <iommu@lists.linux-foundation.org>; Wed,  7 Apr 2021 09:33:42 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FFfJs2YhXzPnwK;
- Wed,  7 Apr 2021 17:30:53 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 7 Apr 2021 17:33:28 +0800
-Subject: Re: [PATCH v12 01/13] vfio: VFIO_IOMMU_SET_PASID_TABLE
-To: Eric Auger <eric.auger@redhat.com>
-References: <20210223210625.604517-1-eric.auger@redhat.com>
- <20210223210625.604517-2-eric.auger@redhat.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <d0f254c3-0b63-e4d3-1f58-8940adc7c0bf@huawei.com>
-Date: Wed, 7 Apr 2021 17:33:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3FABB83A7E
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Apr 2021 09:54:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AE12661382;
+ Wed,  7 Apr 2021 09:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617789270;
+ bh=IDtrPHkJJOYZTWgUxwdWXTJZs4VaWPqqNPI5cyUO7jQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FQ87ilWdr6b99mYNAwtdjO8sUVMD7/lvflLODf9ymnMJ8mjw5hZtDrjkYFdBiw8q7
+ KMmekW5H0hW62Ult2Ajp5jqdTm75ZwRoj9qGipIoAMwsVA6g46Z7L9G2KT79XUyN2p
+ bhnfAFK0KiY1tCyYlGF+hI5jwvmezshFkQgKqhIhNHxdS4J/HRX5iOVRzRn99tr3si
+ mYRZzJXH3UJE+CFhwq3ZsxRQw+cG33PK7rTKVsL5/EqPPTWBPn5I1eyIICNCuZTlBg
+ wuVG5EJ4wjP9pXAdRfbCPNTATGhtFKqVUCNgWd9PsPfaoTdDXBHf6wz+3a9qxvZrSS
+ a6p00b2NJeOtw==
+Date: Wed, 7 Apr 2021 10:54:26 +0100
+From: Will Deacon <will@kernel.org>
+To: isaacm@codeaurora.org
+Subject: Re: [RFC PATCH v3 03/12] iommu/io-pgtable: Introduce map_pages() as
+ a page table op
+Message-ID: <20210407095425.GA15057@willie-the-truck>
+References: <20210405191112.28192-1-isaacm@codeaurora.org>
+ <20210405191112.28192-4-isaacm@codeaurora.org>
+ <20210406115739.GD13747@willie-the-truck>
+ <75a5d309498b8b41b5e24a2d9d36e78f@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20210223210625.604517-2-eric.auger@redhat.com>
-Content-Language: en-US
-X-Originating-IP: [10.174.185.179]
-X-CFilter-Loop: Reflected
-Cc: kvm@vger.kernel.org, vivek.gautam@arm.com, kvmarm@lists.cs.columbia.edu,
- eric.auger.pro@gmail.com, jean-philippe@linaro.org, wangxingang5@huawei.com,
- maz@kernel.org, jiangkunkun@huawei.com, vsethi@nvidia.com,
- zhangfei.gao@linaro.org, will@kernel.org, alex.williamson@redhat.com,
- wanghaibin.wang@huawei.com, linux-kernel@vger.kernel.org,
- lushenming@huawei.com, iommu@lists.linux-foundation.org, robin.murphy@arm.com
+Content-Disposition: inline
+In-Reply-To: <75a5d309498b8b41b5e24a2d9d36e78f@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: pratikp@codeaurora.org, iommu@lists.linux-foundation.org,
+ robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,36 +76,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Eric,
+On Tue, Apr 06, 2021 at 02:07:41PM -0700, isaacm@codeaurora.org wrote:
+> On 2021-04-06 04:57, Will Deacon wrote:
+> > On Mon, Apr 05, 2021 at 12:11:03PM -0700, Isaac J. Manjarres wrote:
+> > > Mapping memory into io-pgtables follows the same semantics
+> > > that unmapping memory used to follow (i.e. a buffer will be
+> > > mapped one page block per call to the io-pgtable code). This
+> > > means that it can be optimized in the same way that unmapping
+> > > memory was, so add a map_pages() callback to the io-pgtable
+> > > ops structure, so that a range of pages of the same size
+> > > can be mapped within the same call.
+> > > 
+> > > Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+> > > Suggested-by: Will Deacon <will@kernel.org>
+> > > ---
+> > >  include/linux/io-pgtable.h | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+> > > index 2ed0c057d9e7..019149b204b8 100644
+> > > --- a/include/linux/io-pgtable.h
+> > > +++ b/include/linux/io-pgtable.h
+> > > @@ -143,6 +143,7 @@ struct io_pgtable_cfg {
+> > >   * struct io_pgtable_ops - Page table manipulation API for IOMMU
+> > > drivers.
+> > >   *
+> > >   * @map:          Map a physically contiguous memory region.
+> > > + * @map_pages:    Map a physically contiguous range of pages of the
+> > > same size.
+> > >   * @unmap:        Unmap a physically contiguous memory region.
+> > >   * @unmap_pages:  Unmap a range of virtually contiguous pages of
+> > > the same size.
+> > >   * @iova_to_phys: Translate iova to physical address.
+> > > @@ -153,6 +154,9 @@ struct io_pgtable_cfg {
+> > >  struct io_pgtable_ops {
+> > >  	int (*map)(struct io_pgtable_ops *ops, unsigned long iova,
+> > >  		   phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
+> > > +	int (*map_pages)(struct io_pgtable_ops *ops, unsigned long iova,
+> > > +			 phys_addr_t paddr, size_t pgsize, size_t pgcount,
+> > > +			 int prot, gfp_t gfp, size_t *mapped);
+> > 
+> > How about returning 'size_t' and using IS_ERR_VALUE() instead of adding
+> > the extra 'mapped' argument (i.e. return the size of the region mapped
+> > or an error code)? I don't think we realistically need to care about map
+> > sizes that overlap with the error region.
+> > 
+> I'd given that a shot before, but the problem that I kept running into was
+> that
+> in case of an error, if I return an error code, I don't know how much memory
+> was mapped, so that I can invoke iommu_unmap from __iommu_map with that size
+> to
+> undo the partial mappings from a map_pages() call.
 
-On 2021/2/24 5:06, Eric Auger wrote:
-> +/*
-> + * VFIO_IOMMU_SET_PASID_TABLE - _IOWR(VFIO_TYPE, VFIO_BASE + 18,
-> + *			struct vfio_iommu_type1_set_pasid_table)
-> + *
-> + * The SET operation passes a PASID table to the host while the
-> + * UNSET operation detaches the one currently programmed. Setting
-> + * a table while another is already programmed replaces the old table.
+Ah yes, sorry, I see it now. So keep this as you've got it. Pushing the
+cleanup path deeper doesn't feel like the right thing to do.
 
-It looks to me that this description doesn't match the IOMMU part.
-
-[v14,05/13] iommu/smmuv3: Implement attach/detach_pasid_table
-
-|	case IOMMU_PASID_CONFIG_TRANSLATE:
-|		/* we do not support S1 <-> S1 transitions */
-|		if (smmu_domain->s1_cfg.set)
-|			goto out;
-
-Maybe I've misread something?
-
-
-Thanks,
-Zenghui
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
