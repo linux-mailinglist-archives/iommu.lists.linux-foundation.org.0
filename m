@@ -1,64 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B5A358738
-	for <lists.iommu@lfdr.de>; Thu,  8 Apr 2021 16:32:22 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B23435873A
+	for <lists.iommu@lfdr.de>; Thu,  8 Apr 2021 16:32:42 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DA015607A9;
-	Thu,  8 Apr 2021 14:32:20 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 058D0841A9;
+	Thu,  8 Apr 2021 14:32:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CUGfh8DkPtkW; Thu,  8 Apr 2021 14:32:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C1E0E607A5;
-	Thu,  8 Apr 2021 14:32:19 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kJ2WrEQ0aazX; Thu,  8 Apr 2021 14:32:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0C4F2841AA;
+	Thu,  8 Apr 2021 14:32:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 90531C000A;
-	Thu,  8 Apr 2021 14:32:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D7496C000A;
+	Thu,  8 Apr 2021 14:32:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A35AFC000A
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 14:32:18 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 711D5C000A
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 14:32:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 92B62841AA
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 14:32:18 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5FE0240115
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 14:32:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ukVOmhMl6nBZ for <iommu@lists.linux-foundation.org>;
- Thu,  8 Apr 2021 14:32:18 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dIDrZ4-lM-WO for <iommu@lists.linux-foundation.org>;
+ Thu,  8 Apr 2021 14:32:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 04B18841A9
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 14:32:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C4F4610CC;
- Thu,  8 Apr 2021 14:32:14 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D8B8140100
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 14:32:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C8C1610C7;
+ Thu,  8 Apr 2021 14:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617892335;
- bh=dCSZUf5qRFCdJRNa1E7k/U97LHBatePsybZ6J/TrTNI=;
+ s=k20201202; t=1617892357;
+ bh=bnvDob5CztkbQUTwJofxCyEWEfxMl4WR1ds+3MCG2bU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WZ4+rQV3FbcAYMb5Fm/QEPV+j+Gdzu8vGVFdO8/jXedrtE0tEjQtshrU8YUQdJFEt
- BXVSY3ETIYaEiHEniXLLgUdUNOW0L4xslVHgxN0jQ7EgSQCfV5/nmso3lKurEGpW9N
- Xt6X7fH7lH0H9+/au7QIfrT+vrpeNokml5M9kma5SjaOmf6E+pZdJ1njxkEgXf4ZUt
- +yJ54J51dKuRz0tW7jkAXz+4CzCUAFDeBn8LRABd7EPFxkWsvjesTAVtRgnGhX7LdB
- REUZXUg8xzxXls9mf0lV10fNZ+hl3DdAePTBxEWzAN/zr6kyNfpRoYqVdub29lfd0h
- QeT07+3E9iRxA==
-Date: Thu, 8 Apr 2021 15:32:11 +0100
+ b=EubHS+SS5+R2YdFDGsq4j/i9986/4BeTdsdE/Oo7lnSWR7ZtteiGELjdkORrhDqXp
+ loRu07iqgMlDdWzgWSumOvYOM0cZFJxg7lx/9ciim4O+YSbc+Uu56LeC4Dz/VlqOKO
+ rcWVlIt9p6tQV2s4xcwMoIkdeqQDSFolHUhd1cE0J/dQgwLVnVyeevN9xAaS3ulHbg
+ srYBS3q6zOGt2sAZTDCKxrWJ+lqeNMDqxVOBP2qvk5wi0uBzwwm0jnRmbPSgTOSgJk
+ Y9ZR5k+gpwEwj1EUI1NntWSp3PO5yWOe7vRsKwBdC/IrU18DRaNL1m4GC2006HcJcw
+ f6tfZg+FtIO6A==
+Date: Thu, 8 Apr 2021 15:32:33 +0100
 From: Will Deacon <will@kernel.org>
-To: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-Subject: Re: [RFC PATCH v4 10/15] iommu/io-pgtable-arm: Implement
- arm_lpae_unmap_pages()
-Message-ID: <20210408143211.GE17998@willie-the-truck>
+To: isaacm@codeaurora.org
+Subject: Re: [RFC PATCH v4 12/15] iommu/io-pgtable-arm-v7s: Implement
+ arm_v7s_unmap_pages()
+Message-ID: <20210408143232.GF17998@willie-the-truck>
 References: <20210408045241.27316-1-isaacm@codeaurora.org>
- <20210408045241.27316-11-isaacm@codeaurora.org>
+ <20210408045241.27316-13-isaacm@codeaurora.org>
+ <20210408135807.GA17998@willie-the-truck>
+ <342d453c1e5d737122b43be006de6077@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210408045241.27316-11-isaacm@codeaurora.org>
+In-Reply-To: <342d453c1e5d737122b43be006de6077@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: pratikp@codeaurora.org, iommu@lists.linux-foundation.org,
  robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
@@ -79,97 +81,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Apr 07, 2021 at 09:52:36PM -0700, Isaac J. Manjarres wrote:
-> Implement the unmap_pages() callback for the ARM LPAE io-pgtable
-> format.
-> 
-> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-> Suggested-by: Will Deacon <will@kernel.org>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 70 ++++++++++++++++++++++------------
->  1 file changed, 45 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index ea66b10c04c4..6700685f81d4 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -253,8 +253,8 @@ static void __arm_lpae_set_pte(arm_lpae_iopte *ptep, arm_lpae_iopte pte,
->  
->  static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
->  			       struct iommu_iotlb_gather *gather,
-> -			       unsigned long iova, size_t size, int lvl,
-> -			       arm_lpae_iopte *ptep);
-> +			       unsigned long iova, size_t size, size_t pgcount,
-> +			       int lvl, arm_lpae_iopte *ptep);
->  
->  static void __arm_lpae_init_pte(struct arm_lpae_io_pgtable *data,
->  				phys_addr_t paddr, arm_lpae_iopte prot,
-> @@ -298,7 +298,7 @@ static int arm_lpae_init_pte(struct arm_lpae_io_pgtable *data,
->  			size_t sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
->  
->  			tblp = ptep - ARM_LPAE_LVL_IDX(iova, lvl, data);
-> -			if (__arm_lpae_unmap(data, NULL, iova + i * sz, sz,
-> +			if (__arm_lpae_unmap(data, NULL, iova + i * sz, sz, 1,
->  					     lvl, tblp) != sz) {
->  				WARN_ON(1);
->  				return -EINVAL;
-> @@ -526,14 +526,14 @@ static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
->  				       struct iommu_iotlb_gather *gather,
->  				       unsigned long iova, size_t size,
->  				       arm_lpae_iopte blk_pte, int lvl,
-> -				       arm_lpae_iopte *ptep)
-> +				       arm_lpae_iopte *ptep, size_t pgcount)
->  {
->  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
->  	arm_lpae_iopte pte, *tablep;
->  	phys_addr_t blk_paddr;
->  	size_t tablesz = ARM_LPAE_GRANULE(data);
->  	size_t split_sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
-> -	int i, unmap_idx = -1;
-> +	int i, unmap_idx_start = -1, num_entries = 0, max_entries;
->  
->  	if (WARN_ON(lvl == ARM_LPAE_MAX_LEVELS))
->  		return 0;
-> @@ -542,15 +542,18 @@ static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
->  	if (!tablep)
->  		return 0; /* Bytes unmapped */
->  
-> -	if (size == split_sz)
-> -		unmap_idx = ARM_LPAE_LVL_IDX(iova, lvl, data);
-> +	if (size == split_sz) {
-> +		unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
-> +		max_entries = (tablesz >> ilog2(sizeof(pte))) - unmap_idx_start;
-> +		num_entries = min_t(int, pgcount, max_entries);
-> +	}
->  
->  	blk_paddr = iopte_to_paddr(blk_pte, data);
->  	pte = iopte_prot(blk_pte);
->  
->  	for (i = 0; i < tablesz / sizeof(pte); i++, blk_paddr += split_sz) {
+On Thu, Apr 08, 2021 at 07:19:29AM -0700, isaacm@codeaurora.org wrote:
+> On 2021-04-08 06:58, Will Deacon wrote:
+> > On Wed, Apr 07, 2021 at 09:52:38PM -0700, Isaac J. Manjarres wrote:
+> > > Implement the unmap_pages() callback for the ARM v7s io-pgtable
+> > > format.
+> > > 
+> > > Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+> > > ---
+> > >  drivers/iommu/io-pgtable-arm-v7s.c | 23 ++++++++++++++++++++---
+> > >  1 file changed, 20 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/iommu/io-pgtable-arm-v7s.c
+> > > b/drivers/iommu/io-pgtable-arm-v7s.c
+> > > index d4004bcf333a..5e203e03c352 100644
+> > > --- a/drivers/iommu/io-pgtable-arm-v7s.c
+> > > +++ b/drivers/iommu/io-pgtable-arm-v7s.c
+> > > @@ -710,15 +710,32 @@ static size_t __arm_v7s_unmap(struct
+> > > arm_v7s_io_pgtable *data,
+> > >  	return __arm_v7s_unmap(data, gather, iova, size, lvl + 1, ptep);
+> > >  }
+> > > 
+> > > -static size_t arm_v7s_unmap(struct io_pgtable_ops *ops, unsigned
+> > > long iova,
+> > > -			    size_t size, struct iommu_iotlb_gather *gather)
+> > > +static size_t arm_v7s_unmap_pages(struct io_pgtable_ops *ops,
+> > > unsigned long iova,
+> > > +				  size_t pgsize, size_t pgcount,
+> > > +				  struct iommu_iotlb_gather *gather)
+> > >  {
+> > >  	struct arm_v7s_io_pgtable *data = io_pgtable_ops_to_data(ops);
+> > > +	size_t unmapped = 0, ret;
+> > > 
+> > >  	if (WARN_ON(iova >= (1ULL << data->iop.cfg.ias)))
+> > >  		return 0;
+> > > 
+> > > -	return __arm_v7s_unmap(data, gather, iova, size, 1, data->pgd);
+> > > +	while (pgcount--) {
+> > > +		ret = __arm_v7s_unmap(data, gather, iova, pgsize, 1, data->pgd);
+> > > +		if (!ret)
+> > > +			break;
+> > > +
+> > > +		unmapped += pgsize;
+> > > +		iova += pgsize;
+> > > +	}
+> > > +
+> > > +	return unmapped;
+> > > +}
+> > 
+> > Wait -- don't you need to hook this up somewhere (likewise for
+> > ->map_pages)?
+> Done. Likewise for map_pages(). I'm not sure how the compiler didn't catch
+> this; I'm compile testing this, as I don't have hardware that uses the short
+> descriptor format.
 
-Given that we already have a 'tablesz / sizeof(pte)' expression here, I'd be
-inclined to have either a local variable or a macro helper to get at the
-ptes_per_table value that you also need to compute max_entries.
-
->  		/* Unmap! */
-> -		if (i == unmap_idx)
-> +		if (i >= unmap_idx_start && i < (unmap_idx_start + num_entries))
->  			continue;
->  
->  		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, 1, &tablep[i]);
-> @@ -568,38 +571,45 @@ static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
->  			return 0;
->  
->  		tablep = iopte_deref(pte, data);
-> -	} else if (unmap_idx >= 0) {
-> -		io_pgtable_tlb_add_page(&data->iop, gather, iova, size);
-> -		return size;
-> +	} else if (unmap_idx_start >= 0) {
-> +		for (i = 0; i < num_entries; i++)
-> +			io_pgtable_tlb_add_page(&data->iop, gather, iova + i * size, size);
-
-I suppose we could add a count paramater to the iotlb gather stuff in
-future too, but for now this is fine as this series is already pretty big.
+Damn, neither do I :/ My seattle has all the memory high up iirc.
 
 Will
 _______________________________________________
