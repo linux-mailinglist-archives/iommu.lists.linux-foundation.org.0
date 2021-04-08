@@ -1,56 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7AF357D25
-	for <lists.iommu@lfdr.de>; Thu,  8 Apr 2021 09:18:59 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BEE4C84D4D;
-	Thu,  8 Apr 2021 07:18:57 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GnzInDJ6g4C8; Thu,  8 Apr 2021 07:18:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EF11584D43;
-	Thu,  8 Apr 2021 07:18:56 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C9109C000A;
-	Thu,  8 Apr 2021 07:18:56 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59506C000A
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 07:18:55 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BBD357D72
+	for <lists.iommu@lfdr.de>; Thu,  8 Apr 2021 09:37:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 48795400DB
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 07:18:55 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 383FD400DB;
+	Thu,  8 Apr 2021 07:37:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wBqoEyeVW1yx for <iommu@lists.linux-foundation.org>;
- Thu,  8 Apr 2021 07:18:54 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 1E781400D7
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 07:18:53 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id EA26C426; Thu,  8 Apr 2021 09:18:49 +0200 (CEST)
-Date: Thu, 8 Apr 2021 09:18:48 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Nadav Amit <namit@vmware.com>
-Subject: Re: [PATCH] iommu/amd: page-specific invalidations for more than one
- page
-Message-ID: <YG6uWFAS6GCWJPGO@8bytes.org>
-References: <20210323210619.513069-1-namit@vmware.com>
- <YG2C42UdIEsWex2L@8bytes.org>
- <71C74038-943D-4041-B6FF-09A8C40CA204@vmware.com>
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SFlhh81oQtPy; Thu,  8 Apr 2021 07:37:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1CD91400C8;
+	Thu,  8 Apr 2021 07:37:57 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E3108C000A;
+	Thu,  8 Apr 2021 07:37:56 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E49E4C000A
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 07:37:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id D2AB260EBC
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 07:37:55 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BlFHwfIy1GIO for <iommu@lists.linux-foundation.org>;
+ Thu,  8 Apr 2021 07:37:54 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 160EA60E82
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 07:37:53 +0000 (UTC)
+Received: from dggeml405-hub.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FGCgt3YRXzWQCj;
+ Thu,  8 Apr 2021 15:34:18 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggeml405-hub.china.huawei.com (10.3.17.49) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 8 Apr 2021 15:37:48 +0800
+Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 8 Apr 2021 15:37:48 +0800
+Received: from dggpeml500016.china.huawei.com ([7.185.36.70]) by
+ dggpeml500016.china.huawei.com ([7.185.36.70]) with mapi id 15.01.2106.013;
+ Thu, 8 Apr 2021 15:37:48 +0800
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] iommu/vt-d: Force to flush iotlb before creating superpage
+Thread-Topic: [PATCH] iommu/vt-d: Force to flush iotlb before creating
+ superpage
+Thread-Index: AQHXJsdJgAXY3vlVHUqi4t5f0DX/hKqgIfAAgAh+GPCAAOyOgIAAkUvA
+Date: Thu, 8 Apr 2021 07:37:48 +0000
+Message-ID: <54ec81edcf074533867c18f0d86b837b@huawei.com>
+References: <20210401071834.1639-1-longpeng2@huawei.com>
+ <9c368419-6e45-6b27-0f34-26b581589fa7@linux.intel.com>
+ <611cb5849c9a497b8289004dddb71150@huawei.com>
+ <808394ea-9ff0-7a6d-72e7-f037e5cd3110@linux.intel.com>
+In-Reply-To: <808394ea-9ff0-7a6d-72e7-f037e5cd3110@linux.intel.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.151.207]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <71C74038-943D-4041-B6FF-09A8C40CA204@vmware.com>
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Will Deacon <will@kernel.org>, Jiajun Cao <caojiajun@vmware.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+X-CFilter-Loop: Reflected
+Cc: Kevin Tian <kevin.tian@intel.com>, David Woodhouse <dwmw2@infradead.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,28 +91,188 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Nadav,
+Hi Baolu,
 
-On Wed, Apr 07, 2021 at 05:57:31PM +0000, Nadav Amit wrote:
-> I tested it on real bare-metal hardware. I ran some basic I/O workloads
-> with the IOMMU enabled, checkers enabled/disabled, and so on.
+> -----Original Message-----
+> From: Lu Baolu [mailto:baolu.lu@linux.intel.com]
+> Sent: Thursday, April 8, 2021 12:32 PM
+> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> <longpeng2@huawei.com>; iommu@lists.linux-foundation.org;
+> linux-kernel@vger.kernel.org
+> Cc: baolu.lu@linux.intel.com; David Woodhouse <dwmw2@infradead.org>; Nadav
+> Amit <nadav.amit@gmail.com>; Alex Williamson <alex.williamson@redhat.com>;
+> Kevin Tian <kevin.tian@intel.com>; Gonglei (Arei) <arei.gonglei@huawei.com>;
+> stable@vger.kernel.org
+> Subject: Re: [PATCH] iommu/vt-d: Force to flush iotlb before creating superpage
 > 
-> However, I only tested the IOMMU-flushes and I did not test that the
-> device-IOTLB flush work, since I did not have the hardware for that.
+> Hi Longpeng,
 > 
-> If you can refer me to the old patches, I will have a look and see
-> whether I can see a difference in the logic or test them. If you want
-> me to run different tests - let me know. If you want me to remove
-> the device-IOTLB invalidations logic - that is also fine with me.
+> On 4/7/21 2:35 PM, Longpeng (Mike, Cloud Infrastructure Service Product
+> Dept.) wrote:
+> > Hi Baolu,
+> >
+> >> -----Original Message-----
+> >> From: Lu Baolu [mailto:baolu.lu@linux.intel.com]
+> >> Sent: Friday, April 2, 2021 12:44 PM
+> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> >> <longpeng2@huawei.com>; iommu@lists.linux-foundation.org;
+> >> linux-kernel@vger.kernel.org
+> >> Cc: baolu.lu@linux.intel.com; David Woodhouse <dwmw2@infradead.org>;
+> >> Nadav Amit <nadav.amit@gmail.com>; Alex Williamson
+> >> <alex.williamson@redhat.com>; Kevin Tian <kevin.tian@intel.com>;
+> >> Gonglei (Arei) <arei.gonglei@huawei.com>; stable@vger.kernel.org
+> >> Subject: Re: [PATCH] iommu/vt-d: Force to flush iotlb before creating
+> >> superpage
+> >>
+> >> Hi Longpeng,
+> >>
+> >> On 4/1/21 3:18 PM, Longpeng(Mike) wrote:
+> >>> diff --git a/drivers/iommu/intel/iommu.c
+> >>> b/drivers/iommu/intel/iommu.c index ee09323..cbcb434 100644
+> >>> --- a/drivers/iommu/intel/iommu.c
+> >>> +++ b/drivers/iommu/intel/iommu.c
+> >>> @@ -2342,9 +2342,20 @@ static inline int
+> >>> hardware_largepage_caps(struct
+> >> dmar_domain *domain,
+> >>>    				 * removed to make room for superpage(s).
+> >>>    				 * We're adding new large pages, so make sure
+> >>>    				 * we don't remove their parent tables.
+> >>> +				 *
+> >>> +				 * We also need to flush the iotlb before creating
+> >>> +				 * superpage to ensure it does not perserves any
+> >>> +				 * obsolete info.
+> >>>    				 */
+> >>> -				dma_pte_free_pagetable(domain, iov_pfn, end_pfn,
+> >>> -						       largepage_lvl + 1);
+> >>> +				if (dma_pte_present(pte)) {
+> >>
+> >> The dma_pte_free_pagetable() clears a batch of PTEs. So checking
+> >> current PTE is insufficient. How about removing this check and always
+> >> performing cache invalidation?
+> >>
+> >
+> > Um...the PTE here may be present( e.g. 4K mapping --> superpage mapping )
+> orNOT-present ( e.g. create a totally new superpage mapping ), but we only need to
+> call free_pagetable and flush_iotlb in the former case, right ?
+> 
+> But this code covers multiple PTEs and perhaps crosses the page boundary.
+> 
+> How about moving this code into a separated function and check PTE presence
+> there. A sample code could look like below: [compiled but not tested!]
+> 
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c index
+> d334f5b4e382..0e04d450c38a 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -2300,6 +2300,41 @@ static inline int hardware_largepage_caps(struct
+> dmar_domain *domain,
+>          return level;
+>   }
+> 
+> +/*
+> + * Ensure that old small page tables are removed to make room for
+> superpage(s).
+> + * We're going to add new large pages, so make sure we don't remove
+> their parent
+> + * tables. The IOTLB/devTLBs should be flushed if any PDE/PTEs are cleared.
+> + */
+> +static void switch_to_super_page(struct dmar_domain *domain,
+> +                                unsigned long start_pfn,
+> +                                unsigned long end_pfn, int level) {
 
-Here is the patch-set, it is from 2010 and against a very old version of
-the AMD IOMMU driver:
+Maybe "swith_to" will lead people to think "remove old and then setup new", so how about something like "remove_room_for_super_page" or "prepare_for_super_page" ?
 
-	https://lore.kernel.org/lkml/1265898797-32183-1-git-send-email-joerg.roedel@amd.com/
+> +       unsigned long lvl_pages = lvl_to_nr_pages(level);
+> +       struct dma_pte *pte = NULL;
+> +       int i;
+> +
+> +       while (start_pfn <= end_pfn) {
 
-Regards,
+start_pfn < end_pfn ?
 
-	Joerg
+> +               if (!pte)
+> +                       pte = pfn_to_dma_pte(domain, start_pfn, &level);
+> +
+> +               if (dma_pte_present(pte)) {
+> +                       dma_pte_free_pagetable(domain, start_pfn,
+> +                                              start_pfn + lvl_pages - 1,
+> +                                              level + 1);
+> +
+> +                       for_each_domain_iommu(i, domain)
+> +                               iommu_flush_iotlb_psi(g_iommus[i],
+> domain,
+> +                                                     start_pfn,
+> lvl_pages,
+> +                                                     0, 0);
+> +               }
+> +
+> +               pte++;
+> +               start_pfn += lvl_pages;
+> +               if (first_pte_in_page(pte))
+> +                       pte = NULL;
+> +       }
+> +}
+> +
+>   static int
+>   __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
+>                   unsigned long phys_pfn, unsigned long nr_pages, int prot)
+> @@ -2341,22 +2376,11 @@ __domain_mapping(struct dmar_domain *domain,
+> unsigned long iov_pfn,
+>                                  return -ENOMEM;
+>                          /* It is large page*/
+>                          if (largepage_lvl > 1) {
+> -                               unsigned long nr_superpages, end_pfn;
+> +                               unsigned long end_pfn;
+> 
+>                                  pteval |= DMA_PTE_LARGE_PAGE;
+> -                               lvl_pages = lvl_to_nr_pages(largepage_lvl);
+> -
+> -                               nr_superpages = nr_pages / lvl_pages;
+> -                               end_pfn = iov_pfn + nr_superpages *
+> lvl_pages - 1;
+> -
+> -                               /*
+> -                                * Ensure that old small page tables are
+> -                                * removed to make room for superpage(s).
+> -                                * We're adding new large pages, so make
+> sure
+> -                                * we don't remove their parent tables.
+> -                                */
+> -                               dma_pte_free_pagetable(domain, iov_pfn,
+> end_pfn,
+> -                                                      largepage_lvl +
+> 1);
+> +                               end_pfn = ((iov_pfn + nr_pages) &
+> level_mask(largepage_lvl)) - 1;
+> +                               switch_to_super_page(domain, iov_pfn,
+> end_pfn, largepage_lvl);
+>                          } else {
+>                                  pteval &=
+> ~(uint64_t)DMA_PTE_LARGE_PAGE;
+>                          }
+> 
+> I will send you the diff patch off list. Any thoughts?
+> 
+
+The solution looks good to me. 
+
+It's free for you to send this patch if you want, I'll send V2 if you have no plan to send it :)
+
+> Best regards,
+> baolu
+> 
+> >
+> >>> +					int i;
+> >>> +
+> >>> +					dma_pte_free_pagetable(domain, iov_pfn, end_pfn,
+> >>> +							       largepage_lvl + 1);
+> >>> +					for_each_domain_iommu(i, domain)
+> >>> +						iommu_flush_iotlb_psi(g_iommus[i], domain,
+> >>> +								      iov_pfn, nr_pages, 0, 0);
+> >>> +
+> >>
+> >> Best regards,
+> >> baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
