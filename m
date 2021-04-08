@@ -1,66 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BA7357B8B
-	for <lists.iommu@lfdr.de>; Thu,  8 Apr 2021 06:53:09 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A587357B94
+	for <lists.iommu@lfdr.de>; Thu,  8 Apr 2021 06:53:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C007441913;
-	Thu,  8 Apr 2021 04:53:07 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B72B884C87;
+	Thu,  8 Apr 2021 04:53:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9iNV8laTjW-O; Thu,  8 Apr 2021 04:53:06 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id s2ap2XH8OdrP; Thu,  8 Apr 2021 04:53:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7DC6E4190C;
-	Thu,  8 Apr 2021 04:53:06 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7D1FA84C75;
+	Thu,  8 Apr 2021 04:53:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B02FC0014;
-	Thu,  8 Apr 2021 04:53:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D0A1EC000A;
+	Thu,  8 Apr 2021 04:53:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 77748C000A
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 04:53:04 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 92592C000A
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 04:53:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with UTF8SMTP id 57E1660E01
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 04:53:04 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with UTF8SMTP id 8F1DE406A8
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 04:53:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=mg.codeaurora.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id eetK8R2ugoB9 for <iommu@lists.linux-foundation.org>;
- Thu,  8 Apr 2021 04:53:03 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with UTF8SMTP id XS1mOP7Abhd2 for <iommu@lists.linux-foundation.org>;
+ Thu,  8 Apr 2021 04:53:14 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by smtp3.osuosl.org (Postfix) with UTF8SMTPS id 9F6F960D8C
- for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 04:53:03 +0000 (UTC)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by smtp2.osuosl.org (Postfix) with UTF8SMTPS id 072BE406B1
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Apr 2021 04:53:12 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1617857583; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1617857594; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=pRMpKE32qByRU1qDbdABpoIZNk3uFreaKiglHMbhOK4=;
- b=KEhjlE8/udfh2aX/6chjzuulhMxKoJ60bXNLiz4AB8dYf2vPLbS8goJAmZ64TbOQbNbpU/0a
- 3AK9IcuMXQ3/2ixBtMZJZBa9X9ilktAFY8YXfEQy8UNsVuWSlGzDFj4wfBZcei3cSYkkptFA
- mWd5GLS4r/6eIYy0y/JVWc1AoK0=
-X-Mailgun-Sending-Ip: 198.61.254.9
+ Sender; bh=h9hdjSfOKSSR1Oxkz8ZrG0p7YsZRUvI07eXyhf3RlEo=;
+ b=MTPZymL5SD1qERC7ibme7mFzDW7b7BBFiV6o4uM2oLWiWWh7cuuuBUWZ8uvQ9wmciQzxpCw0
+ KoZ0hY70OFYj34H/SL0U/cSOc2twAv7TbrR6x87qDl8crZ5PJHnwlF4M+jdGD1SZLdU1pkQg
+ /PtX1a7/HnTVbstUhvV5mkmPAKU=
+X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 606e8c2f87ce1fbb565f7cb4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Apr 2021 04:53:03
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 606e8c30c06dd10a2dc7d61f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Apr 2021 04:53:04
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 21436C43464; Thu,  8 Apr 2021 04:53:02 +0000 (UTC)
+ id AD59FC43463; Thu,  8 Apr 2021 04:53:03 +0000 (UTC)
 Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 51B11C433CA;
- Thu,  8 Apr 2021 04:53:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 51B11C433CA
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 7E87AC433CA;
+ Thu,  8 Apr 2021 04:53:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7E87AC433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -68,9 +68,10 @@ Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 To: iommu@lists.linux-foundation.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [RFC PATCH v4 08/15] iommu: Add support for the map_pages() callback
-Date: Wed,  7 Apr 2021 21:52:34 -0700
-Message-Id: <20210408045241.27316-9-isaacm@codeaurora.org>
+Subject: [RFC PATCH v4 09/15] iommu/io-pgtable-arm: Prepare PTE methods for
+ handling multiple entries
+Date: Wed,  7 Apr 2021 21:52:35 -0700
+Message-Id: <20210408045241.27316-10-isaacm@codeaurora.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210408045241.27316-1-isaacm@codeaurora.org>
 References: <20210408045241.27316-1-isaacm@codeaurora.org>
@@ -94,90 +95,173 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since iommu_pgsize can calculate how many pages of the
-same size can be mapped/unmapped before the next largest
-page size boundary, add support for invoking an IOMMU
-driver's map_pages() callback, if it provides one.
+The PTE methods currently operate on a single entry. In preparation
+for manipulating multiple PTEs in one map or unmap call, allow them
+to handle multiple PTEs.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-Suggested-by: Will Deacon <will@kernel.org>
+Suggested-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/iommu.c | 43 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 8 deletions(-)
+ drivers/iommu/io-pgtable-arm.c | 78 +++++++++++++++++++---------------
+ 1 file changed, 44 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index d5d551754556..df55761932fd 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2412,6 +2412,30 @@ static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
- 	return pgsize;
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index 87def58e79b5..ea66b10c04c4 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -232,20 +232,23 @@ static void __arm_lpae_free_pages(void *pages, size_t size,
+ 	free_pages((unsigned long)pages, get_order(size));
  }
  
-+static int __iommu_map_pages(struct iommu_domain *domain, unsigned long iova,
-+			     phys_addr_t paddr, size_t size, int prot,
-+			     gfp_t gfp, size_t *mapped)
-+{
-+	const struct iommu_ops *ops = domain->ops;
-+	size_t pgsize, count;
-+	int ret;
-+
-+	pgsize = iommu_pgsize(domain, iova, paddr, size, &count);
-+
-+	pr_debug("mapping: iova 0x%lx pa %pa pgsize 0x%zx count %ld\n",
-+			 iova, &paddr, pgsize, count);
-+
-+	if (ops->map_pages) {
-+		ret = ops->map_pages(domain, iova, paddr, pgsize, count, prot,
-+				     gfp, mapped);
-+	} else {
-+		ret = ops->map(domain, iova, paddr, pgsize, prot, gfp);
-+		*mapped = ret ? 0 : pgsize;
-+	}
-+
-+	return ret;
-+}
-+
- static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
- 		       phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+-static void __arm_lpae_sync_pte(arm_lpae_iopte *ptep,
++static void __arm_lpae_sync_pte(arm_lpae_iopte *ptep, int num_entries,
+ 				struct io_pgtable_cfg *cfg)
  {
-@@ -2422,7 +2446,7 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
- 	phys_addr_t orig_paddr = paddr;
- 	int ret = 0;
+ 	dma_sync_single_for_device(cfg->iommu_dev, __arm_lpae_dma_addr(ptep),
+-				   sizeof(*ptep), DMA_TO_DEVICE);
++				   sizeof(*ptep) * num_entries, DMA_TO_DEVICE);
+ }
  
--	if (unlikely(ops->map == NULL ||
-+	if (unlikely(!(ops->map || ops->map_pages) ||
- 		     domain->pgsize_bitmap == 0UL))
- 		return -ENODEV;
+ static void __arm_lpae_set_pte(arm_lpae_iopte *ptep, arm_lpae_iopte pte,
+-			       struct io_pgtable_cfg *cfg)
++			       int num_entries, struct io_pgtable_cfg *cfg)
+ {
+-	*ptep = pte;
++	int i;
++
++	for (i = 0; i < num_entries; i++)
++		ptep[i] = pte;
  
-@@ -2446,18 +2470,21 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
- 	pr_debug("map: iova 0x%lx pa %pa size 0x%zx\n", iova, &paddr, size);
+ 	if (!cfg->coherent_walk)
+-		__arm_lpae_sync_pte(ptep, cfg);
++		__arm_lpae_sync_pte(ptep, num_entries, cfg);
+ }
  
- 	while (size) {
--		size_t pgsize = iommu_pgsize(domain, iova, paddr, size, NULL);
-+		size_t mapped = 0;
+ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+@@ -255,47 +258,54 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
  
--		pr_debug("mapping: iova 0x%lx pa %pa pgsize 0x%zx\n",
--			 iova, &paddr, pgsize);
--		ret = ops->map(domain, iova, paddr, pgsize, prot, gfp);
-+		ret = __iommu_map_pages(domain, iova, paddr, size, prot, gfp,
-+					&mapped);
-+		/*
-+		 * Some pages may have been mapped, even if an error occurred,
-+		 * so we should account for those so they can be unmapped.
-+		 */
-+		size -= mapped;
+ static void __arm_lpae_init_pte(struct arm_lpae_io_pgtable *data,
+ 				phys_addr_t paddr, arm_lpae_iopte prot,
+-				int lvl, arm_lpae_iopte *ptep)
++				int lvl, int num_entries, arm_lpae_iopte *ptep)
+ {
+ 	arm_lpae_iopte pte = prot;
++	struct io_pgtable_cfg *cfg = &data->iop.cfg;
++	size_t sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
++	int i;
  
- 		if (ret)
- 			break;
+ 	if (data->iop.fmt != ARM_MALI_LPAE && lvl == ARM_LPAE_MAX_LEVELS - 1)
+ 		pte |= ARM_LPAE_PTE_TYPE_PAGE;
+ 	else
+ 		pte |= ARM_LPAE_PTE_TYPE_BLOCK;
  
--		iova += pgsize;
--		paddr += pgsize;
--		size -= pgsize;
-+		iova += mapped;
-+		paddr += mapped;
+-	pte |= paddr_to_iopte(paddr, data);
++	for (i = 0; i < num_entries; i++)
++		ptep[i] = pte | paddr_to_iopte(paddr + i * sz, data);
+ 
+-	__arm_lpae_set_pte(ptep, pte, &data->iop.cfg);
++	if (!cfg->coherent_walk)
++		__arm_lpae_sync_pte(ptep, num_entries, cfg);
+ }
+ 
+ static int arm_lpae_init_pte(struct arm_lpae_io_pgtable *data,
+ 			     unsigned long iova, phys_addr_t paddr,
+-			     arm_lpae_iopte prot, int lvl,
++			     arm_lpae_iopte prot, int lvl, int num_entries,
+ 			     arm_lpae_iopte *ptep)
+ {
+-	arm_lpae_iopte pte = *ptep;
+-
+-	if (iopte_leaf(pte, lvl, data->iop.fmt)) {
+-		/* We require an unmap first */
+-		WARN_ON(!selftest_running);
+-		return -EEXIST;
+-	} else if (iopte_type(pte) == ARM_LPAE_PTE_TYPE_TABLE) {
+-		/*
+-		 * We need to unmap and free the old table before
+-		 * overwriting it with a block entry.
+-		 */
+-		arm_lpae_iopte *tblp;
+-		size_t sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
+-
+-		tblp = ptep - ARM_LPAE_LVL_IDX(iova, lvl, data);
+-		if (__arm_lpae_unmap(data, NULL, iova, sz, lvl, tblp) != sz) {
+-			WARN_ON(1);
+-			return -EINVAL;
++	int i;
++
++	for (i = 0; i < num_entries; i++)
++		if (iopte_leaf(ptep[i], lvl, data->iop.fmt)) {
++			/* We require an unmap first */
++			WARN_ON(!selftest_running);
++			return -EEXIST;
++		} else if (iopte_type(ptep[i]) == ARM_LPAE_PTE_TYPE_TABLE) {
++			/*
++			 * We need to unmap and free the old table before
++			 * overwriting it with a block entry.
++			 */
++			arm_lpae_iopte *tblp;
++			size_t sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
++
++			tblp = ptep - ARM_LPAE_LVL_IDX(iova, lvl, data);
++			if (__arm_lpae_unmap(data, NULL, iova + i * sz, sz,
++					     lvl, tblp) != sz) {
++				WARN_ON(1);
++				return -EINVAL;
++			}
+ 		}
+-	}
+ 
+-	__arm_lpae_init_pte(data, paddr, prot, lvl, ptep);
++	__arm_lpae_init_pte(data, paddr, prot, lvl, num_entries, ptep);
+ 	return 0;
+ }
+ 
+@@ -323,7 +333,7 @@ static arm_lpae_iopte arm_lpae_install_table(arm_lpae_iopte *table,
+ 		return old;
+ 
+ 	/* Even if it's not ours, there's no point waiting; just kick it */
+-	__arm_lpae_sync_pte(ptep, cfg);
++	__arm_lpae_sync_pte(ptep, 1, cfg);
+ 	if (old == curr)
+ 		WRITE_ONCE(*ptep, new | ARM_LPAE_PTE_SW_SYNC);
+ 
+@@ -344,7 +354,7 @@ static int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+ 
+ 	/* If we can install a leaf entry at this level, then do so */
+ 	if (size == block_size)
+-		return arm_lpae_init_pte(data, iova, paddr, prot, lvl, ptep);
++		return arm_lpae_init_pte(data, iova, paddr, prot, lvl, 1, ptep);
+ 
+ 	/* We can't allocate tables at the final level */
+ 	if (WARN_ON(lvl >= ARM_LPAE_MAX_LEVELS - 1))
+@@ -361,7 +371,7 @@ static int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+ 		if (pte)
+ 			__arm_lpae_free_pages(cptep, tblsz, cfg);
+ 	} else if (!cfg->coherent_walk && !(pte & ARM_LPAE_PTE_SW_SYNC)) {
+-		__arm_lpae_sync_pte(ptep, cfg);
++		__arm_lpae_sync_pte(ptep, 1, cfg);
  	}
  
- 	/* unroll mapping in case something went wrong */
+ 	if (pte && !iopte_leaf(pte, lvl, data->iop.fmt)) {
+@@ -543,7 +553,7 @@ static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
+ 		if (i == unmap_idx)
+ 			continue;
+ 
+-		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, &tablep[i]);
++		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, 1, &tablep[i]);
+ 	}
+ 
+ 	pte = arm_lpae_install_table(tablep, ptep, blk_pte, cfg);
+@@ -585,7 +595,7 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+ 
+ 	/* If the size matches this level, we're in the right place */
+ 	if (size == ARM_LPAE_BLOCK_SIZE(lvl, data)) {
+-		__arm_lpae_set_pte(ptep, 0, &iop->cfg);
++		__arm_lpae_set_pte(ptep, 0, 1, &iop->cfg);
+ 
+ 		if (!iopte_leaf(pte, lvl, iop->fmt)) {
+ 			/* Also flush any partial walks */
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
