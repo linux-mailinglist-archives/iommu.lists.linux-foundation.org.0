@@ -1,106 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C79535A416
-	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 18:55:39 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A9E35A460
+	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 19:06:32 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B1A49607A5;
-	Fri,  9 Apr 2021 16:55:37 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id D37DE40600;
+	Fri,  9 Apr 2021 17:06:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zkWZUm5ua2Kd; Fri,  9 Apr 2021 16:55:36 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 73W6uAB7OhU0; Fri,  9 Apr 2021 17:06:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9E91060828;
-	Fri,  9 Apr 2021 16:55:36 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 61888405FF;
+	Fri,  9 Apr 2021 17:06:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 692F8C000A;
-	Fri,  9 Apr 2021 16:55:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 312D9C0012;
+	Fri,  9 Apr 2021 17:06:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 06673C000A
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 16:55:34 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C818EC000A
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 17:06:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id EE4D5401B7
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 16:55:34 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A1A47607A5
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 17:06:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=svenpeter.dev header.b="oJSw7fpF";
- dkim=pass (2048-bit key) header.d=messagingengine.com
- header.b="q0+PBkhK"
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cuXm9TP7tHqZ for <iommu@lists.linux-foundation.org>;
- Fri,  9 Apr 2021 16:55:34 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E6289400E4
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 16:55:33 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id C26D7580808;
- Fri,  9 Apr 2021 12:55:32 -0400 (EDT)
-Received: from imap21 ([10.202.2.71])
- by compute3.internal (MEProxy); Fri, 09 Apr 2021 12:55:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- h=mime-version:message-id:in-reply-to:references:date:from:to
- :cc:subject:content-type; s=fm1; bh=jYj5qvbwgmmkBYNCveC+eU/VVcmT
- 6Bj1WrUhMKoMsMs=; b=oJSw7fpFBxT1PQLtxpcv93MJGLdN0f8VkoGM1qznRFAt
- jJ7SF0W/whqyxBT5X+0Nl+1ORs7kqiQbCBgYV9ucCmpanua8tZPNHC5zZt4d4vZy
- tmk9+atDIhU3XSoY1NIR4iRwZSWtoJj+53UYZ41HI1mOtSgRhdr7U8RUXijel5uO
- p1DADMrwONja3O7/Vh08+csjDtLImoyXf4KH0hFGfFE3nGbt/l/Z0zlEu+biXNJt
- 3SGXvLRBgCBGTZZiqo9ctmJi8Vy7kDl41rXfRoDKM0r5oylRHjvPK59wycmWJ4wh
- UdRpbdAicWmckyf8LwqBqJwXvxcbCtDj2JM0B1LMNA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=jYj5qv
- bwgmmkBYNCveC+eU/VVcmT6Bj1WrUhMKoMsMs=; b=q0+PBkhKraoZSc1tbs61wK
- un2MfHcx9PJOW2q4KwF1wNUHjCSxpbyMtGCGtg0CSphD3QqUi+QV+akyZ857xU/A
- /KEsqBBbM0Ypbk2WcgxIYgZr9LbZiGxAbjQbNI6buHNmQVgLt3llEbAXMXi2OaH2
- o9R6/QQEONqiKcfZnk+brI28C5AWNTpg6zHkjEpsWZC5aj+40nsVfyUlAzLADylo
- 3N05qJ4cHa0CGWEEq0xCvorK5mobzPj2wfJasY5LIs7CwC+Te5SOBPiQXZ+H+Roj
- oVgJ2NkXUFnLUYNme7337vGkiOFV4IbHcYZWPNecYyFWWREvqNS4+1icQVNYRMJg
- ==
-X-ME-Sender: <xms:AYdwYPKZzaMyDxJ0euK7AJqmk_zIpotvhENdy0Q9IDJ3BdIbqvq1Ww>
- <xme:AYdwYDIU6IWfdekhn34O99KYU3Ed9XD9Y2Su3CpW86b3dRBlJGQaXMTrWORcRpK_S
- kbc1b3BkoixoV1wmPY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekuddguddtlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfufhv
- vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
- grthhtvghrnhepfffhieeftedvffekfeefieejtdekjeehudfgueevfeefgeehgeegtedt
- ledtgeffnecuffhomhgrihhnpeifhhhithgvqhhurghrkhdrohhrghenucevlhhushhtvg
- hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgv
- thgvrhdruggvvh
-X-ME-Proxy: <xmx:AYdwYHvdbXdfDlTUiN_GIp9FzNqtFR33A4QbwBQUcNF4iBuvULDWyQ>
- <xmx:AYdwYIY7C6tdZ4FE3UerGPYVroptvgjaywbTK2Pmx156ZSYN1Z_MHw>
- <xmx:AYdwYGaADjvFcZ2bbWgK66RqO40GreEftYZY0Xk0ih7YlrSZpQC5QQ>
- <xmx:A4dwYIBun1w5sBMu-nATvtYzxdDA41guOP8tQic0IVFtJ3CXDVolJ93VhK4>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 44A1351C0061; Fri,  9 Apr 2021 12:55:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
-Mime-Version: 1.0
-Message-Id: <e0d9af36-fc6c-4470-a87c-61b9161bdf8f@www.fastmail.com>
-In-Reply-To: <20210407104425.GB15173@willie-the-truck>
-References: <20210328074009.95932-1-sven@svenpeter.dev>
- <20210328074009.95932-2-sven@svenpeter.dev>
- <20210407104425.GB15173@willie-the-truck>
-Date: Fri, 09 Apr 2021 18:55:07 +0200
-To: "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Hector Martin" <marcan@marcan.st>
-Subject: Re: [PATCH v2 1/3] iommu: io-pgtable: add DART pagetable format
-Cc: devicetree@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
- linux-kernel@vger.kernel.org,
- Petr Mladek via iommu <iommu@lists.linux-foundation.org>,
- Rob Herring <robh+dt@kernel.org>,
- Mohamed Mediouni <mohamed.mediouni@caramail.com>,
- Mark Kettenis <mark.kettenis@xs4all.nl>, linux-arm-kernel@lists.infradead.org,
- Stan Skowronek <stan@corellium.com>
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Nda0mcPEHDdk for <iommu@lists.linux-foundation.org>;
+ Fri,  9 Apr 2021 17:06:24 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 78C40605E8
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 17:06:24 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id x16so6645428iob.1
+ for <iommu@lists.linux-foundation.org>; Fri, 09 Apr 2021 10:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ckuQKqYSNgY7eF5IEy/O9xqtXaRMqkkILp0uvz39yLw=;
+ b=DEFRRBW7mUM0LwIC914tb1EnBOQjQOWcSoOpU0+RNeVf1rMBJ6apYAbKymvAtXEWOK
+ pky1YZirx1+TImTY8pDc8zgciCwiRk76ZgOy81myto3FOf1NwLWAMpDzi3xAhk72VLg2
+ TJBNtnN5ubOP44umFdm52CT7GInzWukLU4WsA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ckuQKqYSNgY7eF5IEy/O9xqtXaRMqkkILp0uvz39yLw=;
+ b=Zp2/trKcoBbVNXc9rseoJpqS6v054+Ypl5NaKkEpCTFjUrqP6RvitAfBzmVxLvRkdC
+ O4ptfH2dNAc/IQ3G+eH7nw156ZYys375ltn+KdTh5hLy9H1tTgW6jIyjNsmbIYtOPgHb
+ d1dn8uZfZN6xD8jXQR4Bi1LcIBXn7iOWB3Oxe+3NkLKXBiMCz6XWSBV3eSIRTwm7yQRY
+ icPsW+tJsTC75Dvp9dAj+NiXR5kn08hq96v/76goMwq+88aoq9YENc11uq51rSYDfpkX
+ 2Lw0m7aqxAcYkerK4p+Hl665HDy0fhBb6Ra0GJALxpONKEvZOGKLlGuxxYCoS8SifNzg
+ sFnw==
+X-Gm-Message-State: AOAM532s9w6N4ZGcdZlB9Y4wthdtZLSypKrKsKU6r0vf7F3N1mrUEruy
+ LKojgMU91O52iw4bKV2JMeENvcej
+X-Google-Smtp-Source: ABdhPJyijYXlk1P49PEEb/iVM02dNCqi2XwX7HAn08GrYbt0mqY0L69S3e7RupJ8rCwxzY4jxxNmtQ==
+X-Received: by 2002:a05:6638:381c:: with SMTP id
+ i28mr15333884jav.60.1617987983281; 
+ Fri, 09 Apr 2021 10:06:23 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id s15sm1391221ilv.13.2021.04.09.10.06.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Apr 2021 10:06:22 -0700 (PDT)
+Subject: Re: [PATCH 1/2] Revert "iommu/amd: Fix performance counter
+ initialization"
+To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
+References: <20210409085848.3908-1-suravee.suthikulpanit@amd.com>
+ <20210409085848.3908-2-suravee.suthikulpanit@amd.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <f156768c-37fd-a4e8-3959-a5bc5dae918c@linuxfoundation.org>
+Date: Fri, 9 Apr 2021 11:06:22 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210409085848.3908-2-suravee.suthikulpanit@amd.com>
+Content-Language: en-US
+Cc: pmenzel@molgen.mpg.de, Alexander Monakov <amonakov@ispras.ru>,
+ David Coe <david.coe@live.co.uk>, Jon.Grimm@amd.com,
+ Shuah Khan <skhan@linuxfoundation.org>, Tj <ml.linux@elloe.vision>,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,97 +100,134 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Sven Peter via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Sven Peter <sven@svenpeter.dev>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On Wed, Apr 7, 2021, at 12:44, Will Deacon wrote:
-> On Sun, Mar 28, 2021 at 09:40:07AM +0200, Sven Peter wrote:
-[...]
-> >  
-> > +static struct io_pgtable *
-> > +apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
-> > +{
-> > +	struct arm_lpae_io_pgtable *data;
-> > +
-> > +	if (cfg->ias > 36)
-> > +		return NULL;
-> > +	if (cfg->oas > 36)
-> > +		return NULL;
-> > +
-> > +	if (!cfg->coherent_walk)
-> > +		return NULL;
+On 4/9/21 2:58 AM, Suravee Suthikulpanit wrote:
+> From: Paul Menzel <pmenzel@molgen.mpg.de>
 > 
-> This all feels like IOMMU-specific limitations leaking into the page-table
-> code here; it doesn't feel so unlikely that future implementations of this
-> IP might have greater addressing capabilities, for example, and so I don't
-> see why the page-table code needs to police this.
-
-That's true, this really doesn't belong here.
-I'll fix it for the next version and make sure to keep iommu-specific
-limitations inside the driver itself.
-
-
+> This reverts commit 6778ff5b21bd8e78c8bd547fd66437cf2657fd9b.
 > 
-> > +	cfg->pgsize_bitmap &= SZ_16K;
-> > +	if (!cfg->pgsize_bitmap)
-> > +		return NULL;
+> The original commit tries to address an issue, where PMC power-gating
+> causing the IOMMU PMC pre-init test to fail on certain desktop/mobile
+> platforms where the power-gating is normally enabled.
 > 
-> This is worrying (and again, I don't think this belongs here). How is this
-> thing supposed to work if the CPU is using 4k pages?
+> There have been several reports that the workaround still does not
+> guarantee to work, and can add up to 100 ms (on the worst case)
+> to the boot process on certain platforms such as the MSI B350M MORTAR
+> with AMD Ryzen 3 2200G.
+> 
+> Therefore, revert this commit as a prelude to removing the pre-init
+> test.
+> 
+> Link: https://lore.kernel.org/linux-iommu/alpine.LNX.3.20.13.2006030935570.3181@monopod.intra.ispras.ru/
+> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=201753
+> Cc: Tj (Elloe Linux) <ml.linux@elloe.vision>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Alexander Monakov <amonakov@ispras.ru>
+> Cc: David Coe <david.coe@live.co.uk>
+> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+> ---
+> Note: I have revised the commit message to add more detail
+>        and remove uncessary information.
+> 
+>   drivers/iommu/amd/init.c | 45 ++++++++++------------------------------
+>   1 file changed, 11 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+> index 321f5906e6ed..648cdfd03074 100644
+> --- a/drivers/iommu/amd/init.c
+> +++ b/drivers/iommu/amd/init.c
+> @@ -12,7 +12,6 @@
+>   #include <linux/acpi.h>
+>   #include <linux/list.h>
+>   #include <linux/bitmap.h>
+> -#include <linux/delay.h>
+>   #include <linux/slab.h>
+>   #include <linux/syscore_ops.h>
+>   #include <linux/interrupt.h>
+> @@ -257,8 +256,6 @@ static enum iommu_init_state init_state = IOMMU_START_STATE;
+>   static int amd_iommu_enable_interrupts(void);
+>   static int __init iommu_go_to_state(enum iommu_init_state state);
+>   static void init_device_table_dma(void);
+> -static int iommu_pc_get_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr,
+> -				u8 fxn, u64 *value, bool is_write);
+>   
+>   static bool amd_iommu_pre_enabled = true;
+>   
+> @@ -1717,11 +1714,13 @@ static int __init init_iommu_all(struct acpi_table_header *table)
+>   	return 0;
+>   }
+>   
+> -static void __init init_iommu_perf_ctr(struct amd_iommu *iommu)
+> +static int iommu_pc_get_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr,
+> +				u8 fxn, u64 *value, bool is_write);
+> +
+> +static void init_iommu_perf_ctr(struct amd_iommu *iommu)
+>   {
+> -	int retry;
+>   	struct pci_dev *pdev = iommu->dev;
+> -	u64 val = 0xabcd, val2 = 0, save_reg, save_src;
+> +	u64 val = 0xabcd, val2 = 0, save_reg = 0;
+>   
+>   	if (!iommu_feature(iommu, FEATURE_PC))
+>   		return;
+> @@ -1729,39 +1728,17 @@ static void __init init_iommu_perf_ctr(struct amd_iommu *iommu)
+>   	amd_iommu_pc_present = true;
+>   
+>   	/* save the value to restore, if writable */
+> -	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, false) ||
+> -	    iommu_pc_get_set_reg(iommu, 0, 0, 8, &save_src, false))
+> -		goto pc_false;
+> -
+> -	/*
+> -	 * Disable power gating by programing the performance counter
+> -	 * source to 20 (i.e. counts the reads and writes from/to IOMMU
+> -	 * Reserved Register [MMIO Offset 1FF8h] that are ignored.),
+> -	 * which never get incremented during this init phase.
+> -	 * (Note: The event is also deprecated.)
+> -	 */
+> -	val = 20;
+> -	if (iommu_pc_get_set_reg(iommu, 0, 0, 8, &val, true))
+> +	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, false))
+>   		goto pc_false;
+>   
+>   	/* Check if the performance counters can be written to */
+> -	val = 0xabcd;
+> -	for (retry = 5; retry; retry--) {
+> -		if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &val, true) ||
+> -		    iommu_pc_get_set_reg(iommu, 0, 0, 0, &val2, false) ||
+> -		    val2)
+> -			break;
+> -
+> -		/* Wait about 20 msec for power gating to disable and retry. */
+> -		msleep(20);
+> -	}
+> -
+> -	/* restore */
+> -	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, true) ||
+> -	    iommu_pc_get_set_reg(iommu, 0, 0, 8, &save_src, true))
+> +	if ((iommu_pc_get_set_reg(iommu, 0, 0, 0, &val, true)) ||
+> +	    (iommu_pc_get_set_reg(iommu, 0, 0, 0, &val2, false)) ||
+> +	    (val != val2))
 
-This SoC is just full of fun surprises!
-I didn't even think about that case since I've always been using 16k pages so far.
+Probably don't need parentheses around 'val != val2'
 
-I've checked again and wasn't able to find any way to configure the pagesize
-of the IOMMU. There seem to be variants of this IP in older iPhones which
-support a 4k pagesize but to the best of my knowledge this is hard wired
-and not configurable in software.
+>   		goto pc_false;
+>   
+> -	if (val != val2)
+> +	/* restore */
+> +	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, true))
+>   		goto pc_false;
+>   
+>   	pci_info(pdev, "IOMMU performance counters supported\n");
+> 
 
-When booting with 4k pages I hit the BUG_ON in iova.c that ensures that the
-iommu pagesize has to be <= the cpu page size.
-
-I see two options here and I'm not sure I like either of them:
-
-1) Just don't support 4k CPU pages together with IOMMU translations and only
-   allow full bypass mode there.
-   This would however mean that PCIe (i.e. ethernet, usb ports on the Mac
-   mini) and possibly Thunderbolt support would not be possible since these
-   devices don't seem to like iommu bypass mode at all.
-
-2) I've had a brief discussion on IRC with Arnd about this [1] and he pointed
-   out that the dma_map_sg API doesn't make any guarantees about the returned
-   iovas and that it might be possible to make this work at least for devices
-   that go through the normal DMA API.
-
-   I've then replaced the page size check with a WARN_ON in iova.c just to see
-   what happens. At least normal devices that go through the DMA API seem to
-   work with my configuration. iommu_dma_alloc took the iommu_dma_alloc_remap
-   path which was called with the cpu page size but then used
-   domain->pgsize_bitmap to increase that to 16k. So this kinda works out, but
-   there are other functions in dma-iommu.c that I believe rely on the fact that
-   the iommu can map single cpu pages. This feels very fragile right now and
-   would probably require some rather invasive changes.
-
-   Any driver that tries to use the iommu API directly could be trouble
-   as well if they make similar assumptions.
-
-   Is this something you would even want to support in the iommu subsytem
-   and is it even possible to do this in a sane way?
-
-
-Best,
-
-
-Sven
-
-
-[1] https://freenode.irclog.whitequark.org/asahi/2021-04-07#29609786;
+thanks,
+-- Shuah
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
