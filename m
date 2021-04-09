@@ -1,93 +1,115 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DAB35A7C3
-	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 22:20:05 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4515635A819
+	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 22:48:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 76E52401C9;
-	Fri,  9 Apr 2021 20:20:03 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id AFE6D405D1;
+	Fri,  9 Apr 2021 20:47:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YIywdKUxrZTk; Fri,  9 Apr 2021 20:20:02 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rLNKGBIoXMMi; Fri,  9 Apr 2021 20:47:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5FB00401D0;
-	Fri,  9 Apr 2021 20:20:02 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A5334405D0;
+	Fri,  9 Apr 2021 20:47:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3446CC000A;
-	Fri,  9 Apr 2021 20:20:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84B70C000A;
+	Fri,  9 Apr 2021 20:47:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0392CC000A
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 20:20:00 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B3A2C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 20:11:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D162F83FAB
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 20:20:00 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 620DE83FAA
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 20:11:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b3Nd318Nerqk for <iommu@lists.linux-foundation.org>;
- Fri,  9 Apr 2021 20:19:59 +0000 (UTC)
+ with ESMTP id 8QIkPUdiuElX for <iommu@lists.linux-foundation.org>;
+ Fri,  9 Apr 2021 20:11:36 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by smtp1.osuosl.org (Postfix) with ESMTPS id BE7B083F52
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 20:19:59 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id v26so7168409iox.11
- for <iommu@lists.linux-foundation.org>; Fri, 09 Apr 2021 13:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4jo0e+Vjj3cJ40iEJOh4rf81zAT4Jhhwl4ZeYyYej1w=;
- b=XDWQz7wAYkXZgUUBliFvMvQ2p+0KnEfvr5XhTLLrnCHpN29Qk7LhcVQhGAr7FrdEAB
- lzywTHIEsc6oyWxXSTzYU+hf7w6K6MKh+h4ICjFqtLn9M+OWge32sfmtUQwBlDK21HLu
- xDgCe3BBD+ffIpbdeEv1R6AgbTyoAvvn7AoLY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4jo0e+Vjj3cJ40iEJOh4rf81zAT4Jhhwl4ZeYyYej1w=;
- b=l8xt9r8oJPbYvHQQBl5M4MX+KFKeUD7wwt/fzSFkF89vqKCOqaGB4TAAMmVSjZq1ar
- PLun3XIdMrw6/E70AX5Fpm0cYkdXIMLi1tD3rP9qKZ+ZdwxP+C+30zoE/HKj0pYK6iEV
- 3V9Cc/wXxsHVbGwSt2Tcq+sIWkG5wHsRw86tOwgR8HzuSm9Mp0kd49Ub/NZXWZDyVfbV
- Ttt1tS6L3+HHyL5O6v8FapexiRH5bsurk9LutLz4ifmK0r/EmaErxaSK2V3VMsY4Ucb/
- FNRKcSy+i72+ta0xgjIlrY5Aj9PArtZD9IxIUzMLKI7ysF6EobONKy598PhN6sINhHZ4
- 5LKQ==
-X-Gm-Message-State: AOAM531RyKMwRr43JJn4sVJ5Ez7b4yh360EY84nnPPus22xu7sMoN6/S
- +YBomxQ9aNTUoJAbkN1uMzv+5SS/
-X-Google-Smtp-Source: ABdhPJwFfDJF762woYudGXWODvyKztEOJ2DlWF4ywug3/Nb37mHtz4ik7ZyxgrlMLYYKZ1MqwbTdNA==
-X-Received: by 2002:a5e:cb4b:: with SMTP id h11mr13030061iok.108.1617999598839; 
- Fri, 09 Apr 2021 13:19:58 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
- [24.9.64.241])
- by smtp.gmail.com with ESMTPSA id u20sm1638118ilj.63.2021.04.09.13.19.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Apr 2021 13:19:58 -0700 (PDT)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05olkn20815.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e1a::815])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E730583FA8
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 20:11:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H8WTJy1WGrkhPLoo0iRIDRzofy9/0mgAs4r8t7ocQ40uvVaekp/iKhs3x+uQIIPIsjEv761b/DuL8uvZlQosY8/JrJfLlJGoBbPyBDrrf1zmhgpuBQG5e1rrjzabEKw2XjpGxnyU0kdx2K+sGTD9eHacsAkHQ/ohDcsmHGKPe+arIBCu2A/m2BXLjhNVVn2p/B3g+2DZX8JgHLCpxbpTGqrrzQPntLN0FHgKmVz7nuIrOxmtQXxiR7K/CJh21fM4OLoWI93SZf3NpQnbZlcuzefZokiIXPpUv1WwVUQIjBUItErb2/62Cmhir9whHYZb4JhrjrYBSvyKtkkHQn/a8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v4otrfRr3dbYdW03So9+n2iHo9agTOxFXTKSUxte67Y=;
+ b=h/K5Qf3x+VEDxzHE7gmumLYC4C1ySKbS+ribKhKXXWs0uvyDBv2M1Cq0TO3YishRR0ErVen4+qG7YGZwFVaW8mLPNqosG3aeSHvcepkzVCc4A6no9f0EvRnG8LalbHgEpIo/ILcUnp4z14h5djSkfx+AGvup5PENft+Xo5kA0Gv+wwp4jNmjCQ0aLx4JYcVLo1e9+bAzsGBZkkItGRlQY4RLrynrDdJLW1ZWZB1JueDFZAPzSE//PCspW4Qi+hZttvLslxgpWsgybe8sMiBj9Hyvz/CD8qJDVEficotrQiaBNDE3FeiKWVeF11f8bqmqXQVP9ksRwf2RdzuH+TD07w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB8EUR05FT052.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc0f::45) by
+ DB8EUR05HT035.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc0f::334)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Fri, 9 Apr
+ 2021 20:11:32 +0000
+Received: from VI1PR09MB2638.eurprd09.prod.outlook.com
+ (2a01:111:e400:fc0f::45) by DB8EUR05FT052.mail.protection.outlook.com
+ (2a01:111:e400:fc0f::222) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
+ Transport; Fri, 9 Apr 2021 20:11:32 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:B2C86E232131037083D68597407A8EDD5DFCD11A671C7F2E252D986C441AE66E;
+ UpperCasedChecksum:13978A6395B6374685BC243B83E98E3A828459E881489A9298ED36C92190010E;
+ SizeAsReceived:9040; Count:48
+Received: from VI1PR09MB2638.eurprd09.prod.outlook.com
+ ([fe80::948b:987c:566b:198e]) by VI1PR09MB2638.eurprd09.prod.outlook.com
+ ([fe80::948b:987c:566b:198e%5]) with mapi id 15.20.4020.021; Fri, 9 Apr 2021
+ 20:11:32 +0000
+From: David Coe <david.coe@live.co.uk>
 Subject: Re: [PATCH 2/2] iommu/amd: Remove performance counter
  pre-initialization test
 To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
 References: <20210409085848.3908-1-suravee.suthikulpanit@amd.com>
  <20210409085848.3908-3-suravee.suthikulpanit@amd.com>
- <4f007897-afac-35e3-9c76-281c94d660c7@linuxfoundation.org>
-From: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <028da60d-4f67-60bf-4360-83fe37bcbb7e@linuxfoundation.org>
-Date: Fri, 9 Apr 2021 14:19:57 -0600
+Message-ID: <VI1PR09MB2638254CC3089BEA411AE90AC7739@VI1PR09MB2638.eurprd09.prod.outlook.com>
+Date: Fri, 9 Apr 2021 21:11:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
+In-Reply-To: <20210409085848.3908-3-suravee.suthikulpanit@amd.com>
+Content-Language: en-GB
+X-TMN: [eEHj7CAarsXoLaU0Ci2YFnhriPCHUTr6]
+X-ClientProxiedBy: LO2P265CA0228.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:b::24) To VI1PR09MB2638.eurprd09.prod.outlook.com
+ (2603:10a6:803:7b::27)
+X-Microsoft-Original-Message-ID: <369d4db7-9cbd-7163-4152-47f1a0181cf0@live.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <4f007897-afac-35e3-9c76-281c94d660c7@linuxfoundation.org>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.6] (90.246.218.100) by
+ LO2P265CA0228.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:b::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.17 via Frontend Transport; Fri, 9 Apr 2021 20:11:31 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 1e00510d-4fa9-4e3c-a3c4-08d8fb93aafe
+X-MS-TrafficTypeDiagnostic: DB8EUR05HT035:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2/PXx4AWYPTalGzJNT5wEat8nmOmYgPWNHCpljFTuVLsFt4bSb0xS3XQhp464rNK5BSy8c6h43Kl1lV6houA8VhQ61iKD+QVPI48s9K1ogqfVxUPlywV1G1tlwQ4ttZ/ZsRSFDBUGmCld6ebkAh0xKqIJXRchjQGBCd0cuBUyMGOWm2epVNMVDYX2SiwFffiW46oGAIsARIfiAZBoA5lSNwS1cLPzww3Pc8k0YPwec1QeS8iBjO5ms38BKAepKqNWGQKggjbdjdxXAqp5apO1nLo5uSyEHcDhw3XGPunVvUZhUi5tDzZ+YEVsjy+wjahC+9r0T+uPJ0MTMWDVb0pZAmiotYLnfZCHUb+0j4r0APIPyapGoSMkHa9jlUzUp4qNFQgvxLY8v0gf7qHhJGuzV5Kv7/btii4o0dListIYj53NMRiRLiMChN6qD/Iy7D2
+X-MS-Exchange-AntiSpam-MessageData: abUJlayhi497u5jAKC5xvHfPs99AK1DvBSpSfZCalZkp9xJuA9E9fuKUpdZtVopWtkwD6vuEJiYzWhaKTv9TbXwOPt06W0dBjWxguLaqxKMF0jq8ZcQ1sM1rAOdAUgjwEF7JWLBh7tnCxEWDuE+xvw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e00510d-4fa9-4e3c-a3c4-08d8fb93aafe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2021 20:11:32.6530 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: DB8EUR05FT052.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR05HT035
+X-Mailman-Approved-At: Fri, 09 Apr 2021 20:47:57 +0000
 Cc: pmenzel@molgen.mpg.de, Alexander Monakov <amonakov@ispras.ru>,
- David Coe <david.coe@live.co.uk>, Jon.Grimm@amd.com,
+ Alex Hung <1917203@bugs.launchpad.net>, Jon.Grimm@amd.com,
  Shuah Khan <skhan@linuxfoundation.org>, Tj <ml.linux@elloe.vision>,
- 1917203@bugs.launchpad.net, will@kernel.org
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,118 +127,99 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 4/9/21 2:00 PM, Shuah Khan wrote:
-> On 4/9/21 2:58 AM, Suravee Suthikulpanit wrote:
->> In early AMD desktop/mobile platforms (during 2013), when the IOMMU
->> Performance Counter (PMC) support was first introduced in
->> commit 30861ddc9cca ("perf/x86/amd: Add IOMMU Performance Counter
->> resource management"), there was a HW bug where the counters could not
->> be accessed. The result was reading of the counter always return zero.
->>
->> At the time, the suggested workaround was to add a test logic prior
->> to initializing the PMC feature to check if the counters can be 
->> programmed
->> and read back the same value. This has been working fine until the more
->> recent desktop/mobile platforms start enabling power gating for the PMC,
->> which prevents access to the counters. This results in the PMC support
->> being disabled unnecesarily.
->>
->> Unfortunatly, there is no documentation of since which generation
->> of hardware the original PMC HW bug was fixed. Although, it was fixed
->> soon after the first introduction of the PMC. Base on this, we assume
->> that the buggy platforms are less likely to be in used, and it should
->> be relatively safe to remove this legacy logic.
->>
->> Link: 
->> https://lore.kernel.org/linux-iommu/alpine.LNX.3.20.13.2006030935570.3181@monopod.intra.ispras.ru/ 
->>
->> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=201753
->> Cc: Tj (Elloe Linux) <ml.linux@elloe.vision>
->> Cc: Shuah Khan <skhan@linuxfoundation.org>
->> Cc: Alexander Monakov <amonakov@ispras.ru>
->> Cc: David Coe <david.coe@live.co.uk>
->> Cc: Paul Menzel <pmenzel@molgen.mpg.de>
->> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
->> ---
+On 09/04/2021 09:58, Suravee Suthikulpanit wrote:
+> In early AMD desktop/mobile platforms (during 2013), when the IOMMU
+> Performance Counter (PMC) support was first introduced in
+> commit 30861ddc9cca ("perf/x86/amd: Add IOMMU Performance Counter
+> resource management"), there was a HW bug where the counters could not
+> be accessed. The result was reading of the counter always return zero.
 > 
+> At the time, the suggested workaround was to add a test logic prior
+> to initializing the PMC feature to check if the counters can be programmed
+> and read back the same value. This has been working fine until the more
+> recent desktop/mobile platforms start enabling power gating for the PMC,
+> which prevents access to the counters. This results in the PMC support
+> being disabled unnecesarily.
 > 
-> Tested-by: Shuah Khan <skhan@linuxfoundation.org>
+> Unfortunatly, there is no documentation of since which generation
+> of hardware the original PMC HW bug was fixed. Although, it was fixed
+> soon after the first introduction of the PMC. Base on this, we assume
+> that the buggy platforms are less likely to be in used, and it should
+> be relatively safe to remove this legacy logic.
+
+Thanks for explaining the 'context', Suravee.
+
+> Link: https://lore.kernel.org/linux-iommu/alpine.LNX.3.20.13.2006030935570.3181@monopod.intra.ispras.ru/
+> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=201753
+> Cc: Tj (Elloe Linux) <ml.linux@elloe.vision>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Alexander Monakov <amonakov@ispras.ru>
+> Cc: David Coe <david.coe@live.co.uk>
+> Cc: Paul Menzel <pmenzel@molgen.mpg.de>
+> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+> ---
+>   drivers/iommu/amd/init.c | 24 +-----------------------
+>   1 file changed, 1 insertion(+), 23 deletions(-)
+> 
+> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+> index 648cdfd03074..247cdda5d683 100644
+> --- a/drivers/iommu/amd/init.c
+> +++ b/drivers/iommu/amd/init.c
+> @@ -1714,33 +1714,16 @@ static int __init init_iommu_all(struct acpi_table_header *table)
+>   	return 0;
+>   }
+>   
+> -static int iommu_pc_get_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr,
+> -				u8 fxn, u64 *value, bool is_write);
+> -
+>   static void init_iommu_perf_ctr(struct amd_iommu *iommu)
+>   {
+> +	u64 val;
+>   	struct pci_dev *pdev = iommu->dev;
+> -	u64 val = 0xabcd, val2 = 0, save_reg = 0;
+>   
+>   	if (!iommu_feature(iommu, FEATURE_PC))
+>   		return;
+>   
+>   	amd_iommu_pc_present = true;
+>   
+> -	/* save the value to restore, if writable */
+> -	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, false))
+> -		goto pc_false;
+> -
+> -	/* Check if the performance counters can be written to */
+> -	if ((iommu_pc_get_set_reg(iommu, 0, 0, 0, &val, true)) ||
+> -	    (iommu_pc_get_set_reg(iommu, 0, 0, 0, &val2, false)) ||
+> -	    (val != val2))
+> -		goto pc_false;
+> -
+> -	/* restore */
+> -	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, true))
+> -		goto pc_false;
+> -
+>   	pci_info(pdev, "IOMMU performance counters supported\n");
+>   
+>   	val = readl(iommu->mmio_base + MMIO_CNTR_CONF_OFFSET);
+> @@ -1748,11 +1731,6 @@ static void init_iommu_perf_ctr(struct amd_iommu *iommu)
+>   	iommu->max_counters = (u8) ((val >> 7) & 0xf);
+>   
+>   	return;
+> -
+> -pc_false:
+> -	pci_err(pdev, "Unable to read/write to IOMMU perf counter.\n");
+> -	amd_iommu_pc_present = false;
+> -	return;
+>   }
+>   
+>   static ssize_t amd_iommu_show_cap(struct device *dev,
 > 
 
-Revert + this patch - same as my test on Ryzen 5
+I'll test your revert + update IOMMU patch on my Ryzen 2400G and 4700U 
+most likely over the weekend. Very interesting!
 
-On AMD Ryzen 7 4700G with Radeon Graphics
-
-These look real odd to me. Let me know if I should look further.
-
-sudo ./perf stat -e 'amd_iommu_0/cmd_processed/, 
-amd_iommu_0/cmd_processed_inv/, amd_iommu_0/ign_rd_wr_mmio_1ff8h/, 
-amd_iommu_0/int_dte_hit/, amd_iommu_0/int_dte_mis/, 
-amd_iommu_0/mem_dte_hit/, amd_iommu_0/mem_dte_mis/, 
-amd_iommu_0/mem_iommu_tlb_pde_hit/, amd_iommu_0/mem_iommu_tlb_pde_mis/, 
-amd_iommu_0/mem_iommu_tlb_pte_hit/, amd_iommu_0/mem_iommu_tlb_pte_mis/, 
-amd_iommu_0/mem_pass_excl/, amd_iommu_0/mem_pass_pretrans/, 
-amd_iommu_0/mem_pass_untrans/, amd_iommu_0/mem_target_abort/, 
-amd_iommu_0/mem_trans_total/, amd_iommu_0/page_tbl_read_gst/, 
-amd_iommu_0/page_tbl_read_nst/, amd_iommu_0/page_tbl_read_tot/, 
-amd_iommu_0/smi_blk/, amd_iommu_0/smi_recv/, amd_iommu_0/tlb_inv/, 
-amd_iommu_0/vapic_int_guest/, amd_iommu_0/vapic_int_non_guest/' sleep 10
-
-  Performance counter stats for 'system wide':
-
-17,761,952,514,865,374      amd_iommu_0/cmd_processed/ 
-                    (33.28%)
-18,582,155,570,607,472       amd_iommu_0/cmd_processed_inv/ 
-                         (33.32%)
-                  0       amd_iommu_0/ign_rd_wr_mmio_1ff8h/ 
-                         (33.36%)
-5,056,087,645,262,255       amd_iommu_0/int_dte_hit/ 
-                  (33.40%)
-32,831,106,446,308,888       amd_iommu_0/int_dte_mis/ 
-                   (33.44%)
-13,461,819,655,591,296       amd_iommu_0/mem_dte_hit/ 
-                   (33.45%)
-208,555,436,221,050,464       amd_iommu_0/mem_dte_mis/ 
-                    (33.47%)
-196,824,154,635,609,888       amd_iommu_0/mem_iommu_tlb_pde_hit/ 
-                              (33.46%)
-193,552,630,440,410,144       amd_iommu_0/mem_iommu_tlb_pde_mis/ 
-                              (33.45%)
-176,936,647,809,098,368       amd_iommu_0/mem_iommu_tlb_pte_hit/ 
-                              (33.41%)
-184,737,401,623,626,464       amd_iommu_0/mem_iommu_tlb_pte_mis/ 
-                              (33.37%)
-                  0       amd_iommu_0/mem_pass_excl/ 
-                  (33.33%)
-                  0       amd_iommu_0/mem_pass_pretrans/ 
-                      (33.30%)
-                  0       amd_iommu_0/mem_pass_untrans/ 
-                     (33.28%)
-                  0       amd_iommu_0/mem_target_abort/ 
-                     (33.27%)
-245,383,212,924,004,288       amd_iommu_0/mem_trans_total/ 
-                        (33.27%)
-                  0       amd_iommu_0/page_tbl_read_gst/ 
-                      (33.28%)
-262,267,045,917,967,264       amd_iommu_0/page_tbl_read_nst/ 
-                          (33.27%)
-256,308,216,913,137,600       amd_iommu_0/page_tbl_read_tot/ 
-                          (33.28%)
-                  0       amd_iommu_0/smi_blk/ 
-                (33.27%)
-                  0       amd_iommu_0/smi_recv/ 
-                (33.27%)
-                  0       amd_iommu_0/tlb_inv/ 
-                (33.27%)
-                  0       amd_iommu_0/vapic_int_guest/ 
-                    (33.26%)
-38,913,544,420,579,888       amd_iommu_0/vapic_int_non_guest/ 
-                           (33.27%)
-
-       10.003967760 seconds time elapsed
-
-thanks,
--- Shuah
+Please be aware that your original IOMMU patch has already reached the 
+imminent release of Ubuntu 21.04 (Hirsute). I've taken the liberty of 
+adding Alex Hung (lead kernel developer at Ubuntu) to the circulation list.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
