@@ -1,91 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EE63592B9
-	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 05:13:16 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E584359307
+	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 05:31:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E30B6607DB;
-	Fri,  9 Apr 2021 03:13:14 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E926240162;
+	Fri,  9 Apr 2021 03:31:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bjos_Ejh6d3L; Fri,  9 Apr 2021 03:13:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D40AA60E49;
-	Fri,  9 Apr 2021 03:13:13 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AwSZT19ttC4E; Fri,  9 Apr 2021 03:31:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id F3A8A40165;
+	Fri,  9 Apr 2021 03:31:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DA0BC000A;
-	Fri,  9 Apr 2021 03:13:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C1F1FC0012;
+	Fri,  9 Apr 2021 03:31:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C607C000A
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:13:12 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 87C47C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:31:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 465B7419D1
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:13:12 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 6DE0C40162
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:31:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AjAnNW_vO-3N for <iommu@lists.linux-foundation.org>;
- Fri,  9 Apr 2021 03:13:11 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 86AE2419BD
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:13:11 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id t140so2804212pgb.13
- for <iommu@lists.linux-foundation.org>; Thu, 08 Apr 2021 20:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+DOjZGX/u6rbr2K2XlXD1oEUmYKSnesPXX/ShoCtN0M=;
- b=NvIL21zOmeCCpYpUvhPnREkyrOsjc6hDE4wd7oEcgjEBnUjKXFuKhCvH3956iRzqDa
- 6jfYI7Ci7hhvI/TgSk3LDPqIO/ScZGcG1XJZrL3k24KXr8tihXsqm7PnHQZAceEXGvj/
- ItQkL5tzl22HoBJu78izANiE0gu53bIOXuGSI0JSnU19pxMvnxhpMCTWMzI9co/PkbJ2
- ohvt6wDatg/Py7H8bjjKeks9OEcVkw7pXd8wQIQ+PO1rRRFyR5o6zWPLOaefjZtrF4q6
- DulaFT+yP3NRTKYNEEtWeQ6JkUd7ZhTOe3fQGxMp1uVO1z2svZ16gCVwIoJeL7yXFQZR
- RfBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+DOjZGX/u6rbr2K2XlXD1oEUmYKSnesPXX/ShoCtN0M=;
- b=IyxZZEzgIqWQA04bRlM3E3B+2XnrJmFPjuh7wWg0NYLru74Jq/E8y2fLD7MAzStIdX
- ljFp3+E4dU9LCEilNJs/drezoLsFXvLnDxhGreY44lW7Uco02b1zkALGaEQZeKvg+izP
- 9oImLYhqYxZm2qq1KPsxDHejLaUfhX2+AcnBD5LaOnZtkOfuvVg30rBtzmh4FvlPYa3r
- ofFSQoWwhhWY3mWM5rw4vsfKz47EEhmgW2jmBZOPLVu/BZbkDRoTMZD6cf6YonBgwYm0
- cyJtM5N7ETy90xZLaDUE3dzs/YuOHHMItEk5cJdnLROtvvdviL6eteUlZq+P3b/gvASL
- aY9A==
-X-Gm-Message-State: AOAM530Bk/CHPz36vp/IgLyAqjYi7RsGkM8/oI3sD2LA7Wnh16Z3Nj/J
- aWTAYxXitPy3Lchn8nkQDvfONwyOSyM=
-X-Google-Smtp-Source: ABdhPJxRQVtg0/bwI9ZbPf1bAEwjzRMn66tsTWxNgC1iYvkUTAX9QtsvwyheLFsjw+xAuuDvJoMXNg==
-X-Received: by 2002:aa7:800c:0:b029:22d:3f81:553 with SMTP id
- j12-20020aa7800c0000b029022d3f810553mr10333434pfi.41.1617937990429; 
- Thu, 08 Apr 2021 20:13:10 -0700 (PDT)
-Received: from [10.230.29.202] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id b17sm664893pfv.187.2021.04.08.20.13.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 20:13:09 -0700 (PDT)
-Subject: Re: [PATCH v3] swiotlb: Make SWIOTLB_NO_FORCE perform no allocation
-To: Christoph Hellwig <hch@lst.de>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-References: <20210321033740.312500-1-f.fainelli@gmail.com>
- <20210323015350.399493-1-f.fainelli@gmail.com> <20210324084250.GA4474@lst.de>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <2ad22811-24e8-0776-3e55-ea2a4ac55f55@gmail.com>
-Date: Thu, 8 Apr 2021 20:13:07 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1UaApykInYul for <iommu@lists.linux-foundation.org>;
+ Fri,  9 Apr 2021 03:31:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 4F1614013B
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:31:07 +0000 (UTC)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGk9X3937znZ76;
+ Fri,  9 Apr 2021 11:28:16 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 9 Apr 2021 11:30:55 +0800
+From: Shaokun Zhang <zhangshaokun@hisilicon.com>
+To: <iommu@lists.linux-foundation.org>
+Subject: [PATCH RESEND] iommu/amd: Remove duplicate check of devid
+Date: Fri, 9 Apr 2021 11:30:40 +0800
+Message-ID: <1617939040-35579-1-git-send-email-zhangshaokun@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20210324084250.GA4474@lst.de>
-Content-Language: en-US
-Cc: "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+Cc: Shaokun Zhang <zhangshaokun@hisilicon.com>, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,32 +67,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+'devid' has been checked in function check_device, no need to double
+check and clean up this.
 
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>
+Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+---
+ drivers/iommu/amd/iommu.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-On 3/24/2021 1:42 AM, Christoph Hellwig wrote:
-> On Mon, Mar 22, 2021 at 06:53:49PM -0700, Florian Fainelli wrote:
->> When SWIOTLB_NO_FORCE is used, there should really be no allocations of
->> default_nslabs to occur since we are not going to use those slabs. If a
->> platform was somehow setting swiotlb_no_force and a later call to
->> swiotlb_init() was to be made we would still be proceeding with
->> allocating the default SWIOTLB size (64MB), whereas if swiotlb=noforce
->> was set on the kernel command line we would have only allocated 2KB.
->>
->> This would be inconsistent and the point of initializing default_nslabs
->> to 1, was intended to allocate the minimum amount of memory possible, so
->> simply remove that minimal allocation period.
->>
->> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> 
-> Looks good,
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-
-Thanks! Konrad, can you apply this patch to your for-linus-5.13 branch
-if you are also happy with it?
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index b4fa94a97446..cd1a85ff2cf4 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -1677,9 +1677,6 @@ static struct iommu_device *amd_iommu_probe_device(struct device *dev)
+ 		return ERR_PTR(-ENODEV);
+ 
+ 	devid = get_device_id(dev);
+-	if (devid < 0)
+-		return ERR_PTR(devid);
+-
+ 	iommu = amd_iommu_rlookup_table[devid];
+ 
+ 	if (dev_iommu_priv_get(dev))
+@@ -1961,16 +1958,12 @@ static void amd_iommu_detach_device(struct iommu_domain *dom,
+ 				    struct device *dev)
+ {
+ 	struct iommu_dev_data *dev_data = dev_iommu_priv_get(dev);
++	int devid = get_device_id(dev);
+ 	struct amd_iommu *iommu;
+-	int devid;
+ 
+ 	if (!check_device(dev))
+ 		return;
+ 
+-	devid = get_device_id(dev);
+-	if (devid < 0)
+-		return;
+-
+ 	if (dev_data->domain != NULL)
+ 		detach_device(dev);
+ 
 -- 
-Florian
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
