@@ -1,64 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F66359346
-	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 05:44:59 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DD6359426
+	for <lists.iommu@lfdr.de>; Fri,  9 Apr 2021 06:48:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 00CCF40E8F;
-	Fri,  9 Apr 2021 03:44:58 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 98CEB849CF;
+	Fri,  9 Apr 2021 04:48:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sJaUkYcCJlhd; Fri,  9 Apr 2021 03:44:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D477940E97;
-	Fri,  9 Apr 2021 03:44:56 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ti36QT83_NJh; Fri,  9 Apr 2021 04:48:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 686368499B;
+	Fri,  9 Apr 2021 04:48:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 387A5C0017;
-	Fri,  9 Apr 2021 03:44:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41D83C000A;
+	Fri,  9 Apr 2021 04:48:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D380BC000A
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:44:54 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C98B4C000A
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 04:48:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id B511860E55
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:44:54 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B28CE60E4A
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 04:48:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5PS_PNm09Y9u for <iommu@lists.linux-foundation.org>;
- Fri,  9 Apr 2021 03:44:53 +0000 (UTC)
+ with ESMTP id GCq_CyYYVFJr for <iommu@lists.linux-foundation.org>;
+ Fri,  9 Apr 2021 04:48:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 78B6960E52
- for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 03:44:53 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FGkVZ5q3qzlWq4;
- Fri,  9 Apr 2021 11:43:02 +0800 (CST)
-Received: from DESKTOP-7FEPK9S.china.huawei.com (10.174.184.135) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 9 Apr 2021 11:44:45 +0800
-From: Shenming Lu <lushenming@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Cornelia Huck
- <cohuck@redhat.com>, Will Deacon <will@kernel.org>, Robin Murphy
- <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Jean-Philippe Brucker
- <jean-philippe@linaro.org>, Eric Auger <eric.auger@redhat.com>,
- <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux-foundation.org>,
- <linux-api@vger.kernel.org>
-Subject: [RFC PATCH v3 8/8] vfio: Add nested IOPF support
-Date: Fri, 9 Apr 2021 11:44:20 +0800
-Message-ID: <20210409034420.1799-9-lushenming@huawei.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20210409034420.1799-1-lushenming@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E7194606D5
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Apr 2021 04:48:41 +0000 (UTC)
+Received: from DGGEML401-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FGlv16vY3z5mLB;
+ Fri,  9 Apr 2021 12:45:49 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEML401-HUB.china.huawei.com (10.3.17.32) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Fri, 9 Apr 2021 12:48:37 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Fri, 9 Apr 2021 12:48:36 +0800
+Subject: Re: [PATCH v14 06/13] iommu/smmuv3: Allow stage 1 invalidation with
+ unmanaged ASIDs
+To: Auger Eric <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
+ <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+ <kvm@vger.kernel.org>, <kvmarm@lists.cs.columbia.edu>, <will@kernel.org>,
+ <maz@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+ <alex.williamson@redhat.com>, <tn@semihalf.com>, <zhukeqian1@huawei.com>
+References: <20210223205634.604221-1-eric.auger@redhat.com>
+ <20210223205634.604221-7-eric.auger@redhat.com>
+ <901720e6-6ca5-eb9a-1f24-0ca479bcfecc@huawei.com>
+ <0246aec2-162d-0584-3ca4-b9c304ef3c8a@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <46f3760a-9ab5-1710-598e-38fbc1f5fb5c@huawei.com>
+Date: Fri, 9 Apr 2021 12:48:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.174.184.135]
+In-Reply-To: <0246aec2-162d-0584-3ca4-b9c304ef3c8a@redhat.com>
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
 X-CFilter-Loop: Reflected
-Cc: Kevin Tian <kevin.tian@intel.com>, Christoph Hellwig <hch@infradead.org>,
- lushenming@huawei.com, wanghaibin.wang@huawei.com
+Cc: jean-philippe@linaro.org, wangxingang5@huawei.com, lushenming@huawei.com,
+ wanghaibin.wang@huawei.com, vivek.gautam@arm.com, vsethi@nvidia.com,
+ zhangfei.gao@linaro.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,247 +82,157 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-To set up nested mode, drivers such as vfio_pci need to register a
-handler to receive stage/level 1 faults from the IOMMU, but since
-currently each device can only have one iommu dev fault handler,
-and if stage 2 IOPF is already enabled (VFIO_IOMMU_ENABLE_IOPF),
-we choose to update the registered handler (a consolidated one) via
-flags (set FAULT_REPORT_NESTED_L1), and further deliver the received
-stage 1 faults in the handler to the guest through a newly added
-vfio_device_ops callback.
-
-Signed-off-by: Shenming Lu <lushenming@huawei.com>
----
- drivers/vfio/vfio.c             | 81 +++++++++++++++++++++++++++++++++
- drivers/vfio/vfio_iommu_type1.c | 49 +++++++++++++++++++-
- include/linux/vfio.h            | 12 +++++
- 3 files changed, 141 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 44c8dfabf7de..4245f15914bf 100644
---- a/drivers/vfio/vfio.c
-+++ b/drivers/vfio/vfio.c
-@@ -2356,6 +2356,87 @@ struct iommu_domain *vfio_group_iommu_domain(struct vfio_group *group)
- }
- EXPORT_SYMBOL_GPL(vfio_group_iommu_domain);
- 
-+/*
-+ * Register/Update the VFIO IOPF handler to receive
-+ * nested stage/level 1 faults.
-+ */
-+int vfio_iommu_dev_fault_handler_register_nested(struct device *dev)
-+{
-+	struct vfio_container *container;
-+	struct vfio_group *group;
-+	struct vfio_iommu_driver *driver;
-+	int ret;
-+
-+	if (!dev)
-+		return -EINVAL;
-+
-+	group = vfio_group_get_from_dev(dev);
-+	if (!group)
-+		return -ENODEV;
-+
-+	ret = vfio_group_add_container_user(group);
-+	if (ret)
-+		goto out;
-+
-+	container = group->container;
-+	driver = container->iommu_driver;
-+	if (likely(driver && driver->ops->register_handler))
-+		ret = driver->ops->register_handler(container->iommu_data, dev);
-+	else
-+		ret = -ENOTTY;
-+
-+	vfio_group_try_dissolve_container(group);
-+
-+out:
-+	vfio_group_put(group);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(vfio_iommu_dev_fault_handler_register_nested);
-+
-+int vfio_iommu_dev_fault_handler_unregister_nested(struct device *dev)
-+{
-+	struct vfio_container *container;
-+	struct vfio_group *group;
-+	struct vfio_iommu_driver *driver;
-+	int ret;
-+
-+	if (!dev)
-+		return -EINVAL;
-+
-+	group = vfio_group_get_from_dev(dev);
-+	if (!group)
-+		return -ENODEV;
-+
-+	ret = vfio_group_add_container_user(group);
-+	if (ret)
-+		goto out;
-+
-+	container = group->container;
-+	driver = container->iommu_driver;
-+	if (likely(driver && driver->ops->unregister_handler))
-+		ret = driver->ops->unregister_handler(container->iommu_data, dev);
-+	else
-+		ret = -ENOTTY;
-+
-+	vfio_group_try_dissolve_container(group);
-+
-+out:
-+	vfio_group_put(group);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(vfio_iommu_dev_fault_handler_unregister_nested);
-+
-+int vfio_transfer_iommu_fault(struct device *dev, struct iommu_fault *fault)
-+{
-+	struct vfio_device *device = dev_get_drvdata(dev);
-+
-+	if (unlikely(!device->ops->transfer))
-+		return -EOPNOTSUPP;
-+
-+	return device->ops->transfer(device->device_data, fault);
-+}
-+EXPORT_SYMBOL_GPL(vfio_transfer_iommu_fault);
-+
- /**
-  * Module/class support
-  */
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index ba2b5a1cf6e9..9d1adeddb303 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -3821,13 +3821,32 @@ static int vfio_iommu_type1_dma_map_iopf(struct iommu_fault *fault, void *data)
- 	struct vfio_batch batch;
- 	struct vfio_range *range;
- 	dma_addr_t iova = ALIGN_DOWN(fault->prm.addr, PAGE_SIZE);
--	int access_flags = 0;
-+	int access_flags = 0, nested;
- 	size_t premap_len, map_len, mapped_len = 0;
- 	unsigned long bit_offset, vaddr, pfn, i, npages;
- 	int ret;
- 	enum iommu_page_response_code status = IOMMU_PAGE_RESP_INVALID;
- 	struct iommu_page_response resp = {0};
- 
-+	if (vfio_dev_domian_nested(dev, &nested))
-+		return -ENODEV;
-+
-+	/*
-+	 * When configured in nested mode, further deliver the
-+	 * stage/level 1 faults to the guest.
-+	 */
-+	if (nested) {
-+		bool l2;
-+
-+		if (fault->type == IOMMU_FAULT_PAGE_REQ)
-+			l2 = fault->prm.flags & IOMMU_FAULT_PAGE_REQUEST_L2;
-+		if (fault->type == IOMMU_FAULT_DMA_UNRECOV)
-+			l2 = fault->event.flags & IOMMU_FAULT_UNRECOV_L2;
-+
-+		if (!l2)
-+			return vfio_transfer_iommu_fault(dev, fault);
-+	}
-+
- 	if (fault->type != IOMMU_FAULT_PAGE_REQ)
- 		return -EOPNOTSUPP;
- 
-@@ -4201,6 +4220,32 @@ static void vfio_iommu_type1_notify(void *iommu_data,
- 	wake_up_all(&iommu->vaddr_wait);
- }
- 
-+static int vfio_iommu_type1_register_handler(void *iommu_data,
-+					     struct device *dev)
-+{
-+	struct vfio_iommu *iommu = iommu_data;
-+
-+	if (iommu->iopf_enabled)
-+		return iommu_update_device_fault_handler(dev, ~0,
-+						FAULT_REPORT_NESTED_L1);
-+	else
-+		return iommu_register_device_fault_handler(dev,
-+						vfio_iommu_type1_dma_map_iopf,
-+						FAULT_REPORT_NESTED_L1, dev);
-+}
-+
-+static int vfio_iommu_type1_unregister_handler(void *iommu_data,
-+					       struct device *dev)
-+{
-+	struct vfio_iommu *iommu = iommu_data;
-+
-+	if (iommu->iopf_enabled)
-+		return iommu_update_device_fault_handler(dev,
-+						~FAULT_REPORT_NESTED_L1, 0);
-+	else
-+		return iommu_unregister_device_fault_handler(dev);
-+}
-+
- static const struct vfio_iommu_driver_ops vfio_iommu_driver_ops_type1 = {
- 	.name			= "vfio-iommu-type1",
- 	.owner			= THIS_MODULE,
-@@ -4216,6 +4261,8 @@ static const struct vfio_iommu_driver_ops vfio_iommu_driver_ops_type1 = {
- 	.dma_rw			= vfio_iommu_type1_dma_rw,
- 	.group_iommu_domain	= vfio_iommu_type1_group_iommu_domain,
- 	.notify			= vfio_iommu_type1_notify,
-+	.register_handler	= vfio_iommu_type1_register_handler,
-+	.unregister_handler	= vfio_iommu_type1_unregister_handler,
- };
- 
- static int __init vfio_iommu_type1_init(void)
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index a7b426d579df..4621d8f0395d 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -29,6 +29,8 @@
-  * @match: Optional device name match callback (return: 0 for no-match, >0 for
-  *         match, -errno for abort (ex. match with insufficient or incorrect
-  *         additional args)
-+ * @transfer: Optional. Transfer the received stage/level 1 faults to the guest
-+ *            for nested mode.
-  */
- struct vfio_device_ops {
- 	char	*name;
-@@ -43,6 +45,7 @@ struct vfio_device_ops {
- 	int	(*mmap)(void *device_data, struct vm_area_struct *vma);
- 	void	(*request)(void *device_data, unsigned int count);
- 	int	(*match)(void *device_data, char *buf);
-+	int	(*transfer)(void *device_data, struct iommu_fault *fault);
- };
- 
- extern struct iommu_group *vfio_iommu_group_get(struct device *dev);
-@@ -100,6 +103,10 @@ struct vfio_iommu_driver_ops {
- 						   struct iommu_group *group);
- 	void		(*notify)(void *iommu_data,
- 				  enum vfio_iommu_notify_type event);
-+	int		(*register_handler)(void *iommu_data,
-+					    struct device *dev);
-+	int		(*unregister_handler)(void *iommu_data,
-+					      struct device *dev);
- };
- 
- extern int vfio_register_iommu_driver(const struct vfio_iommu_driver_ops *ops);
-@@ -161,6 +168,11 @@ extern int vfio_unregister_notifier(struct device *dev,
- struct kvm;
- extern void vfio_group_set_kvm(struct vfio_group *group, struct kvm *kvm);
- 
-+extern int vfio_iommu_dev_fault_handler_register_nested(struct device *dev);
-+extern int vfio_iommu_dev_fault_handler_unregister_nested(struct device *dev);
-+extern int vfio_transfer_iommu_fault(struct device *dev,
-+				     struct iommu_fault *fault);
-+
- /*
-  * Sub-module helpers
-  */
--- 
-2.19.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgRXJpYywKCk9uIDIwMjEvNC84IDIwOjMwLCBBdWdlciBFcmljIHdyb3RlOgo+IEhpIEt1bmt1
+biwKPgo+IE9uIDQvMS8yMSAyOjM3IFBNLCBLdW5rdW4gSmlhbmcgd3JvdGU6Cj4+IEhpIEVyaWMs
+Cj4+Cj4+IE9uIDIwMjEvMi8yNCA0OjU2LCBFcmljIEF1Z2VyIHdyb3RlOgo+Pj4gV2l0aCBuZXN0
+ZWQgc3RhZ2Ugc3VwcG9ydCwgc29vbiB3ZSB3aWxsIG5lZWQgdG8gaW52YWxpZGF0ZQo+Pj4gUzEg
+Y29udGV4dHMgYW5kIHJhbmdlcyB0YWdnZWQgd2l0aCBhbiB1bm1hbmFnZWQgYXNpZCwgdGhpcwo+
+Pj4gbGF0dGVyIGJlaW5nIG1hbmFnZWQgYnkgdGhlIGd1ZXN0LiBTbyBsZXQncyBpbnRyb2R1Y2Ug
+MiBoZWxwZXJzCj4+PiB0aGF0IGFsbG93IHRvIGludmFsaWRhdGUgd2l0aCBleHRlcm5hbGx5IG1h
+bmFnZWQgQVNJRHMKPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBFcmljIEF1Z2VyIDxlcmljLmF1Z2Vy
+QHJlZGhhdC5jb20+Cj4+Pgo+Pj4gLS0tCj4+Pgo+Pj4gdjEzIC0+IHYxNAo+Pj4gLSBBY3R1YWxs
+eSBzZW5kIHRoZSBOSF9BU0lEIGNvbW1hbmQgKHJlcG9ydGVkIGJ5IFhpbmdhbmcgV2FuZykKPj4+
+IC0tLQo+Pj4gIMKgIGRyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLmMg
+fCAzOCArKysrKysrKysrKysrKysrLS0tLS0KPj4+ICDCoCAxIGZpbGUgY2hhbmdlZCwgMjkgaW5z
+ZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9p
+b21tdS9hcm0vYXJtLXNtbXUtdjMvYXJtLXNtbXUtdjMuYwo+Pj4gYi9kcml2ZXJzL2lvbW11L2Fy
+bS9hcm0tc21tdS12My9hcm0tc21tdS12My5jCj4+PiBpbmRleCA1NTc5ZWM0ZmNjYzguLjRjMTlh
+MTExNGRlNCAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2Fy
+bS1zbW11LXYzLmMKPj4+ICsrKyBiL2RyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1z
+bW11LXYzLmMKPj4+IEBAIC0xODQzLDkgKzE4NDMsOSBAQCBpbnQgYXJtX3NtbXVfYXRjX2ludl9k
+b21haW4oc3RydWN0Cj4+PiBhcm1fc21tdV9kb21haW4gKnNtbXVfZG9tYWluLCBpbnQgc3NpZCwK
+Pj4+ICDCoCB9Cj4+PiAgwqAgwqAgLyogSU9fUEdUQUJMRSBBUEkgKi8KPj4+IC1zdGF0aWMgdm9p
+ZCBhcm1fc21tdV90bGJfaW52X2NvbnRleHQodm9pZCAqY29va2llKQo+Pj4gK3N0YXRpYyB2b2lk
+IF9fYXJtX3NtbXVfdGxiX2ludl9jb250ZXh0KHN0cnVjdCBhcm1fc21tdV9kb21haW4KPj4+ICpz
+bW11X2RvbWFpbiwKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBpbnQgZXh0X2FzaWQpCj4+PiAgwqAgewo+Pj4gLcKgwqDCoCBzdHJ1Y3QgYXJtX3NtbXVf
+ZG9tYWluICpzbW11X2RvbWFpbiA9IGNvb2tpZTsKPj4+ICDCoMKgwqDCoMKgIHN0cnVjdCBhcm1f
+c21tdV9kZXZpY2UgKnNtbXUgPSBzbW11X2RvbWFpbi0+c21tdTsKPj4+ICDCoMKgwqDCoMKgIHN0
+cnVjdCBhcm1fc21tdV9jbWRxX2VudCBjbWQ7Cj4+PiAgwqAgQEAgLTE4NTYsNyArMTg1NiwxMyBA
+QCBzdGF0aWMgdm9pZCBhcm1fc21tdV90bGJfaW52X2NvbnRleHQodm9pZAo+Pj4gKmNvb2tpZSkK
+Pj4+ICDCoMKgwqDCoMKgwqAgKiBpbnNlcnRpb24gdG8gZ3VhcmFudGVlIHRob3NlIGFyZSBvYnNl
+cnZlZCBiZWZvcmUgdGhlIFRMQkkuIERvIGJlCj4+PiAgwqDCoMKgwqDCoMKgICogY2FyZWZ1bCwg
+MDA3Lgo+Pj4gIMKgwqDCoMKgwqDCoCAqLwo+Pj4gLcKgwqDCoCBpZiAoc21tdV9kb21haW4tPnN0
+YWdlID09IEFSTV9TTU1VX0RPTUFJTl9TMSkgewo+Pj4gK8KgwqDCoCBpZiAoZXh0X2FzaWQgPj0g
+MCkgeyAvKiBndWVzdCBzdGFnZSAxIGludmFsaWRhdGlvbiAqLwo+Pj4gK8KgwqDCoMKgwqDCoMKg
+IGNtZC5vcGNvZGXCoMKgwqAgPSBDTURRX09QX1RMQklfTkhfQVNJRDsKPj4+ICvCoMKgwqDCoMKg
+wqDCoCBjbWQudGxiaS5hc2lkwqDCoMKgID0gZXh0X2FzaWQ7Cj4+PiArwqDCoMKgwqDCoMKgwqAg
+Y21kLnRsYmkudm1pZMKgwqDCoCA9IHNtbXVfZG9tYWluLT5zMl9jZmcudm1pZDsKPj4+ICvCoMKg
+wqDCoMKgwqDCoCBhcm1fc21tdV9jbWRxX2lzc3VlX2NtZChzbW11LCAmY21kKTsKPj4+ICvCoMKg
+wqDCoMKgwqDCoCBhcm1fc21tdV9jbWRxX2lzc3VlX3N5bmMoc21tdSk7Cj4+PiArwqDCoMKgIH0g
+ZWxzZSBpZiAoc21tdV9kb21haW4tPnN0YWdlID09IEFSTV9TTU1VX0RPTUFJTl9TMSkgewo+Pj4g
+IMKgwqDCoMKgwqDCoMKgwqDCoCBhcm1fc21tdV90bGJfaW52X2FzaWQoc21tdSwgc21tdV9kb21h
+aW4tPnMxX2NmZy5jZC5hc2lkKTsKPj4+ICDCoMKgwqDCoMKgIH0gZWxzZSB7Cj4+PiAgwqDCoMKg
+wqDCoMKgwqDCoMKgIGNtZC5vcGNvZGXCoMKgwqAgPSBDTURRX09QX1RMQklfUzEyX1ZNQUxMOwo+
+Pj4gQEAgLTE4NjcsNiArMTg3MywxMyBAQCBzdGF0aWMgdm9pZCBhcm1fc21tdV90bGJfaW52X2Nv
+bnRleHQodm9pZCAqY29va2llKQo+Pj4gIMKgwqDCoMKgwqAgYXJtX3NtbXVfYXRjX2ludl9kb21h
+aW4oc21tdV9kb21haW4sIDAsIDAsIDApOwo+Pj4gIMKgIH0KPj4+ICDCoCArc3RhdGljIHZvaWQg
+YXJtX3NtbXVfdGxiX2ludl9jb250ZXh0KHZvaWQgKmNvb2tpZSkKPj4+ICt7Cj4+PiArwqDCoMKg
+IHN0cnVjdCBhcm1fc21tdV9kb21haW4gKnNtbXVfZG9tYWluID0gY29va2llOwo+Pj4gKwo+Pj4g
+K8KgwqDCoCBfX2FybV9zbW11X3RsYl9pbnZfY29udGV4dChzbW11X2RvbWFpbiwgLTEpOwo+Pj4g
+K30KPj4+ICsKPj4+ICDCoCBzdGF0aWMgdm9pZCBfX2FybV9zbW11X3RsYl9pbnZfcmFuZ2Uoc3Ry
+dWN0IGFybV9zbW11X2NtZHFfZW50ICpjbWQsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBpb3ZhLCBzaXplX3Qgc2l6ZSwKPj4+
+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaXplX3QgZ3Jh
+bnVsZSwKPj4+IEBAIC0xOTI2LDkgKzE5MzksMTAgQEAgc3RhdGljIHZvaWQgX19hcm1fc21tdV90
+bGJfaW52X3JhbmdlKHN0cnVjdAo+Pj4gYXJtX3NtbXVfY21kcV9lbnQgKmNtZCwKPj4+ICDCoMKg
+wqDCoMKgIGFybV9zbW11X2NtZHFfYmF0Y2hfc3VibWl0KHNtbXUsICZjbWRzKTsKPj4+ICDCoCB9
+Cj4+PiAgICAKPj4gSGVyZSBpcyB0aGUgcGFydCBvZiBjb2RlIGluIF9fYXJtX3NtbXVfdGxiX2lu
+dl9yYW5nZSgpOgo+Pj4gIMKgwqDCoMKgwqDCoMKgIGlmIChzbW11LT5mZWF0dXJlcyAmIEFSTV9T
+TU1VX0ZFQVRfUkFOR0VfSU5WKSB7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IC8qIEdldCB0aGUgbGVhZiBwYWdlIHNpemUgKi8KPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgdGcgPSBfX2ZmcyhzbW11X2RvbWFpbi0+ZG9tYWluLnBnc2l6ZV9iaXRtYXApOwo+
+Pj4KPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogQ29udmVydCBwYWdlIHNp
+emUgb2YgMTIsMTQsMTYgKGxvZzIpIHRvIDEsMiwzICovCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGNtZC0+dGxiaS50ZyA9ICh0ZyAtIDEwKSAvIDI7Cj4+Pgo+Pj4gIMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBEZXRlcm1pbmUgd2hhdCBsZXZlbCB0aGUgZ3Jh
+bnVsZSBpcyBhdCAqLwo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjbWQtPnRs
+YmkudHRsID0gNCAtICgoaWxvZzIoZ3JhbnVsZSkgLSAzKSAvICh0ZyAtIDMpKTsKPj4+Cj4+PiAg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG51bV9wYWdlcyA9IHNpemUgPj4gdGc7Cj4+
+PiAgwqDCoMKgwqDCoMKgwqAgfQo+PiBXaGVuIHBTTU1VIHN1cHBvcnRzIFJJTCwgd2UgZ2V0IHRo
+ZSBsZWFmIHBhZ2Ugc2l6ZSBieSBfX2ZmcyhzbW11X2RvbWFpbi0+Cj4+IGRvbWFpbi5wZ3NpemVf
+Yml0bWFwKS4gSW4gbmVzdGVkIG1vZGUsIGl0IGlzIGRldGVybWluZWQgYnkgaG9zdAo+PiBQQUdF
+X1NJWkUuIElmCj4+IHRoZSBob3N0IGtlcm5lbCBhbmQgZ3Vlc3Qga2VybmVsIGhhcyBkaWZmZXJl
+bnQgdHJhbnNsYXRpb24gZ3JhbnVsZSAoZS5nLgo+PiBob3N0IDE2SywKPj4gZ3Vlc3QgNEspLCBf
+X2FybV9zbW11X3RsYl9pbnZfcmFuZ2UoKSB3aWxsIGlzc3VlIGFuIGluY29ycmVjdCB0bGJpIGNv
+bW1hbmQuCj4+Cj4+IERvIHlvdSBoYXZlIGFueSBpZGVhIGFib3V0IHRoaXMgaXNzdWU/Cj4gSSB0
+aGluayB0aGlzIGlzIHRoZSBzYW1lIGlzc3VlIGFzIHRoZSBvbmUgcmVwb3J0ZWQgYnkgQ2hlbnhp
+YW5nCj4KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzE1OTM4ZWQ1LTIwOTUtZTkwMy1h
+MjkwLTMzM2MyOTkwMTVhMkBoaXNpbGljb24uY29tLwo+Cj4gSW4gY2FzZSBSSUwgaXMgbm90IHN1
+cHBvcnRlZCBieSB0aGUgaG9zdCwgbmV4dCB2ZXJzaW9uIHdpbGwgdXNlIHRoZQo+IHNtYWxsZXN0
+IHBTTU1VIHN1cHBvcnRlZCBwYWdlIHNpemUsIGFzIGRvbmUgaW4gX19hcm1fc21tdV90bGJfaW52
+X3JhbmdlCj4KPiBUaGFua3MKPgo+IEVyaWMKSSB0aGluayB0aGV5IGFyZSBkaWZmZXJlbnQuIElu
+IG5vcm1hbCBjYXNlcywgd2hlbiB3ZSB3YW50IHRvIGludmFsaWRhdGUgdGhlCmNhY2hlIG9mIHN0
+YWdlIDEsIHdlIHNob3VsZCB1c2UgdGhlIGdyYW51bGUgc2l6ZSBzdXBwb3J0ZWQgYnkgdlNNTVUg
+dG8KaW1wbGVtZW50IGFuZCBpc3N1ZSBhbiB0bGJpIGNvbW1hbmQgaWYgcFNNTVUgc3VwcG9ydHMg
+UklMLgoKQnV0IGluIHRoZSBjdXJyZW50IF9fYXJtX3NtbXVfdGxiX2ludl9yYW5nZSgpLCBpdCBh
+bHdheXMgdXNlcyB0aGUgZ3JhbnVsZQpzaXplIHN1cHBvcnRlZCBieSBob3N0LgoodGcgPSBfX2Zm
+cyhzbW11X2RvbWFpbi0+ZG9tYWluLnBnc2l6ZV9iaXRtYXApOykKCkxldCBtZSBleHBsYWluIG1v
+cmUgY2xlYXJseS4KUHJlY29uZGl0aW9ucyBvZiB0aGlzIGlzc3VlOgoxLiBwU01NVSBzdXBwb3J0
+cyBSSUwKMi4gaG9zdCBhbmQgZ3Vlc3QgdXNlIGRpZmZlcmVudCB0cmFuc2xhdGlvbiBncmFudWxl
+IChlLmcuIGhvc3QgMTZLLCAKZ3Vlc3QgNEspCgpHdWVzdCB3YW50cyB0byBpbnZhbGlkYXRlIDRL
+LCBzbyBpbmZvLT5ncmFudWxlX3NpemUgPSA0Sy4KSW4gX19hcm1fc21tdV90bGJfaW52X3Jhbmdl
+KCksIMKgIGlmIHBTTU1VIHN1cHBvcnRzIFJJTCBhbmQgaG9zdCAxNkssCnRnID0gMTQsIHRsYmku
+dGcgPSAyLCB0bGJpLnR0bCA9IDQsIHRsYmkuc2NhbGUgPSAwLCB0bGJpLm51bSA9IC0xLiBJdCBp
+cyAKYW4gaW5jb3JyZWN0CnRsYmkgY29tbWFuZC4KClNvIGl0IHdvdWxkIGJlIGJldHRlciB0byBw
+YXNzIHRoZSBsZWFmIHBhZ2Ugc2l6ZSBzdXBwb3J0ZWQgYnkgdlNNTVUgdG8KaG9zdC7CoCBQZXJo
+YXBzIHRoaXMgaXNzdWUgYW5kIHRoZSBvbmUgcmVwb3J0ZWQgYnkgQ2hlbnhpYW5nIGNhbiBiZSBz
+b2x2ZWQKdG9nZXRoZXIuCgpUaGFua3MsCkt1bmt1biBKaWFuZwo+PiBCZXN0IFJlZ2FyZHMsCj4+
+IEt1bmt1biBKaWFuZwo+Pj4gLXN0YXRpYyB2b2lkIGFybV9zbW11X3RsYl9pbnZfcmFuZ2VfZG9t
+YWluKHVuc2lnbmVkIGxvbmcgaW92YSwgc2l6ZV90Cj4+PiBzaXplLAo+Pj4gLcKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaXplX3QgZ3JhbnVsZSwgYm9vbCBsZWFm
+LAo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3Qg
+YXJtX3NtbXVfZG9tYWluICpzbW11X2RvbWFpbikKPj4+ICtzdGF0aWMgdm9pZAo+Pj4gK2FybV9z
+bW11X3RsYl9pbnZfcmFuZ2VfZG9tYWluKHVuc2lnbmVkIGxvbmcgaW92YSwgc2l6ZV90IHNpemUs
+Cj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaXplX3QgZ3JhbnVsZSwg
+Ym9vbCBsZWFmLCBpbnQgZXh0X2FzaWQsCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBzdHJ1Y3QgYXJtX3NtbXVfZG9tYWluICpzbW11X2RvbWFpbikKPj4+ICDCoCB7Cj4+
+PiAgwqDCoMKgwqDCoCBzdHJ1Y3QgYXJtX3NtbXVfY21kcV9lbnQgY21kID0gewo+Pj4gIMKgwqDC
+oMKgwqDCoMKgwqDCoCAudGxiaSA9IHsKPj4+IEBAIC0xOTM2LDcgKzE5NTAsMTIgQEAgc3RhdGlj
+IHZvaWQKPj4+IGFybV9zbW11X3RsYl9pbnZfcmFuZ2VfZG9tYWluKHVuc2lnbmVkIGxvbmcgaW92
+YSwgc2l6ZV90IHNpemUsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIH0sCj4+PiAgwqDCoMKgwqDC
+oCB9Owo+Pj4gIMKgIC3CoMKgwqAgaWYgKHNtbXVfZG9tYWluLT5zdGFnZSA9PSBBUk1fU01NVV9E
+T01BSU5fUzEpIHsKPj4+ICvCoMKgwqAgaWYgKGV4dF9hc2lkID49IDApIHvCoCAvKiBndWVzdCBz
+dGFnZSAxIGludmFsaWRhdGlvbiAqLwo+Pj4gK8KgwqDCoMKgwqDCoMKgIGNtZC5vcGNvZGXCoMKg
+wqAgPSBzbW11X2RvbWFpbi0+c21tdS0+ZmVhdHVyZXMgJgo+Pj4gQVJNX1NNTVVfRkVBVF9FMkgg
+Pwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQ01EUV9PUF9UTEJJX0VM
+Ml9WQSA6IENNRFFfT1BfVExCSV9OSF9WQTsKPj4+ICvCoMKgwqDCoMKgwqDCoCBjbWQudGxiaS5h
+c2lkwqDCoMKgID0gZXh0X2FzaWQ7Cj4+PiArwqDCoMKgwqDCoMKgwqAgY21kLnRsYmkudm1pZMKg
+wqDCoCA9IHNtbXVfZG9tYWluLT5zMl9jZmcudm1pZDsKPj4+ICvCoMKgwqAgfSBlbHNlIGlmIChz
+bW11X2RvbWFpbi0+c3RhZ2UgPT0gQVJNX1NNTVVfRE9NQUlOX1MxKSB7Cj4+PiAgwqDCoMKgwqDC
+oMKgwqDCoMKgIGNtZC5vcGNvZGXCoMKgwqAgPSBzbW11X2RvbWFpbi0+c21tdS0+ZmVhdHVyZXMg
+Jgo+Pj4gQVJNX1NNTVVfRkVBVF9FMkggPwo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIENNRFFfT1BfVExCSV9FTDJfVkEgOiBDTURRX09QX1RMQklfTkhfVkE7Cj4+
+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIGNtZC50bGJpLmFzaWTCoMKgwqAgPSBzbW11X2RvbWFpbi0+
+czFfY2ZnLmNkLmFzaWQ7Cj4+PiBAQCAtMTk0NCw2ICsxOTYzLDcgQEAgc3RhdGljIHZvaWQKPj4+
+IGFybV9zbW11X3RsYl9pbnZfcmFuZ2VfZG9tYWluKHVuc2lnbmVkIGxvbmcgaW92YSwgc2l6ZV90
+IHNpemUsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIGNtZC5vcGNvZGXCoMKgwqAgPSBDTURRX09Q
+X1RMQklfUzJfSVBBOwo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCBjbWQudGxiaS52bWlkwqDCoMKg
+ID0gc21tdV9kb21haW4tPnMyX2NmZy52bWlkOwo+Pj4gIMKgwqDCoMKgwqAgfQo+Pj4gKwo+Pj4g
+IMKgwqDCoMKgwqAgX19hcm1fc21tdV90bGJfaW52X3JhbmdlKCZjbWQsIGlvdmEsIHNpemUsIGdy
+YW51bGUsIHNtbXVfZG9tYWluKTsKPj4+ICDCoCDCoMKgwqDCoMKgIC8qCj4+PiBAQCAtMTk4Miw3
+ICsyMDAyLDcgQEAgc3RhdGljIHZvaWQgYXJtX3NtbXVfdGxiX2ludl9wYWdlX25vc3luYyhzdHJ1
+Y3QKPj4+IGlvbW11X2lvdGxiX2dhdGhlciAqZ2F0aGVyLAo+Pj4gIMKgIHN0YXRpYyB2b2lkIGFy
+bV9zbW11X3RsYl9pbnZfd2Fsayh1bnNpZ25lZCBsb25nIGlvdmEsIHNpemVfdCBzaXplLAo+Pj4g
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNpemVfdCBncmFudWxlLCB2
+b2lkICpjb29raWUpCj4+PiAgwqAgewo+Pj4gLcKgwqDCoCBhcm1fc21tdV90bGJfaW52X3Jhbmdl
+X2RvbWFpbihpb3ZhLCBzaXplLCBncmFudWxlLCBmYWxzZSwgY29va2llKTsKPj4+ICvCoMKgwqAg
+YXJtX3NtbXVfdGxiX2ludl9yYW5nZV9kb21haW4oaW92YSwgc2l6ZSwgZ3JhbnVsZSwgZmFsc2Us
+IC0xLAo+Pj4gY29va2llKTsKPj4+ICDCoCB9Cj4+PiAgwqAgwqAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBpb21tdV9mbHVzaF9vcHMgYXJtX3NtbXVfZmx1c2hfb3BzID0gewo+Pj4gQEAgLTI1MjMsNyAr
+MjU0Myw3IEBAIHN0YXRpYyB2b2lkIGFybV9zbW11X2lvdGxiX3N5bmMoc3RydWN0Cj4+PiBpb21t
+dV9kb21haW4gKmRvbWFpbiwKPj4+ICDCoCDCoMKgwqDCoMKgIGFybV9zbW11X3RsYl9pbnZfcmFu
+Z2VfZG9tYWluKGdhdGhlci0+c3RhcnQsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBnYXRoZXItPmVuZCAtIGdhdGhlci0+c3RhcnQgKyAxLAo+Pj4g
+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnYXRoZXItPnBnc2l6
+ZSwgdHJ1ZSwgc21tdV9kb21haW4pOwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBnYXRoZXItPnBnc2l6ZSwgdHJ1ZSwgLTEsIHNtbXVfZG9tYWluKTsKPj4+
+ICDCoCB9Cj4+PiAgwqAgwqAgc3RhdGljIHBoeXNfYWRkcl90Cj4+Cj4gLgoKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdApp
+b21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRh
+dGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
