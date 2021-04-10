@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9F535AC5C
-	for <lists.iommu@lfdr.de>; Sat, 10 Apr 2021 11:18:42 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 751A835AC3E
+	for <lists.iommu@lfdr.de>; Sat, 10 Apr 2021 11:13:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 36B244012D;
-	Sat, 10 Apr 2021 09:18:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id F06E14016C;
+	Sat, 10 Apr 2021 09:13:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GHpNpeee4Mv7; Sat, 10 Apr 2021 09:18:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3C0AA40202;
-	Sat, 10 Apr 2021 09:18:40 +0000 (UTC)
+	with ESMTP id qGraOqxmxREs; Sat, 10 Apr 2021 09:13:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id D753A4012D;
+	Sat, 10 Apr 2021 09:13:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 217E5C0011;
-	Sat, 10 Apr 2021 09:18:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A704FC000A;
+	Sat, 10 Apr 2021 09:13:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BCD4DC000A
- for <iommu@lists.linux-foundation.org>; Sat, 10 Apr 2021 09:18:38 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B0D24C000A
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Apr 2021 09:13:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 97263401CE
- for <iommu@lists.linux-foundation.org>; Sat, 10 Apr 2021 09:18:38 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 9BBA283C67
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Apr 2021 09:13:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 49Zp3oVmC48p for <iommu@lists.linux-foundation.org>;
- Sat, 10 Apr 2021 09:18:38 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by smtp2.osuosl.org (Postfix) with ESMTP id A3D404012D
- for <iommu@lists.linux-foundation.org>; Sat, 10 Apr 2021 09:18:37 +0000 (UTC)
-X-UUID: 7bfa4f1ce0fb4620826386e85f8ce8d0-20210410
-X-UUID: 7bfa4f1ce0fb4620826386e85f8ce8d0-20210410
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
- mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dPEN4qEVfEWm for <iommu@lists.linux-foundation.org>;
+ Sat, 10 Apr 2021 09:13:45 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 96D7A83C66
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Apr 2021 09:13:44 +0000 (UTC)
+X-UUID: 433b1e8e25b2446f8f1f34bb17154bde-20210410
+X-UUID: 433b1e8e25b2446f8f1f34bb17154bde-20210410
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1256648205; Sat, 10 Apr 2021 17:13:33 +0800
+ with ESMTP id 1064958617; Sat, 10 Apr 2021 17:13:41 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 10 Apr 2021 17:13:31 +0800
+ 15.0.1497.2; Sat, 10 Apr 2021 17:13:39 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 10 Apr 2021 17:13:30 +0800
+ Transport; Sat, 10 Apr 2021 17:13:38 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v5 10/16] drm/mediatek: Add pm runtime support for ovl and rdma
-Date: Sat, 10 Apr 2021 17:11:22 +0800
-Message-ID: <20210410091128.31823-11-yong.wu@mediatek.com>
+Subject: [PATCH v5 11/16] drm/mediatek: Get rid of mtk_smi_larb_get/put
+Date: Sat, 10 Apr 2021 17:11:23 +0800
+Message-ID: <20210410091128.31823-12-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210410091128.31823-1-yong.wu@mediatek.com>
 References: <20210410091128.31823-1-yong.wu@mediatek.com>
@@ -61,13 +61,13 @@ X-MTK: N
 Cc: Will Deacon <will.deacon@arm.com>, youlin.pei@mediatek.com,
  Nicolas Boichat <drinkcat@chromium.org>, Evan Green <evgreen@chromium.org>,
  eizan@chromium.org, Matthias Kaehlcke <mka@chromium.org>,
- linux-arm-kernel@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, CK Hu <ck.hu@mediatek.com>,
  devicetree@vger.kernel.org, yi.kuo@mediatek.com,
  linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
  anan.sun@mediatek.com, srv_heupstream@mediatek.com, acourbot@chromium.org,
  linux-kernel@vger.kernel.org, chao.hao@mediatek.com,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+ iommu@lists.linux-foundation.org, Philipp Zabel <p.zabel@pengutronix.de>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,137 +85,151 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-
-Display use the dispsys device to call pm_rumtime_get_sync before.
-This patch add pm_runtime_xx with ovl and rdma device whose nodes has
-"iommus" property, then display could help pm_runtime_get for smi via
-ovl or rdma device.
-
-This is a preparing patch that smi cleaning up "mediatek,larb".
+MediaTek IOMMU has already added the device_link between the consumer
+and smi-larb device. If the drm device call the pm_runtime_get_sync,
+the smi-larb's pm_runtime_get_sync also be called automatically.
 
 CC: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-(Yong: Use pm_runtime_resume_and_get instead of pm_runtime_get_sync)
+Reviewed-by: Evan Green <evgreen@chromium.org>
 Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c  |  9 ++++++++-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c |  9 ++++++++-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 12 +++++++++++-
- 3 files changed, 27 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  9 ------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 35 ---------------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  5 +--
+ 4 files changed, 1 insertion(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 961f87f8d4d1..ee464ccd8a9c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -11,6 +11,7 @@
- #include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
- 
- #include "mtk_disp_drv.h"
-@@ -415,15 +416,21 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	pm_runtime_enable(dev);
-+
- 	ret = component_add(dev, &mtk_disp_ovl_component_ops);
--	if (ret)
-+	if (ret) {
-+		pm_runtime_disable(dev);
- 		dev_err(dev, "Failed to add component: %d\n", ret);
-+	}
- 
- 	return ret;
- }
- 
- static int mtk_disp_ovl_remove(struct platform_device *pdev)
- {
-+	pm_runtime_disable(&pdev->dev);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index 728aaadfea8c..9565f3de773e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -9,6 +9,7 @@
- #include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
- 
- #include "mtk_disp_drv.h"
-@@ -329,9 +330,13 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, priv);
- 
-+	pm_runtime_enable(dev);
-+
- 	ret = component_add(dev, &mtk_disp_rdma_component_ops);
--	if (ret)
-+	if (ret) {
-+		pm_runtime_disable(dev);
- 		dev_err(dev, "Failed to add component: %d\n", ret);
-+	}
- 
- 	return ret;
- }
-@@ -340,6 +345,8 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &mtk_disp_rdma_component_ops);
- 
-+	pm_runtime_disable(&pdev->dev);
-+
- 	return 0;
- }
- 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 69d23ce56d2c..971ef58ac1dc 100644
+index 971ef58ac1dc..d59353af4019 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -550,9 +550,15 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
- 		return;
- 	}
+@@ -10,7 +10,6 @@
+ #include <linux/soc/mediatek/mtk-mutex.h>
  
-+	ret = pm_runtime_resume_and_get(comp->dev);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: %d\n",
-+			      ret);
-+
- 	ret = mtk_crtc_ddp_hw_init(mtk_crtc);
- 	if (ret) {
- 		mtk_smi_larb_put(comp->larb_dev);
-+		pm_runtime_put(comp->dev);
- 		return;
- 	}
+ #include <asm/barrier.h>
+-#include <soc/mediatek/smi.h>
  
-@@ -565,7 +571,7 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
- {
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	struct mtk_ddp_comp *comp = mtk_crtc->ddp_comp[0];
--	int i;
-+	int i, ret;
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -544,12 +543,6 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
  
  	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
- 	if (!mtk_crtc->enabled)
-@@ -589,6 +595,10 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+-	ret = mtk_smi_larb_get(comp->larb_dev);
+-	if (ret) {
+-		DRM_ERROR("Failed to get larb: %d\n", ret);
+-		return;
+-	}
+-
+ 	ret = pm_runtime_resume_and_get(comp->dev);
+ 	if (ret < 0)
+ 		DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: %d\n",
+@@ -557,7 +550,6 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+ 
+ 	ret = mtk_crtc_ddp_hw_init(mtk_crtc);
+ 	if (ret) {
+-		mtk_smi_larb_put(comp->larb_dev);
+ 		pm_runtime_put(comp->dev);
+ 		return;
+ 	}
+@@ -594,7 +586,6 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
  	drm_crtc_vblank_off(crtc);
  	mtk_crtc_ddp_hw_fini(mtk_crtc);
- 	mtk_smi_larb_put(comp->larb_dev);
-+	ret = pm_runtime_put(comp->dev);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(comp->dev, "Failed to disable power domain: %d\n",
-+			      ret);
- 
- 	mtk_crtc->enabled = false;
+-	mtk_smi_larb_put(comp->larb_dev);
+ 	ret = pm_runtime_put(comp->dev);
+ 	if (ret < 0)
+ 		DRM_DEV_ERROR(comp->dev, "Failed to disable power domain: %d\n",
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 75bc00e17fc4..6c01492ba4df 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -449,37 +449,12 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+ 	return ret;
  }
+ 
+-static int mtk_ddp_get_larb_dev(struct device_node *node, struct mtk_ddp_comp *comp,
+-				struct device *dev)
+-{
+-	struct device_node *larb_node;
+-	struct platform_device *larb_pdev;
+-
+-	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
+-	if (!larb_node) {
+-		dev_err(dev, "Missing mediadek,larb phandle in %pOF node\n", node);
+-		return -EINVAL;
+-	}
+-
+-	larb_pdev = of_find_device_by_node(larb_node);
+-	if (!larb_pdev) {
+-		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
+-		of_node_put(larb_node);
+-		return -EPROBE_DEFER;
+-	}
+-	of_node_put(larb_node);
+-	comp->larb_dev = &larb_pdev->dev;
+-
+-	return 0;
+-}
+-
+ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+ 		      enum mtk_ddp_comp_id comp_id)
+ {
+ 	struct platform_device *comp_pdev;
+ 	enum mtk_ddp_comp_type type;
+ 	struct mtk_ddp_comp_dev *priv;
+-	int ret;
+ 
+ 	if (comp_id < 0 || comp_id >= DDP_COMPONENT_ID_MAX)
+ 		return -EINVAL;
+@@ -495,16 +470,6 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+ 	}
+ 	comp->dev = &comp_pdev->dev;
+ 
+-	/* Only DMA capable components need the LARB property */
+-	if (type == MTK_DISP_OVL ||
+-	    type == MTK_DISP_OVL_2L ||
+-	    type == MTK_DISP_RDMA ||
+-	    type == MTK_DISP_WDMA) {
+-		ret = mtk_ddp_get_larb_dev(node, comp, comp->dev);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	if (type == MTK_DISP_BLS ||
+ 	    type == MTK_DISP_CCORR ||
+ 	    type == MTK_DISP_COLOR ||
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+index bb914d976cf5..1b582262b682 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+@@ -70,7 +70,6 @@ struct mtk_ddp_comp_funcs {
+ struct mtk_ddp_comp {
+ 	struct device *dev;
+ 	int irq;
+-	struct device *larb_dev;
+ 	enum mtk_ddp_comp_id id;
+ 	const struct mtk_ddp_comp_funcs *funcs;
+ };
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index b013d56d2777..622de47239eb 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -576,11 +576,8 @@ static int mtk_drm_probe(struct platform_device *pdev)
+ 	pm_runtime_disable(dev);
+ err_node:
+ 	of_node_put(private->mutex_node);
+-	for (i = 0; i < DDP_COMPONENT_ID_MAX; i++) {
++	for (i = 0; i < DDP_COMPONENT_ID_MAX; i++)
+ 		of_node_put(private->comp_node[i]);
+-		if (private->ddp_comp[i].larb_dev)
+-			put_device(private->ddp_comp[i].larb_dev);
+-	}
+ 	return ret;
+ }
+ 
 -- 
 2.18.0
 
