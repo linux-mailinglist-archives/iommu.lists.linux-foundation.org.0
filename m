@@ -2,69 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA02135B5B0
-	for <lists.iommu@lfdr.de>; Sun, 11 Apr 2021 16:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F42C35B5E5
+	for <lists.iommu@lfdr.de>; Sun, 11 Apr 2021 17:29:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7191A403A1;
-	Sun, 11 Apr 2021 14:36:05 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C74BE4039E;
+	Sun, 11 Apr 2021 15:29:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1HSU849TXj57; Sun, 11 Apr 2021 14:36:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 32CFB4039E;
-	Sun, 11 Apr 2021 14:36:04 +0000 (UTC)
+	with ESMTP id H6VLCh4tCORf; Sun, 11 Apr 2021 15:29:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id AA74F40370;
+	Sun, 11 Apr 2021 15:29:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05636C0012;
-	Sun, 11 Apr 2021 14:36:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F8B5C000A;
+	Sun, 11 Apr 2021 15:29:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F6B6C000A
- for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 14:36:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0FB1FC000A
+ for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 15:29:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2AB04605CB
- for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 14:36:03 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id F224B40370
+ for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 15:29:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PK3ktv6YX1fk for <iommu@lists.linux-foundation.org>;
- Sun, 11 Apr 2021 14:36:02 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dQhes3h85Z35 for <iommu@lists.linux-foundation.org>;
+ Sun, 11 Apr 2021 15:29:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D38AC605CA
- for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 14:36:01 +0000 (UTC)
-IronPort-SDR: 5Uuj8OFoVtwR0fMzWF4wYk9IgowG1iykPFVsZqI812AGbMDLsgDojxfHE2+tgFjL1MyjTFV4ds
- a/u+YzIkh2Ug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="174129686"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C4760400CE
+ for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 15:29:09 +0000 (UTC)
+IronPort-SDR: GIFOWJ1VvQyF9OqQXRzPZHO0qF8S/nwlQgfILJRjhXICU6nq/XRQhAUQGojMDqStHwWAzShlPj
+ WqxO9FnOCIfA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="173531149"
 X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; 
- d="gz'50?scan'50,208,50";a="174129686"
+ d="gz'50?scan'50,208,50";a="173531149"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2021 07:36:00 -0700
-IronPort-SDR: tLV2dAWo0Qzkfx1pIbUk4P8ibA6jb6Wk1Sg2hM6+QCiLeSyoGdwi7/NPhM0eVZ0R0ptw4qr2W6
- QpGLUwc2+9KQ==
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2021 08:29:09 -0700
+IronPort-SDR: e5aOMLMBAOMzhWRhfKu2q8O4e4M5f5TpvbM7lb57Avnb8ki6ESiSrZQYwR9HycTxEH4CbJg6zt
+ Fq94vxhd8Aqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; 
- d="gz'50?scan'50,208,50";a="442766334"
+ d="gz'50?scan'50,208,50";a="442777025"
 Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 11 Apr 2021 07:35:57 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 11 Apr 2021 08:29:05 -0700
 Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1lVbBs-000J1M-Oj; Sun, 11 Apr 2021 14:35:56 +0000
-Date: Sun, 11 Apr 2021 22:35:48 +0800
+ id 1lVc1I-000J1n-6d; Sun, 11 Apr 2021 15:29:04 +0000
+Date: Sun, 11 Apr 2021 23:28:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
  kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, will@kernel.org,
  maz@kernel.org, robin.murphy@arm.com, joro@8bytes.org
-Subject: Re: [PATCH v13 01/13] vfio: VFIO_IOMMU_SET_PASID_TABLE
-Message-ID: <202104112207.uSiunUgF-lkp@intel.com>
-References: <20210411114659.15051-2-eric.auger@redhat.com>
+Subject: Re: [PATCH v13 03/13] vfio: VFIO_IOMMU_SET_MSI_BINDING
+Message-ID: <202104112329.St1l3NfE-lkp@intel.com>
+References: <20210411114659.15051-4-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="oyUTqETQ0mS9luUI"
+Content-Type: multipart/mixed; boundary="TB36FDmn/VVEgNH/"
 Content-Disposition: inline
-In-Reply-To: <20210411114659.15051-2-eric.auger@redhat.com>
+In-Reply-To: <20210411114659.15051-4-eric.auger@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: kbuild-all@lists.01.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -83,13 +83,13 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
---oyUTqETQ0mS9luUI
+--TB36FDmn/VVEgNH/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Eric,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Yet something to improve:
 
 [auto build test ERROR on v5.12-rc6]
 [also build test ERROR on next-20210409]
@@ -105,10 +105,10 @@ compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.3-279-g6d5d9b42-dirty
-        # https://github.com/0day-ci/linux/commit/0af9db19db29eb2a707b9e1ca4ff9e1a08a1c511
+        # https://github.com/0day-ci/linux/commit/8a9991f0409cae6af9a387b8b90dbb7ad004f590
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Eric-Auger/SMMUv3-Nested-Stage-Setup-VFIO-part/20210411-195216
-        git checkout 0af9db19db29eb2a707b9e1ca4ff9e1a08a1c511
+        git checkout 8a9991f0409cae6af9a387b8b90dbb7ad004f590
         # save the attached .config to linux build tree
         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=i386 
 
@@ -118,60 +118,68 @@ Reported-by: kernel test robot <lkp@intel.com>
 All errors (new ones prefixed by >>):
 
    In file included from include/linux/vfio.h:16,
-                    from drivers/vfio/vfio.c:32:
->> include/uapi/linux/vfio.h:1226:34: error: field 'config' has incomplete type
-    1226 |  struct iommu_pasid_table_config config; /* used on SET */
-         |                                  ^~~~~~
---
-   In file included from include/linux/vfio.h:16,
                     from drivers/vfio/vfio_iommu_type1.c:37:
->> include/uapi/linux/vfio.h:1226:34: error: field 'config' has incomplete type
+   include/uapi/linux/vfio.h:1226:34: error: field 'config' has incomplete type
     1226 |  struct iommu_pasid_table_config config; /* used on SET */
          |                                  ^~~~~~
    drivers/vfio/vfio_iommu_type1.c: In function 'vfio_detach_pasid_table':
->> drivers/vfio/vfio_iommu_type1.c:2844:3: error: implicit declaration of function 'iommu_detach_pasid_table'; did you mean 'vfio_detach_pasid_table'? [-Werror=implicit-function-declaration]
-    2844 |   iommu_detach_pasid_table(d->domain);
+   drivers/vfio/vfio_iommu_type1.c:2872:3: error: implicit declaration of function 'iommu_detach_pasid_table'; did you mean 'vfio_detach_pasid_table'? [-Werror=implicit-function-declaration]
+    2872 |   iommu_detach_pasid_table(d->domain);
          |   ^~~~~~~~~~~~~~~~~~~~~~~~
          |   vfio_detach_pasid_table
    drivers/vfio/vfio_iommu_type1.c: In function 'vfio_attach_pasid_table':
->> drivers/vfio/vfio_iommu_type1.c:2858:9: error: implicit declaration of function 'iommu_uapi_attach_pasid_table'; did you mean 'vfio_attach_pasid_table'? [-Werror=implicit-function-declaration]
-    2858 |   ret = iommu_uapi_attach_pasid_table(d->domain, (void __user *)arg);
+   drivers/vfio/vfio_iommu_type1.c:2886:9: error: implicit declaration of function 'iommu_uapi_attach_pasid_table'; did you mean 'vfio_attach_pasid_table'? [-Werror=implicit-function-declaration]
+    2886 |   ret = iommu_uapi_attach_pasid_table(d->domain, (void __user *)arg);
          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
          |         vfio_attach_pasid_table
+   drivers/vfio/vfio_iommu_type1.c: In function 'vfio_bind_msi':
+>> drivers/vfio/vfio_iommu_type1.c:2915:9: error: implicit declaration of function 'iommu_bind_guest_msi' [-Werror=implicit-function-declaration]
+    2915 |   ret = iommu_bind_guest_msi(d->domain, giova, gpa, size);
+         |         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/vfio/vfio_iommu_type1.c:2922:3: error: implicit declaration of function 'iommu_unbind_guest_msi' [-Werror=implicit-function-declaration]
+    2922 |   iommu_unbind_guest_msi(d->domain, giova);
+         |   ^~~~~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/config +1226 include/uapi/linux/vfio.h
+vim +/iommu_bind_guest_msi +2915 drivers/vfio/vfio_iommu_type1.c
 
-  1211	
-  1212	/*
-  1213	 * VFIO_IOMMU_SET_PASID_TABLE - _IOWR(VFIO_TYPE, VFIO_BASE + 18,
-  1214	 *			struct vfio_iommu_type1_set_pasid_table)
-  1215	 *
-  1216	 * The SET operation passes a PASID table to the host while the
-  1217	 * UNSET operation detaches the one currently programmed. It is
-  1218	 * allowed to "SET" the table several times without unsetting as
-  1219	 * long as the table config does not stay IOMMU_PASID_CONFIG_TRANSLATE.
-  1220	 */
-  1221	struct vfio_iommu_type1_set_pasid_table {
-  1222		__u32	argsz;
-  1223		__u32	flags;
-  1224	#define VFIO_PASID_TABLE_FLAG_SET	(1 << 0)
-  1225	#define VFIO_PASID_TABLE_FLAG_UNSET	(1 << 1)
-> 1226		struct iommu_pasid_table_config config; /* used on SET */
-  1227	};
-  1228	
+  2904	
+  2905	static int
+  2906	vfio_bind_msi(struct vfio_iommu *iommu,
+  2907		      dma_addr_t giova, phys_addr_t gpa, size_t size)
+  2908	{
+  2909		struct vfio_domain *d;
+  2910		int ret = 0;
+  2911	
+  2912		mutex_lock(&iommu->lock);
+  2913	
+  2914		list_for_each_entry(d, &iommu->domain_list, next) {
+> 2915			ret = iommu_bind_guest_msi(d->domain, giova, gpa, size);
+  2916			if (ret)
+  2917				goto unwind;
+  2918		}
+  2919		goto unlock;
+  2920	unwind:
+  2921		list_for_each_entry_continue_reverse(d, &iommu->domain_list, next) {
+> 2922			iommu_unbind_guest_msi(d->domain, giova);
+  2923		}
+  2924	unlock:
+  2925		mutex_unlock(&iommu->lock);
+  2926		return ret;
+  2927	}
+  2928	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---oyUTqETQ0mS9luUI
+--TB36FDmn/VVEgNH/
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICA37cmAAAy5jb25maWcAjDxJd+M20vf8Cr3OJTkksWW3p/O+5wNEgiJGJEEDoGT5wue4
+H4sICOgMc2AAAy5jb25maWcAjDxJd+M20vf8Cr3OJTkksWW3p/O+5wNEgiJGJEEDoGT5wue4
 1T1+8ZLxMkn/+68K4AKARSU5dMyqwlYo1IaCvv/u+wV7f3t+vH27v7t9ePi2+Hp4Orzcvh0+
 L77cPxz+b5HKRSXNgqfC/AzExf3T+1+/3J99ulh8/Pl0+fPJTy93F4vN4eXp8LBInp++3H99
 h+b3z0/fff9dIqtMrNskabdcaSGr1vBrc/nh693dT78ufkgPv93fPi1+/fkMulkuf3R/ffCa
@@ -674,7 +682,7 @@ JaBH0clPfzV/N1kXGz1qshkwdAiFyGBSmaHaYSqc1jP+zueZvQTl5U5/eDqizIf6TIKlA+/u
 RZLf7WCZBujnZNxywfaUMSzbGybiyAuMJd7vyrszzSRK4d1J3QJbfM8Wc5WYjccqja3tg46f
 1NcT77NdKOCIwVu4nnUXrzz9Yo/OyqAofXJYvRAuvlj7Dw6Ih2nLogEA
 
---oyUTqETQ0mS9luUI
+--TB36FDmn/VVEgNH/
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -684,6 +692,6 @@ _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---oyUTqETQ0mS9luUI--
+--TB36FDmn/VVEgNH/--
 
 
