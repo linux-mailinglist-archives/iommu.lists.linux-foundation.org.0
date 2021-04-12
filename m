@@ -2,70 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2412335B773
-	for <lists.iommu@lfdr.de>; Mon, 12 Apr 2021 01:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E229835BA47
+	for <lists.iommu@lfdr.de>; Mon, 12 Apr 2021 08:49:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AC8ED403BD;
-	Sun, 11 Apr 2021 23:49:34 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 16483403BF;
+	Mon, 12 Apr 2021 06:49:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 17NubVpSRRWY; Sun, 11 Apr 2021 23:49:33 +0000 (UTC)
+	with ESMTP id 97NRL2XLqKSo; Mon, 12 Apr 2021 06:49:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A46ED403BC;
-	Sun, 11 Apr 2021 23:49:33 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1ED7C403BE;
+	Mon, 12 Apr 2021 06:49:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B47AC0012;
-	Sun, 11 Apr 2021 23:49:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D84EFC0011;
+	Mon, 12 Apr 2021 06:49:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4FF3EC000A
- for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 23:49:31 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 87FD6C000A
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Apr 2021 06:49:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 34F8E403AF
- for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 23:49:31 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 71AF64021A
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Apr 2021 06:49:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1-DhhafjRBOJ for <iommu@lists.linux-foundation.org>;
- Sun, 11 Apr 2021 23:49:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9C7B640143
- for <iommu@lists.linux-foundation.org>; Sun, 11 Apr 2021 23:49:25 +0000 (UTC)
-IronPort-SDR: 2LmryDPknkJ5ww8HJ/smhXyclHmWJ8+GKUiheV27+tsGFBFOAPKdFCZIdfPlIU4D0Bh3VwchYp
- eVXDYyEM8p1A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="258060219"
-X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; d="scan'208";a="258060219"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2021 16:49:24 -0700
-IronPort-SDR: bD4D54lCGzxs/O6N1lptfZGUcvuKNR0SFkvzvLX9G5zIazPCN8TreX47efQwJgz4lEpLZHWWAR
- DYVzUrLMwMBw==
-X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; d="scan'208";a="423561225"
-Received: from jiezhao-mobl1.ccr.corp.intel.com (HELO [10.254.214.21])
- ([10.254.214.21])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2021 16:49:22 -0700
-Subject: Re: [PATCH 5.4 v2 1/1] iommu/vt-d: Fix agaw for a supported 48 bit
- guest address width
-To: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-References: <20210407184030.21683-1-saeed.mirzamohammadi@oracle.com>
- <deca9431-a52a-2818-4493-5a6ffeadccb9@linux.intel.com>
- <E3377E7A-073F-4D9C-92FE-8CC4836343AF@oracle.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <036429a7-9924-7ed5-6be9-2bd087594e9b@linux.intel.com>
-Date: Mon, 12 Apr 2021 07:49:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ with ESMTP id wsieKeyrh_QN for <iommu@lists.linux-foundation.org>;
+ Mon, 12 Apr 2021 06:48:58 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3969F401EC
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Apr 2021 06:48:57 +0000 (UTC)
+X-UUID: 6daf768510b94d86b18a23ad86cdddbb-20210412
+X-UUID: 6daf768510b94d86b18a23ad86cdddbb-20210412
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 940755877; Mon, 12 Apr 2021 14:48:52 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 12 Apr 2021 14:48:51 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 12 Apr 2021 14:48:50 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+Subject: [PATCH 1/2] iommu/mediatek-v1: Avoid build fail when build as module
+Date: Mon, 12 Apr 2021 14:48:42 +0800
+Message-ID: <20210412064843.11614-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <E3377E7A-073F-4D9C-92FE-8CC4836343AF@oracle.com>
-Content-Language: en-US
-Cc: Camille Lu <camille.lu@hpe.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- David Woodhouse <dwmw2@infradead.org>
+X-MTK: N
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
+ Valdis Kletnieks <valdis.kletnieks@vt.edu>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ chao.hao@mediatek.com, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,117 +73,133 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="windows-1252"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-I guess you need to ask Greg KH <gregkh@linuxfoundation.org> with this
-Cc-ing to stable@vger.kernel.org.
+When this driver build as module, It build fail like:
 
-Best regards,
-baolu
+ERROR: modpost: "of_phandle_iterator_args"
+[drivers/iommu/mtk_iommu_v1.ko] undefined!
 
-On 2021/4/12 3:36, Saeed Mirzamohammadi wrote:
-> Hi Lu,
-> =
+This patch remove this interface to avoid this build fail.
 
-> Thanks for the review. May I know when do we expect this to be applied =
+Reported-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+---
+Currently below patch is only in linux-next-20210409. This fixes tag may be
+not needed. we can add this if it is need.
+Fixes: 8de000cf0265 ("iommu/mediatek-v1: Allow building as module")
+---
+ drivers/iommu/mtk_iommu_v1.c | 62 ++++++++++++++++--------------------
+ 1 file changed, 28 insertions(+), 34 deletions(-)
 
-> to 5.4?
-> =
-
-> Thanks,
-> Saeed
-> =
-
->> On Apr 7, 2021, at 5:25 PM, Lu Baolu <baolu.lu@linux.intel.com =
-
->> <mailto:baolu.lu@linux.intel.com>> wrote:
->>
->> On 4/8/21 2:40 AM, Saeed Mirzamohammadi wrote:
->>> The IOMMU driver calculates the guest addressability for a DMA request
->>> based on the value of the mgaw reported from the IOMMU. However, this
->>> is a fused value and as mentioned in the spec, the guest width
->>> should be calculated based on the minimum of supported adjusted guest
->>> address width (SAGAW) and MGAW.
->>> This is from specification:
->>> "Guest addressability for a given DMA request is limited to the
->>> minimum of the value reported through this field and the adjusted
->>> guest address width of the corresponding page-table structure.
->>> (Adjusted guest address widths supported by hardware are reported
->>> through the SAGAW field)."
->>> This causes domain initialization to fail and following
->>> errors appear for EHCI PCI driver:
->>> [ =A0=A0=A02.486393] ehci-pci 0000:01:00.4: EHCI Host Controller
->>> [ =A0=A0=A02.486624] ehci-pci 0000:01:00.4: new USB bus registered, =
-
->>> assigned bus
->>> number 1
->>> [ =A0=A0=A02.489127] ehci-pci 0000:01:00.4: DMAR: Allocating domain fai=
-led
->>> [ =A0=A0=A02.489350] ehci-pci 0000:01:00.4: DMAR: 32bit DMA uses non-id=
-entity
->>> mapping
->>> [ =A0=A0=A02.489359] ehci-pci 0000:01:00.4: can't setup: -12
->>> [ =A0=A0=A02.489531] ehci-pci 0000:01:00.4: USB bus 1 deregistered
->>> [ =A0=A0=A02.490023] ehci-pci 0000:01:00.4: init 0000:01:00.4 fail, -12
->>> [ =A0=A0=A02.490358] ehci-pci: probe of 0000:01:00.4 failed with error =
--12
->>> This issue happens when the value of the sagaw corresponds to a
->>> 48-bit agaw. This fix updates the calculation of the agaw based on
->>> the minimum of IOMMU's sagaw value and MGAW.
->>> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com =
-
->>> <mailto:saeed.mirzamohammadi@oracle.com>>
->>> Tested-by: Camille Lu <camille.lu@hpe.com <mailto:camille.lu@hpe.com>>
->>> ---
->>> Change in v2:
->>> - Added cap_width to calculate AGAW based on the minimum value of =
-
->>> MGAW and AGAW.
->>> ---
->>> =A0drivers/iommu/intel-iommu.c | 7 ++++---
->>> =A01 file changed, 4 insertions(+), 3 deletions(-)
->>> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
->>> index 953d86ca6d2b..a2a03df97704 100644
->>> --- a/drivers/iommu/intel-iommu.c
->>> +++ b/drivers/iommu/intel-iommu.c
->>> @@ -1853,7 +1853,7 @@ static inline int guestwidth_to_adjustwidth(int =
-
->>> gaw)
->>> =A0static int domain_init(struct dmar_domain *domain, struct =
-
->>> intel_iommu *iommu,
->>> =A0=A0=A0=A0=A0=A0int guest_width)
->>> =A0{
->>> -int adjust_width, agaw;
->>> +int adjust_width, agaw, cap_width;
->>> unsigned long sagaw;
->>> int err;
->>> =A0@@ -1867,8 +1867,9 @@ static int domain_init(struct dmar_domain =
-
->>> *domain, struct intel_iommu *iommu,
->>> domain_reserve_special_ranges(domain);
->>> /* calculate AGAW */
->>> -if (guest_width > cap_mgaw(iommu->cap))
->>> -guest_width =3D cap_mgaw(iommu->cap);
->>> +cap_width =3D min_t(int, cap_mgaw(iommu->cap), =
-
->>> agaw_to_width(iommu->agaw));
->>> +if (guest_width > cap_width)
->>> +guest_width =3D cap_width;
->>> domain->gaw =3D guest_width;
->>> adjust_width =3D guestwidth_to_adjustwidth(guest_width);
->>> agaw =3D width_to_agaw(adjust_width);
->>
->> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com =
-
->> <mailto:baolu.lu@linux.intel.com>>
->>
->> Best regards,
->> baolu
-> =
+diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+index be1b20e3f20e..bed0bb9d63fd 100644
+--- a/drivers/iommu/mtk_iommu_v1.c
++++ b/drivers/iommu/mtk_iommu_v1.c
+@@ -424,23 +424,21 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+ {
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	struct of_phandle_args iommu_spec;
+-	struct of_phandle_iterator it;
+ 	struct mtk_iommu_data *data;
+-	int err;
++	int err, idx = 0;
+ 
+-	of_for_each_phandle(&it, err, dev->of_node, "iommus",
+-			"#iommu-cells", -1) {
+-		int count = of_phandle_iterator_args(&it, iommu_spec.args,
+-					MAX_PHANDLE_ARGS);
+-		iommu_spec.np = of_node_get(it.node);
+-		iommu_spec.args_count = count;
++	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
++					   "#iommu-cells",
++					   idx, &iommu_spec)) {
+ 
+-		mtk_iommu_create_mapping(dev, &iommu_spec);
++		err = mtk_iommu_create_mapping(dev, &iommu_spec);
++		of_node_put(iommu_spec.np);
++		if (err)
++			return ERR_PTR(err);
+ 
+ 		/* dev->iommu_fwspec might have changed */
+ 		fwspec = dev_iommu_fwspec_get(dev);
+-
+-		of_node_put(iommu_spec.np);
++		idx++;
+ 	}
+ 
+ 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+@@ -549,10 +547,8 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 	struct device			*dev = &pdev->dev;
+ 	struct resource			*res;
+ 	struct component_match		*match = NULL;
+-	struct of_phandle_args		larb_spec;
+-	struct of_phandle_iterator	it;
+ 	void				*protect;
+-	int				larb_nr, ret, err;
++	int				larb_nr, ret, i;
+ 
+ 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+@@ -580,35 +576,33 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 	if (IS_ERR(data->bclk))
+ 		return PTR_ERR(data->bclk);
+ 
+-	larb_nr = 0;
+-	of_for_each_phandle(&it, err, dev->of_node,
+-			"mediatek,larbs", NULL, 0) {
++	larb_nr = of_count_phandle_with_args(dev->of_node,
++					     "mediatek,larbs", NULL);
++	if (larb_nr < 0)
++		return larb_nr;
++
++	for (i = 0; i < larb_nr; i++) {
++		struct device_node *larbnode;
+ 		struct platform_device *plarbdev;
+-		int count = of_phandle_iterator_args(&it, larb_spec.args,
+-					MAX_PHANDLE_ARGS);
+ 
+-		if (count)
+-			continue;
++		larbnode = of_parse_phandle(dev->of_node, "mediatek,larbs", i);
++		if (!larbnode)
++			return -EINVAL;
+ 
+-		larb_spec.np = of_node_get(it.node);
+-		if (!of_device_is_available(larb_spec.np))
++		if (!of_device_is_available(larbnode)) {
++			of_node_put(larbnode);
+ 			continue;
++		}
+ 
+-		plarbdev = of_find_device_by_node(larb_spec.np);
++		plarbdev = of_find_device_by_node(larbnode);
+ 		if (!plarbdev) {
+-			plarbdev = of_platform_device_create(
+-						larb_spec.np, NULL,
+-						platform_bus_type.dev_root);
+-			if (!plarbdev) {
+-				of_node_put(larb_spec.np);
+-				return -EPROBE_DEFER;
+-			}
++			of_node_put(larbnode);
++			return -EPROBE_DEFER;
+ 		}
++		data->larb_imu[i].dev = &plarbdev->dev;
+ 
+-		data->larb_imu[larb_nr].dev = &plarbdev->dev;
+ 		component_match_add_release(dev, &match, release_of,
+-					    compare_of, larb_spec.np);
+-		larb_nr++;
++					    compare_of, larbnode);
+ 	}
+ 
+ 	platform_set_drvdata(pdev, data);
+-- 
+2.18.0
 
 _______________________________________________
 iommu mailing list
