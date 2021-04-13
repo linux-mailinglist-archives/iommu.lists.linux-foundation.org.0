@@ -1,64 +1,113 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5704035DA76
-	for <lists.iommu@lfdr.de>; Tue, 13 Apr 2021 10:55:36 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C70D35DB66
+	for <lists.iommu@lfdr.de>; Tue, 13 Apr 2021 11:38:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5CA888433D;
-	Tue, 13 Apr 2021 08:55:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 14793400DB;
+	Tue, 13 Apr 2021 09:38:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rP8Qjtglm8Fv; Tue, 13 Apr 2021 08:55:31 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id H29uoqFdboQR; Tue, 13 Apr 2021 09:38:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7066F84348;
-	Tue, 13 Apr 2021 08:55:30 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2DE3A400D8;
+	Tue, 13 Apr 2021 09:38:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A5648C0012;
-	Tue, 13 Apr 2021 08:55:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0211BC0012;
+	Tue, 13 Apr 2021 09:38:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 79285C000A
- for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:27 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5E4C3C000A
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 09:38:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 566CB84158
- for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:27 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 36DDB4061F
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 09:38:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EwiIR3LqV_t0 for <iommu@lists.linux-foundation.org>;
- Tue, 13 Apr 2021 08:55:26 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2044C84342
- for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:26 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FKK9q0Tz9zPqkj;
- Tue, 13 Apr 2021 16:52:31 +0800 (CST)
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.224) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 13 Apr 2021 16:55:16 +0800
-From: Keqian Zhu <zhukeqian1@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <iommu@lists.linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
- "Will Deacon" <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, Yi Sun
- <yi.y.sun@linux.intel.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, Tian Kevin
- <kevin.tian@intel.com>, Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH v3 12/12] iommu/arm-smmu-v3: Add HWDBM device feature reporting
-Date: Tue, 13 Apr 2021 16:54:57 +0800
-Message-ID: <20210413085457.25400-13-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210413085457.25400-1-zhukeqian1@huawei.com>
-References: <20210413085457.25400-1-zhukeqian1@huawei.com>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id w982QhjO7PeJ for <iommu@lists.linux-foundation.org>;
+ Tue, 13 Apr 2021 09:38:08 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-oln040092064102.outbound.protection.outlook.com [40.92.64.102])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id BDEEB4061D
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 09:38:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BwRrUU0F3yQRMWDKp8C22wqJwgjfDdpe9wPCrR7mDs+406REc3lfOzXeOKHEAAYfMCep6X7b2zqJCGBlFb39IEENaIGY9z+FO8vD5kEd3ahkYoB9cdB2no9N2v1Vvc4cnAOoloPghZ5JywFFjATgDZTw+nCPh34IihTrwJajM45xcd3s8uJ7wnjfJavMeWZUfVUIKob/y2dWTLgRizmFqIv5LqVv6V0H1EW3IoyAk9LdJnGwT7ruvRQWp/u4pcfZ+Cd/q7NilS+9cgfPd+hn2e2llvTxHWCSXP+E1pZJrbxzZOy3oiDJkjAdJb7BG0Fhmh+42Ga/DDcb/Sqove8fUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UtA868Cy6H/+QOpEN6Gk+NoOxwBGJGkmrCIHd0qfa/o=;
+ b=JbPb4SzTxDKzDW2/AVVGIGazLSIQrH+9UZ0do+mTy3/wo8usriUkSu8pNV9LgrWkE2M36tQvWCoQ1SnRYoE7nyLY/ZSI1nXGrxW0h0Y1FdMYnUq4Dz2xpbHUp4G6QqusqndgDF8b7XHM53EZGcEL8JaL4T6SoljC37yKA5A4Her+KE8I0x/ySCilCVmHVyV136bo+LbmaLST7eOUb/x3UMZ2zxQ1HuBLO8jFNdsbj95aUac54HBVIQul7bl06gG8jL1O5DmTRaEmbwZdUA31G/lH06NFcAVIitlHcy3/p2xKAZIEeXKeIp6AJiSkuJodq+en79QXgOSLerj9b+zJCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB5EUR01FT013.eop-EUR01.prod.protection.outlook.com
+ (2a01:111:e400:7e1a::44) by
+ DB5EUR01HT089.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e1a::269)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Tue, 13 Apr
+ 2021 09:38:04 +0000
+Received: from VI1PR09MB2638.eurprd09.prod.outlook.com
+ (2a01:111:e400:7e1a::53) by DB5EUR01FT013.mail.protection.outlook.com
+ (2a01:111:e400:7e1a::239) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
+ Transport; Tue, 13 Apr 2021 09:38:04 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:5BB13109A7AF8E32FD3B084969A2F35ADB25557391B64C692E7EB5FACE296EAF;
+ UpperCasedChecksum:356E1DEA4B4AE7AE8695E728B6CBC514D2B06DC32C12A4EF1856530CB262A58C;
+ SizeAsReceived:9051; Count:48
+Received: from VI1PR09MB2638.eurprd09.prod.outlook.com
+ ([fe80::948b:987c:566b:198e]) by VI1PR09MB2638.eurprd09.prod.outlook.com
+ ([fe80::948b:987c:566b:198e%5]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
+ 09:38:04 +0000
+Subject: Re: [PATCH 2/2] iommu/amd: Remove performance counter
+ pre-initialization test
+To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
+References: <20210409085848.3908-1-suravee.suthikulpanit@amd.com>
+ <20210409085848.3908-3-suravee.suthikulpanit@amd.com>
+From: David Coe <david.coe@live.co.uk>
+Message-ID: <VI1PR09MB263861ABB6D5CB6A000CD6F8C74F9@VI1PR09MB2638.eurprd09.prod.outlook.com>
+Date: Tue, 13 Apr 2021 10:38:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <20210409085848.3908-3-suravee.suthikulpanit@amd.com>
+Content-Language: en-GB
+X-TMN: [nyP/018UJNi/J2HPxxZ8jv22RUs0pvps]
+X-ClientProxiedBy: LO2P265CA0156.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9::24) To VI1PR09MB2638.eurprd09.prod.outlook.com
+ (2603:10a6:803:7b::27)
+X-Microsoft-Original-Message-ID: <03d0e57c-9a90-2605-cddd-cd619439e138@live.co.uk>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.187.224]
-X-CFilter-Loop: Reflected
-Cc: jiangkunkun@huawei.com, Cornelia Huck <cohuck@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, lushenming@huawei.com,
- Alex Williamson <alex.williamson@redhat.com>, wanghaibin.wang@huawei.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.6] (90.246.218.100) by
+ LO2P265CA0156.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:9::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.21 via Frontend Transport; Tue, 13 Apr 2021 09:38:03 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: c6442614-959c-476c-b807-08d8fe5fd62a
+X-MS-TrafficTypeDiagnostic: DB5EUR01HT089:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FRqcERWRBgofHi1M3rjDvvEJO+KS7iDksvjjknwbtQweZj92OjcwS8IOH9fIgDoIu4XbUQ8kN49oSlgQkMe5JVQU8BqWSCh7mslBsPdZZPiQMiP+5vG8e5Uwy6G8QfKzGhaEZ4NlbJADFC2FRtNxC1xeq/Omt0mnR0nTGb3CGAOdFyP7Ph3FvMLlBcWMIbTQbPdLwBv9Hu5iE7OxxYG4TIcKmmUdqhWGv9jQNWI5N6vk4sw+ivTzO9piYAkqPqSit5GvLb5gHmCX5Y2zuMZbv4byG9YrI8V07bU4w0Yl7VavSGEpzcPI+tJhrShfNaKApuFSLXqaZMLPsAKCsVVejN1TcQDw9UFgQoS2dEFsdjUqVGioNE0Ep/JJdezyDTHEkNqv4UwXIJ03pqFbrJbqxg==
+X-MS-Exchange-AntiSpam-MessageData: p4WVkVd12/9+i0TP/PjUAjlYGg/fAMZ2mlU0QfXelWER7Lnl+kJRx3qWF8w1GjQIzyrhAkKw2h4wHl1bB3eFTiltwfDWbshE3cO36m2PN2Dn1efjItqYLBocoHqXeuUjEJsyNKG5Cj8vAK9jSOdLVA==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6442614-959c-476c-b807-08d8fe5fd62a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2021 09:38:04.4835 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR01FT013.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR01HT089
+Cc: pmenzel@molgen.mpg.de, Alexander Monakov <amonakov@ispras.ru>,
+ Alex Hung <1917203@bugs.launchpad.net>, Jon.Grimm@amd.com,
+ Shuah Khan <skhan@linuxfoundation.org>, Tj <ml.linux@elloe.vision>,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,56 +120,62 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-
-We have implemented these interfaces required to support iommu
-dirty log tracking. The last step is reporting this feature to
-upper user, then the user can perform higher policy base on it.
-
-There is a new dev feature named IOMMU_DEV_FEAT_HWDBM in iommu
-layer. For arm smmuv3, it is equal to ARM_SMMU_FEAT_HD and it is
-enabled by default if supported. Other types of IOMMU can enable
-it by default or when user invokes enable_feature.
-
-Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 59bb1d198631..2d716ee5621f 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2712,6 +2712,9 @@ static bool arm_smmu_dev_has_feature(struct device *dev,
- 	switch (feat) {
- 	case IOMMU_DEV_FEAT_SVA:
- 		return arm_smmu_master_sva_supported(master);
-+	case IOMMU_DEV_FEAT_HWDBM:
-+		/* No requirement for device, require HTTU HD of smmu */
-+		return !!(master->smmu->features & ARM_SMMU_FEAT_HD);
- 	default:
- 		return false;
- 	}
-@@ -2728,6 +2731,9 @@ static bool arm_smmu_dev_feature_enabled(struct device *dev,
- 	switch (feat) {
- 	case IOMMU_DEV_FEAT_SVA:
- 		return arm_smmu_master_sva_enabled(master);
-+	case IOMMU_DEV_FEAT_HWDBM:
-+		/* HTTU HD is enabled if supported */
-+		return arm_smmu_dev_has_feature(dev, feat);
- 	default:
- 		return false;
- 	}
--- 
-2.19.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgU3VyYXZlZSEKCkp1c3QgaW4gY2FzZSAoISksIEkndmUgcnVuIHlvdXIgcmV2ZXJ0K3VwZGF0
+ZSBwYXRjaCBvbiBrZXJuZWwgNS4xMS4wLTEzLCAKVWJ1bnR1IDIxLjA0zrIgcnVubmluZyBvbiBh
+biBBTUQgRlgtODM1MCAocHJlIFplbiBhbmQgSU9NTVV2MikuIEFzIHdpdGggCnRoZSBBTUQgUnl6
+ZW4gMjQwMEcgYW5kIDQ3MDBVLCBJJ20gZmluZGluZyBubyBvYnZpb3VzIGlzc3Vlcy4KCgokIHN1
+ZG8gZG1lc2cgfCBncmVwIElPTU1VClsgICAgMC45NDg4OTBdIHBjaSAwMDAwOjAwOjAwLjI6IEFN
+RC1WaTogRm91bmQgSU9NTVUgY2FwIDB4NDAKWyAgICA0LjM5Mzc3M10gQU1ELVZpOiBBTUQgSU9N
+TVV2MiBkcml2ZXIgYnkgSm9lcmcgUm9lZGVsIDxqcm9lZGVsQHN1c2UuZGU+ClsgICAgNC4zOTM3
+NzZdIEFNRC1WaTogQU1EIElPTU1VdjIgZnVuY3Rpb25hbGl0eSBub3QgYXZhaWxhYmxlIG9uIHRo
+aXMgCnN5c3RlbQoKCiQgc3lzdG9vbCAtbSBrdm1fYW1kIC12Ck1vZHVsZSA9ICJrdm1fYW1kIgoK
+ICAgQXR0cmlidXRlczoKICAgICBjb3Jlc2l6ZSAgICAgICAgICAgID0gIjExNDY4OCIKICAgICBp
+bml0c2l6ZSAgICAgICAgICAgID0gIjAiCiAgICAgaW5pdHN0YXRlICAgICAgICAgICA9ICJsaXZl
+IgogICAgIHJlZmNudCAgICAgICAgICAgICAgPSAiMCIKICAgICBzcmN2ZXJzaW9uICAgICAgICAg
+ID0gIjQzNzFCQTE3QTQxODIzMTAxRjkwNzYxIgogICAgIHRhaW50ICAgICAgICAgICAgICAgPSAi
+IgogICAgIHVldmVudCAgICAgICAgICAgICAgPSA8c3RvcmUgbWV0aG9kIG9ubHk+CgogICBQYXJh
+bWV0ZXJzOgogICAgIGF2aWMgICAgICAgICAgICAgICAgPSAiMCIKICAgICBkdW1wX2ludmFsaWRf
+dm1jYiAgID0gIk4iCiAgICAgbmVzdGVkICAgICAgICAgICAgICA9ICIxIgogICAgIG5wdCAgICAg
+ICAgICAgICAgICAgPSAiMSIKICAgICBucmlwcyAgICAgICAgICAgICAgID0gIjEiCiAgICAgcGF1
+c2VfZmlsdGVyX2NvdW50X2dyb3c9ICIyIgogICAgIHBhdXNlX2ZpbHRlcl9jb3VudF9tYXg9ICI2
+NTUzNSIKICAgICBwYXVzZV9maWx0ZXJfY291bnRfc2hyaW5rPSAiMCIKICAgICBwYXVzZV9maWx0
+ZXJfY291bnQgID0gIjMwMDAiCiAgICAgcGF1c2VfZmlsdGVyX3RocmVzaCA9ICIxMjgiCiAgICAg
+c2V2X2VzICAgICAgICAgICAgICA9ICIwIgogICAgIHNldiAgICAgICAgICAgICAgICAgPSAiMCIK
+ICAgICB2Z2lmICAgICAgICAgICAgICAgID0gIjAiCiAgICAgdmxzICAgICAgICAgICAgICAgICA9
+ICIwIgoKICAgU2VjdGlvbnM6CgoKJCBjb21wZ2VuIC1HICIvc3lzL2tlcm5lbC9pb21tdV9ncm91
+cHMvKi9kZXZpY2VzLyoiCi9zeXMva2VybmVsL2lvbW11X2dyb3Vwcy85L2RldmljZXMvMDAwMDow
+MDoxNC4yCi9zeXMva2VybmVsL2lvbW11X2dyb3Vwcy8wL2RldmljZXMvMDAwMDowMDowMC4wCi9z
+eXMva2VybmVsL2lvbW11X2dyb3Vwcy8xMC9kZXZpY2VzLzAwMDA6MDA6MTQuMwovc3lzL2tlcm5l
+bC9pb21tdV9ncm91cHMvMi9kZXZpY2VzLzAwMDA6MDA6MDQuMAovc3lzL2tlcm5lbC9pb21tdV9n
+cm91cHMvMTIvZGV2aWNlcy8wMDAwOjAwOjE0LjUKL3N5cy9rZXJuZWwvaW9tbXVfZ3JvdXBzLzQv
+ZGV2aWNlcy8wMDAwOjAwOjBkLjAKL3N5cy9rZXJuZWwvaW9tbXVfZ3JvdXBzLzE0L2RldmljZXMv
+MDAwMDowMDoxNi4wCi9zeXMva2VybmVsL2lvbW11X2dyb3Vwcy8xNC9kZXZpY2VzLzAwMDA6MDA6
+MTYuMgovc3lzL2tlcm5lbC9pb21tdV9ncm91cHMvNi9kZXZpY2VzLzAwMDA6MDA6MTIuMAovc3lz
+L2tlcm5lbC9pb21tdV9ncm91cHMvNi9kZXZpY2VzLzAwMDA6MDA6MTIuMgovc3lzL2tlcm5lbC9p
+b21tdV9ncm91cHMvMTYvZGV2aWNlcy8wMDAwOjAyOjAwLjAKL3N5cy9rZXJuZWwvaW9tbXVfZ3Jv
+dXBzLzgvZGV2aWNlcy8wMDAwOjAwOjE0LjAKL3N5cy9rZXJuZWwvaW9tbXVfZ3JvdXBzLzEvZGV2
+aWNlcy8wMDAwOjAwOjAyLjAKL3N5cy9rZXJuZWwvaW9tbXVfZ3JvdXBzLzExL2RldmljZXMvMDAw
+MDowMDoxNC40Ci9zeXMva2VybmVsL2lvbW11X2dyb3Vwcy8zL2RldmljZXMvMDAwMDowMDowYi4w
+Ci9zeXMva2VybmVsL2lvbW11X2dyb3Vwcy8xMy9kZXZpY2VzLzAwMDA6MDA6MTUuMwovc3lzL2tl
+cm5lbC9pb21tdV9ncm91cHMvMTMvZGV2aWNlcy8wMDAwOjAwOjE1LjAKL3N5cy9rZXJuZWwvaW9t
+bXVfZ3JvdXBzLzEzL2RldmljZXMvMDAwMDowNjowMC4wCi9zeXMva2VybmVsL2lvbW11X2dyb3Vw
+cy8xMy9kZXZpY2VzLzAwMDA6MDA6MTUuMgovc3lzL2tlcm5lbC9pb21tdV9ncm91cHMvMTMvZGV2
+aWNlcy8wMDAwOjA3OjAwLjAKL3N5cy9rZXJuZWwvaW9tbXVfZ3JvdXBzLzEzL2RldmljZXMvMDAw
+MDowODowMC4wCi9zeXMva2VybmVsL2lvbW11X2dyb3Vwcy8xMy9kZXZpY2VzLzAwMDA6MDA6MTUu
+MQovc3lzL2tlcm5lbC9pb21tdV9ncm91cHMvMTMvZGV2aWNlcy8wMDAwOjA5OjAwLjAKL3N5cy9r
+ZXJuZWwvaW9tbXVfZ3JvdXBzLzUvZGV2aWNlcy8wMDAwOjAwOjExLjAKL3N5cy9rZXJuZWwvaW9t
+bXVfZ3JvdXBzLzE1L2RldmljZXMvMDAwMDowMTowMC4xCi9zeXMva2VybmVsL2lvbW11X2dyb3Vw
+cy8xNS9kZXZpY2VzLzAwMDA6MDE6MDAuMAovc3lzL2tlcm5lbC9pb21tdV9ncm91cHMvNy9kZXZp
+Y2VzLzAwMDA6MDA6MTMuMAovc3lzL2tlcm5lbC9pb21tdV9ncm91cHMvNy9kZXZpY2VzLzAwMDA6
+MDA6MTMuMgovc3lzL2tlcm5lbC9pb21tdV9ncm91cHMvMTcvZGV2aWNlcy8wMDAwOjA0OjAwLjAK
+CgokIHN1ZG8ga3ZtLW9rCklORk86IC9kZXYva3ZtIGV4aXN0cwpLVk0gYWNjZWxlcmF0aW9uIGNh
+biBiZSB1c2VkCgoKJCBwZXJmIGxpc3QgfCBncmVwIGlvbW11Ck5vIGFtZF9pb21tdSBldmVudHMK
+CkJlc3QgcmVnYXJkcyBhbmQgbWFueSB0aGFua3MuCgotLSAKRGF2aWQgQ29lCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QK
+aW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5k
+YXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
