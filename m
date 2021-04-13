@@ -1,45 +1,45 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A952E35DA6F
-	for <lists.iommu@lfdr.de>; Tue, 13 Apr 2021 10:55:27 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC5935DA6C
+	for <lists.iommu@lfdr.de>; Tue, 13 Apr 2021 10:55:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2C5E240576;
-	Tue, 13 Apr 2021 08:55:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AgrVeOmOL33m; Tue, 13 Apr 2021 08:55:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1C2064057E;
-	Tue, 13 Apr 2021 08:55:25 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1066C000A;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 88C2384337;
 	Tue, 13 Apr 2021 08:55:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MnpFEfwvwdgv; Tue, 13 Apr 2021 08:55:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7FB9584332;
+	Tue, 13 Apr 2021 08:55:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 62E89C000A;
+	Tue, 13 Apr 2021 08:55:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4F2D5C000A
- for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:22 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7590BC000A
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 30C3584158
- for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:22 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 6473C83E33
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jIkuBuKZznFB for <iommu@lists.linux-foundation.org>;
- Tue, 13 Apr 2021 08:55:21 +0000 (UTC)
+ with ESMTP id MbXdwWO5qA_A for <iommu@lists.linux-foundation.org>;
+ Tue, 13 Apr 2021 08:55:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by smtp1.osuosl.org (Postfix) with ESMTPS id ACDF484332
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 4A06484158
  for <iommu@lists.linux-foundation.org>; Tue, 13 Apr 2021 08:55:20 +0000 (UTC)
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FKK9j6MznzPqgC;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FKK9j5xlfzPpKl;
  Tue, 13 Apr 2021 16:52:25 +0800 (CST)
 Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.224) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 13 Apr 2021 16:55:09 +0800
+ 14.3.498.0; Tue, 13 Apr 2021 16:55:10 +0800
 From: Keqian Zhu <zhukeqian1@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <iommu@lists.linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
@@ -47,10 +47,10 @@ To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <yi.y.sun@linux.intel.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
  Jonathan Cameron <Jonathan.Cameron@huawei.com>, Tian Kevin
  <kevin.tian@intel.com>, Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH v3 04/12] iommu/arm-smmu-v3: Add support for Hardware
- Translation Table Update
-Date: Tue, 13 Apr 2021 16:54:49 +0800
-Message-ID: <20210413085457.25400-5-zhukeqian1@huawei.com>
+Subject: [PATCH v3 05/12] iommu/arm-smmu-v3: Enable HTTU for stage1 with
+ io-pgtable mapping
+Date: Tue, 13 Apr 2021 16:54:50 +0800
+Message-ID: <20210413085457.25400-6-zhukeqian1@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210413085457.25400-1-zhukeqian1@huawei.com>
 References: <20210413085457.25400-1-zhukeqian1@huawei.com>
@@ -77,158 +77,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
 
-If the SMMU supports it and the kernel was built with HTTU support,
-enable hardware update of access and dirty flags. This is essential for
-shared page tables, to reduce the number of access faults on the fault
-queue. Normal DMA with io-pgtables doesn't currently use the access or
-dirty flags.
+As nested mode is not upstreamed now, we just aim to support dirty
+log tracking for stage1 with io-pgtable mapping (means not support
+SVA mapping). If HTTU is supported, we enable HA/HD bits in the SMMU
+CD, and set DBM bit for writable TTD.
 
-We can enable HTTU even if CPUs don't support it, because the kernel
-always checks for HW dirty bit and updates the PTE flags atomically.
+The dirty state information is encoded using the access permission
+bits AP[2] (stage 1) or S2AP[1] (stage 2) in conjunction with the
+DBM (Dirty Bit Modifier) bit, where DBM means writable and AP[2]/
+S2AP[1] means dirty.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 ---
- .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  2 +
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 41 ++++++++++++++++++-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  8 ++++
- 3 files changed, 50 insertions(+), 1 deletion(-)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 3 +++
+ drivers/iommu/io-pgtable-arm.c              | 7 ++++++-
+ include/linux/io-pgtable.h                  | 3 +++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-index bb251cab61f3..ae075e675892 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-@@ -121,10 +121,12 @@ static struct arm_smmu_ctx_desc *arm_smmu_alloc_shared_cd(struct mm_struct *mm)
- 	if (err)
- 		goto out_free_asid;
- 
-+	/* HA and HD will be filtered out later if not supported by the SMMU */
- 	tcr = FIELD_PREP(CTXDESC_CD_0_TCR_T0SZ, 64ULL - vabits_actual) |
- 	      FIELD_PREP(CTXDESC_CD_0_TCR_IRGN0, ARM_LPAE_TCR_RGN_WBWA) |
- 	      FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, ARM_LPAE_TCR_RGN_WBWA) |
- 	      FIELD_PREP(CTXDESC_CD_0_TCR_SH0, ARM_LPAE_TCR_SH_IS) |
-+	      CTXDESC_CD_0_TCR_HA | CTXDESC_CD_0_TCR_HD |
- 	      CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64;
- 
- 	switch (PAGE_SIZE) {
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 8594b4a83043..b6d965504f44 100644
+index b6d965504f44..369c0ea7a104 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -1012,10 +1012,17 @@ int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
- 		 * this substream's traffic
- 		 */
- 	} else { /* (1) and (2) */
-+		u64 tcr = cd->tcr;
-+
- 		cdptr[1] = cpu_to_le64(cd->ttbr & CTXDESC_CD_1_TTB0_MASK);
- 		cdptr[2] = 0;
- 		cdptr[3] = cpu_to_le64(cd->mair);
+@@ -1921,6 +1921,7 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
+ 			  FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, tcr->orgn) |
+ 			  FIELD_PREP(CTXDESC_CD_0_TCR_SH0, tcr->sh) |
+ 			  FIELD_PREP(CTXDESC_CD_0_TCR_IPS, tcr->ips) |
++			  CTXDESC_CD_0_TCR_HA | CTXDESC_CD_0_TCR_HD |
+ 			  CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64;
+ 	cfg->cd.mair	= pgtbl_cfg->arm_lpae_s1_cfg.mair;
  
-+		if (!(smmu->features & ARM_SMMU_FEAT_HD))
-+			tcr &= ~CTXDESC_CD_0_TCR_HD;
-+		if (!(smmu->features & ARM_SMMU_FEAT_HA))
-+			tcr &= ~CTXDESC_CD_0_TCR_HA;
-+
- 		/*
- 		 * STE is live, and the SMMU might read dwords of this CD in any
- 		 * order. Ensure that it observes valid values before reading
-@@ -1023,7 +1030,7 @@ int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
- 		 */
- 		arm_smmu_sync_cd(smmu_domain, ssid, true);
+@@ -2026,6 +2027,8 @@ static int arm_smmu_domain_finalise(struct iommu_domain *domain,
  
--		val = cd->tcr |
-+		val = tcr |
- #ifdef __BIG_ENDIAN
- 			CTXDESC_CD_0_ENDI |
- #endif
-@@ -3196,6 +3203,28 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
- 	return 0;
- }
+ 	if (smmu_domain->non_strict)
+ 		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
++	if (smmu->features & ARM_SMMU_FEAT_HD)
++		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_ARM_HD;
  
-+static void arm_smmu_get_httu(struct arm_smmu_device *smmu, u32 reg)
-+{
-+	u32 fw_features = smmu->features & (ARM_SMMU_FEAT_HA | ARM_SMMU_FEAT_HD);
-+	u32 features = 0;
-+
-+	switch (FIELD_GET(IDR0_HTTU, reg)) {
-+	case IDR0_HTTU_ACCESS_DIRTY:
-+		features |= ARM_SMMU_FEAT_HD;
-+		fallthrough;
-+	case IDR0_HTTU_ACCESS:
-+		features |= ARM_SMMU_FEAT_HA;
-+	}
-+
-+	if (smmu->dev->of_node)
-+		smmu->features |= features;
-+	else if (features != fw_features)
-+		/* ACPI IORT sets the HTTU bits */
-+		dev_warn(smmu->dev,
-+			 "IDR0.HTTU overridden by FW configuration (0x%x)\n",
-+			 fw_features);
-+}
-+
- static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
+ 	pgtbl_ops = alloc_io_pgtable_ops(fmt, &pgtbl_cfg, smmu_domain);
+ 	if (!pgtbl_ops)
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index 87def58e79b5..94d790b8ed27 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -72,6 +72,7 @@
+ 
+ #define ARM_LPAE_PTE_NSTABLE		(((arm_lpae_iopte)1) << 63)
+ #define ARM_LPAE_PTE_XN			(((arm_lpae_iopte)3) << 53)
++#define ARM_LPAE_PTE_DBM		(((arm_lpae_iopte)1) << 51)
+ #define ARM_LPAE_PTE_AF			(((arm_lpae_iopte)1) << 10)
+ #define ARM_LPAE_PTE_SH_NS		(((arm_lpae_iopte)0) << 8)
+ #define ARM_LPAE_PTE_SH_OS		(((arm_lpae_iopte)2) << 8)
+@@ -81,7 +82,7 @@
+ 
+ #define ARM_LPAE_PTE_ATTR_LO_MASK	(((arm_lpae_iopte)0x3ff) << 2)
+ /* Ignore the contiguous bit for block splitting */
+-#define ARM_LPAE_PTE_ATTR_HI_MASK	(((arm_lpae_iopte)6) << 52)
++#define ARM_LPAE_PTE_ATTR_HI_MASK	(((arm_lpae_iopte)13) << 51)
+ #define ARM_LPAE_PTE_ATTR_MASK		(ARM_LPAE_PTE_ATTR_LO_MASK |	\
+ 					 ARM_LPAE_PTE_ATTR_HI_MASK)
+ /* Software bit for solving coherency races */
+@@ -379,6 +380,7 @@ static int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+ 					   int prot)
  {
- 	u32 reg;
-@@ -3256,6 +3285,8 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
- 			smmu->features |= ARM_SMMU_FEAT_E2H;
- 	}
++	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+ 	arm_lpae_iopte pte;
  
-+	arm_smmu_get_httu(smmu, reg);
+ 	if (data->iop.fmt == ARM_64_LPAE_S1 ||
+@@ -386,6 +388,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+ 		pte = ARM_LPAE_PTE_nG;
+ 		if (!(prot & IOMMU_WRITE) && (prot & IOMMU_READ))
+ 			pte |= ARM_LPAE_PTE_AP_RDONLY;
++		else if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_HD)
++			pte |= ARM_LPAE_PTE_DBM;
 +
- 	/*
- 	 * The coherency feature as set by FW is used in preference to the ID
- 	 * register, but warn on mismatch.
-@@ -3441,6 +3472,14 @@ static int arm_smmu_device_acpi_probe(struct platform_device *pdev,
- 	if (iort_smmu->flags & ACPI_IORT_SMMU_V3_COHACC_OVERRIDE)
- 		smmu->features |= ARM_SMMU_FEAT_COHERENCY;
- 
-+	switch (FIELD_GET(ACPI_IORT_SMMU_V3_HTTU_OVERRIDE, iort_smmu->flags)) {
-+	case IDR0_HTTU_ACCESS_DIRTY:
-+		smmu->features |= ARM_SMMU_FEAT_HD;
-+		fallthrough;
-+	case IDR0_HTTU_ACCESS:
-+		smmu->features |= ARM_SMMU_FEAT_HA;
-+	}
-+
- 	return 0;
- }
- #else
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index f985817c967a..26d6b935b383 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -33,6 +33,9 @@
- #define IDR0_ASID16			(1 << 12)
- #define IDR0_ATS			(1 << 10)
- #define IDR0_HYP			(1 << 9)
-+#define IDR0_HTTU			GENMASK(7, 6)
-+#define IDR0_HTTU_ACCESS		1
-+#define IDR0_HTTU_ACCESS_DIRTY		2
- #define IDR0_COHACC			(1 << 4)
- #define IDR0_TTF			GENMASK(3, 2)
- #define IDR0_TTF_AARCH64		2
-@@ -285,6 +288,9 @@
- #define CTXDESC_CD_0_TCR_IPS		GENMASK_ULL(34, 32)
- #define CTXDESC_CD_0_TCR_TBI0		(1ULL << 38)
- 
-+#define CTXDESC_CD_0_TCR_HA		(1UL << 43)
-+#define CTXDESC_CD_0_TCR_HD		(1UL << 42)
-+
- #define CTXDESC_CD_0_AA64		(1UL << 41)
- #define CTXDESC_CD_0_S			(1UL << 44)
- #define CTXDESC_CD_0_R			(1UL << 45)
-@@ -607,6 +613,8 @@ struct arm_smmu_device {
- #define ARM_SMMU_FEAT_BTM		(1 << 16)
- #define ARM_SMMU_FEAT_SVA		(1 << 17)
- #define ARM_SMMU_FEAT_E2H		(1 << 18)
-+#define ARM_SMMU_FEAT_HA		(1 << 19)
-+#define ARM_SMMU_FEAT_HD		(1 << 20)
- 	u32				features;
- 
- #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
+ 		if (!(prot & IOMMU_PRIV))
+ 			pte |= ARM_LPAE_PTE_AP_UNPRIV;
+ 	} else {
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index a4c9ca2c31f1..64cee6831c97 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -82,6 +82,8 @@ struct io_pgtable_cfg {
+ 	 *
+ 	 * IO_PGTABLE_QUIRK_ARM_OUTER_WBWA: Override the outer-cacheability
+ 	 *	attributes set in the TCR for a non-coherent page-table walker.
++	 *
++	 * IO_PGTABLE_QUIRK_ARM_HD: Support hardware management of dirty status.
+ 	 */
+ 	#define IO_PGTABLE_QUIRK_ARM_NS		BIT(0)
+ 	#define IO_PGTABLE_QUIRK_NO_PERMS	BIT(1)
+@@ -89,6 +91,7 @@ struct io_pgtable_cfg {
+ 	#define IO_PGTABLE_QUIRK_NON_STRICT	BIT(4)
+ 	#define IO_PGTABLE_QUIRK_ARM_TTBR1	BIT(5)
+ 	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA	BIT(6)
++	#define IO_PGTABLE_QUIRK_ARM_HD		BIT(7)
+ 	unsigned long			quirks;
+ 	unsigned long			pgsize_bitmap;
+ 	unsigned int			ias;
 -- 
 2.19.1
 
