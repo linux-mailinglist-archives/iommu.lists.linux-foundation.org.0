@@ -1,81 +1,104 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB9635FA07
-	for <lists.iommu@lfdr.de>; Wed, 14 Apr 2021 19:47:49 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DED35FC98
+	for <lists.iommu@lfdr.de>; Wed, 14 Apr 2021 22:25:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 007EE84626;
-	Wed, 14 Apr 2021 17:47:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 25425402CD;
+	Wed, 14 Apr 2021 20:25:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YWp9Ojhxq2qQ; Wed, 14 Apr 2021 17:47:47 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id dFpQkIG4gs6a; Wed, 14 Apr 2021 20:25:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0F9CA845B4;
-	Wed, 14 Apr 2021 17:47:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 582D740678;
+	Wed, 14 Apr 2021 20:25:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E24B1C000A;
-	Wed, 14 Apr 2021 17:47:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 05690C0012;
+	Wed, 14 Apr 2021 20:25:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 82EDEC000A
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 17:47:44 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F71BC000A
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 20:25:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5D094607DF
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 17:47:44 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5D95784457
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 20:25:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f2mrXgMH_3Cl for <iommu@lists.linux-foundation.org>;
- Wed, 14 Apr 2021 17:47:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 81C8C606B8
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 17:47:36 +0000 (UTC)
-Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FL8nJ6kwxz6898S;
- Thu, 15 Apr 2021 01:37:40 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 14 Apr 2021 19:47:33 +0200
-Received: from [10.47.25.158] (10.47.25.158) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 14 Apr
- 2021 18:47:32 +0100
-From: John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH 1/6] iommu: Move IOVA power-of-2 roundup into allocator
-To: Robin Murphy <robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>, 
- "will@kernel.org" <will@kernel.org>, "jejb@linux.ibm.com"
- <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>, "hch@lst.de" <hch@lst.de>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>
-References: <1616160348-29451-1-git-send-email-john.garry@huawei.com>
- <1616160348-29451-2-git-send-email-john.garry@huawei.com>
- <ee935a6d-a94c-313e-f0ed-e14cc6dac055@arm.com>
- <73d459de-b5cc-e2f5-bcd7-2ee23c8d5075@huawei.com>
- <afc2fc05-a799-cb14-debd-d36afed8f456@arm.com>
- <08c0f4b9-8713-fa97-3986-3cfb0d6b820b@huawei.com>
- <e4b9146a-ca32-50f5-4fe0-42aa0b66d2d6@arm.com>
- <4914d134-5a63-f683-b14b-25ab71a57cd4@huawei.com>
-Message-ID: <8fce915b-18fa-2bfb-66d7-325cb7837894@huawei.com>
-Date: Wed, 14 Apr 2021 18:44:58 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=embeddedor.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5yEqA71p5tsm for <iommu@lists.linux-foundation.org>;
+ Wed, 14 Apr 2021 20:25:32 +0000 (UTC)
+X-Greylist: delayed 00:21:02 by SQLgrey-1.8.0
+Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com
+ [192.185.145.4])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 4D6748444D
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 20:25:32 +0000 (UTC)
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+ by gateway33.websitewelcome.com (Postfix) with ESMTP id 19D63D79945
+ for <iommu@lists.linux-foundation.org>;
+ Wed, 14 Apr 2021 15:04:20 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id WlkJl9FAIL7DmWlkJlM7Bb; Wed, 14 Apr 2021 15:04:20 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=I55bdEFQX4moo7BAVIRls7hGJWpEXoU8cYRMSjJc/ns=; b=SpJOcVLYwguf8IF31YAypIuX5M
+ zt7P8mqVXdcqQ7CdS4VxwIPQIdU1El+WOZH/z4clqIC0tra3ff7o1vX9915F8qeX4CphNwuzJOAxl
+ CCYzMEEaQnxbZhYvimw8ZGh4O9MQ9xDRdM2DzkIRNSnAwX3dOV1akmqN9ITjTk56o2VlgwQt0A6KX
+ f/6qimDjq+bQ5JmmJmW4ztGacvkxNy0vnsmc658IIncahYUXeV+XabjEJD0DaKUeeatjdJQ8dP2UW
+ MeR+MIQDyHp0pb5fR4ucU1WVKhnuE2g5Eop6sp7cYV2ex6Q+hSVo9UCGcK3R7ywECgPqh+DcjtWZ1
+ zF8JXocw==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:60882
+ helo=[192.168.15.8])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1lWlkG-000GGN-IV; Wed, 14 Apr 2021 15:04:16 -0500
+Subject: Re: [PATCH][next] iommu/vt-d: Fix out-bounds-warning in
+ intel_svm_page_response()
+To: Lu Baolu <baolu.lu@linux.intel.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>
+References: <20210413195409.GA322376@embeddedor>
+ <61b37f83-eb9e-cf81-c5e6-ca322f76f490@linux.intel.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <4ffdd120-d46d-f44e-ba66-000e95fc9b1a@embeddedor.com>
+Date: Wed, 14 Apr 2021 15:04:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <4914d134-5a63-f683-b14b-25ab71a57cd4@huawei.com>
+In-Reply-To: <61b37f83-eb9e-cf81-c5e6-ca322f76f490@linux.intel.com>
 Content-Language: en-US
-X-Originating-IP: [10.47.25.158]
-X-ClientProxiedBy: lhreml730-chm.china.huawei.com (10.201.108.81) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- Linuxarm <linuxarm@huawei.com>
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux-foundation.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1lWlkG-000GGN-IV
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
+ [187.162.31.110]:60882
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 6
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,54 +111,50 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 06/04/2021 17:54, John Garry wrote:
-
-Hi Robin,
-
-> 
->> Sorry if the phrasing was unclear there - the allusion to default 
->> domains is new, it just occurred to me that what we do there is in 
->> fact fairly close to what I've suggested previously for this. In that 
->> case, we have a global policy set by the command line, which *can* be 
->> overridden per-domain via sysfs at runtime, provided the user is 
->> willing to tear the whole thing down. Using a similar approach here 
->> would give a fair degree of flexibility but still mean that changes 
->> never have to be made dynamically to a live domain.
-> 
-> So are you saying that we can handle it similar to how we now can handle 
-> changing default domain for an IOMMU group via sysfs? If so, that just 
-> is not practical here. Reason being that this particular DMA engine 
-> provides the block device giving / mount point, so if we unbind the 
-> driver, we lose / mount point.
-> 
-> And I am not sure if the end user would even know how to set such a 
-> tunable. Or, in this case, why the end user would not want the optimized 
-> range configured always.
-> 
-> I'd still rather if the device driver could provide info which can be 
-> used to configure this before or during probing.
-
-As a new solution, how about do both of these:
-a. Add a per-IOMMU group sysfs file to set this tunable. Works same as 
-how we change the default domain, and has all the same 
-restrictions/steps. I think that this is what you are already suggesting.
-b. Provide a DMA mapping API to set this value, similar to this current 
-series. In the IOMMU backend for that API, we record a new range value 
-and return -EPROBE_DEFER when successful. In the reprobe we reset the 
-default domain for the devices' IOMMU group, with the IOVA domain rcache 
-range configured as previously requested. Again, allocating the new 
-default domain is similar to how we change default domain type today.
-This means that we don't play with a live domain. Downside is that we 
-need to defer the probe.
-
-Thanks,
-John
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgQmFsb3UsCgpPbiA0LzE0LzIxIDAwOjI0LCBMdSBCYW9sdSB3cm90ZToKPiBIaSBHdXN0YXZv
+LAo+IAo+IE9uIDQvMTQvMjEgMzo1NCBBTSwgR3VzdGF2byBBLiBSLiBTaWx2YSB3cm90ZToKPj4g
+UmVwbGFjZSBjYWxsIHRvIG1lbWNweSgpIHdpdGgganVzdCBhIGNvdXBsZSBvZiBzaW1wbGUgYXNz
+aWdubWVudHMgaW4KPj4gb3JkZXIgdG8gZml4IHRoZSBmb2xsb3dpbmcgb3V0LW9mLWJvdW5kcyB3
+YXJuaW5nOgo+Pgo+PiBkcml2ZXJzL2lvbW11L2ludGVsL3N2bS5jOjExOTg6NDogd2FybmluZzog
+J21lbWNweScgb2Zmc2V0IFsyNSwgMzJdIGZyb20gdGhlIG9iamVjdCBhdCAnZGVzYycgaXMgb3V0
+IG9mIHRoZSBib3VuZHMgb2YgcmVmZXJlbmNlZCBzdWJvYmplY3QgJ3F3Micgd2l0aCB0eXBlCj4+
+ICdsb25nIGxvbmcgdW5zaWduZWQgaW50JyBhdCBvZmZzZXQgMTYgWy1XYXJyYXktYm91bmRzXQo+
+Pgo+PiBUaGUgcHJvYmxlbSBpcyB0aGF0IHRoZSBvcmlnaW5hbCBjb2RlIGlzIHRyeWluZyB0byBj
+b3B5IGRhdGEgaW50byBhCj4+IGNvdXBsZSBvZiBzdHJ1Y3QgbWVtYmVycyBhZGphY2VudCB0byBl
+YWNoIG90aGVyIGluIGEgc2luZ2xlIGNhbGwgdG8KPj4gbWVtY3B5KCkuIFRoaXMgY2F1c2VzIGEg
+bGVnaXRpbWF0ZSBjb21waWxlciB3YXJuaW5nIGJlY2F1c2UgbWVtY3B5KCkKPj4gb3ZlcnJ1bnMg
+dGhlIGxlbmd0aCBvZiAmZGVzYy5xdzIuCj4+Cj4+IFRoaXMgaGVscHMgd2l0aCB0aGUgb25nb2lu
+ZyBlZmZvcnRzIHRvIGdsb2JhbGx5IGVuYWJsZSAtV2FycmF5LWJvdW5kcwo+PiBhbmQgZ2V0IHVz
+IGNsb3NlciB0byBiZWluZyBhYmxlIHRvIHRpZ2h0ZW4gdGhlIEZPUlRJRllfU09VUkNFIHJvdXRp
+bmVzCj4+IG9uIG1lbWNweSgpLgo+Pgo+PiBMaW5rOiBodHRwczovL2dpdGh1Yi5jb20vS1NQUC9s
+aW51eC9pc3N1ZXMvMTA5Cj4+IFNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1
+c3Rhdm9hcnNAa2VybmVsLm9yZz4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvaW9tbXUvaW50ZWwvc3Zt
+LmMgfCA3ICsrKystLS0KPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMyBk
+ZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvc3ZtLmMg
+Yi9kcml2ZXJzL2lvbW11L2ludGVsL3N2bS5jCj4+IGluZGV4IDUxNjVjZWE5MDQyMS4uNjU5MDlm
+NTA0YzUwIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2lvbW11L2ludGVsL3N2bS5jCj4+ICsrKyBi
+L2RyaXZlcnMvaW9tbXUvaW50ZWwvc3ZtLmMKPj4gQEAgLTExOTQsOSArMTE5NCwxMCBAQCBpbnQg
+aW50ZWxfc3ZtX3BhZ2VfcmVzcG9uc2Uoc3RydWN0IGRldmljZSAqZGV2LAo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqAgZGVzYy5xdzEgPSBRSV9QR1JQX0lEWChwcm0tPmdycGlkKSB8IFFJX1BHUlBfTFBJ
+RyhsYXN0X3BhZ2UpOwo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZGVzYy5xdzIgPSAwOwo+PiDCoMKg
+wqDCoMKgwqDCoMKgwqAgZGVzYy5xdzMgPSAwOwo+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKHByaXZh
+dGVfcHJlc2VudCkKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWVtY3B5KCZkZXNjLnF3Miwg
+cHJtLT5wcml2YXRlX2RhdGEsCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgc2l6ZW9mKHBybS0+cHJpdmF0ZV9kYXRhKSk7Cj4gCj4gVGhlIHNhbWUgbWVtY3B5KCkgaXMg
+dXNlZCBpbiBtdWx0aXBsZSBwbGFjZXMgaW4gdGhpcyBmaWxlLiBEaWQgdGhleQo+IGNvbXBpbGUg
+dGhlIHNhbWUgd2FybmluZ3M/IE9yIHRoZXJlIGFyZSBtdWx0aXBsZSBwYXRjaGVzIHRvIGZpeCB0
+aGVtCj4gb25lIGJ5IG9uZT8KCkkganVzdCBzZWUgb25lIG1vcmUgaW5zdGFuY2Ugb2YgdGhpcyBz
+YW1lIGNhc2U6CgoxMDIzICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChyZXEtPnByaXZfZGF0
+YV9wcmVzZW50KQoxMDI0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWVtY3B5KCZy
+ZXNwLnF3MiwgcmVxLT5wcml2X2RhdGEsCjEwMjUgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgc2l6ZW9mKHJlcS0+cHJpdl9kYXRhKSk7CgpJIG1pc3NlZCBpdCBhbmQgSSds
+bCBhZGRyZXNzIGl0IGluIHYyLiBEbyB5b3Ugc2VlIGFub3RoZXIgb25lPwoKVGhhbmtzIGZvciB0
+aGUgZmVlZGJhY2shCi0tCkd1c3Rhdm8KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3Vu
+ZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0
+aW5mby9pb21tdQ==
