@@ -2,58 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126D435F7C8
-	for <lists.iommu@lfdr.de>; Wed, 14 Apr 2021 17:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2C535F7CD
+	for <lists.iommu@lfdr.de>; Wed, 14 Apr 2021 17:47:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1E06D4017E;
-	Wed, 14 Apr 2021 15:45:58 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6E53C400D2;
+	Wed, 14 Apr 2021 15:47:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fzPNDro-0S57; Wed, 14 Apr 2021 15:45:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3FE6B4013A;
-	Wed, 14 Apr 2021 15:45:57 +0000 (UTC)
+	with ESMTP id tx7HN9Hgy-oi; Wed, 14 Apr 2021 15:47:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 981F44017E;
+	Wed, 14 Apr 2021 15:47:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D666C0012;
-	Wed, 14 Apr 2021 15:45:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75886C0012;
+	Wed, 14 Apr 2021 15:47:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B1E2C000A
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 15:45:55 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A55CC000A
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 15:47:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 46EE4400D2
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 15:45:55 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2C07D842BB
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 15:47:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id W0vxAW1dLX05 for <iommu@lists.linux-foundation.org>;
- Wed, 14 Apr 2021 15:45:54 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id T0l1q2TZ1yTp for <iommu@lists.linux-foundation.org>;
+ Wed, 14 Apr 2021 15:47:34 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B61734017E
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 15:45:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B73761164;
- Wed, 14 Apr 2021 15:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1618415154;
- bh=hfUH+l4yceoC3AqTD4Kdw7lyf+fTM5LhOB+L96OLehc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0tjSNZK6avIABrfXwQbVKug5rACXB5oWomA2ezly6jw95g6/7PUCtVF1oFXJ5wVHE
- FcBEykVjCai8T/rSms3YMehK5wMagFIRVK/CLORkifh3WpNOfF3hyOve3c38SON951
- OhI8K1OOAlcNulMnOPPJBC9QO9eAi8eEwbOuV7Q8=
-Date: Wed, 14 Apr 2021 17:45:51 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 81A5282419
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 15:47:34 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 0127168C7B; Wed, 14 Apr 2021 17:47:30 +0200 (CEST)
+Date: Wed, 14 Apr 2021 17:47:29 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: Tianyu Lan <ltykernel@gmail.com>
-Subject: Re: [Resend RFC PATCH V2 08/12] UIO/Hyper-V: Not load UIO HV driver
- in the isolation VM.
-Message-ID: <YHcOL+HlEoh5jPb8@kroah.com>
+Subject: Re: [Resend RFC PATCH V2 10/12] HV/IOMMU: Add Hyper-V dma ops support
+Message-ID: <20210414154729.GD32045@lst.de>
 References: <20210414144945.3460554-1-ltykernel@gmail.com>
- <20210414144945.3460554-9-ltykernel@gmail.com>
+ <20210414144945.3460554-11-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210414144945.3460554-9-ltykernel@gmail.com>
+In-Reply-To: <20210414144945.3460554-11-ltykernel@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, linux-mm@kvack.org,
  hpa@zytor.com, kys@microsoft.com, will@kernel.org, hch@lst.de,
  linux-arch@vger.kernel.org, wei.liu@kernel.org, sthemmin@microsoft.com,
@@ -61,9 +54,10 @@ Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, linux-mm@kvack.org,
  jejb@linux.ibm.com, thomas.lendacky@amd.com,
  Tianyu Lan <Tianyu.Lan@microsoft.com>, arnd@arndb.de, konrad.wilk@oracle.com,
  haiyangz@microsoft.com, bp@alien8.de, tglx@linutronix.de, vkuznets@redhat.com,
- martin.petersen@oracle.com, netdev@vger.kernel.org, sunilmut@microsoft.com,
+ martin.petersen@oracle.com, gregkh@linuxfoundation.org, sunilmut@microsoft.com,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- akpm@linux-foundation.org, robin.murphy@arm.com, davem@davemloft.net
+ netdev@vger.kernel.org, akpm@linux-foundation.org, robin.murphy@arm.com,
+ davem@davemloft.net
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,47 +75,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Apr 14, 2021 at 10:49:41AM -0400, Tianyu Lan wrote:
-> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> 
-> UIO HV driver should not load in the isolation VM for security reason.
-> Return ENOTSUPP in the hv_uio_probe() in the isolation VM.
-> 
-> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> ---
->  drivers/uio/uio_hv_generic.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-> index 0330ba99730e..678b021d66f8 100644
-> --- a/drivers/uio/uio_hv_generic.c
-> +++ b/drivers/uio/uio_hv_generic.c
-> @@ -29,6 +29,7 @@
->  #include <linux/hyperv.h>
->  #include <linux/vmalloc.h>
->  #include <linux/slab.h>
-> +#include <asm/mshyperv.h>
->  
->  #include "../hv/hyperv_vmbus.h"
->  
-> @@ -241,6 +242,10 @@ hv_uio_probe(struct hv_device *dev,
->  	void *ring_buffer;
->  	int ret;
->  
-> +	/* UIO driver should not be loaded in the isolation VM.*/
-> +	if (hv_is_isolation_supported())
-> +		return -ENOTSUPP;
-> +		
->  	/* Communicating with host has to be via shared memory not hypercall */
->  	if (!channel->offermsg.monitor_allocated) {
->  		dev_err(&dev->device, "vmbus channel requires hypercall\n");
-> -- 
-> 2.25.1
-> 
+> +static dma_addr_t hyperv_map_page(struct device *dev, struct page *page,
+> +				  unsigned long offset, size_t size,
+> +				  enum dma_data_direction dir,
+> +				  unsigned long attrs)
+> +{
+> +	phys_addr_t map, phys = (page_to_pfn(page) << PAGE_SHIFT) + offset;
+> +
+> +	if (!hv_is_isolation_supported())
+> +		return phys;
+> +
+> +	map = swiotlb_tbl_map_single(dev, phys, size, HV_HYP_PAGE_SIZE, dir,
+> +				     attrs);
+> +	if (map == (phys_addr_t)DMA_MAPPING_ERROR)
+> +		return DMA_MAPPING_ERROR;
+> +
+> +	return map;
+> +}
 
-Again you send out known-wrong patches?
+This largerly duplicates what dma-direct + swiotlb does.  Please use
+force_dma_unencrypted to force bounce buffering and just use the generic
+code.
 
-:(
+> +	if (hv_isolation_type_snp()) {
+> +		ret = hv_set_mem_host_visibility(
+> +				phys_to_virt(hyperv_io_tlb_start),
+> +				hyperv_io_tlb_size,
+> +				VMBUS_PAGE_VISIBLE_READ_WRITE);
+> +		if (ret)
+> +			panic("%s: Fail to mark Hyper-v swiotlb buffer visible to host. err=%d\n",
+> +			      __func__, ret);
+> +
+> +		hyperv_io_tlb_remap = ioremap_cache(hyperv_io_tlb_start
+> +					    + ms_hyperv.shared_gpa_boundary,
+> +						    hyperv_io_tlb_size);
+> +		if (!hyperv_io_tlb_remap)
+> +			panic("%s: Fail to remap io tlb.\n", __func__);
+> +
+> +		memset(hyperv_io_tlb_remap, 0x00, hyperv_io_tlb_size);
+> +		swiotlb_set_bounce_remap(hyperv_io_tlb_remap);
+
+And this really needs to go into a common hook where we currently just
+call set_memory_decrypted so that all the different schemes for these
+trusted VMs (we have about half a dozen now) can share code rather than
+reinventing it.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
