@@ -1,75 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2B835EE04
-	for <lists.iommu@lfdr.de>; Wed, 14 Apr 2021 09:09:24 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0A135EE0F
+	for <lists.iommu@lfdr.de>; Wed, 14 Apr 2021 09:24:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 60D1060D70;
-	Wed, 14 Apr 2021 07:09:23 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 724DC83CB7;
+	Wed, 14 Apr 2021 07:24:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G6GcGtYulerC; Wed, 14 Apr 2021 07:09:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BDDBD60D6E;
-	Wed, 14 Apr 2021 07:09:20 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4beafafRQzeS; Wed, 14 Apr 2021 07:24:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6F6D883C98;
+	Wed, 14 Apr 2021 07:24:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 936EBC0012;
-	Wed, 14 Apr 2021 07:09:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E87BC000A;
+	Wed, 14 Apr 2021 07:24:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1D7A7C000A
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 07:09:19 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 02F6BC000A
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 07:24:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0A37D83C99
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 07:09:19 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id D56F283C00
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 07:24:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RKaIEZUoBgNV for <iommu@lists.linux-foundation.org>;
- Wed, 14 Apr 2021 07:09:17 +0000 (UTC)
+ with ESMTP id xd0OzL3Yl7xl for <iommu@lists.linux-foundation.org>;
+ Wed, 14 Apr 2021 07:24:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4959983C95
- for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 07:09:17 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FKtnX0Pphz9yT7;
- Wed, 14 Apr 2021 15:06:56 +0800 (CST)
-Received: from [10.174.185.226] (10.174.185.226) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 14 Apr 2021 15:09:05 +0800
-Subject: Re: [PATCH v15 00/12] SMMUv3 Nested Stage Setup (IOMMU part)
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, "Eric
- Auger" <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
- <eric.auger.pro@gmail.com>, "jean-philippe@linaro.org"
- <jean-philippe@linaro.org>, "iommu@lists.linux-foundation.org"
- <iommu@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
- "will@kernel.org" <will@kernel.org>, "maz@kernel.org" <maz@kernel.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>, "joro@8bytes.org"
- <joro@8bytes.org>, "alex.williamson@redhat.com" <alex.williamson@redhat.com>, 
- "tn@semihalf.com" <tn@semihalf.com>, zhukeqian <zhukeqian1@huawei.com>
-References: <20210411111228.14386-1-eric.auger@redhat.com>
- <55930e46-0a45-0d43-b34e-432cf332b42c@huawei.com>
- <f6b0bcd156e04d0f958cf79a50ac69e2@huawei.com>
-From: Xingang Wang <wangxingang5@huawei.com>
-Message-ID: <2b8aa93c-1c66-fb0c-f98a-0b59980919d3@huawei.com>
-Date: Wed, 14 Apr 2021 15:08:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B496983BE8
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Apr 2021 07:24:14 +0000 (UTC)
+IronPort-SDR: 1sntTJolxMjNEvs0SFuRCLBzt/TfYVZUQh2Q1fCMC7dYDqntk282hNARLV8GBeX1IjmvRxf8Ox
+ QsUnxpShhswg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="194611276"
+X-IronPort-AV: E=Sophos;i="5.82,221,1613462400"; d="scan'208";a="194611276"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2021 00:24:13 -0700
+IronPort-SDR: 35lROPy9KaI3sWZf4uqKtjH/Qunpt9OTUZ5AFPasffdrQiGF7IKnLpGAMJwBXoXQVlETsZ32D6
+ mVt3msA3+Tgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,221,1613462400"; d="scan'208";a="443720741"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.128])
+ ([10.239.159.128])
+ by fmsmga004.fm.intel.com with ESMTP; 14 Apr 2021 00:24:09 -0700
+Subject: Re: [PATCH v3 02/12] iommu: Add iommu_split_block interface
+To: Keqian Zhu <zhukeqian1@huawei.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Tian Kevin <kevin.tian@intel.com>
+References: <20210413085457.25400-1-zhukeqian1@huawei.com>
+ <20210413085457.25400-3-zhukeqian1@huawei.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <fb350f27-be8b-80bf-1ce8-e7e8aba26f02@linux.intel.com>
+Date: Wed, 14 Apr 2021 15:14:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <f6b0bcd156e04d0f958cf79a50ac69e2@huawei.com>
+In-Reply-To: <20210413085457.25400-3-zhukeqian1@huawei.com>
 Content-Language: en-US
-X-Originating-IP: [10.174.185.226]
-X-CFilter-Loop: Reflected
-Cc: xieyingtai@huawei.com, "vsethi@nvidia.com" <vsethi@nvidia.com>,
- cenjiahui@huawei.com, jiangkunkun <jiangkunkun@huawei.com>,
- lushenming <lushenming@huawei.com>,
- "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
- "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>
+Cc: jiangkunkun@huawei.com, Cornelia Huck <cohuck@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, lushenming@huawei.com,
+ Alex Williamson <alex.williamson@redhat.com>, wanghaibin.wang@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,120 +86,88 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Shameer,
-
-On 2021/4/14 14:56, Shameerali Kolothum Thodi wrote:
+On 4/13/21 4:54 PM, Keqian Zhu wrote:
+> Block(largepage) mapping is not a proper granule for dirty log tracking.
+> Take an extreme example, if DMA writes one byte, under 1G mapping, the
+> dirty amount reported is 1G, but under 4K mapping, the dirty amount is
+> just 4K.
 > 
+> This adds a new interface named iommu_split_block in IOMMU base layer.
+> A specific IOMMU driver can invoke it during start dirty log. If so, the
+> driver also need to realize the split_block iommu ops.
 > 
->> -----Original Message-----
->> From: wangxingang
->> Sent: 14 April 2021 03:36
->> To: Eric Auger <eric.auger@redhat.com>; eric.auger.pro@gmail.com;
->> jean-philippe@linaro.org; iommu@lists.linux-foundation.org;
->> linux-kernel@vger.kernel.org; kvm@vger.kernel.org;
->> kvmarm@lists.cs.columbia.edu; will@kernel.org; maz@kernel.org;
->> robin.murphy@arm.com; joro@8bytes.org; alex.williamson@redhat.com;
->> tn@semihalf.com; zhukeqian <zhukeqian1@huawei.com>
->> Cc: jacob.jun.pan@linux.intel.com; yi.l.liu@intel.com; zhangfei.gao@linaro.org;
->> zhangfei.gao@gmail.com; vivek.gautam@arm.com; Shameerali Kolothum
->> Thodi <shameerali.kolothum.thodi@huawei.com>; yuzenghui
->> <yuzenghui@huawei.com>; nicoleotsuka@gmail.com; lushenming
->> <lushenming@huawei.com>; vsethi@nvidia.com; chenxiang (M)
->> <chenxiang66@hisilicon.com>; vdumpa@nvidia.com; jiangkunkun
->> <jiangkunkun@huawei.com>
->> Subject: Re: [PATCH v15 00/12] SMMUv3 Nested Stage Setup (IOMMU part)
->>
->> Hi Eric, Jean-Philippe
->>
->> On 2021/4/11 19:12, Eric Auger wrote:
->>> SMMUv3 Nested Stage Setup (IOMMU part)
->>>
->>> This series brings the IOMMU part of HW nested paging support
->>> in the SMMUv3. The VFIO part is submitted separately.
->>>
->>> This is based on Jean-Philippe's
->>> [PATCH v14 00/10] iommu: I/O page faults for SMMUv3
->>> https://www.spinics.net/lists/arm-kernel/msg886518.html
->>> (including the patches that were not pulled for 5.13)
->>>
->>> The IOMMU API is extended to support 2 new API functionalities:
->>> 1) pass the guest stage 1 configuration
->>> 2) pass stage 1 MSI bindings
->>>
->>> Then those capabilities gets implemented in the SMMUv3 driver.
->>>
->>> The virtualizer passes information through the VFIO user API
->>> which cascades them to the iommu subsystem. This allows the guest
->>> to own stage 1 tables and context descriptors (so-called PASID
->>> table) while the host owns stage 2 tables and main configuration
->>> structures (STE).
->>>
->>> Best Regards
->>>
->>> Eric
->>>
->>> This series can be found at:
->>> v5.12-rc6-jean-iopf-14-2stage-v15
->>> (including the VFIO part in its last version: v13)
->>>
->>
->> I am testing the performance of an accelerator with/without SVA/vSVA,
->> and found there might be some potential performance loss risk for SVA/vSVA.
->>
->> I use a Network and computing encryption device (SEC), and send 1MB
->> request for 10000 times.
->>
->> I trigger mm fault before I send the request, so there should be no iopf.
->>
->> Here's what I got:
->>
->> physical scenario:
->> performance:		SVA:9MB/s  	NOSVA:9MB/s
->> tlb_miss: 		SVA:302,651	NOSVA:1,223
->> trans_table_walk_access:SVA:302,276	NOSVA:1,237
->>
->> VM scenario:
->> performance:		vSVA:9MB/s  	NOvSVA:6MB/s  about 30~40% loss
->> tlb_miss: 		vSVA:4,423,897	NOvSVA:1,907
->> trans_table_walk_access:vSVA:61,928,430	NOvSVA:21,948
->>
->> In physical scenario, there's almost no performance loss, but the
->> tlb_miss and trans_table_walk_access of stage 1 for SVA is quite high,
->> comparing to NOSVA.
->>
->> In VM scenario, there's about 30~40% performance loss, this is because
->> the two stage tlb_miss and trans_table_walk_access is even higher, and
->> impact the performance.
->>
->> I compare the procedure of building page table of SVA and NOSVA, and
->> found that NOSVA uses 2MB mapping as far as possible, while SVA uses
->> only 4KB.
->>
->> I retest with huge page, and huge page could solve this problem, the
->> performance of SVA/vSVA is almost the same as NOSVA.
->>
->> I am wondering do you have any other solution for the performance loss
->> of vSVA, or any other method to reduce the tlb_miss/trans_table_walk.
+> We flush all iotlbs after the whole procedure is completed to ease the
+> pressure of IOMMU, as we will hanle a huge range of mapping in general.
 > 
-> Hi Xingang,
+> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> ---
+>   drivers/iommu/iommu.c | 41 +++++++++++++++++++++++++++++++++++++++++
+>   include/linux/iommu.h | 11 +++++++++++
+>   2 files changed, 52 insertions(+)
 > 
-> Just curious, do you have DVM enabled on this board or does it use explicit
-> SMMU TLB invalidations?
-> 
-> Thanks,
-> Shameer
-> 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 667b2d6d2fc0..bb413a927870 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -2721,6 +2721,47 @@ int iommu_domain_set_attr(struct iommu_domain *domain,
+>   }
+>   EXPORT_SYMBOL_GPL(iommu_domain_set_attr);
+>   
+> +int iommu_split_block(struct iommu_domain *domain, unsigned long iova,
+> +		      size_t size)
+> +{
+> +	const struct iommu_ops *ops = domain->ops;
+> +	unsigned int min_pagesz;
+> +	size_t pgsize;
+> +	bool flush = false;
+> +	int ret = 0;
+> +
+> +	if (unlikely(!ops || !ops->split_block))
+> +		return -ENODEV;
+> +
+> +	min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
+> +	if (!IS_ALIGNED(iova | size, min_pagesz)) {
+> +		pr_err("unaligned: iova 0x%lx size 0x%zx min_pagesz 0x%x\n",
+> +		       iova, size, min_pagesz);
+> +		return -EINVAL;
+> +	}
+> +
+> +	while (size) {
+> +		flush = true;
+> +
+> +		pgsize = iommu_pgsize(domain, iova, size);
+> +
+> +		ret = ops->split_block(domain, iova, pgsize);
+> +		if (ret)
+> +			break;
+> +
+> +		pr_debug("split handled: iova 0x%lx size 0x%zx\n", iova, pgsize);
+> +
+> +		iova += pgsize;
+> +		size -= pgsize;
+> +	}
+> +
+> +	if (flush)
+> +		iommu_flush_iotlb_all(domain);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(iommu_split_block);
 
-For now, DVM is enabled and TLBI is not explicit used.
+Do you really have any consumers of this interface other than the dirty
+bit tracking? If not, I don't suggest to make this as a generic IOMMU
+interface.
 
-And by the way the performance data above is
-performance:	vSVA:9GB/s(not 9MB/s)  NOvSVA:6GB/s(not 6GB/s)
+There is an implicit requirement for such interfaces. The
+iommu_map/unmap(iova, size) shouldn't be called at the same time.
+Currently there's no such sanity check in the iommu core. A poorly
+written driver could mess up the kernel by misusing this interface.
 
-Thanks
+This also applies to iommu_merge_page().
 
-Xingang
-
-.
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
