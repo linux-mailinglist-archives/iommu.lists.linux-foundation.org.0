@@ -2,64 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8157D35FEB4
-	for <lists.iommu@lfdr.de>; Thu, 15 Apr 2021 02:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AFE35FF00
+	for <lists.iommu@lfdr.de>; Thu, 15 Apr 2021 02:46:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2D22F60813;
-	Thu, 15 Apr 2021 00:02:16 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8BB736081A;
+	Thu, 15 Apr 2021 00:46:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TOS9TO6gloBG; Thu, 15 Apr 2021 00:02:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F0CD26081B;
-	Thu, 15 Apr 2021 00:02:14 +0000 (UTC)
+	with ESMTP id dv977zhwFihS; Thu, 15 Apr 2021 00:46:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 816D6607F1;
+	Thu, 15 Apr 2021 00:46:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53D3DC0018;
-	Thu, 15 Apr 2021 00:02:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44154C000A;
+	Thu, 15 Apr 2021 00:46:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D45EC000A
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 00:02:13 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B6FCC000A
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 00:46:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1BDC760814
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 00:02:13 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5BECF40F59
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 00:46:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OcQ9ZpdVaD6T for <iommu@lists.linux-foundation.org>;
- Thu, 15 Apr 2021 00:02:12 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GxVcw67fLQ57 for <iommu@lists.linux-foundation.org>;
+ Thu, 15 Apr 2021 00:46:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 163576081A
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 00:02:12 +0000 (UTC)
-IronPort-SDR: VHyn4S0KLJXIJwmxTw3jzpeCcbcu6YBVLDS3rZpXFMU+kqZsgxe1a9HjqwJ0lUTmYcGJW5ykRN
- Jr0S/NSAgYFw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="174259231"
-X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; d="scan'208";a="174259231"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2021 17:02:10 -0700
-IronPort-SDR: f7FiFk0yD5IXI0t0iOY3dxvX7bZN5VVh0ueuQI8FqA/xdwRryRkB+B113TojbZSSUhDK+UIPn/
- gSBXp1mRvX2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; d="scan'208";a="461415814"
-Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
- by orsmga001.jf.intel.com with ESMTP; 14 Apr 2021 17:02:10 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Joerg Roedel <joro@8bytes.org>, "Lu Baolu" <baolu.lu@linux.intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH v2 2/2] iommu/sva: Remove mm parameter from SVA bind API
-Date: Wed, 14 Apr 2021 08:27:57 -0700
-Message-Id: <1618414077-28808-3-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618414077-28808-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1618414077-28808-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Raj Ashok <ashok.raj@intel.com>, vkoul@kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, zhangfei.gao@linaro.org
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id BCEBD40F56
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 00:46:43 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FLLFf3sFvz16KDb;
+ Thu, 15 Apr 2021 08:44:22 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.151.207) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 15 Apr 2021 08:46:31 +0800
+From: "Longpeng(Mike)" <longpeng2@huawei.com>
+To: <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] iommu/vt-d: Force to flush iotlb before creating superpage
+Date: Thu, 15 Apr 2021 08:46:28 +0800
+Message-ID: <20210415004628.1779-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
+MIME-Version: 1.0
+X-Originating-IP: [10.174.151.207]
+X-CFilter-Loop: Reflected
+Cc: Kevin Tian <kevin.tian@intel.com>, David Woodhouse <dwmw2@infradead.org>,
+ stable@vger.kernel.org, Alex
+ Williamson <alex.williamson@redhat.com>, Gonglei <arei.gonglei@huawei.com>,
+ longpeng2@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,192 +65,156 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The mm parameter in iommu_sva_bind_device() is intended for privileged
-process perform bind() on behalf of other processes. This use case has
-yet to be materialized, let alone potential security implications of
-adding kernel hooks without explicit user consent.
-In addition, with the agreement that IOASID allocation shall be subject
-cgroup limit. It will be inline with misc cgroup proposal if IOASID
-allocation as part of the SVA bind is limited to the current task.
+The translation caches may preserve obsolete data when the
+mapping size is changed, suppose the following sequence which
+can reveal the problem with high probability.
 
-Link: https://lore.kernel.org/linux-iommu/20210303160205.151d114e@jacob-builder/
-Link: https://lore.kernel.org/linux-iommu/YFhiMLR35WWMW%2FHu@myrica/
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+1.mmap(4GB,MAP_HUGETLB)
+2.
+  while (1) {
+   (a)    DMA MAP   0,0xa0000
+   (b)    DMA UNMAP 0,0xa0000
+   (c)    DMA MAP   0,0xc0000000
+             * DMA read IOVA 0 may failure here (Not present)
+             * if the problem occurs.
+   (d)    DMA UNMAP 0,0xc0000000
+  }
+
+The page table(only focus on IOVA 0) after (a) is:
+ PML4: 0x19db5c1003   entry:0xffff899bdcd2f000
+  PDPE: 0x1a1cacb003  entry:0xffff89b35b5c1000
+   PDE: 0x1a30a72003  entry:0xffff89b39cacb000
+    PTE: 0x21d200803  entry:0xffff89b3b0a72000
+
+The page table after (b) is:
+ PML4: 0x19db5c1003   entry:0xffff899bdcd2f000
+  PDPE: 0x1a1cacb003  entry:0xffff89b35b5c1000
+   PDE: 0x1a30a72003  entry:0xffff89b39cacb000
+    PTE: 0x0          entry:0xffff89b3b0a72000
+
+The page table after (c) is:
+ PML4: 0x19db5c1003   entry:0xffff899bdcd2f000
+  PDPE: 0x1a1cacb003  entry:0xffff89b35b5c1000
+   PDE: 0x21d200883   entry:0xffff89b39cacb000 (*)
+
+Because the PDE entry after (b) is present, it won't be
+flushed even if the iommu driver flush cache when unmap,
+so the obsolete data may be preserved in cache, which
+would cause the wrong translation at end.
+
+However, we can see the PDE entry is finally switch to
+2M-superpage mapping, but it does not transform
+to 0x21d200883 directly:
+
+1. PDE: 0x1a30a72003
+2. __domain_mapping
+     dma_pte_free_pagetable
+       Set the PDE entry to ZERO
+     Set the PDE entry to 0x21d200883
+
+So we must flush the cache after the entry switch to ZERO
+to avoid the obsolete info be preserved.
+
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Nadav Amit <nadav.amit@gmail.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Gonglei (Arei) <arei.gonglei@huawei.com>
+
+Fixes: 6491d4d02893 ("intel-iommu: Free old page tables before creating superpage")
+Cc: <stable@vger.kernel.org> # v3.0+
+Link: https://lore.kernel.org/linux-iommu/670baaf8-4ff8-4e84-4be3-030b95ab5a5e@huawei.com/
+Suggested-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 ---
- drivers/dma/idxd/cdev.c       |  2 +-
- drivers/dma/idxd/init.c       |  2 +-
- drivers/iommu/iommu-sva-lib.c | 11 +++++++----
- drivers/iommu/iommu.c         | 20 +++++++++++++-------
- drivers/misc/uacce/uacce.c    |  2 +-
- include/linux/iommu.h         |  3 +--
- 6 files changed, 24 insertions(+), 16 deletions(-)
+v1 -> v2:
+  - add Joerg
+  - reconstruct the solution base on the Baolu's suggestion
+---
+ drivers/iommu/intel/iommu.c | 52 +++++++++++++++++++++++++++++++++------------
+ 1 file changed, 38 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/dma/idxd/cdev.c b/drivers/dma/idxd/cdev.c
-index 21ec82bc47b6..8c3347c8930c 100644
---- a/drivers/dma/idxd/cdev.c
-+++ b/drivers/dma/idxd/cdev.c
-@@ -103,7 +103,7 @@ static int idxd_cdev_open(struct inode *inode, struct file *filp)
- 	filp->private_data = ctx;
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index ee09323..881c9f2 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -2289,6 +2289,41 @@ static inline int hardware_largepage_caps(struct dmar_domain *domain,
+ 	return level;
+ }
  
- 	if (device_pasid_enabled(idxd)) {
--		sva = iommu_sva_bind_device(dev, current->mm, 0);
-+		sva = iommu_sva_bind_device(dev, 0);
- 		if (IS_ERR(sva)) {
- 			rc = PTR_ERR(sva);
- 			dev_err(dev, "pasid allocation failed: %d\n", rc);
-diff --git a/drivers/dma/idxd/init.c b/drivers/dma/idxd/init.c
-index 82a0985ad6dc..a92fa625f3b5 100644
---- a/drivers/dma/idxd/init.c
-+++ b/drivers/dma/idxd/init.c
-@@ -305,7 +305,7 @@ static int idxd_enable_system_pasid(struct idxd_device *idxd)
- 
- 	flags = IOMMU_SVA_BIND_SUPERVISOR;
- 
--	sva = iommu_sva_bind_device(&idxd->pdev->dev, NULL, flags);
-+	sva = iommu_sva_bind_device(&idxd->pdev->dev, flags);
- 	if (IS_ERR(sva)) {
- 		dev_warn(&idxd->pdev->dev,
- 			 "iommu sva bind failed: %ld\n", PTR_ERR(sva));
-diff --git a/drivers/iommu/iommu-sva-lib.c b/drivers/iommu/iommu-sva-lib.c
-index bd41405d34e9..6e3d1a010d47 100644
---- a/drivers/iommu/iommu-sva-lib.c
-+++ b/drivers/iommu/iommu-sva-lib.c
-@@ -12,13 +12,13 @@ static DECLARE_IOASID_SET(iommu_sva_pasid);
- 
- /**
-  * iommu_sva_alloc_pasid - Allocate a PASID for the mm
-- * @mm: the mm
-  * @min: minimum PASID value (inclusive)
-  * @max: maximum PASID value (inclusive)
-  *
-- * Try to allocate a PASID for this mm, or take a reference to the existing one
-- * provided it fits within the [@min, @max] range. On success the PASID is
-- * available in mm->pasid, and must be released with iommu_sva_free_pasid().
-+ * Try to allocate a PASID for the current mm, or take a reference to the
-+ * existing one provided it fits within the [@min, @max] range. On success
-+ * the PASID is available in the current mm->pasid, and must be released with
-+ * iommu_sva_free_pasid().
-  * @min must be greater than 0, because 0 indicates an unused mm->pasid.
-  *
-  * Returns 0 on success and < 0 on error.
-@@ -28,6 +28,9 @@ int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
- 	int ret = 0;
- 	ioasid_t pasid;
- 
-+	if (mm != current->mm)
-+		return -EINVAL;
++/*
++ * Ensure that old small page tables are removed to make room for superpage(s).
++ * We're going to add new large pages, so make sure we don't remove their parent
++ * tables. The IOTLB/devTLBs should be flushed if any PDE/PTEs are cleared.
++ */
++static void switch_to_super_page(struct dmar_domain *domain,
++				 unsigned long start_pfn,
++				 unsigned long end_pfn, int level)
++{
++	unsigned long lvl_pages = lvl_to_nr_pages(level);
++	struct dma_pte *pte = NULL;
++	int i;
 +
- 	if (min == INVALID_IOASID || max == INVALID_IOASID ||
- 	    min == 0 || max < min)
- 		return -EINVAL;
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index eefa541d8674..5bbc35c395a6 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -23,6 +23,7 @@
- #include <linux/property.h>
- #include <linux/fsl/mc.h>
- #include <linux/module.h>
-+#include <linux/sched/mm.h>
- #include <trace/events/iommu.h>
- 
- static struct kset *iommu_group_kset;
-@@ -2959,15 +2960,14 @@ int iommu_aux_get_pasid(struct iommu_domain *domain, struct device *dev)
- EXPORT_SYMBOL_GPL(iommu_aux_get_pasid);
- 
- /**
-- * iommu_sva_bind_device() - Bind a process address space to a device
-+ * iommu_sva_bind_device() - Bind the current process address space to a device
-  * @dev: the device
-- * @mm: the mm to bind, caller must hold a reference to it
-  * @flags: options for the bind operation defined as IOMMU_SVA_BIND_*
-  *
-  * Create a bond between device and address space, allowing the device to access
-  * the mm using the returned PASID. If a bond already exists between @device and
-- * @mm, it is returned and an additional reference is taken. Caller must call
-- * iommu_sva_unbind_device() to release each reference.
-+ * the current mm, it is returned and an additional reference is taken. Caller
-+ * must call iommu_sva_unbind_device() to release each reference.
-  *
-  * iommu_dev_enable_feature(dev, IOMMU_DEV_FEAT_SVA) must be called first, to
-  * initialize the required SVA features.
-@@ -2975,9 +2975,10 @@ EXPORT_SYMBOL_GPL(iommu_aux_get_pasid);
-  * On error, returns an ERR_PTR value.
-  */
- struct iommu_sva *
--iommu_sva_bind_device(struct device *dev, struct mm_struct *mm, unsigned int flags)
-+iommu_sva_bind_device(struct device *dev, unsigned int flags)
- {
- 	struct iommu_group *group;
-+	struct mm_struct *mm = NULL;
- 	struct iommu_sva *handle = ERR_PTR(-EINVAL);
- 	const struct iommu_ops *ops = dev->bus->iommu_ops;
- 
-@@ -2989,8 +2990,11 @@ iommu_sva_bind_device(struct device *dev, struct mm_struct *mm, unsigned int fla
- 		return ERR_PTR(-ENODEV);
- 
- 	/* Supervisor SVA does not need the current mm */
--	if ((flags & IOMMU_SVA_BIND_SUPERVISOR) && mm)
--		return ERR_PTR(-EINVAL);
-+	if (!(flags & IOMMU_SVA_BIND_SUPERVISOR)) {
-+		mm = get_task_mm(current);
-+		if (!mm)
-+			return ERR_PTR(-EINVAL);
++	while (start_pfn <= end_pfn) {
++		if (!pte)
++			pte = pfn_to_dma_pte(domain, start_pfn, &level);
++
++		if (dma_pte_present(pte)) {
++			dma_pte_free_pagetable(domain, start_pfn,
++					       start_pfn + lvl_pages - 1,
++					       level + 1);
++
++			for_each_domain_iommu(i, domain)
++				iommu_flush_iotlb_psi(g_iommus[i], domain,
++						      start_pfn, lvl_pages,
++						      0, 0);
++		}
++
++		pte++;
++		start_pfn += lvl_pages;
++		if (first_pte_in_page(pte))
++			pte = NULL;
 +	}
- 	/* Ensure device count and domain don't change while we're binding */
- 	mutex_lock(&group->mutex);
++}
++
+ static int
+ __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
+ 		 unsigned long phys_pfn, unsigned long nr_pages, int prot)
+@@ -2329,22 +2364,11 @@ static inline int hardware_largepage_caps(struct dmar_domain *domain,
+ 				return -ENOMEM;
+ 			/* It is large page*/
+ 			if (largepage_lvl > 1) {
+-				unsigned long nr_superpages, end_pfn;
++				unsigned long end_pfn;
  
-@@ -3004,6 +3008,8 @@ iommu_sva_bind_device(struct device *dev, struct mm_struct *mm, unsigned int fla
- 		goto out_unlock;
- 
- 	handle = ops->sva_bind(dev, mm, flags);
-+	if (mm)
-+		mmput(mm);
- out_unlock:
- 	mutex_unlock(&group->mutex);
- 	iommu_group_put(group);
-diff --git a/drivers/misc/uacce/uacce.c b/drivers/misc/uacce/uacce.c
-index 27e0e04dfcab..da4401a3d8f5 100644
---- a/drivers/misc/uacce/uacce.c
-+++ b/drivers/misc/uacce/uacce.c
-@@ -99,7 +99,7 @@ static int uacce_bind_queue(struct uacce_device *uacce, struct uacce_queue *q)
- 	if (!(uacce->flags & UACCE_DEV_SVA))
- 		return 0;
- 
--	handle = iommu_sva_bind_device(uacce->parent, current->mm, 0);
-+	handle = iommu_sva_bind_device(uacce->parent, 0);
- 	if (IS_ERR(handle))
- 		return PTR_ERR(handle);
- 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index ba81cec0b086..4e846950a6b9 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -652,7 +652,6 @@ void iommu_aux_detach_device(struct iommu_domain *domain, struct device *dev);
- int iommu_aux_get_pasid(struct iommu_domain *domain, struct device *dev);
- 
- struct iommu_sva *iommu_sva_bind_device(struct device *dev,
--					struct mm_struct *mm,
- 					unsigned int flags);
- void iommu_sva_unbind_device(struct iommu_sva *handle);
- u32 iommu_sva_get_pasid(struct iommu_sva *handle);
-@@ -1028,7 +1027,7 @@ iommu_aux_get_pasid(struct iommu_domain *domain, struct device *dev)
- }
- 
- static inline struct iommu_sva *
--iommu_sva_bind_device(struct device *dev, struct mm_struct *mm, unsigned int flags)
-+iommu_sva_bind_device(struct device *dev, unsigned int flags)
- {
- 	return NULL;
- }
+ 				pteval |= DMA_PTE_LARGE_PAGE;
+-				lvl_pages = lvl_to_nr_pages(largepage_lvl);
+-
+-				nr_superpages = nr_pages / lvl_pages;
+-				end_pfn = iov_pfn + nr_superpages * lvl_pages - 1;
+-
+-				/*
+-				 * Ensure that old small page tables are
+-				 * removed to make room for superpage(s).
+-				 * We're adding new large pages, so make sure
+-				 * we don't remove their parent tables.
+-				 */
+-				dma_pte_free_pagetable(domain, iov_pfn, end_pfn,
+-						       largepage_lvl + 1);
++				end_pfn = ((iov_pfn + nr_pages) & level_mask(largepage_lvl)) - 1;
++				switch_to_super_page(domain, iov_pfn, end_pfn, largepage_lvl);
+ 			} else {
+ 				pteval &= ~(uint64_t)DMA_PTE_LARGE_PAGE;
+ 			}
 -- 
-2.25.1
+1.8.3.1
 
 _______________________________________________
 iommu mailing list
