@@ -1,54 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374C7360C19
-	for <lists.iommu@lfdr.de>; Thu, 15 Apr 2021 16:44:55 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9CE360C1F
+	for <lists.iommu@lfdr.de>; Thu, 15 Apr 2021 16:47:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B33B0414D8;
-	Thu, 15 Apr 2021 14:44:53 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 44CA560D7E;
+	Thu, 15 Apr 2021 14:47:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XYAiUwKMOQsX; Thu, 15 Apr 2021 14:44:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BA31440FAF;
-	Thu, 15 Apr 2021 14:44:50 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ILk-JF0RtfK4; Thu, 15 Apr 2021 14:47:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 67880607F2;
+	Thu, 15 Apr 2021 14:47:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 86EEBC0014;
-	Thu, 15 Apr 2021 14:44:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 22B38C000A;
+	Thu, 15 Apr 2021 14:47:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54B01C000C
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 14:44:49 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3753FC000A
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 14:47:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 810A583E9A
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 14:44:48 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 30F1840F56
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 14:47:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LfHZAf6yx-oJ for <iommu@lists.linux-foundation.org>;
- Thu, 15 Apr 2021 14:44:47 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B518784698
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 14:44:47 +0000 (UTC)
-Received: from lemmy.home.8bytes.org (p549adcf6.dip0.t-ipconnect.de
- [84.154.220.246])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by theia.8bytes.org (Postfix) with ESMTPSA id 5EB9415C;
- Thu, 15 Apr 2021 16:44:45 +0200 (CEST)
-From: Joerg Roedel <joro@8bytes.org>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH] iommu/fsl-pamu: Fix uninitialized variable warning
-Date: Thu, 15 Apr 2021 16:44:42 +0200
-Message-Id: <20210415144442.25103-1-joro@8bytes.org>
-X-Mailer: git-send-email 2.30.2
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linaro.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PGTgX9xCmnGC for <iommu@lists.linux-foundation.org>;
+ Thu, 15 Apr 2021 14:47:20 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0C3A640665
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 14:47:19 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id f8so28388761edd.11
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 07:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=n4QXf+cOw2jRuJk6NYVPzxIPebbr2HANj3LDOYShp5I=;
+ b=Jd109QuvoPbeOBhKixUtBt5/Xnwa4xQuAOpVjrA87QwRWKtQDFDLIibyYB0+5GQIEJ
+ aHUKSd66q6DYdd5JpKX4S150mKovE2TxkNTVe3vl2MLvTAzMdKOrCTHKx25rOnCWhR/F
+ OO4Cr2eqsGRjUtNMQeJd1kDyoNYi5qwmQzWyAgVUOQnLYaqJf3mXGFsDGn57h5DDvtGD
+ KhoiVuXcprEmmgcifdilXVTen5ekgIhIs4/XfFslUGr+rZWJmekmcoEtSDRWtOdWei9G
+ 1YVduS3e4+0pra7kKAPLQTYuiyZs1aOvYfMfhDDV7Bo6XiJq/rMj/UIUDB3UkQewSxvl
+ gPTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=n4QXf+cOw2jRuJk6NYVPzxIPebbr2HANj3LDOYShp5I=;
+ b=cGVC/CG9QdWIl0iZQsBs1XsOH9jw8fGR2da7Wf/7tJfSVjGGxPutSm4QEplVtmpO7O
+ 74QNcMLZWsf9ZoyDmtZUnQyM2J0tsTBGHIufCGCZvKu/qrRizt3kAMmRvkY15Ws+wDEJ
+ zi243gps57b9tfj9eMGCQR2BRjhR1AkYq+F64QLzYMSJEf93wUMZlYujWNkrXX6xuL/t
+ 5PAYZVyFnFJLGZWPAGETCeuyDeSviF+J3N97VlNz1GwhwDrX3IXW5beTg7JN5FdSDQSC
+ J+qwmuMjBzZhE2rtftTY3x5pjbwozL1+uvkPB2nEgMbWtwCSzt//bDn+vWHByedMKBaU
+ dUhw==
+X-Gm-Message-State: AOAM533fiP4oZqkNl3iKpubthPp1tvm7sMArGfpXEqTmBzsVm1b0JrCg
+ vhn3shNvBqE7hLK5W0+Ls/pJ0Q==
+X-Google-Smtp-Source: ABdhPJz2+0NTKepbuICEjxCSs4LahmAuUZrrzKCZRlpZy/ROS/vkdkyyfjikrFbRCEfvo5bTe/kvaA==
+X-Received: by 2002:a05:6402:614:: with SMTP id
+ n20mr4606117edv.58.1618498038320; 
+ Thu, 15 Apr 2021 07:47:18 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id f10sm2627950edd.29.2021.04.15.07.47.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Apr 2021 07:47:17 -0700 (PDT)
+Date: Thu, 15 Apr 2021 16:46:58 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH 2/3] ACPI: Add driver for the VIOT table
+Message-ID: <YHhR4nSKYogouGMJ@myrica>
+References: <20210316191652.3401335-1-jean-philippe@linaro.org>
+ <20210316191652.3401335-3-jean-philippe@linaro.org>
+ <cea43eef-35d2-b6c5-2bf0-ab7ba8473fb6@redhat.com>
 MIME-Version: 1.0
-Cc: Joerg Roedel <jroedel@suse.de>, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Content-Disposition: inline
+In-Reply-To: <cea43eef-35d2-b6c5-2bf0-ab7ba8473fb6@redhat.com>
+Cc: kevin.tian@intel.com, mst@redhat.com, robin.murphy@arm.com,
+ rjw@rjwysocki.net, virtualization@lists.linux-foundation.org,
+ linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
+ sebastien.boeuf@intel.com, will@kernel.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,41 +102,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Joerg Roedel <jroedel@suse.de>
+On Fri, Mar 19, 2021 at 11:44:26AM +0100, Auger Eric wrote:
+> add some kernel-doc comments matching the explanation in the commit message?
 
-The variable 'i' in the function update_liodn_stash() is not
-initialized and only used in a debug printk(). So it has no
-meaning at all, remove it.
+Yes, I'll add some comments. I got rid of the other issues you pointed out
+while reworking the driver, should be more straightforward now
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
----
- drivers/iommu/fsl_pamu_domain.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
-index 32944d67baa4..0ac781186dbd 100644
---- a/drivers/iommu/fsl_pamu_domain.c
-+++ b/drivers/iommu/fsl_pamu_domain.c
-@@ -57,14 +57,13 @@ static int __init iommu_init_mempool(void)
- static int update_liodn_stash(int liodn, struct fsl_dma_domain *dma_domain,
- 			      u32 val)
- {
--	int ret = 0, i;
-+	int ret = 0;
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&iommu_lock, flags);
- 	ret = pamu_update_paace_stash(liodn, val);
- 	if (ret) {
--		pr_debug("Failed to update SPAACE %d field for liodn %d\n ",
--			 i, liodn);
-+		pr_debug("Failed to update SPAACE for liodn %d\n ", liodn);
- 		spin_unlock_irqrestore(&iommu_lock, flags);
- 		return ret;
- 	}
--- 
-2.30.2
+Thanks,
+Jean
 
 _______________________________________________
 iommu mailing list
