@@ -1,88 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C736D360422
-	for <lists.iommu@lfdr.de>; Thu, 15 Apr 2021 10:20:01 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F30360486
+	for <lists.iommu@lfdr.de>; Thu, 15 Apr 2021 10:40:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 41E704012B;
-	Thu, 15 Apr 2021 08:20:00 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 33AC4405E9;
+	Thu, 15 Apr 2021 08:40:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G3aSyq97uFUi; Thu, 15 Apr 2021 08:19:59 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TkqspB5gYwgI; Thu, 15 Apr 2021 08:40:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6091E4012C;
-	Thu, 15 Apr 2021 08:19:59 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 26BA540F93;
+	Thu, 15 Apr 2021 08:40:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 36229C000A;
-	Thu, 15 Apr 2021 08:19:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F03DEC000A;
+	Thu, 15 Apr 2021 08:39:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5A48CC000A
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 08:19:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A582C000A
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 08:39:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 47B1B40F9C
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 08:19:58 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id EE2AD40605
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 08:39:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id j3cNZWtaHIxT for <iommu@lists.linux-foundation.org>;
- Thu, 15 Apr 2021 08:19:56 +0000 (UTC)
+ with ESMTP id gGE8aKx6rnMk for <iommu@lists.linux-foundation.org>;
+ Thu, 15 Apr 2021 08:39:57 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4B3F240F90
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 08:19:56 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id a12so15549459pfc.7
- for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 01:19:56 -0700 (PDT)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 3996F405E9
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 08:39:57 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id 10so6711254pfl.1
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Apr 2021 01:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=55qzNVVtKjr2EGfMAcgdM/oHJ/MI5Oe+cwdS/Ji0ZVI=;
- b=j1tVlhHWeqCzmIWXEopfN2gvVhO87Jr/RyNB0t/arTH8+bg7DKBr+fI040TTp9S9dB
- /NzzFMy3hbY/ewwcaITstDzoy52Wgs4wGuQ5U5o4uPJowRFrrEnSMnP8N2Qb3i5zZjXQ
- sCqSMpYbitygg49aIHDhasd3Pi72eqGwhTPoAnW1qgSzqZW7XWXrv/4JCx9LSDXMvhzf
- znL5/rmGU9y1+OFti8QmL1ryMuD9so/V9sqtlzAaVReyqpoDpbqtdZOG7VIAMj0ZL4w4
- Kv0HXVb9dekpbqJdlNhLG+oY2Owt4l/wcViRbNFuH7o1uikboz9/tlwvLhkf0FLxKmmz
- xTZw==
+ bh=3tRTg0shzbghpK8s5KkDpORVJgOU6nXvQDc4YptWxp4=;
+ b=dzupOljK/n2OhOKq3IFzO/jpubmmgifqonI7cIVcK57nYONTDn0gN+SMqd+LVuhEue
+ vSOJmf26iaOeofbY33+7llZWIbG92xNXaeesFkp0AroekPl+iUY+XDIvyc5flXvsoEht
+ MVOKE1W2f9eGWDOGOYFjhcZC1B0OTfJfA7W2qzrPcXDekA8tmSlR2QPNB5MryIIYQZbz
+ ssdKILAwuvYxQTVduNjgdr6acCBmQgkipEXGjIFt51ycr+XxjnOqTeHVyfVVJxloaLud
+ HhtVRgp39rFZsswxe1bP3XX88qm2K7hfI04uSV4FuUyBP6bcWcG9umfpyC/scl3ngPhd
+ V10Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=55qzNVVtKjr2EGfMAcgdM/oHJ/MI5Oe+cwdS/Ji0ZVI=;
- b=WRR/pDDdLWjYaPgXx5IZOx2Z30nFO5Cvq8SW1n94tB0EHQBcis9TcF8rsGTYkUJFDR
- teM96GIntB/pb+GNXsjx7+RZH1rdk7D9PfRYbU3WQoen5ogFoJLOTLlZOSSmhHb90CpQ
- LngG2RhSlDW5155vJF4WhDlsd7Y77IxsIJ8QEYoix+50gzsCkg/wvPzxV2sJxOM0GbQU
- VeKTmERyusTRvjnzjzdzJFu3poBeTC646IFhffnTQZVOdCqsM8A270w9lLhmVgFUFBzd
- ZuWbOuHRHy6luxz2REcHkoJOYYca5EqznisNP4lKDDLYfaRKuU7ElRD8KLWN32tmC8nK
- N2ug==
-X-Gm-Message-State: AOAM531TdHYMBkRC1s2sXhcmEm8HX3IBzqAbgcRsc/Pr6ao8YW9lwwBr
- njNNtfH+tRyGPn7s1Ndnm6g=
-X-Google-Smtp-Source: ABdhPJwWGtaQnufAXInm7v66wKabfVJG17NJUFp65axa03YX5DYY821+MSztj4RCKZDgwDB8o2T9wQ==
-X-Received: by 2002:a63:470f:: with SMTP id u15mr2378163pga.199.1618474795726; 
- Thu, 15 Apr 2021 01:19:55 -0700 (PDT)
+ bh=3tRTg0shzbghpK8s5KkDpORVJgOU6nXvQDc4YptWxp4=;
+ b=FzOvNT4lzzwXkWpCIRV5TgPrUo/L1WAOCShEhrzsfHVEF7k92idFyNFJ3UKdnrhyu1
+ X0fm6vM6IHDrmWH1bUpMH3SckB1MaLjwHdGdeMl/aoAATbAmtCNTsY1k1ykn3xJiYTvW
+ 5D6Pw+TYiCpwffwnQpfJfo6P0R9TgSfmz30/7bIyjE9ZfbaPBxbfrXW8agOR1YMNnalf
+ rFqujT12bHKYL7NPrz+xpiCD8mJ7tRNagGZV3HO2f84JtvjcCdFgswoO7FfXMrDXj03i
+ EbVVy/+xLbDwnrXqZxTxGKvZ3TG4vSbvPjR16cF4mFOuuKYDocD91c8YglB2NUyPs+wp
+ 6BYA==
+X-Gm-Message-State: AOAM530vx5aZOLO5Sh8DBS69fFz6ug0yG+iK878z33/ro3jcO5LqYtrl
+ P6QNNHbOojHBtK1dIlDHjQY=
+X-Google-Smtp-Source: ABdhPJz/E8YagRoaQfmGydf9eGCq3z8Im0ouKOCNMw/9TlVzNQ5NsPj3ODCpxu/cZ1XaZZeQpmJi/Q==
+X-Received: by 2002:a62:e119:0:b029:245:8e0:820 with SMTP id
+ q25-20020a62e1190000b029024508e00820mr2092886pfh.4.1618475996564; 
+ Thu, 15 Apr 2021 01:39:56 -0700 (PDT)
 Received: from ?IPv6:2404:f801:0:6:8000::a31c? ([2404:f801:9000:1a:efeb::a31c])
- by smtp.gmail.com with ESMTPSA id h21sm1732615pgi.60.2021.04.15.01.19.46
+ by smtp.gmail.com with ESMTPSA id t67sm1573474pfb.210.2021.04.15.01.39.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 01:19:55 -0700 (PDT)
-Subject: Re: [Resend RFC PATCH V2 04/12] HV: Add Write/Read MSR registers via
- ghcb
+ Thu, 15 Apr 2021 01:39:56 -0700 (PDT)
+Subject: Re: [Resend RFC PATCH V2 11/12] HV/Netvsc: Add Isolation VM support
+ for netvsc driver
 To: Christoph Hellwig <hch@lst.de>
 References: <20210414144945.3460554-1-ltykernel@gmail.com>
- <20210414144945.3460554-5-ltykernel@gmail.com>
- <20210414154141.GB32045@lst.de>
+ <20210414144945.3460554-12-ltykernel@gmail.com>
+ <20210414155016.GE32045@lst.de>
 From: Tianyu Lan <ltykernel@gmail.com>
-Message-ID: <d35e6ab5-cb25-61aa-e36e-7e4bcb241964@gmail.com>
-Date: Thu, 15 Apr 2021 16:19:45 +0800
+Message-ID: <de145e13-2444-aa01-906e-e3abe5a64dc4@gmail.com>
+Date: Thu, 15 Apr 2021 16:39:45 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <20210414154141.GB32045@lst.de>
+In-Reply-To: <20210414155016.GE32045@lst.de>
 Content-Language: en-US
 Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, linux-mm@kvack.org,
  hpa@zytor.com, kys@microsoft.com, will@kernel.org, sunilmut@microsoft.com,
@@ -112,16 +111,55 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 4/14/2021 11:41 PM, Christoph Hellwig wrote:
->> +EXPORT_SYMBOL_GPL(hv_ghcb_msr_write);
+
+
+On 4/14/2021 11:50 PM, Christoph Hellwig wrote:
+>> +struct dma_range {
+>> +	dma_addr_t dma;
+>> +	u32 mapping_size;
+>> +};
 > 
-> Just curious, who is going to use all these exports?  These seems like
-> extremely low-level functionality.  Isn't there a way to build a more
-> useful higher level API?
+> That's a rather generic name that is bound to create a conflict sooner
+> or later.
+
+Good point. Will update.
+
+> 
+>>   #include "hyperv_net.h"
+>>   #include "netvsc_trace.h"
+>> +#include "../../hv/hyperv_vmbus.h"
+> 
+> Please move public interfaces out of the private header rather than doing
+> this.
+
+OK. Will update.
+
+> 
+>> +	if (hv_isolation_type_snp()) {
+>> +		area = get_vm_area(buf_size, VM_IOREMAP);
+> 
+> Err, no.  get_vm_area is private a for a reason.
+> 
+>> +		if (!area)
+>> +			goto cleanup;
+>> +
+>> +		vaddr = (unsigned long)area->addr;
+>> +		for (i = 0; i < buf_size / HV_HYP_PAGE_SIZE; i++) {
+>> +			extra_phys = (virt_to_hvpfn(net_device->recv_buf + i * HV_HYP_PAGE_SIZE)
+>> +				<< HV_HYP_PAGE_SHIFT) + ms_hyperv.shared_gpa_boundary;
+>> +			ret |= ioremap_page_range(vaddr + i * HV_HYP_PAGE_SIZE,
+>> +					   vaddr + (i + 1) * HV_HYP_PAGE_SIZE,
+>> +					   extra_phys, PAGE_KERNEL_IO);
+>> +		}
+>> +
+>> +		if (ret)
+>> +			goto cleanup;
+> 
+> And this is not something a driver should ever do.  I think you are badly
+> reimplementing functionality that should be in the dma coherent allocator
+> here.
 >
-
-Yes, will remove it.
-
+OK. I will try hiding these in the Hyper-V dma ops callback. Thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
