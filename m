@@ -1,90 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EF6365E8B
-	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 19:26:08 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E37B365E9E
+	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 19:30:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 36BA3405D8;
-	Tue, 20 Apr 2021 17:26:06 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 38E59605B2;
+	Tue, 20 Apr 2021 17:30:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qcbIXnqxsmJr; Tue, 20 Apr 2021 17:26:02 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8oAJKpD8tgVF; Tue, 20 Apr 2021 17:30:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 64FB4405D6;
-	Tue, 20 Apr 2021 17:26:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1AA1760AC4;
+	Tue, 20 Apr 2021 17:30:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 43E40C000B;
-	Tue, 20 Apr 2021 17:26:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E8C4DC000E;
+	Tue, 20 Apr 2021 17:30:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6BAFC000E
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:25:59 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CB879C000B
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:30:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A747A605B2
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:25:59 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id B9AED4024A
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:30:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c6eYTQ7cJ1XS for <iommu@lists.linux-foundation.org>;
- Tue, 20 Apr 2021 17:25:59 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=chromium.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3It2Ao1rQ5mo for <iommu@lists.linux-foundation.org>;
+ Tue, 20 Apr 2021 17:30:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C1A5C60AC7
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:25:58 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id cq11so2414385edb.0
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=b+gcX7QLYFedaKK3PFF/F9GzHOyqGf+ot42j7r1TxHs=;
- b=sOFsUmtlOkQ1FNXEJgFbhY1pSTlHraytgyFe1/zfDkQq0R3qks8fy5Gv1+b+pQJ8JB
- LQK/eDSbcL7lrLnXeeRxdecgQEHe9WJONDYUvvKy3jirv4XJ/DIYOFAn2TrHCvsHINTa
- NRPf61ok9OinrN7mlnkCWs7jys0yPZfKdkTvQ6dIWa0qevTu9YV2yFa7TRtj/Jy1wBB7
- 4AhBWQ7MIftyf5852WoHsekyCxUWEgxeerPynoaShxB14LuYzbEc+077PX2KVQ7V9V8L
- wsIdl9xXw9LmEasbbO+u7YbAswflpLrIEhkQI+kQO7JxrnfCA02TrlFTH2TGd2ipLb5z
- nuSg==
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com
+ [IPv6:2607:f8b0:4864:20::e2c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 28E1C401F5
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:30:50 +0000 (UTC)
+Received: by mail-vs1-xe2c.google.com with SMTP id k19so6693080vsg.0
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G58TS9A9yYeMoSb17LgKAY3Blh89gTINhGV0E3IpGQE=;
+ b=et2aicPqhBqREOY0dNhnVIpeKAqBqwCzKXvIfzgrBt6P66Jgo/2+oQEWI+6gyewphg
+ VbhS+bw5RzxtJErHdYEL/G5C3BA7I4UJ6eL5VYd1XnMcLFOCvxA4QaOg5G/PfVgj9nY0
+ lHTQOuBQKTK9gNs7yf2oHGIdtU/z3Wkt5iEJk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=b+gcX7QLYFedaKK3PFF/F9GzHOyqGf+ot42j7r1TxHs=;
- b=PwdQI9GUgBZZr39mREZdO4+/+oFh5CuWe1a/9dja4H29zU3r0IB+wp+mTrhNikXILA
- stgF6QEzpk68p04wCfxiKGmaOXo6iNOHh5YNfcwGWmxt4WoXWRS+yD/bmnGEc5r12Q5q
- TjwPx9TFkZt95bB5Jrr1wFxDUq/WRypxon1K5E9PNfOq/HmP0yjRFkDHk9Csthgj7rhC
- 8d3TbtnomdL04HcUMZzmAwQuB0dQUkoaYge6VIGwaGS9Okmok8+tnYMm6rorAd7kil2N
- yu7EBIYT7jvIdoYOU4kZwmpKf/oQM7j3DmqK5oJJ5sTaofuByXMu7ZossPOU/V7ikNcn
- LqdQ==
-X-Gm-Message-State: AOAM530JIaSyJ5DBw9KFesDZ/RaymnQAIoR+WKLsTVhZstjo6Wwe4HZJ
- J94mnbJEpgHECNEvi4Ylnsk=
-X-Google-Smtp-Source: ABdhPJyn6VVoJVjh1rOjZCxZEO80f8/wc1nwEZrQ6XMCSWenGkk+FcfiKE+WbZ2gJzzNVqcPPOqQDg==
-X-Received: by 2002:a05:6402:7cf:: with SMTP id
- u15mr27230480edy.297.1618939557077; 
- Tue, 20 Apr 2021 10:25:57 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id pv21sm13187833ejb.109.2021.04.20.10.25.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 10:25:56 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH v2 10/10] arm64: tegra: Enable SMMU support for display on
- Tegra194
-Date: Tue, 20 Apr 2021 19:26:19 +0200
-Message-Id: <20210420172619.3782831-11-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210420172619.3782831-1-thierry.reding@gmail.com>
-References: <20210420172619.3782831-1-thierry.reding@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G58TS9A9yYeMoSb17LgKAY3Blh89gTINhGV0E3IpGQE=;
+ b=Ac/HfcD9Tqg3GQPpInx5k61lU7WLhue4ny7R40jMo/QtdFydeS7wKUW74ic7S2CHEF
+ Ze4sAQpYwpeAtNH4ibq+U6dWY+2ktk3l/WJfAmkzloYxqMGFN5b7IjyRddSoXKHcaxMm
+ jk+0ln+QU2JMrxc8h9PBBBmGE214mp9NNTY8117jxQXddw4TRRj6NRH/54gmLbs0Km3N
+ lzIpLSKIcwSZmSDXJ+86IqoFfp3d/yNqRvVM0Ay0ref3vNvGMnE8AoS4pFvUc7YLGjsK
+ +DjaRzeOy170xfG79EH4qMi6PK8cPgX0fmxYVKfjsarmjy1qa/C77iKkAoe4LOof6r3b
+ GmvA==
+X-Gm-Message-State: AOAM530spuGlZmezI0OZwUF5o95bEE7w5VYiaASeI8ZxPyQQpwMckT7v
+ 4EHymS92QC0sccrUCPnoL7IhjC13dNqAmQJk303OSw==
+X-Google-Smtp-Source: ABdhPJwXS7FiUTSlDWt0dHxHZ5655bX8hkIGHT1fDhHkNqF1vZ+XhhN+pVaz/0zkCxHB6ILJZd90Q4uuCj/sRoEmvgk=
+X-Received: by 2002:a67:c98b:: with SMTP id y11mr21793715vsk.2.1618939848572; 
+ Tue, 20 Apr 2021 10:30:48 -0700 (PDT)
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, Jon Hunter <jonathanh@nvidia.com>,
- Nicolin Chen <nicolinc@nvidia.com>, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+References: <1618886913-6594-1-git-send-email-bingbu.cao@intel.com>
+ <20210420091309.GH3@paasikivi.fi.intel.com>
+In-Reply-To: <20210420091309.GH3@paasikivi.fi.intel.com>
+From: Grant Grundler <grundler@chromium.org>
+Date: Tue, 20 Apr 2021 17:30:37 +0000
+Message-ID: <CANEJEGunDJ-Q3vP5ABVgtQqg2vmNye6g+i7arZKxZOUdJOJaQQ@mail.gmail.com>
+Subject: Re: [RESEND v2] iommu/vt-d: Use passthrough mode for the Intel IPUs
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: andriy.shevchenko@linux.intel.com, will@kernel.org,
+ Grant Grundler <grundler@chromium.org>, linux-pci@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ senozhatsky@chromium.org, Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Bingbu Cao <bingbu.cao@intel.com>,
+ Rajat Jain <rajatja@google.com>, David Woodhouse <dwmw2@infradead.org>,
+ bingbu.cao@linux.intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,140 +94,168 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thierry Reding <treding@nvidia.com>
+On Tue, Apr 20, 2021 at 11:02 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Bingbu,
+>
+> Thanks for the patch.
+>
+> On Tue, Apr 20, 2021 at 10:48:33AM +0800, Bingbu Cao wrote:
+> > Intel IPU(Image Processing Unit) has its own (IO)MMU hardware,
+> > The IPU driver allocates its own page table that is not mapped
+> > via the DMA, and thus the Intel IOMMU driver blocks access giving
+> > this error:
+>
+> The page table should be mapped to the possible IOMMU using the DMA API.
 
-The display controllers are attached to a separate ARM SMMU instance
-that is dedicated to servicing isochronous memory clients. Add this ISO
-instance of the ARM SMMU to device tree and attach all four display
-controllers to it.
+I've made the same "observation": this patch is intentionally enables
+using "intel_iommu=on" (IIRC) to strictly enforce "all" DMA
+transactions (except the ones we explicitly allow to identity map).
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 80 ++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+The question is: Is the security of IPU MMU the same as the system
+IOMMU for the few devices behind the IPU MMU?
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 6ed296e27158..00f8248f216e 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1305,6 +1305,82 @@ pmc: pmc@c360000 {
- 			interrupt-controller;
- 		};
- 
-+		smmu_iso: iommu@10000000 {
-+			compatible = "nvidia,tegra194-smmu", "nvidia,smmu-500";
-+			reg = <0x10000000 0x800000>;
-+			interrupts = <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>;
-+			stream-match-mask = <0x7f80>;
-+			#global-interrupts = <1>;
-+			#iommu-cells = <1>;
-+
-+			nvidia,memory-controller = <&mc>;
-+			status = "okay";
-+		};
-+
- 		smmu: iommu@12000000 {
- 			compatible = "nvidia,tegra194-smmu", "nvidia,smmu-500";
- 			reg = <0x12000000 0x800000>,
-@@ -1441,6 +1517,7 @@ display@15200000 {
- 					interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR &emc>,
- 							<&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR1 &emc>;
- 					interconnect-names = "dma-mem", "read-1";
-+					iommus = <&smmu_iso TEGRA194_SID_NVDISPLAY>;
- 
- 					nvidia,outputs = <&sor0 &sor1 &sor2 &sor3>;
- 					nvidia,head = <0>;
-@@ -1459,6 +1536,7 @@ display@15210000 {
- 					interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR &emc>,
- 							<&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR1 &emc>;
- 					interconnect-names = "dma-mem", "read-1";
-+					iommus = <&smmu_iso TEGRA194_SID_NVDISPLAY>;
- 
- 					nvidia,outputs = <&sor0 &sor1 &sor2 &sor3>;
- 					nvidia,head = <1>;
-@@ -1477,6 +1555,7 @@ display@15220000 {
- 					interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR &emc>,
- 							<&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR1 &emc>;
- 					interconnect-names = "dma-mem", "read-1";
-+					iommus = <&smmu_iso TEGRA194_SID_NVDISPLAY>;
- 
- 					nvidia,outputs = <&sor0 &sor1 &sor2 &sor3>;
- 					nvidia,head = <2>;
-@@ -1495,6 +1574,7 @@ display@15230000 {
- 					interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR &emc>,
- 							<&mc TEGRA194_MEMORY_CLIENT_NVDISPLAYR1 &emc>;
- 					interconnect-names = "dma-mem", "read-1";
-+					iommus = <&smmu_iso TEGRA194_SID_NVDISPLAY>;
- 
- 					nvidia,outputs = <&sor0 &sor1 &sor2 &sor3>;
- 					nvidia,head = <3>;
--- 
-2.30.2
+If not, then we (Chrome OS) require child devices to be "mapped"
+twice: once in IPU MMU and again in the system IOMMU. I believe
+dma_ops can be nested though I can't confidently point at examples
+(IDE drivers maybe?)  This adds some latency to each DMA transaction -
+decades ago I've measured roughly 5% on Itanium and PA-RISC systems
+from HP. Perhaps Intel can measure this penatly on current HW they are
+shipping.
 
+If yes, then I think the IPU driver just needs to be consistent about
+it's use of DMA API for it's own house keeping: Either use DMA API for
+all IPU DMA operations or use it for none. This is the current plan
+for Chrome OS (I didn't make this decision and wasn't party to the
+discussion).
+
+The IPU driver requires it's child devices to use DMA API and provides
+the dma_ops table for those devices - this use of dma_ops is seperate
+from IPU page tables and other host memory transactions to manage the
+IPU MMU page tables.
+
+CAVEAT: I'm not an expert in IPU driver - I've been reviewing Intel
+IPU code for chromium.org inclusion here:
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2787723
+I have no illusions that I'm going to be an expert after staring at
+28k lines of code less than 10h.
+
+> > DMAR: DRHD: handling fault status reg 3
+> > DMAR: [DMA Read] Request device [00:05.0] PASID ffffffff
+> >       fault addr 76406000 [fault reason 06] PTE Read access is not set
+> >
+> > As IPU is not an external facing device which is not risky, so use
+> > IOMMU passthrough mode for Intel IPUs.
+>
+> I think a factor here is that the page tables aren't accessible by the IPU
+> firmware.
+
+Correct. At least not accessible through the system IOMMU. This is why
+Intel prefers the IPU to bypass the system IOMMU.
+
+cheers,
+grant
+
+>
+> >
+> > Fixes: 26f5689592e2 ("media: staging/intel-ipu3: mmu: Implement driver")
+> > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > ---
+> >  drivers/iommu/intel/iommu.c | 29 +++++++++++++++++++++++++++++
+> >  1 file changed, 29 insertions(+)
+> >
+> > diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> > index ee0932307d64..7e2fbdae467e 100644
+> > --- a/drivers/iommu/intel/iommu.c
+> > +++ b/drivers/iommu/intel/iommu.c
+> > @@ -55,6 +55,12 @@
+> >  #define IS_GFX_DEVICE(pdev) ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY)
+> >  #define IS_USB_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_SERIAL_USB)
+> >  #define IS_ISA_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA)
+> > +#define IS_INTEL_IPU(pdev) ((pdev)->vendor == PCI_VENDOR_ID_INTEL && \
+> > +                         ((pdev)->device == 0x9a19 ||                \
+> > +                          (pdev)->device == 0x9a39 ||                \
+> > +                          (pdev)->device == 0x4e19 ||                \
+> > +                          (pdev)->device == 0x465d ||                \
+> > +                          (pdev)->device == 0x1919))
+> >  #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
+> >
+> >  #define IOAPIC_RANGE_START   (0xfee00000)
+> > @@ -360,6 +366,7 @@ int intel_iommu_enabled = 0;
+> >  EXPORT_SYMBOL_GPL(intel_iommu_enabled);
+> >
+> >  static int dmar_map_gfx = 1;
+> > +static int dmar_map_ipu = 1;
+>
+> This works as long as there's only one IPU. Same for graphics. But I guess
+> this can be reworked in the future if the presumption changes.
+>
+> >  static int dmar_forcedac;
+> >  static int intel_iommu_strict;
+> >  static int intel_iommu_superpage = 1;
+> > @@ -368,6 +375,7 @@ static int iommu_skip_te_disable;
+> >
+> >  #define IDENTMAP_GFX         2
+> >  #define IDENTMAP_AZALIA              4
+> > +#define IDENTMAP_IPU         8
+> >
+> >  int intel_iommu_gfx_mapped;
+> >  EXPORT_SYMBOL_GPL(intel_iommu_gfx_mapped);
+> > @@ -2839,6 +2847,9 @@ static int device_def_domain_type(struct device *dev)
+> >
+> >               if ((iommu_identity_mapping & IDENTMAP_GFX) && IS_GFX_DEVICE(pdev))
+> >                       return IOMMU_DOMAIN_IDENTITY;
+> > +
+> > +             if ((iommu_identity_mapping & IDENTMAP_IPU) && IS_INTEL_IPU(pdev))
+> > +                     return IOMMU_DOMAIN_IDENTITY;
+> >       }
+> >
+> >       return 0;
+> > @@ -3278,6 +3289,9 @@ static int __init init_dmars(void)
+> >       if (!dmar_map_gfx)
+> >               iommu_identity_mapping |= IDENTMAP_GFX;
+> >
+> > +     if (!dmar_map_ipu)
+> > +             iommu_identity_mapping |= IDENTMAP_IPU;
+> > +
+> >       check_tylersburg_isoch();
+> >
+> >       ret = si_domain_init(hw_pass_through);
+> > @@ -5622,6 +5636,18 @@ static void quirk_iommu_igfx(struct pci_dev *dev)
+> >       dmar_map_gfx = 0;
+> >  }
+> >
+> > +static void quirk_iommu_ipu(struct pci_dev *dev)
+> > +{
+> > +     if (!IS_INTEL_IPU(dev))
+> > +             return;
+> > +
+> > +     if (risky_device(dev))
+> > +             return;
+> > +
+> > +     pci_info(dev, "Passthrough IOMMU for integrated Intel IPU\n");
+> > +     dmar_map_ipu = 0;
+> > +}
+> > +
+> >  /* G4x/GM45 integrated gfx dmar support is totally busted. */
+> >  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2a40, quirk_iommu_igfx);
+> >  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e00, quirk_iommu_igfx);
+> > @@ -5657,6 +5683,9 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1632, quirk_iommu_igfx);
+> >  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163A, quirk_iommu_igfx);
+> >  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
+> >
+> > +/* disable IPU dmar support */
+> > +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, PCI_ANY_ID, quirk_iommu_ipu);
+> > +
+> >  static void quirk_iommu_rwbf(struct pci_dev *dev)
+> >  {
+> >       if (risky_device(dev))
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
