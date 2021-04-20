@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F86365608
-	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 12:20:56 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6914D4053A;
-	Tue, 20 Apr 2021 10:20:55 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cQyqxLkGQAWF; Tue, 20 Apr 2021 10:20:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 526B540523;
-	Tue, 20 Apr 2021 10:20:54 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25C87C000B;
-	Tue, 20 Apr 2021 10:20:54 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5D1BBC000B
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:20:52 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A41365610
+	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 12:22:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 444C683AB6
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:20:52 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 70E0F83AB6;
+	Tue, 20 Apr 2021 10:22:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SfkSlVNL7nBR for <iommu@lists.linux-foundation.org>;
- Tue, 20 Apr 2021 10:20:48 +0000 (UTC)
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IHX3SYgVmwFl; Tue, 20 Apr 2021 10:22:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9750983AB4;
+	Tue, 20 Apr 2021 10:22:09 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75C4BC000B;
+	Tue, 20 Apr 2021 10:22:09 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0BC4C000B
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:22:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id AE4DC606CF
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:22:06 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4b83gdmaBobc for <iommu@lists.linux-foundation.org>;
+ Tue, 20 Apr 2021 10:22:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 347FE83AB4
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:20:48 +0000 (UTC)
-IronPort-SDR: BTuaTIOxmSmwoPh7JA2PBA4zi7Uc/d6S9fxwwP5K7O/OPhZYqEHbgl+2+6delcslEWarVz+zqd
- D37zQ++47Rqg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="192294395"
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="192294395"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 837E86083B
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:22:05 +0000 (UTC)
+IronPort-SDR: AaoSK29XWgJQNFHggQOit2FMwIXZuNNpnxVQfzl2jGlQleqW+fzh5wq4CzdJT/BQ4MYr2DuXy3
+ lEYrwZxzhmXQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="192294529"
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="192294529"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 03:20:47 -0700
-IronPort-SDR: RNV4aSGPMXCfDbGM4BSderwpY/tzGeeirKvMa5K5ONuJ3daeJS/iybS2GVuBUycwuGKQXZGfZq
- mjmwNOX+NB9A==
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="602423623"
+ 20 Apr 2021 03:22:05 -0700
+IronPort-SDR: yirMUWERDYce0xR6aBQqunuWlhSFnIXRlQU5SjyFCuQxBxKWw0hY0vuU+H7C/KWlycCWW6xAKN
+ GJqlhKnS51Ow==
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="463066320"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 03:20:43 -0700
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2021 03:22:01 -0700
 Received: from andy by smile with local (Exim 4.94)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1lYnUm-005iFX-CE; Tue, 20 Apr 2021 13:20:40 +0300
-Date: Tue, 20 Apr 2021 13:20:40 +0300
+ id 1lYnW2-005iGd-0V; Tue, 20 Apr 2021 13:21:58 +0300
+Date: Tue, 20 Apr 2021 13:21:57 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Bingbu Cao <bingbu.cao@intel.com>
 Subject: Re: [RESEND v2] iommu/vt-d: Use passthrough mode for the Intel IPUs
-Message-ID: <YH6q+FCTQheO6FHi@smile.fi.intel.com>
+Message-ID: <YH6rRUXyNdC6DDzQ@smile.fi.intel.com>
 References: <1618886913-6594-1-git-send-email-bingbu.cao@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -93,13 +93,8 @@ On Tue, Apr 20, 2021 at 10:48:33AM +0800, Bingbu Cao wrote:
 > 
 > As IPU is not an external facing device which is not risky, so use
 > IOMMU passthrough mode for Intel IPUs.
-> 
-> Fixes: 26f5689592e2 ("media: staging/intel-ipu3: mmu: Implement driver")
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/iommu/intel/iommu.c | 29 +++++++++++++++++++++++++++++
 
-This misses the changelog from v1 followed by the explanation why resent.
+I'm wondering if IPU MMU should be described properly in the DMAR table.
 
 -- 
 With Best Regards,
