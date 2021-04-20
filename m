@@ -1,65 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435C5365E33
-	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 19:07:20 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78731365E75
+	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 19:25:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C3AC9401F5;
-	Tue, 20 Apr 2021 17:07:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0DDBA405C7;
+	Tue, 20 Apr 2021 17:25:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o_ZNx_2cakWl; Tue, 20 Apr 2021 17:07:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id ED7654023F;
-	Tue, 20 Apr 2021 17:07:17 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rz5Oj17YIt2R; Tue, 20 Apr 2021 17:25:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id B2B7D405B8;
+	Tue, 20 Apr 2021 17:25:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D8511C000B;
-	Tue, 20 Apr 2021 17:07:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FF88C0020;
+	Tue, 20 Apr 2021 17:25:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B4FD5C000B
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:07:16 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 63B3FC000B
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:25:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 966016080E
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:07:16 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 57EAE83C24
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:25:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iPsU-LEY8i87 for <iommu@lists.linux-foundation.org>;
- Tue, 20 Apr 2021 17:07:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E7D51605D0
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:07:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BB4FF613AE;
- Tue, 20 Apr 2021 17:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618938431;
- bh=GE4+p/0+TSRy9zrXwA+A3hbFODGJvMZhR/Foyysj8Xk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=HFxLz7aoFzH0dK6/RmYz4uKvPbOqqsrjZrNLFT0IJFHa0MGYHmSLVuRUkf6NJfcp2
- xKYJ31miuYE07A0VOVwkFofARekVV5uPsH53TlwnCvLpvAGTuCz47Qo3Dk0Qb6kBqO
- bEjzYiW24Lt7yrxTk8OtCnQkT/PyQdDy0OsDNNWgJbU6LB0Z5T+8vi7ZwOYLMzR4K0
- Jw+g+vqjjmzGPjUzQmz8qO/yeUSA1YZnuxjVNDIUrl/m4/mtN9qOEfyPFy7lsvnZ3o
- me17wq+dO+YMneqYiukxrKqXKJOdGLshp5NDe0HQxB6Je8dtVvJ11HL0YJTctGz0HH
- rf4sI5yfBAR4w==
-Date: Tue, 20 Apr 2021 12:07:08 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH] pci: Rename pci_dev->untrusted to pci_dev->external
-Message-ID: <20210420170708.GA2813156@bjorn-Precision-5520>
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uf4bYVZXYJEa for <iommu@lists.linux-foundation.org>;
+ Tue, 20 Apr 2021 17:25:38 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 44E7D83C23
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 17:25:38 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id g5so52753259ejx.0
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 10:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MZfyfBXmpvNOGNHqWWXvQz5+eKb6fUwiVC/YMxfDJi8=;
+ b=AfzWpj6hX/iMxUb48cEJkEK0YRgyAjBf5fBCK2TNoF9pyNCIN2T4CIQjxQuDe1G3VN
+ e/vfIN2h31KNtZmQz7EbEu73F6vcK6py91JzXWNXTf/rr4EEcgz54xluXRxlZPoPONeo
+ SyA0KzfJrLGYySvbog4EvsWWlaspOP6oaKNNZrDNVJzgVU2eG9fy18wcF7+/+MSyP9Is
+ JBLrQIXYeA2/n0IdTkw2FR7DWNXI+4p8B+jKhYRcBumY6cf5KU/Gsw0j0rtxEtgBz0Kd
+ gqtV1HWJhXaU+gjM45g3EK6O+eJXsLyVOg35LD5JocBzNhLZq9511BiSzKdjfJoBKJwo
+ nnGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MZfyfBXmpvNOGNHqWWXvQz5+eKb6fUwiVC/YMxfDJi8=;
+ b=FbNNvQ+moqt5Nj3sDE13etVpcp6AtxY5rkLNH0Wg/DP3ckc4gb8szpKMQHP1OZyX/v
+ SKFzrYhSUJYyY5NxIxMz6hhhr/D+pe8V17Bi6a2wZKNcVDKyFImmIHy/4C0QB62FNAbc
+ /y3eFBLFWPppWFYCakFgx2Kij8yMlOuOPow3KBV6kTy63Ki0Vmjscyp3SHLzIYV+nJMz
+ JxUvWI1wow7sVrJcF0peu57UW3PC23cBIT+j6TrIim1ACrj4/Z6rEVzppSBdGlNbNzmO
+ pwQZCmNO+KpJzdI6xdpDKLvLDb54zoeVRqWGZHAgN3nf00HwB7X/+JXxA2I+fy+NRmlj
+ bD1g==
+X-Gm-Message-State: AOAM533u9cDNh7yrYxqCl9yn/HUCEYrvEQn+uFJzPdJ8FY9fhUXFNdke
+ BO+jo5huVcmXYPr/Nicc5Do=
+X-Google-Smtp-Source: ABdhPJxWJBFuXcYSTbM8eR6TrJnZTuavdZJzbkEU6SplHF+bINy06dwOkdHRSe7eKzR1ZBcTG3tK8A==
+X-Received: by 2002:a17:906:6683:: with SMTP id
+ z3mr29161911ejo.390.1618939536557; 
+ Tue, 20 Apr 2021 10:25:36 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id z6sm13250574ejp.86.2021.04.20.10.25.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Apr 2021 10:25:35 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 00/10] arm64: tegra: Prevent early SMMU faults
+Date: Tue, 20 Apr 2021 19:26:09 +0200
+Message-Id: <20210420172619.3782831-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210420061006.GA3523612@infradead.org>
-Cc: rajatxjain@gmail.com, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Rajat Jain <rajatja@google.com>, David Woodhouse <dwmw2@infradead.org>
+Cc: iommu@lists.linux-foundation.org, Jon Hunter <jonathanh@nvidia.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,42 +99,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Apr 20, 2021 at 07:10:06AM +0100, Christoph Hellwig wrote:
-> On Mon, Apr 19, 2021 at 05:30:49PM -0700, Rajat Jain wrote:
-> > The current flag name "untrusted" is not correct as it is populated
-> > using the firmware property "external-facing" for the parent ports. In
-> > other words, the firmware only says which ports are external facing, so
-> > the field really identifies the devices as external (vs internal).
-> > 
-> > Only field renaming. No functional change intended.
-> 
-> I don't think this is a good idea.  First the field should have been
-> added to the generic struct device as requested multiple times before.
+From: Thierry Reding <treding@nvidia.com>
 
-Fair point.  There isn't anything PCI-specific about this idea.  The
-ACPI "ExternalFacingPort" and DT "external-facing" are currently only
-defined for PCI devices, but could be applied elsewhere.
+Hi,
 
-> Right now this requires horrible hacks in the IOMMU code to get at the
-> pci_dev, and also doesn't scale to various other potential users.
+this is a set of patches that is the result of earlier discussions
+regarding early identity mappings that are needed to avoid SMMU faults
+during early boot.
 
-Agreed, this is definitely suboptimal.  Do you have other users in
-mind?  Maybe they could help inform the plan.
+The goal here is to avoid early identity mappings altogether and instead
+postpone the need for the identity mappings to when devices are attached
+to the SMMU. This works by making the SMMU driver coordinate with the
+memory controller driver on when to start enforcing SMMU translations.
+This makes Tegra behave in a more standard way and pushes the code to
+deal with the Tegra-specific programming into the NVIDIA SMMU
+implementation.
 
-> Second the untrusted is objectively a better name.  Because untrusted
-> is how we treat the device, which is what mattes.  External is just
-> how we come to that conclusion.
+Compared to the original version of these patches, I've split the
+preparatory work into a separate patch series because it became very
+large and will be mostly uninteresting for this audience.
 
-The decision to treat "external" as being "untrusted" is a little bit
-of policy that the PCI core really doesn't care about, so I think it
-does make some sense to let the places that *do* care decide what to
-trust based on "external" and possibly other factors, e.g., whether
-the device is a BMC or processes untrusted data, etc.
+Patch 1 provides a mechanism to program SID overrides at runtime. Patch
+2 updates the ARM SMMU device tree bindings to include the Tegra186
+compatible string as suggested by Robin during review.
 
-But I guess it makes sense to wait until we have a better motivation
-before renaming it, since we don't gain any functionality here.
+Patches 3 and 4 create the fundamentals in the SMMU driver to support
+this and also make this functionality available on Tegra186. Patch 5
+hooks the ARM SMMU up to the memory controller so that the memory client
+stream ID overrides can be programmed at the right time.
 
-Bjorn
+Patch 6 extends this mechanism to Tegra186 and patches 7-9 enable all of
+this through device tree updates. Patch 10 is included here to show how
+SMMU will be enabled for display controllers. However, it cannot be
+applied yet because the code to create identity mappings for potentially
+live framebuffers hasn't been merged yet.
+
+The end result is that various peripherals will have SMMU enabled, while
+the display controllers will keep using passthrough, as initially set up
+by firmware. Once the device tree bindings have been accepted and the
+SMMU driver has been updated to create identity mappings for the display
+controllers, they can be hooked up to the SMMU and the code in this
+series will automatically program the SID overrides to enable SMMU
+translations at the right time.
+
+Note that the series creates a compile time dependency between the
+memory controller and IOMMU trees. If it helps I can provide a branch
+for each tree, modelling the dependency, once the series has been
+reviewed.
+
+Changes in v2:
+- split off the preparatory work into a separate series (that needs to
+  be applied first)
+- address review comments by Robin
+
+Thierry
+
+Thierry Reding (10):
+  memory: tegra: Implement SID override programming
+  dt-bindings: arm-smmu: Add Tegra186 compatible string
+  iommu/arm-smmu: Implement ->probe_finalize()
+  iommu/arm-smmu: tegra: Detect number of instances at runtime
+  iommu/arm-smmu: tegra: Implement SID override programming
+  iommu/arm-smmu: Use Tegra implementation on Tegra186
+  arm64: tegra: Use correct compatible string for Tegra186 SMMU
+  arm64: tegra: Hook up memory controller to SMMU on Tegra186
+  arm64: tegra: Enable SMMU support on Tegra194
+  arm64: tegra: Enable SMMU support for display on Tegra194
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |  11 +-
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 166 ++++++++++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c    |   3 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c  |  90 ++++++++--
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 ++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h         |   1 +
+ drivers/memory/tegra/mc.c                     |   9 +
+ drivers/memory/tegra/tegra186.c               |  72 ++++++++
+ include/soc/tegra/mc.h                        |   3 +
+ 10 files changed, 349 insertions(+), 23 deletions(-)
+
+-- 
+2.30.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
