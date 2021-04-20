@@ -1,50 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32CB3654CD
-	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 11:07:58 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F73654EF
+	for <lists.iommu@lfdr.de>; Tue, 20 Apr 2021 11:11:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BEB326075D;
-	Tue, 20 Apr 2021 09:07:56 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 96A1F401F9;
+	Tue, 20 Apr 2021 09:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9Cckz4oX0cWh; Tue, 20 Apr 2021 09:07:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 03D566063F;
-	Tue, 20 Apr 2021 09:07:53 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OqDoqM6ae7Jh; Tue, 20 Apr 2021 09:11:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id B6B77401EB;
+	Tue, 20 Apr 2021 09:11:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D7A12C0020;
-	Tue, 20 Apr 2021 09:07:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DD3BC000B;
+	Tue, 20 Apr 2021 09:11:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AEB70C000B
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:07:51 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5036FC000B
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:11:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 87443839E5
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:07:51 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3D7D7402F5
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:11:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JPQlH2_7BCgD for <iommu@lists.linux-foundation.org>;
- Tue, 20 Apr 2021 09:07:47 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 134CC81BC2
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:07:46 +0000 (UTC)
-Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MEVBc-1lIqBh3tAA-00FzsA for <iommu@lists.linux-foundation.org>; Tue, 20
- Apr 2021 11:07:43 +0200
-Received: by mail-wr1-f53.google.com with SMTP id e5so8129021wrg.7
- for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 02:07:43 -0700 (PDT)
-X-Gm-Message-State: AOAM5315KEKRZts/cCrOM2vUrpfc5NXMLYwCZgLkJ20Db1jMJjPdz1C5
- XmOdcrzgvCZBQBrvojHT1BkBfVfOjGwQkYS+zX0=
-X-Google-Smtp-Source: ABdhPJwSiNwlZ27l6d0oeVOJMjBIBpaEf6fV+Kr02yQOCGa6DdHdokE+eIs4+TiyDD+ybgS8jO4hGYikHl0QAhmuRDs=
-X-Received: by 2002:adf:db4f:: with SMTP id f15mr19571156wrj.99.1618909652608; 
- Tue, 20 Apr 2021 02:07:32 -0700 (PDT)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id W93LW8iGKKy4 for <iommu@lists.linux-foundation.org>;
+ Tue, 20 Apr 2021 09:11:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C633E4053E
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:11:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1582C613AB
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 09:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618909869;
+ bh=DeGQ9vUDRCVhA8t5Ph+0N53DtPOXi7alQM8lRrwQwKo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=p0qaMXJByFvnmnNzygjG+wVqrEysTLgHvDiIGpK52K9aQUKK6M3BGjSLyePqEb3Qf
+ oR3oMBtOgJOCh7RcSvkCcBVicfY9CiiXQqSuj3vuq6dpjOGhCmYNVuVfPR+/WjSa8y
+ OjKCkD+Jeiy0rF7z8u1J4LpfnlrCGE/G9N0ySag4aO+wDqsFogGqXT9eHwLSIlfmwd
+ swm8rATrWZ8IwfA14qwCGkgWO/i7lHh6bqTFbABgi05Ale1G4PAajc6jL8bk5XXXNG
+ JygWwRlWhDmLm13ceBOy+pmk9GoTtnNMy2CUIErVU0FqckDVw6S1F+GjMgloAzJarS
+ aElCDGbhH7RTw==
+Received: by mail-lj1-f177.google.com with SMTP id m7so31856662ljp.10
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Apr 2021 02:11:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533LyDkTyjpo+eZge+JQfxzzoEYDjdaRiEvIgNYjcrbrzNqoVULM
+ S3d6Dtw4N3c4/xfHO96aMPGwUDwl4l7zvYcVakg=
+X-Google-Smtp-Source: ABdhPJyHjUN6C0/sUkUlP+4nedtBBPWCDMG4VnGKqPhVa1uJB5nLQGViYOHp7TNdMb76BpIs8GkQPbFl+yNnVewK4NU=
+X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr20219548wrz.105.1618909856639; 
+ Tue, 20 Apr 2021 02:10:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
  <20210419042722.27554-4-alice.guo@oss.nxp.com>
@@ -54,28 +64,13 @@ References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
  <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
  <YH4VdPNO9cdzc5MD@atmark-techno.com>
 In-Reply-To: <YH4VdPNO9cdzc5MD@atmark-techno.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 20 Apr 2021 11:07:16 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 20 Apr 2021 11:10:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
+Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
 Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
  soc_device_match
 To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
-X-Provags-ID: V03:K1:huzd72meoCc1JTmA0R/znmeSh6CpyC+ET7pab1srh1tcdjiigZC
- icP/lJqvShuOCq/gU9ynDMrr4NdSV4dFPVWe4yksRvjaEVX2TGpgUKWOioXeTqiuY+KvCH5
- zYlTo5OzIuGqe7vCG+09dQAKphCTG0AG9OsoviQAzskeDDEDi67GaXzW4NaYJYZhYZ0u7sc
- xxqMSCBdZSEifHAoNOSVQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:45JNHkjGA5g=:FTuJfOdM3rqjzHdMGP2OWi
- c33LGaVfPea+0t+IAQO6K7GVZFChlzPzfF62Y/t9dcUwFKhWPUApBXtWZSH28QDYWsnak300S
- yNYVk5WcoEqImqsph6PuwE0hqS4MvWDDWkecRweOC8/pKgGbKiLDntnLEOIuJQCI0brqdZtKA
- ZDqDKtFR57N4KfS9dbKBX1kS1J1s5ZhyIJ+8DkKu0izrUSd8q7LPF6qZdPuxX/UAi2It6rk+1
- 5ELwhxz3i+OIayvsdfZV86dtUP8TrRxwrwS5WBy6Hl+tYGKWkU8eihyRLC51qDwdMHsRZHTMR
- 77CjCvfExRKLp2f1wDcERKKLnqodbYx8fepI/BUMWy/drqZh5Hv6zjst0wQUxTR1k8KcFt3M6
- 6Ta1dubN8ru8rO97tmDWMgVzInPdWsTY4EQsPtik199OoiFcMiwBnrJ8Ww49fdPG8PT2vl0qi
- /0szyNtZnIk8oUu7Fj0fu2Npejp+gFTg7ojRMRE2FJky2yzVOPz97plpUoP/pnxhLw6YmsF+a
- oQ9NiY7mGMtKF7nTfiYOgR08DaBAPUf+e8fOj1A4FN95vugY/JXSc5hfXw7juQGbaXl53EPgs
- jx/epLKjBSe8hhN0IRzHuyAfYvuLJOT4dijBQhkfM0NOqEMIjfhB08UIca/KTLf4Yq1w05S3q
- j6Do=
 Cc: Ulf Hansson <ulf.hansson@linaro.org>, aymen.sghaier@nxp.com,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Rafael Wysocki <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
