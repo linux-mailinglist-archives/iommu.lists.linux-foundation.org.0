@@ -1,54 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BE036795E
-	for <lists.iommu@lfdr.de>; Thu, 22 Apr 2021 07:39:54 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDEE367AD3
+	for <lists.iommu@lfdr.de>; Thu, 22 Apr 2021 09:19:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7DDCC83D0C;
-	Thu, 22 Apr 2021 05:39:53 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id DF934606AA;
+	Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NnVRYRcwPrTu; Thu, 22 Apr 2021 05:39:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AD37383C71;
-	Thu, 22 Apr 2021 05:39:52 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ERLKmmCQ2_3j; Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0839F606A6;
+	Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82705C001B;
-	Thu, 22 Apr 2021 05:39:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7405C000B;
+	Thu, 22 Apr 2021 07:19:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E66EC000B
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 05:39:50 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1B3E1C000B
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 41FAA83C71
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 05:39:50 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0170E83D98
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=infradead.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l6vageTkYEkx for <iommu@lists.linux-foundation.org>;
- Thu, 22 Apr 2021 05:39:49 +0000 (UTC)
+ with ESMTP id o7AulFH1W_Lu for <iommu@lists.linux-foundation.org>;
+ Thu, 22 Apr 2021 07:19:51 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mx1.emlix.com (mx1.emlix.com [136.243.223.33])
- by smtp1.osuosl.org (Postfix) with ESMTPS id EC7CB83C30
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 05:39:48 +0000 (UTC)
-Received: from mailer.emlix.com (unknown [81.20.119.6])
- (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mx1.emlix.com (Postfix) with ESMTPS id 630016049E;
- Thu, 22 Apr 2021 07:39:46 +0200 (CEST)
-From: Rolf Eike Beer <eb@emlix.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-Subject: [PATCH] iommu/vt-d: Fix sysfs leak in alloc_domain()
-Date: Thu, 22 Apr 2021 07:39:44 +0200
-Message-ID: <17411490.HIIP88n32C@mobilepool36.emlix.com>
-In-Reply-To: <1716403.SmlLz2RZUD@devpool47>
-References: <1716403.SmlLz2RZUD@devpool47>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1912283D94
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=aEdQBTMaUl2RRYZxc6tzp9x+ou0hYnPrwcHo24gdihQ=; b=jzhBxobmLoI0NNUrL8/EfTlash
+ db9hFe8bub19NNsbPLexbUbQ/0Oek+2WiesnCwx+loiACq5t8ge/EL9W4DSMZFpoY87u/RPIoJkV0
+ skPkrzEfku4t6XaFVhJGfYG1YSfoV53RnF9KVwcg5ui97sd7esymHU1XwRs6WoLw1zeQ/xSUREnAc
+ pLvhgSOCyQ9FtJwrIeBOmivQMw3NSJjC5ztzsFnOy7RFUbjIm1NeQM1uhJ+ll3xBSMmyBBrUfwNnU
+ aNTNXR8y7wle+wwoQB70hJnfC//sRMKPPOusASzTKEHs37fKR/o1nitVIKirzjTWHnkI4mspElf5g
+ mAplpQhw==;
+Received: from [2001:4bb8:19b:f845:15fc:cef6:715a:fb03] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lZTcS-00DRkA-CT; Thu, 22 Apr 2021 07:19:24 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Subject: cleanup and fix swiotlb sizing
+Date: Thu, 22 Apr 2021 09:19:14 +0200
+Message-Id: <20210422071921.1428607-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>,
- linux-kernel@vger.kernel.org
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Juergen Gross <jgross@suse.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Michael Ellerman <mpe@ellerman.id.au>, linux-mips@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Stefano Stabellini <sstabellini@kernel.org>,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -61,33 +77,29 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-aW9tbXVfZGV2aWNlX3N5c2ZzX2FkZCgpIGlzIGNhbGxlZCBiZWZvcmUsIHNvIGlzIGhhcyB0byBi
-ZSBjbGVhbmVkIG9uIHN1YnNlcXVlbnQKZXJyb3JzLgoKRml4ZXM6IDM5YWI5NTU1YzI0MTEgKCJp
-b21tdTogQWRkIHN5c2ZzIGJpbmRpbmdzIGZvciBzdHJ1Y3QgaW9tbXVfZGV2aWNlIikKQ2M6IHN0
-YWJsZUB2Z2VyLmtlcm5lbC5vcmcgIyA0LjExLngKU2lnbmVkLW9mZi1ieTogUm9sZiBFaWtlIEJl
-ZXIgPGViQGVtbGl4LmNvbT4KLS0tCiBkcml2ZXJzL2lvbW11L2ludGVsL2RtYXIuYyB8IDQgKysr
-LQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvZG1hci5jIGIvZHJpdmVycy9pb21tdS9pbnRlbC9k
-bWFyLmMKaW5kZXggZDVjNTFiNWMyMGFmLi5jMmJmY2NiMTllMjQgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvaW9tbXUvaW50ZWwvZG1hci5jCisrKyBiL2RyaXZlcnMvaW9tbXUvaW50ZWwvZG1hci5jCkBA
-IC0xMTQ0LDcgKzExNDQsNyBAQCBzdGF0aWMgaW50IGFsbG9jX2lvbW11KHN0cnVjdCBkbWFyX2Ry
-aGRfdW5pdCAqZHJoZCkKIAogCQllcnIgPSBpb21tdV9kZXZpY2VfcmVnaXN0ZXIoJmlvbW11LT5p
-b21tdSk7CiAJCWlmIChlcnIpCi0JCQlnb3RvIGVycl91bm1hcDsKKwkJCWdvdG8gZXJyX3N5c2Zz
-OwogCX0KIAogCWRyaGQtPmlvbW11ID0gaW9tbXU7CkBAIC0xMTUyLDYgKzExNTIsOCBAQCBzdGF0
-aWMgaW50IGFsbG9jX2lvbW11KHN0cnVjdCBkbWFyX2RyaGRfdW5pdCAqZHJoZCkKIAogCXJldHVy
-biAwOwogCitlcnJfc3lzZnM6CisJaW9tbXVfZGV2aWNlX3N5c2ZzX3JlbW92ZSgmaW9tbXUtPmlv
-bW11KTsKIGVycl91bm1hcDoKIAl1bm1hcF9pb21tdShpb21tdSk7CiBlcnJvcl9mcmVlX3NlcV9p
-ZDoKLS0gCjIuMzEuMQoKLS0gClJvbGYgRWlrZSBCZWVyLCBlbWxpeCBHbWJILCBodHRwczovL3d3
-dy5lbWxpeC5jb20KRm9uICs0OSA1NTEgMzA2NjQtMCwgRmF4ICs0OSA1NTEgMzA2NjQtMTEKR290
-aGFlciBQbGF0eiAzLCAzNzA4MyBHw7Z0dGluZ2VuLCBHZXJtYW55ClNpdHogZGVyIEdlc2VsbHNj
-aGFmdDogR8O2dHRpbmdlbiwgQW10c2dlcmljaHQgR8O2dHRpbmdlbiBIUiBCIDMxNjAKR2VzY2jD
-pGZ0c2bDvGhydW5nOiBIZWlrZSBKb3JkYW4sIERyLiBVd2UgS3JhY2tlIOKAkyBVc3QtSWROci46
-IERFIDIwNSAxOTggMDU1CgplbWxpeCAtIHNtYXJ0IGVtYmVkZGVkIG9wZW4gc291cmNlCgoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGlu
-ZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGlu
-dXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+Hi all,
+
+based on a report from Tom that overriding the default sizing provided
+by the x86 SEV code on the command line doesn't work anymore, this series
+cleans up how we handle default and command line sizes for the swiotlb
+buffer and then fixes the recently introduced bug in a straight-forward
+way.
+
+Diffstat:
+ arch/mips/cavium-octeon/dma-octeon.c      |   16 +--------------
+ arch/mips/include/asm/octeon/pci-octeon.h |    1 
+ arch/mips/pci/pci-octeon.c                |    2 -
+ arch/powerpc/platforms/pseries/svm.c      |   13 ++----------
+ drivers/xen/swiotlb-xen.c                 |    2 -
+ include/linux/swiotlb.h                   |    2 -
+ kernel/dma/swiotlb.c                      |   32 +++++++++++++++---------------
+ 7 files changed, 25 insertions(+), 43 deletions(-)
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
