@@ -1,64 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B1E36779E
-	for <lists.iommu@lfdr.de>; Thu, 22 Apr 2021 04:56:16 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F60367962
+	for <lists.iommu@lfdr.de>; Thu, 22 Apr 2021 07:44:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2A07C4069D;
-	Thu, 22 Apr 2021 02:56:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3635860652;
+	Thu, 22 Apr 2021 05:44:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SIV7MAesK8EC; Thu, 22 Apr 2021 02:56:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 508344068B;
-	Thu, 22 Apr 2021 02:56:14 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lOV2cqMcbI5l; Thu, 22 Apr 2021 05:44:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 570D7605F9;
+	Thu, 22 Apr 2021 05:44:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20D3AC000B;
-	Thu, 22 Apr 2021 02:56:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 25964C001B;
+	Thu, 22 Apr 2021 05:44:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8F48C000B
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 02:56:12 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ED5B7C000B
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 05:44:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8FFEA4039E
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 02:56:12 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id E187083D8D
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 05:44:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id crht64k0MHe0 for <iommu@lists.linux-foundation.org>;
- Thu, 22 Apr 2021 02:56:11 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dlrrin1Sx7YD for <iommu@lists.linux-foundation.org>;
+ Thu, 22 Apr 2021 05:44:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BED9B40002
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 02:56:11 +0000 (UTC)
-IronPort-SDR: U6sWEcvuOoqLKvOyEf3lMBJaBZ/Yv93C+EM9cpQwqB1htBROVGIrrGrl9IOl9WkvJXXXMXlzoE
- iBXBtMBb0+Vg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="195372415"
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; d="scan'208";a="195372415"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 19:56:09 -0700
-IronPort-SDR: KJiZnzHyJabZvX/+Np71+BAyI3aZRBCq19+5TKA2sv6jnYpEs14H/e6Ck8lmabicUpuinf73Yg
- DNPSWbjZrcPw==
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 406F283D45
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 05:44:04 +0000 (UTC)
+IronPort-SDR: 7GBihwkU9p98h+B5r57bWRrGt1u3jy5xSta57FSc16BNngY2caPe/9ghatDp4NcYEwKhRfxiMb
+ 8SxjhRNzU8nQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="281159934"
+X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; d="scan'208";a="281159934"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 22:44:03 -0700
+IronPort-SDR: OiZdGW1Av586D5MrQvzGUrwiUhBfctjZwZ/+Pyckqj1gLR1228+nK0/UXRuR0T+h8rBfd6fxWF
+ Px7Xo04WsKZw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; d="scan'208";a="455600224"
+X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; d="scan'208";a="524527974"
 Received: from allen-box.sh.intel.com (HELO [10.239.159.128])
  ([10.239.159.128])
- by fmsmga002.fm.intel.com with ESMTP; 21 Apr 2021 19:56:08 -0700
-Subject: Re: [PATCH] Intel IOMMU: fix sysfs leak in hotplug init path
+ by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2021 22:44:01 -0700
+Subject: Re: [PATCH] iommu/vt-d: Fix sysfs leak in alloc_domain()
 To: Rolf Eike Beer <eb@emlix.com>, Joerg Roedel <joro@8bytes.org>,
  Will Deacon <will@kernel.org>
 References: <1716403.SmlLz2RZUD@devpool47>
+ <17411490.HIIP88n32C@mobilepool36.emlix.com>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <f14bd336-bc77-bba9-05f3-3f57f34c59e3@linux.intel.com>
-Date: Thu, 22 Apr 2021 10:46:24 +0800
+Message-ID: <b13c4073-5976-b4e0-4dc7-4e07e68cbb5f@linux.intel.com>
+Date: Thu, 22 Apr 2021 13:34:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <1716403.SmlLz2RZUD@devpool47>
+In-Reply-To: <17411490.HIIP88n32C@mobilepool36.emlix.com>
 Content-Language: en-US
 Cc: iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>,
  linux-kernel@vger.kernel.org
@@ -81,29 +82,27 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Hi Rolf,
 
-On 4/21/21 11:12 PM, Rolf Eike Beer wrote:
+On 4/22/21 1:39 PM, Rolf Eike Beer wrote:
+> iommu_device_sysfs_add() is called before, so is has to be cleaned on subsequent
+> errors.
+> 
+> Fixes: 39ab9555c2411 ("iommu: Add sysfs bindings for struct iommu_device")
+> Cc: stable@vger.kernel.org # 4.11.x
 > Signed-off-by: Rolf Eike Beer <eb@emlix.com>
 
-Thanks for the patch!
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-Can you please adjust the subject to "iommu/vt-d: Fix sysfs leak in
-alloc_domain()"? It's not only for hotplug path.
+P.S. Next time when you submit a new version, please use a version tag.
 
-Please also add commit message.
-
-Add below Fixes tag as well:
-
-Fixes: 39ab9555c2411 ("iommu: Add sysfs bindings for struct iommu_device")
+Best regards,
+baolu
 
 > ---
 >   drivers/iommu/intel/dmar.c | 4 +++-
 >   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> I have not actually tested this but I guess it should match the code in
-> free_iommu() just below.
-> 
 > diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-> index d5c51b5c20af..fb37a9b79b3a 100644
+> index d5c51b5c20af..c2bfccb19e24 100644
 > --- a/drivers/iommu/intel/dmar.c
 > +++ b/drivers/iommu/intel/dmar.c
 > @@ -1144,7 +1144,7 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
@@ -111,7 +110,7 @@ Fixes: 39ab9555c2411 ("iommu: Add sysfs bindings for struct iommu_device")
 >   		err = iommu_device_register(&iommu->iommu);
 >   		if (err)
 > -			goto err_unmap;
-> +			goto err_unregister;
+> +			goto err_sysfs;
 >   	}
 >   
 >   	drhd->iommu = iommu;
@@ -119,15 +118,12 @@ Fixes: 39ab9555c2411 ("iommu: Add sysfs bindings for struct iommu_device")
 >   
 >   	return 0;
 >   
-> +err_unregister:
+> +err_sysfs:
 > +	iommu_device_sysfs_remove(&iommu->iommu);
 >   err_unmap:
 >   	unmap_iommu(iommu);
 >   error_free_seq_id:
 > 
-
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
