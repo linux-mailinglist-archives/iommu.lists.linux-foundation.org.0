@@ -2,60 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDEE367AD3
-	for <lists.iommu@lfdr.de>; Thu, 22 Apr 2021 09:19:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906FD367ADD
+	for <lists.iommu@lfdr.de>; Thu, 22 Apr 2021 09:19:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DF934606AA;
-	Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 94A56607EE;
+	Thu, 22 Apr 2021 07:19:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ERLKmmCQ2_3j; Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0839F606A6;
-	Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
+	with ESMTP id 8ftamYT_9hQh; Thu, 22 Apr 2021 07:19:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7D4D4607FA;
+	Thu, 22 Apr 2021 07:19:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7405C000B;
-	Thu, 22 Apr 2021 07:19:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5AF9AC0019;
+	Thu, 22 Apr 2021 07:19:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1B3E1C000B
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:52 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 50267C000B
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0170E83D98
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:52 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 967D560686
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o7AulFH1W_Lu for <iommu@lists.linux-foundation.org>;
- Thu, 22 Apr 2021 07:19:51 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZR2zdz0gAgI0 for <iommu@lists.linux-foundation.org>;
+ Thu, 22 Apr 2021 07:19:53 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1912283D94
- for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:50 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id ED20260669
+ for <iommu@lists.linux-foundation.org>; Thu, 22 Apr 2021 07:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=aEdQBTMaUl2RRYZxc6tzp9x+ou0hYnPrwcHo24gdihQ=; b=jzhBxobmLoI0NNUrL8/EfTlash
- db9hFe8bub19NNsbPLexbUbQ/0Oek+2WiesnCwx+loiACq5t8ge/EL9W4DSMZFpoY87u/RPIoJkV0
- skPkrzEfku4t6XaFVhJGfYG1YSfoV53RnF9KVwcg5ui97sd7esymHU1XwRs6WoLw1zeQ/xSUREnAc
- pLvhgSOCyQ9FtJwrIeBOmivQMw3NSJjC5ztzsFnOy7RFUbjIm1NeQM1uhJ+ll3xBSMmyBBrUfwNnU
- aNTNXR8y7wle+wwoQB70hJnfC//sRMKPPOusASzTKEHs37fKR/o1nitVIKirzjTWHnkI4mspElf5g
- mAplpQhw==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=9e6nRv3+wLjzlc72bubCu1Xi6ervkRsefEBahSWTc/0=; b=zOoYX8jUOo1h/3vuutMUzvW6dA
+ ZDt/haqkxtsVhv+y49bYkAHuzihtfHTSLXmkH54HT45XdIirfXz/KA9+81tRVALy4BqRUaeZ6UVFS
+ thFNeLLbDdJoO1uvDKXeBjJ7flnlT8R/2cANDYZpKVuHgq5iXbiyTcaiI17eeegb86Zndo02fMOgM
+ wanJlXmIKnHeFmhGV4kAkHunvH8Qqyvjo1wQeq9Tgjdwmg802+7/ndgUnSmpLe960PfgL1yXsBmPO
+ IC6M+tscEAqKN99bJ3pxEM5gpDrdaTUgeWmzLwy6xFLs3xVNmJMi0JNlfqxnNQq/KkvxFweBr3GXT
+ w3XNj2bA==;
 Received: from [2001:4bb8:19b:f845:15fc:cef6:715a:fb03] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lZTcS-00DRkA-CT; Thu, 22 Apr 2021 07:19:24 +0000
+ id 1lZTcV-00DRkP-5I; Thu, 22 Apr 2021 07:19:27 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Subject: cleanup and fix swiotlb sizing
-Date: Thu, 22 Apr 2021 09:19:14 +0200
-Message-Id: <20210422071921.1428607-1-hch@lst.de>
+Subject: [PATCH 1/7] swiotlb: pass bytes instead of nslabs to
+ swiotlb_init_with_tbl
+Date: Thu, 22 Apr 2021 09:19:15 +0200
+Message-Id: <20210422071921.1428607-2-hch@lst.de>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210422071921.1428607-1-hch@lst.de>
+References: <20210422071921.1428607-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -82,23 +83,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi all,
+Pass the actual allocation size to swiotlb_init_with_tbl, which
+simplifies things quite a bit.
 
-based on a report from Tom that overriding the default sizing provided
-by the x86 SEV code on the command line doesn't work anymore, this series
-cleans up how we handle default and command line sizes for the swiotlb
-buffer and then fixes the recently introduced bug in a straight-forward
-way.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ arch/mips/cavium-octeon/dma-octeon.c |  2 +-
+ arch/powerpc/platforms/pseries/svm.c |  3 +--
+ drivers/xen/swiotlb-xen.c            |  2 +-
+ include/linux/swiotlb.h              |  2 +-
+ kernel/dma/swiotlb.c                 | 10 +++++-----
+ 5 files changed, 9 insertions(+), 10 deletions(-)
 
-Diffstat:
- arch/mips/cavium-octeon/dma-octeon.c      |   16 +--------------
- arch/mips/include/asm/octeon/pci-octeon.h |    1 
- arch/mips/pci/pci-octeon.c                |    2 -
- arch/powerpc/platforms/pseries/svm.c      |   13 ++----------
- drivers/xen/swiotlb-xen.c                 |    2 -
- include/linux/swiotlb.h                   |    2 -
- kernel/dma/swiotlb.c                      |   32 +++++++++++++++---------------
- 7 files changed, 25 insertions(+), 43 deletions(-)
+diff --git a/arch/mips/cavium-octeon/dma-octeon.c b/arch/mips/cavium-octeon/dma-octeon.c
+index df70308db0e697..020b8ce5b8ff7c 100644
+--- a/arch/mips/cavium-octeon/dma-octeon.c
++++ b/arch/mips/cavium-octeon/dma-octeon.c
+@@ -245,6 +245,6 @@ void __init plat_swiotlb_setup(void)
+ 		panic("%s: Failed to allocate %zu bytes align=%lx\n",
+ 		      __func__, swiotlbsize, PAGE_SIZE);
+ 
+-	if (swiotlb_init_with_tbl(octeon_swiotlb, swiotlb_nslabs, 1) == -ENOMEM)
++	if (swiotlb_init_with_tbl(octeon_swiotlb, swiotlbsize, 1) == -ENOMEM)
+ 		panic("Cannot allocate SWIOTLB buffer");
+ }
+diff --git a/arch/powerpc/platforms/pseries/svm.c b/arch/powerpc/platforms/pseries/svm.c
+index 1d829e257996fb..4d281ff56ce96f 100644
+--- a/arch/powerpc/platforms/pseries/svm.c
++++ b/arch/powerpc/platforms/pseries/svm.c
+@@ -52,10 +52,9 @@ void __init svm_swiotlb_init(void)
+ 	bytes = io_tlb_nslabs << IO_TLB_SHIFT;
+ 
+ 	vstart = memblock_alloc(PAGE_ALIGN(bytes), PAGE_SIZE);
+-	if (vstart && !swiotlb_init_with_tbl(vstart, io_tlb_nslabs, false))
++	if (vstart && !swiotlb_init_with_tbl(vstart, bytes, false))
+ 		return;
+ 
+-
+ 	memblock_free_early(__pa(vstart),
+ 			    PAGE_ALIGN(io_tlb_nslabs << IO_TLB_SHIFT));
+ 	panic("SVM: Cannot allocate SWIOTLB buffer");
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index 4c89afc0df6289..18d79f07b507ce 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -249,7 +249,7 @@ void __init xen_swiotlb_init_early(void)
+ 		panic("%s (rc:%d)", xen_swiotlb_error(XEN_SWIOTLB_EFIXUP), rc);
+ 	}
+ 
+-	if (swiotlb_init_with_tbl(start, nslabs, false))
++	if (swiotlb_init_with_tbl(start, bytes, false))
+ 		panic("Cannot allocate SWIOTLB buffer");
+ 	swiotlb_set_max_segment(PAGE_SIZE);
+ }
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 216854a5e5134b..d1d40ca5014b54 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -36,7 +36,7 @@ enum swiotlb_force {
+ #define IO_TLB_DEFAULT_SIZE (64UL<<20)
+ 
+ extern void swiotlb_init(int verbose);
+-int swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose);
++int swiotlb_init_with_tbl(char *tlb, size_t bytes, int verbose);
+ unsigned long swiotlb_size_or_default(void);
+ extern int swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs);
+ extern int swiotlb_late_init_with_default_size(size_t default_size);
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 0a5b6f7e75bce6..c7b3dd86db7f56 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -166,9 +166,9 @@ void __init swiotlb_update_mem_attributes(void)
+ 	memset(vaddr, 0, bytes);
+ }
+ 
+-int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
++int __init swiotlb_init_with_tbl(char *tlb, size_t bytes, int verbose)
+ {
+-	unsigned long bytes = nslabs << IO_TLB_SHIFT, i;
++	unsigned long nslabs = bytes >> IO_TLB_SHIFT, i;
+ 	struct io_tlb_mem *mem;
+ 	size_t alloc_size;
+ 
+@@ -209,17 +209,17 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+ void  __init
+ swiotlb_init(int verbose)
+ {
+-	size_t bytes = PAGE_ALIGN(default_nslabs << IO_TLB_SHIFT);
++	size_t bytes = default_nslabs << IO_TLB_SHIFT;
+ 	void *tlb;
+ 
+ 	if (swiotlb_force == SWIOTLB_NO_FORCE)
+ 		return;
+ 
+ 	/* Get IO TLB memory from the low pages */
+-	tlb = memblock_alloc_low(bytes, PAGE_SIZE);
++	tlb = memblock_alloc_low(PAGE_ALIGN(bytes), PAGE_SIZE);
+ 	if (!tlb)
+ 		goto fail;
+-	if (swiotlb_init_with_tbl(tlb, default_nslabs, verbose))
++	if (swiotlb_init_with_tbl(tlb, bytes, verbose))
+ 		goto fail_free_mem;
+ 	return;
+ 
+-- 
+2.30.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
