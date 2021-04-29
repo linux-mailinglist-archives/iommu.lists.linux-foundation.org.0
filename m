@@ -1,144 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F38936E28B
-	for <lists.iommu@lfdr.de>; Thu, 29 Apr 2021 02:22:02 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A18C736E3FC
+	for <lists.iommu@lfdr.de>; Thu, 29 Apr 2021 06:18:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 90F374193E;
-	Thu, 29 Apr 2021 00:22:00 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 09B0D615E8;
+	Thu, 29 Apr 2021 04:18:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Eq5468d_LP5Y; Thu, 29 Apr 2021 00:21:59 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id U_A_Hg8MGISk; Thu, 29 Apr 2021 04:18:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3A33C41941;
-	Thu, 29 Apr 2021 00:21:59 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id DC60E6F6CE;
+	Thu, 29 Apr 2021 04:18:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E88B1C000F;
-	Thu, 29 Apr 2021 00:21:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BB2FFC0019;
+	Thu, 29 Apr 2021 04:18:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 82E13C0001
- for <iommu@lists.linux-foundation.org>; Thu, 29 Apr 2021 00:21:57 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2BF19C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Apr 2021 04:18:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6847E84D27
- for <iommu@lists.linux-foundation.org>; Thu, 29 Apr 2021 00:21:57 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 05780419C9
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Apr 2021 04:18:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=nvidia.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0CdafU-Zf1Wr for <iommu@lists.linux-foundation.org>;
- Thu, 29 Apr 2021 00:21:56 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 34BE384D26
- for <iommu@lists.linux-foundation.org>; Thu, 29 Apr 2021 00:21:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DS7sPbgnaKeSWCNqoibkY00ZBRGFITJivwHatChRaMWSHjZg8LyKoVQK1iuhSwDsvGd21GiK5yfwGuFg4nA4uNia17dCoP0AURPqfHc/KSjGOAZmiGKyh2RGSst8VeGvSVLGuukRTfSXW8PJb0StaYypeJqlpsFktHhVJ1E8FxivJAAmqe/c0DaE5wTXS8SwsCg4Czydk1vVLxheufc8xot/kgmtoL6/3aqoqWM0UOdG8UBguBepBfoUPkKzuGaZqgSyzIkgWPQvh+mI9dEYurfrYpWxdCExtxRn7KoGmCI5jcOjnEq16gkn3hscmWSXdgHObHeMUdopBOwq2WhdZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wf0FFjCU92BRz2ovOAkN3QZk/lQx+XcNXHCwnSKh++g=;
- b=CBgIToG5XByhVyQM1dNYH6jNzM3HkBrnb0LPp15KEwf6ZC8aKLWEnm9fEyKEOnPB2ClQIURVC/ExMaL6/rIQbZlUbzcGT5Vkbf1/1rSmcsquelJnfGuCuyQy/ZYxmHud78YVHi+tSWQGWBxSuFB1NWSS8zV0PrrTcJXEMq9JYFU3vCtaPU77lQdthgJ+NgY7tFMJM5UZUpwVxa4DpwvSeTUbMuTSpbXv5JL/ENDCEXqMAfO1RgcBhVkbLSpH3LhoSq0Hpi+p9uxTwbkLTj1qcIhleQZq5LrbAgncIKKV1tAhmxxGywEweY2RD7A8m7LqBDwNxuBuQCOndm9v8sA4bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wf0FFjCU92BRz2ovOAkN3QZk/lQx+XcNXHCwnSKh++g=;
- b=GaacGmeHXHXdN4305GmDC9fhEkaja/py8uRlvHrEEwwsKUMTiybDxh/0Iwtluf1yOx3zhjjUc4wDpDKLd26gXqzTyGExzjDDxOiC0EAHHEs7CXlL+UCCNf8VqmFpyOTSquC9dXGqVbI0CuuzsgEVOhS1f9r+y+xW6DZsheGh+FaRmMYY2BENJaXAErnJJaAXaz+eWKvuT2CI+FJN+6d2nl1WgHaNDv8281oumsOQNxMu1lbeOLLmW4AkbBiTUBVvUViqWzTm1CxEvIyk9v1YwhnIZajir2Ia5lWNZn4h3IVfgS4e2WgixF4HKs2hVkt3WtA3rW+bx10eMhwNTYO1xQ==
-Authentication-Results: gibson.dropbear.id.au; dkim=none (message not signed)
- header.d=none; gibson.dropbear.id.au;
- dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB2488.namprd12.prod.outlook.com (2603:10b6:4:b5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.26; Thu, 29 Apr
- 2021 00:21:51 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4065.027; Thu, 29 Apr 2021
- 00:21:51 +0000
-Date: Wed, 28 Apr 2021 21:21:49 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: David Gibson <david@gibson.dropbear.id.au>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TmaOiKzs8JbC for <iommu@lists.linux-foundation.org>;
+ Thu, 29 Apr 2021 04:18:16 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 319D7419B7
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Apr 2021 04:18:15 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FW2Kx1MK8z9sjD; Thu, 29 Apr 2021 14:18:13 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1619669893;
+ bh=hsi/0KQt96DzQmNT580YEU9V2UkP5TGhmJvkh107yvI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FKTV6jhUCQG6QGXO0yH4rJ0e1PKhM4eKJ+VPACBqzzyMB7lNfd0pf0uJyRsuOpKkS
+ 4a4aXtGWyzp1xpv7GbZy9pee3/Zw4bA7PCSLwHPsjZJ1McFkwdWmOJSIfyF2xZ3zAn
+ i8zpShOOVMxVTYpefxWG3AmPchYbPYKTcg30OJRc=
+Date: Thu, 29 Apr 2021 13:04:05 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
  allocation APIs
-Message-ID: <20210429002149.GZ1370958@nvidia.com>
-References: <BN6PR11MB406854F56D18E1187A2C98ACC3479@BN6PR11MB4068.namprd11.prod.outlook.com>
- <20210421162307.GM1370958@nvidia.com>
- <20210421105451.56d3670a@redhat.com>
- <20210421175203.GN1370958@nvidia.com>
- <20210421133312.15307c44@redhat.com>
- <20210421230301.GP1370958@nvidia.com>
- <20210422111337.6ac3624d@redhat.com>
- <YIeYJZOdgMN/orl0@yekko.fritz.box>
- <20210427172432.GE1370958@nvidia.com>
- <YIi5G4Wg/hpFqNdX@yekko.fritz.box>
-Content-Disposition: inline
-In-Reply-To: <YIi5G4Wg/hpFqNdX@yekko.fritz.box>
-X-Originating-IP: [206.223.160.26]
-X-ClientProxiedBy: CH0PR03CA0223.namprd03.prod.outlook.com
- (2603:10b6:610:e7::18) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Message-ID: <YIoiJRY3FM7xH2bH@yekko>
+References: <20210422111337.6ac3624d@redhat.com>
+ <20210422175715.GA1370958@nvidia.com>
+ <20210422133747.23322269@redhat.com>
+ <20210422200024.GC1370958@nvidia.com>
+ <20210422163808.2d173225@redhat.com>
+ <20210422233950.GD1370958@nvidia.com>
+ <YIecXkaEGNgICePO@yekko.fritz.box>
+ <20210427171212.GD1370958@nvidia.com>
+ <YIizNdbA0+LYwQbI@yekko.fritz.box>
+ <20210428145622.GU1370958@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by
- CH0PR03CA0223.namprd03.prod.outlook.com (2603:10b6:610:e7::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.26 via Frontend Transport; Thu, 29 Apr 2021 00:21:50 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lbuRB-00EBit-69; Wed, 28 Apr 2021 21:21:49 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b9fdf923-15dc-4f02-02cc-08d90aa4c89e
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2488:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB24881597FB48B2A06E953EA9C25F9@DM5PR12MB2488.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lo8fR49yi3kCjzFWPZ2oOT1M6N0GLM14o+yaERjPyv2LTgAERBKOSJoWdDHh8LZMDeS0+gzvuBdEes9HCIQXe5TuOBkXngAXH3Xb5AyNFxGSgHW0o7hH3oRLr1QxXbAaXrnRxsDe2xOoEVZ4ykL2l3oiyM3ysZxouySDxCJY7+XegD1aegBAOTElCxidIYeJgK/4qKQ9NjP7oR0ZOdp+IuUWbVDD8Ee+HE6w0WUf0KAnJUz9+oJZnzMLaWHF1TM5WIz2w20/lbU12/0hv2AtLLGLMD2hAoe7tDzQ79JHrXffcJ9SoSRpWg/CpLgJ3pF+Fj+iCYFo7/svrqi5giJFnbpTXbJj8Gr2afgXEfJorBDFLU1UQU4dtZfdM4PXhugppHY2P152zM5DLOCmD4lqeDrzyXq/cS+ScVDNUkA601l3XJrJFHFOVR9mmT/MWJV8tmkhG6bCXcoTbVnts4kKeIHDzJ+htV6HOxq/scMZ28AiDe4qfXo9LwJPuRc1LDdMnkAk4yF5rTN258A4ZjjT2rSuoltUnNQbC9O/XDElTMut1JNfYais+kyAsta6m0SGf8JGthV8d1NW/mPgH9xc14/kRLYOsTWfEeoHF/19BV4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(136003)(366004)(346002)(376002)(8676002)(5660300002)(186003)(66476007)(6916009)(38100700002)(2616005)(7416002)(1076003)(478600001)(4326008)(66946007)(33656002)(66556008)(9786002)(36756003)(2906002)(9746002)(83380400001)(54906003)(316002)(86362001)(26005)(426003)(8936002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?4FX0G7It+4VDVHMZn9i/576PMlClUT7EOpVBK33esO9PG5V5tr/Q3Rme5vR5?=
- =?us-ascii?Q?v9uX/0zHBFLMc0vBb7+blNYcPcGdO933xNGKLNoeuil0Qx7gFn28zxtJtS5T?=
- =?us-ascii?Q?/XmTqC4Bw7PJZ5oxjyi3fnif2TrMl4i6JbiVTCMjw4nEcfDdXqsXhzWsog7z?=
- =?us-ascii?Q?Eki+B5KtzYRPZfHtZoph58f3aCNUPnywdzrhVRyDjzcb0qAkab729D/Ise9Q?=
- =?us-ascii?Q?dA+vjb0XDMAeydovMuIfhJPgunboc9H8SuiRaT5ooeNRsL5YhQ4KHnlPcVez?=
- =?us-ascii?Q?TwFCGt6sDp+Ytn8As5NxKjaS1DZuqwpQiuIAarMoldNTcNEtKYRiI3oKRq6G?=
- =?us-ascii?Q?GFIpB7x+Q5LSRHQUWQuNoPPwNbkhTe2QmpQ8sf+c7r3nQMNws/kxdZviZEu4?=
- =?us-ascii?Q?+wwXzU+h0/J+oOj3YgtzbXC/kSZVntI5inNYooc0CauqcQ76WALWqJJXWgG1?=
- =?us-ascii?Q?3o2aM3Z1WHE/tHZLsGfLFImNc11BpjFdrbcDD/86H80iJ20vy+V9LPgYt+Tz?=
- =?us-ascii?Q?nuO7UPBhEsZzx2lvPgqV1qROGvHtKA7FrIw3JcPMhnNWqcyzB48YXcGgTNyA?=
- =?us-ascii?Q?x7WprD4nSSJMnJf1WWDHHS/jrJ5o4OUV9lSxtAQ35lzYqwWIv1OkyLFyypqi?=
- =?us-ascii?Q?afMKdk7yJIMbZ1gdhmTB7jS+R9x7wu9afXA2jzpWj7mVB6j4Fr9UxcGCFktv?=
- =?us-ascii?Q?zWmtmAmkKRW3wR3KgvKNs9ptZ4v5B37QzybtRb9mAkiyA3fwdkzNWV2SqQSJ?=
- =?us-ascii?Q?k9w3o8+6kNSJWoDpBP41IGfpqVU7gWm+PoSz3nv5NmHGfjhDy3GqkhjDrLWe?=
- =?us-ascii?Q?PkOyASvKtR43vYRkKxVj2V0stgwWHMw82wXWyIKkfO12hwsGdX5R/sYmeaiR?=
- =?us-ascii?Q?YSxGTttpPI6+Tw1zfPRz0F126svE8jqxU+oO7fasskZt9fzYbW9f1xfxfd90?=
- =?us-ascii?Q?EXb+gB7GL4SPtYr2dG8ES54Z5z8avWnmBO0tjKKKX+xSQJpad4NvhgI+EMTK?=
- =?us-ascii?Q?a9fDksS4ZAncBDHt6qhs2F7+CIUM8um6h13t+rI+GypNBUCZSL1t53IHZpec?=
- =?us-ascii?Q?36Q+BaTKenNCTk5d1khQQzBaHxTQEdiffLuVDqHN+AyVUoyL9eKHMaUjxIU3?=
- =?us-ascii?Q?TQz/DkC0veZHEhHc/sUve4cnxw5QEZEEJ7fbdqkYl7CtQCpRjt+LOzwCLHu1?=
- =?us-ascii?Q?nBda1+G4wIHuokjL5q53MemtPqUbruFiqAxFgB6BzYR3f2A/+kJsNZO9yfyi?=
- =?us-ascii?Q?ql2VPyJrObiCo2Uht1lqHMsSHMnXoicX3Gvh5B3DgC9dGxFmiLlelT3gsjbR?=
- =?us-ascii?Q?pRZX39rX1pk2epnuv6Mdv3tX?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9fdf923-15dc-4f02-02cc-08d90aa4c89e
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2021 00:21:51.0656 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IqAp6mCPI3DLZ25edwwiSFCT2yxO9hu3GeqaeP6NKlGrvMW3fmazvbXTsPy6iFJ/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2488
+In-Reply-To: <20210428145622.GU1370958@nvidia.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
  Kevin" <kevin.tian@intel.com>, "Jiang, Dave" <dave.jiang@intel.com>, "Raj,
  Ashok" <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
@@ -161,61 +85,179 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4268219068598090486=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Apr 28, 2021 at 11:23:39AM +1000, David Gibson wrote:
 
-> Yes.  My proposed model for a unified interface would be that when you
-> create a new container/IOASID, *no* IOVAs are valid.
+--===============4268219068598090486==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="XZCPoS4KxluW8njQ"
+Content-Disposition: inline
 
-Hurm, it is quite tricky. All IOMMUs seem to have a dead zone around
-the MSI window, so negotiating this all in a general way is not going
-to be a very simple API.
 
-To be general it would be nicer to say something like 'I need XXGB of
-IOVA space' 'I need 32 bit IOVA space' etc and have the kernel return
-ranges that sum up to at least that big. Then the kernel can do its
-all its optimizations.
+--XZCPoS4KxluW8njQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I guess you are going to say that the qemu PPC vIOMMU driver needs
-more exact control..
+On Wed, Apr 28, 2021 at 11:56:22AM -0300, Jason Gunthorpe wrote:
+> On Wed, Apr 28, 2021 at 10:58:29AM +1000, David Gibson wrote:
+> > On Tue, Apr 27, 2021 at 02:12:12PM -0300, Jason Gunthorpe wrote:
+> > > On Tue, Apr 27, 2021 at 03:08:46PM +1000, David Gibson wrote:
+> > > > > Starting from a BDF the general pseudo code is:
+> > > > >  device_name =3D first_directory_of("/sys/bus/pci/devices/BDF/vfi=
+o/")
+> > > > >  device_fd =3D open("/dev/vfio/"+device_name)
+> > > > >  ioasidfd =3D open("/dev/ioasid")
+> > > > >  ioctl(device_fd, JOIN_IOASID_FD, ioasidfd)
+> > > >=20
+> > > > This line is the problem.
+> > > >=20
+> > > > [Historical aside: Alex's early drafts for the VFIO interface looked
+> > > > quite similar to this.  Ben Herrenschmidt and myself persuaded him =
+it
+> > > > was a bad idea, and groups were developed instead.  I still think i=
+t's
+> > > > a bad idea, and not just for POWER]
+> > >=20
+> > > Spawning the VFIO device FD from the group FD is incredibly gross from
+> > > a kernel design perspective. Since that was done the struct
+> > > vfio_device missed out on a sysfs presence and doesn't have the
+> > > typical 'struct device' member or dedicated char device you'd expect a
+> > > FD based subsystem to have.
+> > >=20
+> > > This basically traded normal usage of the driver core for something
+> > > that doesn't serve a technical usage. Given we are now nearly 10 years
+> > > later and see that real widely deployed applications are not doing
+> > > anything special with the group FD it makes me question the wisdom of
+> > > this choice.
+> >=20
+> > I'm really not sure what "anything special" would constitute here.
+>=20
+> Well, really anything actually. All I see in, say, dpdk, is open the
+> group fd, get a device fd, do the container dance and never touch the
+> group fd again or care about groups in any way. It seems typical of
+> this class of application.
 
-> I expect we'd need some kind of query operation to expose limitations
-> on the number of windows, addresses for them, available pagesizes etc.
+Well, sure, the only operation you do on the group itself is attach it
+to the container (and then every container operation can be thought of
+as applying to all its attached groups).  But that attach operation
+really is fundamentally about the group.  It always, unavoidably,
+fundamentally affects every device in the group - including devices
+you may not typically think about, like bridges and switches.
 
-Is page size an assumption that hugetlbfs will always be used for backing
-memory or something?
+That is *not* true of the other device operations, like poking IO.
 
-> > As an ideal, only things like the HW specific qemu vIOMMU driver
-> > should be reaching for all the special stuff.
-> 
-> I'm hoping we can even avoid that, usually.  With the explicitly
-> created windows model I propose above, it should be able to: qemu will
-> create the windows according to the IOVA windows the guest platform
-> expects to see and they either will or won't work on the host platform
-> IOMMU.  If they do, generic maps/unmaps should be sufficient.  If they
-> don't well, the host IOMMU simply cannot emulate the vIOMMU so you're
-> out of luck anyway.
+> If dpdk is exposing other devices to a risk it certainly hasn't done
+> anything to make that obvious.
 
-It is not just P9 that has special stuff, and this whole area of PASID
-seems to be quite different on every platform
+And in practice I suspect it will just break if you give it a >1
+device group.
 
-If things fit very naturally and generally then maybe, but I've been
-down this road before of trying to make a general description of a
-group of very special HW. It ended in tears after 10 years when nobody
-could understand the "general" API after it was Frankenstein'd up with
-special cases for everything. Cautionary tale
+> > > Okay, that is fair, but let's solve that problem directly. For
+> > > instance netlink has been going in the direction of adding a "extack"
+> > > from the kernel which is a descriptive error string. If the failing
+> > > ioctl returned the string:
+> > >=20
+> > >   "cannot join this device to the IOASID because device XXX in the
+> > >    same group #10 is in use"
+> >=20
+> > Um.. is there a sane way to return strings from an ioctl()?
+>=20
+> Yes, it can be done, a string buffer pointer and length in the input
+> for instance.
 
-There is a certain appeal to having some
-'PPC_TCE_CREATE_SPECIAL_IOASID' entry point that has a wack of extra
-information like windows that can be optionally called by the viommu
-driver and it remains well defined and described.
+I suppose.  Rare enough that I expect everyone will ignore it, alas :/.
 
-Jason
+> > Getting the device fds from the group fd kind of follows, because it's
+> > unsafe to do basically anything on the device unless you already
+> > control the group (which in this case means attaching it to a
+> > container/ioasid).  I'm entirely open to ways of doing that that are
+> > less inelegant from a sysfs integration point of view, but the point
+> > is you must manage the group before you can do anything at all with
+> > individual devices.
+>=20
+> I think most likely VFIO is going to be the only thing to manage a
+> multi-device group.
+
+You don't get to choose that.  You could explicitly limit other things
+to only one-device groups, but that would be an explicit limitation.
+Essentially any device can end up in a multi-device group, if you put
+it behind a PCIe to PCI bridge, or a PCIe switch which doesn't support
+access controls.
+
+The groups are still there, whether or not other things want to deal
+with them.
+
+> I see things like VDPA being primarily about PASID, and an IOASID that
+> is matched to a PASID is inherently a single device IOMMU group.
+
+I don't know enough about PASID to make sense of that.
+
+> > I don't see why.  I mean, sure, you don't want explicitly the *vfio*
+> > group as such.  But IOMMU group is already a cross-subsystem concept
+> > and you can explicitly expose that in a different way.
+>=20
+> Yes, and no, the kernel drivers in something like VDPA have decided
+> what device and group they are in before we get to IOASID. It is
+> illogical to try to retro-actively bolt in a group concept to their
+> APIs.
+
+Again, I don't know enough about VDPA to make sense of that.  Are we
+essentially talking non-PCI virtual devices here?  In which case you
+could define the VDPA "bus" to always have one-device groups.
+
+> > Again, I realy think this is necessary complexity.  You're right that
+> > far too little of the userspace properly understands group
+> > restrictions.. but these come from real hardware limitations, and I
+> > don't feel like making it *less* obvious in the interface is going to
+> > help that.
+>=20
+> The appeal of making it less obvious is we can have a single
+> simplified API flow so that an application that doesn't understand or
+> care about groups can have uniformity.
+
+I don't think simplified-but-wrong is a good goal.  The thing about
+groups is that if they're there, you can't just "not care" about them,
+they affect you whether you like it or not.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--XZCPoS4KxluW8njQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCKIiMACgkQbDjKyiDZ
+s5Ko9RAAruwUcNc8D5emb4+A75xQ5FhpAN1TX0gJbsRkNbWI5YyofP4isXd7e5vJ
+m+5diAhMg7KO37NKLSM5UW4wUotGlmqoDUHbUzWAqTPWsoDFcxUyNnmRJs8VQf5N
+UScJmiRZBuh3x/6WB2YpKxY0qGf8FD0yWLDjR8QFKcJPeQyvSkmo7qvVjflt4Y9T
+buzgdN+mZ5l3GasBfx3w6HE8s9OlIfD2D5vv1uosc8q+eJcq3axUk83hCqqIQteA
+xaNkfFXhuc3DRSTKkAL+B/snZWiG3O9AGOlDM86kHOFAihbH71bIcsgnMjZRSynA
+RYed6WpcYXyjxsPxvtLwxTHN4eHS9OGqLVSWnkHS6S5CREbNokA0Uyr1tCWx+V7j
+WefMR7fVnWrN6M7ZA3RLiA8Mw5Pd1ObB3kp1FoROqrHaCQe5V3YzyjTENWawSNKx
+Dm5os40SkM/6jGXqxtVmLu8qv66RadGR7Hgn9T8YEv99afPgnG5WqoVzXpXmDSqt
+29yjzQrDIvz8LO/jDU6dcvIjv9ELV1D4A7AMmWDYrCPEmu2+T6GKSYm60G1aDuYK
+/Sd/Mg7HX8hZvTRDrt9BfAt0QC0cWsM6z598wI56cJ+XSy661uStb8wnnVGawlKJ
+9VKxystpE/ry52y2kevd0N2OWa5V1AyGVDKdi5GU2h2iVgK1tO8=
+=BkOW
+-----END PGP SIGNATURE-----
+
+--XZCPoS4KxluW8njQ--
+
+--===============4268219068598090486==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============4268219068598090486==--
