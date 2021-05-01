@@ -1,79 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453AC3704B3
-	for <lists.iommu@lfdr.de>; Sat,  1 May 2021 03:34:58 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A7B37082B
+	for <lists.iommu@lfdr.de>; Sat,  1 May 2021 19:20:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9B74C6FA62;
-	Sat,  1 May 2021 01:34:56 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B3E1A419EC;
+	Sat,  1 May 2021 17:20:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iWk2kqcvm5qU; Sat,  1 May 2021 01:34:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 66E456F986;
-	Sat,  1 May 2021 01:34:55 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZXifzXCulsxh; Sat,  1 May 2021 17:20:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id B36A8419EE;
+	Sat,  1 May 2021 17:20:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 43630C0001;
-	Sat,  1 May 2021 01:34:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C682C0019;
+	Sat,  1 May 2021 17:20:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ED234C0001
- for <iommu@lists.linux-foundation.org>; Sat,  1 May 2021 01:34:53 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DE45FC0001
+ for <iommu@lists.linux-foundation.org>; Sat,  1 May 2021 17:20:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id E0E2440186
- for <iommu@lists.linux-foundation.org>; Sat,  1 May 2021 01:34:53 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id C006F4027E
+ for <iommu@lists.linux-foundation.org>; Sat,  1 May 2021 17:20:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q3F8zPpNEeg3 for <iommu@lists.linux-foundation.org>;
- Sat,  1 May 2021 01:34:52 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
- [209.85.161.49])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BBED04014E
- for <iommu@lists.linux-foundation.org>; Sat,  1 May 2021 01:34:52 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id
- p6-20020a4adc060000b02901f9a8fc324fso37091oov.10
- for <iommu@lists.linux-foundation.org>; Fri, 30 Apr 2021 18:34:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zUXpAoI/KzwgrARmWw+voeZ0INm/PtgvJecf6NLxWtI=;
- b=Vct5Mim7bPCp5RqBaWBh9AHdRxh/daO8AP18g7OHiKLuQ8dA0F3REbpSp7C5XlqIfT
- 08wz5+cjaTD1BswSN3lgkrdIj1YneMA4MLnh8iMNLIc3EED4g1LFiPtik3pw+3tNARY6
- fOCRfRjjFRg8jh3Sm5HeE59e3QuRD4H0IbHTFdRDR3C/mVUDRWwlDBQKj3Gz4ThssTq1
- zqLrTg6ibbSl0sgf98Nx05irW3UDH3pI0Unp2l28dL4k1rniATeassPR7tZclFHSid+4
- CswhmgppsiRK4cdFe6f+naKdild12j2cF1CrP8qEkcmcIFCdpHGB2yb80nCi4f6iMnh7
- 3v5g==
-X-Gm-Message-State: AOAM533dthxn9z8zlSMxm3efUWHhq6LL/crzetJ0uRkL0Xk2OO6PYsGF
- BSrL79vSH6WmAWgvDLLkpg==
-X-Google-Smtp-Source: ABdhPJxUbLnwv8w2KIA2KErjdTKoBtPoNxqe9/Doqh2tks/IILgB7WLqP++X9JxZZnzRy/SkywjjVw==
-X-Received: by 2002:a4a:d781:: with SMTP id c1mr6861569oou.44.1619832891658;
- Fri, 30 Apr 2021 18:34:51 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id a23sm56732otf.47.2021.04.30.18.34.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 18:34:50 -0700 (PDT)
-Received: (nullmailer pid 121538 invoked by uid 1000);
- Sat, 01 May 2021 01:34:48 -0000
-Date: Fri, 30 Apr 2021 20:34:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: iommu: rockchip: Add compatible for v2
-Message-ID: <20210501013448.GA4001859@robh.at.kernel.org>
-References: <20210422141602.350746-1-benjamin.gaignard@collabora.com>
- <20210422141602.350746-3-benjamin.gaignard@collabora.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210422141602.350746-3-benjamin.gaignard@collabora.com>
-Cc: devicetree@vger.kernel.org, heiko@sntech.de, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
- kernel@collabora.com, will@kernel.org, linux-arm-kernel@lists.infradead.org
+ with ESMTP id 4ug5eQLyLVfA for <iommu@lists.linux-foundation.org>;
+ Sat,  1 May 2021 17:20:55 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 18694401F7
+ for <iommu@lists.linux-foundation.org>; Sat,  1 May 2021 17:20:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 48B5D61625;
+ Sat,  1 May 2021 17:20:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619889654;
+ bh=t/3lgDnpeyvCdPtZDjLXkOXI5cE2Vg0kvNu9zEys41E=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=AWEXf1eQRWeTEF+40JT8DkVdBLPEuwrtWAFBHpOqoL+x09uN5kmw9ub9WLvTvBvC4
+ XAqO5StzQLoxhDudwrPV0MkYpLuR0OaKIBbdTXwq2gObicfaUXdl3Gjictvr9qnPVV
+ 0Zg00puaAWDh3/IGn/qeTo5yBkWJIomICSQBQcaapmnxuF0DtYXs+fwjoHITAOR5rt
+ Cscg9TUegI+DCWKdBZD1JNMAFqW0KUJryPttMeuWkiveRyZ6hEtEPQ1VC3R27JT9/z
+ g9Abb9n0msQ2wtS26RKvv3dSSYBTMfYlFCNj9lhMIFO4tKCZTC7H0bB5ojqj70Gbip
+ l2dXcrkxMGkLg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 42FE760978;
+ Sat,  1 May 2021 17:20:54 +0000 (UTC)
+Subject: Re: [git pull] IOMMU Updates for Linux v5.13
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YIwRbkQcElemYSjz@8bytes.org>
+References: <YIwRbkQcElemYSjz@8bytes.org>
+X-PR-Tracked-List-Id: Development issues for Linux IOMMU support
+ <iommu.lists.linux-foundation.org>
+X-PR-Tracked-Message-Id: <YIwRbkQcElemYSjz@8bytes.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
+ tags/iommu-updates-v5.13
+X-PR-Tracked-Commit-Id: 2d471b20c55e13c98d1dba413bf2de618e89cdac
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4f9701057a9cc1ae6bfc533204c9d3ba386687de
+Message-Id: <161988965426.32500.6869537324714282066.pr-tracker-bot@kernel.org>
+Date: Sat, 01 May 2021 17:20:54 +0000
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,54 +82,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Apr 22, 2021 at 04:16:00PM +0200, Benjamin Gaignard wrote:
-> Add compatible for the second version of IOMMU hardware block.
-> RK356x IOMMU can also be link to a power domain.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 2:
->  - Add power-domains property
-> 
->  .../devicetree/bindings/iommu/rockchip,iommu.yaml          | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml b/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
-> index 0db208cf724a..e54353ccd1ec 100644
-> --- a/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
-> @@ -19,7 +19,9 @@ description: |+
->  
->  properties:
->    compatible:
-> -    const: rockchip,iommu
-> +    enum:
-> +      - rockchip,iommu
-> +      - rockchip,iommu-v2
+The pull request you sent on Fri, 30 Apr 2021 16:17:18 +0200:
 
-This should be SoC specific.
+> git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-updates-v5.13
 
->  
->    reg:
->      minItems: 1
-> @@ -46,6 +48,9 @@ properties:
->    "#iommu-cells":
->      const: 0
->  
-> +  power-domains:
-> +    maxItems: 1
-> +
->    rockchip,disable-mmu-reset:
->      $ref: /schemas/types.yaml#/definitions/flag
->      description: |
-> -- 
-> 2.25.1
-> 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4f9701057a9cc1ae6bfc533204c9d3ba386687de
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
