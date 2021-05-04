@@ -1,71 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DBF373078
-	for <lists.iommu@lfdr.de>; Tue,  4 May 2021 21:11:49 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E856373239
+	for <lists.iommu@lfdr.de>; Wed,  5 May 2021 00:09:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5B24C405B6;
-	Tue,  4 May 2021 19:11:48 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A5252405FC;
+	Tue,  4 May 2021 22:09:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dvPKpw-bv-rP; Tue,  4 May 2021 19:11:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 306E2405AF;
-	Tue,  4 May 2021 19:11:47 +0000 (UTC)
+	with ESMTP id zSFcx8HvIuP6; Tue,  4 May 2021 22:09:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id C3606405F9;
+	Tue,  4 May 2021 22:09:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BA35C0001;
-	Tue,  4 May 2021 19:11:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 94F01C001C;
+	Tue,  4 May 2021 22:09:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 465BDC0019
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:43 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7EB3EC0001
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 22:09:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2B6FF846CF
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:43 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 6C8A884704
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 22:09:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id y9mTAP4BhPRm for <iommu@lists.linux-foundation.org>;
- Tue,  4 May 2021 19:11:42 +0000 (UTC)
+ with ESMTP id VXOMYLzjBmrP for <iommu@lists.linux-foundation.org>;
+ Tue,  4 May 2021 22:09:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 31429846D1
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:42 +0000 (UTC)
-IronPort-SDR: pGdN0ltZGY/aJr6gM2SZ//YsXWT3gR+5P6h9eCoby9id7OB24XpvaeAErfhQvIAuLDHQg8sl69
- DNRdVIYroJTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="197675496"
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="197675496"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 12:11:41 -0700
-IronPort-SDR: L+c1poPB/6U0UrTibGWyGf6yG6X42kx+7mMI6iJsAfAi+PloL+6GLUjp0nmMu6l3ZK7X6CUq1A
- GWav4vbSnuow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="396245307"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
- by fmsmga007.fm.intel.com with ESMTP; 04 May 2021 12:11:41 -0700
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>
-Subject: [RFC PATCH v5 7/7] x86/watchdog/hardlockup/hpet: Support interrupt
- remapping
-Date: Tue,  4 May 2021 12:10:49 -0700
-Message-Id: <20210504191049.22661-8-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210504191049.22661-1-ricardo.neri-calderon@linux.intel.com>
-References: <20210504191049.22661-1-ricardo.neri-calderon@linux.intel.com>
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
- Ashok Raj <ashok.raj@intel.com>,
- Ricardo Neri <ricardo.neri-calderon@linux.intel.com>, x86@kernel.org,
- woodhouse@osuosl.org, linux-kernel@vger.kernel.org,
- Stephane Eranian <eranian@google.com>, Ricardo Neri <ricardo.neri@intel.com>,
- iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
- Andi Kleen <andi.kleen@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@suse.de>, David Woodhouse <dwmw2@infradead.org>,
- Ingo Molnar <mingo@kernel.org>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B50968471D
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 22:09:05 +0000 (UTC)
+IronPort-SDR: Lztnhv4U7IjCrWmX8au3BIgTyD4fcVhTM/GHplBG/KIiW5OiEhPWdnNMRGZP6qrU5u0qH53G1V
+ 9lg2Bl2ZWHgA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="259367688"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="259367688"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 15:09:04 -0700
+IronPort-SDR: SuLTDiqHXM8cd3yT7FXZf7uhVJgQJ2nTgf8+4zbG2ekswyEiVikeXRe1aAw3rFb3TKUSyGk+eU
+ uKLTEkKkso9g==
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="433492852"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 15:09:04 -0700
+Date: Tue, 4 May 2021 15:11:54 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
+ allocation APIs
+Message-ID: <20210504151154.02908c63@jacob-builder>
+In-Reply-To: <20210504180050.GB1370958@nvidia.com>
+References: <20210421133312.15307c44@redhat.com>
+ <20210421230301.GP1370958@nvidia.com>
+ <MWHPR11MB1886188698A6E20338196F788C469@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210422121020.GT1370958@nvidia.com>
+ <MWHPR11MB1886E688D2128C98A1F240B18C459@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210423114944.GF1370958@nvidia.com>
+ <MWHPR11MB18861FE6982D73AFBF173E048C439@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210426123817.GQ1370958@nvidia.com>
+ <MWHPR11MB188625137D5B7423822396C88C409@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210504084148.4f61d0b5@jacob-builder>
+ <20210504180050.GB1370958@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Jiang, Dave" <dave.jiang@intel.com>, "Raj,
+ Ashok" <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Alex Williamson <alex.williamson@redhat.com>, Li Zefan <lizefan@huawei.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "Wu, 
+ Hao" <hao.wu@intel.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,198 +90,80 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When interrupt remapping is enabled in the system, the MSI interrupt
-address and data fields must follow a special format that the IOMMU
-defines.
+Hi Jason,
 
-However, the HPET hardlockup detector must rely on the interrupt
-subsystem to have the interrupt remapping drivers allocate, activate,
-and set the affinity of HPET timer interrupt. Hence, it must use
-request_irq() to use such functionality.
+On Tue, 4 May 2021 15:00:50 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-In x86 there is not an IRQF_NMI flag to indicate to the interrupt
-subsystem the delivery mode of the interrupt. A previous changset added
-functionality to detect the interrupt of the HPET hardlockup detector
-and fixup the delivery mode accordingly.
+> On Tue, May 04, 2021 at 08:41:48AM -0700, Jacob Pan wrote:
+> > > > 
+> > > > (also looking at ioasid.c, why do we need such a thin and odd
+> > > > wrapper around xarray?)
+> > > >     
+> > > 
+> > > I'll leave it to Jean and Jacob.  
+> 
+> > Could you elaborate?  
+> 
+> I mean stuff like this:
+> 
+> int ioasid_set_data(ioasid_t ioasid, void *data)
+> {
+>         struct ioasid_data *ioasid_data;
+>         int ret = 0;
+> 
+>         spin_lock(&ioasid_allocator_lock);
+>         ioasid_data = xa_load(&active_allocator->xa, ioasid);
+>         if (ioasid_data)
+>                 rcu_assign_pointer(ioasid_data->private, data);
+>         else
+>                 ret = -ENOENT;
+>         spin_unlock(&ioasid_allocator_lock);
+> 
+>         /*
+>          * Wait for readers to stop accessing the old private data, so the
+>          * caller can free it.
+>          */
+>         if (!ret)
+>                 synchronize_rcu();
+> 
+>         return ret;
+> }
+> EXPORT_SYMBOL_GPL(ioasid_set_data);
+> 
+> It is a weird way to use xarray to have a structure which
+> itself is just a wrapper around another RCU protected structure.
+> 
+> Make the caller supply the ioasid_data memory, embedded in its own
+> element, get rid of the void * and rely on XA_ZERO_ENTRY to hold
+> allocated but not active entries.
+> 
+Let me try to paraphrase to make sure I understand. Currently
+struct ioasid_data is private to the iasid core, its memory is allocated by
+the ioasid core.
 
-Also, since request_irq() is used, a non-NMI interrupt handler must be
-defined. Even if it is not needed.
+You are suggesting the following:
+1. make struct ioasid_data public
+2. caller allocates memory for ioasid_data, initialize it then pass it to
+ioasid_alloc to store in the xarray
+3. caller will be responsible for setting private data inside ioasid_data
+and do call_rcu after update if needed.
 
-When Interrupt Remapping is enabled, use the new facility to ensure
-interrupt is plumbed properly to work with interrupt remapping.
+Correct?
 
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Andi Kleen <andi.kleen@intel.com>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: David Woodhouse <dwmw2@infradead.org> (supporter:INTEL IOMMU (VT-d))
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Jacob Pan <jacob.jun.pan@intel.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com> (supporter:INTEL IOMMU (VT-d))
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: iommu@lists.linux-foundation.org (open list:INTEL IOMMU (VT-d))
-Cc: x86@kernel.org
-Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
-Changes since v4:
- * Use request_irq() to obtain an IRTE for the HPET hardlockup detector
-   instead of the custom interfaces previously implemented in the
-   interrupt remapping drivers.
- * Simplified detection of interrupt remapping by checking the parent
-   of the HPET irq domain.
- * Stopped using the HPET magic fields of struct irq_alloc_info. They
-   were removed in commit 2bf1e7bcedb8 ("x86/msi: Consolidate HPET
-   allocation")
- * Rephrased commit message for clarity. (Ashok)
- * Clarified error message of non-NMI handler. (Ashok)
+> Make the synchronize_rcu() the caller responsiblity, and callers
+> should really be able to use call_rcu()
+> 
+> Jason
 
-Changes since v3:
- * None
 
-Changes since v2:
- * None
+Thanks,
 
-Changes since v1:
- * Introduced this patch. Added custom functions in the Intel IOMMU driver
-   to allocate an IRTE for the HPET hardlockup detector.
----
- arch/x86/include/asm/hpet.h         |  2 ++
- arch/x86/kernel/hpet.c              |  3 ++
- arch/x86/kernel/watchdog_hld_hpet.c | 48 +++++++++++++++++++++++++----
- 3 files changed, 47 insertions(+), 6 deletions(-)
-
-diff --git a/arch/x86/include/asm/hpet.h b/arch/x86/include/asm/hpet.h
-index 5bf675970d4b..d130285ddc96 100644
---- a/arch/x86/include/asm/hpet.h
-+++ b/arch/x86/include/asm/hpet.h
-@@ -109,6 +109,7 @@ extern void hpet_unregister_irq_handler(rtc_irq_handler handler);
-  * @tsc_ticks_per_group:	TSC ticks that must elapse for each group of
-  *				monitored CPUs.
-  * @irq:			IRQ number assigned to the HPET channel
-+ * @int_remap_enabled:		True if interrupt remapping is enabled
-  * @handling_cpu:		CPU handling the HPET interrupt
-  * @pkgs_per_group:		Number of physical packages in a group of CPUs
-  *				receiving an IPI
-@@ -133,6 +134,7 @@ struct hpet_hld_data {
- 	u64		tsc_next;
- 	u64		tsc_ticks_per_group;
- 	int		irq;
-+	bool		intr_remap_enabled;
- 	u32		handling_cpu;
- 	u32		pkgs_per_group;
- 	u32		nr_groups;
-diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-index 3e43e0f348b8..ff4abdef5e15 100644
---- a/arch/x86/kernel/hpet.c
-+++ b/arch/x86/kernel/hpet.c
-@@ -1464,6 +1464,9 @@ struct hpet_hld_data *hpet_hld_get_timer(void)
- 	if (!hpet_domain)
- 		goto err;
- 
-+	if (hpet_domain->parent != x86_vector_domain)
-+		hld_data->intr_remap_enabled = true;
-+
- 	hc->mode = HPET_MODE_NMI_WATCHDOG;
- 	irq = hpet_assign_irq(hpet_domain, hc, hc->num);
- 	if (irq <= 0)
-diff --git a/arch/x86/kernel/watchdog_hld_hpet.c b/arch/x86/kernel/watchdog_hld_hpet.c
-index 3fd2405b31fa..265641d001ac 100644
---- a/arch/x86/kernel/watchdog_hld_hpet.c
-+++ b/arch/x86/kernel/watchdog_hld_hpet.c
-@@ -176,6 +176,14 @@ static int update_msi_destid(struct hpet_hld_data *hdata)
- {
- 	u32 destid;
- 
-+	if (hdata->intr_remap_enabled) {
-+		int ret;
-+
-+		ret = irq_set_affinity(hdata->irq,
-+				       cpumask_of(hdata->handling_cpu));
-+		return ret;
-+	}
-+
- 	destid = apic->calc_dest_apicid(hdata->handling_cpu);
- 	/*
- 	 * HPET only supports a 32-bit MSI address register. Thus, only
-@@ -393,26 +401,52 @@ static int hardlockup_detector_nmi_handler(unsigned int type,
- 	return NMI_DONE;
- }
- 
-+/*
-+ * When interrupt remapping is enabled, we request the irq for the detector
-+ * using request_irq() and then we fixup the delivery mode to NMI using
-+ * is_hpet_irq_hardlockup_detector(). If the latter fails, we will see a non-
-+ * NMI interrupt.
-+ *
-+ */
-+static irqreturn_t hardlockup_detector_irq_handler(int irq, void *data)
-+{
-+	pr_err_once("Received a non-NMI interrupt. The HLD detector always uses NMIs!\n");
-+	return IRQ_HANDLED;
-+}
-+
- /**
-  * setup_irq_msi_mode() - Configure the timer to deliver an MSI interrupt
-  * @data:	Data associated with the instance of the HPET timer to configure
-  *
-  * Configure the HPET timer to deliver interrupts via the Front-
-  * Side Bus.
-+ *
-+ * Returns:
-+ * 0 success. An error code if setup was unsuccessful.
-  */
--static void setup_irq_msi_mode(struct hpet_hld_data *hdata)
-+static int setup_irq_msi_mode(struct hpet_hld_data *hdata)
- {
-+	s32 ret;
- 	u32 v;
- 
--	compose_msi_msg(hdata);
--	hpet_writel(hdata->msi_msg.data, HPET_Tn_ROUTE(hdata->channel));
--	hpet_writel(hdata->msi_msg.address_lo,
--		    HPET_Tn_ROUTE(hdata->channel) + 4);
-+	if (hdata->intr_remap_enabled) {
-+		ret = request_irq(hld_data->irq, hardlockup_detector_irq_handler,
-+				  IRQF_TIMER, "hpet_hld", hld_data);
-+		if (ret)
-+			return ret;
-+	} else {
-+		compose_msi_msg(hdata);
-+		hpet_writel(hdata->msi_msg.data, HPET_Tn_ROUTE(hdata->channel));
-+		hpet_writel(hdata->msi_msg.address_lo,
-+			    HPET_Tn_ROUTE(hdata->channel) + 4);
-+	}
- 
- 	v = hpet_readl(HPET_Tn_CFG(hdata->channel));
- 	v |= HPET_TN_FSB;
- 
- 	hpet_writel(v, HPET_Tn_CFG(hdata->channel));
-+
-+	return 0;
- }
- 
- /**
-@@ -430,7 +464,9 @@ static int setup_hpet_irq(struct hpet_hld_data *hdata)
- {
- 	int ret;
- 
--	setup_irq_msi_mode(hdata);
-+	ret = setup_irq_msi_mode(hdata);
-+	if (ret)
-+		return ret;
- 
- 	ret = register_nmi_handler(NMI_WATCHDOG,
- 				   hardlockup_detector_nmi_handler, 0,
--- 
-2.17.1
-
+Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
