@@ -1,58 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A43373077
-	for <lists.iommu@lfdr.de>; Tue,  4 May 2021 21:11:49 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6881E37307A
+	for <lists.iommu@lfdr.de>; Tue,  4 May 2021 21:11:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 93C18414EC;
-	Tue,  4 May 2021 19:11:45 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2088960AF9;
+	Tue,  4 May 2021 19:11:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UYsGzsrdAQfi; Tue,  4 May 2021 19:11:44 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1-5ScCUToAGu; Tue,  4 May 2021 19:11:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 70BD741506;
-	Tue,  4 May 2021 19:11:44 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1F8B56088D;
+	Tue,  4 May 2021 19:11:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CBB29C0001;
-	Tue,  4 May 2021 19:11:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F237CC0001;
+	Tue,  4 May 2021 19:11:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D0D18C0001
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:42 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 38423C0029
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id B1FE4846E7
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:42 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id CD33D414FF
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gUej1fmn4ZKA for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ne5py9XmPq0U for <iommu@lists.linux-foundation.org>;
  Tue,  4 May 2021 19:11:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1427A846CF
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:41 +0000 (UTC)
-IronPort-SDR: YXd0YASZjszPEZmRHD/1xk9gW+rE8jlGJCs6BBic6hHni7s8YiH/AfdE0qRgd8BtNdS7DUX44F
- JqrkCNnYfceQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="197675488"
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="197675488"
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0EA8B414FB
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:42 +0000 (UTC)
+IronPort-SDR: saJuVtZDzAMz5j+xSeEC4jN/V+YRn3fhjUxoTYb/HHpmDR8n4fewnoUV0BgO4FH6r6N6kYWgPd
+ V/bMSy7Lhxaw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="197675491"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="197675491"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 May 2021 12:11:41 -0700
-IronPort-SDR: fhkrUiuFVLDq9e4Qc69OzHKPlDkUNy8UnX6A/43uKWqfc4UO1ncrzGpZMAz8AnTgJiek3Tf9Ca
- JzXWUNiJIHgQ==
+IronPort-SDR: zQFJBhcgEZHf9/cLASl+w3pxDwLapeYUVWAYAzxAEdsolXppVm2zQle2n+OvvjriN/I1K1zzry
+ WtNkOTjab2+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="396245291"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="396245297"
 Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
- by fmsmga007.fm.intel.com with ESMTP; 04 May 2021 12:11:40 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 04 May 2021 12:11:41 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>
-Subject: [RFC PATCH v5 4/7] iommu/amd: Set the IRTE delivery mode from irq_cfg
-Date: Tue,  4 May 2021 12:10:46 -0700
-Message-Id: <20210504191049.22661-5-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v5 5/7] iommu/vt-d: Fixup delivery mode of the HPET
+ hardlockup interrupt
+Date: Tue,  4 May 2021 12:10:47 -0700
+Message-Id: <20210504191049.22661-6-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210504191049.22661-1-ricardo.neri-calderon@linux.intel.com>
 References: <20210504191049.22661-1-ricardo.neri-calderon@linux.intel.com>
@@ -82,16 +83,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There is not hardware requirement to have a different delivery mode for
-each interrupt. Instead of using the delivery mode of the APIC driver, use
-the delivery mode of each specific interrupt configuration.
+The HPET hardlockup detector requires that the HPET timer delivers the
+interrupt as NMI. When interrupt remapping is disabled, this can be
+done by programming the HPET MSI registers directly. With interrupt
+remapping, it is necessary to populate an entry in the interrupt
+remapping table.
 
-This allows to accommodate interrupts which require a specific delivery
-mode, such as the HPET hardlockup detector.
+In x86 there is not an IRQF_NMI flag that can be used to indicate the
+delivery mode when requesting an interrupt (via request_irq()). Thus,
+there is no way for the interrupt remapping driver to know and set
+the delivery mode.
 
-Outside of such case, there are not functional changes since the delivery
-mode of an interrupt is initialized with the delivery mode of the APIC
-driver.
+Hence, when allocating an interrupt, check if such interrupt belongs to
+the HPET hardlockup detector and fixup the delivery mode accordingly.
 
 Cc: Andi Kleen <andi.kleen@intel.com>
 Cc: Borislav Petkov <bp@suse.de>
@@ -119,22 +123,36 @@ Changes since v2:
 Changes since v1:
  * N/A
 ---
- drivers/iommu/amd/iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/intel/irq_remapping.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index a69a8b573e40..e8d9fae0c766 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3122,7 +3122,7 @@ static void irq_remapping_prepare_irte(struct amd_ir_data *data,
+diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
+index daa5df53db59..b07c68ecac01 100644
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -18,6 +18,7 @@
+ #include <asm/apic.h>
+ #include <asm/smp.h>
+ #include <asm/cpu.h>
++#include <asm/hpet.h>
+ #include <asm/irq_remapping.h>
+ #include <asm/pci-direct.h>
  
- 	data->irq_2_irte.devid = devid;
- 	data->irq_2_irte.index = index + sub_handle;
--	iommu->irte_ops->prepare(data->entry, apic->delivery_mode,
-+	iommu->irte_ops->prepare(data->entry, irq_cfg->delivery_mode,
- 				 apic->dest_mode_logical, irq_cfg->vector,
- 				 irq_cfg->dest_apicid, devid);
- 
+@@ -1376,6 +1377,14 @@ static int intel_irq_remapping_alloc(struct irq_domain *domain,
+ 		irq_data->hwirq = (index << 16) + i;
+ 		irq_data->chip_data = ird;
+ 		irq_data->chip = &intel_ir_chip;
++
++		/*
++		 * If we find the HPET hardlockup detector irq, fixup the
++		 * delivery mode.
++		 */
++		if (is_hpet_irq_hardlockup_detector(info))
++			irq_cfg->delivery_mode = APIC_DELIVERY_MODE_NMI;
++
+ 		intel_irq_remapping_prepare_irte(ird, irq_cfg, info, index, i);
+ 		irq_set_status_flags(virq + i, IRQ_MOVE_PCNTXT);
+ 	}
 -- 
 2.17.1
 
