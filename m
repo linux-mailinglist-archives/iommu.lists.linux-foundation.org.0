@@ -1,59 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD9C37307C
-	for <lists.iommu@lfdr.de>; Tue,  4 May 2021 21:11:52 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A43373077
+	for <lists.iommu@lfdr.de>; Tue,  4 May 2021 21:11:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E5C814184D;
-	Tue,  4 May 2021 19:11:49 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 93C18414EC;
+	Tue,  4 May 2021 19:11:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JgTVdMgkBlAA; Tue,  4 May 2021 19:11:48 +0000 (UTC)
+	with ESMTP id UYsGzsrdAQfi; Tue,  4 May 2021 19:11:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 31AD141825;
-	Tue,  4 May 2021 19:11:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 70BD741506;
+	Tue,  4 May 2021 19:11:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64995C0001;
-	Tue,  4 May 2021 19:11:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CBB29C0001;
+	Tue,  4 May 2021 19:11:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0AE45C000D
- for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:44 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D0D18C0001
+ for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D1848414F1
+ by smtp1.osuosl.org (Postfix) with ESMTP id B1FE4846E7
  for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pwULvwom6HSj for <iommu@lists.linux-foundation.org>;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gUej1fmn4ZKA for <iommu@lists.linux-foundation.org>;
  Tue,  4 May 2021 19:11:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DF967414FA
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1427A846CF
  for <iommu@lists.linux-foundation.org>; Tue,  4 May 2021 19:11:41 +0000 (UTC)
-IronPort-SDR: 1BYwxRBXdZcYCvVsWgsYOGOqXEbtMufTC+aREsZfwI8l62pu0f6dhpSqjAv2XeztDJSoGK6wV3
- KGlrPhwq5wDw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="197675486"
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="197675486"
+IronPort-SDR: YXd0YASZjszPEZmRHD/1xk9gW+rE8jlGJCs6BBic6hHni7s8YiH/AfdE0qRgd8BtNdS7DUX44F
+ JqrkCNnYfceQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="197675488"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="197675488"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 12:11:40 -0700
-IronPort-SDR: IK6bB7wYh6Fq1z+4b4l2CKAy6AQJOKFWjnU47QxqU+svFLNmNZdKBQJpGpTG2XWFRYHsFlmidk
- XI2OCd794ozw==
+ 04 May 2021 12:11:41 -0700
+IronPort-SDR: fhkrUiuFVLDq9e4Qc69OzHKPlDkUNy8UnX6A/43uKWqfc4UO1ncrzGpZMAz8AnTgJiek3Tf9Ca
+ JzXWUNiJIHgQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="396245287"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="396245291"
 Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
  by fmsmga007.fm.intel.com with ESMTP; 04 May 2021 12:11:40 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>
-Subject: [RFC PATCH v5 3/7] iommu/vt-d: Rework prepare_irte() to support
- per-irq delivery mode
-Date: Tue,  4 May 2021 12:10:45 -0700
-Message-Id: <20210504191049.22661-4-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v5 4/7] iommu/amd: Set the IRTE delivery mode from irq_cfg
+Date: Tue,  4 May 2021 12:10:46 -0700
+Message-Id: <20210504191049.22661-5-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210504191049.22661-1-ricardo.neri-calderon@linux.intel.com>
 References: <20210504191049.22661-1-ricardo.neri-calderon@linux.intel.com>
@@ -83,17 +82,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-A previous changeset introduced a new member to struct irq_cfg to specify
-the delivery mode of an interrupt. Supporting the configuration of the
-delivery mode would require adding a third argument to prepare_irte().
-Instead, simply take a pointer to an irq_cfg data structure as the only
-argument.
+There is not hardware requirement to have a different delivery mode for
+each interrupt. Instead of using the delivery mode of the APIC driver, use
+the delivery mode of each specific interrupt configuration.
 
-Always configure the delivery mode of the Interrupt Remapping Table
-Entry using the values specified in the irq_cfg data structure.
+This allows to accommodate interrupts which require a specific delivery
+mode, such as the HPET hardlockup detector.
 
-This change does not change the existing behavior, as the delivery mode
-of the APIC is used to configure the irq_cfg of each irq.
+Outside of such case, there are not functional changes since the delivery
+mode of an interrupt is initialized with the delivery mode of the APIC
+driver.
 
 Cc: Andi Kleen <andi.kleen@intel.com>
 Cc: Borislav Petkov <bp@suse.de>
@@ -110,56 +108,33 @@ Reviewed-by: Ashok Raj <ashok.raj@intel.com>
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
 Changes since v4:
- * None
+ * Introduced this patch.
 
 Changes since v3:
- * None
+ * N/A
 
 Changes since v2:
- * None
+ * N/A
 
 Changes since v1:
- * Introduced this patch.
+ * N/A
 ---
- drivers/iommu/intel/irq_remapping.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/iommu/amd/iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index 611ef5243cb6..daa5df53db59 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1104,7 +1104,7 @@ void intel_irq_remap_add_device(struct dmar_pci_notify_info *info)
- 	dev_set_msi_domain(&info->dev->dev, map_dev_to_ir(info->dev));
- }
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index a69a8b573e40..e8d9fae0c766 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3122,7 +3122,7 @@ static void irq_remapping_prepare_irte(struct amd_ir_data *data,
  
--static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
-+static void prepare_irte(struct irte *irte, struct irq_cfg *irq_cfg)
- {
- 	memset(irte, 0, sizeof(*irte));
+ 	data->irq_2_irte.devid = devid;
+ 	data->irq_2_irte.index = index + sub_handle;
+-	iommu->irte_ops->prepare(data->entry, apic->delivery_mode,
++	iommu->irte_ops->prepare(data->entry, irq_cfg->delivery_mode,
+ 				 apic->dest_mode_logical, irq_cfg->vector,
+ 				 irq_cfg->dest_apicid, devid);
  
-@@ -1118,9 +1118,9 @@ static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
- 	 * irq migration in the presence of interrupt-remapping.
- 	*/
- 	irte->trigger_mode = 0;
--	irte->dlvry_mode = apic->delivery_mode;
--	irte->vector = vector;
--	irte->dest_id = IRTE_DEST(dest);
-+	irte->dlvry_mode = irq_cfg->delivery_mode;
-+	irte->vector = irq_cfg->vector;
-+	irte->dest_id = IRTE_DEST(irq_cfg->dest_apicid);
- 	irte->redir_hint = 1;
- }
- 
-@@ -1261,8 +1261,7 @@ static void intel_irq_remapping_prepare_irte(struct intel_ir_data *data,
- {
- 	struct irte *irte = &data->irte_entry;
- 
--	prepare_irte(irte, irq_cfg->vector, irq_cfg->dest_apicid);
--
-+	prepare_irte(irte, irq_cfg);
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC:
- 		/* Set source-id of interrupt request */
 -- 
 2.17.1
 
