@@ -1,65 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B91376B88
-	for <lists.iommu@lfdr.de>; Fri,  7 May 2021 23:15:01 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 326C9376C4B
+	for <lists.iommu@lfdr.de>; Sat,  8 May 2021 00:12:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 06BDF8438A;
-	Fri,  7 May 2021 21:15:00 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C838540333;
+	Fri,  7 May 2021 22:12:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Rplh7onGP_7e; Fri,  7 May 2021 21:14:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0452684383;
-	Fri,  7 May 2021 21:14:59 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1Mt3jlbFrP7U; Fri,  7 May 2021 22:12:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id B6BD140342;
+	Fri,  7 May 2021 22:12:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CD00DC0001;
-	Fri,  7 May 2021 21:14:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 91EB9C0024;
+	Fri,  7 May 2021 22:12:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4DB8FC0001
- for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 21:14:57 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 781D1C0001
+ for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 22:12:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2F0AF61628
- for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 21:14:57 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 653FE40342
+ for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 22:12:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ui40cQCCBcIW for <iommu@lists.linux-foundation.org>;
- Fri,  7 May 2021 21:14:56 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gvLwZjT-lXNf for <iommu@lists.linux-foundation.org>;
+ Fri,  7 May 2021 22:12:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 81F9861626
- for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 21:14:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B9A00611ED;
- Fri,  7 May 2021 21:14:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620422096;
- bh=EJHAtYwT3QjDp7/8mwWtXV3pJ7lbc25j/slwrHC70yk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=HfkllBZTxO/p9w6l+754P3bQ2nJ+J32Wywu5CnnDoVc7nEp+pRxZXSgE9CnOgSuY7
- dqFwM+GwC5mYWXBiYYr97o4Z+VUVuPsQtV4xR8YcBmK505Evm4lGL50/cwQr//e1+k
- 94hrtuKk6W4UyVW/J02QTS+ZURwQcHo1g29Vg05b3ptiqXH3F9ZCPQmSC8bdm2wdat
- F+MfVQ2lsbfy+qEwcoYDHVlmJiKIOfvc8hGMRQ+PNldu57RR+6yt1u23V0Qt/zwFGk
- f2Jw4AG64Gx4YHufgQLZslSuKKKETXq1CKV+wEXV5KgS2Lmq8WYuHOIf25b9WUVgJO
- Q5Ey852xJ6KJw==
-Date: Fri, 7 May 2021 16:14:54 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wang Xingang <wangxingang5@huawei.com>
-Subject: Re: [PATCH 1/1] iommu/of: Fix request and enable ACS for
- of_iommu_configure
-Message-ID: <20210507211454.GA1518899@bjorn-Precision-5520>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7AB5640333
+ for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 22:12:49 +0000 (UTC)
+IronPort-SDR: Q5j9KsHWaUsDdc4lYujvHWclMLa7qYciNKmoNdhjgK3xx6wZ6I0X3UOgZPREg8isVDB4hHiGaQ
+ k8ebsHR/tqYA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="198475062"
+X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="198475062"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2021 15:12:48 -0700
+IronPort-SDR: 7WNbQ0A1+3oGRBKbWEfzfOFJWCNFKRgaATZCvUAV4vlGVej4zXBduyRXqZ3lghhLF9/05JQlSR
+ LNS1KAx8QGWQ==
+X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="429156396"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2021 15:12:48 -0700
+Date: Fri, 7 May 2021 15:15:11 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
+ allocation APIs
+Message-ID: <20210507151511.612d1424@jacob-builder>
+In-Reply-To: <20210507192810.GY1370958@nvidia.com>
+References: <20210505102259.044cafdf@jacob-builder>
+ <20210505180023.GJ1370958@nvidia.com>
+ <20210505130446.3ee2fccd@jacob-builder> <YJOZhPGheTSlHtQc@myrica>
+ <20210506122730.GQ1370958@nvidia.com>
+ <20210506163240.GA9058@otc-nc-03>
+ <20210507172051.GW1370958@nvidia.com>
+ <20210507181458.GA73499@otc-nc-03>
+ <20210507182050.GX1370958@nvidia.com>
+ <20210507192325.GB73499@otc-nc-03>
+ <20210507192810.GY1370958@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1620391793-18744-2-git-send-email-wangxingang5@huawei.com>
-Cc: xieyingtai@huawei.com, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-pci@vger.kernel.org, bhelgaas@google.com, will@kernel.org
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Jiang, 
+ Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "Wu,
+ Hao" <hao.wu@intel.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,111 +95,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, May 07, 2021 at 12:49:53PM +0000, Wang Xingang wrote:
-> From: Xingang Wang <wangxingang5@huawei.com>
+Hi Jason,
+
+On Fri, 7 May 2021 16:28:10 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> > The unanswered question is how do we plumb from vIOMMU without a custom
+> > allocator to get a system wide PASID?   
 > 
-> When request ACS for PCI device in of_iommu_configure, the pci device
-> has already been scanned and added with 'pci_acs_enable=0'. So the
-> pci_request_acs() in current procedure does not work for enabling ACS.
-> Besides, the ACS should be enabled only if there's an IOMMU in system.
-> So this fix the call of pci_request_acs() and call pci_enable_acs() to
-> make sure ACS is enabled for the pci_device.
-
-For consistency:
-
-  s/of_iommu_configure/of_iommu_configure()/
-  s/pci device/PCI device/
-  s/pci_device/PCI device/
-
-But I'm confused about what problem this fixes.  On x86, I think we
-*do* set pci_acs_enable=1 in this path:
-
-  start_kernel
-    mm_init
-      mem_init
-        pci_iommu_alloc
-          p->detect()
-            detect_intel_iommu       # IOMMU_INIT_POST(detect_intel_iommu)
-              pci_request_acs
-                pci_acs_enable = 1
-
-before enumerating any PCI devices.
-
-But you mentioned pci_host_common_probe(), which I think is mostly
-used on non-x86 architectures, and I'm guessing those arches detect
-the IOMMU differently.
-
-So my question is, can we figure out how to detect IOMMUs the same way
-across all arches?
-
-> Fixes: 6bf6c24720d33 ("iommu/of: Request ACS from the PCI core when
-> configuring IOMMU linkage")
-> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
-> ---
->  drivers/iommu/of_iommu.c | 10 +++++++++-
->  drivers/pci/pci.c        |  2 +-
->  include/linux/pci.h      |  1 +
->  3 files changed, 11 insertions(+), 2 deletions(-)
+> PASID allocation is part of the iommu driver, it really shouldn't be
+> global.
 > 
-> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-> index a9d2df001149..dc621861ae72 100644
-> --- a/drivers/iommu/of_iommu.c
-> +++ b/drivers/iommu/of_iommu.c
-> @@ -205,7 +205,6 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
->  			.np = master_np,
->  		};
->  
-> -		pci_request_acs();
->  		err = pci_for_each_dma_alias(to_pci_dev(dev),
->  					     of_pci_iommu_init, &info);
->  	} else {
-> @@ -222,6 +221,15 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
->  		/* The fwspec pointer changed, read it again */
->  		fwspec = dev_iommu_fwspec_get(dev);
->  		ops    = fwspec->ops;
-> +
-> +		/*
-> +		 * If we found an IOMMU and the device is pci,
-> +		 * make sure we enable ACS.
+In the current code, the pluggable custom allocator *is* part of the iommu
+vendor driver. If it decides the allocation is global then it should be
+suitable for the platform since there will never be a VT-d IOMMU on another
+vendor's platform.
 
-s/pci/PCI/ for consistency.
+It is true that the default allocator is global which suites the current
+needs. I am just wondering if we are solving a problem does not exist yet.
 
-> +		 */
-> +		if (dev_is_pci(dev)) {
-> +			pci_request_acs();
-> +			pci_enable_acs(to_pci_dev(dev));
-> +		}
->  	}
->  	/*
->  	 * If we have reason to believe the IOMMU driver missed the initial
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b717680377a9..4e4f98ee2870 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -926,7 +926,7 @@ static void pci_std_enable_acs(struct pci_dev *dev)
->   * pci_enable_acs - enable ACS if hardware support it
->   * @dev: the PCI device
->   */
-> -static void pci_enable_acs(struct pci_dev *dev)
-> +void pci_enable_acs(struct pci_dev *dev)
->  {
->  	if (!pci_acs_enable)
->  		goto disable_acs_redir;
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index c20211e59a57..e6a8bfbc9c98 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -2223,6 +2223,7 @@ static inline struct pci_dev *pcie_find_root_port(struct pci_dev *dev)
->  }
->  
->  void pci_request_acs(void);
-> +void pci_enable_acs(struct pci_dev *dev);
->  bool pci_acs_enabled(struct pci_dev *pdev, u16 acs_flags);
->  bool pci_acs_path_enabled(struct pci_dev *start,
->  			  struct pci_dev *end, u16 acs_flags);
-> -- 
-> 2.19.1
-> 
+> When the architecture code goes to allocate a single PASID for the
+> mm_struct it should flag that allocation request with a 'must work for
+> all RIDs flag' and the iommu driver should take care of it. That might
+> mean the iommu driver consults a global static xarray, or maybe it
+> does a hypercall, but it should be done through that API, not a side
+> care global singleton.
+Why do we need to flag the allocation every time if on a platform *every*
+PASID can potentially be global? At the time of allocation, we don't know
+if the PASID will be used for a shared (ENQCMD) or a dedicated workqueue.
+
+Thanks,
+
+Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
