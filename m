@@ -1,45 +1,45 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B306D37638D
-	for <lists.iommu@lfdr.de>; Fri,  7 May 2021 12:22:54 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5C9376391
+	for <lists.iommu@lfdr.de>; Fri,  7 May 2021 12:22:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3DE824064B;
-	Fri,  7 May 2021 10:22:53 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2858341502;
+	Fri,  7 May 2021 10:22:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id L4aaYT3TwieK; Fri,  7 May 2021 10:22:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 47CAF4069C;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id v45TL1vGgWmE; Fri,  7 May 2021 10:22:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id EAAE9414D9;
 	Fri,  7 May 2021 10:22:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33B68C001C;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 62F7BC0027;
 	Fri,  7 May 2021 10:22:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7828C0001
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE2E0C000D
  for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 10:22:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A104040FB3
+ by smtp3.osuosl.org (Postfix) with ESMTP id A32F260E42
  for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 10:22:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F5AYzPxm16Ja for <iommu@lists.linux-foundation.org>;
- Fri,  7 May 2021 10:22:50 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Xo4A9Yu7xCzd for <iommu@lists.linux-foundation.org>;
+ Fri,  7 May 2021 10:22:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AF4D040291
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F008760E46
  for <iommu@lists.linux-foundation.org>; Fri,  7 May 2021 10:22:50 +0000 (UTC)
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Fc5zw3TcbzCr3x;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Fc5zw4Fn0zCr6W;
  Fri,  7 May 2021 18:20:12 +0800 (CST)
 Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.224) by
  DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 7 May 2021 18:22:41 +0800
+ 14.3.498.0; Fri, 7 May 2021 18:22:42 +0800
 From: Keqian Zhu <zhukeqian1@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <iommu@lists.linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
@@ -47,10 +47,10 @@ To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  "Jean-Philippe Brucker" <jean-philippe@linaro.org>, Lu Baolu
  <baolu.lu@linux.intel.com>, "Yi Sun" <yi.y.sun@linux.intel.com>, Tian Kevin
  <kevin.tian@intel.com>
-Subject: [RFC PATCH v4 12/13] iommu/arm-smmu-v3: Realize clear_dirty_log iommu
- ops
-Date: Fri, 7 May 2021 18:22:10 +0800
-Message-ID: <20210507102211.8836-13-zhukeqian1@huawei.com>
+Subject: [RFC PATCH v4 13/13] iommu/arm-smmu-v3: Realize support_dirty_log
+ iommu ops
+Date: Fri, 7 May 2021 18:22:11 +0800
+Message-ID: <20210507102211.8836-14-zhukeqian1@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210507102211.8836-1-zhukeqian1@huawei.com>
 References: <20210507102211.8836-1-zhukeqian1@huawei.com>
@@ -79,58 +79,43 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Kunkun Jiang <jiangkunkun@huawei.com>
 
-This realizes clear_dirty_log iommu ops based on clear_dirty_log
-io-pgtable ops.
+We have implemented these interfaces required to support iommu
+dirty log tracking. The last step is reporting this feature to
+upper user, then the user can perform higher policy base on it.
+For arm smmuv3, it is equal to ARM_SMMU_FEAT_HD.
 
 Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 25 +++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 3d3c0f8e2446..9b4739247dbb 100644
+index 9b4739247dbb..59d11f084199 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2750,6 +2750,30 @@ static int arm_smmu_sync_dirty_log(struct iommu_domain *domain,
- 				   bitmap_pgshift);
+@@ -2684,6 +2684,13 @@ static int arm_smmu_merge_page(struct iommu_domain *domain, unsigned long iova,
+ 	return ret;
  }
  
-+static int arm_smmu_clear_dirty_log(struct iommu_domain *domain,
-+				    unsigned long iova, size_t size,
-+				    unsigned long *bitmap,
-+				    unsigned long base_iova,
-+				    unsigned long bitmap_pgshift)
++static bool arm_smmu_support_dirty_log(struct iommu_domain *domain)
 +{
 +	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-+	struct io_pgtable_ops *ops = smmu_domain->pgtbl_ops;
-+	struct arm_smmu_device *smmu = smmu_domain->smmu;
 +
-+	if (!(smmu->features & ARM_SMMU_FEAT_HD))
-+		return -ENODEV;
-+	if (smmu_domain->stage != ARM_SMMU_DOMAIN_S1)
-+		return -EINVAL;
-+
-+	if (!ops || !ops->clear_dirty_log) {
-+		pr_err("io-pgtable don't realize clear dirty log\n");
-+		return -ENODEV;
-+	}
-+
-+	return ops->clear_dirty_log(ops, iova, size, bitmap, base_iova,
-+				    bitmap_pgshift);
++	return !!(smmu_domain->smmu->features & ARM_SMMU_FEAT_HD);
 +}
 +
- static int arm_smmu_of_xlate(struct device *dev, struct of_phandle_args *args)
+ static int arm_smmu_switch_dirty_log(struct iommu_domain *domain, bool enable,
+ 				     unsigned long iova, size_t size, int prot)
  {
- 	return iommu_fwspec_add_ids(dev, args->args, 1);
-@@ -2850,6 +2874,7 @@ static struct iommu_ops arm_smmu_ops = {
+@@ -2872,6 +2879,7 @@ static struct iommu_ops arm_smmu_ops = {
+ 	.release_device		= arm_smmu_release_device,
+ 	.device_group		= arm_smmu_device_group,
  	.enable_nesting		= arm_smmu_enable_nesting,
++	.support_dirty_log	= arm_smmu_support_dirty_log,
  	.switch_dirty_log	= arm_smmu_switch_dirty_log,
  	.sync_dirty_log		= arm_smmu_sync_dirty_log,
-+	.clear_dirty_log	= arm_smmu_clear_dirty_log,
- 	.of_xlate		= arm_smmu_of_xlate,
- 	.get_resv_regions	= arm_smmu_get_resv_regions,
- 	.put_resv_regions	= generic_iommu_put_resv_regions,
+ 	.clear_dirty_log	= arm_smmu_clear_dirty_log,
 -- 
 2.19.1
 
