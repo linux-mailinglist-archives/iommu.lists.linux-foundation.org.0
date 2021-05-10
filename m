@@ -2,40 +2,40 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B62379093
-	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 16:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754D837909C
+	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 16:22:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6718B60BF9;
-	Mon, 10 May 2021 14:22:43 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id AF57C60BDC;
+	Mon, 10 May 2021 14:22:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jmQZOW5ylCmo; Mon, 10 May 2021 14:22:42 +0000 (UTC)
+	with ESMTP id jM3KU7r72MwD; Mon, 10 May 2021 14:22:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2B22C60BEB;
-	Mon, 10 May 2021 14:22:42 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1A89F60BF3;
+	Mon, 10 May 2021 14:22:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 91AC6C0030;
-	Mon, 10 May 2021 14:22:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB97EC0001;
+	Mon, 10 May 2021 14:22:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A7DF5C0001
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:39 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 863D1C002F
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8FBB140538
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:39 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5FBB640532
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id q1htSItGJEYz for <iommu@lists.linux-foundation.org>;
- Mon, 10 May 2021 14:22:39 +0000 (UTC)
+ with ESMTP id F2fi_3lHs4wh for <iommu@lists.linux-foundation.org>;
+ Mon, 10 May 2021 14:22:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E9213404F7
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:38 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A02DC404F7
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:40 +0000 (UTC)
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Ff39B4WTgz1BKvs;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Ff39B5ghvz1BKw7;
  Mon, 10 May 2021 22:19:58 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
@@ -43,9 +43,9 @@ Received: from localhost.localdomain (10.69.192.58) by
 From: John Garry <john.garry@huawei.com>
 To: <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
  <hch@lst.de>, <m.szyprowski@samsung.com>
-Subject: [PATCH v2 07/15] iommu: Add iommu_realloc_dev_group()
-Date: Mon, 10 May 2021 22:17:21 +0800
-Message-ID: <1620656249-68890-8-git-send-email-john.garry@huawei.com>
+Subject: [PATCH v2 08/15] dma-iommu: Add iommu_reconfig_dev_group_dma()
+Date: Mon, 10 May 2021 22:17:22 +0800
+Message-ID: <1620656249-68890-9-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1620656249-68890-1-git-send-email-john.garry@huawei.com>
 References: <1620656249-68890-1-git-send-email-john.garry@huawei.com>
@@ -72,61 +72,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add a function to re-alloc IOMMU group default domain.
+Add a function to reconfigure the IOMMU group for a device, if necessary.
+
+IOVAs are cached in power-of-2 granules, so there is no point in allocating
+a new IOMMU domain if the current range is suitable.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/iommu/iommu.c | 12 ++++++++++++
- include/linux/iommu.h |  6 ++++++
- 2 files changed, 18 insertions(+)
+ drivers/iommu/dma-iommu.c | 25 +++++++++++++++++++++++++
+ include/linux/dma-iommu.h |  4 ++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index f7253a973ab9..bdb9aa47dfca 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -3191,6 +3191,18 @@ static int iommu_change_dev_def_domain(struct iommu_group *group,
- 	return ret;
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index f6d3302bb829..4fb82c554ede 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -315,6 +315,31 @@ static bool dev_is_untrusted(struct device *dev)
+ 	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
  }
  
-+int iommu_realloc_dev_group(struct device *dev)
++void iommu_reconfig_dev_group_dma(struct device *dev)
 +{
-+	struct iommu_group *group;
-+	int ret;
++	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	unsigned long shift, iova_len;
++	struct iova_domain *iovad;
++	size_t max_opt_dma_size;
 +
-+	group = iommu_group_get(dev);
-+	ret = iommu_change_dev_def_domain(group, dev, 0, true);
-+	iommu_group_put(group);
++	if (!cookie || cookie->type != IOMMU_DMA_IOVA_COOKIE)
++		return;
 +
-+	return ret;
++	max_opt_dma_size = iommu_group_get_max_opt_dma_size(dev->iommu_group);
++	if (!max_opt_dma_size)
++		return;
++
++	iovad = &cookie->iovad;
++	shift = iova_shift(iovad);
++	iova_len = max_opt_dma_size >> shift;
++
++	if (iova_domain_len_is_cached(iovad, iova_len))
++		return;
++
++	iommu_realloc_dev_group(dev);
 +}
 +
+ /**
+  * iommu_dma_init_domain - Initialise a DMA mapping domain
+  * @domain: IOMMU domain previously prepared by iommu_get_dma_cookie()
+diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
+index 6e75a2d689b4..097398b76dcc 100644
+--- a/include/linux/dma-iommu.h
++++ b/include/linux/dma-iommu.h
+@@ -20,6 +20,7 @@ void iommu_put_dma_cookie(struct iommu_domain *domain);
+ 
+ /* Setup call for arch DMA mapping code */
+ void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 size);
++void iommu_reconfig_dev_group_dma(struct device *dev);
+ 
+ /* The DMA API isn't _quite_ the whole story, though... */
  /*
-  * Changing the default domain or any other IOMMU group attribute through sysfs
-  * requires the users to unbind the drivers from the devices in the IOMMU group.
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index e26abda94792..6e187746af0f 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -482,6 +482,7 @@ bool iommu_get_dma_strict(struct iommu_domain *domain);
- 
- extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
- 			      unsigned long iova, int flags);
-+extern int iommu_realloc_dev_group(struct device *dev);
- 
- static inline void iommu_flush_iotlb_all(struct iommu_domain *domain)
+@@ -53,6 +54,9 @@ static inline void iommu_setup_dma_ops(struct device *dev, u64 dma_base,
+ 		u64 size)
  {
-@@ -699,6 +700,11 @@ static inline size_t iommu_map_sg_atomic(struct iommu_domain *domain,
- 	return 0;
  }
- 
-+static inline int iommu_realloc_dev_group(struct device *dev)
++static inline void iommu_reconfig_dev_group_dma(struct device *dev)
 +{
-+	return -ENODEV;
 +}
-+
- static inline void iommu_flush_iotlb_all(struct iommu_domain *domain)
+ 
+ static inline int iommu_get_dma_cookie(struct iommu_domain *domain)
  {
- }
 -- 
 2.26.2
 
