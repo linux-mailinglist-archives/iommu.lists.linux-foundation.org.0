@@ -1,69 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786E237966D
-	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 19:50:52 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57853796E1
+	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 20:15:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1F67D83942;
-	Mon, 10 May 2021 17:50:51 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6082483A69;
+	Mon, 10 May 2021 18:15:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OQbVp8lZa2pC; Mon, 10 May 2021 17:50:50 +0000 (UTC)
+	with ESMTP id uL-u4UIS7gug; Mon, 10 May 2021 18:15:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 421A783774;
-	Mon, 10 May 2021 17:50:50 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7E1E5837DA;
+	Mon, 10 May 2021 18:15:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21B9EC000E;
-	Mon, 10 May 2021 17:50:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B311C001C;
+	Mon, 10 May 2021 18:15:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D2BCCC0001
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 17:50:48 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03257C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 18:15:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C15DA83942
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 17:50:48 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id DD2A183A69
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 18:15:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G9vcT0eoSaYX for <iommu@lists.linux-foundation.org>;
- Mon, 10 May 2021 17:50:48 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3410883774
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 17:50:48 +0000 (UTC)
-IronPort-SDR: 1Zcax5EsQpJ0RlGrhFHuwraKbGXzT4XS66wQ3lL8K1+a/xd32Lr8u1oVz2juEr+nXw7s8LPfoF
- Gcx4TzUajslQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="186385431"
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; d="scan'208";a="186385431"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 10:50:47 -0700
-IronPort-SDR: QXWSnJu/a4K4F33jQl+R2YMiw/7332eq0c9/dcWqpA6weLblSIdXEXiuw2KenWcrSqrICMIbv0
- 6Q2zWQ9Th36w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; d="scan'208";a="391062983"
-Received: from lkp-server01.sh.intel.com (HELO f375d57c4ed4) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 10:50:44 -0700
-Received: from kbuild by f375d57c4ed4 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1lgA3H-0000J3-Gr; Mon, 10 May 2021 17:50:43 +0000
-Date: Tue, 11 May 2021 01:50:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Garry <john.garry@huawei.com>, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, hch@lst.de, m.szyprowski@samsung.com
-Subject: [RFC PATCH] iova: __init_iova_domain can be static
-Message-ID: <20210510175026.GA46391@b09f4beb6d7e>
-References: <1620656249-68890-10-git-send-email-john.garry@huawei.com>
+ with ESMTP id f0PIK5DeXcrf for <iommu@lists.linux-foundation.org>;
+ Mon, 10 May 2021 18:15:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 567B1837DA
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 18:15:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+ s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=U5oB8mfFZLEuy5Yg/E0zgF4iSW40BPLFycfVFKKLR18=; b=bOJV5SmQ0O2K2VSbIDK/2BxZ2Q
+ hA+OjDCuSuM4X73YxfSLnzK4PkvUYT13yWt3F9Kp4L/luL4z544C+SikxjoGEzsAhlfyw5WbInzbj
+ BoLURVvENjwaKuMRzgEPeOb3k9kixOubpH6Ut322sIfARM84GOZ8pWvwuCQcPyNHUdZw=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1lgAR5-000343-IE; Mon, 10 May 2021 18:15:19 +0000
+Received: from [54.239.6.185] (helo=a483e7b01a66.ant.amazon.com)
+ by xenbits.xenproject.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1lgAR5-00056p-BN; Mon, 10 May 2021 18:15:19 +0000
+Subject: Re: Regression when booting 5.15 as dom0 on arm64 (WAS: Re:
+ [linux-linus test] 161829: regressions - FAIL)
+To: Christoph Hellwig <hch@lst.de>
+References: <osstest-161829-mainreport@xen.org>
+ <4ea1e89f-a7a0-7664-470c-b3cf773a1031@xen.org> <20210510084057.GA933@lst.de>
+From: Julien Grall <julien@xen.org>
+Message-ID: <8b851596-acf7-9d3b-b08a-848cae5adada@xen.org>
+Date: Mon, 10 May 2021 19:15:17 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1620656249-68890-10-git-send-email-john.garry@huawei.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: kbuild-all@lists.01.org, linux-scsi@vger.kernel.org, linuxarm@huawei.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
+In-Reply-To: <20210510084057.GA933@lst.de>
+Content-Language: en-GB
+Cc: f.fainelli@gmail.com, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ osstest service owner <osstest-admin@xenproject.org>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,32 +80,58 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-drivers/iommu/iova.c:50:1: warning: symbol '__init_iova_domain' was not declared. Should it be static?
+Hi Christoph,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- iova.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10/05/2021 09:40, Christoph Hellwig wrote:
+> On Sat, May 08, 2021 at 12:32:37AM +0100, Julien Grall wrote:
+>> The pointer dereferenced seems to suggest that the swiotlb hasn't been
+>> allocated. From what I can tell, this may be because swiotlb_force is set
+>> to SWIOTLB_NO_FORCE, we will still enable the swiotlb when running on top
+>> of Xen.
+>>
+>> I am not entirely sure what would be the correct fix. Any opinions?
+> 
+> Can you try something like the patch below (not even compile tested, but
+> the intent should be obvious?
+> 
+> 
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 16a2b2b1c54d..7671bc153fb1 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -44,6 +44,8 @@
+>   #include <asm/tlb.h>
+>   #include <asm/alternative.h>
+>   
+> +#include <xen/arm/swiotlb-xen.h>
+> +
+>   /*
+>    * We need to be able to catch inadvertent references to memstart_addr
+>    * that occur (potentially in generic code) before arm64_memblock_init()
+> @@ -482,7 +484,7 @@ void __init mem_init(void)
+>   	if (swiotlb_force == SWIOTLB_FORCE ||
+>   	    max_pfn > PFN_DOWN(arm64_dma_phys_limit))
+>   		swiotlb_init(1);
+> -	else
+> +	else if (!IS_ENABLED(CONFIG_XEN) || !xen_swiotlb_detect())
+>   		swiotlb_force = SWIOTLB_NO_FORCE;
+>   
+>   	set_max_mapnr(max_pfn - PHYS_PFN_OFFSET);
 
-diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index 273a689006c36..ae4901073a98a 100644
---- a/drivers/iommu/iova.c
-+++ b/drivers/iommu/iova.c
-@@ -46,7 +46,7 @@ static struct iova *to_iova(struct rb_node *node)
- 	return rb_entry(node, struct iova, node);
- }
- 
--void
-+static void
- __init_iova_domain(struct iova_domain *iovad, unsigned long granule,
- 	unsigned long start_pfn, unsigned long iova_len)
- {
+I have applied the patch on top of 5.13-rc1 and can confirm I am able to 
+boot dom0. Are you going to submit the patch?
+
+Thank you for your help!
+
+Best regards,
+
+-- 
+Julien Grall
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
