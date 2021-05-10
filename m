@@ -1,81 +1,131 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1B9377F3E
-	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 11:19:48 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 030DC377FA5
+	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 11:41:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D051E401C5;
-	Mon, 10 May 2021 09:19:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 91EC06078A;
+	Mon, 10 May 2021 09:41:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Z0_zG2E-ebKX; Mon, 10 May 2021 09:19:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B7A9F40191;
-	Mon, 10 May 2021 09:19:45 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kC5JQwuS_hj4; Mon, 10 May 2021 09:41:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id DA2EC607D2;
+	Mon, 10 May 2021 09:41:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E4EAC0001;
-	Mon, 10 May 2021 09:19:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 64875C0011;
+	Mon, 10 May 2021 09:41:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B42AEC0001
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 09:19:43 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61B19C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 08:41:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9DA0C40318
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 09:19:43 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 503CB40191
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 08:41:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4_Gk0kgNMEDN for <iommu@lists.linux-foundation.org>;
- Mon, 10 May 2021 09:19:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 43D8040317
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 09:19:25 +0000 (UTC)
-Received: from dggeml706-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FdwPR5c7fzWgmZ;
- Mon, 10 May 2021 17:15:07 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
- dggeml706-chm.china.huawei.com (10.3.17.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 10 May 2021 17:19:20 +0800
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 10 May 2021 17:19:19 +0800
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.2176.012; Mon, 10 May 2021 10:19:17 +0100
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: Robin Murphy <robin.murphy@arm.com>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-acpi@vger.kernel.org"
- <linux-acpi@vger.kernel.org>, "iommu@lists.linux-foundation.org"
- <iommu@lists.linux-foundation.org>
-Subject: RE: [PATCH v3 08/10] iommu/arm-smmu-v3: Reserve any RMR regions
- associated with a dev
-Thread-Topic: [PATCH v3 08/10] iommu/arm-smmu-v3: Reserve any RMR regions
- associated with a dev
-Thread-Index: AQHXQygBB9Vpe9n6UUKndwgDQTx/5KrcZBEg
-Date: Mon, 10 May 2021 09:19:17 +0000
-Message-ID: <241042b6d1ea45f790e0766c6f5d3542@huawei.com>
-References: <20210420082751.1829-1-shameerali.kolothum.thodi@huawei.com>
- <20210420082751.1829-9-shameerali.kolothum.thodi@huawei.com>
- <7ec85477-9c02-17de-9620-f0b153adcc82@arm.com>
-In-Reply-To: <7ec85477-9c02-17de-9620-f0b153adcc82@arm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.94.9]
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=samsung.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id v42EpcSSDCn0 for <iommu@lists.linux-foundation.org>;
+ Mon, 10 May 2021 08:41:06 +0000 (UTC)
+X-Greylist: delayed 00:09:18 by SQLgrey-1.8.0
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 867B5400C9
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 08:41:06 +0000 (UTC)
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210510083145epoutp01f22cf584ded954965a0629f0cbda68f8~9p2fRqRo51109411094epoutp01b
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 08:31:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210510083145epoutp01f22cf584ded954965a0629f0cbda68f8~9p2fRqRo51109411094epoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1620635505;
+ bh=+FtN8Qg2E3DJyloZaR29LDKNlo4cw2mybAyOLLGFY1M=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=Myt++ZLt1ic0jHzsC0MTHzL77lZB2PNZcoXxV03XVK0kCLpmUQV4vPSfsnB+Uanoe
+ DAL6cr0lK30O62+Am1xhMtAPspaKEJcClCLzQZKoZ5GkAB8k+0fqIEr3EOOM8YoqYa
+ nsk1Gw/eWExR860dX9TsbtQkz/4we70KtsHD+iVA=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210510083144epcas2p2292fd8fe2465d6ff3b1cf1c2d8721197~9p2evo_H93143631436epcas2p2c;
+ Mon, 10 May 2021 08:31:44 +0000 (GMT)
+Received: from epsmges2p3.samsung.com (unknown [182.195.40.183]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4FdvRM2GRFz4x9QB; Mon, 10 May
+ 2021 08:31:43 +0000 (GMT)
+Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
+ epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+ AF.01.09433.C6FE8906; Mon, 10 May 2021 17:31:40 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210510083139epcas2p211d9bee16e5e8f8ea34e606c83ac3a55~9p2aGkLxH0395303953epcas2p24;
+ Mon, 10 May 2021 08:31:39 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210510083139epsmtrp168988c06dd3c981f1a6ea6b519db0370~9p2aFxfyF1230012300epsmtrp1j;
+ Mon, 10 May 2021 08:31:39 +0000 (GMT)
+X-AuditID: b6c32a47-f4bff700000024d9-89-6098ef6c451f
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 37.C6.08163.B6FE8906; Mon, 10 May 2021 17:31:39 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.229.9.51]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210510083139epsmtip260ae4ea25a2f318bb3947e6edefd4c34~9p2Z2Iu140654006540epsmtip2t;
+ Mon, 10 May 2021 08:31:39 +0000 (GMT)
+From: Chanho Park <chanho61.park@samsung.com>
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, Christoph Hellwig
+ <hch@lst.de>
+Subject: [PATCH] swiotlb: manipulate orig_addr when tlb_addr has offset
+Date: Mon, 10 May 2021 17:30:57 +0900
+Message-Id: <20210510083057.46476-1-chanho61.park@samsung.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgk+LIzCtJLcpLzFFi42LZdljTVDfn/YwEg59rBCz2nrawuLxf22Ll
+ 6qNMFgv2W1ssW/yU0eLyrjlsFmuP3GW3OPjhCasDh8eaeWsYPSbfWM7osftmA5vHx6e3WDz6
+ tqxi9Pi8SS6ALSrHJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUn
+ QNctMwfoGiWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpOgaFhgV5xYm5xaV66XnJ+
+ rpWhgYGRKVBlQk7GiRWL2AteyVS8/jybrYHxs2gXIyeHhICJxIpd11i7GLk4hAR2MEocufCa
+ CcL5xChxa8klRgjnM6PE/B9r2GBann6ZBNWyi1Hi1aR1bBDOR0aJmf0HmUGq2AR0JbY8f8UI
+ YosIhEjMaH7EDmIzC7xilPi2whDEFhZwlzh79xNYDYuAqsT01s1gNq+AncT831MZIbbJS5w+
+ cQ0qLihxcuYTFog58hLNW2czgyyWELjHLnHv4HQWiAYXiU07vrNC2MISr45vYYewpSRe9rex
+ QzR0M0q0PvoPlVjNKNHZ6ANh20v8mr4FqJkDaIOmxPpd+iCmhICyxJFbUHv5JDoO/2WHCPNK
+ dLQJQTSqSxzYDnOBrET3nM9QF3hI/L3bzgRiCwnESjyb84plAqP8LCTfzELyzSyEvQsYmVcx
+ iqUWFOempxYbFRgjx+omRnCS1HLfwTjj7Qe9Q4xMHIyHGCU4mJVEeEU7piUI8aYkVlalFuXH
+ F5XmpBYfYjQFhu9EZinR5Hxgms4riTc0NTIzM7A0tTA1M7JQEuf9mVqXICSQnliSmp2aWpBa
+ BNPHxMEp1cDU+FErR2Z+auBqA2Pv2DXaXrky7NOVVwg0x+1OPfvg3tTVttf3Pz+5eqWjM9uZ
+ q78uXfVRvvdnczf3hCeVJ44bbbflCL7TxmtRJMVQ9WXXzFMxTJErfzYVlM5i2j5Hr05Keqnz
+ tYNGgi9P1adduvX66ykBzdtSO0XCrS7v6pD/OeEm5++mgNecOqp8rS6/Dj86wvp5Wd2DfBmF
+ R681vnf5MPu69z8+NO9m/FKuw8fXn9ZLnGc1xfjCuknXDZ38wqquch08fZZp2qQ639X93ws8
+ bt0t7r7wqLr9e5NRn7alOPcv3nOTPb7Mjvl4WbxjS3ja67Lz1Ys9v0fO+hSv/rdT69xUJtaO
+ pfOF/0hPlRO/pcRSnJFoqMVcVJwIALnOOBobBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGLMWRmVeSWpSXmKPExsWy7bCSvG72+xkJBqe/KljsPW1hcXm/tsXK
+ 1UeZLBbst7ZYtvgpo8XlXXPYLNYeuctucfDDE1YHDo8189Yweky+sZzRY/fNBjaPj09vsXj0
+ bVnF6PF5k1wAWxSXTUpqTmZZapG+XQJXxokVi9gLXslUvP48m62B8bNoFyMnh4SAicTTL5NY
+ uxi5OIQEdjBKHH/TwgaRkJV49m4HO4QtLHG/5QhU0XtGiX/N/UwgCTYBXYktz18xdjFycIgI
+ hEj83CgKUsMs8I5R4vqmM8wgNcIC7hJn735iBLFZBFQlprduBrN5Bewk5v+eygixQF7i9Ilr
+ UHFBiZMzn7CA2MxA8eats5knMPLNQpKahSS1gJFpFaNkakFxbnpusWGBUV5quV5xYm5xaV66
+ XnJ+7iZGcNBqae1g3LPqg94hRiYOxkOMEhzMSiK8oh3TEoR4UxIrq1KL8uOLSnNSiw8xSnOw
+ KInzXug6GS8kkJ5YkpqdmlqQWgSTZeLglGpgmmVRK7I7ZnFA22Sb5V80Of/WzNqQcMEvvE15
+ rpLFudLlX2feKzn7f8It74vxb0TOb208Ln3rzKOW+Zcc9z2SkjJZOP2xYRbvg+C8iOyZxuxc
+ m88lTJwuzPWw0V3xRchU9kmS0hv9u97bzJgxxV38r8SVhOlvO0/tfGu28Qu7vFLeO7lPVwTm
+ nMor9JJNv73o6l2NnTUxNy7fs5U9Uv6KITdi8tYgK4udqwMulnzSsTlrNOkWcy7LldWMMtdu
+ XX2ZGJs58bm+U9TkAz9/tC3gyWM3Wao0+XjEusd5dgFM1ye+ZpCI/K11rKnhx9kS9miGmWzJ
+ f7/yrPNJ6LiTbFgU4jL3gti260/nRdnfr9Gcl6DEUpyRaKjFXFScCAAzU3uEyQIAAA==
+X-CMS-MailID: 20210510083139epcas2p211d9bee16e5e8f8ea34e606c83ac3a55
+X-Msg-Generator: CA
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-Cc: "jon@solid-run.com" <jon@solid-run.com>, Linuxarm <linuxarm@huawei.com>,
- "steven.price@arm.com" <steven.price@arm.com>,
- "Guohanjun \(Hanjun Guo\)" <guohanjun@huawei.com>,
- "Sami.Mujawar@arm.com" <Sami.Mujawar@arm.com>,
- wanghuiqiang <wanghuiqiang@huawei.com>
+X-CMS-RootMailID: 20210510083139epcas2p211d9bee16e5e8f8ea34e606c83ac3a55
+References: <CGME20210510083139epcas2p211d9bee16e5e8f8ea34e606c83ac3a55@epcas2p2.samsung.com>
+X-Mailman-Approved-At: Mon, 10 May 2021 09:41:45 +0000
+Cc: linux-kernel@vger.kernel.org, Bumyong Lee <bumyong.lee@samsung.com>,
+ iommu@lists.linux-foundation.org, Chanho Park <chanho61.park@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,93 +138,120 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGkgUm9iaW4sDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUm9iaW4g
-TXVycGh5IFttYWlsdG86cm9iaW4ubXVycGh5QGFybS5jb21dDQo+IFNlbnQ6IDA3IE1heSAyMDIx
-IDExOjAyDQo+IFRvOiBTaGFtZWVyYWxpIEtvbG90aHVtIFRob2RpIDxzaGFtZWVyYWxpLmtvbG90
-aHVtLnRob2RpQGh1YXdlaS5jb20+Ow0KPiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVh
-ZC5vcmc7IGxpbnV4LWFjcGlAdmdlci5rZXJuZWwub3JnOw0KPiBpb21tdUBsaXN0cy5saW51eC1m
-b3VuZGF0aW9uLm9yZw0KPiBDYzogTGludXhhcm0gPGxpbnV4YXJtQGh1YXdlaS5jb20+OyBsb3Jl
-bnpvLnBpZXJhbGlzaUBhcm0uY29tOw0KPiBqb3JvQDhieXRlcy5vcmc7IHdhbmdodWlxaWFuZyA8
-d2FuZ2h1aXFpYW5nQGh1YXdlaS5jb20+OyBHdW9oYW5qdW4NCj4gKEhhbmp1biBHdW8pIDxndW9o
-YW5qdW5AaHVhd2VpLmNvbT47IHN0ZXZlbi5wcmljZUBhcm0uY29tOw0KPiBTYW1pLk11amF3YXJA
-YXJtLmNvbTsgam9uQHNvbGlkLXJ1bi5jb207IGVyaWMuYXVnZXJAcmVkaGF0LmNvbQ0KPiBTdWJq
-ZWN0OiBSZTogW1BBVENIIHYzIDA4LzEwXSBpb21tdS9hcm0tc21tdS12MzogUmVzZXJ2ZSBhbnkg
-Uk1SIHJlZ2lvbnMNCj4gYXNzb2NpYXRlZCB3aXRoIGEgZGV2DQo+IA0KPiBPbiAyMDIxLTA0LTIw
-IDA5OjI3LCBTaGFtZWVyIEtvbG90aHVtIHdyb3RlOg0KPiA+IEdldCBSTVIgcmVnaW9ucyBhc3Nv
-Y2lhdGVkIHdpdGggYSBkZXbCoHJlc2VydmVkIHNvIHRoYXQgdGhlcmUgaXMNCj4gPiBhIHVuaXR5
-IG1hcHBpbmcgZm9yIHRoZW0gaW7CoFNNTVUuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBTaGFt
-ZWVyIEtvbG90aHVtDQo+IDxzaGFtZWVyYWxpLmtvbG90aHVtLnRob2RpQGh1YXdlaS5jb20+DQo+
-ID4gLS0tDQo+ID4gICBkcml2ZXJzL2lvbW11L2FybS9hcm0tc21tdS12My9hcm0tc21tdS12My5j
-IHwgMjkNCj4gKysrKysrKysrKysrKysrKysrKysrDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMjkg
-aW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvYXJtL2Fy
-bS1zbW11LXYzL2FybS1zbW11LXYzLmMNCj4gYi9kcml2ZXJzL2lvbW11L2FybS9hcm0tc21tdS12
-My9hcm0tc21tdS12My5jDQo+ID4gaW5kZXggMTRlOWM3MDM0YzA0Li44YmFjZWRmN2JiMzQgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9pb21tdS9hcm0vYXJtLXNtbXUtdjMvYXJtLXNtbXUtdjMu
-Yw0KPiA+ICsrKyBiL2RyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLmMN
-Cj4gPiBAQCAtMjUzMSw2ICsyNTMxLDM0IEBAIHN0YXRpYyBpbnQgYXJtX3NtbXVfb2ZfeGxhdGUo
-c3RydWN0IGRldmljZSAqZGV2LA0KPiBzdHJ1Y3Qgb2ZfcGhhbmRsZV9hcmdzICphcmdzKQ0KPiA+
-ICAgCXJldHVybiBpb21tdV9md3NwZWNfYWRkX2lkcyhkZXYsIGFyZ3MtPmFyZ3MsIDEpOw0KPiA+
-ICAgfQ0KPiA+DQo+ID4gK3N0YXRpYyBib29sIGFybV9zbW11X2Rldl9oYXNfcm1yKHN0cnVjdCBh
-cm1fc21tdV9tYXN0ZXIgKm1hc3RlciwNCj4gPiArCQkJCSBzdHJ1Y3QgaW9tbXVfcm1yICplKQ0K
-PiA+ICt7DQo+ID4gKwlpbnQgaTsNCj4gPiArDQo+ID4gKwlmb3IgKGkgPSAwOyBpIDwgbWFzdGVy
-LT5udW1fc2lkczsgaSsrKSB7DQo+ID4gKwkJaWYgKGUtPnNpZCA9PSBtYXN0ZXItPnNpZHNbaV0p
-DQo+ID4gKwkJCXJldHVybiB0cnVlOw0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCXJldHVybiBmYWxz
-ZTsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIHZvaWQgYXJtX3NtbXVfcm1yX2dldF9yZXN2
-X3JlZ2lvbnMoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+ICsJCQkJCSAgc3RydWN0IGxpc3RfaGVh
-ZCAqaGVhZCkNCj4gPiArew0KPiA+ICsJc3RydWN0IGFybV9zbW11X21hc3RlciAqbWFzdGVyID0g
-ZGV2X2lvbW11X3ByaXZfZ2V0KGRldik7DQo+ID4gKwlzdHJ1Y3QgYXJtX3NtbXVfZGV2aWNlICpz
-bW11ID0gbWFzdGVyLT5zbW11Ow0KPiA+ICsJc3RydWN0IGlvbW11X3JtciAqcm1yOw0KPiA+ICsN
-Cj4gPiArCWxpc3RfZm9yX2VhY2hfZW50cnkocm1yLCAmc21tdS0+cm1yX2xpc3QsIGxpc3QpIHsN
-Cj4gPiArCQlpZiAoIWFybV9zbW11X2Rldl9oYXNfcm1yKG1hc3Rlciwgcm1yKSkNCj4gPiArCQkJ
-Y29udGludWU7DQo+ID4gKw0KPiA+ICsJCWlvbW11X2RtYV9nZXRfcm1yX3Jlc3ZfcmVnaW9ucyhk
-ZXYsIHJtciwgaGVhZCk7DQo+ID4gKwl9DQo+ID4gK30NCj4gPiArDQo+IA0KPiBUQkggSSB3b3Vs
-ZG4ndCBoYXZlIHRob3VnaHQgd2UgbmVlZCBhIGRyaXZlci1zcGVjaWZpYyBob29rIGZvciB0aGlz
-LCBvcg0KPiBpcyBpdCB0b28gcGFpbmZ1bCB0byBjb3JyZWxhdGUgZndzcGVjLT5pb21tdV9md25v
-ZGUgYmFjayB0byB0aGUgcmVsZXZhbnQNCj4gSU9SVCBub2RlIGdlbmVyaWNhbGx5Pw0KDQpGcm9t
-IGEgcXVpY2sgbG9vaywgSSB0aGluayBJIGNvdWxkIGdldCByaWQgb2YgdGhlIGFib3ZlIHdpdGgg
-c29tZXRoaW5nIGxpa2UgYmVsb3csDQoNCi0tLS0tLTg8LS0tLQ0KK3N0YXRpYyBib29sIGlvbW11
-X2RtYV9kZXZfaGFzX3JtcihzdHJ1Y3QgaW9tbXVfZndzcGVjICpmd3NwZWMsDQorICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGlvbW11X3JtciAqZSkNCit7DQorICAgICAg
-IGludCBpOw0KKw0KKyAgICAgICBmb3IgKGkgPSAwOyBpIDwgZndzcGVjLT5udW1faWRzOyBpKysp
-IHsNCisgICAgICAgICAgICAgICAgaWYgKGUtPnNpZCA9PSBmd3NwZWMtPmlkc1tpXSkNCisgICAg
-ICAgICAgICAgICAgICAgICAgICByZXR1cm4gdHJ1ZTsNCisgICAgICAgIH0NCisNCisgICAgICAg
-IHJldHVybiBmYWxzZTsNCit9DQorDQorDQordm9pZCBpb21tdV9kbWFfZ2V0X3Jtcl9yZXN2X3Jl
-Z2lvbnMoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgbGlzdF9oZWFkICpsaXN0KQ0KK3sNCisg
-ICAgICAgc3RydWN0IGlvbW11X2Z3c3BlYyAqZndzcGVjID0gZGV2X2lvbW11X2Z3c3BlY19nZXQo
-ZGV2KTsNCisgICAgICAgc3RydWN0IGxpc3RfaGVhZCBybXJfbGlzdDsNCisgICAgICAgc3RydWN0
-IGlvbW11X3JtciAqcm1yOw0KKw0KKyAgICAgICBJTklUX0xJU1RfSEVBRCgmcm1yX2xpc3QpOw0K
-KyAgICAgICBpZiAoaW9tbXVfZG1hX2dldF9ybXJzKGZ3c3BlYy0+aW9tbXVfZndub2RlLCAmcm1y
-X2xpc3QpKQ0KKyAgICAgICAgICAgICAgIHJldHVybjsNCiAgICAgICAgLi4uDQorICAgICAgIGxp
-c3RfZm9yX2VhY2hfZW50cnkocm1yLCAmcm1yX2xpc3QsIGxpc3QpIHsNCisgICAgIA0KKyAgICAg
-ICBpZiAoIWlvbW11X2RtYV9kZXZfaGFzX3Jtcihmd3NwZWMsIHJtcikNCisgICAgICAgICAgIGNv
-bnRpbnVlOw0KKyAgICAgICAgICAuLi4gDQorICAgICAgICAgICAgICAgcmVnaW9uID0gaW9tbXVf
-YWxsb2NfcmVzdl9yZWdpb24ocm1yLT5iYXNlX2FkZHJlc3MsDQorICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcm1yLT5sZW5ndGgsIHByb3QsDQorICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdHlwZSk7DQogICAgICAg
-ICAuLi4NCisgICAgICAgfQ0KK30NCiAvKioNCiAgKiBpb21tdV9kbWFfZ2V0X3Jlc3ZfcmVnaW9u
-cyAtIFJlc2VydmVkIHJlZ2lvbiBkcml2ZXIgaGVscGVyDQogICogQGRldjogRGV2aWNlIGZyb20g
-aW9tbXVfZ2V0X3Jlc3ZfcmVnaW9ucygpDQpAQCAtMTg4LDEwICsyNDIsMTEgQEAgdm9pZCBpb21t
-dV9kbWFfZ2V0X3Jlc3ZfcmVnaW9ucyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBsaXN0X2hl
-YWQgKmxpc3QpDQogICAgICAgIGlmICghaXNfb2Zfbm9kZShkZXZfaW9tbXVfZndzcGVjX2dldChk
-ZXYpLT5pb21tdV9md25vZGUpKQ0KICAgICAgICAgICAgICAgIGlvcnRfaW9tbXVfbXNpX2dldF9y
-ZXN2X3JlZ2lvbnMoZGV2LCBsaXN0KTsNCiANCisgICAgICAgaW9tbXVfZG1hX2dldF9ybXJfcmVz
-dl9yZWdpb25zKGRldiwgbGlzdCk7DQogfQ0KDQotLS0tODwtLS0tDQoNCkJ1dCBsb29raW5nIGF0
-IHRoZSBTTU1VdjIgY29kZSwgdGhlIGZ3c3BlYy0+aWRzIGlzIE1BU0s6U0lELCBzbyBJIGFtIG5v
-dA0Kc3VyZSB0aGUgUk1SIHNpZCBjYW4gYmUgY29tcGFyZWQgZGlyZWN0bHkgdG8gZndzcGVjLT5p
-ZHMgYWJvdmUuIFJpZ2h0PyBPcg0KaXMgdGhlcmUgYSBiZXR0ZXIgd2F5IGhlcmU/DQoNClRoYW5r
-cywNClNoYW1lZXINCg0KDQo+IA0KPiA+ICAgc3RhdGljIHZvaWQgYXJtX3NtbXVfZ2V0X3Jlc3Zf
-cmVnaW9ucyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4gICAJCQkJICAgICAgc3RydWN0IGxpc3Rf
-aGVhZCAqaGVhZCkNCj4gPiAgIHsNCj4gPiBAQCAtMjU0NSw2ICsyNTczLDcgQEAgc3RhdGljIHZv
-aWQgYXJtX3NtbXVfZ2V0X3Jlc3ZfcmVnaW9ucyhzdHJ1Y3QNCj4gZGV2aWNlICpkZXYsDQo+ID4g
-ICAJbGlzdF9hZGRfdGFpbCgmcmVnaW9uLT5saXN0LCBoZWFkKTsNCj4gPg0KPiA+ICAgCWlvbW11
-X2RtYV9nZXRfcmVzdl9yZWdpb25zKGRldiwgaGVhZCk7DQo+ID4gKwlhcm1fc21tdV9ybXJfZ2V0
-X3Jlc3ZfcmVnaW9ucyhkZXYsIGhlYWQpOw0KPiA+ICAgfQ0KPiA+DQo+ID4gICBzdGF0aWMgYm9v
-bCBhcm1fc21tdV9kZXZfaGFzX2ZlYXR1cmUoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+DQpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5n
-IGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51
-eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+From: Bumyong Lee <bumyong.lee@samsung.com>
+
+in case of driver wants to sync part of ranges with offset,
+swiotlb_tbl_sync_single() copies from orig_addr base to tlb_addr with offset
+it makes data mismatch
+
+it removed from "swiotlb: don't modify orig_addr in swiotlb_tbl_sync_single",
+but it have to be recovered
+
+1. Get dma_addr_t from dma_map_single()
+dma_addr_t tlb_addr = dma_map_single(dev, vaddr, vsize, DMA_TO_DEVICE);
+
+    |<---------------vsize------------->|
+    +-----------------------------------+
+    |                                   | original buffer
+    +-----------------------------------+
+  vaddr
+
+ swiotlb_align_offset
+     |<----->|<---------------vsize------------->|
+     +-------+-----------------------------------+
+     |       |                                   | swiotlb buffer
+     +-------+-----------------------------------+
+          tlb_addr
+
+2. Do something
+3. Sync dma_addr_t through dma_sync_single_for_device(..)
+dma_sync_single_for_device(dev, tlb_addr + offset, size, DMA_TO_DEVICE);
+
+  Error case.
+    copy data to original buffer.
+    but it is from base addr in original buffer
+
+     |<----->|<- offset ->|<- size ->|
+     +-------+-----------------------------------+
+     |       |            |##########|           | swiotlb buffer
+     +-------+-----------------------------------+
+          tlb_addr
+
+ swiotlb_align_offset
+     |<----->|<- offset ->|<- size ->|
+     +-------+-----------------------------------+
+     |       |            |##########|           | swiotlb buffer
+     +-------+-----------------------------------+
+          tlb_addr
+
+    |<- size ->|
+    +-----------------------------------+
+    |##########|                        | original buffer
+    +-----------------------------------+
+  vaddr
+
+  FIX. copy data to original buffer.
+  but it is from base addr in original buffer
+
+ swiotlb_align_offset
+     |<----->|<- offset ->|<- size ->|
+     +-------+-----------------------------------+
+     |       |            |##########|           | swiotlb buffer
+     +-------+-----------------------------------+
+          tlb_addr
+
+    |<- offset ->|<- size ->|
+    +-----------------------------------+
+    |            |##########|           | original buffer
+    +-----------------------------------+
+  vaddr
+
+Fixes: 16fc3cef33a0 ("swiotlb: don't modify orig_addr in swiotlb_tbl_sync_single")
+Signed-off-by: Bumyong Lee <bumyong.lee@samsung.com>
+Signed-off-by: Chanho Park <chanho61.park@samsung.com>
+---
+ kernel/dma/swiotlb.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 8ca7d505d61c..e8243725e298 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -334,6 +334,7 @@ void __init swiotlb_exit(void)
+ 	io_tlb_default_mem = NULL;
+ }
+ 
++static unsigned int swiotlb_align_offset(struct device *dev, u64 addr);
+ /*
+  * Bounce: copy the swiotlb buffer from or back to the original dma location
+  */
+@@ -346,10 +347,17 @@ static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size
+ 	size_t alloc_size = mem->slots[index].alloc_size;
+ 	unsigned long pfn = PFN_DOWN(orig_addr);
+ 	unsigned char *vaddr = phys_to_virt(tlb_addr);
++	unsigned int tlb_offset;
+ 
+ 	if (orig_addr == INVALID_PHYS_ADDR)
+ 		return;
+ 
++	tlb_offset = (unsigned int)tlb_addr & (IO_TLB_SIZE - 1);
++	tlb_offset -= swiotlb_align_offset(dev, orig_addr);
++
++	orig_addr += tlb_offset;
++	alloc_size -= tlb_offset;
++
+ 	if (size > alloc_size) {
+ 		dev_WARN_ONCE(dev, 1,
+ 			"Buffer overflow detected. Allocation size: %zu. Mapping size: %zu.\n",
+-- 
+2.31.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
