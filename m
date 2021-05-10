@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC4E379091
-	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 16:22:45 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA0C37908F
+	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 16:22:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id AE4D040E74;
-	Mon, 10 May 2021 14:22:42 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U3zKIu6f-LC1; Mon, 10 May 2021 14:22:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 66CE140634;
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8A195404F7;
 	Mon, 10 May 2021 14:22:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6o39fy8mHqe3; Mon, 10 May 2021 14:22:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id B228A40538;
+	Mon, 10 May 2021 14:22:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7D26C0001;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B604C0024;
 	Mon, 10 May 2021 14:22:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 600DDC000D
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49602C0001
  for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 40C9F4052F
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2B8488408F
  for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SOYaVQa4M8KL for <iommu@lists.linux-foundation.org>;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PX5OvGUf6sGx for <iommu@lists.linux-foundation.org>;
  Mon, 10 May 2021 14:22:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 174B6404F7
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:37 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 09AF283EAE
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 14:22:36 +0000 (UTC)
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Ff38H6LJkzqTs0;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Ff38H6410zqTrx;
  Mon, 10 May 2021 22:19:11 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
@@ -43,10 +43,9 @@ Received: from localhost.localdomain (10.69.192.58) by
 From: John Garry <john.garry@huawei.com>
 To: <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
  <hch@lst.de>, <m.szyprowski@samsung.com>
-Subject: [PATCH v2 03/15] iommu: Allow max opt DMA len be set for a group via
- sysfs
-Date: Mon, 10 May 2021 22:17:17 +0800
-Message-ID: <1620656249-68890-4-git-send-email-john.garry@huawei.com>
+Subject: [PATCH v2 04/15] iommu: Add iommu_group_get_max_opt_dma_size()
+Date: Mon, 10 May 2021 22:17:18 +0800
+Message-ID: <1620656249-68890-5-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1620656249-68890-1-git-send-email-john.garry@huawei.com>
 References: <1620656249-68890-1-git-send-email-john.garry@huawei.com>
@@ -73,106 +72,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add support to allow the maximum optimised DMA len be set for an IOMMU
-group via sysfs.
-
-This much the same with the method to change the default domain type for a
-group.
-
-However, unlike changing the default domain type, the new domains will be
-allocated on a member device reprobe path.
+Add a function to return the max optimised DMA size for an IOMMU group.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/iommu/iommu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ drivers/iommu/iommu.c | 5 +++++
+ include/linux/iommu.h | 6 ++++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 4d12b607918c..63cdfb11ebed 100644
+index 63cdfb11ebed..62e4491f32e0 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -45,6 +45,7 @@ struct iommu_group {
- 	struct iommu_domain *default_domain;
- 	struct iommu_domain *domain;
- 	struct list_head entry;
-+	size_t max_opt_dma_size;
- };
- 
- struct group_device {
-@@ -86,6 +87,9 @@ static int iommu_create_device_direct_mappings(struct iommu_group *group,
- static struct iommu_group *iommu_group_get_for_dev(struct device *dev);
- static ssize_t iommu_group_store_type(struct iommu_group *group,
- 				      const char *buf, size_t count);
-+static ssize_t iommu_group_store_max_opt_dma_size(struct iommu_group *group,
-+						  const char *buf,
-+						  size_t count);
- 
- #define IOMMU_GROUP_ATTR(_name, _mode, _show, _store)		\
- struct iommu_group_attribute iommu_group_attr_##_name =		\
-@@ -554,6 +558,12 @@ static ssize_t iommu_group_show_type(struct iommu_group *group,
- 	return strlen(type);
+@@ -2296,6 +2296,11 @@ struct iommu_domain *iommu_get_dma_domain(struct device *dev)
+ 	return dev->iommu_group->default_domain;
  }
  
-+static ssize_t iommu_group_show_max_opt_dma_size(struct iommu_group *group,
-+				     char *buf)
++size_t iommu_group_get_max_opt_dma_size(struct iommu_group *group)
 +{
-+	return sprintf(buf, "%zu\n", group->max_opt_dma_size);
++	return group->max_opt_dma_size;
 +}
 +
- static IOMMU_GROUP_ATTR(name, S_IRUGO, iommu_group_show_name, NULL);
- 
- static IOMMU_GROUP_ATTR(reserved_regions, 0444,
-@@ -562,6 +572,9 @@ static IOMMU_GROUP_ATTR(reserved_regions, 0444,
- static IOMMU_GROUP_ATTR(type, 0644, iommu_group_show_type,
- 			iommu_group_store_type);
- 
-+static IOMMU_GROUP_ATTR(max_opt_dma_size, 0644, iommu_group_show_max_opt_dma_size,
-+			iommu_group_store_max_opt_dma_size);
-+
- static void iommu_group_release(struct kobject *kobj)
- {
- 	struct iommu_group *group = to_iommu_group(kobj);
-@@ -648,6 +661,10 @@ struct iommu_group *iommu_group_alloc(void)
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-+	ret = iommu_group_create_file(group, &iommu_group_attr_max_opt_dma_size);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
- 	pr_debug("Allocated group %d\n", group->id);
- 
- 	return group;
-@@ -3279,3 +3296,29 @@ static ssize_t iommu_group_store_type(struct iommu_group *group,
- 	return iommu_group_store_common(group, buf, count,
- 					iommu_group_store_type_cb);
+ /*
+  * IOMMU groups are really the natural working unit of the IOMMU, but
+  * the IOMMU API works on domains and devices.  Bridge that gap by
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 32d448050bf7..e26abda94792 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -405,6 +405,7 @@ extern int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
+ 				   struct device *dev, ioasid_t pasid);
+ extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
+ extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
++extern size_t iommu_group_get_max_opt_dma_size(struct iommu_group *group);
+ extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 		     phys_addr_t paddr, size_t size, int prot);
+ extern int iommu_map_atomic(struct iommu_domain *domain, unsigned long iova,
+@@ -653,6 +654,11 @@ static inline struct iommu_domain *iommu_get_domain_for_dev(struct device *dev)
+ 	return NULL;
  }
-+
-+static int iommu_group_store_max_opt_dma_size_cb(const char *buf,
-+						 struct iommu_group *group,
-+						 struct device *dev)
+ 
++static inline size_t iommu_group_get_max_opt_dma_size(struct iommu_group *group)
 +{
-+	unsigned long val;
-+	char *endp;
-+
-+	val = simple_strtoul(buf, &endp, 0);
-+	if (endp == buf)
-+		return -EINVAL;
-+
-+	mutex_lock(&group->mutex);
-+	group->max_opt_dma_size = val;
-+	mutex_unlock(&group->mutex);
-+
 +	return 0;
 +}
 +
-+static ssize_t iommu_group_store_max_opt_dma_size(struct iommu_group *group,
-+						  const char *buf,
-+						  size_t count)
-+{
-+	return iommu_group_store_common(group, buf, count,
-+					iommu_group_store_max_opt_dma_size_cb);
-+}
+ static inline int iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 			    phys_addr_t paddr, size_t size, int prot)
+ {
 -- 
 2.26.2
 
