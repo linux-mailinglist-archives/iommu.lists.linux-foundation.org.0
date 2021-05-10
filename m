@@ -1,51 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966F43791D1
-	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 17:03:07 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C3B3791D9
+	for <lists.iommu@lfdr.de>; Mon, 10 May 2021 17:03:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3ADB7401CC;
-	Mon, 10 May 2021 15:03:06 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8D4BD60BE2;
+	Mon, 10 May 2021 15:03:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m8lEXGf1tLPg; Mon, 10 May 2021 15:03:05 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id usjL-mNmMZrq; Mon, 10 May 2021 15:03:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5AF95402B7;
-	Mon, 10 May 2021 15:03:05 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id BE0FD60731;
+	Mon, 10 May 2021 15:03:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 29B72C0001;
-	Mon, 10 May 2021 15:03:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A844DC0024;
+	Mon, 10 May 2021 15:03:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E4C1C0001
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 15:03:03 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16FA6C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 15:03:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id F337040278
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 15:03:02 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id EA33140278
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 15:03:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X0KjkWqTmGA7 for <iommu@lists.linux-foundation.org>;
- Mon, 10 May 2021 15:03:02 +0000 (UTC)
+ with ESMTP id 6HdFnmbBZklR for <iommu@lists.linux-foundation.org>;
+ Mon, 10 May 2021 15:03:46 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 55FC2401CC
- for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 15:03:02 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 974BB401CC
+ for <iommu@lists.linux-foundation.org>; Mon, 10 May 2021 15:03:46 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2B33867373; Mon, 10 May 2021 17:02:57 +0200 (CEST)
-Date: Mon, 10 May 2021 17:02:56 +0200
+ id 3764D68AFE; Mon, 10 May 2021 17:03:43 +0200 (CEST)
+Date: Mon, 10 May 2021 17:03:42 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v6 04/15] swiotlb: Add restricted DMA pool initialization
-Message-ID: <20210510150256.GC28066@lst.de>
+Subject: Re: [PATCH v6 05/15] swiotlb: Add a new get_io_tlb_mem getter
+Message-ID: <20210510150342.GD28066@lst.de>
 References: <20210510095026.3477496-1-tientzu@chromium.org>
- <20210510095026.3477496-5-tientzu@chromium.org>
+ <20210510095026.3477496-6-tientzu@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210510095026.3477496-5-tientzu@chromium.org>
+In-Reply-To: <20210510095026.3477496-6-tientzu@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -89,57 +89,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> +#include <linux/io.h>
-> +#include <linux/of.h>
-> +#include <linux/of_fdt.h>
-> +#include <linux/of_reserved_mem.h>
-> +#include <linux/slab.h>
-> +#endif
-
-I don't think any of this belongs into swiotlb.c.  Marking
-swiotlb_init_io_tlb_mem non-static and having all this code in a separate
-file is probably a better idea.
-
-> +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> +static int rmem_swiotlb_device_init(struct reserved_mem *rmem,
-> +				    struct device *dev)
+> +static inline struct io_tlb_mem *get_io_tlb_mem(struct device *dev)
 > +{
-> +	struct io_tlb_mem *mem = rmem->priv;
-> +	unsigned long nslabs = rmem->size >> IO_TLB_SHIFT;
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +	if (dev && dev->dma_io_tlb_mem)
+> +		return dev->dma_io_tlb_mem;
+> +#endif /* CONFIG_DMA_RESTRICTED_POOL */
 > +
-> +	if (dev->dma_io_tlb_mem)
-> +		return 0;
-> +
-> +	/* Since multiple devices can share the same pool, the private data,
-> +	 * io_tlb_mem struct, will be initialized by the first device attached
-> +	 * to it.
-> +	 */
+> +	return io_tlb_default_mem;
 
-This is not the normal kernel comment style.
-
-> +#ifdef CONFIG_ARM
-> +		if (!PageHighMem(pfn_to_page(PHYS_PFN(rmem->base)))) {
-> +			kfree(mem);
-> +			return -EINVAL;
-> +		}
-> +#endif /* CONFIG_ARM */
-
-And this is weird.  Why would ARM have such a restriction?  And if we have
-such rstrictions it absolutely belongs into an arch helper.
-
-> +		swiotlb_init_io_tlb_mem(mem, rmem->base, nslabs, false);
-> +
-> +		rmem->priv = mem;
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +		if (!debugfs_dir)
-> +			debugfs_dir = debugfs_create_dir("swiotlb", NULL);
-> +
-> +		swiotlb_create_debugfs(mem, rmem->name, debugfs_dir);
-
-Doesn't the debugfs_create_dir belong into swiotlb_create_debugfs?  Also
-please use IS_ENABLEd or a stub to avoid ifdefs like this.
+Given that we're also looking into a not addressing restricted pool
+I'd rather always assign the active pool to dev->dma_io_tlb_mem and
+do away with this helper.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
