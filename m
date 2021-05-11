@@ -1,92 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C95237AB9C
-	for <lists.iommu@lfdr.de>; Tue, 11 May 2021 18:14:50 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E381937AB8C
+	for <lists.iommu@lfdr.de>; Tue, 11 May 2021 18:12:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F3A8360660;
-	Tue, 11 May 2021 16:14:48 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 844A283ED2;
+	Tue, 11 May 2021 16:12:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IdLLexzkJEcL; Tue, 11 May 2021 16:14:48 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YFlqcsqRBFTy; Tue, 11 May 2021 16:12:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0B547605A4;
-	Tue, 11 May 2021 16:14:47 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7706483EEB;
+	Tue, 11 May 2021 16:12:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E32B2C0024;
-	Tue, 11 May 2021 16:14:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4950EC0001;
+	Tue, 11 May 2021 16:12:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4688BC0001
- for <iommu@lists.linux-foundation.org>; Tue, 11 May 2021 16:14:47 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9FF9BC0001
+ for <iommu@lists.linux-foundation.org>; Tue, 11 May 2021 16:12:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 361D34025B
- for <iommu@lists.linux-foundation.org>; Tue, 11 May 2021 16:14:47 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 8A4BA4011A
+ for <iommu@lists.linux-foundation.org>; Tue, 11 May 2021 16:12:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P2RVHYF1Lr3f for <iommu@lists.linux-foundation.org>;
- Tue, 11 May 2021 16:14:46 +0000 (UTC)
+ with ESMTP id v4v64-sKYacR for <iommu@lists.linux-foundation.org>;
+ Tue, 11 May 2021 16:12:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B3C6D4011A
- for <iommu@lists.linux-foundation.org>; Tue, 11 May 2021 16:14:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=Ymx5jystW5s8EPZBRHR4WsTKIk8IQ3Uz4HGrVu+VdWc=; b=hX92MI8IYDAFgrof9DVT2uOU0b
- 8bPhv4kGORr76XEMFxwmACnHHa/fI3xZANPeMf8DFf2u+nfJFyyzXvvhEEx4cM9EGABLTEfGioqXt
- Z/Sl8b/TrsPmc0Zdggnd6a4Aa071uVgQv70MVapxhACireL1cQkKucMJmIpHrHj7H3XZLFjeZjpTX
- 4FMfsVi3BiCcbaJ4tXOPM9w9r0P9oEz6cRAFuAhfOfKgHBHvXTSHQo7+X36DbFPQPvu2FECcfS/d7
- 5R+EqotBeW4C+luSP2De1znJnMp1NuFlq/yf+AFYQPXXq6/dorM+PRU3IbwblLDzIzkKcuqhJpKSR
- pA8OJzOw==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lgV1p-0006b5-VM; Tue, 11 May 2021 10:14:38 -0600
-To: Don Dutile <ddutile@redhat.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-3-logang@deltatee.com>
- <09f6c713-5ae6-035c-c0ab-a8bd0fac7a79@redhat.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <70f58fff-c228-e637-aef8-f404af2d2f9d@deltatee.com>
-Date: Tue, 11 May 2021 10:14:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 45B8F4025B
+ for <iommu@lists.linux-foundation.org>; Tue, 11 May 2021 16:12:30 +0000 (UTC)
+IronPort-SDR: vtEH6boUBrOniuFUnDTXr1WuscyJnt99OR7VlAwMKURDyx38P7sGOuqfJOkkALcS5NTvoSaqFl
+ TAmf5MS+n6OQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="186920520"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="186920520"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 09:12:27 -0700
+IronPort-SDR: WkArB/mkxVj2txW3V/uTWHVEI7jMObfp61iG6B7af54As7VEc7oHkCnrfCOd8zLBMRJRaC5+Ac
+ E8Qe34nHih6w==
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="541705233"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 09:12:27 -0700
+Date: Tue, 11 May 2021 09:14:52 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v4 1/2] iommu/sva: Tighten SVA bind API with explicit flags
+Message-ID: <20210511091452.721e9a03@jacob-builder>
+In-Reply-To: <20210511114848.GK1002214@nvidia.com>
+References: <1620653108-44901-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1620653108-44901-2-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20210510233749.GG1002214@nvidia.com>
+ <20210510203145.086835cc@jacob-builder>
+ <20210511114848.GK1002214@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <09f6c713-5ae6-035c-c0ab-a8bd0fac7a79@redhat.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
- helgaas@kernel.org, jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, jhubbard@nvidia.com,
- christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- ddutile@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 02/16] PCI/P2PDMA: Avoid pci_get_slot() which sleeps
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Minturn Dave B <dave.b.minturn@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Robin Murphy <robin.murphy@arm.com>, Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Bjorn Helgaas <helgaas@kernel.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dan Williams <dan.j.williams@intel.com>, Stephen Bates <sbates@raithlin.com>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>, Christoph Hellwig <hch@lst.de>,
- Xiong Jianxin <jianxin.xiong@intel.com>
+Cc: vkoul@kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
+ zhangfei.gao@linaro.org, Jean-Philippe Brucker <jean-philippe@linaro.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,38 +78,75 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 2021-05-11 10:05 a.m., Don Dutile wrote:
-> On 4/8/21 1:01 PM, Logan Gunthorpe wrote:
->> In order to use upstream_bridge_distance_warn() from a dma_map function,
->> it must not sleep. However, pci_get_slot() takes the pci_bus_sem so it
->> might sleep.
->>
->> In order to avoid this, try to get the host bridge's device from
->> bus->self, and if that is not set, just get the first element in the
->> device list. It should be impossible for the host bridge's device to
->> go away while references are held on child devices, so the first element
->> should not be able to change and, thus, this should be safe.
-> Bjorn:
-> Why wouldn't (shouldn't?) the bus->self field be set for a host bridge device?
-> Should this situation be repaired in the host-brige config/setup code elsewhere in the kernel.
-> ... and here, a check-and-fail with info of what doesn't have it setup (another new pci function to do the check & prinfo), so it can point to the offending host-bridge, and thus, the code that needs to be updated?
-
-I've dropped the bus->self thing in v2. Seems bus->self is explicitly
-unset for root bridges. There's remnants in the pci code that used to
-check bus->self to see if the bridge is the root bridge.
-
-I tried setting bus->self with the pci device of the root bridge but
-that just caused my machine not to boot and I didn't dig any further.
-
-Logan
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgSmFzb24sCgpPbiBUdWUsIDExIE1heSAyMDIxIDA4OjQ4OjQ4IC0wMzAwLCBKYXNvbiBHdW50
+aG9ycGUgPGpnZ0BudmlkaWEuY29tPiB3cm90ZToKCj4gT24gTW9uLCBNYXkgMTAsIDIwMjEgYXQg
+MDg6MzE6NDVQTSAtMDcwMCwgSmFjb2IgUGFuIHdyb3RlOgo+ID4gSGkgSmFzb24sCj4gPiAKPiA+
+IE9uIE1vbiwgMTAgTWF5IDIwMjEgMjA6Mzc6NDkgLTAzMDAsIEphc29uIEd1bnRob3JwZSA8amdn
+QG52aWRpYS5jb20+Cj4gPiB3cm90ZTogCj4gPiA+IE9uIE1vbiwgTWF5IDEwLCAyMDIxIGF0IDA2
+OjI1OjA3QU0gLTA3MDAsIEphY29iIFBhbiB3cm90ZToKPiA+ID4gICAKPiA+ID4gPiArLyoKPiA+
+ID4gPiArICogVGhlIElPTU1VX1NWQV9CSU5EX1NVUEVSVklTT1IgZmxhZyByZXF1ZXN0cyBhIFBB
+U0lEIHdoaWNoIGNhbiBiZQo+ID4gPiA+IHVzZWQgb25seQo+ID4gPiA+ICsgKiBmb3IgYWNjZXNz
+IHRvIGtlcm5lbCBhZGRyZXNzZXMuIE5vIElPVExCIGZsdXNoZXMgYXJlCj4gPiA+ID4gYXV0b21h
+dGljYWxseSBkb25lCj4gPiA+ID4gKyAqIGZvciBrZXJuZWwgbWFwcGluZ3M7IGl0IGlzIHZhbGlk
+IG9ubHkgZm9yIGFjY2VzcyB0byB0aGUga2VybmVsJ3MKPiA+ID4gPiBzdGF0aWMKPiA+ID4gPiAr
+ICogMToxIG1hcHBpbmcgb2YgcGh5c2ljYWwgbWVtb3J5IOKAlCBub3QgdG8gdm1hbGxvYyBvciBl
+dmVuIG1vZHVsZQo+ID4gPiA+IG1hcHBpbmdzLgo+ID4gPiA+ICsgKiBBIGZ1dHVyZSBBUEkgYWRk
+aXRpb24gbWF5IHBlcm1pdCB0aGUgdXNlIG9mIHN1Y2ggcmFuZ2VzLCBieQo+ID4gPiA+IG1lYW5z
+IG9mIGFuCj4gPiA+ID4gKyAqIGV4cGxpY2l0IElPVExCIGZsdXNoIGNhbGwgKGFraW4gdG8gdGhl
+IERNQSBBUEkncyB1bm1hcCBtZXRob2QpLgo+ID4gPiA+ICsgKgo+ID4gPiA+ICsgKiBJdCBpcyB1
+bmxpa2VseSB0aGF0IHdlIHdpbGwgZXZlciBob29rIGludG8KPiA+ID4gPiBmbHVzaF90bGJfa2Vy
+bmVsX3JhbmdlKCkgdG8KPiA+ID4gPiArICogZG8gc3VjaCBJT1RMQiBmbHVzaGVzIGF1dG9tYXRp
+Y2FsbHkuCj4gPiA+ID4gKyAqLwo+ID4gPiA+ICsjZGVmaW5lIElPTU1VX1NWQV9CSU5EX1NVUEVS
+VklTT1IgICAgICAgQklUKDApICAgIAo+ID4gPiAKPiA+ID4gSHVoPyBUaGF0IGlzbid0IHJlYWxs
+eSBTVkEsIGNhbiB5b3UgY2FsbCBpdCBzb21ldGhpbmcgc2FuZXIgcGxlYXNlPwo+ID4gPiAgIAo+
+ID4gVGhpcyBpcyBzaGFyZWQga2VybmVsIHZpcnR1YWwgYWRkcmVzcywgSSBhbSBmb2xsb3dpbmcg
+dGhlIFNWQSBsaWIgbmFtaW5nCj4gPiBzaW5jZSB0aGlzIGlzIHdoZXJlIHRoZSBmbGFnIHdpbGwg
+YmUgdXNlZC4gV2h5IHRoaXMgaXMgbm90IFNWQT8gS2VybmVsCj4gPiB2aXJ0dWFsIGFkZHJlc3Mg
+aXMgc3RpbGwgdmlydHVhbCBhZGRyZXNzLiBJcyBpdCBkdWUgdG8gZGlyZWN0IG1hcD8gIAo+IAo+
+IEFzIHRoZSBhYm92ZSBleHBsYWlucyBpdCBkb2Vzbid0IGFjdHVhbGx5IHN5bmNocm9uaXplIHRo
+ZSBrZXJuZWwncwo+IGFkZHJlc3Mgc3BhY2UgaXQganVzdCBzaG92ZXMgdGhlIGRpcmVjdCBtYXAg
+aW50byB0aGUgSU9NTVUuCj4gClRoZXJlIGlzIG5vIGR1cGxpY2F0ZWQga2VybmVsIGRpcmVjdCBt
+YXAgaW4gSU9NTVUuCgo+IEkgc3VwcG9zZSBhIGRpZmZlcmVudCBJT01NVSBpbXBsZW1lbnRhdGlv
+biBtaWdodCBwb2ludCB0aGUgUEFTSUQgZGlyZWN0bHkKPiBhdCB0aGUga2VybmVsJ3MgcGFnZSB0
+YWJsZSBhbmQgYXZvaWQgdGhvc2UgbGltaXRhdGlvbnMgLSBidXQgc2luY2UKPiB0aGF0IGlzbid0
+IHBvcnRhYmxlIGl0IHNlZW1zIGlycmVsZXZhbnQuCj4gClRoaXMgaXMgd2hhdCB3ZSBhcmUgZG9p
+bmcgaGVyZS4gV2UgYWxsb2NhdGUgYSBzdXBlcnZpc29yIFBBU0lEIGFuZCBwdXQKdGhlIGtlcm5l
+bCBwYWdlIHRhYmxlIChpbml0X21tIHBnZCkgaW4gdGhpcyBQQVNJRCBlbnRyeS4KCj4gU2luY2Ug
+dGhlIG9ubHkgdGhpbmcgaXQgcmVhbGx5IG1hcHMgaXMgdGhlIGRpcmVjdCBtYXAgSSB3b3VsZCBq
+dXN0Cj4gY2FsbCBpdCBkaXJlY3RfbWFwLCBvciBhbGwgcGh5c2ljYWwgb3Igc29tZXRoaW5nLgo+
+IApHb29kIGlkZWEuIEl0IG1ha2VzIHRoaW5ncyBjbGVhciB0byB0aGUgY2FsbGVycy4gVGhleSBt
+dXN0IG9ubHkgdXNlIGRpcmVjdAptYXAgbWVtb3J5IGZvciBETUEuCgo+IEhvdyBkb2VzIHRoaXMg
+aW50ZXJhY3Qgd2l0aCB0aGUgRE1BIEFQSXM/CkRNQSBBUEkgd291bGQgdXNlIFJJRDJQQVNJRCAo
+UEFTSUQgMCksIHNvIGl0IGlzIHNlcGFyYXRlZCBieSBQQVNJRHMuCgo+IEhvdyBkbyB5b3UgZ2V0
+IENQVSBjYWNoZQo+IGZsdXNoaW5nL2V0YyBpbnRvIFBBU0lEIG9wZXJhdGlvbnMgdGhhdCBkb24n
+dCB0cmlnZ2VyIElPTU1VIHVwZGF0ZXM/Cj4gClNvcnJ5LCBJIGFtIG5vdCBmb2xsb3dpbmcuIFRo
+aXMgaXMgdXNlZCBmb3IgZGlyZWN0IG1hcCBvbmx5LgoKPiBIb25lc3RseSwgSSdtIG5vdCBjb252
+aW5jZWQgd2Ugc2hvdWxkIGhhdmUgImtlcm5lbCBTVkEiIGF0IGFsbC4uIFdoeQo+IGRvZXMgSURY
+RCB1c2Ugbm9ybWFsIERNQSBvbiB0aGUgUklEIGZvciBrZXJuZWwgY29udHJvbGxlZCBhY2Nlc3Nl
+cz8KPiAKVXNpbmcgU1ZBIHNpbXBsaWZpZXMgdGhlIHdvcmsgc3VibWlzc2lvbiwgdGhlcmUgaXMg
+bm8gbmVlZCB0byBkbyBtYXAvdW5tYXAuCkp1c3QgYmluZCBQQVNJRCB3aXRoIGluaXRfbW0sIHRo
+ZW4gc3VibWl0IHdvcmsgZGlyZWN0bHkgZWl0aGVyIHdpdGggRU5RQ01EUwooc3VwZXJ2aXNvciB2
+ZXJzaW9uIG9mIEVOUUNNRCkgdG8gYSBzaGFyZWQgd29ya3F1ZXVlIG9yIHB1dCB0aGUgc3VwZXJ2
+aXNvcgpQQVNJRCBpbiB0aGUgZGVzY3JpcHRvciBmb3IgZGVkaWNhdGVkIHdvcmtxdWV1ZS4KCj4g
+PiA+IElzIGl0IHJlYWxseSBhIFBBU0lEIHRoYXQgYWx3YXlzIGhhcyBhbGwgb2YgcGh5c2ljYWwg
+bWVtb3J5IG1hcHBlZAo+ID4gPiBpbnRvIGl0PyBTb3VuZHMgZGFuZ2Vyb3VzLiBXaGF0IGlzIGl0
+IGZvcj8gIAo+ID4gCj4gPiBZZXMuIEl0IGlzIHRvIGJpbmQgRE1BIHJlcXVlc3Qgdy8gUEFTSUQg
+d2l0aCBpbml0X21tL2luaXRfdG9wX3BndC4gUGVyCj4gPiBQQ0llIHNwZWMgUEFTSUQgVExQIHBy
+ZWZpeCBoYXMgIlByaXZpbGVnZWQgTW9kZSBSZXF1ZXN0ZWQiIGJpdC4gVlQtZAo+ID4gc3VwcG9y
+dHMgdGhpcyB3aXRoICJQcml2aWxlZ2VkLW1vZGUtUmVxdWVzdGVkIChQUikgZmxhZyAodG8gZGlz
+dGluZ3Vpc2gKPiA+IHVzZXIgdmVyc3VzIHN1cGVydmlzb3IgYWNjZXNzKSIuIEVhY2ggUEFTSUQg
+ZW50cnkgaGFzIGEgU1JFIChTdXBlcnZpc29yCj4gPiBSZXF1ZXN0IEVuYWJsZSkgYml0LiAgCj4g
+Cj4gVGhlIFBSIGZsYWcgaXMgb25seSBuZWVkZWQgaWYgdGhlIHVuZGVybHlpbmcgSU9NTVUgaXMg
+ZGlyZWN0bHkKPiBwcm9jZXNzaW5nIHRoZSBDUFUgcGFnZSB0YWJsZXMuIEZvciBjYXNlcyB3aGVy
+ZSB0aGUgSU9NTVUgaXMgdXNpbmcgaXRzCj4gb3duIHBhZ2UgdGFibGUgZm9ybWF0IGFuZCBoYXMg
+aXRzIG93biBjb3BpZXMgdGhlIFBSIGZsYWcgc2hvdWxkbid0IGJlCj4gdXNlZC4KPiAKV2UgYXJl
+IGRvaW5nIHRoZSBmb3JtZXIgY2FzZS4gVGhlcmUgaXMgbm8gSU9NTVUgcGFnZSB0YWJsZXMgZm9y
+IHRoZSBkaXJlY3QKbWFwLgoKPiBKYXNvbgoKClRoYW5rcywKCkphY29iCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21t
+dUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlv
+bi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
