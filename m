@@ -1,76 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8AC37B63E
-	for <lists.iommu@lfdr.de>; Wed, 12 May 2021 08:39:41 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE5437B653
+	for <lists.iommu@lfdr.de>; Wed, 12 May 2021 08:45:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 450586072C;
-	Wed, 12 May 2021 06:39:40 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 10CA583626;
+	Wed, 12 May 2021 06:45:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2G3imWqHwY69; Wed, 12 May 2021 06:39:39 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QIQYAZ2Ljo2N; Wed, 12 May 2021 06:45:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 336F3605D4;
-	Wed, 12 May 2021 06:39:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E63A9835B1;
+	Wed, 12 May 2021 06:45:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04FCDC0024;
-	Wed, 12 May 2021 06:39:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C87C1C0001;
+	Wed, 12 May 2021 06:45:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1FB2EC0001
- for <iommu@lists.linux-foundation.org>; Wed, 12 May 2021 06:39:37 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 226FEC0001
+ for <iommu@lists.linux-foundation.org>; Wed, 12 May 2021 06:45:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 065426072C
- for <iommu@lists.linux-foundation.org>; Wed, 12 May 2021 06:39:37 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 04801835B9
+ for <iommu@lists.linux-foundation.org>; Wed, 12 May 2021 06:45:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZMzZofmKHHEj for <iommu@lists.linux-foundation.org>;
- Wed, 12 May 2021 06:39:36 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id CD71B605D4
- for <iommu@lists.linux-foundation.org>; Wed, 12 May 2021 06:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=qT8iDHBtgV77fF8gHSSRJsweWuoLwMxssud1SQ+sMFw=; b=ekg1E450CgRxJwrigDD4HIGXvy
- qTLJcWMI7uNPCzwaWsYYZF/KX0n2Euqn1nzZ8/r3VogDq44psgbEO5tjSxh25+ixKgYQqfeO1nHb8
- hNsnEjGZyXAWFndfUAd/TDMgtXwovpIXfh1ahU9khrB8jQ/bQlEXYRkiQNMXWk41ULbwH1hjsBQUV
- X4a9KsTuYG/ix1dW2e7d+x9efrRhnwZd1yyzfTRSyXa+3BfvYk3DBa0FDiS849nDIE/JEdiCD0ctD
- 3Eg1wbBhKB1LxgX3bphe3vXT+rykAg0mfG5Qc5xG5C6lHZkAuoYgqn5sVobKMp2bSZ1Oi8K0fDshc
- 0WfcCPuQ==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lgiV2-0081QQ-2F; Wed, 12 May 2021 06:37:54 +0000
-Date: Wed, 12 May 2021 07:37:40 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v4 1/2] iommu/sva: Tighten SVA bind API with explicit flags
-Message-ID: <YJt3tGlzFK3b4E82@infradead.org>
-References: <1620653108-44901-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1620653108-44901-2-git-send-email-jacob.jun.pan@linux.intel.com>
- <20210510233749.GG1002214@nvidia.com>
- <20210510203145.086835cc@jacob-builder>
- <20210511114848.GK1002214@nvidia.com>
- <20210511091452.721e9a03@jacob-builder>
- <20210511163521.GN1002214@nvidia.com>
- <20210511110550.477a434f@jacob-builder>
- <20210511194726.GP1002214@nvidia.com>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TQIByRNcfjGv for <iommu@lists.linux-foundation.org>;
+ Wed, 12 May 2021 06:45:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C7B0D835B1
+ for <iommu@lists.linux-foundation.org>; Wed, 12 May 2021 06:45:18 +0000 (UTC)
+IronPort-SDR: her7Iw1wm8022/i8l7MUqXtb/3kSGQiZ6qnn1B6Ti3Krhmk4o7KkMCiiCfCb85eE4m/5Ubknh9
+ jcVgBatv6Wpw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="220601850"
+X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; d="scan'208";a="220601850"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 23:45:18 -0700
+IronPort-SDR: Mr3TRUPpSvEHoNhG9TuJWJVY4Ky1OcWmkCaLmvCBTSbhjuIRKC/YSNN+FYi/Sj6S1ME9yciJOf
+ LjG6s6JugrVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; d="scan'208";a="537496288"
+Received: from allen-box.sh.intel.com ([10.239.159.128])
+ by fmsmga001.fm.intel.com with ESMTP; 11 May 2021 23:45:15 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>
+Subject: [RESEND PATACH 1/1] iommu/vt-d: Use user privilege for RID2PASID
+ translation
+Date: Wed, 12 May 2021 14:44:26 +0800
+Message-Id: <20210512064426.3440915-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210511194726.GP1002214@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: vkoul@kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- David Woodhouse <dwmw2@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- zhangfei.gao@linaro.org, Jean-Philippe Brucker <jean-philippe@linaro.com>
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, sanjay.k.kumar@intel.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ jacob.jun.pan@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,25 +76,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 11, 2021 at 04:47:26PM -0300, Jason Gunthorpe wrote:
-> > Let me try to break down your concerns:
-> > 1. portability - driver uses DMA APIs can function w/ and w/o IOMMU. is
-> > that your concern? But PASID is intrinsically tied with IOMMU and if
-> > the drivers are using a generic sva-lib API, why they are not portable?
-> > SVA by its definition is to avoid map/unmap every time.
-> 
-> Kernel explicitly does not support this programming model. All DMA is
-> explicit and the DMA API hides platform details like IOMMU and CPU
-> cache coherences. Just because x86 doesn't care about this doesn't
-> make any of it optional.
+When first-level page tables are used for IOVA translation, we use user
+privilege by setting U/S bit in the page table entry. This is to make it
+consistent with the second level translation, where the U/S enforcement
+is not available. Clear the SRE (Supervisor Request Enable) field in the
+pasid table entry of RID2PASID so that requests requesting the supervisor
+privilege are blocked and treated as DMA remapping faults.
 
-Exactly.
+Suggested-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Fixes: b802d070a52a1 ("iommu/vt-d: Use iova over first level")
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/iommu/intel/iommu.c | 7 +++++--
+ drivers/iommu/intel/pasid.c | 3 ++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-> If you want to do SVA PASID then it also must come with DMA APIs to
-> manage the CPU cache coherence that are all NOP's on x86.
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 708f430af1c4..f1742da42478 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -2525,9 +2525,9 @@ static int domain_setup_first_level(struct intel_iommu *iommu,
+ 				    struct device *dev,
+ 				    u32 pasid)
+ {
+-	int flags = PASID_FLAG_SUPERVISOR_MODE;
+ 	struct dma_pte *pgd = domain->pgd;
+ 	int agaw, level;
++	int flags = 0;
+ 
+ 	/*
+ 	 * Skip top levels of page tables for iommu which has
+@@ -2543,7 +2543,10 @@ static int domain_setup_first_level(struct intel_iommu *iommu,
+ 	if (level != 4 && level != 5)
+ 		return -EINVAL;
+ 
+-	flags |= (level == 5) ? PASID_FLAG_FL5LP : 0;
++	if (pasid != PASID_RID2PASID)
++		flags |= PASID_FLAG_SUPERVISOR_MODE;
++	if (level == 5)
++		flags |= PASID_FLAG_FL5LP;
+ 
+ 	if (domain->domain.type == IOMMU_DOMAIN_UNMANAGED)
+ 		flags |= PASID_FLAG_PAGE_SNOOP;
+diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
+index 72646bafc52f..72dc84821dad 100644
+--- a/drivers/iommu/intel/pasid.c
++++ b/drivers/iommu/intel/pasid.c
+@@ -699,7 +699,8 @@ int intel_pasid_setup_second_level(struct intel_iommu *iommu,
+ 	 * Since it is a second level only translation setup, we should
+ 	 * set SRE bit as well (addresses are expected to be GPAs).
+ 	 */
+-	pasid_set_sre(pte);
++	if (pasid != PASID_RID2PASID)
++		pasid_set_sre(pte);
+ 	pasid_set_present(pte);
+ 	pasid_flush_caches(iommu, pte, pasid, did);
+ 
+-- 
+2.25.1
 
-Yes.  And we have plenty of precende where an IOMMU is in "bypass" mode
-to allow access to all memory and then uses the simple dma-direct case.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
