@@ -1,57 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C944037F3C8
-	for <lists.iommu@lfdr.de>; Thu, 13 May 2021 09:59:00 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3833E37F610
+	for <lists.iommu@lfdr.de>; Thu, 13 May 2021 12:58:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D868740371;
-	Thu, 13 May 2021 07:58:44 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8596140F9C;
+	Thu, 13 May 2021 10:58:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KuIPv5BiRW0R; Thu, 13 May 2021 07:58:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EE9904027F;
-	Thu, 13 May 2021 07:58:43 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7IdO0_ktnpM6; Thu, 13 May 2021 10:58:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 70C6340E88;
+	Thu, 13 May 2021 10:58:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BC733C0001;
-	Thu, 13 May 2021 07:58:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44D27C0001;
+	Thu, 13 May 2021 10:58:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 52917C0001
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 07:58:42 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 21652C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 10:58:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2D01060638
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 07:58:42 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 04D33401C3
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 10:58:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 34ynXv64v1rn for <iommu@lists.linux-foundation.org>;
- Thu, 13 May 2021 07:58:40 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9KiUwgWrCAws for <iommu@lists.linux-foundation.org>;
+ Thu, 13 May 2021 10:58:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9798160634
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 07:58:40 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FgkTr4ffwzQm5P;
- Thu, 13 May 2021 15:55:12 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 13 May 2021 15:58:27 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, iommu
- <iommu@lists.linux-foundation.org>
-Subject: [PATCH 1/1] iommu: Delete a duplicate check in
- iommu_change_dev_def_domain()
-Date: Thu, 13 May 2021 15:58:15 +0800
-Message-ID: <20210513075815.6382-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 4CC76403B7
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 10:58:09 +0000 (UTC)
+Received: from dggeml712-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FgpV05v16zYhMv;
+ Thu, 13 May 2021 18:55:36 +0800 (CST)
+Received: from dggpemm000003.china.huawei.com (7.185.36.128) by
+ dggeml712-chm.china.huawei.com (10.3.17.123) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 13 May 2021 18:58:05 +0800
+Received: from [10.174.187.224] (10.174.187.224) by
+ dggpemm000003.china.huawei.com (7.185.36.128) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 13 May 2021 18:58:04 +0800
+Subject: Re: [RFC PATCH v4 01/13] iommu: Introduce dirty log tracking framework
+To: Lu Baolu <baolu.lu@linux.intel.com>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>, "Joerg
+ Roedel" <joro@8bytes.org>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Yi Sun <yi.y.sun@linux.intel.com>, Tian Kevin <kevin.tian@intel.com>
+References: <20210507102211.8836-1-zhukeqian1@huawei.com>
+ <20210507102211.8836-2-zhukeqian1@huawei.com>
+ <efc2d868-28ba-8ed9-1d6b-610b67d671b5@linux.intel.com>
+ <18ac787a-179e-71f7-728b-c43feda80a16@huawei.com>
+ <55fda826-9ab6-a3a0-b17e-a4d4879f00bc@linux.intel.com>
+ <a8df289a-47c2-c193-cd6f-8415f68b900f@huawei.com>
+ <f47e90c6-f3c4-b28f-a810-e03afe79e62d@linux.intel.com>
+ <60182a35-e151-7150-3708-4e58dd8e78da@huawei.com>
+ <36cc7267-6aa3-db54-b08c-c2dfc0bbacb6@linux.intel.com>
+ <e38f1837-b814-3717-2faf-4df8349cb57c@huawei.com>
+ <7fb678c7-509b-dbb5-d533-32c5ce2a0476@linux.intel.com>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <bbc1960c-24f3-680a-b6ff-c81f70fa9c04@huawei.com>
+Date: Thu, 13 May 2021 18:58:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-X-Originating-IP: [10.174.177.72]
+In-Reply-To: <7fb678c7-509b-dbb5-d533-32c5ce2a0476@linux.intel.com>
+X-Originating-IP: [10.174.187.224]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm000003.china.huawei.com (7.185.36.128)
 X-CFilter-Loop: Reflected
-Cc: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+Cc: jiangkunkun@huawei.com, Cornelia Huck <cohuck@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, lushenming@huawei.com,
+ Alex Williamson <alex.williamson@redhat.com>, wanghaibin.wang@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,34 +93,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Function iommu_group_store_type() is the only caller of the static
-function iommu_change_dev_def_domain() and has performed
-"if (WARN_ON(!group))" detection before calling it. So the one here is
-redundant.
-
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/iommu/iommu.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 971068da67cb91d..8cdf6a1c4bfd773 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -3059,9 +3059,6 @@ static int iommu_change_dev_def_domain(struct iommu_group *group,
- 	int ret, dev_def_dom;
- 	struct device *dev;
- 
--	if (!group)
--		return -EINVAL;
--
- 	mutex_lock(&group->mutex);
- 
- 	if (group->default_domain != group->domain) {
--- 
-2.26.0.106.g9fadedd
 
 
+On 2021/5/12 19:36, Lu Baolu wrote:
+> Hi keqian,
+> 
+> On 5/12/21 4:44 PM, Keqian Zhu wrote:
+>>
+>>
+>> On 2021/5/12 11:20, Lu Baolu wrote:
+>>> On 5/11/21 3:40 PM, Keqian Zhu wrote:
+>>>>> For upper layers, before starting page tracking, they check the
+>>>>> dirty_page_trackable attribution of the domain and start it only it's
+>>>>> capable. Once the page tracking is switched on the vendor iommu driver
+>>>>> (or iommu core) should block further device attach/detach operations
+>>>>> until page tracking is stopped.
+>>>> But when a domain becomes capable after detaching a device, the upper layer
+>>>> still needs to query it and enable dirty log for it...
+>>>>
+>>>> To make things coordinated, maybe the upper layer can register a notifier,
+>>>> when the domain's capability change, the upper layer do not need to query, instead
+>>>> they just need to realize a callback, and do their specific policy in the callback.
+>>>> What do you think?
+>>>>
+>>>
+>>> That might be an option. But why not checking domain's attribution every
+>>> time a new tracking period is about to start?
+>> Hi Baolu,
+>>
+>> I'll add an attribution in iommu_domain, and the vendor iommu driver will update
+>> the attribution when attach/detach devices.
+>>
+>> The attribute should be protected by a lock, so the upper layer shouldn't access
+>> the attribute directly. Then the iommu_domain_support_dirty_log() still should be
+>> retained. Does this design looks good to you?
+> 
+> Yes, that's what I was thinking of. But I am not sure whether it worth
+> of a lock here. It seems not to be a valid behavior for upper layer to
+> attach or detach any device while doing the dirty page tracking.
+Hi Baolu,
+
+Right, if the "detach|attach" interfaces and "dirty tracking" interfaces can be called concurrently,
+a lock in iommu_domain_support_dirty_log() is still not enough. I will add another note for the dirty
+tracking interfaces.
+
+Do you have other suggestions? I will accelerate the progress, so I plan to send out v5 next week.
+
+Thanks,
+Keqian
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
