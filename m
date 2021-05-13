@@ -1,63 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96071380011
-	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:32:24 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D861D380018
+	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:32:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2081660900;
-	Thu, 13 May 2021 22:32:23 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1E7DF41829;
+	Thu, 13 May 2021 22:32:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lct10SxutlSX; Thu, 13 May 2021 22:32:22 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hRJcM6_p6abZ; Thu, 13 May 2021 22:32:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 33BD2608CA;
-	Thu, 13 May 2021 22:32:22 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 02D6F41561;
+	Thu, 13 May 2021 22:32:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07209C001C;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E3D0C0023;
 	Thu, 13 May 2021 22:32:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A60FAC0001
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:20 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5D8D4C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8705C403FC
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:20 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4C62283C24
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Kk5H5eBKBwZp for <iommu@lists.linux-foundation.org>;
- Thu, 13 May 2021 22:32:19 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hrti5mNghmFN for <iommu@lists.linux-foundation.org>;
+ Thu, 13 May 2021 22:32:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D4605400F7
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:19 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id BEEAD83C0F
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=kGb8w7OA+VecwjXRg6RAtUZUrHcBmrTzMPMqQqpjkm8=; b=eGbHnD9CNeacCKyZbuiHdS6KFZ
- NNh/EZ5WKODS1Ve6hb1tF/uAsrIqT4gYpJq4dxG0nF2fvIpAi7TpV7+/Y6LNZx1pFlY/hFAgny73W
- YtwZdP5IKdbhnFLh6KOTjJPOyogKxWXzq0K5Uu3ECThupT7cYwnsUUsGUYZBl9Fc4L7bqM9BzM7kp
- WC8F7PvsKKU2uOJ6Z2Fe47S/Ut/YmpU8uQ9Z/nZuPUE3EHFlWo3EHFOsmuSzH7OEgCTdiaglnj5LW
- nloEQgOv8SrxTyCv/NT8SVr0wrClZ2lqYuGBcRUJczrCPrgJ3bbnOLMmFmVp7MYt9Q7mA3ab0Nreo
- FRk7EUkg==;
+ bh=RHKX0JViuXrszDPT9ENKjwACXQHnqdf/mlZV6OtxZMk=; b=suRMeNmUAK4D1LCjGjVPlBd7EG
+ Uo0gPsu2BtUSYYWXhwNC5F5Rbe17tCB/jkhL6RSKRPfEbCcKxlvpJCsnMT7LhniM6WqF3OORunboL
+ puYGUBidipQZtVozVDY/b2nIAZvAwBo+d84tQ8pWse1lWxTktrjC6V8bhEDjljeYLdHqQzEt4TBy+
+ cFX7fRYRi7vBwhdMcl0EdpPDnIpiNqEeiAGsdc5nvVPnsPigJZ0QOQBGQeincxBOjawQNOY+I4GEU
+ zfivxltZK8E3rcV7kTeK0e5HZSy5UY9q7EJ/41o7kQ7CmB0bc1LV1UJNaRK6FfxwWB3xmtELpqLqg
+ sGCfBXyQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsL-0000nD-QQ; Thu, 13 May 2021 16:32:15 -0600
+ id 1lhJsL-0000nE-QQ; Thu, 13 May 2021 16:32:14 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsF-0001SX-Uh; Thu, 13 May 2021 16:32:07 -0600
+ id 1lhJsG-0001Sb-2K; Thu, 13 May 2021 16:32:08 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu, 13 May 2021 16:31:43 -0600
-Message-Id: <20210513223203.5542-3-logang@deltatee.com>
+Date: Thu, 13 May 2021 16:31:44 -0600
+Message-Id: <20210513223203.5542-4-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210513223203.5542-1-logang@deltatee.com>
 References: <20210513223203.5542-1-logang@deltatee.com>
@@ -73,8 +73,8 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 02/22] PCI/P2PDMA: Use a buffer on the stack for collecting
- the acs list
+Subject: [PATCH v2 03/22] PCI/P2PDMA: Cleanup type for return value of
+ calc_map_type_and_dist()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>, Ira Weiny <ira.weiny@intel.com>,
@@ -104,53 +104,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In order to call the calc_map_type_and_dist_warn() function from
-a dma_map operation, the function must not sleep. The only reason
-it sleeps is to allocate memory for the seq_buf to print a verbose
-warning telling the user how to disable ACS for that path.
-
-Instead of allocating the memory with kmalloc, allocate it on
-the stack with a smaller buffer. A 128B buffer is enough to print
-10 pci device names. A system with 10 bridge ports between two devices
-that have ACS enabled would be unusually large, so this should
-still be a reasonable limit.
-
-This also allows cleaning up the awkward (and broken) return with
--ENOMEM which contradicts the return type and the caller was
-not prepared for.
+Instead of using an int for the return value of this function use the
+correct enum pci_p2pdma_map_type.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/pci/p2pdma.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/pci/p2pdma.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 6f90e9812f6e..3a5fb63c5f2c 100644
+index 3a5fb63c5f2c..09c864f193d2 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -500,11 +500,10 @@ calc_map_type_and_dist_warn(struct pci_dev *provider, struct pci_dev *client,
+@@ -544,11 +544,11 @@ calc_map_type_and_dist_warn(struct pci_dev *provider, struct pci_dev *client,
+ int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
+ 			     int num_clients, bool verbose)
  {
- 	struct seq_buf acs_list;
- 	bool acs_redirects;
-+	char buf[128];
- 	int ret;
++	enum pci_p2pdma_map_type map;
+ 	bool not_supported = false;
+ 	struct pci_dev *pci_client;
+ 	int total_dist = 0;
+-	int distance;
+-	int i, ret;
++	int i, distance;
  
--	seq_buf_init(&acs_list, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE);
--	if (!acs_list.buffer)
--		return -ENOMEM;
-+	seq_buf_init(&acs_list, buf, sizeof(buf));
+ 	if (num_clients == 0)
+ 		return -1;
+@@ -563,15 +563,15 @@ int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
+ 		}
  
- 	ret = calc_map_type_and_dist(provider, client, dist, &acs_redirects,
- 				     &acs_list);
-@@ -522,8 +521,6 @@ calc_map_type_and_dist_warn(struct pci_dev *provider, struct pci_dev *client,
- 			 pci_name(provider));
- 	}
+ 		if (verbose)
+-			ret = calc_map_type_and_dist_warn(provider, pci_client,
++			map = calc_map_type_and_dist_warn(provider, pci_client,
+ 							  &distance);
+ 		else
+-			ret = calc_map_type_and_dist(provider, pci_client,
++			map = calc_map_type_and_dist(provider, pci_client,
+ 						     &distance, NULL, NULL);
  
--	kfree(acs_list.buffer);
--
- 	return ret;
- }
+ 		pci_dev_put(pci_client);
  
+-		if (ret == PCI_P2PDMA_MAP_NOT_SUPPORTED)
++		if (map == PCI_P2PDMA_MAP_NOT_SUPPORTED)
+ 			not_supported = true;
+ 
+ 		if (not_supported && !verbose)
 -- 
 2.20.1
 
