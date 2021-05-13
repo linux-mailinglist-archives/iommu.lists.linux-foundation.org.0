@@ -1,61 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764CB380034
-	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:32:36 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 622C0380052
+	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:32:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1024B4041F;
-	Thu, 13 May 2021 22:32:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id AE38D41827;
+	Thu, 13 May 2021 22:32:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o5_Lvk0DM0e1; Thu, 13 May 2021 22:32:24 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pzk_HKe5mLzE; Thu, 13 May 2021 22:32:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 16FBE4041E;
-	Thu, 13 May 2021 22:32:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 06CDC41825;
+	Thu, 13 May 2021 22:32:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1D19C0019;
-	Thu, 13 May 2021 22:32:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5026CC0027;
+	Thu, 13 May 2021 22:32:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2E39C0001
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:21 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 34730C000D
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C0F5D40417
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:21 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5183C83C24
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9RXymgn7oi00 for <iommu@lists.linux-foundation.org>;
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id T8HzWj7ymcH6 for <iommu@lists.linux-foundation.org>;
  Thu, 13 May 2021 22:32:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 478AF403FC
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 945DF83C08
  for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=/UEifQb1uV56XbCPPXZkMtwQU9Qf0p/pPMKOkgy5W2o=; b=jGA49pPoSP1ZCvD0TfobRIVRDR
- FIAQmqkwAg1zlBcl1n/OGvVOqKPlcNeUGsb0kayWRZK8tV0rW1/Cyb+1PQ2V1uxm6+NvchWV+Bbw1
- Z9jMg+9ALkS/wte/xLYYmDLrdap12nQ4YXCfUydQ8ahBWlVlU0fWOUSvB9gSFiNmfX8mWJt3uocug
- vlrGF2Cr4QEwXR/KNxuGtYh7rltUK9P7RlD8kVtkQJ4kPwe1jTrK3+/k7PmgpZmUhMXS2BncTwBp/
- Ee7JVIX23YSUiTWmGaXRNDV/njXNxifIDUnf17SPJVovjR14pVCJzOqc8UcFzzKTZSp+Y9gSHmVQH
- EEP0t7ng==;
+ bh=Vu2C8BB1vuWksLygZzsmKzcGYioNTg5VVbRwzB7NOHg=; b=CdROGG4lwhPQLSc3XOmk76jt9k
+ sYhan3fs/XPKzzVkBYm4ug3FcyIq+vzgucYCx7leUhoFLXKX/9tYffNff9ruUyw6lAluFrwrui8bV
+ bJSoCraFGZstoPg9RkzrBvcljA4s3tj0J7C+wkoMUk7agBrjeu+10NvT7f3VfZe0diQq8RM8Q1puC
+ poVaRv5pF5uCbECgxBQRC/a1R28A8wU6ExRg+tWDryVab/mqOooEd0FUOxHcBjpNsavat2KqxBlPt
+ WKmYhWmHUdd26hidMW/qJ4zqQB/NDWTKoNAKyhjMcqPs1U5GHidXH9lYJGZjfksKg6vYarEyNcwtM
+ DzuqO0JA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsP-0000nD-EI; Thu, 13 May 2021 16:32:18 -0600
+ id 1lhJsO-0000nC-Vp; Thu, 13 May 2021 16:32:17 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsI-0001TQ-OW; Thu, 13 May 2021 16:32:10 -0600
+ id 1lhJsI-0001TT-TP; Thu, 13 May 2021 16:32:10 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu, 13 May 2021 16:32:01 -0600
-Message-Id: <20210513223203.5542-21-logang@deltatee.com>
+Date: Thu, 13 May 2021 16:32:02 -0600
+Message-Id: <20210513223203.5542-22-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210513223203.5542-1-logang@deltatee.com>
 References: <20210513223203.5542-1-logang@deltatee.com>
@@ -71,7 +73,7 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 20/22] RDMA/core: Introduce ib_dma_pci_p2p_dma_supported()
+Subject: [PATCH v2 21/22] RDMA/rw: use dma_map_sgtable()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>, Ira Weiny <ira.weiny@intel.com>,
@@ -101,56 +103,207 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Introduce the helper function ib_dma_pci_p2p_dma_supported() to check
-if a given ib_device can be used in P2PDMA transfers. This ensures
-the ib_device is not using virt_dma and also that the underlying
-dma_device supports P2PDMA.
+dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
+is no longer necessary and may be dropped.
 
-Use the new helper in nvme-rdma to replace the existing check for
-ib_uses_virt_dma(). Adding the dma_pci_p2pdma_supported() check allows
-switching away from pci_p2pdma_[un]map_sg().
+Switch to the dma_map_sgtable() interface which will allow for better
+error reporting if the P2PDMA pages are unsupported.
+
+The change to sgtable also appears to fix a couple subtle error path
+bugs:
+
+  - In rdma_rw_ctx_init(), dma_unmap would be called with an sg
+    that could have been incremented from the original call, as
+    well as an nents that was not the original number of nents
+    called when mapped.
+  - Similarly in rdma_rw_ctx_signature_init, both sg and prot_sg
+    were unmapped with the incorrect number of nents.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/nvme/target/rdma.c |  2 +-
- include/rdma/ib_verbs.h    | 11 +++++++++++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ drivers/infiniband/core/rw.c | 75 +++++++++++++++---------------------
+ include/rdma/ib_verbs.h      | 19 +++++++++
+ 2 files changed, 51 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 6c1f3ab7649c..86f0bf4dc1ca 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -414,7 +414,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
- 	if (ib_dma_mapping_error(ndev->device, r->send_sge.addr))
- 		goto out_free_rsp;
- 
--	if (!ib_uses_virt_dma(ndev->device))
-+	if (ib_dma_pci_p2p_dma_supported(ndev->device))
- 		r->req.p2p_client = &ndev->device->dev;
- 	r->send_sge.length = sizeof(*r->req.cqe);
- 	r->send_sge.lkey = ndev->pd->local_dma_lkey;
-diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-index 7e2f3699b898..724e80a656f7 100644
---- a/include/rdma/ib_verbs.h
-+++ b/include/rdma/ib_verbs.h
-@@ -3943,6 +3943,17 @@ static inline bool ib_uses_virt_dma(struct ib_device *dev)
- 	return IS_ENABLED(CONFIG_INFINIBAND_VIRT_DMA) && !dev->dma_device;
+diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
+index a588c2038479..68f2dda56138 100644
+--- a/drivers/infiniband/core/rw.c
++++ b/drivers/infiniband/core/rw.c
+@@ -273,26 +273,6 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	return 1;
  }
  
-+/*
-+ * Check if a IB device's underlying DMA mapping supports P2PDMA transfers.
-+ */
-+static inline bool ib_dma_pci_p2p_dma_supported(struct ib_device *dev)
+-static void rdma_rw_unmap_sg(struct ib_device *dev, struct scatterlist *sg,
+-			     u32 sg_cnt, enum dma_data_direction dir)
+-{
+-	if (is_pci_p2pdma_page(sg_page(sg)))
+-		pci_p2pdma_unmap_sg(dev->dma_device, sg, sg_cnt, dir);
+-	else
+-		ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
+-}
+-
+-static int rdma_rw_map_sg(struct ib_device *dev, struct scatterlist *sg,
+-			  u32 sg_cnt, enum dma_data_direction dir)
+-{
+-	if (is_pci_p2pdma_page(sg_page(sg))) {
+-		if (WARN_ON_ONCE(ib_uses_virt_dma(dev)))
+-			return 0;
+-		return pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
+-	}
+-	return ib_dma_map_sg(dev, sg, sg_cnt, dir);
+-}
+-
+ /**
+  * rdma_rw_ctx_init - initialize a RDMA READ/WRITE context
+  * @ctx:	context to initialize
+@@ -313,12 +293,16 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
+ 		u64 remote_addr, u32 rkey, enum dma_data_direction dir)
+ {
+ 	struct ib_device *dev = qp->pd->device;
++	struct sg_table sgt = {
++		.sgl = sg,
++		.orig_nents = sg_cnt,
++	};
+ 	int ret;
+ 
+-	ret = rdma_rw_map_sg(dev, sg, sg_cnt, dir);
+-	if (!ret)
+-		return -ENOMEM;
+-	sg_cnt = ret;
++	ret = ib_dma_map_sgtable(dev, &sgt, dir, 0);
++	if (ret)
++		return ret;
++	sg_cnt = sgt.nents;
+ 
+ 	/*
+ 	 * Skip to the S/G entry that sg_offset falls into:
+@@ -354,7 +338,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
+ 	return ret;
+ 
+ out_unmap_sg:
+-	rdma_rw_unmap_sg(dev, sg, sg_cnt, dir);
++	ib_dma_unmap_sgtable(dev, &sgt, dir, 0);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_init);
+@@ -387,6 +371,14 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 						    qp->integrity_en);
+ 	struct ib_rdma_wr *rdma_wr;
+ 	int count = 0, ret;
++	struct sg_table sgt = {
++		.sgl = sg,
++		.orig_nents = sg_cnt,
++	};
++	struct sg_table prot_sgt = {
++		.sgl = prot_sg,
++		.orig_nents = prot_sg_cnt,
++	};
+ 
+ 	if (sg_cnt > pages_per_mr || prot_sg_cnt > pages_per_mr) {
+ 		pr_err("SG count too large: sg_cnt=%d, prot_sg_cnt=%d, pages_per_mr=%d\n",
+@@ -394,18 +386,14 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = rdma_rw_map_sg(dev, sg, sg_cnt, dir);
+-	if (!ret)
+-		return -ENOMEM;
+-	sg_cnt = ret;
++	ret = ib_dma_map_sgtable(dev, &sgt, dir, 0);
++	if (ret)
++		return ret;
+ 
+ 	if (prot_sg_cnt) {
+-		ret = rdma_rw_map_sg(dev, prot_sg, prot_sg_cnt, dir);
+-		if (!ret) {
+-			ret = -ENOMEM;
++		ret = ib_dma_map_sgtable(dev, &prot_sgt, dir, 0);
++		if (ret)
+ 			goto out_unmap_sg;
+-		}
+-		prot_sg_cnt = ret;
+ 	}
+ 
+ 	ctx->type = RDMA_RW_SIG_MR;
+@@ -426,10 +414,11 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 
+ 	memcpy(ctx->reg->mr->sig_attrs, sig_attrs, sizeof(struct ib_sig_attrs));
+ 
+-	ret = ib_map_mr_sg_pi(ctx->reg->mr, sg, sg_cnt, NULL, prot_sg,
+-			      prot_sg_cnt, NULL, SZ_4K);
++	ret = ib_map_mr_sg_pi(ctx->reg->mr, sg, sgt.nents, NULL, prot_sg,
++			      prot_sgt.nents, NULL, SZ_4K);
+ 	if (unlikely(ret)) {
+-		pr_err("failed to map PI sg (%d)\n", sg_cnt + prot_sg_cnt);
++		pr_err("failed to map PI sg (%d)\n",
++		       sgt.nents + prot_sgt.nents);
+ 		goto out_destroy_sig_mr;
+ 	}
+ 
+@@ -468,10 +457,10 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ out_free_ctx:
+ 	kfree(ctx->reg);
+ out_unmap_prot_sg:
+-	if (prot_sg_cnt)
+-		rdma_rw_unmap_sg(dev, prot_sg, prot_sg_cnt, dir);
++	if (prot_sgt.nents)
++		ib_dma_unmap_sgtable(dev, &prot_sgt, dir, 0);
+ out_unmap_sg:
+-	rdma_rw_unmap_sg(dev, sg, sg_cnt, dir);
++	ib_dma_unmap_sgtable(dev, &sgt, dir, 0);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_signature_init);
+@@ -604,7 +593,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 		break;
+ 	}
+ 
+-	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy);
+ 
+@@ -632,8 +621,8 @@ void rdma_rw_ctx_destroy_signature(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	kfree(ctx->reg);
+ 
+ 	if (prot_sg_cnt)
+-		rdma_rw_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
+-	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++		ib_dma_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
++	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy_signature);
+ 
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 724e80a656f7..3db6de41aa2d 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -4053,6 +4053,25 @@ static inline void ib_dma_unmap_sg_attrs(struct ib_device *dev,
+ 				   dma_attrs);
+ }
+ 
++static inline int ib_dma_map_sgtable(struct ib_device *dev,
++				     struct sg_table *sgt,
++				     enum dma_data_direction direction,
++				     unsigned long dma_attrs)
 +{
 +	if (ib_uses_virt_dma(dev))
-+		return false;
++		return ib_dma_virt_map_sg(dev, sgt->sgl, sgt->orig_nents);
++	return dma_map_sgtable(dev->dma_device, sgt, direction, dma_attrs);
++}
 +
-+	return dma_pci_p2pdma_supported(dev->dma_device);
++static inline void ib_dma_unmap_sgtable(struct ib_device *dev,
++					struct sg_table *sgt,
++					enum dma_data_direction direction,
++					unsigned long dma_attrs)
++{
++	if (!ib_uses_virt_dma(dev))
++		dma_unmap_sgtable(dev->dma_device, sgt, direction, dma_attrs);
 +}
 +
  /**
-  * ib_dma_mapping_error - check a DMA addr for error
-  * @dev: The device for which the dma_addr was created
+  * ib_dma_map_sg - Map a scatter/gather list to DMA addresses
+  * @dev: The device for which the DMA addresses are to be created
 -- 
 2.20.1
 
