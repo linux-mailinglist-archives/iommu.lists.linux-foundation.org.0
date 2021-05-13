@@ -1,91 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E4438003D
-	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:32:40 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A573800F1
+	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 01:38:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id AD72860AC4;
-	Thu, 13 May 2021 22:32:30 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5362040E47;
+	Thu, 13 May 2021 23:38:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a5WMW0rMwDcR; Thu, 13 May 2021 22:32:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 97BDC60A51;
-	Thu, 13 May 2021 22:32:29 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8VHtnj788FgL; Thu, 13 May 2021 23:38:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 14F12406B9;
+	Thu, 13 May 2021 23:38:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC7C0C001C;
-	Thu, 13 May 2021 22:32:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EB474C001C;
+	Thu, 13 May 2021 23:38:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B66BC0027
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:24 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93C6DC0001
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 23:38:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3E458403FC
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:23 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6D16E60A8D
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 23:38:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T8d1iK0q5Q49 for <iommu@lists.linux-foundation.org>;
- Thu, 13 May 2021 22:32:21 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VtPHWFg4Far1 for <iommu@lists.linux-foundation.org>;
+ Thu, 13 May 2021 23:38:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5A43B4040E
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=nQUlL08e6fYIDmWa+tapx3h2eKW2Y2T+0M5pxCBZqjM=; b=herzV9sjnYAG5Hm/Neq+EYQFc0
- 2nHZVQWtTMk1zUgHUuaOujnhUsCZL0XM6PhT8PYyK+X9iKjZxIUdS2PyDrFvSTEGAJrOPpIPiU3pB
- a4fvKftmnVTiJs5J1dEjEhNSGfBpXnYXZWedqGpdSHT/JLxbQ0brJMjGM7oI/OGPb8e/KFgmM2NFj
- lSYZspyN4RuY5zH5Tp/SkoPMQ5quEJ5Ccbk8jXUdCAcavoara3VeOAyPPuovoPwItofYMG1eLm8Ah
- bagyC6Xx/7XdoXv16u1O6ecD0GeKJgGnxI+/HKX1aXW1bPmVW/3Zrttjx8f4qbFuBHwacBUUI3Tao
- Npgls6+A==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsO-0000nE-Ry; Thu, 13 May 2021 16:32:17 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsJ-0001TW-3M; Thu, 13 May 2021 16:32:11 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Date: Thu, 13 May 2021 16:32:03 -0600
-Message-Id: <20210513223203.5542-23-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210513223203.5542-1-logang@deltatee.com>
-References: <20210513223203.5542-1-logang@deltatee.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3E12A60900
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 23:38:03 +0000 (UTC)
+IronPort-SDR: 93ya95fOLzPTksmT4aRDH/KPqHio+dxdgGXQjgXizFQtD8gvAaVINLdYedRjcAmoLhhx280d/2
+ jNOS6Wgjss7A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9983"; a="180348295"
+X-IronPort-AV: E=Sophos;i="5.82,298,1613462400"; d="scan'208";a="180348295"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2021 16:38:02 -0700
+IronPort-SDR: LSmIhSZ/iJ19HTFkyX5tBW+4f5BeEKik1AweyzWqWzo8Zjwf1GY38yktThsKCjhW+YTcFICCZA
+ 6tvEi3QdOioA==
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="392484089"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2021 16:38:02 -0700
+Date: Thu, 13 May 2021 16:40:28 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v4 1/2] iommu/sva: Tighten SVA bind API with explicit flags
+Message-ID: <20210513164028.6e2d6e59@jacob-builder>
+In-Reply-To: <20210513223122.GV1002214@nvidia.com>
+References: <20210513081050.5cf6a6ed@jacob-builder>
+ <dd52760ab65a40328b4c1a26ddd0e1d0@intel.com>
+ <20210513173303.GL1002214@nvidia.com>
+ <20210513185349.GA801495@agluck-desk2.amr.corp.intel.com>
+ <20210513190040.GR1002214@nvidia.com>
+ <e9dd39aa8a144c23beffa5ca58936385@intel.com>
+ <20210513192014.GU1002214@nvidia.com>
+ <20210513124621.01421173@jacob-builder>
+ <20210513195749.GA801830@agluck-desk2.amr.corp.intel.com>
+ <20210513132251.0ff89b90@jacob-builder>
+ <20210513223122.GV1002214@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
- ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
- jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org,
- dan.j.williams@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
- jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
- logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 22/22] PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Minturn Dave B <dave.b.minturn@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Robin Murphy <robin.murphy@arm.com>, Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bjorn Helgaas <helgaas@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Stephen Bates <sbates@raithlin.com>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>, Christoph Hellwig <hch@lst.de>,
- Xiong Jianxin <jianxin.xiong@intel.com>
+Cc: "vkoul@kernel.org" <vkoul@kernel.org>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "Luck, Tony" <tony.luck@intel.com>, "Jiang, Dave" <dave.jiang@intel.com>, "Raj,
+ Ashok" <ashok.raj@intel.com>, David Woodhouse <dwmw2@infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,144 +91,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This interface is superseded by support in dma_map_sg() which now supports
-heterogeneous scatterlists. There are no longer any users, so remove it.
+Hi Jason,
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- drivers/pci/p2pdma.c       | 65 --------------------------------------
- include/linux/pci-p2pdma.h | 27 ----------------
- 2 files changed, 92 deletions(-)
+On Thu, 13 May 2021 19:31:22 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index b0d779aeade9..767122e0a43f 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -873,71 +873,6 @@ enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
- 	return ret;
- }
- 
--static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
--		struct device *dev, struct scatterlist *sg, int nents)
--{
--	struct scatterlist *s;
--	int i;
--
--	for_each_sg(sg, s, nents, i) {
--		s->dma_address = sg_phys(s) - p2p_pgmap->bus_offset;
--		sg_dma_len(s) = s->length;
--	}
--
--	return nents;
--}
--
--/**
-- * pci_p2pdma_map_sg_attrs - map a PCI peer-to-peer scatterlist for DMA
-- * @dev: device doing the DMA request
-- * @sg: scatter list to map
-- * @nents: elements in the scatterlist
-- * @dir: DMA direction
-- * @attrs: DMA attributes passed to dma_map_sg() (if called)
-- *
-- * Scatterlists mapped with this function should be unmapped using
-- * pci_p2pdma_unmap_sg_attrs().
-- *
-- * Returns the number of SG entries mapped or 0 on error.
-- */
--int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	struct pci_p2pdma_pagemap *p2p_pgmap =
--		to_p2p_pgmap(sg_page(sg)->pgmap);
--
--	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev)) {
--	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
--		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
--	case PCI_P2PDMA_MAP_BUS_ADDR:
--		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
--	default:
--		return 0;
--	}
--}
--EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
--
--/**
-- * pci_p2pdma_unmap_sg_attrs - unmap a PCI peer-to-peer scatterlist that was
-- *	mapped with pci_p2pdma_map_sg()
-- * @dev: device doing the DMA request
-- * @sg: scatter list to map
-- * @nents: number of elements returned by pci_p2pdma_map_sg()
-- * @dir: DMA direction
-- * @attrs: DMA attributes passed to dma_unmap_sg() (if called)
-- */
--void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	enum pci_p2pdma_map_type map_type;
--
--	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev);
--
--	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
--		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
--}
--EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
--
- /**
-  * pci_p2pdma_map_segment - map an sg segment determining the mapping type
-  * @state: State structure that should be declared outside of the for_each_sg()
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index e5a8d5bc0f51..0c33a40a86e7 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -72,10 +72,6 @@ void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
- enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
- 					     struct device *dev);
--int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs);
--void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs);
- enum pci_p2pdma_map_type
- pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
- 		       struct scatterlist *sg);
-@@ -135,17 +131,6 @@ pci_p2pdma_map_type(struct dev_pagemap *pgmap, struct device *dev)
- {
- 	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
- }
--static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--	return 0;
--}
--static inline void pci_p2pdma_unmap_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--}
- static inline enum pci_p2pdma_map_type
- pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
- 		       struct scatterlist *sg)
-@@ -181,16 +166,4 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
- 
--static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
--				    int nents, enum dma_data_direction dir)
--{
--	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
--}
--
--static inline void pci_p2pdma_unmap_sg(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir)
--{
--	pci_p2pdma_unmap_sg_attrs(dev, sg, nents, dir, 0);
--}
--
- #endif /* _LINUX_PCI_P2P_H */
--- 
-2.20.1
+> On Thu, May 13, 2021 at 01:22:51PM -0700, Jacob Pan wrote:
+> > Hi Tony,
+> > 
+> > On Thu, 13 May 2021 12:57:49 -0700, "Luck, Tony" <tony.luck@intel.com>
+> > wrote:
+> >   
+> > > On Thu, May 13, 2021 at 12:46:21PM -0700, Jacob Pan wrote:  
+> > > > It seems there are two options:
+> > > > 1. Add a new IOMMU API to set up a system PASID with a *separate*
+> > > > IOMMU page table/domain, mark the device is PASID only with a flag.
+> > > > Use DMA APIs to explicit map/unmap. Based on this PASID-only flag,
+> > > > Vendor IOMMU driver will decide whether to use system PASID domain
+> > > > during map/unmap. Not clear if we also need to make IOVA==kernel VA.
+> > > > 
+> > > > 2. Add a new IOMMU API to setup a system PASID which points to
+> > > > init_mm.pgd. This API only allows trusted device to bind with the
+> > > > system PASID at its own risk. There is no need for DMA API. This is
+> > > > the same as the current code except with an explicit API.
+> > > > 
+> > > > Which option?    
+> > > 
+> > > Option #1 looks cleaner to me. Option #2 gives access to bits
+> > > of memory that the users of system PASID shouldn't ever need
+> > > to touch ... just map regions of memory that the kernel has
+> > > a "struct page" for.
+> > > 
+> > > What does "use DMA APIs to explicitly map/unmap" mean? Is that
+> > > for the whole region?
+> > >   
+> > If we map the entire kernel direct map during system PASID setup, then
+> > we don't need to use DMA API to map/unmap certain range.
+> > 
+> > I was thinking this system PASID page table could be on-demand. The
+> > mapping is built by explicit use of DMA map/unmap APIs.  
+> 
+> Option 1 should be the PASID works exactly like a normal RID and uses
+> all the normal DMA APIs and IOMMU mechanisms, whatever the platform
+> implements. This might mean an iommu update on every operation or not.
+>  
+> > > I'm expecting that once this system PASID has been initialized,
+> > > then any accelerator device with a kernel use case would use the
+> > > same PASID. I.e. DSA for page clearing, IAX for ZSwap compression
+> > > & decompression, etc.
+> > >   
+> > OK, sounds like we have to map the entire kernel VA with struct page as
+> > you said. So we still by-pass DMA APIs, can we all agree on that?  
+> 
+> Option 2 should be the faster option, but not available in all cases.
+> 
+> Option 1 isn't optional. DMA and IOMMU code has to be portable and
+> this is the portable API.
+> 
+> If you want to do option 1 and option 2 then give it a go, but in most
+> common cases with the IOMMU in a direct map you shouldn't get a
+> notable performance win.
+> 
+Looks like we are converging. Let me summarize the takeaways:
+1. Remove IOMMU_SVA_BIND_SUPERVISOR flag from this patch, in fact there
+will be no flags at all for iommu_sva_bind_device()
+2. Remove all supervisor SVA related vt-d, idxd code.
+3. Create API iommu_setup_system_pasid_direct_map(option_flag)
+	if (option_flag == 1)
+		iommu_domain_alloc(IOMMU_DOMAIN_DMA);
+	if (option_flag == 2)
+		iommu_domain_alloc(IOMMU_DOMAIN_DIRECT); //new domain type?
+		setup IOMMU page tables mirroring the direct map
+4. Create API iommu_enable_dev_direct_map(struct dev, &pasid, &option)
+	- Drivers call this API to get the system PASID and which option is
+	available on the system PASID
+	- mark device as PASID only, perhaps a new flag in struct
+	device->dev_iommu->pasid_only = 1
+5. DMA API IOMMU vendor ops will take action based on the pasid_only flag to
+decide if the mapping is for system PASID page tables.
 
+Does it make sense?
+
+
+> Jason
+
+
+Thanks,
+
+Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
