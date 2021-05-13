@@ -1,63 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62802380054
-	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:32:50 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C78BF380059
+	for <lists.iommu@lfdr.de>; Fri, 14 May 2021 00:33:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 512DC41830;
-	Thu, 13 May 2021 22:32:40 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C25898462D;
+	Thu, 13 May 2021 22:32:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0mRMFZjO6IYx; Thu, 13 May 2021 22:32:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E0BE841846;
-	Thu, 13 May 2021 22:32:38 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pRngFYdqrBL8; Thu, 13 May 2021 22:32:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id D784083C0F;
+	Thu, 13 May 2021 22:32:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6800FC000D;
-	Thu, 13 May 2021 22:32:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AE6EAC0001;
+	Thu, 13 May 2021 22:32:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41EA6C0001
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:32 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA434C000D
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2326140436
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:32 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 81D62405F5
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id K1thNK9f_3zl for <iommu@lists.linux-foundation.org>;
- Thu, 13 May 2021 22:32:31 +0000 (UTC)
+ with ESMTP id iWwqdbQZcmd7 for <iommu@lists.linux-foundation.org>;
+ Thu, 13 May 2021 22:32:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 59FE440425
- for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:31 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D3E8440440
+ for <iommu@lists.linux-foundation.org>; Thu, 13 May 2021 22:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=hPXhcihXAoH8RGaPYoi+qDN3LVubyQfJAgOHoQY58UM=; b=AJLAGCyL3f4e5xzFbUQ1yVN3cU
- cfpilAC8VhbDKR/rU1qGZpfArLVz5bmlSiNDtkd9Rd8yH0+gfwKMVE80p9zm5420S5vX4IJvKZ6j/
- T2TwuNQpSwbVaD8vI4CePH2nNGQsM0SbEeTBtaU9GwmpHvDHRX3pug4qLd3rpAdbY5agFTV1UO9Iq
- 8xOs+p+PX8CFAJ8wtQnJ5SXl0GGWAh+NQiysec3JJ0JzBppU3VYYCchvsyhROMI4sovCFKTEL2biO
- 29H9YJoEh5bn7UTnpiUzssbA/UMM9v1OeaKmCk90ULINe+TO62pIjvtvLHXrnmcB2t2q+61rYbfzD
- 8MUkVIkw==;
+ bh=MJtJPcG0fF8m+oZ5nuPZLN5xMdgwBh0nL1w0XXUciF4=; b=KhehgNUQfbKxcU2m3W8rqM+Fyk
+ CjabbsFD9rkYNC7V2+qltnF0wYzfQsdGRe76sAMxSzzwe+SMYDh/cp9xbS8S0LYC/oZvAZKTVPUSu
+ IkEiaPoaDtuxif2iP0NnVUXaenSix8GYzoyk0oZZthSq8INNeG3BCVLn00pkcjpCvDDqYEHNN5vLh
+ IKnBa0gKCf9xeigxwK6oqqB9caYrSK1ET4CeFH0N+I4dEhl4eQeXIWH1fb0ocmEOsKUmTEiV81N+r
+ XcbiMJfxS1ncC88/FdMdNHe0Xv1YKi1m9dHgYsvNfNYgn7EKg+g7XEdgVhOwSJaoosEbcDm6RJXqn
+ jC9YZ0yw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsZ-0000nF-AO; Thu, 13 May 2021 16:32:27 -0600
+ id 1lhJsY-0000nE-CJ; Thu, 13 May 2021 16:32:27 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsG-0001Sh-AJ; Thu, 13 May 2021 16:32:08 -0600
+ id 1lhJsG-0001Sk-E8; Thu, 13 May 2021 16:32:08 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu, 13 May 2021 16:31:46 -0600
-Message-Id: <20210513223203.5542-6-logang@deltatee.com>
+Date: Thu, 13 May 2021 16:31:47 -0600
+Message-Id: <20210513223203.5542-7-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210513223203.5542-1-logang@deltatee.com>
 References: <20210513223203.5542-1-logang@deltatee.com>
@@ -73,8 +73,8 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 05/22] PCI/P2PDMA: Print a warning if the host bridge is
- not in the whitelist
+Subject: [PATCH v2 06/22] PCI/P2PDMA: Attempt to set map_type if it has not
+ been set
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>, Ira Weiny <ira.weiny@intel.com>,
@@ -104,71 +104,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-If the host bridge is not in the whitelist print a warning in the
-calc_map_type_and_dist_warn() path detailing the vendor and device IDs
-that would need to be added to the whitelist.
+Attempt to find the mapping type for P2PDMA pages on the first
+DMA map attempt if it has not been done ahead of time.
 
-Suggested-by: Don Dutile <ddutile@redhat.com>
+Previously, the mapping type was expected to be calculated ahead of
+time, but if pages are to come from userspace then there's no
+way to ensure the path was checked ahead of time.
+
+With this change it's no longer invalid to call pci_p2pdma_map_sg()
+before the mapping type is calculated so drop the WARN_ON when that
+is the case.
+
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/pci/p2pdma.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/pci/p2pdma.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 175da3a9c8fb..0e0b2218eacd 100644
+index 0e0b2218eacd..4034ffa0eb06 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -340,7 +340,7 @@ static struct pci_dev *pci_host_bridge_dev(struct pci_host_bridge *host)
- }
- 
- static bool __host_bridge_whitelist(struct pci_host_bridge *host,
--				    bool same_host_bridge)
-+				    bool same_host_bridge, bool warn)
+@@ -847,11 +847,17 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct pci_dev *provider,
+ 						    struct pci_dev *client)
  {
- 	struct pci_dev *root = pci_host_bridge_dev(host);
- 	const struct pci_p2pdma_whitelist_entry *entry;
-@@ -361,6 +361,10 @@ static bool __host_bridge_whitelist(struct pci_host_bridge *host,
- 		return true;
- 	}
- 
-+	if (warn)
-+		pci_warn(root, "Host bridge not in P2PDMA whitelist: %04x:%04x\n",
-+			 vendor, device);
++	enum pci_p2pdma_map_type ret;
 +
- 	return false;
+ 	if (!provider->p2pdma)
+ 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+ 
+-	return xa_to_value(xa_load(&provider->p2pdma->map_types,
+-				   map_types_idx(client)));
++	ret = xa_to_value(xa_load(&provider->p2pdma->map_types,
++				  map_types_idx(client)));
++	if (ret == PCI_P2PDMA_MAP_UNKNOWN)
++		return calc_map_type_and_dist_warn(provider, client, NULL);
++
++	return ret;
  }
  
-@@ -368,16 +372,17 @@ static bool __host_bridge_whitelist(struct pci_host_bridge *host,
-  * If we can't find a common upstream bridge take a look at the root
-  * complex and compare it to a whitelist of known good hardware.
-  */
--static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b)
-+static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b,
-+				  bool warn)
- {
- 	struct pci_host_bridge *host_a = pci_find_host_bridge(a->bus);
- 	struct pci_host_bridge *host_b = pci_find_host_bridge(b->bus);
- 
- 	if (host_a == host_b)
--		return __host_bridge_whitelist(host_a, true);
-+		return __host_bridge_whitelist(host_a, true, warn);
- 
--	if (__host_bridge_whitelist(host_a, false) &&
--	    __host_bridge_whitelist(host_b, false))
-+	if (__host_bridge_whitelist(host_a, false, warn) &&
-+	    __host_bridge_whitelist(host_b, false, warn))
- 		return true;
- 
- 	return false;
-@@ -513,7 +518,7 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
- 
- 	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE) {
- 		if (!cpu_supports_p2pdma() &&
--		    !host_bridge_whitelist(provider, client))
-+		    !host_bridge_whitelist(provider, client, acs_redirects))
- 			map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+ static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+@@ -899,7 +905,6 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+ 		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
+ 	default:
+-		WARN_ON_ONCE(1);
+ 		return 0;
  	}
- 
+ }
 -- 
 2.20.1
 
