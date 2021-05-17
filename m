@@ -1,76 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7674F382940
-	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:06 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 732D638293E
+	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B69DD40396;
+	by smtp4.osuosl.org (Postfix) with ESMTP id DA635404C7;
 	Mon, 17 May 2021 10:02:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h_FKHlxabTjR; Mon, 17 May 2021 10:01:59 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oswn4ucFWUhr; Mon, 17 May 2021 10:01:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0FBE640487;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3EAE64033C;
 	Mon, 17 May 2021 10:01:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F545C0027;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DA891C000D;
 	Mon, 17 May 2021 10:01:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4B4EFC0001
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:14 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 09B68C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 390DC608CB
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:14 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 067994019A
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zlmkZdGP7fCV for <iommu@lists.linux-foundation.org>;
- Mon, 17 May 2021 09:56:13 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UPwUuQxFjruA for <iommu@lists.linux-foundation.org>;
+ Mon, 17 May 2021 09:56:16 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C36236090B
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:12 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id t30so4277668pgl.8
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:12 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7C02F400F4
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:16 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id p6so2827901plr.11
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tx8QMBGpZJX1ew8np0gTCpYyfE19GueKJf7/gIkdvaI=;
- b=xuePQKnI02Lahx+4Y+JNH3sW8SQG8Ak9dQIdwLXgLchUJt1JVNjIL6rVMKCJfgNgzb
- Vb/qRjAR9wDRbRbqECJXSfbAViZOzuMI57xitwX91penLlPfZgA7sMJ43Smd4aM5TW08
- W+LwxP2K0D1yO52eg/OLk1l5ch7fYVaqmjdJJ9Kw9hOGMhzR4ee650DrK2bmhH+3HJR2
- fdA778/MCyyZBHTQGJIxo1Xt9bXg79iwAcMQHgDf2TBv1ll7WWWCv3PfLTDFLYaqBzQK
- 9VOL17IcPdxDmUjnB6bN0Nng4ug8GZbN4WTz46Yng2r58wITMeBLORKVGF+sp54AnFA+
- R36g==
+ bh=z7/sgPn1niIyplx/MCCBp/NxUC1m49ShQY4FddeicFg=;
+ b=VtwX03C0ISBBYjMp9XrXXlg71h/dLD+Iw0BunstvVMTQaRODx4ebdUoHqalwuhZLrr
+ c6dwQDJogEeD8IEYI5BVoSc848OKx+OElBQio9tTZdwuqKQ0c7pwHtONHQSD07vEDGtY
+ HN+viIpqfyoeqR4A27UylxzodLAKfRlI/f+XLIm363PsM6oqelH6yU9zb92L1sJwUSq7
+ abxZhuME3e0rEDw0VLQtTiSVtO+eqRv2k1gs0aSRfId3eS75sHzQWNeLdSh2x86GyLUO
+ mNu7bb5U26Dzx7s112VDNFcaoK/enWL+0vWA8YXtLtU2B5IfIOdx+soCEqxWkBtw/wkI
+ SfFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tx8QMBGpZJX1ew8np0gTCpYyfE19GueKJf7/gIkdvaI=;
- b=V6ZHaQJ+88cKYRABVvJ4u2CKkxsT6ZsjmjCaOT1fOQh8RBZ/FFitvf8XfjUfHCkhCg
- 8vF3mh3WJjQgS9VgtzBdS/BTXwKmqBDAC0JTMHseKrFiQoFMZAfZa9fw3H2nhGcUDHZH
- +IyIOE4d7MFE764Qf/2xKkMbfa0zJwtQgtBQOYDBt3gxzftfe0oS7XnCSwxJpLYpApX2
- GDK+Ku2/W3GENyXsuP0FHElSagfOxAZHQfMHjKtnyavP2DKzsYd0eBeIKrHhDkeBbqE4
- 6F1R5Oaddkzjl5olOzeRpuZeCD0oDNIllytW67401tGYRQ3CIKJjErs6Zs8F6wjOH4z9
- yPFQ==
-X-Gm-Message-State: AOAM5322WQFI6vhcK5UBFIM1O2qcpktqxOnwXX8nSMOy33omTjpGT5oq
- rlJBbSmNMMVr4Yz6nQG1isAH
-X-Google-Smtp-Source: ABdhPJz4jJ0Z7VvRRYZhi1VrL3hoPcZzoDQgK9lGdzLpuPpHEzBKkdKEplH7qnfQz5cB3LlwWpUAjA==
-X-Received: by 2002:a05:6a00:787:b029:2dd:15b6:515a with SMTP id
- g7-20020a056a000787b02902dd15b6515amr1691311pfu.26.1621245372172; 
- Mon, 17 May 2021 02:56:12 -0700 (PDT)
+ bh=z7/sgPn1niIyplx/MCCBp/NxUC1m49ShQY4FddeicFg=;
+ b=HyH+iWsYhP3arz9x8+VV5l8q/OaG26TIjhaSzmrxibflXWbxoZbRbUI+XyYrZNbn+g
+ QaHvO5dnnMhKkBHYK7xs0Th5/5iOrP9LpEfN2e9GVI05W4jEQChaDaunNarQPcOwMDcf
+ ljjsePwyCvjY3ppvwarrhSuFtBy0ngkYkr5EMSt1K/xi8WbI5ehfhqKcrNPqMMwB/+1f
+ 3YLOUFJYvKFGT19huzjYbxaGC3n6tI2vNy/CViW0buz4ThJYT8AJXooMN+0YZ2we/t7O
+ odXYjamSPBLBGU0mzdNQpXJvah8wPVUhXzunYxGSklISiTpoHuL6H6srMEkOHjmQ5uji
+ lVPw==
+X-Gm-Message-State: AOAM530VxlPwQ2SOW7poa4HWP6uztlZr00cMuvHMW+z7ES1vKuV0XwRG
+ Bp20aKs82DoP4GJI3wK/E6dn
+X-Google-Smtp-Source: ABdhPJxaWd2Kn5/peSswOCwRKMHxtXfg5xbq6uIlNzE6im+gipuz3QFRX9Bwo9Y9e12+QeRiGNwVIQ==
+X-Received: by 2002:a17:90b:1992:: with SMTP id
+ mv18mr9044020pjb.137.1621245376019; 
+ Mon, 17 May 2021 02:56:16 -0700 (PDT)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id d9sm14749696pjx.41.2021.05.17.02.56.10
+ by smtp.gmail.com with ESMTPSA id s184sm10234381pgc.29.2021.05.17.02.56.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 02:56:11 -0700 (PDT)
+ Mon, 17 May 2021 02:56:15 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
@@ -78,10 +78,10 @@ To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  willy@infradead.org, viro@zeniv.linux.org.uk, axboe@kernel.dk,
  bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
  dan.carpenter@oracle.com, joro@8bytes.org
-Subject: [PATCH v7 04/12] virtio-blk: Add validation for block size in config
- space
-Date: Mon, 17 May 2021 17:55:05 +0800
-Message-Id: <20210517095513.850-5-xieyongji@bytedance.com>
+Subject: [PATCH v7 05/12] virtio_scsi: Add validation for residual bytes from
+ response
+Date: Mon, 17 May 2021 17:55:06 +0800
+Message-Id: <20210517095513.850-6-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210517095513.850-1-xieyongji@bytedance.com>
 References: <20210517095513.850-1-xieyongji@bytedance.com>
@@ -107,27 +107,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This ensures that we will not use an invalid block size
-in config space (might come from an untrusted device).
+This ensures that the residual bytes in response (might come
+from an untrusted device) will not exceed the data buffer length.
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- drivers/block/virtio_blk.c | 2 +-
+ drivers/scsi/virtio_scsi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index ebb4d3fe803f..c848aa36d49b 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -826,7 +826,7 @@ static int virtblk_probe(struct virtio_device *vdev)
- 	err = virtio_cread_feature(vdev, VIRTIO_BLK_F_BLK_SIZE,
- 				   struct virtio_blk_config, blk_size,
- 				   &blk_size);
--	if (!err)
-+	if (!err && blk_size > 0 && blk_size <= max_size)
- 		blk_queue_logical_block_size(q, blk_size);
- 	else
- 		blk_size = queue_logical_block_size(q);
+diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
+index efcaf0674c8d..ad7d8cecec32 100644
+--- a/drivers/scsi/virtio_scsi.c
++++ b/drivers/scsi/virtio_scsi.c
+@@ -97,7 +97,7 @@ static inline struct Scsi_Host *virtio_scsi_host(struct virtio_device *vdev)
+ static void virtscsi_compute_resid(struct scsi_cmnd *sc, u32 resid)
+ {
+ 	if (resid)
+-		scsi_set_resid(sc, resid);
++		scsi_set_resid(sc, min(resid, scsi_bufflen(sc)));
+ }
+ 
+ /*
 -- 
 2.11.0
 
