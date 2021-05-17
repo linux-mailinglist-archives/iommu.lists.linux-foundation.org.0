@@ -1,76 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732D638293E
-	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:04 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FC0382942
+	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DA635404C7;
-	Mon, 17 May 2021 10:02:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 98F3860A53;
+	Mon, 17 May 2021 10:02:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oswn4ucFWUhr; Mon, 17 May 2021 10:01:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3EAE64033C;
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id L65EOu3F1sUk; Mon, 17 May 2021 10:02:04 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id A44FD608F8;
 	Mon, 17 May 2021 10:01:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA891C000D;
-	Mon, 17 May 2021 10:01:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6108BC0011;
+	Mon, 17 May 2021 10:01:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 09B68C0001
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:17 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3B7B2C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 067994019A
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:17 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2A79C83AAF
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UPwUuQxFjruA for <iommu@lists.linux-foundation.org>;
- Mon, 17 May 2021 09:56:16 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id N637FyEij7sp for <iommu@lists.linux-foundation.org>;
+ Mon, 17 May 2021 09:56:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7C02F400F4
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:16 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id p6so2827901plr.11
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:16 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 96B6682813
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:20 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ pi6-20020a17090b1e46b029015cec51d7cdso3385370pjb.5
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z7/sgPn1niIyplx/MCCBp/NxUC1m49ShQY4FddeicFg=;
- b=VtwX03C0ISBBYjMp9XrXXlg71h/dLD+Iw0BunstvVMTQaRODx4ebdUoHqalwuhZLrr
- c6dwQDJogEeD8IEYI5BVoSc848OKx+OElBQio9tTZdwuqKQ0c7pwHtONHQSD07vEDGtY
- HN+viIpqfyoeqR4A27UylxzodLAKfRlI/f+XLIm363PsM6oqelH6yU9zb92L1sJwUSq7
- abxZhuME3e0rEDw0VLQtTiSVtO+eqRv2k1gs0aSRfId3eS75sHzQWNeLdSh2x86GyLUO
- mNu7bb5U26Dzx7s112VDNFcaoK/enWL+0vWA8YXtLtU2B5IfIOdx+soCEqxWkBtw/wkI
- SfFw==
+ bh=WWAi/i4+n9XG5D57vjCca2tNocYxaQJOYj5KH2bJ384=;
+ b=1gw758w4orgpYuGg4qlVZ1ufUErcwuFPa6rGxGKNeCcUdBT2DBFUOZgjjjHaru9QgZ
+ 24Uyd+UWCUuLzaw9E42011Bl3nrphZj8tHi+w2dt1N95LK5Wsa8rVPZEyA3wd0tCL/YZ
+ Q0Gb9G8Hrf+Ebn4e//D1+XOMJcJhst7YPhAINXNngxWyGUjrRpi8ZZGq+c6nRSHs9p2E
+ RgSSWnemUMQge32qOTb5HFKnkujL0C/9X+8IUxectIdGr0wzBCe6yu4VdFtNi0Gh/irn
+ lTbzi2UyOj7hY0zngADRRghjHYcPSHE7wF5oJ3y+4sJ65xbDRl6aOnUyYKIut3Yf9iWP
+ tuUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z7/sgPn1niIyplx/MCCBp/NxUC1m49ShQY4FddeicFg=;
- b=HyH+iWsYhP3arz9x8+VV5l8q/OaG26TIjhaSzmrxibflXWbxoZbRbUI+XyYrZNbn+g
- QaHvO5dnnMhKkBHYK7xs0Th5/5iOrP9LpEfN2e9GVI05W4jEQChaDaunNarQPcOwMDcf
- ljjsePwyCvjY3ppvwarrhSuFtBy0ngkYkr5EMSt1K/xi8WbI5ehfhqKcrNPqMMwB/+1f
- 3YLOUFJYvKFGT19huzjYbxaGC3n6tI2vNy/CViW0buz4ThJYT8AJXooMN+0YZ2we/t7O
- odXYjamSPBLBGU0mzdNQpXJvah8wPVUhXzunYxGSklISiTpoHuL6H6srMEkOHjmQ5uji
- lVPw==
-X-Gm-Message-State: AOAM530VxlPwQ2SOW7poa4HWP6uztlZr00cMuvHMW+z7ES1vKuV0XwRG
- Bp20aKs82DoP4GJI3wK/E6dn
-X-Google-Smtp-Source: ABdhPJxaWd2Kn5/peSswOCwRKMHxtXfg5xbq6uIlNzE6im+gipuz3QFRX9Bwo9Y9e12+QeRiGNwVIQ==
-X-Received: by 2002:a17:90b:1992:: with SMTP id
- mv18mr9044020pjb.137.1621245376019; 
- Mon, 17 May 2021 02:56:16 -0700 (PDT)
+ bh=WWAi/i4+n9XG5D57vjCca2tNocYxaQJOYj5KH2bJ384=;
+ b=TOFgJy6YN1UUxXE5a7JT+S2fSZ1JYQ87MsYnuj5vaY/Km5cT8B8E01HVdGtdUbrgtp
+ RGCPMtBbMNd+uqXKNYExn8mFODbC80qaL92rP6FhuWYQnn0ljYqroS5BSTz6AA2iZmDx
+ Mz8p0FhecyL9KdvaPg229EbVv9vJN0yKZYLXIgHk9ClIMJWlGFE/5im2wcKjJndOil6F
+ vymzbf6aafOClhGqDEAEkkImHkAsDzsfQ+V3HvJaDroFEdvDBIM3IBwNIwulAZXQdAr+
+ zaS5SF2NZu+QTu48kCtawd2foGUjAeDKAJqYBeMPteRqgq5bqFQBGgXxRqp+9TXktmcQ
+ 3zlQ==
+X-Gm-Message-State: AOAM531LE+UjE0BkP9Y7/GqnXkaDUjVUkUzgFAQA+P+rdhEzVjoVotlm
+ +tj3OzN8ltpX3CQ6qUSlUSbe
+X-Google-Smtp-Source: ABdhPJysOrc8SUm7dy3uINE+H+uKlr2ajo8HgNjhnimd4/k3NX9xtMHO7OR34WrKJCrjN10kcGUv+Q==
+X-Received: by 2002:a17:90a:4216:: with SMTP id
+ o22mr25979551pjg.3.1621245380091; 
+ Mon, 17 May 2021 02:56:20 -0700 (PDT)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id s184sm10234381pgc.29.2021.05.17.02.56.14
+ by smtp.gmail.com with ESMTPSA id i5sm9478706pfd.159.2021.05.17.02.56.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 02:56:15 -0700 (PDT)
+ Mon, 17 May 2021 02:56:19 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
@@ -78,10 +79,9 @@ To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  willy@infradead.org, viro@zeniv.linux.org.uk, axboe@kernel.dk,
  bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
  dan.carpenter@oracle.com, joro@8bytes.org
-Subject: [PATCH v7 05/12] virtio_scsi: Add validation for residual bytes from
- response
-Date: Mon, 17 May 2021 17:55:06 +0800
-Message-Id: <20210517095513.850-6-xieyongji@bytedance.com>
+Subject: [PATCH v7 06/12] vhost-iotlb: Add an opaque pointer for vhost IOTLB
+Date: Mon, 17 May 2021 17:55:07 +0800
+Message-Id: <20210517095513.850-7-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210517095513.850-1-xieyongji@bytedance.com>
 References: <20210517095513.850-1-xieyongji@bytedance.com>
@@ -107,27 +107,92 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This ensures that the residual bytes in response (might come
-from an untrusted device) will not exceed the data buffer length.
+Add an opaque pointer for vhost IOTLB. And introduce
+vhost_iotlb_add_range_ctx() to accept it.
 
+Suggested-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- drivers/scsi/virtio_scsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/vhost/iotlb.c       | 20 ++++++++++++++++----
+ include/linux/vhost_iotlb.h |  3 +++
+ 2 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-index efcaf0674c8d..ad7d8cecec32 100644
---- a/drivers/scsi/virtio_scsi.c
-+++ b/drivers/scsi/virtio_scsi.c
-@@ -97,7 +97,7 @@ static inline struct Scsi_Host *virtio_scsi_host(struct virtio_device *vdev)
- static void virtscsi_compute_resid(struct scsi_cmnd *sc, u32 resid)
- {
- 	if (resid)
--		scsi_set_resid(sc, resid);
-+		scsi_set_resid(sc, min(resid, scsi_bufflen(sc)));
- }
+diff --git a/drivers/vhost/iotlb.c b/drivers/vhost/iotlb.c
+index 0fd3f87e913c..5c99e1112cbb 100644
+--- a/drivers/vhost/iotlb.c
++++ b/drivers/vhost/iotlb.c
+@@ -36,19 +36,21 @@ void vhost_iotlb_map_free(struct vhost_iotlb *iotlb,
+ EXPORT_SYMBOL_GPL(vhost_iotlb_map_free);
  
- /*
+ /**
+- * vhost_iotlb_add_range - add a new range to vhost IOTLB
++ * vhost_iotlb_add_range_ctx - add a new range to vhost IOTLB
+  * @iotlb: the IOTLB
+  * @start: start of the IOVA range
+  * @last: last of IOVA range
+  * @addr: the address that is mapped to @start
+  * @perm: access permission of this range
++ * @opaque: the opaque pointer for the new mapping
+  *
+  * Returns an error last is smaller than start or memory allocation
+  * fails
+  */
+-int vhost_iotlb_add_range(struct vhost_iotlb *iotlb,
+-			  u64 start, u64 last,
+-			  u64 addr, unsigned int perm)
++int vhost_iotlb_add_range_ctx(struct vhost_iotlb *iotlb,
++			      u64 start, u64 last,
++			      u64 addr, unsigned int perm,
++			      void *opaque)
+ {
+ 	struct vhost_iotlb_map *map;
+ 
+@@ -71,6 +73,7 @@ int vhost_iotlb_add_range(struct vhost_iotlb *iotlb,
+ 	map->last = last;
+ 	map->addr = addr;
+ 	map->perm = perm;
++	map->opaque = opaque;
+ 
+ 	iotlb->nmaps++;
+ 	vhost_iotlb_itree_insert(map, &iotlb->root);
+@@ -80,6 +83,15 @@ int vhost_iotlb_add_range(struct vhost_iotlb *iotlb,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(vhost_iotlb_add_range_ctx);
++
++int vhost_iotlb_add_range(struct vhost_iotlb *iotlb,
++			  u64 start, u64 last,
++			  u64 addr, unsigned int perm)
++{
++	return vhost_iotlb_add_range_ctx(iotlb, start, last,
++					 addr, perm, NULL);
++}
+ EXPORT_SYMBOL_GPL(vhost_iotlb_add_range);
+ 
+ /**
+diff --git a/include/linux/vhost_iotlb.h b/include/linux/vhost_iotlb.h
+index 6b09b786a762..2d0e2f52f938 100644
+--- a/include/linux/vhost_iotlb.h
++++ b/include/linux/vhost_iotlb.h
+@@ -17,6 +17,7 @@ struct vhost_iotlb_map {
+ 	u32 perm;
+ 	u32 flags_padding;
+ 	u64 __subtree_last;
++	void *opaque;
+ };
+ 
+ #define VHOST_IOTLB_FLAG_RETIRE 0x1
+@@ -29,6 +30,8 @@ struct vhost_iotlb {
+ 	unsigned int flags;
+ };
+ 
++int vhost_iotlb_add_range_ctx(struct vhost_iotlb *iotlb, u64 start, u64 last,
++			      u64 addr, unsigned int perm, void *opaque);
+ int vhost_iotlb_add_range(struct vhost_iotlb *iotlb, u64 start, u64 last,
+ 			  u64 addr, unsigned int perm);
+ void vhost_iotlb_del_range(struct vhost_iotlb *iotlb, u64 start, u64 last);
 -- 
 2.11.0
 
