@@ -1,54 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE94382CDF
-	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 15:09:22 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1F8382D2B
+	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 15:17:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 98998403CF;
-	Mon, 17 May 2021 13:09:20 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9228C40379;
+	Mon, 17 May 2021 13:17:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cy6NsZtfrBM1; Mon, 17 May 2021 13:09:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 50428403E6;
-	Mon, 17 May 2021 13:09:16 +0000 (UTC)
+	with ESMTP id 8d1pfRH3cS32; Mon, 17 May 2021 13:17:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 988B3404C8;
+	Mon, 17 May 2021 13:17:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E9D9C001C;
-	Mon, 17 May 2021 13:09:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 77814C001C;
+	Mon, 17 May 2021 13:17:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 70668C0001
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:32:14 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 085ACC0001
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 13:17:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5C4F8404B8
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:32:14 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id DCBB840103
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 13:17:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xlpe3NfSOtTB for <iommu@lists.linux-foundation.org>;
- Mon, 17 May 2021 12:32:11 +0000 (UTC)
-X-Greylist: delayed 00:06:49 by SQLgrey-1.8.0
-Received: from manchmal.in-ulm.de (manchmal.in-ulm.de [217.10.9.201])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E3663404AD
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:32:10 +0000 (UTC)
-Date: Mon, 17 May 2021 14:25:16 +0200
-From: Christoph Biedl <linux-kernel.bfrz@manchmal.in-ulm.de>
-To: Jack Wang <jack.wang.usish@gmail.com>
-Subject: Re: 5.10.37 won't boot on my system, but 5.10.36 with same config does
-Message-ID: <1621254246@msgid.manchmal.in-ulm.de>
-References: <e0e9ecf4-cfd7-b31a-29b0-ead4a6c0ee40@charleswright.co>
- <1621180418@msgid.manchmal.in-ulm.de> <YKI/D64ODBUEHO9M@kroah.com>
- <1621251453@msgid.manchmal.in-ulm.de>
- <1621251685@msgid.manchmal.in-ulm.de>
- <CA+res+RHyF22T-sGwCG5zA6EBrk_gWbnZETX_iAgdRdWaPLbfw@mail.gmail.com>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id j2sG54jqbpJ5 for <iommu@lists.linux-foundation.org>;
+ Mon, 17 May 2021 13:17:19 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id F3DEF402F2
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 13:17:17 +0000 (UTC)
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FkKMY25FrzQnvD;
+ Mon, 17 May 2021 21:13:45 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 17 May 2021 21:17:13 +0800
+Received: from huawei.com (10.174.185.226) by dggpemm500009.china.huawei.com
+ (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 17 May
+ 2021 21:17:12 +0800
+From: Wang Xingang <wangxingang5@huawei.com>
+To: <will@kernel.org>, <joro@8bytes.org>, <robh+dt@kernel.org>,
+ <frowand.list@gmail.com>
+Subject: [PATCH v2] iommu/of: Fix pci_request_acs() before enumerating PCI
+ devices
+Date: Mon, 17 May 2021 13:17:05 +0000
+Message-ID: <1621257425-37856-1-git-send-email-wangxingang5@huawei.com>
+X-Mailer: git-send-email 2.6.4.windows.1
 MIME-Version: 1.0
-In-Reply-To: <CA+res+RHyF22T-sGwCG5zA6EBrk_gWbnZETX_iAgdRdWaPLbfw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Mon, 17 May 2021 13:09:15 +0000
-Cc: iommu@lists.linux-foundation.org, stable <stable@vger.kernel.org>
+X-Originating-IP: [10.174.185.226]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
+Cc: xieyingtai@huawei.com, devicetree@vger.kernel.org, wangxingang5@huawei.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, helgaas@kernel.org,
+ linux-pci@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -61,81 +74,82 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2892022558411008029=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+From: Xingang Wang <wangxingang5@huawei.com>
 
---===============2892022558411008029==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
-Content-Disposition: inline
+When booting with devicetree, the pci_request_acs() is called after the
+enumeration and initialization of PCI devices, thus the ACS is not
+enabled. This patch add check for IOMMU in of_core_init(), and call
+pci_request_acs() when iommu is detected, making sure that the ACS will
+be enabled.
 
+Fixes: 6bf6c24720d33 ("iommu/of: Request ACS from the PCI core when
+configuring IOMMU linkage")
+Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+---
+ drivers/iommu/of_iommu.c | 1 -
+ drivers/of/base.c        | 9 ++++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Change log:
+v1->v2:
+ - remove pci_request_acs() in of_iommu_configure
+ - check and call pci_request_acs() in of_core_init()
 
-Jack Wang wrote...
-
-> Christoph Biedl <linux-kernel.bfrz@manchmal.in-ulm.de> =E4=BA=8E2021=E5=
-=B9=B45=E6=9C=8817=E6=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=881:52=E5=86=
-=99=E9=81=93=EF=BC=9A
-> >
-> > Christoph Biedl wrote...
-> >
-> > > Thanks for taking care, unfortunately no improvement with 5.10.38-rc1=
- here.
-> >
-> > So in case this is related to the .config, I'm attaching it. Hardware i=
-s,
-> > as said before, an old Thinkpad x200, vendor BIOS and no particular mod=
-ifications.
-> > After disabling all vga/video/fbcon parameters I see the system suffers
-> > a kernel panic but unfortunately only the last 25 lines are visible.
-> > Possibly (typos are mine)
-> >
-> >     RIP: 0010:__domain_mapping+0xa7/0x3a0
-> >
-> > is a hint into the right direction?
-> This looks intel_iommu related, can you try boot with
-> "intel_iommu=3Doff" in kernel parameter?
-
-Gotcha. System boots up fine then.
-
-    Christoph
-
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEWXMI+726A12MfJXdxCxY61kUkv0FAmCiYKkACgkQxCxY61kU
-kv3OtA//ddEx7kYOaHzvJ9W3qeGm1BuDAC6kNguj/roud2NdKWERoVT++17Zbplq
-bWic8NQLO5aKdi3hUD6Jn1HJMSuRVf4icnpTPaIpZD3VzS9fAB17owi5UnDlHlRI
-P+Vg/bp+CtRMzPpSe4iK9Z/or9BPorej7FdFIMieRmfeqBG3+ZC0geaUfiKhF8Dr
-NJmGY+/kPAcJmfy2vfesQ53KL/C6nv9q43oK6pQx0wpieuRRdE2nP0Vu8XQVX73S
-op4KDeM43zpzXJnl5CmbGr3EwZARuALMEg0W8jLZDFnFn22ZAaYDS3JlBOLTNQeG
-pCUwuijWjgAwV34gKnA5EbMRdqomRMb1d2AAhIKBTPIwdLgygepJChl7m1Mgbru8
-eb9Cr0bxam7hVrQea+4GIRnRKynAAAj/GhwRyHqUDscY4xHDiLLlODpyrTlEIvp8
-D29QYGDA/onIiv+SKARgm7y7HbvGmgRywPwfxK1cRDVHJ+UCxQ11mA5xVwi9gZxJ
-FYAcQTj3LZZNIsw+fFDbDzB2VCLl8NwIMEvoMlE5looOL7QfL9A7nEzn+GfA+FDJ
-wafcXOyD+HVOLa3+O5LmZqoodUvn1FoMAYidhof57hqELjmmeWtRRzj7iHxtI5ox
-aCarbYOmuSqNfOv3YGPHtX5CA9EyCVFcCUnZUjRxuDZEmhQSGTw=
-=53rx
------END PGP SIGNATURE-----
-
---VbJkn9YxBvnuCH5J--
-
---===============2892022558411008029==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+index a9d2df001149..54a14da242cc 100644
+--- a/drivers/iommu/of_iommu.c
++++ b/drivers/iommu/of_iommu.c
+@@ -205,7 +205,6 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
+ 			.np = master_np,
+ 		};
+ 
+-		pci_request_acs();
+ 		err = pci_for_each_dma_alias(to_pci_dev(dev),
+ 					     of_pci_iommu_init, &info);
+ 	} else {
+diff --git a/drivers/of/base.c b/drivers/of/base.c
+index 48e941f99558..95cd8f0e5435 100644
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -24,6 +24,7 @@
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/of_graph.h>
++#include <linux/pci.h>
+ #include <linux/spinlock.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+@@ -166,7 +167,7 @@ void __of_phandle_cache_inv_entry(phandle handle)
+ void __init of_core_init(void)
+ {
+ 	struct device_node *np;
+-
++	bool of_iommu_detect = false;
+ 
+ 	/* Create the kset, and register existing nodes */
+ 	mutex_lock(&of_mutex);
+@@ -180,6 +181,12 @@ void __init of_core_init(void)
+ 		__of_attach_node_sysfs(np);
+ 		if (np->phandle && !phandle_cache[of_phandle_cache_hash(np->phandle)])
+ 			phandle_cache[of_phandle_cache_hash(np->phandle)] = np;
++
++		/* Detect IOMMU and make sure ACS will be enabled */
++		if (!of_iommu_detect && of_get_property(np, "iommu-map", NULL)) {
++			of_iommu_detect = true;
++			pci_request_acs();
++		}
+ 	}
+ 	mutex_unlock(&of_mutex);
+ 
+-- 
+2.19.1
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============2892022558411008029==--
