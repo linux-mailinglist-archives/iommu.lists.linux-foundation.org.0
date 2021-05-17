@@ -1,65 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB69D382C9B
-	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 14:53:33 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE94382CDF
+	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 15:09:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 76FEA83C88;
-	Mon, 17 May 2021 12:53:32 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 98998403CF;
+	Mon, 17 May 2021 13:09:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hmWxaMA4MznI; Mon, 17 May 2021 12:53:28 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Cy6NsZtfrBM1; Mon, 17 May 2021 13:09:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 852B183C82;
-	Mon, 17 May 2021 12:53:28 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 50428403E6;
+	Mon, 17 May 2021 13:09:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56353C001C;
-	Mon, 17 May 2021 12:53:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E9D9C001C;
+	Mon, 17 May 2021 13:09:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F16CAC0001
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:53:25 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 70668C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:32:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E010C83C4E
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:53:25 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5C4F8404B8
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:32:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 55XGlqDu_YKz for <iommu@lists.linux-foundation.org>;
- Mon, 17 May 2021 12:53:21 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0644583C61
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:53:20 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 771D72E7; Mon, 17 May 2021 14:53:18 +0200 (CEST)
-Date: Mon, 17 May 2021 14:53:16 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 3/6] vfio: remove the unused mdev iommu hook
-Message-ID: <YKJnPGonR+d8rbu/@8bytes.org>
-References: <20210510065405.2334771-4-hch@lst.de>
- <20210510155454.GA1096940@ziepe.ca>
- <MWHPR11MB1886E02BF7DE371E9665AA328C519@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210513120058.GG1096940@ziepe.ca>
- <MWHPR11MB1886B92507ED9015831A0CEA8C509@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210514121925.GI1096940@ziepe.ca>
- <MWHPR11MB18866205125E566FE05867A78C509@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210514133143.GK1096940@ziepe.ca> <YKJf7mphTHZoi7Qr@8bytes.org>
- <20210517123010.GO1096940@ziepe.ca>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Xlpe3NfSOtTB for <iommu@lists.linux-foundation.org>;
+ Mon, 17 May 2021 12:32:11 +0000 (UTC)
+X-Greylist: delayed 00:06:49 by SQLgrey-1.8.0
+Received: from manchmal.in-ulm.de (manchmal.in-ulm.de [217.10.9.201])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E3663404AD
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 12:32:10 +0000 (UTC)
+Date: Mon, 17 May 2021 14:25:16 +0200
+From: Christoph Biedl <linux-kernel.bfrz@manchmal.in-ulm.de>
+To: Jack Wang <jack.wang.usish@gmail.com>
+Subject: Re: 5.10.37 won't boot on my system, but 5.10.36 with same config does
+Message-ID: <1621254246@msgid.manchmal.in-ulm.de>
+References: <e0e9ecf4-cfd7-b31a-29b0-ead4a6c0ee40@charleswright.co>
+ <1621180418@msgid.manchmal.in-ulm.de> <YKI/D64ODBUEHO9M@kroah.com>
+ <1621251453@msgid.manchmal.in-ulm.de>
+ <1621251685@msgid.manchmal.in-ulm.de>
+ <CA+res+RHyF22T-sGwCG5zA6EBrk_gWbnZETX_iAgdRdWaPLbfw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210517123010.GO1096940@ziepe.ca>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Will Deacon <will@kernel.org>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <CA+res+RHyF22T-sGwCG5zA6EBrk_gWbnZETX_iAgdRdWaPLbfw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Mon, 17 May 2021 13:09:15 +0000
+Cc: iommu@lists.linux-foundation.org, stable <stable@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,65 +61,81 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2892022558411008029=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, May 17, 2021 at 09:30:10AM -0300, Jason Gunthorpe wrote:
-> On Mon, May 17, 2021 at 02:22:06PM +0200, Joerg Roedel wrote:
-> > Yes, I know, We have the AUX-domain specific functions now, but I
-> > suggested a while back to turn the mdev code into its own bus
-> > implementation and let the IOMMU driver deal with whether it has an mdev
-> > or a pdev. When that is done the aux-specific functions can go away.
-> 
-> Yuk, no.
-> 
-> PASID is not connected to the driver model. It is inherently wrong to
-> suggest this.
 
-There will be no drivers for that, but an mdev is a container for
-resources of a physical device which can be assigned to a virtual
-machine or a user-space process. In this way it fits very well into the
-existing abstractions.
-
-> PASID is a property of a PCI device and any PCI device driver should
-> be able to spawn PASIDs without silly restrictions.
-
-Some points here:
-
-	1) The concept of PASIDs is not limited to PCI devices.
-	
-	2) An mdev is not a restriction. It is an abstraction with which
-	   other parts of the kernel can work.
-
-> Fixing the IOMMU API is clearly needed here to get a clean PASID
-> implementation in the kernel.
-
-You still have to convince me that this is needed and a good idea. By
-now I am not even remotely convinced and putting words like 'fixing',
-'clearly' and 'silly' in a sentence is by far not enough for this to
-happen.
-
-> We aren't talking about mm_struct.
-
-Passing an mm_struct to a device is another use-case for PASIDs, you
-should keep that in mind. The mdev abstraction was made for a different
-use-case.
-
-To be clear, I agree that the aux-domain specifics should be removed
-from the IOMMU-API, but the mdev-abstraction itself still makes sense.
-
-> As above a domain isn't an IOASID, it only does a few things an IOASID
-> can do.
-
-For example?
+--===============2892022558411008029==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
+Content-Disposition: inline
 
 
-Regards,
+--VbJkn9YxBvnuCH5J
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	Joerg
+Jack Wang wrote...
+
+> Christoph Biedl <linux-kernel.bfrz@manchmal.in-ulm.de> =E4=BA=8E2021=E5=
+=B9=B45=E6=9C=8817=E6=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=881:52=E5=86=
+=99=E9=81=93=EF=BC=9A
+> >
+> > Christoph Biedl wrote...
+> >
+> > > Thanks for taking care, unfortunately no improvement with 5.10.38-rc1=
+ here.
+> >
+> > So in case this is related to the .config, I'm attaching it. Hardware i=
+s,
+> > as said before, an old Thinkpad x200, vendor BIOS and no particular mod=
+ifications.
+> > After disabling all vga/video/fbcon parameters I see the system suffers
+> > a kernel panic but unfortunately only the last 25 lines are visible.
+> > Possibly (typos are mine)
+> >
+> >     RIP: 0010:__domain_mapping+0xa7/0x3a0
+> >
+> > is a hint into the right direction?
+> This looks intel_iommu related, can you try boot with
+> "intel_iommu=3Doff" in kernel parameter?
+
+Gotcha. System boots up fine then.
+
+    Christoph
+
+--VbJkn9YxBvnuCH5J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEWXMI+726A12MfJXdxCxY61kUkv0FAmCiYKkACgkQxCxY61kU
+kv3OtA//ddEx7kYOaHzvJ9W3qeGm1BuDAC6kNguj/roud2NdKWERoVT++17Zbplq
+bWic8NQLO5aKdi3hUD6Jn1HJMSuRVf4icnpTPaIpZD3VzS9fAB17owi5UnDlHlRI
+P+Vg/bp+CtRMzPpSe4iK9Z/or9BPorej7FdFIMieRmfeqBG3+ZC0geaUfiKhF8Dr
+NJmGY+/kPAcJmfy2vfesQ53KL/C6nv9q43oK6pQx0wpieuRRdE2nP0Vu8XQVX73S
+op4KDeM43zpzXJnl5CmbGr3EwZARuALMEg0W8jLZDFnFn22ZAaYDS3JlBOLTNQeG
+pCUwuijWjgAwV34gKnA5EbMRdqomRMb1d2AAhIKBTPIwdLgygepJChl7m1Mgbru8
+eb9Cr0bxam7hVrQea+4GIRnRKynAAAj/GhwRyHqUDscY4xHDiLLlODpyrTlEIvp8
+D29QYGDA/onIiv+SKARgm7y7HbvGmgRywPwfxK1cRDVHJ+UCxQ11mA5xVwi9gZxJ
+FYAcQTj3LZZNIsw+fFDbDzB2VCLl8NwIMEvoMlE5looOL7QfL9A7nEzn+GfA+FDJ
+wafcXOyD+HVOLa3+O5LmZqoodUvn1FoMAYidhof57hqELjmmeWtRRzj7iHxtI5ox
+aCarbYOmuSqNfOv3YGPHtX5CA9EyCVFcCUnZUjRxuDZEmhQSGTw=
+=53rx
+-----END PGP SIGNATURE-----
+
+--VbJkn9YxBvnuCH5J--
+
+--===============2892022558411008029==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============2892022558411008029==--
