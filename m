@@ -2,73 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06BB38293C
-	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D63338293F
+	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 41853607F9;
-	Mon, 17 May 2021 10:02:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 532AC60732;
+	Mon, 17 May 2021 10:02:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6aSKSQiqpsvu; Mon, 17 May 2021 10:01:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2002C608B8;
+	with ESMTP id MglfFwc74jKQ; Mon, 17 May 2021 10:02:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6FB27608C1;
 	Mon, 17 May 2021 10:01:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 92A50C0027;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD008C000D;
 	Mon, 17 May 2021 10:01:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76C2FC000E
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:01 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A20FC0001
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 53B6560732
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:01 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 066D560732
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hNkb8orwq9kO for <iommu@lists.linux-foundation.org>;
- Mon, 17 May 2021 09:56:00 +0000 (UTC)
+ with ESMTP id OfuK48mQawtZ for <iommu@lists.linux-foundation.org>;
+ Mon, 17 May 2021 09:56:04 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by smtp3.osuosl.org (Postfix) with ESMTPS id CDE3C60680
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:00 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id t4so2838333plc.6
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:00 -0700 (PDT)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 7DEB460680
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:04 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id k15so4265911pgb.10
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ygd6Y3pMMIE3RUljThmAuE4r52Kqy5h8O2JQV7ru1VE=;
- b=CfGZ0PIMRYu4HZPQTqyHPr1YCzbRVLXIMfeN4edm7scYV+U9MYChU0jqbjBaSYww8W
- x34cC9/BMlqozDzEDG8ux9bhvujMR9dQUSals7Y5Q6Z1Ic9ux5H7kh6skw81G6vCSEuj
- qvAj7zfktNXLCd1rUIgxI87C26tOnzC7+pVGuD1g/0Lv5qn8oiSuf1+7+eWR6D+6V+Us
- mf1DA4vTKCekvwxQldEXP7DGoACUCXG3tr2GgElhChFw367kHCgwfpQSfxiMYchniS3x
- 3QikwhZOKWcBciqgNHjjH9ktT79H4PFjZ9sUPr0lm6w4kGIx2J2u98pIhDIqi7lIhPpV
- gsYg==
+ bh=b2jCEx8mi3vXgkJ9kkatzIPCmNDeaAe/ogyF3BNTwbw=;
+ b=BIAa64R4y9k3Eg3WHj2S666iigdAlamttMFasFKl0/os5LVtgYGUotdFoSEHugW/Eu
+ bPRzaxAW284e8L8yo2K3DDL0/T8tA/l8wgLVMmAmo6+IhFLW/GYToPaLLl355N+97G5L
+ XexcA5aHvM9w2PGt9fWa2k/dVGxtVldmNsYPnqawOun42Yk2znLlV60hSNjDq7IYxrSR
+ /MfnGeT4tFvQVkSyH11nQ65tEhzqJ/jZPaGxLuLbESIf2R6H7QaYs485JdPrsXqE7dOf
+ I4DwWEpiBqfQ6lw4Z+Sbeqdk137WXiyVzbQGXwJPtZ+TTYkfwjFV4U35eCpK8JW0Dmto
+ ErvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ygd6Y3pMMIE3RUljThmAuE4r52Kqy5h8O2JQV7ru1VE=;
- b=TIyJYBOsTU0j61XGnnY0zrcT831HINFI8yiCp9FkRFyIFpaRgDLrwX7jvRs1RjPve+
- 1j2fi5cvi8XRY9zjehuJPYDeVsMPcJfs3+ZEdEBq43rcV9D1QXvXfGsaIwq4HgENNwWs
- 2GPL6C6x0UkTHYwNrKugHVrSZHsq6JG3UXUDzjKZh4JAGZ/YT8EVd4YXiGgIwGkHjsXY
- MFPW86kxSzGZnmZOl40HdBZcm339c2WlikNY6TWZhSH0nzL91Maz7L6ziNaaa3M9swud
- OhzTYbTbD8k5b5SdRTGW4m1RA7ZY2I53mLX0qbmhSujkkKgZ2+tVgSD1iKPZT/WnMV1G
- CFuw==
-X-Gm-Message-State: AOAM533nlv9mgfvBj28mZwa/pieb6wrvOm1mTFPk7sx5uLSpjO7W6EEg
- u+hy5nVsgSRN6LcYR+LlCp6D
-X-Google-Smtp-Source: ABdhPJxcu8VbEVbQ6UidxIbU5FzeWTHg5acjJx2pdfr2qW4l4EQrVjPUuXEDDezt/Znh1VwtXb7+/w==
-X-Received: by 2002:a17:90a:6c23:: with SMTP id
- x32mr30960965pjj.228.1621245360342; 
- Mon, 17 May 2021 02:56:00 -0700 (PDT)
+ bh=b2jCEx8mi3vXgkJ9kkatzIPCmNDeaAe/ogyF3BNTwbw=;
+ b=hz1kBaXlJExB95r4zdFUxMnPkxyxGqnyVAarJKd/LnYFxDRwjc6cWWpTpkRrZ53pPe
+ SH/rwbmCQgVDZoKhJMTEHRmirjQKb7tfg1+Zmhm8k4La/lDqjE857XXIY5udWT0siCE9
+ BnXqCUdszfMa/anLfVyluzxaxiIYL8CVq4TyjI6/nGTijpHFWmW/vXR03MoEQusSSdOr
+ faF4ciWTR6Tjni5EN59n7Oo1JWmrQ1lbV/lmyBkSt4Bjcb54f3XKX7VuR+yWOZ2TRml9
+ hn17YxiEYo/JgtjZgyHmhe4XqxupljKMuhGzOHzChgIie6xz76/8ahyn5bVNzp0jGg0S
+ LvwA==
+X-Gm-Message-State: AOAM53301MpYfGcssoADdYth6GbDk/Q3IrA+qXIg5/1/5/7jkcqPfwmo
+ 51txVhZHz/EHW4INrKUWwN2V
+X-Google-Smtp-Source: ABdhPJxMHtpizSq6PPRichE5BBR0ifuwPYTxOEXD/Wu/CUyxhwu/aKM7AbIbvC3ahRVJo9npK3SCVw==
+X-Received: by 2002:a63:d45:: with SMTP id 5mr1321436pgn.72.1621245363924;
+ Mon, 17 May 2021 02:56:03 -0700 (PDT)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id q24sm10233373pjp.6.2021.05.17.02.55.59
+ by smtp.gmail.com with ESMTPSA id gz18sm8486949pjb.19.2021.05.17.02.56.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 02:56:00 -0700 (PDT)
+ Mon, 17 May 2021 02:56:03 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
@@ -76,9 +75,9 @@ To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  willy@infradead.org, viro@zeniv.linux.org.uk, axboe@kernel.dk,
  bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
  dan.carpenter@oracle.com, joro@8bytes.org
-Subject: [PATCH v7 01/12] iova: Export alloc_iova_fast()
-Date: Mon, 17 May 2021 17:55:02 +0800
-Message-Id: <20210517095513.850-2-xieyongji@bytedance.com>
+Subject: [PATCH v7 02/12] file: Export receive_fd() to modules
+Date: Mon, 17 May 2021 17:55:03 +0800
+Message-Id: <20210517095513.850-3-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210517095513.850-1-xieyongji@bytedance.com>
 References: <20210517095513.850-1-xieyongji@bytedance.com>
@@ -104,26 +103,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Export alloc_iova_fast() so that some modules can use it
-to improve iova allocation efficiency.
+Export receive_fd() so that some modules can use
+it to pass file descriptor between processes without
+missing any security stuffs.
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- drivers/iommu/iova.c | 1 +
- 1 file changed, 1 insertion(+)
+ fs/file.c            | 6 ++++++
+ include/linux/file.h | 7 +++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index e6e2fa85271c..317eef64ffef 100644
---- a/drivers/iommu/iova.c
-+++ b/drivers/iommu/iova.c
-@@ -450,6 +450,7 @@ alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
- 
- 	return new_iova->pfn_lo;
+diff --git a/fs/file.c b/fs/file.c
+index f633348029a5..ef4da2eaf25b 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -1135,6 +1135,12 @@ int __receive_fd(int fd, struct file *file, int __user *ufd, unsigned int o_flag
+ 	return new_fd;
  }
-+EXPORT_SYMBOL_GPL(alloc_iova_fast);
  
- /**
-  * free_iova_fast - free iova pfn range into rcache
++int receive_fd(struct file *file, unsigned int o_flags)
++{
++	return __receive_fd(-1, file, NULL, o_flags);
++}
++EXPORT_SYMBOL_GPL(receive_fd);
++
+ static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
+ {
+ 	int err = -EBADF;
+diff --git a/include/linux/file.h b/include/linux/file.h
+index 225982792fa2..4667f9567d3e 100644
+--- a/include/linux/file.h
++++ b/include/linux/file.h
+@@ -94,6 +94,9 @@ extern void fd_install(unsigned int fd, struct file *file);
+ 
+ extern int __receive_fd(int fd, struct file *file, int __user *ufd,
+ 			unsigned int o_flags);
++
++extern int receive_fd(struct file *file, unsigned int o_flags);
++
+ static inline int receive_fd_user(struct file *file, int __user *ufd,
+ 				  unsigned int o_flags)
+ {
+@@ -101,10 +104,6 @@ static inline int receive_fd_user(struct file *file, int __user *ufd,
+ 		return -EFAULT;
+ 	return __receive_fd(-1, file, ufd, o_flags);
+ }
+-static inline int receive_fd(struct file *file, unsigned int o_flags)
+-{
+-	return __receive_fd(-1, file, NULL, o_flags);
+-}
+ static inline int receive_fd_replace(int fd, struct file *file, unsigned int o_flags)
+ {
+ 	return __receive_fd(fd, file, NULL, o_flags);
 -- 
 2.11.0
 
