@@ -1,73 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D63338293F
-	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:06 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078FF38293D
+	for <lists.iommu@lfdr.de>; Mon, 17 May 2021 12:02:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 532AC60732;
-	Mon, 17 May 2021 10:02:04 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A160F4043D;
+	Mon, 17 May 2021 10:02:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MglfFwc74jKQ; Mon, 17 May 2021 10:02:00 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jvTGT7hPon5M; Mon, 17 May 2021 10:01:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6FB27608C1;
+	by smtp2.osuosl.org (Postfix) with ESMTP id BFB0840396;
 	Mon, 17 May 2021 10:01:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD008C000D;
-	Mon, 17 May 2021 10:01:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 34D31C002B;
+	Mon, 17 May 2021 10:01:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1A20FC0001
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:05 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 76E23C0001
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 066D560732
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:05 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 58BCE83BDE
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OfuK48mQawtZ for <iommu@lists.linux-foundation.org>;
- Mon, 17 May 2021 09:56:04 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pHTcIacIr5XP for <iommu@lists.linux-foundation.org>;
+ Mon, 17 May 2021 09:56:08 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7DEB460680
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:04 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id k15so4265911pgb.10
- for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:04 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id D76BF83A96
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 09:56:08 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id m190so4295791pga.2
+ for <iommu@lists.linux-foundation.org>; Mon, 17 May 2021 02:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b2jCEx8mi3vXgkJ9kkatzIPCmNDeaAe/ogyF3BNTwbw=;
- b=BIAa64R4y9k3Eg3WHj2S666iigdAlamttMFasFKl0/os5LVtgYGUotdFoSEHugW/Eu
- bPRzaxAW284e8L8yo2K3DDL0/T8tA/l8wgLVMmAmo6+IhFLW/GYToPaLLl355N+97G5L
- XexcA5aHvM9w2PGt9fWa2k/dVGxtVldmNsYPnqawOun42Yk2znLlV60hSNjDq7IYxrSR
- /MfnGeT4tFvQVkSyH11nQ65tEhzqJ/jZPaGxLuLbESIf2R6H7QaYs485JdPrsXqE7dOf
- I4DwWEpiBqfQ6lw4Z+Sbeqdk137WXiyVzbQGXwJPtZ+TTYkfwjFV4U35eCpK8JW0Dmto
- ErvQ==
+ bh=b7apvPbQfTG1FYg2uNsocmvMG/QdC7c4RuzNmrGKxtc=;
+ b=lXRHbHSIsb1KADw2tX2zKstf7SBlVEY4DtJnDMFT3EHKIWMje067JnmjgrkNReUxPn
+ I0z2aIAyJGaL9m4k2OpOD29iaKpNcW4xfR7d14dIuNrPK0hQOvA8kl9rxSPc6f69Mm6p
+ R0F2LeWEZA0PPqOKTYoBW3+9nQSkYxFKNz5WUEn2djE6598CZ00wKdFzTggwdy8opqtd
+ +LicmUYFz5R2JqJ3r3lQ/vDv0gKToNlIKrKEdVnqYs5TGR2EJsU3XPEKupH3aVQAL9FE
+ 3exCZ90aL2Cb7tTVwr9v8iYtnhbog2Qo9fEaKaJOYYh61niFj77C/LAndUBtJYYe86bM
+ nS5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b2jCEx8mi3vXgkJ9kkatzIPCmNDeaAe/ogyF3BNTwbw=;
- b=hz1kBaXlJExB95r4zdFUxMnPkxyxGqnyVAarJKd/LnYFxDRwjc6cWWpTpkRrZ53pPe
- SH/rwbmCQgVDZoKhJMTEHRmirjQKb7tfg1+Zmhm8k4La/lDqjE857XXIY5udWT0siCE9
- BnXqCUdszfMa/anLfVyluzxaxiIYL8CVq4TyjI6/nGTijpHFWmW/vXR03MoEQusSSdOr
- faF4ciWTR6Tjni5EN59n7Oo1JWmrQ1lbV/lmyBkSt4Bjcb54f3XKX7VuR+yWOZ2TRml9
- hn17YxiEYo/JgtjZgyHmhe4XqxupljKMuhGzOHzChgIie6xz76/8ahyn5bVNzp0jGg0S
- LvwA==
-X-Gm-Message-State: AOAM53301MpYfGcssoADdYth6GbDk/Q3IrA+qXIg5/1/5/7jkcqPfwmo
- 51txVhZHz/EHW4INrKUWwN2V
-X-Google-Smtp-Source: ABdhPJxMHtpizSq6PPRichE5BBR0ifuwPYTxOEXD/Wu/CUyxhwu/aKM7AbIbvC3ahRVJo9npK3SCVw==
-X-Received: by 2002:a63:d45:: with SMTP id 5mr1321436pgn.72.1621245363924;
- Mon, 17 May 2021 02:56:03 -0700 (PDT)
+ bh=b7apvPbQfTG1FYg2uNsocmvMG/QdC7c4RuzNmrGKxtc=;
+ b=Gcaj611FdduiY+dL4VGS71qXX8G9wJBy9Fine2/eye1loAUadQJ+8g+L2HlScQ6zAO
+ NJ3+UJNZaeOGtobib3AZWliyrT6SFDrDe7CBFsgtuqoFVN6CM0rtCmsB0N+9acrJFvTu
+ NcIWsMV1v8967pRdID7uCpFBUiuCpKyzPxsH5koqFeKSjSOYKpiHbQSrF6eexM5BpENm
+ U2ynoWQsrajP2wHNZwXk+gv148MOkZHYV/bYF9fsh+NOniSJxiqocZ7q7Wdu/XXLH7lb
+ tOViyyiuNvcg+T4MkabU69Fzk7+O8BNGQpK4VyrLE6mELaeugBLaeuCSgt7WdnG+ctjR
+ k5TA==
+X-Gm-Message-State: AOAM533lC7y9qsZeEp2y/B0V5TOTHSIJmtvVkmnsPmGKy/1TAVTDVB25
+ fYE0OdVh2BwUVqsKf+SSWYmj
+X-Google-Smtp-Source: ABdhPJwO1N2BTDcGIAdEBE1GwKwtKYl5hxzWv7M8ro+LthKkIXN/GYpMnfpVi6rAWoY6mIGZm1TWzA==
+X-Received: by 2002:a63:741e:: with SMTP id p30mr61016414pgc.68.1621245368362; 
+ Mon, 17 May 2021 02:56:08 -0700 (PDT)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id gz18sm8486949pjb.19.2021.05.17.02.56.02
+ by smtp.gmail.com with ESMTPSA id 24sm10063099pgz.77.2021.05.17.02.56.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 02:56:03 -0700 (PDT)
+ Mon, 17 May 2021 02:56:07 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
@@ -75,9 +77,10 @@ To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  willy@infradead.org, viro@zeniv.linux.org.uk, axboe@kernel.dk,
  bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
  dan.carpenter@oracle.com, joro@8bytes.org
-Subject: [PATCH v7 02/12] file: Export receive_fd() to modules
-Date: Mon, 17 May 2021 17:55:03 +0800
-Message-Id: <20210517095513.850-3-xieyongji@bytedance.com>
+Subject: [PATCH v7 03/12] eventfd: Increase the recursion depth of
+ eventfd_signal()
+Date: Mon, 17 May 2021 17:55:04 +0800
+Message-Id: <20210517095513.850-4-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210517095513.850-1-xieyongji@bytedance.com>
 References: <20210517095513.850-1-xieyongji@bytedance.com>
@@ -103,58 +106,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Export receive_fd() so that some modules can use
-it to pass file descriptor between processes without
-missing any security stuffs.
+Increase the recursion depth of eventfd_signal() to 1. This
+is the maximum recursion depth we have found so far, which
+can be triggered with the following call chain:
+
+    kvm_io_bus_write                        [kvm]
+      --> ioeventfd_write                   [kvm]
+        --> eventfd_signal                  [eventfd]
+          --> vhost_poll_wakeup             [vhost]
+            --> vduse_vdpa_kick_vq          [vduse]
+              --> eventfd_signal            [eventfd]
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- fs/file.c            | 6 ++++++
- include/linux/file.h | 7 +++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ fs/eventfd.c            | 2 +-
+ include/linux/eventfd.h | 5 ++++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/fs/file.c b/fs/file.c
-index f633348029a5..ef4da2eaf25b 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -1135,6 +1135,12 @@ int __receive_fd(int fd, struct file *file, int __user *ufd, unsigned int o_flag
- 	return new_fd;
+diff --git a/fs/eventfd.c b/fs/eventfd.c
+index e265b6dd4f34..cc7cd1dbedd3 100644
+--- a/fs/eventfd.c
++++ b/fs/eventfd.c
+@@ -71,7 +71,7 @@ __u64 eventfd_signal(struct eventfd_ctx *ctx, __u64 n)
+ 	 * it returns true, the eventfd_signal() call should be deferred to a
+ 	 * safe context.
+ 	 */
+-	if (WARN_ON_ONCE(this_cpu_read(eventfd_wake_count)))
++	if (WARN_ON_ONCE(this_cpu_read(eventfd_wake_count) > EFD_WAKE_DEPTH))
+ 		return 0;
+ 
+ 	spin_lock_irqsave(&ctx->wqh.lock, flags);
+diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
+index fa0a524baed0..886d99cd38ef 100644
+--- a/include/linux/eventfd.h
++++ b/include/linux/eventfd.h
+@@ -29,6 +29,9 @@
+ #define EFD_SHARED_FCNTL_FLAGS (O_CLOEXEC | O_NONBLOCK)
+ #define EFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS | EFD_SEMAPHORE)
+ 
++/* Maximum recursion depth */
++#define EFD_WAKE_DEPTH 1
++
+ struct eventfd_ctx;
+ struct file;
+ 
+@@ -47,7 +50,7 @@ DECLARE_PER_CPU(int, eventfd_wake_count);
+ 
+ static inline bool eventfd_signal_count(void)
+ {
+-	return this_cpu_read(eventfd_wake_count);
++	return this_cpu_read(eventfd_wake_count) > EFD_WAKE_DEPTH;
  }
  
-+int receive_fd(struct file *file, unsigned int o_flags)
-+{
-+	return __receive_fd(-1, file, NULL, o_flags);
-+}
-+EXPORT_SYMBOL_GPL(receive_fd);
-+
- static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
- {
- 	int err = -EBADF;
-diff --git a/include/linux/file.h b/include/linux/file.h
-index 225982792fa2..4667f9567d3e 100644
---- a/include/linux/file.h
-+++ b/include/linux/file.h
-@@ -94,6 +94,9 @@ extern void fd_install(unsigned int fd, struct file *file);
- 
- extern int __receive_fd(int fd, struct file *file, int __user *ufd,
- 			unsigned int o_flags);
-+
-+extern int receive_fd(struct file *file, unsigned int o_flags);
-+
- static inline int receive_fd_user(struct file *file, int __user *ufd,
- 				  unsigned int o_flags)
- {
-@@ -101,10 +104,6 @@ static inline int receive_fd_user(struct file *file, int __user *ufd,
- 		return -EFAULT;
- 	return __receive_fd(-1, file, ufd, o_flags);
- }
--static inline int receive_fd(struct file *file, unsigned int o_flags)
--{
--	return __receive_fd(-1, file, NULL, o_flags);
--}
- static inline int receive_fd_replace(int fd, struct file *file, unsigned int o_flags)
- {
- 	return __receive_fd(fd, file, NULL, o_flags);
+ #else /* CONFIG_EVENTFD */
 -- 
 2.11.0
 
