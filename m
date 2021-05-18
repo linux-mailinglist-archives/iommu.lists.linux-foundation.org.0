@@ -1,83 +1,91 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A8E388022
-	for <lists.iommu@lfdr.de>; Tue, 18 May 2021 20:59:16 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055C0388207
+	for <lists.iommu@lfdr.de>; Tue, 18 May 2021 23:19:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E9D0740E63;
-	Tue, 18 May 2021 18:59:13 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9E30E403C3;
+	Tue, 18 May 2021 21:19:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id r263kbXfsV4d; Tue, 18 May 2021 18:59:13 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 10w4gGAom_zE; Tue, 18 May 2021 21:19:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9A4FF40378;
-	Tue, 18 May 2021 18:59:12 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 900BE400F0;
+	Tue, 18 May 2021 21:19:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60019C001C;
-	Tue, 18 May 2021 18:59:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E6CCC0022;
+	Tue, 18 May 2021 21:19:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 22C86C0001
- for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 18:59:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE274C0001
+ for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 21:19:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4BD8440534
- for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 18:59:09 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id B1927403A3
+ for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 21:19:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KWtTr1z00CZn for <iommu@lists.linux-foundation.org>;
- Tue, 18 May 2021 18:59:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 4C3BF4053E
- for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 18:59:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621364344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EmvqAF/tGZxnpJT45xMDZ2Iz1NsXhbJqP8uJhgy88+E=;
- b=IVG3mqEwATXwFVa7K29SahRkm7rsTxsnHLVqMXuLWcgyxJPyB+56m2G4lUs6/LOxpnMkeb
- g7bDOymbrltkHCScmIfEl5xff3ESh9uRSiAKpf6ayrHoqawhkePeIOLo4Ut+H3HClmJM6y
- huScEERJ/0jQ6zZ6gegovaOfE1SAXBg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-msU198vYOKCHIds7qVJYZw-1; Tue, 18 May 2021 14:58:59 -0400
-X-MC-Unique: msU198vYOKCHIds7qVJYZw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED0AF80006E;
- Tue, 18 May 2021 18:58:56 +0000 (UTC)
-Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E08931037E88;
- Tue, 18 May 2021 18:58:55 +0000 (UTC)
-Date: Tue, 18 May 2021 12:58:43 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Shenming Lu <lushenming@huawei.com>
-Subject: Re: [RFC PATCH v3 1/8] iommu: Evolve the device fault reporting
- framework
-Message-ID: <20210518125843.68552b67.alex.williamson@redhat.com>
-In-Reply-To: <20210409034420.1799-2-lushenming@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
- <20210409034420.1799-2-lushenming@huawei.com>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linaro.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id g0I1nRoGvImZ for <iommu@lists.linux-foundation.org>;
+ Tue, 18 May 2021 21:19:27 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 842F440343
+ for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 21:19:27 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id c17so8380696pfn.6
+ for <iommu@lists.linux-foundation.org>; Tue, 18 May 2021 14:19:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x0WkbtRSug5KygkEOcSY00slsWucZ8pGUhHWfcZvJLw=;
+ b=XoJTI+h6COw5nb4jNXCTBjTFUxOWTdZPBsDhW1Vf5td+5titolSU5hwv0P5QyvJ36G
+ +86v7ei0+4gD2Gm6e36pye7sr3DWPDnoF+3e57cxlVxRb/ij4tTdNGoGQcoHR0VmQmFB
+ tTRcMD7Qxn4jPS6/sUFRfoDJc2iYEUEGZboioaT5lVKyiMrACIGwlYDlCzlynSbEEvMc
+ bGKqmeGo/ICR02ASBae5INu4+FrYCZ4tw1xSz2W8DZtry+lL/4gCZBAqb8CAaRD+feb7
+ /asuJN5NVOjHTir3u8XDI0jW0ewNgV8zxqTKWm+RCha+SxkufsoiuCeD9LIfeLnDMaEE
+ YjQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x0WkbtRSug5KygkEOcSY00slsWucZ8pGUhHWfcZvJLw=;
+ b=MNZ8zf4/vfGAO2oiGg0G7M3B8tU8himsxDI1toagiAjFzIuXlBMQ+KdcomiRVq3RE4
+ SeCvd08fZqyDuPUae0JgKCdWwkNU5qrC39adyiMvp1wFnSMCIfMFTBihyOUCxoJRBPIG
+ iX8XUKCu2jRwWggVOV91oF7PwaFlTN5tb3Lhcsfb8RD7Pfx7/nwRnvIHzh6kHlZNGZHc
+ AQoobt51YTen7x9pgSMGajTIBD3ZpFymRk0nEJPG/2q1p+OjwnU1vzInf95ORaKrNt+C
+ //7m3A0JnZWsPw08OtRIb1y3kuU1SpCyv0O1qF8j7k/ihOw3QHhFnV/2pfJD+QUYWbER
+ zcsA==
+X-Gm-Message-State: AOAM531QeXzvWdsn5L8o1YAwEbbbVyM4XeUw55SkPxTCpm6GyZnvZfiR
+ kI5xKn9ZCiHrOZ9CN/1TsMCqzQ==
+X-Google-Smtp-Source: ABdhPJxHzgg/sDP+AXuLGVUb+sszrOlNtS/1ESyTlJlqL+kEGm+M9oruAN8GSnqVJZjl79LXwnDIqg==
+X-Received: by 2002:a63:f40e:: with SMTP id g14mr7070371pgi.402.1621372766908; 
+ Tue, 18 May 2021 14:19:26 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+ by smtp.gmail.com with ESMTPSA id
+ g89sm2587199pjg.30.2021.05.18.14.19.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 May 2021 14:19:26 -0700 (PDT)
+From: John Stultz <john.stultz@linaro.org>
+To: lkml <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] irqchip/qcom-pdc: Switch to IRQCHIP_PLATFORM_DRIVER and
+ allow as a module
+Date: Tue, 18 May 2021 21:19:21 +0000
+Message-Id: <20210518211922.3474368-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
- Will Deacon <will@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
- iommu@lists.linux-foundation.org, linux-api@vger.kernel.org,
- wanghaibin.wang@huawei.com, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Maulik Shah <mkshah@codeaurora.org>, Jason Cooper <jason@lakedaemon.net>,
+ Saravana Kannan <saravanak@google.com>, Marc Zyngier <maz@kernel.org>,
+ Lina Iyer <ilina@codeaurora.org>, linux-gpio@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
+ John Stultz <john.stultz@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Todd Kjos <tkjos@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,38 +103,81 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 9 Apr 2021 11:44:13 +0800
-Shenming Lu <lushenming@huawei.com> wrote:
+From: Saravana Kannan <saravanak@google.com>
 
-> This patch follows the discussion here:
-> 
-> https://lore.kernel.org/linux-acpi/YAaxjmJW+ZMvrhac@myrica/
-> 
-> Besides SVA/vSVA, such as VFIO may also enable (2nd level) IOPF to remove
-> pinning restriction. In order to better support more scenarios of using
-> device faults, we extend iommu_register_fault_handler() with flags and
-> introduce FAULT_REPORT_ to describe the device fault reporting capability
-> under a specific configuration.
-> 
-> Note that we don't further distinguish recoverable and unrecoverable faults
-> by flags in the fault reporting cap, having PAGE_FAULT_REPORT_ +
-> UNRECOV_FAULT_REPORT_ seems not a clean way.
-> 
-> In addition, still take VFIO as an example, in nested mode, the 1st level
-> and 2nd level fault reporting may be configured separately and currently
-> each device can only register one iommu dev fault handler, so we add a
-> handler update interface for this.
+This patch revives changes from Saravana Kannan to switch the
+qcom-pdc driver to use IRQCHIP_PLATFORM_DRIVER helper macros,
+and allows qcom-pdc driver to be loaded as a permanent module.
 
+Earlier attempts at this ran into trouble with loading
+dependencies, but with Saravana's fw_devlink=on set by default
+now we should avoid those.
 
-IIUC, you're introducing flags for the fault handler callout, which
-essentially allows the IOMMU layer to filter which types of faults the
-handler can receive.  You then need an update function to modify those
-flags.  Why can't the handler itself perform this filtering?  For
-instance in your vfio example, the handler registered by the type1
-backend could itself return fault until the fault transfer path to the
-device driver is established.  Thanks,
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jason Cooper <jason@lakedaemon.net>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Maulik Shah <mkshah@codeaurora.org>
+Cc: Lina Iyer <ilina@codeaurora.org>
+Cc: Saravana Kannan <saravanak@google.com>
+Cc: Todd Kjos <tkjos@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: iommu@lists.linux-foundation.org
+Cc: linux-gpio@vger.kernel.org
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+[jstultz: Folded in with my changes to allow the driver to be
+ loadable as a permenent module]
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/irqchip/Kconfig    | 2 +-
+ drivers/irqchip/qcom-pdc.c | 8 +++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-Alex
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index b90e825df7e14..d4a0b4964ccc5 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -415,7 +415,7 @@ config GOLDFISH_PIC
+          for Goldfish based virtual platforms.
+ 
+ config QCOM_PDC
+-	bool "QCOM PDC"
++	tristate "QCOM PDC"
+ 	depends on ARCH_QCOM
+ 	select IRQ_DOMAIN_HIERARCHY
+ 	help
+diff --git a/drivers/irqchip/qcom-pdc.c b/drivers/irqchip/qcom-pdc.c
+index 5dc63c20b67ea..32d59202d408d 100644
+--- a/drivers/irqchip/qcom-pdc.c
++++ b/drivers/irqchip/qcom-pdc.c
+@@ -11,9 +11,11 @@
+ #include <linux/irqdomain.h>
+ #include <linux/io.h>
+ #include <linux/kernel.h>
++#include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_irq.h>
+ #include <linux/soc/qcom/irq.h>
+ #include <linux/spinlock.h>
+ #include <linux/slab.h>
+@@ -459,4 +461,8 @@ static int qcom_pdc_init(struct device_node *node, struct device_node *parent)
+ 	return ret;
+ }
+ 
+-IRQCHIP_DECLARE(qcom_pdc, "qcom,pdc", qcom_pdc_init);
++IRQCHIP_PLATFORM_DRIVER_BEGIN(qcom_pdc)
++IRQCHIP_MATCH("qcom,pdc", qcom_pdc_init)
++IRQCHIP_PLATFORM_DRIVER_END(qcom_pdc)
++MODULE_DESCRIPTION("Qualcomm Technologies, Inc. Power Domain Controller");
++MODULE_LICENSE("GPL v2");
+-- 
+2.25.1
 
 _______________________________________________
 iommu mailing list
