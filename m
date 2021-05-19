@@ -1,76 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6249389675
-	for <lists.iommu@lfdr.de>; Wed, 19 May 2021 21:19:52 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F4F38967B
+	for <lists.iommu@lfdr.de>; Wed, 19 May 2021 21:20:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 697D540459;
-	Wed, 19 May 2021 19:19:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B5E0A40459;
+	Wed, 19 May 2021 19:20:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ll_qTnvDAgp4; Wed, 19 May 2021 19:19:50 +0000 (UTC)
+	with ESMTP id MhhMHTYcj79B; Wed, 19 May 2021 19:20:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9452C4015D;
-	Wed, 19 May 2021 19:19:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D30464015D;
+	Wed, 19 May 2021 19:20:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 711B0C0024;
-	Wed, 19 May 2021 19:19:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AD65FC0024;
+	Wed, 19 May 2021 19:20:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F571C0001
- for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 19:19:49 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D4485C0001
+ for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 19:20:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id F395A60754
- for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 19:19:48 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id CFFB44015D
+ for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 19:20:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6akX8pEAGbMs for <iommu@lists.linux-foundation.org>;
- Wed, 19 May 2021 19:19:48 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gz2VNdzClDpY for <iommu@lists.linux-foundation.org>;
+ Wed, 19 May 2021 19:20:07 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 64BF5606D4
- for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 19:19:48 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id q2so10567211pfh.13
- for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 12:19:48 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A197C4013C
+ for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 19:20:07 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id c17so10595350pfn.6
+ for <iommu@lists.linux-foundation.org>; Wed, 19 May 2021 12:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ghVDOoMvorTJdaMzHQG/RIv5BmHhyL6sw4dTSHsJEnU=;
- b=rcLYOAKu9u/Pk2N2pIINoWg7Qql5CHIaTXPW1rmbbrFNRBJ17e6P88xZ/Yr3+K40Vg
- KFK9I+oMG/IgtitN6mi8iqL0UX94lczwdh7i0nBMb8jue1bBvD+G4ynJruy5PLRKgM8v
- 188V9tFxrPE9B0B1aPKzXgftN+LtzT071WIlfZD+1U+hRwMChhgRPMvMzKYVh5Q7yJyY
- X233KhJbv3QXKhh18IR7fU0ZBHQkRzKr/brYbrWfvUGYpz9WfdE1CfhVQ0XA+pTrnR5x
- VWSQyHCExyqYP4xFwbo2E8+nGlIJeknoGezPntMeUW6YyiidoBVXS6cxaKILk/O3+EJK
- 3+Jg==
+ bh=uMIDYXiQCge+lCPg7jWJZVlhfPYt5aTIXixKF3xFdtw=;
+ b=Yg91ASxZAaNzg/r8+0Ydre6wM45Ae3A1iPokHrBnYytUGLfpFnHdf3IFz8HESX0/2+
+ g821YtdozGCEBqe5IWPqRoORjgSuvSUsnUJvkFHQmi1Z8EyDysdL0ajJwNlL5xiTuXsv
+ wFEKThjSNrz9xGLrgbp/gM/UJUw8aKgxniG4Yn3LJ2CAh4MiM/s09DXVGVwgC1M7Lc1O
+ mqFqDRB1Z5q6tLXZhXMkex5oVmrXUvI0/xcrkwhwr72xMCAoZJcgyVejktim5H+sPgp9
+ TLPqhl56m5cKFfFNduokObt8ZVxO6KXBoFBtUzi8i8SumVh20RnjYnxygdSMJ5gi3qzx
+ uvlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ghVDOoMvorTJdaMzHQG/RIv5BmHhyL6sw4dTSHsJEnU=;
- b=bsqAT8JeLsPEYm2Q/0KvdjL2CM7kXUrmEk+xiG2nymeISQmYOYySKuRMtG7O4Zm709
- nVPhM6e2cGxnv9CSdZro+0bFJtEb5z/KbIT6G2TlDlJU+Vti4ncFyFSzQVKt/Nre6DPb
- Ry402IrNuNzue/p7x69MdLaE4lF/OIj5zilKeVQtNLhfRbH2QQlu/GZ7ThlZlH36OTFa
- fssyoQI92FQtvmuZPDrSjFz/uK+40tEMnYBYHf321VUdb4fhd9cOrBk7n169TFaIr9QD
- +vNzzrlCueyvAKRHJaeEAJFE7TlhMsbXiN8Ovo0SaxzL5lSpZiFLnyP9W93Fm43CiKkn
- F29w==
-X-Gm-Message-State: AOAM53190uVAzeB4TUZeTjZ/HoS3uP1CfAxvRsc2ZJDIgV1MDF6+wo3e
- MyHtDWVSkR8nn6GyNkXS8e8=
-X-Google-Smtp-Source: ABdhPJwjgDsBVD45dTtfq/CuwPFV8Nn9xvyX5u2jGlIQAuONAFWU5ZnSLNw+gRQXo9RnVxq5dGzq7g==
-X-Received: by 2002:a63:4e01:: with SMTP id c1mr645397pgb.265.1621451987803;
- Wed, 19 May 2021 12:19:47 -0700 (PDT)
+ bh=uMIDYXiQCge+lCPg7jWJZVlhfPYt5aTIXixKF3xFdtw=;
+ b=YvHmkFDqueZoWHIryLLf2Fv4KyD8s1Z1hR2GFGT+LBW2JrW1Z5BV3aTKEABCXcO9Wo
+ UKgjCblvGQardkH9ikGGCBq23ciDHxDdA2upPLqdQ1fm6n4/f3pKizJjFVPIoyQEeCpL
+ iJpdyvUHmnXBChlZRWlcUPxEdnu9FmE7QRyKxXSjMRoHYeu+CoFw+9euPjtaNpq9xnws
+ wKd+gci/BWb1VsbTNqc32T32THj1nBkO04XKU6vh0zT51d7svFTU4Y1Cev+zBrBWhkak
+ SwCGS1H5KwnwU0dKHqP7DtAUTka0QlHgdhvbrcwFbMEN3McwrhgPDOH4rjOCdZf0hYa1
+ UKvw==
+X-Gm-Message-State: AOAM530dJdsjgMZfVYLT634/LEAo0S070mB6mZSfDXChCViuU1A2D6E2
+ syiIrkCRVRUAW4wYXCgHM2Q=
+X-Google-Smtp-Source: ABdhPJylNyq7yX8wc3qiI92uMNP4dk54r6bNs8/LZR+DzeCwuyO2pJ1p5Agdk04xE/qvY5oPdEYXRQ==
+X-Received: by 2002:aa7:90d4:0:b029:28e:b912:acf with SMTP id
+ k20-20020aa790d40000b029028eb9120acfmr661343pfk.43.1621452007052; 
+ Wed, 19 May 2021 12:20:07 -0700 (PDT)
 Received: from [10.230.29.202] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id y66sm128104pgb.14.2021.05.19.12.19.42
+ by smtp.gmail.com with ESMTPSA id m5sm109361pgl.75.2021.05.19.12.20.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 12:19:47 -0700 (PDT)
-Subject: Re: [PATCH v7 06/15] swiotlb: Update is_swiotlb_buffer to add a
+ Wed, 19 May 2021 12:20:06 -0700 (PDT)
+Subject: Re: [PATCH v7 07/15] swiotlb: Update is_swiotlb_active to add a
  struct device argument
 To: Claire Chang <tientzu@chromium.org>, Rob Herring <robh+dt@kernel.org>,
  mpe@ellerman.id.au, Joerg Roedel <joro@8bytes.org>,
@@ -79,14 +78,14 @@ To: Claire Chang <tientzu@chromium.org>, Rob Herring <robh+dt@kernel.org>,
  jgross@suse.com, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
 References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-7-tientzu@chromium.org>
+ <20210518064215.2856977-8-tientzu@chromium.org>
 From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <e825f332-eabe-4a82-1528-8bc9d1e60625@gmail.com>
-Date: Wed, 19 May 2021 12:19:41 -0700
+Message-ID: <6cae5ffa-f31b-ba08-c2cf-4a3dd76afb3b@gmail.com>
+Date: Wed, 19 May 2021 12:20:00 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210518064215.2856977-7-tientzu@chromium.org>
+In-Reply-To: <20210518064215.2856977-8-tientzu@chromium.org>
 Content-Language: en-US
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -129,7 +128,7 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
 On 5/17/2021 11:42 PM, Claire Chang wrote:
-> Update is_swiotlb_buffer to add a struct device argument. This will be
+> Update is_swiotlb_active to add a struct device argument. This will be
 > useful later to allow for restricted DMA pool.
 > 
 > Signed-off-by: Claire Chang <tientzu@chromium.org>
