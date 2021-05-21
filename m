@@ -1,50 +1,48 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FFA38C87E
-	for <lists.iommu@lfdr.de>; Fri, 21 May 2021 15:40:52 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6112E38C87F
+	for <lists.iommu@lfdr.de>; Fri, 21 May 2021 15:40:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E62A940F67;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2AD2884464;
 	Fri, 21 May 2021 13:40:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hPRXgFpAB50i; Fri, 21 May 2021 13:40:49 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZnG0sBtaK4xK; Fri, 21 May 2021 13:40:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 98E5840F65;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4D50584473;
 	Fri, 21 May 2021 13:40:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BA7BC001C;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4279EC0011;
 	Fri, 21 May 2021 13:40:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1262DC0001
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B45F4C0001
  for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 13:40:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D59A140153
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9468740F5D
  for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 13:40:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Hrgaza-xW5B6 for <iommu@lists.linux-foundation.org>;
- Fri, 21 May 2021 13:40:42 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id K3G_NKq1mLvY for <iommu@lists.linux-foundation.org>;
+ Fri, 21 May 2021 13:40:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 1189E4010A
- for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 13:40:39 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id AD81740F4F
+ for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 13:40:46 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (Authenticated sender: benjamin.gaignard)
- with ESMTPSA id 509F51F44084
+ with ESMTPSA id 41AE41F44086
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: joro@8bytes.org, will@kernel.org, robh+dt@kernel.org, heiko@sntech.de,
  xxm@rock-chips.com, robin.murphy@arm.com
-Subject: [PATCH v6 1/4] dt-bindings: iommu: rockchip: Convert IOMMU to DT
- schema
-Date: Fri, 21 May 2021 15:40:25 +0200
-Message-Id: <20210521134028.3710011-2-benjamin.gaignard@collabora.com>
+Subject: [PATCH v6 2/4] dt-bindings: iommu: rockchip: Add compatible for v2
+Date: Fri, 21 May 2021 15:40:26 +0200
+Message-Id: <20210521134028.3710011-3-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210521134028.3710011-1-benjamin.gaignard@collabora.com>
 References: <20210521134028.3710011-1-benjamin.gaignard@collabora.com>
@@ -71,148 +69,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Convert Rockchip IOMMU to DT schema
+Add compatible for the second version of IOMMU hardware block.
+RK356x IOMMU can also be link to a power domain.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 ---
- .../bindings/iommu/rockchip,iommu.txt         | 38 ---------
- .../bindings/iommu/rockchip,iommu.yaml        | 80 +++++++++++++++++++
- 2 files changed, 80 insertions(+), 38 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/iommu/rockchip,iommu.txt
- create mode 100644 Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
+ .../devicetree/bindings/iommu/rockchip,iommu.yaml          | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/rockchip,iommu.txt b/Documentation/devicetree/bindings/iommu/rockchip,iommu.txt
-deleted file mode 100644
-index 6ecefea1c6f9..000000000000
---- a/Documentation/devicetree/bindings/iommu/rockchip,iommu.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--Rockchip IOMMU
--==============
--
--A Rockchip DRM iommu translates io virtual addresses to physical addresses for
--its master device.  Each slave device is bound to a single master device, and
--shares its clocks, power domain and irq.
--
--Required properties:
--- compatible      : Should be "rockchip,iommu"
--- reg             : Address space for the configuration registers
--- interrupts      : Interrupt specifier for the IOMMU instance
--- interrupt-names : Interrupt name for the IOMMU instance
--- #iommu-cells    : Should be <0>.  This indicates the iommu is a
--                    "single-master" device, and needs no additional information
--                    to associate with its master device.  See:
--                    Documentation/devicetree/bindings/iommu/iommu.txt
--- clocks          : A list of clocks required for the IOMMU to be accessible by
--                    the host CPU.
--- clock-names     : Should contain the following:
--	"iface" - Main peripheral bus clock (PCLK/HCL) (required)
--	"aclk"  - AXI bus clock (required)
--
--Optional properties:
--- rockchip,disable-mmu-reset : Don't use the mmu reset operation.
--			       Some mmu instances may produce unexpected results
--			       when the reset operation is used.
--
--Example:
--
--	vopl_mmu: iommu@ff940300 {
--		compatible = "rockchip,iommu";
--		reg = <0xff940300 0x100>;
--		interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "vopl_mmu";
--		clocks = <&cru ACLK_VOP1>, <&cru HCLK_VOP1>;
--		clock-names = "aclk", "iface";
--		#iommu-cells = <0>;
--	};
 diff --git a/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml b/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
-new file mode 100644
-index 000000000000..099fc2578b54
---- /dev/null
+index 099fc2578b54..d2e28a9e3545 100644
+--- a/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
 +++ b/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+@@ -19,7 +19,9 @@ description: |+
+ 
+ properties:
+   compatible:
+-    const: rockchip,iommu
++    enum:
++      - rockchip,iommu
++      - rockchip,rk3568-iommu
+ 
+   reg:
+     items:
+@@ -48,6 +50,9 @@ properties:
+   "#iommu-cells":
+     const: 0
+ 
++  power-domains:
++    maxItems: 1
 +
-+title: Rockchip IOMMU
-+
-+maintainers:
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+description: |+
-+  A Rockchip DRM iommu translates io virtual addresses to physical addresses for
-+  its master device. Each slave device is bound to a single master device and
-+  shares its clocks, power domain and irq.
-+
-+  For information on assigning IOMMU controller to its peripheral devices,
-+  see generic IOMMU bindings.
-+
-+properties:
-+  compatible:
-+    const: rockchip,iommu
-+
-+  reg:
-+    items:
-+      - description: configuration registers for MMU instance 0
-+      - description: configuration registers for MMU instance 1
-+    minItems: 1
-+    maxItems: 2
-+
-+  interrupts:
-+    items:
-+      - description: interruption for MMU instance 0
-+      - description: interruption for MMU instance 1
-+    minItems: 1
-+    maxItems: 2
-+
-+  clocks:
-+    items:
-+      - description: Core clock
-+      - description: Interface clock
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: iface
-+
-+  "#iommu-cells":
-+    const: 0
-+
-+  rockchip,disable-mmu-reset:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: |
-+      Do not use the mmu reset operation.
-+      Some mmu instances may produce unexpected results
-+      when the reset operation is used.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - "#iommu-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rk3399-cru.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    vopl_mmu: iommu@ff940300 {
-+      compatible = "rockchip,iommu";
-+      reg = <0xff940300 0x100>;
-+      interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
-+      clocks = <&cru ACLK_VOP1>, <&cru HCLK_VOP1>;
-+      clock-names = "aclk", "iface";
-+      #iommu-cells = <0>;
-+    };
+   rockchip,disable-mmu-reset:
+     $ref: /schemas/types.yaml#/definitions/flag
+     description: |
 -- 
 2.25.1
 
