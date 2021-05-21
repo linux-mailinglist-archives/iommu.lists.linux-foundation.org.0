@@ -1,76 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6582938CDDC
-	for <lists.iommu@lfdr.de>; Fri, 21 May 2021 21:03:46 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D48B838CE90
+	for <lists.iommu@lfdr.de>; Fri, 21 May 2021 22:06:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 687C760818;
-	Fri, 21 May 2021 19:03:39 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 72F0060704;
+	Fri, 21 May 2021 20:06:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aPwnMJIxJHDF; Fri, 21 May 2021 19:03:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 835D46081D;
-	Fri, 21 May 2021 19:03:38 +0000 (UTC)
+	with ESMTP id XgTVPG32o5xp; Fri, 21 May 2021 20:05:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 78EA5615C1;
+	Fri, 21 May 2021 20:05:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 58FBBC0001;
-	Fri, 21 May 2021 19:03:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5AA3AC0024;
+	Fri, 21 May 2021 20:05:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1509DC0001
- for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 19:03:37 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B5B9DC0001
+ for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 20:05:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id E199E4026E
- for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 19:03:36 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 96AED41460
+ for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 20:05:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UJS6mb1OTGn0 for <iommu@lists.linux-foundation.org>;
- Fri, 21 May 2021 19:03:36 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SpZU8g38m5wI for <iommu@lists.linux-foundation.org>;
+ Fri, 21 May 2021 20:05:56 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 15EE1401F3
- for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 19:03:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A036E613DF
- for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 19:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621623815;
- bh=Lb4zWukxynJKdO2B6fwy3BzW7bBXcRFkXw0A4mCRUHQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=G1VmxBiFqfMxKCZgUxm5/dufKpsN8UooefbIEeO+qjKy8iJR9nZ5AyV6zhRALRsXR
- 80XmULrvhGK4sQmdheZYFU2czJEzljEQZqEFOZdA0nq0/OeBbwhaEHkM7EpLq8WYsR
- L54ePSUyOqlooWI2ug0A+/Lv+6cZw8YAhpRY4zZzzfRwTEJG+ocKZC10rZtv/V1kOX
- KpK4q29X3FCc5i3zZ5l2tDdpnxEbk+YREHCkQdzrNQYjPwiNd4ovuKHSaAnq9+PtcR
- 2v9HI0MZQ0uOQOyST+x61zP9qjTNaQQC5YDsZOJshzsn78twFLYVYga2dEjwUFMMVm
- 15TWWEw8mCQ4w==
-Received: by mail-ej1-f50.google.com with SMTP id f18so1792346ejq.10
- for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 12:03:35 -0700 (PDT)
-X-Gm-Message-State: AOAM5320Uxe5/3nj6vTxjRVOOZ58tI/3LLIGwxpOis+IdVWzZWnucpSJ
- w8BiFKFuY0pJYrP/GplDGYiiUEUStx7g4Icx5g==
-X-Google-Smtp-Source: ABdhPJzTd/Izr3P8oRUa1vk5tbtMeKhoGatTazTM5IQhKTJl5fJ+reQP7EFsCN74T8NNpYBMngBLD9DRlthlOPfJv7s=
-X-Received: by 2002:a17:907:76b8:: with SMTP id
- jw24mr11708266ejc.359.1621623814193; 
- Fri, 21 May 2021 12:03:34 -0700 (PDT)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B3B9940FAE
+ for <iommu@lists.linux-foundation.org>; Fri, 21 May 2021 20:05:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB9F4613E1;
+ Fri, 21 May 2021 20:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1621627556;
+ bh=HOAgQgMrds9WX4hrTMQsXqTjJUHDShCTNkMSvhtMlxg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=w/OT9YPEPaIm1eRnI0kgXOgjb9HXlKPfb69lcpR/7B8ojljR0Txpm8y68IUHIcN8l
+ YLA6rSBsi5AVWsbcg7tvDAgeWLpwUEsSSpvxWd8qDjineXe7akNXulkc4Vk0s6i55+
+ g+a8wHga5FLMXF9tI+hbARpaQ5XST9PUBcR0D67M=
+Date: Fri, 21 May 2021 22:05:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH 1/2] irqchip/qcom-pdc: Switch to IRQCHIP_PLATFORM_DRIVER
+ and allow as a module
+Message-ID: <YKgSonVO/L34eObX@kroah.com>
+References: <20210518211922.3474368-1-john.stultz@linaro.org>
 MIME-Version: 1.0
-References: <1621566204-37456-1-git-send-email-wangxingang5@huawei.com>
-In-Reply-To: <1621566204-37456-1-git-send-email-wangxingang5@huawei.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 21 May 2021 14:03:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJep2rpPN8r8PzT5fv32mmjMvg+k-=jzLp4S1QzC+LcLg@mail.gmail.com>
-Message-ID: <CAL_JsqJep2rpPN8r8PzT5fv32mmjMvg+k-=jzLp4S1QzC+LcLg@mail.gmail.com>
-Subject: Re: [PATCH v4] iommu/of: Fix pci_request_acs() before enumerating PCI
- devices
-To: Wang Xingang <wangxingang5@huawei.com>
-Cc: xieyingtai@huawei.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Bjorn Helgaas <helgaas@kernel.org>, PCI <linux-pci@vger.kernel.org>,
- Will Deacon <will@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20210518211922.3474368-1-john.stultz@linaro.org>
+Cc: Maulik Shah <mkshah@codeaurora.org>, Jason Cooper <jason@lakedaemon.net>,
+ Saravana Kannan <saravanak@google.com>, Marc Zyngier <maz@kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>, Lina Iyer <ilina@codeaurora.org>,
+ linux-gpio@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Todd Kjos <tkjos@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,63 +79,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, May 20, 2021 at 10:03 PM Wang Xingang <wangxingang5@huawei.com> wrote:
->
-> From: Xingang Wang <wangxingang5@huawei.com>
->
-> When booting with devicetree, the pci_request_acs() is called after the
-> enumeration and initialization of PCI devices, thus the ACS is not
-> enabled. And ACS should be enabled when IOMMU is detected for the
-> PCI host bridge, so add check for IOMMU before probe of PCI host and call
-> pci_request_acs() to make sure ACS will be enabled when enumerating PCI
-> devices.
->
-> Fixes: 6bf6c24720d33 ("iommu/of: Request ACS from the PCI core when
-> configuring IOMMU linkage")
-> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
-> ---
->  drivers/iommu/of_iommu.c | 1 -
->  drivers/pci/of.c         | 8 +++++++-
->  2 files changed, 7 insertions(+), 2 deletions(-)
+On Tue, May 18, 2021 at 09:19:21PM +0000, John Stultz wrote:
+> From: Saravana Kannan <saravanak@google.com>
+> 
+> This patch revives changes from Saravana Kannan to switch the
+> qcom-pdc driver to use IRQCHIP_PLATFORM_DRIVER helper macros,
+> and allows qcom-pdc driver to be loaded as a permanent module.
+> 
+> Earlier attempts at this ran into trouble with loading
+> dependencies, but with Saravana's fw_devlink=on set by default
+> now we should avoid those.
+> 
+> Cc: Andy Gross <agross@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jason Cooper <jason@lakedaemon.net>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Maulik Shah <mkshah@codeaurora.org>
+> Cc: Lina Iyer <ilina@codeaurora.org>
+> Cc: Saravana Kannan <saravanak@google.com>
+> Cc: Todd Kjos <tkjos@google.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: iommu@lists.linux-foundation.org
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> [jstultz: Folded in with my changes to allow the driver to be
+>  loadable as a permenent module]
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-
-> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-> index a9d2df001149..54a14da242cc 100644
-> --- a/drivers/iommu/of_iommu.c
-> +++ b/drivers/iommu/of_iommu.c
-> @@ -205,7 +205,6 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
->                         .np = master_np,
->                 };
->
-> -               pci_request_acs();
->                 err = pci_for_each_dma_alias(to_pci_dev(dev),
->                                              of_pci_iommu_init, &info);
->         } else {
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index da5b414d585a..2313c3f848b0 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -581,9 +581,15 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
->
->  int devm_of_pci_bridge_init(struct device *dev, struct pci_host_bridge *bridge)
->  {
-> -       if (!dev->of_node)
-> +       struct device_node *node = dev->of_node;
-> +
-> +       if (!node)
->                 return 0;
->
-> +       /* Detect IOMMU and make sure ACS will be enabled */
-> +       if (of_property_read_bool(node, "iommu-map"))
-> +               pci_request_acs();
-> +
->         bridge->swizzle_irq = pci_common_swizzle;
->         bridge->map_irq = of_irq_parse_and_map_pci;
->
-> --
-> 2.19.1
->
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
