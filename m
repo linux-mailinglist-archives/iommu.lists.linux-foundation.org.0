@@ -2,88 +2,90 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534E7391CED
-	for <lists.iommu@lfdr.de>; Wed, 26 May 2021 18:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F67391CF0
+	for <lists.iommu@lfdr.de>; Wed, 26 May 2021 18:21:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BF69C402A0;
-	Wed, 26 May 2021 16:21:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 555A240672;
+	Wed, 26 May 2021 16:21:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5wX6bck8w33S; Wed, 26 May 2021 16:21:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7F8044063E;
-	Wed, 26 May 2021 16:21:40 +0000 (UTC)
+	with ESMTP id xy2JRtW49GRJ; Wed, 26 May 2021 16:21:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2319940690;
+	Wed, 26 May 2021 16:21:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CCA04C0028;
-	Wed, 26 May 2021 16:21:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0DABDC0001;
+	Wed, 26 May 2021 16:21:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E92EDC000E
- for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 16:21:38 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C8628C0027
+ for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 16:21:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D445E60AEF
- for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 16:21:38 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id A17F84050C
+ for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 16:21:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2aQYA6y_GW9V for <iommu@lists.linux-foundation.org>;
- Wed, 26 May 2021 16:21:35 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fZb5kd4KgJzH for <iommu@lists.linux-foundation.org>;
+ Wed, 26 May 2021 16:21:36 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B6559608BC
- for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 16:21:35 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id lg14so3353344ejb.9
- for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 09:21:35 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A5D2E40502
+ for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 16:21:36 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id a25so2205441edr.12
+ for <iommu@lists.linux-foundation.org>; Wed, 26 May 2021 09:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ny/LVTZ9NhT7pAThv8EZzNISFLoNH72249Lr1FcP2cI=;
- b=DiMkylxvByFm8pw9ICWMTsxJtAVMkIc1v+qhXw8MlH8NYoOQHZDzPwYhMKyf4zehcU
- 9BNQZFb9m83eA/WivtK5JIiBd4CBiLu6jsxruJCx2FxqUBSHWfYIswDrkBbj34h8J23B
- lqaFT3E/HC7lRmeBzk+WxMIEH79wtIqeoj081sGiC3xbeyMQdgoLwp/s+UAvdIwYunwf
- wTgcqQL/RzXf19RnNXhRFRjvlFUb0SxOfGYi82FD8Wnwe3w584+pU+UxuUZaku/pGTrn
- C313eJUpAnO9OUiQrzvBZLWbGuT/2fXE9gNwjeJ7hJRd+C0onv7py91r2R+Mao66KI7F
- cjnQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qpxpWMnrPJKc07Z7A57L4cT+PGNv1GXXzLI4P6Yd1EE=;
+ b=igtqyM//LYjdds1ytHCniCgg8zwXeW+EZ8GUvM0m2FRDNDeVRq9vskLXhwydDfk8I1
+ Py+Iv1uCGEMhmYD2qpm+O2OSqMgjpeMutUiLdEcnWGKoeriIt/AE8DKSXYiTUxiyznbe
+ FVzBP6qI4Px6bkTjqE0BruPZj/fjxlr0WhZ7KV8kWd9BbRvRG47PkuIFm0nrg1TTkArn
+ T6b0IDjr4ltS+qRRAtM2FeMsHX0vCGj0W+xGELgKG65hDbF2uQlsZbnB1i5SVT38WK3o
+ 72JWxaT5VTxUZBWIrmWxI2hh1HFSn5kD6YQkLSO9vewdxJhgHUS2S/wf0yd5pzk65gzR
+ 1qZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ny/LVTZ9NhT7pAThv8EZzNISFLoNH72249Lr1FcP2cI=;
- b=nOwMRYVoHFIfzyk6bEr0JWSz3b1LJxf8RK3pfIQD9OJCFSoEiiHd1/mSO73J3cqLzm
- Q7nS+OwxcrzydCX+3yBQqP+/GJ0ILb1s+YyGy4wCkn7kbOYDkPnk63r3ykhwfYiwEaA4
- lDRy4I+D7I5JgzFI1RL1i8yxxXgo650yEMR73LmQpnyamUyzNFF+FSjvYcLtsfNFJa1L
- f3CupPoROY13MRVIpvANreJi1G47UZx+w8ED0YvU/tLc9m4mcZEqWjmMc6TegOxKOz1w
- 950ClMB8gok57NOU5Mkrs5x9fX1hR48WmER0uHlfxWx9uT84Be1WZ0q4hC7UrwJ16Gtv
- 1uEQ==
-X-Gm-Message-State: AOAM533XOYmpXQxTYoKev5ePdzQw9vYDEkMQ8NzU+wl9WhBzkTJC5poC
- BHSrBJpnxjj1c4dSSn9VGzUVGQ==
-X-Google-Smtp-Source: ABdhPJyqzgF1RD6CdwvK48ZfcwVE7vT+A0zVtv0WtiBKRWJwPQ1T58Q1HOYoySz9zdFZA/kfZFQwvw==
-X-Received: by 2002:a17:906:a0a:: with SMTP id
- w10mr34330704ejf.416.1622046093908; 
- Wed, 26 May 2021 09:21:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qpxpWMnrPJKc07Z7A57L4cT+PGNv1GXXzLI4P6Yd1EE=;
+ b=A2HQlt+ucuf9o8wzOMEnpwIype0mxR+B0iVjxuianBmeX82+GLa7AGKWhBJZHxjIUu
+ siNfmAMWOh5WsNYpWH1Q6wOMUjzWmy5tpT0Ep7MLz6LfupZllyWbQxm5Er25sZLJP3vK
+ pPTw8MRRWWQqUiuiUawKaKte2CCj/s8GoK99GPTwHyZ2huvFB6fvGKiMzx9FQ8spdLoj
+ C8fUZ155eVk91qWX/vrnfZPWHw1fJ8v3zoqHD70fxWshrclb3GZPJaQmLRlsHESblvtf
+ XQXgUrPLybKwiNB6jk7XHuqSJlY5bcB8aP+cLbrSD/IgJN+M7VkG/E10KXYrridrSiwc
+ 0AFw==
+X-Gm-Message-State: AOAM531pOiLtGJdb6ZhPFJBTidblVFuxdR3/B2j20SJFnTzzx/mKl9ay
+ mafyhZNrjgzsRL6i2sGxttVtdQ==
+X-Google-Smtp-Source: ABdhPJzV0Ekj4Q8KGq3C6oAPDF07bqX/LfHaYKNeHot9cZ4TZoZePl+V6GNvhy0kwuByEYqcvxu6qg==
+X-Received: by 2002:aa7:c152:: with SMTP id r18mr38149878edp.266.1622046094940; 
+ Wed, 26 May 2021 09:21:34 -0700 (PDT)
 Received: from localhost.localdomain (adsl-84-226-106-126.adslplus.ch.
  [84.226.106.126])
- by smtp.gmail.com with ESMTPSA id e6sm10497145ejd.31.2021.05.26.09.21.32
+ by smtp.gmail.com with ESMTPSA id e6sm10497145ejd.31.2021.05.26.09.21.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 09:21:33 -0700 (PDT)
+ Wed, 26 May 2021 09:21:34 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: joro@8bytes.org,
 	will@kernel.org
-Subject: [PATCH v15 0/3] iommu/arm-smmu-v3: Add stall support
-Date: Wed, 26 May 2021 18:19:25 +0200
-Message-Id: <20210526161927.24268-1-jean-philippe@linaro.org>
+Subject: [PATCH v15 1/3] dt-bindings: document stall property for IOMMU masters
+Date: Wed, 26 May 2021 18:19:26 +0200
+Message-Id: <20210526161927.24268-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210526161927.24268-1-jean-philippe@linaro.org>
+References: <20210526161927.24268-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
  Jean-Philippe Brucker <jean-philippe@linaro.org>, guohanjun@huawei.com,
  rjw@rjwysocki.net, iommu@lists.linux-foundation.org, robh+dt@kernel.org,
  sudeep.holla@arm.com, zhangfei.gao@linaro.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org, lenb@kernel.org
+ Rob Herring <robh@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,48 +103,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add stall support for SMMUv3, enabling I/O page faults and SVA for
-compatible devices. No change since last version [1], but I'd still like
-this to be considered for upstream, because there exists hardware and
-applications.
+On ARM systems, some platform devices behind an IOMMU may support stall,
+which is the ability to recover from page faults. Let the firmware tell us
+when a device supports stall.
 
-Stall is implemented by the Kunpeng 920 processor for its compression
-and crypto accelerators, with which I tested the SVA infrastructure.
-Using the userspace accelerator API [2], a program can obtain a queue
-from one of these devices and submit compression or encryption work
-within the program's address space. UADK [3] provides a library to do
-this, and there is an openssl plugin [4] to use it.
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ .../devicetree/bindings/iommu/iommu.txt        | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-That's probably as far as we can go in terms of real users of SVA at the
-moment, since userspace won't progress much further without upstream
-kernel support - these three patches.
-
-Stall is only enabled if the firmware declares that the device supports
-stalling (explicit flags from patches 1 and 2) or, in the case of the
-Kunpeng 920, with a quirk [5]. If that property is not set, stall will
-still be disabled in the STE and CD, and this series should not have any
-negative impact on existing systems.
-
-[1] https://lore.kernel.org/linux-iommu/20210401154718.307519-1-jean-philippe@linaro.org/
-[2] Documentation/misc-devices/uacce.rst
-[3] https://github.com/Linaro/uadk
-[4] https://github.com/Linaro/openssl-uadk
-[5] https://lore.kernel.org/linux-pci/1615258837-12189-1-git-send-email-zhangfei.gao@linaro.org/
-    FWIW future devices should implement PRI:
-    https://lore.kernel.org/linux-pci/5FD9EE6E.1040505@hisilicon.com/
-
-Jean-Philippe Brucker (3):
-  dt-bindings: document stall property for IOMMU masters
-  ACPI/IORT: Enable stall support for platform devices
-  iommu/arm-smmu-v3: Add stall support for platform devices
-
- .../devicetree/bindings/iommu/iommu.txt       |  18 ++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  43 ++++
- drivers/acpi/arm64/iort.c                     |   4 +-
- .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  59 +++++-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 196 +++++++++++++++++-
- 5 files changed, 304 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/iommu/iommu.txt b/Documentation/devicetree/bindings/iommu/iommu.txt
+index 3c36334e4f94..26ba9e530f13 100644
+--- a/Documentation/devicetree/bindings/iommu/iommu.txt
++++ b/Documentation/devicetree/bindings/iommu/iommu.txt
+@@ -92,6 +92,24 @@ Optional properties:
+   tagging DMA transactions with an address space identifier. By default,
+   this is 0, which means that the device only has one address space.
+ 
++- dma-can-stall: When present, the master can wait for a transaction to
++  complete for an indefinite amount of time. Upon translation fault some
++  IOMMUs, instead of aborting the translation immediately, may first
++  notify the driver and keep the transaction in flight. This allows the OS
++  to inspect the fault and, for example, make physical pages resident
++  before updating the mappings and completing the transaction. Such IOMMU
++  accepts a limited number of simultaneous stalled transactions before
++  having to either put back-pressure on the master, or abort new faulting
++  transactions.
++
++  Firmware has to opt-in stalling, because most buses and masters don't
++  support it. In particular it isn't compatible with PCI, where
++  transactions have to complete before a time limit. More generally it
++  won't work in systems and masters that haven't been designed for
++  stalling. For example the OS, in order to handle a stalled transaction,
++  may attempt to retrieve pages from secondary storage in a stalled
++  domain, leading to a deadlock.
++
+ 
+ Notes:
+ ======
 -- 
 2.31.1
 
