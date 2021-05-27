@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFBF392FA9
-	for <lists.iommu@lfdr.de>; Thu, 27 May 2021 15:28:30 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 802B0392FCC
+	for <lists.iommu@lfdr.de>; Thu, 27 May 2021 15:32:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3CBFE4028B;
-	Thu, 27 May 2021 13:28:29 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 11F15402AA;
+	Thu, 27 May 2021 13:32:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id owTZrjudAnqw; Thu, 27 May 2021 13:28:28 +0000 (UTC)
+	with ESMTP id YIMsRVEfUSnq; Thu, 27 May 2021 13:32:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7406140294;
-	Thu, 27 May 2021 13:28:28 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 16A974029F;
+	Thu, 27 May 2021 13:32:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4EA2EC0001;
-	Thu, 27 May 2021 13:28:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C4298C0001;
+	Thu, 27 May 2021 13:32:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5D4A4C0001
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:28:26 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9E19DC0001
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:32:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 57F0A4028F
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:28:26 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id D141F402E2
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:30:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cSGVGkO1iHmO for <iommu@lists.linux-foundation.org>;
- Thu, 27 May 2021 13:28:25 +0000 (UTC)
+ with ESMTP id 1tQlKi_Monno for <iommu@lists.linux-foundation.org>;
+ Thu, 27 May 2021 13:30:52 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BE6504028B
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:28:25 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 3869640428
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:30:52 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 290AE68AFE; Thu, 27 May 2021 15:28:23 +0200 (CEST)
-Date: Thu, 27 May 2021 15:28:22 +0200
+ id DA26F68AFE; Thu, 27 May 2021 15:30:46 +0200 (CEST)
+Date: Thu, 27 May 2021 15:30:46 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v7 07/15] swiotlb: Update is_swiotlb_active to add a
- struct device argument
-Message-ID: <20210527132822.GE26160@lst.de>
+Subject: Re: [PATCH v7 13/15] dma-direct: Allocate memory from restricted
+ DMA pool if available
+Message-ID: <20210527133046.GF26160@lst.de>
 References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-8-tientzu@chromium.org>
+ <20210518064215.2856977-14-tientzu@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210518064215.2856977-8-tientzu@chromium.org>
+In-Reply-To: <20210518064215.2856977-14-tientzu@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -89,13 +89,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> +	if (is_swiotlb_active(NULL)) {
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +	if (swiotlb_free(dev, page, size))
+> +		return;
+> +#endif
 
-Passing a NULL argument to this doesn't make sense.  They all should have
-a struct device at hand, you'll just need to dig for it.
+Please avoid the ifdefs by either stubbing out the function to be a no-op
+or by using IS_ENABLED.
 
-And this function should be about to go away anyway, but until then we
-need to do this properly.
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +	page = swiotlb_alloc(dev, size);
+> +	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> +		__dma_direct_free_pages(dev, page, size);
+> +		page = NULL;
+> +	}
+> +#endif
+
+Same here, for the stub it would just return NULL.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
