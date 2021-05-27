@@ -2,70 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D95E392EB4
-	for <lists.iommu@lfdr.de>; Thu, 27 May 2021 15:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753F5392EBE
+	for <lists.iommu@lfdr.de>; Thu, 27 May 2021 15:00:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1CAA640673;
-	Thu, 27 May 2021 13:00:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 71DED4067C;
+	Thu, 27 May 2021 13:00:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qowcczoxhnff; Thu, 27 May 2021 13:00:17 +0000 (UTC)
+	with ESMTP id q3Vk1MsQ98Y0; Thu, 27 May 2021 13:00:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F15A04065D;
-	Thu, 27 May 2021 13:00:16 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 549934066C;
+	Thu, 27 May 2021 13:00:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE470C0024;
-	Thu, 27 May 2021 13:00:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D6E5C0001;
+	Thu, 27 May 2021 13:00:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 55694C0001
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:00:15 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93971C0001
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:00:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 36EE583005
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:00:15 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 72AC240287
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:00:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=chromium.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rSUgrI0Tvp57 for <iommu@lists.linux-foundation.org>;
- Thu, 27 May 2021 13:00:14 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5eYjFAb4FdCu for <iommu@lists.linux-foundation.org>;
+ Thu, 27 May 2021 13:00:23 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9A9A482FE4
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:00:14 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id 22so500911pfv.11
- for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 06:00:14 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id BC3F7400F4
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 13:00:23 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ lx17-20020a17090b4b11b029015f3b32b8dbso2353698pjb.0
+ for <iommu@lists.linux-foundation.org>; Thu, 27 May 2021 06:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w2PiQmD1cuLTolB92EeZQujQ/2l5n9gaMPeHb2aHq3I=;
- b=h56T1h46NuCHAXLEDOrFtGzPeGkXpqjaVqU2Id3/ScnxpcTFZFB+NgniQLXbdnzuUx
- QD0APsw9ZjoeJMpeIHj0tuMfdo+wG/iO7GBpb84AqyFHYbVnubqVV+LlaPHYPYnvVgbR
- tJ7ATJhWs9UvVNPUNH5hquxvKLueKDOrXLp9s=
+ bh=gCZEoBF15DvIVGSc+3j8Uk27721eHnYQC5cQOW6yZk4=;
+ b=FaFXCFWJLCD/gigBOGfY4F270yO0Alvb7EMZVKQJ9L8utcEPvn3XtnKI3BEMvmJtEK
+ gYgjai80HZHDiRLWnq4ZnWFUPWMggGA/Wo+QuTb4wDh5MX+6KsOXKwWCEnZzHAaiuA3T
+ 2/Aqi7L4LhIRGkedSPRMYz9qyuKketwP3p78k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w2PiQmD1cuLTolB92EeZQujQ/2l5n9gaMPeHb2aHq3I=;
- b=PjSZYosCQv5PI5e/r1jcMuVAZBV/gJ9BZcK8IQwwMWL8sbGL14IK95volLXS0bVyxq
- Q7NQjN6k+jbEtbBwYYqAerwmmVNw3flkwQu0Cfs2eMi/sxDWIfYp+nK57B7yGO7btI1+
- ZDbnyatXRU9UtWnc2cbxbGXAS6YIHaCgDZRch0+jKaZOK98byFHpoQGyWOLu25FTJ03c
- H2Tiu89Lh2c8/07UTg0aySXWSeMFyDIAuP4sG/wjTXngbNAF1Ix4TBFEPTxv+IU6yP5R
- yStEIGQLkpsukbSPz2czwjYdu3RBKZk0wex+Lr9thCDWWUx4aoBYneaRgGeIFchef5RP
- UvTg==
-X-Gm-Message-State: AOAM531FamfX4Xa2vyqHRIUWXcTgaT9Ll27S3yRQskx8EVbs0DamWd8A
- yjbyj51qCCS5DHEj4WaQ7nuSrA==
-X-Google-Smtp-Source: ABdhPJwPKvUueO3/tWMtqAGArtGFSFkKVOYPoppJ9Pk4xAfchfGgkSrJtv/ImJCVwl16f+ZRC2hwVw==
-X-Received: by 2002:a63:5c01:: with SMTP id q1mr3600625pgb.447.1622120414085; 
- Thu, 27 May 2021 06:00:14 -0700 (PDT)
+ bh=gCZEoBF15DvIVGSc+3j8Uk27721eHnYQC5cQOW6yZk4=;
+ b=cj3TfCNUoLHb05eaMUIT2T3QSHheo69FBguLa1Ezml+9+t+Qox3o6cViOeuF6rfCh4
+ fgWKnYv+VXEwQ2xuA6N7yn5wl87iaMgzG5j7TBcLQpADrxr7JDaQrV/9HihFW89+5rIY
+ MA/LByA+++aOK3EX1iHGFr5yJkYLc5pJqoav61l0c5AVE7/2t6/1T7cdc558xL8cfV/M
+ vGornpt0AdqqtFMfD6xjlfoWfGr1A0FU3Mx0Nah5F9IzKbk3Dw6sRcls9Vg/j4dxo1hq
+ Rn8G3wHIm+ibd/bbTL0qiUluvM08vHV9b83Zzww+LGwsbOFrgmThr8vPHnXYuyfgWLtB
+ kDnQ==
+X-Gm-Message-State: AOAM533as1wk/YLE0ksiZta/g+9pb2UQmtFaR4bqt/pz0Q2C8YpXBZCv
+ XRDAp+2STx1KAKAhmdp5YTH12A==
+X-Google-Smtp-Source: ABdhPJyRdfD5aP84oP+O3UZ9D5kP+7R8Jjf69TCVtMPqoqtl6dZXUjZXcnaxnn4OXnc5bmDzFDOgsA==
+X-Received: by 2002:a17:90a:74f:: with SMTP id
+ s15mr4091622pje.90.1622120423164; 
+ Thu, 27 May 2021 06:00:23 -0700 (PDT)
 Received: from localhost ([2401:fa00:95:205:a93:378d:9a9e:3b70])
- by smtp.gmail.com with UTF8SMTPSA id m84sm1905689pfd.41.2021.05.27.06.00.06
+ by smtp.gmail.com with UTF8SMTPSA id 66sm2009117pgj.9.2021.05.27.06.00.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 06:00:13 -0700 (PDT)
+ Thu, 27 May 2021 06:00:22 -0700 (PDT)
 From: Claire Chang <tientzu@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -73,9 +75,9 @@ To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
  jgross@suse.com, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v8 09/15] swiotlb: Move alloc_size to find_slots
-Date: Thu, 27 May 2021 20:58:39 +0800
-Message-Id: <20210527125845.1852284-10-tientzu@chromium.org>
+Subject: [PATCH v8 10/15] swiotlb: Refactor swiotlb_tbl_unmap_single
+Date: Thu, 27 May 2021 20:58:40 +0800
+Message-Id: <20210527125845.1852284-11-tientzu@chromium.org>
 X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
 In-Reply-To: <20210527125845.1852284-1-tientzu@chromium.org>
 References: <20210527125845.1852284-1-tientzu@chromium.org>
@@ -119,44 +121,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Move the maintenance of alloc_size to find_slots for better code
-reusability later.
+Add a new function, release_slots, to make the code reusable for supporting
+different bounce buffer pools, e.g. restricted DMA pool.
 
 Signed-off-by: Claire Chang <tientzu@chromium.org>
 ---
- kernel/dma/swiotlb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ kernel/dma/swiotlb.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index fa7f23fffc81..88b3471ac6a8 100644
+index 88b3471ac6a8..c4fc2e444e7a 100644
 --- a/kernel/dma/swiotlb.c
 +++ b/kernel/dma/swiotlb.c
-@@ -482,8 +482,11 @@ static int find_slots(struct device *dev, phys_addr_t orig_addr,
- 	return -1;
+@@ -550,27 +550,15 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+ 	return tlb_addr;
+ }
  
- found:
--	for (i = index; i < index + nslots; i++)
-+	for (i = index; i < index + nslots; i++) {
- 		mem->slots[i].list = 0;
-+		mem->slots[i].alloc_size =
-+			alloc_size - ((i - index) << IO_TLB_SHIFT);
-+	}
- 	for (i = index - 1;
- 	     io_tlb_offset(i) != IO_TLB_SEGSIZE - 1 &&
- 	     mem->slots[i].list; i--)
-@@ -538,11 +541,8 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 	 * This is needed when we sync the memory.  Then we sync the buffer if
- 	 * needed.
- 	 */
--	for (i = 0; i < nr_slots(alloc_size + offset); i++) {
-+	for (i = 0; i < nr_slots(alloc_size + offset); i++)
- 		mem->slots[index + i].orig_addr = slot_addr(orig_addr, i);
--		mem->slots[index + i].alloc_size =
--			alloc_size - (i << IO_TLB_SHIFT);
--	}
- 	tlb_addr = slot_addr(mem->start, index) + offset;
- 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
- 	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
+-/*
+- * tlb_addr is the physical address of the bounce buffer to unmap.
+- */
+-void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
+-			      size_t mapping_size, enum dma_data_direction dir,
+-			      unsigned long attrs)
++static void release_slots(struct device *dev, phys_addr_t tlb_addr)
+ {
+-	struct io_tlb_mem *mem = get_io_tlb_mem(hwdev);
++	struct io_tlb_mem *mem = get_io_tlb_mem(dev);
+ 	unsigned long flags;
+-	unsigned int offset = swiotlb_align_offset(hwdev, tlb_addr);
++	unsigned int offset = swiotlb_align_offset(dev, tlb_addr);
+ 	int index = (tlb_addr - offset - mem->start) >> IO_TLB_SHIFT;
+ 	int nslots = nr_slots(mem->slots[index].alloc_size + offset);
+ 	int count, i;
+ 
+-	/*
+-	 * First, sync the memory before unmapping the entry
+-	 */
+-	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+-	    (dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL))
+-		swiotlb_bounce(hwdev, tlb_addr, mapping_size, DMA_FROM_DEVICE);
+-
+ 	/*
+ 	 * Return the buffer to the free list by setting the corresponding
+ 	 * entries to indicate the number of contiguous entries available.
+@@ -605,6 +593,23 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
+ 	spin_unlock_irqrestore(&mem->lock, flags);
+ }
+ 
++/*
++ * tlb_addr is the physical address of the bounce buffer to unmap.
++ */
++void swiotlb_tbl_unmap_single(struct device *dev, phys_addr_t tlb_addr,
++			      size_t mapping_size, enum dma_data_direction dir,
++			      unsigned long attrs)
++{
++	/*
++	 * First, sync the memory before unmapping the entry
++	 */
++	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
++	    (dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL))
++		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_FROM_DEVICE);
++
++	release_slots(dev, tlb_addr);
++}
++
+ void swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_addr,
+ 		size_t size, enum dma_data_direction dir)
+ {
 -- 
 2.31.1.818.g46aad6cb9e-goog
 
