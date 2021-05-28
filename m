@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8719C394328
-	for <lists.iommu@lfdr.de>; Fri, 28 May 2021 15:03:07 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C482E39437C
+	for <lists.iommu@lfdr.de>; Fri, 28 May 2021 15:42:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E1B6940447;
-	Fri, 28 May 2021 13:03:05 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3555D607FA;
+	Fri, 28 May 2021 13:42:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IqNC7RjrJ4Nb; Fri, 28 May 2021 13:03:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B06BD40418;
-	Fri, 28 May 2021 13:03:01 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fcTZ8r3sY0kG; Fri, 28 May 2021 13:42:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 56691607DC;
+	Fri, 28 May 2021 13:42:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7288BC0001;
-	Fri, 28 May 2021 13:03:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B756C0001;
+	Fri, 28 May 2021 13:42:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E534EC0001
- for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:02:59 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A1880C0001
+ for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:42:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C6323401F1
- for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:02:59 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8751B843C0
+ for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:42:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J4_JxP_LTaoB for <iommu@lists.linux-foundation.org>;
- Fri, 28 May 2021 13:02:55 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id LZ_fOaxlRGVP for <iommu@lists.linux-foundation.org>;
+ Fri, 28 May 2021 13:42:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D05A140105
- for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:02:54 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Fs4XY0Kj8z66qQ;
- Fri, 28 May 2021 20:59:57 +0800 (CST)
-Received: from dggema769-chm.china.huawei.com (10.1.198.211) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 28 May 2021 21:02:47 +0800
-Received: from localhost (10.174.179.215) by dggema769-chm.china.huawei.com
- (10.1.198.211) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 28
- May 2021 21:02:47 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <joro@8bytes.org>,
- <will@kernel.org>
-Subject: [PATCH -next] iommu/vt-d: use DEVICE_ATTR_RO macro
-Date: Fri, 28 May 2021 21:02:29 +0800
-Message-ID: <20210528130229.22108-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6D459843BD
+ for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:42:26 +0000 (UTC)
+Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Fs5CV18f1z6P3GH;
+ Fri, 28 May 2021 21:30:14 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 28 May 2021 15:42:23 +0200
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 28 May 2021 14:42:20 +0100
+From: John Garry <john.garry@huawei.com>
+To: <joro@8bytes.org>, <will@kernel.org>
+Subject: [PATCH] iommu: Print default strict or lazy mode at init time
+Date: Fri, 28 May 2021 21:37:54 +0800
+Message-ID: <1622209074-37899-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggema769-chm.china.huawei.com (10.1.198.211)
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
 X-CFilter-Loop: Reflected
-Cc: iommu@lists.linux-foundation.org, YueHaibing <yuehaibing@huawei.com>,
- linux-kernel@vger.kernel.org
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ linux-kernel@vger.kernel.org, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,101 +76,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use DEVICE_ATTR_RO() helper instead of plain DEVICE_ATTR(),
-which makes the code a bit shorter and easier to read.
+As well as the default domain type, it's useful to know whether strict
+or lazy mode is default for DMA domains, so add this info in a separate
+print.
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/iommu/intel/iommu.c | 42 ++++++++++++++++---------------------
- 1 file changed, 18 insertions(+), 24 deletions(-)
+Signed-off-by: John Garry <john.garry@huawei.com>
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index be35284a2016..0638ea8f6f7d 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4138,62 +4138,56 @@ static inline struct intel_iommu *dev_to_intel_iommu(struct device *dev)
- 	return container_of(iommu_dev, struct intel_iommu, iommu);
- }
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 808ab70d5df5..f25fae62f077 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -138,6 +138,11 @@ static int __init iommu_subsys_init(void)
+ 		(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API) ?
+ 			"(set via kernel command line)" : "");
  
--static ssize_t intel_iommu_show_version(struct device *dev,
--					struct device_attribute *attr,
--					char *buf)
-+static ssize_t version_show(struct device *dev,
-+			    struct device_attribute *attr, char *buf)
- {
- 	struct intel_iommu *iommu = dev_to_intel_iommu(dev);
- 	u32 ver = readl(iommu->reg + DMAR_VER_REG);
- 	return sprintf(buf, "%d:%d\n",
- 		       DMAR_VER_MAJOR(ver), DMAR_VER_MINOR(ver));
++	pr_info("Default DMA domain mode: %s %s\n",
++		iommu_dma_strict ? "strict" : "lazy",
++		(iommu_cmd_line & IOMMU_CMD_LINE_STRICT) ?
++			"(set via kernel command line)" : "");
++
+ 	return 0;
  }
--static DEVICE_ATTR(version, S_IRUGO, intel_iommu_show_version, NULL);
-+static DEVICE_ATTR_RO(version);
- 
--static ssize_t intel_iommu_show_address(struct device *dev,
--					struct device_attribute *attr,
--					char *buf)
-+static ssize_t address_show(struct device *dev,
-+			    struct device_attribute *attr, char *buf)
- {
- 	struct intel_iommu *iommu = dev_to_intel_iommu(dev);
- 	return sprintf(buf, "%llx\n", iommu->reg_phys);
- }
--static DEVICE_ATTR(address, S_IRUGO, intel_iommu_show_address, NULL);
-+static DEVICE_ATTR_RO(address);
- 
--static ssize_t intel_iommu_show_cap(struct device *dev,
--				    struct device_attribute *attr,
--				    char *buf)
-+static ssize_t cap_show(struct device *dev,
-+			struct device_attribute *attr, char *buf)
- {
- 	struct intel_iommu *iommu = dev_to_intel_iommu(dev);
- 	return sprintf(buf, "%llx\n", iommu->cap);
- }
--static DEVICE_ATTR(cap, S_IRUGO, intel_iommu_show_cap, NULL);
-+static DEVICE_ATTR_RO(cap);
- 
--static ssize_t intel_iommu_show_ecap(struct device *dev,
--				    struct device_attribute *attr,
--				    char *buf)
-+static ssize_t ecap_show(struct device *dev,
-+			 struct device_attribute *attr, char *buf)
- {
- 	struct intel_iommu *iommu = dev_to_intel_iommu(dev);
- 	return sprintf(buf, "%llx\n", iommu->ecap);
- }
--static DEVICE_ATTR(ecap, S_IRUGO, intel_iommu_show_ecap, NULL);
-+static DEVICE_ATTR_RO(ecap);
- 
--static ssize_t intel_iommu_show_ndoms(struct device *dev,
--				      struct device_attribute *attr,
--				      char *buf)
-+static ssize_t domains_supported_show(struct device *dev,
-+				      struct device_attribute *attr, char *buf)
- {
- 	struct intel_iommu *iommu = dev_to_intel_iommu(dev);
- 	return sprintf(buf, "%ld\n", cap_ndoms(iommu->cap));
- }
--static DEVICE_ATTR(domains_supported, S_IRUGO, intel_iommu_show_ndoms, NULL);
-+static DEVICE_ATTR_RO(domains_supported);
- 
--static ssize_t intel_iommu_show_ndoms_used(struct device *dev,
--					   struct device_attribute *attr,
--					   char *buf)
-+static ssize_t domains_used_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
- {
- 	struct intel_iommu *iommu = dev_to_intel_iommu(dev);
- 	return sprintf(buf, "%d\n", bitmap_weight(iommu->domain_ids,
- 						  cap_ndoms(iommu->cap)));
- }
--static DEVICE_ATTR(domains_used, S_IRUGO, intel_iommu_show_ndoms_used, NULL);
-+static DEVICE_ATTR_RO(domains_used);
- 
- static struct attribute *intel_iommu_attrs[] = {
- 	&dev_attr_version.attr,
+ subsys_initcall(iommu_subsys_init);
 -- 
-2.17.1
+2.26.2
 
 _______________________________________________
 iommu mailing list
