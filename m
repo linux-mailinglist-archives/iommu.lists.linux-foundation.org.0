@@ -1,59 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3785393E71
-	for <lists.iommu@lfdr.de>; Fri, 28 May 2021 10:10:12 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECA539431E
+	for <lists.iommu@lfdr.de>; Fri, 28 May 2021 15:00:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BA6D5606C4;
-	Fri, 28 May 2021 08:10:10 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B2BE140216;
+	Fri, 28 May 2021 13:00:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VPwQlZe3eqNL; Fri, 28 May 2021 08:10:08 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5qgTd01fCjjR; Fri, 28 May 2021 13:00:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 93621606C6;
-	Fri, 28 May 2021 08:10:08 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0458D401F1;
+	Fri, 28 May 2021 13:00:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A828C001C;
-	Fri, 28 May 2021 08:10:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D6D44C001C;
+	Fri, 28 May 2021 13:00:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7BE7C0001
- for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 08:10:06 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49D9CC0001
+ for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:00:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D510840EC7
- for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 08:10:06 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 2B52840105
+ for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:00:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JefwHFqZFm9J for <iommu@lists.linux-foundation.org>;
- Fri, 28 May 2021 08:10:05 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from fgw22-4.mail.saunalahti.fi (fgw22-4.mail.saunalahti.fi
- [62.142.5.109])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 789F540EC4
- for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 08:10:05 +0000 (UTC)
-Received: from darkstar.musicnaut.iki.fi (85-76-82-161-nat.elisa-mobile.fi
- [85.76.82.161]) by fgw22.mail.saunalahti.fi (Halon) with ESMTP
- id 1822b824-bf8c-11eb-88cb-005056bdf889;
- Fri, 28 May 2021 11:10:01 +0300 (EEST)
-Date: Fri, 28 May 2021 11:09:58 +0300
-From: Aaro Koskinen <aaro.koskinen@iki.fi>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 21/26] iommu/arm-smmu-v3: Ratelimit event dump
-Message-ID: <20210528080958.GA60351@darkstar.musicnaut.iki.fi>
-References: <20200224182401.353359-1-jean-philippe@linaro.org>
- <20200224182401.353359-22-jean-philippe@linaro.org>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ey54ZH7R-PL6 for <iommu@lists.linux-foundation.org>;
+ Fri, 28 May 2021 13:00:50 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1AB4F40216
+ for <iommu@lists.linux-foundation.org>; Fri, 28 May 2021 13:00:49 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fs4VM2RNLzYmqd;
+ Fri, 28 May 2021 20:58:03 +0800 (CST)
+Received: from dggema769-chm.china.huawei.com (10.1.198.211) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 28 May 2021 21:00:43 +0800
+Received: from localhost (10.174.179.215) by dggema769-chm.china.huawei.com
+ (10.1.198.211) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 28
+ May 2021 21:00:43 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <joro@8bytes.org>, <will@kernel.org>
+Subject: [PATCH -next] iommu/amd: use DEVICE_ATTR_RO macro
+Date: Fri, 28 May 2021 20:59:51 +0800
+Message-ID: <20210528125951.9268-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200224182401.353359-22-jean-philippe@linaro.org>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, kevin.tian@intel.com,
- will@kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org, catalin.marinas@arm.com,
- zhangfei.gao@linaro.org, robin.murphy@arm.com, christian.koenig@amd.com,
- linux-arm-kernel@lists.infradead.org
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggema769-chm.china.huawei.com (10.1.198.211)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, YueHaibing <yuehaibing@huawei.com>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,64 +75,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+Use DEVICE_ATTR_RO() helper instead of plain DEVICE_ATTR(),
+which makes the code a bit shorter and easier to read.
 
-On Mon, Feb 24, 2020 at 07:23:56PM +0100, Jean-Philippe Brucker wrote:
-> When a device or driver misbehaves, it is possible to receive events
-> much faster than we can print them out. Ratelimit the printing of
-> events.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/iommu/amd/init.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-Tested-by: Aaro Koskinen <aaro.koskinen@nokia.com>
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index d006724f4dc2..4ffb694bd297 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -1731,23 +1731,21 @@ static void init_iommu_perf_ctr(struct amd_iommu *iommu)
+ 	return;
+ }
+ 
+-static ssize_t amd_iommu_show_cap(struct device *dev,
+-				  struct device_attribute *attr,
+-				  char *buf)
++static ssize_t cap_show(struct device *dev,
++			struct device_attribute *attr, char *buf)
+ {
+ 	struct amd_iommu *iommu = dev_to_amd_iommu(dev);
+ 	return sprintf(buf, "%x\n", iommu->cap);
+ }
+-static DEVICE_ATTR(cap, S_IRUGO, amd_iommu_show_cap, NULL);
++static DEVICE_ATTR_RO(cap);
+ 
+-static ssize_t amd_iommu_show_features(struct device *dev,
+-				       struct device_attribute *attr,
+-				       char *buf)
++static ssize_t features_show(struct device *dev,
++			     struct device_attribute *attr, char *buf)
+ {
+ 	struct amd_iommu *iommu = dev_to_amd_iommu(dev);
+ 	return sprintf(buf, "%llx\n", iommu->features);
+ }
+-static DEVICE_ATTR(features, S_IRUGO, amd_iommu_show_features, NULL);
++static DEVICE_ATTR_RO(features);
+ 
+ static struct attribute *amd_iommu_attrs[] = {
+ 	&dev_attr_cap.attr,
+-- 
+2.17.1
 
-> During the SVA tests when the device driver didn't properly stop DMA
-> before unbinding, the event queue thread would almost lock-up the server
-> with a flood of event 0xa. This patch helped recover from the error.
-
-I was just debugging a similar case, and this patch was required to
-prevent system from locking up.
-
-Could you please resend this patch independently from the other patches
-in the series, as it seems it's a worthwhile fix and still relevent for
-current kernels. Thanks,
-
-A.
-
-> ---
->  drivers/iommu/arm-smmu-v3.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 28f8583cd47b..6a5987cce03f 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -2243,17 +2243,20 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
->  	struct arm_smmu_device *smmu = dev;
->  	struct arm_smmu_queue *q = &smmu->evtq.q;
->  	struct arm_smmu_ll_queue *llq = &q->llq;
-> +	static DEFINE_RATELIMIT_STATE(rs, DEFAULT_RATELIMIT_INTERVAL,
-> +				      DEFAULT_RATELIMIT_BURST);
->  	u64 evt[EVTQ_ENT_DWORDS];
->  
->  	do {
->  		while (!queue_remove_raw(q, evt)) {
->  			u8 id = FIELD_GET(EVTQ_0_ID, evt[0]);
->  
-> -			dev_info(smmu->dev, "event 0x%02x received:\n", id);
-> -			for (i = 0; i < ARRAY_SIZE(evt); ++i)
-> -				dev_info(smmu->dev, "\t0x%016llx\n",
-> -					 (unsigned long long)evt[i]);
-> -
-> +			if (__ratelimit(&rs)) {
-> +				dev_info(smmu->dev, "event 0x%02x received:\n", id);
-> +				for (i = 0; i < ARRAY_SIZE(evt); ++i)
-> +					dev_info(smmu->dev, "\t0x%016llx\n",
-> +						 (unsigned long long)evt[i]);
-> +			}
->  		}
->  
->  		/*
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
