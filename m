@@ -1,49 +1,49 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9C2395004
-	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 09:51:26 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A903D395007
+	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 09:51:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5AB9340159;
-	Sun, 30 May 2021 07:51:24 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2A232606AA;
+	Sun, 30 May 2021 07:51:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0kKfFE-dpLYT; Sun, 30 May 2021 07:51:22 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id j0YsgsYNx1tS; Sun, 30 May 2021 07:51:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BB7084010E;
-	Sun, 30 May 2021 07:51:22 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B312A6076F;
+	Sun, 30 May 2021 07:51:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F953C0001;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE4D7C0001;
 	Sun, 30 May 2021 07:51:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9042AC0001
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:20 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74132C0001
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 7092C403E8
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:20 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 629AF403DA
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=nvidia.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8A1vqwQXPN0L for <iommu@lists.linux-foundation.org>;
- Sun, 30 May 2021 07:51:17 +0000 (UTC)
+ with ESMTP id TpO1_aCGweAX for <iommu@lists.linux-foundation.org>;
+ Sun, 30 May 2021 07:51:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 75C98403DA
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:17 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 487D0403E0
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GrHPNbx+3g3LUlYUAryiOpyoxWiroTAWFJmwbLz56TU3otA4ojG12W9yo7qNoj8PP83sYBf5zJR0aV68lvjQaSt+y94CdoLLq7W3+PUJ8lkM+Quw+Q1HwgN+BpC+AckyHCUVL9Ua/Y6jB7yovGLE6zHpTTEodAg8IbauFjQ49IaRg8WkHUpJmMWqkyAmX97HSp8xNjvVRS3Cmo2kX04LkCbzh1kumaKmE1lrJdN5SuS/FJwTmZAZhkY+X1xK6jKFoOJcSFXcTeVO1kSGoB12gkhp8a4LZ2mkST86SVWez29UgEi8N610e0xYI4ZBHojQ8xlG7UCkLJfxLfS9RfYpmw==
+ b=mPPY+a7eFrnTDzEe+2VkBQ4fdUSZmtiyH2igh/HGCYI6hbWJ/vRTluuxQjbENAjuspXczJZVD6DphL6SMZ5Vd46OKvqRiAXqosJf3P4MOOoTpVBVFyyj37LEth6u1aJIYkAI86cZPzrKmuQNhOtBE4DAnWmblLh1ub6VNrGpTjeBCsny1/RzN7eQ0s+VigZ8KYBg1Kz25e0fpLHPjNgC5n/g7uS2ZkqX07RxLbm30nglk9WtfTpKj9uoj2Pf4Pg/jVQ/E4HnluELljuQ4kVPfLC8ImFWJNbkPR6kNPKs0ATmP9C1txoupvsz4kjz9Q0wG0gHn8YV1NhJ4HPE7HJ7aA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wm1WoTKU4mkyuT0eBh/WQlOsWmeukpMbzYLC00xMCts=;
- b=myjmZrg6lIbUcH/SVyrej9sP9ZKDh7X2RhqdGCBbubDyTWfjE2txq/ea/jJ4shtJgkfYM6BZHWKDg1KJdxZYgZToTozo3u8OChNcBeuh/6l6otoP+1nNHu63Nt+A3TYlYxMnD2R+vlV6H3LsEetlUBM1eJ860o01ORzlNbIhqwUqHQm7y59crfVvQxznu5/kLf/ZasM0yIAulE4HXUjPdeJ/NenZE0WS+TxK+0/JSlyDsrub71TU6Ub1SjPnjABa4aHb7rihjZTxgQLqCdXUZ70Ie3K0dXSTh20N32arqPfwZsBJ6J6woY3p/3BHwRYs5cCQi55hXuoiJ9L3tpm5nQ==
+ bh=YLT9nA3CrWXDcR2oleYWB+KjL0SS+tAMUnvmybuBAKA=;
+ b=liLQXNvM9nIWlyB/+pQVSE2u1/YA8b2/gjpLQ6jt8bM9iA3OKmrUSDUBGjC/3ZnIynIHqtCHdUWJN5HXFLGYU5nW9wcUg8NLKjzG4C78ewM9SGcRuVNpwCWWH8zGIoym9CF1uAwxzui21ABl3bD9+ITUj3ZBD92nFa68BGXDwmRP8frzNpyguPXQ7ExMx/kqTu4L3P5a3YTtvpCg15rAmmesmWO87n2Oe2wQFwBeSMGl2+jtaW1Wztd9gzuc59y4IZJR6Yejs79cgQ/VEmmU+rOypBhmhb9pPSv30y59B2wvIU2SorHpu7zuzq/UbxsbyxdANG9Wh7G3cum9be2jvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -51,18 +51,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wm1WoTKU4mkyuT0eBh/WQlOsWmeukpMbzYLC00xMCts=;
- b=olENgp5sBHNuTreEXNnrnvt7Mdl79as1zACaQNLR2J3dGScDPcZpcRFkKmtZnRsz9LR7C0ApXNxJrWXmz8XlkeFIFtnYIPEM4WZDhYrK+g6PXGxTnLvpHzLi84/pQMIDL5GLbmL3yQHdGgmIYe5Tgg5KB6oZn6g8cfO8qbFr9HEpLQxNfbQVDtLuBM9ZXLmGitehRnGWBWYtjjAiV5xwBgJT/oKBwODjfeQFTrRbsQ7gJadjscUAC2ft4bxxmxEu0QX+zphFVdlzKBefNNa9yCXdvWN5fcB35Ynuz3Y0ZocLKPwfgQUrg5UswMYFy/7LRKW34lG3uoTjTlot8bC/Kg==
-Received: from BN8PR15CA0008.namprd15.prod.outlook.com (2603:10b6:408:c0::21)
- by BN8PR12MB2930.namprd12.prod.outlook.com (2603:10b6:408:69::13)
+ bh=YLT9nA3CrWXDcR2oleYWB+KjL0SS+tAMUnvmybuBAKA=;
+ b=YRElvu3HcPItPoGROFBzSHiN9dRF+l3sCeX7DQ5ThZS0Yb9rUhBaRrrpsigfM8RgrH0t/E7TAV9spicZzuYSwO4eHtIKKUR4TJ+XUngmkbW1SlqMLcnWWEwNQYglVcZAVSm+JxaC6se048oZrDaHull6eIfcfMmLj2anARnSTIg0RG3LjvzqlLGSlabsddo++964+ujipuUQXKxVr735RKUHA/GAgSndUdIfbJxrCsEc9EXC4mJUrjdqnBJeTCvNVMQT6gHQXmO8E+dyWNC3/wyspgFV4vbhd9/VAhp+J9a5g3TuNCwzPwPfHRwDKRCfwNoEGJzJqEGz2nhC13plCg==
+Received: from BN9PR03CA0891.namprd03.prod.outlook.com (2603:10b6:408:13c::26)
+ by SN6PR12MB4735.namprd12.prod.outlook.com (2603:10b6:805:e5::26)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Sun, 30 May
- 2021 07:51:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.27; Sun, 30 May
+ 2021 07:51:16 +0000
 Received: from BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:c0:cafe::f1) by BN8PR15CA0008.outlook.office365.com
- (2603:10b6:408:c0::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21 via Frontend
- Transport; Sun, 30 May 2021 07:51:15 +0000
+ (2603:10b6:408:13c:cafe::eb) by BN9PR03CA0891.outlook.office365.com
+ (2603:10b6:408:13c::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Sun, 30 May 2021 07:51:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; 8bytes.org; dkim=none (message not signed)
  header.d=none;8bytes.org; dmarc=pass action=none header.from=nvidia.com;
@@ -75,13 +75,13 @@ Received: from mail.nvidia.com (216.228.112.34) by
  15.20.4150.30 via Frontend Transport; Sun, 30 May 2021 07:51:15 +0000
 Received: from sw-mtx-036.mtx.labs.mlnx (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 30 May 2021 07:51:13 +0000
+ Sun, 30 May 2021 07:51:14 +0000
 From: Parav Pandit <parav@nvidia.com>
 To: <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
  <iommu@lists.linux-foundation.org>
-Subject: [PATCH 4/5] iommu/intel: Define counter explicitly as unsigned int
-Date: Sun, 30 May 2021 10:50:52 +0300
-Message-ID: <20210530075053.264218-5-parav@nvidia.com>
+Subject: [PATCH 5/5] iommu/intel: No need to typecast
+Date: Sun, 30 May 2021 10:50:53 +0300
+Message-ID: <20210530075053.264218-6-parav@nvidia.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210530075053.264218-1-parav@nvidia.com>
 References: <20210530075053.264218-1-parav@nvidia.com>
@@ -91,27 +91,27 @@ X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0b0637d0-58d0-4450-aacb-08d9233fb3c9
-X-MS-TrafficTypeDiagnostic: BN8PR12MB2930:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB293009C412D75D726FF0668FDC209@BN8PR12MB2930.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:393;
+X-MS-Office365-Filtering-Correlation-Id: 8d338dd9-9a30-4899-eb00-08d9233fb415
+X-MS-TrafficTypeDiagnostic: SN6PR12MB4735:
+X-Microsoft-Antispam-PRVS: <SN6PR12MB4735391AAFCC910E7A0F2E76DC209@SN6PR12MB4735.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wqr0PbMCMft34XNFONIFmf/5x0C/UM3qZgBoSMn3LnEJThbB+Q43E0s5e0qdcDeugOHrzn07xIyp1s67Jj06OrkzxBaVZ7U6hMprD/emI29IL9INkfEwH1Szg6zSRqRIiXWD3Mtjgecd9BkxMcmaDUUfu7JTlwEURYHoPMAZuHWAmyRiiQr6hqH2rlfRy2Y0oEygzqubWa65PEbZtPNoTw7OVp8bbn+eBu+7RFwowZlqJddQLgZKkdHdgJlpSUzwlgKgfS+bevul+j/+2RvDpzRox2mcEqNRVr7SVD/Ha8yXpc8S8SbeSAOhrkoz/EfELuuLrwjjQz9UwBF35GfPECh3oOFNwMF0oOxjZiKKsLyPVE6/tTlULvRjiLyI2+xQI7xy8FiouIWlKa3782ZaeNhqKxvzGGmBaS1zY5lwKa61n2Z7x5UGmMyUxhWuumjrrIAcm1QzFYeSlPtOVp5LuIlt714VnnO+ZBP7JU3MMlQwREPOJl6K6TJPeBd4zHJQStJvB0hO7s6OWdmz7i7bbcHQo7OJVfRZOLbd7RPWBhKGEWtTm1VxBlh2m6YZ8WBqj0zOD6b4GhFiPC+rm3dlRn3mDR35bOT0UNAaLBTLHLU16DcYfh1Cfz4X5EQy3Vf2vUch4UWbV9bmBT0RUO60fXmso5usUPUo/hMylMWHyMs=
+X-Microsoft-Antispam-Message-Info: cO+b2uB1hjf54+hZdzLSg0cnLsvSJWtvNtwcem7Aurj7tVMom4DxAK/HasknFSPVG0DYnx0mc4J4IuPR0+vbbJIhaG0uw51ukqUIRzGxEWmxkDSDoClEDLB8x+af4bG5GLL6yBT/YSBRn/kHO0yT7hnG0yEYhS0xwHqCyjrjzDFlV7WERJqiokF2b1tzH3BpFmxAzW5xPLLYYU/5fQ72GB4TeLRn0ahPTQWR+GcVmKAq4T7JNSszak7BSebbKhr1JBn5ZvekehUg4/g3viltqwKTEscZThSfU7O0lrNwN5zWjmUOcz/OGHJPUFZXg4BhsGrYBaRDJbUvXkYD/Z5hZDTtzUk+73POUwYnQL0aEMtfGqcGdmMBBZbZG76f7jz82Op1Ail1Zb2Sn0h9v+xDHasMj02pKrIjRaxGq5B/j45h5g4ExV728XIeRJiTVR4M+cpTr+wRYYUxPmVSPdThWuZByIesEH4c+EZtNCyz1gRoM+d0+eg4+mZHLWRHvmBzs5Qd9goXBdz3h+Xn2lRO/maIZIUogaMvxtV8FigbG+3+qcoacSDFQeJdShIISf1jGp/kxJKYBIog5PNlOhMAXgB19C234RE0UeEvwNhIrxKU1pQkt0EVuwXvPJWJktbJVUm8sabcgsf5+GE3QS2kVSv6KbGXQ8MUCpGb/8kN8J4=
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(136003)(346002)(396003)(46966006)(36840700001)(186003)(110136005)(2906002)(54906003)(4326008)(16526019)(70206006)(82740400003)(70586007)(6666004)(316002)(86362001)(36756003)(356005)(8936002)(2616005)(26005)(478600001)(36860700001)(426003)(82310400003)(336012)(83380400001)(5660300002)(1076003)(4744005)(36906005)(7636003)(107886003)(8676002)(47076005);
+ SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(46966006)(36840700001)(70206006)(336012)(36860700001)(70586007)(54906003)(26005)(8936002)(110136005)(2616005)(186003)(16526019)(1076003)(4326008)(82740400003)(107886003)(426003)(8676002)(5660300002)(7636003)(2906002)(356005)(47076005)(478600001)(83380400001)(36756003)(82310400003)(316002)(6666004)(86362001)(36906005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2021 07:51:15.4306 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b0637d0-58d0-4450-aacb-08d9233fb3c9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2021 07:51:15.9123 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d338dd9-9a30-4899-eb00-08d9233fb415
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2930
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4735
 Cc: will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -130,30 +130,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Avoid below checkpatch warning.
+Page directory assignment by alloc_pgtable_page() or phys_to_virt()
+doesn't need typecasting as both routines return void*.
+Hence, remove typecasting from both the calls.
 
-WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
-+       unsigned        iommu_refcnt[DMAR_UNITS_SUPPORTED];
-
-Fixes: 29a27719abaa ("iommu/vt-d: Replace iommu_bmp with a refcount")
 Signed-off-by: Parav Pandit <parav@nvidia.com>
 ---
- include/linux/intel-iommu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/intel/iommu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 50a006cc8c05..1b3c22e030c9 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -537,7 +537,7 @@ struct context_entry {
- struct dmar_domain {
- 	int	nid;			/* node id */
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 6788d10d0ff6..b3d006eb8c49 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -4508,7 +4508,7 @@ static int md_domain_init(struct dmar_domain *domain, int guest_width)
+ 	domain->max_addr = 0;
  
--	unsigned	iommu_refcnt[DMAR_UNITS_SUPPORTED];
-+	unsigned int iommu_refcnt[DMAR_UNITS_SUPPORTED];
- 					/* Refcount of devices per iommu */
+ 	/* always allocate the top pgd */
+-	domain->pgd = (struct dma_pte *)alloc_pgtable_page(domain->nid);
++	domain->pgd = alloc_pgtable_page(domain->nid);
+ 	if (!domain->pgd)
+ 		return -ENOMEM;
+ 	domain_flush_cache(domain, domain->pgd, PAGE_SIZE);
+@@ -4767,8 +4767,7 @@ static int prepare_domain_attach_device(struct iommu_domain *domain,
  
- 
+ 		pte = dmar_domain->pgd;
+ 		if (dma_pte_present(pte)) {
+-			dmar_domain->pgd = (struct dma_pte *)
+-				phys_to_virt(dma_pte_addr(pte));
++			dmar_domain->pgd = phys_to_virt(dma_pte_addr(pte));
+ 			free_pgtable_page(pte);
+ 		}
+ 		dmar_domain->agaw--;
 -- 
 2.26.2
 
