@@ -1,118 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A903D395007
-	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 09:51:29 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B089A395162
+	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 17:06:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2A232606AA;
-	Sun, 30 May 2021 07:51:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id DEB1283A90;
+	Sun, 30 May 2021 15:06:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j0YsgsYNx1tS; Sun, 30 May 2021 07:51:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B312A6076F;
-	Sun, 30 May 2021 07:51:23 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id L_o8pZMg7TuP; Sun, 30 May 2021 15:06:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id ACC4983A8C;
+	Sun, 30 May 2021 15:06:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE4D7C0001;
-	Sun, 30 May 2021 07:51:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 496C7C001C;
+	Sun, 30 May 2021 15:06:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74132C0001
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 719CFC0001
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 629AF403DA
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:21 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4BB2A4039F
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=nvidia.com
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TpO1_aCGweAX for <iommu@lists.linux-foundation.org>;
- Sun, 30 May 2021 07:51:20 +0000 (UTC)
+ with ESMTP id z1uZnwjHAG_i for <iommu@lists.linux-foundation.org>;
+ Sun, 30 May 2021 15:06:38 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 487D0403E0
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mPPY+a7eFrnTDzEe+2VkBQ4fdUSZmtiyH2igh/HGCYI6hbWJ/vRTluuxQjbENAjuspXczJZVD6DphL6SMZ5Vd46OKvqRiAXqosJf3P4MOOoTpVBVFyyj37LEth6u1aJIYkAI86cZPzrKmuQNhOtBE4DAnWmblLh1ub6VNrGpTjeBCsny1/RzN7eQ0s+VigZ8KYBg1Kz25e0fpLHPjNgC5n/g7uS2ZkqX07RxLbm30nglk9WtfTpKj9uoj2Pf4Pg/jVQ/E4HnluELljuQ4kVPfLC8ImFWJNbkPR6kNPKs0ATmP9C1txoupvsz4kjz9Q0wG0gHn8YV1NhJ4HPE7HJ7aA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YLT9nA3CrWXDcR2oleYWB+KjL0SS+tAMUnvmybuBAKA=;
- b=liLQXNvM9nIWlyB/+pQVSE2u1/YA8b2/gjpLQ6jt8bM9iA3OKmrUSDUBGjC/3ZnIynIHqtCHdUWJN5HXFLGYU5nW9wcUg8NLKjzG4C78ewM9SGcRuVNpwCWWH8zGIoym9CF1uAwxzui21ABl3bD9+ITUj3ZBD92nFa68BGXDwmRP8frzNpyguPXQ7ExMx/kqTu4L3P5a3YTtvpCg15rAmmesmWO87n2Oe2wQFwBeSMGl2+jtaW1Wztd9gzuc59y4IZJR6Yejs79cgQ/VEmmU+rOypBhmhb9pPSv30y59B2wvIU2SorHpu7zuzq/UbxsbyxdANG9Wh7G3cum9be2jvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YLT9nA3CrWXDcR2oleYWB+KjL0SS+tAMUnvmybuBAKA=;
- b=YRElvu3HcPItPoGROFBzSHiN9dRF+l3sCeX7DQ5ThZS0Yb9rUhBaRrrpsigfM8RgrH0t/E7TAV9spicZzuYSwO4eHtIKKUR4TJ+XUngmkbW1SlqMLcnWWEwNQYglVcZAVSm+JxaC6se048oZrDaHull6eIfcfMmLj2anARnSTIg0RG3LjvzqlLGSlabsddo++964+ujipuUQXKxVr735RKUHA/GAgSndUdIfbJxrCsEc9EXC4mJUrjdqnBJeTCvNVMQT6gHQXmO8E+dyWNC3/wyspgFV4vbhd9/VAhp+J9a5g3TuNCwzPwPfHRwDKRCfwNoEGJzJqEGz2nhC13plCg==
-Received: from BN9PR03CA0891.namprd03.prod.outlook.com (2603:10b6:408:13c::26)
- by SN6PR12MB4735.namprd12.prod.outlook.com (2603:10b6:805:e5::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.27; Sun, 30 May
- 2021 07:51:16 +0000
-Received: from BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13c:cafe::eb) by BN9PR03CA0891.outlook.office365.com
- (2603:10b6:408:13c::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Sun, 30 May 2021 07:51:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; 8bytes.org; dkim=none (message not signed)
- header.d=none;8bytes.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT033.mail.protection.outlook.com (10.13.177.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4150.30 via Frontend Transport; Sun, 30 May 2021 07:51:15 +0000
-Received: from sw-mtx-036.mtx.labs.mlnx (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 30 May 2021 07:51:14 +0000
-From: Parav Pandit <parav@nvidia.com>
-To: <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <iommu@lists.linux-foundation.org>
-Subject: [PATCH 5/5] iommu/intel: No need to typecast
-Date: Sun, 30 May 2021 10:50:53 +0300
-Message-ID: <20210530075053.264218-6-parav@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210530075053.264218-1-parav@nvidia.com>
-References: <20210530075053.264218-1-parav@nvidia.com>
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id EF1204035C
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:37 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id f8so5216405pjh.0
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 08:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FswRSQfjjaKx7u9LgIeEdiIRei+KQQ1o84JB2HXUqUs=;
+ b=LVIdMBZyqnI96Q0Z0mysjEWnSTb1JW5nO8mVMTciG0aK/WD06/PLYNCl5nc+yK0XlS
+ 2WtJh9tLLiNzy5J3OgcTqz2Jd8R+Qo2XZ8PhM1LGbgk34btlpzEZSypPA3XtbSEfna7F
+ 0Xy/ByKjJYToboKNSYv39OSVL+1wl/6lNTlTcOxXyL9Czp3My1t9DZhs63AP25Sxxf87
+ UAeJF9Q9PWAi/L9NXDXqX7YL7RDddpROE5Dwkr0XfidvpyFaGBUOGxVoC/o97y6s3Bgv
+ uNtBz9O1DqUp24qMiBjYRplPEPbpwBaGprGuV8wqmdUN8j9x5KqKXakb0r59LpirJ6/C
+ y0Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FswRSQfjjaKx7u9LgIeEdiIRei+KQQ1o84JB2HXUqUs=;
+ b=N6TQTefDMTeqsGh7UwdDWQgqdsVnwD5cOCA9WifC5qSc514u4vDLo0BKbSug14R8rZ
+ j/vNb+09Af4zRbuOjLx/tjxTFPCIsOm9BjK5AqxmE/VmnDM9sOd2NFb0c2sqQcGYzpjO
+ z9TDUFE8rDQD5CUUdhUr4dgQVGAiLRm+h7ffYw1GUUMrxu39VFL5szOQjd/G4/ZxWLq7
+ leyUNOHZjcIFIwplLHZSyb/DZOls+gaCDi8in0zrulYsmdeks80QjQiswOXWeuNtmEDG
+ YRUfU1vHuNDA0duyYbw0Ti4wXx4mRmjXK+9rCKdJFBcnUbMQqdg21m00Ad9Dj1j2wLwY
+ Gj/A==
+X-Gm-Message-State: AOAM532pBggZG9XQtQ+o9DZr1I2rvJC2IxkSL+Fn0vbx3D5IIyyJt0Jp
+ HqOVCyJpPwJ7/tRkUNb2lek=
+X-Google-Smtp-Source: ABdhPJzWgX0reZL8RY1aCiYCdkLb1bxDmfsOiZs5Da5qdPNbLz2+PAq3adwYvehGmjtmOXLHMuRRYw==
+X-Received: by 2002:a17:90a:fe84:: with SMTP id
+ co4mr14479308pjb.0.1622387197133; 
+ Sun, 30 May 2021 08:06:37 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.corp.microsoft.com
+ ([2001:4898:80e8:9:dc2d:80ab:c3f3:1524])
+ by smtp.gmail.com with ESMTPSA id b15sm8679688pfi.100.2021.05.30.08.06.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 May 2021 08:06:36 -0700 (PDT)
+From: Tianyu Lan <ltykernel@gmail.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+ arnd@arndb.de, dave.hansen@linux.intel.com, luto@kernel.org,
+ peterz@infradead.org, akpm@linux-foundation.org,
+ kirill.shutemov@linux.intel.com, rppt@kernel.org, hannes@cmpxchg.org,
+ cai@lca.pw, krish.sadhukhan@oracle.com, saravanand@fb.com,
+ Tianyu.Lan@microsoft.com, konrad.wilk@oracle.com, hch@lst.de,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, boris.ostrovsky@oracle.com,
+ jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
+ xen-devel@lists.xenproject.org, davem@davemloft.net, kuba@kernel.org,
+ jejb@linux.ibm.com, martin.petersen@oracle.com
+Subject: [RFC PATCH V3 00/11] x86/Hyper-V: Add Hyper-V Isolation VM support
+Date: Sun, 30 May 2021 11:06:17 -0400
+Message-Id: <20210530150628.2063957-1-ltykernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8d338dd9-9a30-4899-eb00-08d9233fb415
-X-MS-TrafficTypeDiagnostic: SN6PR12MB4735:
-X-Microsoft-Antispam-PRVS: <SN6PR12MB4735391AAFCC910E7A0F2E76DC209@SN6PR12MB4735.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cO+b2uB1hjf54+hZdzLSg0cnLsvSJWtvNtwcem7Aurj7tVMom4DxAK/HasknFSPVG0DYnx0mc4J4IuPR0+vbbJIhaG0uw51ukqUIRzGxEWmxkDSDoClEDLB8x+af4bG5GLL6yBT/YSBRn/kHO0yT7hnG0yEYhS0xwHqCyjrjzDFlV7WERJqiokF2b1tzH3BpFmxAzW5xPLLYYU/5fQ72GB4TeLRn0ahPTQWR+GcVmKAq4T7JNSszak7BSebbKhr1JBn5ZvekehUg4/g3viltqwKTEscZThSfU7O0lrNwN5zWjmUOcz/OGHJPUFZXg4BhsGrYBaRDJbUvXkYD/Z5hZDTtzUk+73POUwYnQL0aEMtfGqcGdmMBBZbZG76f7jz82Op1Ail1Zb2Sn0h9v+xDHasMj02pKrIjRaxGq5B/j45h5g4ExV728XIeRJiTVR4M+cpTr+wRYYUxPmVSPdThWuZByIesEH4c+EZtNCyz1gRoM+d0+eg4+mZHLWRHvmBzs5Qd9goXBdz3h+Xn2lRO/maIZIUogaMvxtV8FigbG+3+qcoacSDFQeJdShIISf1jGp/kxJKYBIog5PNlOhMAXgB19C234RE0UeEvwNhIrxKU1pQkt0EVuwXvPJWJktbJVUm8sabcgsf5+GE3QS2kVSv6KbGXQ8MUCpGb/8kN8J4=
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(46966006)(36840700001)(70206006)(336012)(36860700001)(70586007)(54906003)(26005)(8936002)(110136005)(2616005)(186003)(16526019)(1076003)(4326008)(82740400003)(107886003)(426003)(8676002)(5660300002)(7636003)(2906002)(356005)(47076005)(478600001)(83380400001)(36756003)(82310400003)(316002)(6666004)(86362001)(36906005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2021 07:51:15.9123 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d338dd9-9a30-4899-eb00-08d9233fb415
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4735
-Cc: will@kernel.org
+Cc: linux-arch@vger.kernel.org, thomas.lendacky@amd.com,
+ linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
+ linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ vkuznets@redhat.com, sunilmut@microsoft.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -130,40 +111,86 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Page directory assignment by alloc_pgtable_page() or phys_to_virt()
-doesn't need typecasting as both routines return void*.
-Hence, remove typecasting from both the calls.
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Signed-off-by: Parav Pandit <parav@nvidia.com>
----
- drivers/iommu/intel/iommu.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Hyper-V provides two kinds of Isolation VMs. VBS(Virtualization-based
+security) and AMD SEV-SNP unenlightened Isolation VMs. This patchset
+is to add support for these Isolation VM support in Linux.
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 6788d10d0ff6..b3d006eb8c49 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4508,7 +4508,7 @@ static int md_domain_init(struct dmar_domain *domain, int guest_width)
- 	domain->max_addr = 0;
- 
- 	/* always allocate the top pgd */
--	domain->pgd = (struct dma_pte *)alloc_pgtable_page(domain->nid);
-+	domain->pgd = alloc_pgtable_page(domain->nid);
- 	if (!domain->pgd)
- 		return -ENOMEM;
- 	domain_flush_cache(domain, domain->pgd, PAGE_SIZE);
-@@ -4767,8 +4767,7 @@ static int prepare_domain_attach_device(struct iommu_domain *domain,
- 
- 		pte = dmar_domain->pgd;
- 		if (dma_pte_present(pte)) {
--			dmar_domain->pgd = (struct dma_pte *)
--				phys_to_virt(dma_pte_addr(pte));
-+			dmar_domain->pgd = phys_to_virt(dma_pte_addr(pte));
- 			free_pgtable_page(pte);
- 		}
- 		dmar_domain->agaw--;
+The memory of these vms are encrypted and host can't access guest
+memory directly. Hyper-V provides new host visibility hvcall and
+the guest needs to call new hvcall to mark memory visible to host
+before sharing memory with host. For security, all network/storage
+stack memory should not be shared with host and so there is bounce
+buffer requests.
+
+Vmbus channel ring buffer already plays bounce buffer role because
+all data from/to host needs to copy from/to between the ring buffer
+and IO stack memory. So mark vmbus channel ring buffer visible.
+
+There are two exceptions - packets sent by vmbus_sendpacket_
+pagebuffer() and vmbus_sendpacket_mpb_desc(). These packets
+contains IO stack memory address and host will access these memory.
+So add allocation bounce buffer support in vmbus for these packets.
+
+For SNP isolation VM, guest needs to access the shared memory via
+extra address space which is specified by Hyper-V CPUID HYPERV_CPUID_
+ISOLATION_CONFIG. The access physical address of the shared memory
+should be bounce buffer memory GPA plus with shared_gpa_boundary
+reported by CPUID.
+
+Change since v2:
+       - Remove not UIO driver in Isolation VM patch
+       - Use vmap_pfn() to replace ioremap_page_range function in
+       order to avoid exposing symbol ioremap_page_range() and
+       ioremap_page_range()
+       - Call hv set mem host visibility hvcall in set_memory_encrypted/decrypted()
+       - Enable swiotlb force mode instead of adding Hyper-V dma map/unmap hook
+       - Fix code style
+
+Tianyu Lan (11):
+  x86/HV: Initialize GHCB page in Isolation VM
+  x86/HV: Initialize shared memory boundary in the Isolation VM.
+  x86/Hyper-V: Add new hvcall guest address host visibility support
+  HV: Add Write/Read MSR registers via ghcb
+  HV: Add ghcb hvcall support for SNP VM
+  HV/Vmbus: Add SNP support for VMbus channel initiate message
+  HV/Vmbus: Initialize VMbus ring buffer for Isolation VM
+  swiotlb: Add bounce buffer remap address setting function
+  HV/IOMMU: Enable swiotlb bounce buffer for Isolation VM
+  HV/Netvsc: Add Isolation VM support for netvsc driver
+  HV/Storvsc: Add Isolation VM support for storvsc driver
+
+ arch/x86/hyperv/Makefile           |   2 +-
+ arch/x86/hyperv/hv_init.c          |  70 +++++--
+ arch/x86/hyperv/ivm.c              | 300 +++++++++++++++++++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h |  24 +++
+ arch/x86/include/asm/mshyperv.h    |  85 +++++++-
+ arch/x86/kernel/cpu/mshyperv.c     |   5 +
+ arch/x86/mm/pat/set_memory.c       |  10 +-
+ arch/x86/xen/pci-swiotlb-xen.c     |   3 +-
+ drivers/hv/Kconfig                 |   1 +
+ drivers/hv/channel.c               |  48 ++++-
+ drivers/hv/connection.c            |  68 ++++++-
+ drivers/hv/hv.c                    | 122 ++++++++----
+ drivers/hv/hyperv_vmbus.h          |   3 +
+ drivers/hv/ring_buffer.c           |  84 ++++++--
+ drivers/hv/vmbus_drv.c             |   3 +
+ drivers/iommu/hyperv-iommu.c       |  81 ++++++++
+ drivers/net/hyperv/hyperv_net.h    |   6 +
+ drivers/net/hyperv/netvsc.c        | 125 +++++++++++-
+ drivers/net/hyperv/rndis_filter.c  |   3 +
+ drivers/scsi/storvsc_drv.c         |  63 +++++-
+ include/asm-generic/hyperv-tlfs.h  |   1 +
+ include/asm-generic/mshyperv.h     |  18 +-
+ include/linux/hyperv.h             |  16 ++
+ include/linux/swiotlb.h            |   5 +
+ kernel/dma/swiotlb.c               |  14 +-
+ 25 files changed, 1062 insertions(+), 98 deletions(-)
+ create mode 100644 arch/x86/hyperv/ivm.c
+
 -- 
-2.26.2
+2.25.1
 
 _______________________________________________
 iommu mailing list
