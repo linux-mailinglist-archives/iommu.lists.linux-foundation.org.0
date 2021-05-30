@@ -2,75 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560F839517B
-	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 17:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5030539517D
+	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 17:06:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 00F8B40191;
+	by smtp2.osuosl.org (Postfix) with ESMTP id AFAF040226;
 	Sun, 30 May 2021 15:06:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zsU0eSy60nep; Sun, 30 May 2021 15:06:52 +0000 (UTC)
+	with ESMTP id dyvwcR9UGxtW; Sun, 30 May 2021 15:06:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0C28340226;
-	Sun, 30 May 2021 15:06:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9C901400AB;
+	Sun, 30 May 2021 15:06:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD509C0001;
-	Sun, 30 May 2021 15:06:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 21105C0027;
+	Sun, 30 May 2021 15:06:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ABF96C0027
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C566CC0001
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7B3A183A95
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:48 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A6FA3607BB
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ToxMGH-2H6-i for <iommu@lists.linux-foundation.org>;
- Sun, 30 May 2021 15:06:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id NxskTo8FfI3n for <iommu@lists.linux-foundation.org>;
+ Sun, 30 May 2021 15:06:48 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by smtp1.osuosl.org (Postfix) with ESMTPS id BFD2683A96
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:47 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id 22so7064773pfv.11
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 08:06:47 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D0B33607C6
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 15:06:48 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id v13so3925800ple.9
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 08:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QKK0SjDRQsBHXdgV5ktTvZVGUyDxuCI7H9YXqu8ylp4=;
- b=c4gjM4Jy3YZ+/DG7gJXR32TyHNrd2AT2w1NRjMRL/cVwnE9Khie59tuur1IINr0LLL
- 6PZbttSNvgl9BLFIsGHuSc+FJJmIp6Abf0SCFmm2OMKXGKumPVltWHy67nL9KV9jEyvK
- PEkAMyNbfg9acDIg1EYYlwzHuyceS5JTu6FgLVMgyuSfaM2bY1ImRe4AQpVCfcxArLyf
- 2orge+sbm53BUlc2H/Pqht+gxOC5rv9V1Jvz+CQB0vMOQlMPoDaTCkjFsnL76KSZ3ys3
- 7eaQ9eSv/+WkbiIZxtGq9L5QDqfVWwVAegCdGoAEYHKpEA2U7AjeuHqOCq8YttRFBnB5
- XuRQ==
+ bh=XbGhpS5yStXGWn3Ym/sECphkTnEdMSaFIpokEER49XU=;
+ b=JC3yoSpI7HeBKP3hWsg8wjl3AFxs/Vv/OxS4bnwIFqCjOJl15TuGLGknha8Pn1n/ah
+ 0ZZUsS5bf4zVtnbK+OU9GfbzU8fFLPbSqbNhb187rqSV3zfZXEB6WH/++hB0KUJdUCem
+ IU226b2zVIlLikxKj/uD8rBCpSUIvBorTTx2zMaiyobmmX4TyUZq+n2YR9OK3/T1fvuy
+ FxivfaQTU/OoxpBt93x4SvNEzAgmbLv2krRO5irGI/Qt3eTDcCbT+MybWGjezFDPkS8C
+ t2tDouUeiWVJhg0oX2dmFl8aqN6cluwzNiwnY2oQHOGtPovXxeiOgpEInpePVYD0962N
+ TKIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QKK0SjDRQsBHXdgV5ktTvZVGUyDxuCI7H9YXqu8ylp4=;
- b=aZBdZv3ovsQVyO03YtK8N7vKYexW9gjGbIhSy+rM2OAZIQg4bxzFrcuCJvbY4PwWcw
- 1c0w3dX3kWSqjkbOjD6J9HNAWAOoLfsFsMgqnZNPE61nZZ2zZyYeKZnlYXjkWf3BntlP
- 09kpOn5jgzlzIJN+cB7RuFxtJtL3GkkBohGoARfGBr1IiJHEDep7j6XtKYxe3Zd4DptM
- MHQqDxQ8BLJp0RS2iccdePKc8ZbMP8Q917GSq+YHBNvaDKRM5jGEEQRrUPg1gdyxYOv0
- YGTaNrD3VUS0D3iJGPNW1mejFDJEoRoxFn1+efMeB5ovDN9d/zU2JNRGgdAnElogikBm
- FKCw==
-X-Gm-Message-State: AOAM5321zb8y8znimBUy4U9EtJmbfHE+WKYbRVrDmcLSasaGiFilSt5M
- +VBRtaj8KjXQawOpS3ng6rM=
-X-Google-Smtp-Source: ABdhPJw+q9VKcKHyDWVpvxugITxjif6TDbX7YEFx343/WR9bqFMb8Oo7wu2PPv+4Bif5UQ80/Bo2xg==
-X-Received: by 2002:a62:ae14:0:b029:2e9:c6ef:9856 with SMTP id
- q20-20020a62ae140000b02902e9c6ef9856mr2736868pff.77.1622387206687; 
- Sun, 30 May 2021 08:06:46 -0700 (PDT)
+ bh=XbGhpS5yStXGWn3Ym/sECphkTnEdMSaFIpokEER49XU=;
+ b=ZUFGWG9OV9S8DuQWD8TaZy0Omzeet6Hn82qIMVaCEvh3NnU9du8Q9sxcNegLsLMLk8
+ u888GTVOZIuG4wFUuoMNyicfh1zLZJaHC1MKg4YsWs1DoMDfbowf9Uk66PEh1a4i19ho
+ NJBghhvmrD5UkpNj/yqOfU5I1rarPMdwsxMXXqRHhN+3eEziqM50eJ/M9HrnFCKyG1Tv
+ WXE91oooBhYiL7+gl+5gPPTfNz9OvMSMrmlrK2HiLXZ4iQx9VMQBk/VQFSXkiA5ko2AA
+ BzZS4lhK80cSpVj2+XN3XTfdAyBzfTZ2oDmQQz66NGW9ovtox7DsMUd2W7dSc6w9o1Qr
+ ZY8A==
+X-Gm-Message-State: AOAM530y90t1LH+b5nCaZCJ/k9SlwjA/F8K7Lzj75a62TwdQlXfL81vD
+ +/Zx+ZMOmsDBejpb3kT1q3k=
+X-Google-Smtp-Source: ABdhPJxYzw948CYn/vrnLtLj9td0ihxzeOeJLO8aPceNZ6uTQIjukJfgPqOdArA0dsf3M/WWZk7Qdg==
+X-Received: by 2002:a17:90a:49cc:: with SMTP id
+ l12mr14900755pjm.212.1622387208287; 
+ Sun, 30 May 2021 08:06:48 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com
  ([2001:4898:80e8:9:dc2d:80ab:c3f3:1524])
- by smtp.gmail.com with ESMTPSA id b15sm8679688pfi.100.2021.05.30.08.06.45
+ by smtp.gmail.com with ESMTPSA id b15sm8679688pfi.100.2021.05.30.08.06.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 May 2021 08:06:46 -0700 (PDT)
+ Sun, 30 May 2021 08:06:47 -0700 (PDT)
 From: Tianyu Lan <ltykernel@gmail.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
  wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
@@ -84,10 +84,10 @@ To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
  jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
  xen-devel@lists.xenproject.org, davem@davemloft.net, kuba@kernel.org,
  jejb@linux.ibm.com, martin.petersen@oracle.com
-Subject: [RFC PATCH V3 06/11] HV/Vmbus: Add SNP support for VMbus channel
- initiate message
-Date: Sun, 30 May 2021 11:06:23 -0400
-Message-Id: <20210530150628.2063957-7-ltykernel@gmail.com>
+Subject: [RFC PATCH V3 07/11] HV/Vmbus: Initialize VMbus ring buffer for
+ Isolation VM
+Date: Sun, 30 May 2021 11:06:24 -0400
+Message-Id: <20210530150628.2063957-8-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210530150628.2063957-1-ltykernel@gmail.com>
 References: <20210530150628.2063957-1-ltykernel@gmail.com>
@@ -116,138 +116,189 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-The monitor pages in the CHANNELMSG_INITIATE_CONTACT are shared
-with host and so it's necessary to use hvcall to set them visible
-to host. In Isolation VM with AMD SEV SNP, the access address
-should be in the extra space which is above shared gpa boundary.
-So remap these pages into the extra address(pa + shared_gpa_boundary).
+VMbus ring buffer are shared with host and it's need to
+be accessed via extra address space of Isolation VM with
+SNP support. This patch is to map the ring buffer
+address in extra address space via ioremap(). HV host
+visibility hvcall smears data in the ring buffer and
+so reset the ring buffer memory to zero after calling
+visibility hvcall.
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/connection.c   | 62 +++++++++++++++++++++++++++++++++++++++
- drivers/hv/hyperv_vmbus.h |  1 +
- 2 files changed, 63 insertions(+)
+ drivers/hv/Kconfig        |  1 +
+ drivers/hv/channel.c      | 10 +++++
+ drivers/hv/hyperv_vmbus.h |  2 +
+ drivers/hv/ring_buffer.c  | 84 ++++++++++++++++++++++++++++++---------
+ 4 files changed, 79 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 186fd4c8acd4..389adc92f958 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -104,6 +104,12 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 66c794d92391..a8386998be40 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -7,6 +7,7 @@ config HYPERV
+ 	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERVISOR_GUEST
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR
++	select VMAP_PFN
+ 	help
+ 	  Select this option to run Linux as a Hyper-V client operating
+ 	  system.
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 01048bb07082..7350da9dbe97 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -707,6 +707,16 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+ 	if (err)
+ 		goto error_clean_ring;
  
- 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
- 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
++	err = hv_ringbuffer_post_init(&newchannel->outbound,
++				      page, send_pages);
++	if (err)
++		goto error_free_gpadl;
 +
-+	if (hv_is_isolation_supported()) {
-+		msg->monitor_page1 += ms_hyperv.shared_gpa_boundary;
-+		msg->monitor_page2 += ms_hyperv.shared_gpa_boundary;
-+	}
++	err = hv_ringbuffer_post_init(&newchannel->inbound,
++				      &page[send_pages], recv_pages);
++	if (err)
++		goto error_free_gpadl;
 +
- 	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
- 
- 	/*
-@@ -148,6 +154,29 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 		return -ECONNREFUSED;
- 	}
- 
-+	if (hv_is_isolation_supported()) {
-+		vmbus_connection.monitor_pages_va[0]
-+			= vmbus_connection.monitor_pages[0];
-+		vmbus_connection.monitor_pages[0]
-+			= ioremap_cache(msg->monitor_page1, HV_HYP_PAGE_SIZE);
-+		if (!vmbus_connection.monitor_pages[0])
-+			return -ENOMEM;
-+
-+		vmbus_connection.monitor_pages_va[1]
-+			= vmbus_connection.monitor_pages[1];
-+		vmbus_connection.monitor_pages[1]
-+			= ioremap_cache(msg->monitor_page2, HV_HYP_PAGE_SIZE);
-+		if (!vmbus_connection.monitor_pages[1]) {
-+			vunmap(vmbus_connection.monitor_pages[0]);
-+			return -ENOMEM;
-+		}
-+
-+		memset(vmbus_connection.monitor_pages[0], 0x00,
-+		       HV_HYP_PAGE_SIZE);
-+		memset(vmbus_connection.monitor_pages[1], 0x00,
-+		       HV_HYP_PAGE_SIZE);
-+	}
-+
- 	return ret;
- }
- 
-@@ -159,6 +188,7 @@ int vmbus_connect(void)
- 	struct vmbus_channel_msginfo *msginfo = NULL;
- 	int i, ret = 0;
- 	__u32 version;
-+	u64 pfn[2];
- 
- 	/* Initialize the vmbus connection */
- 	vmbus_connection.conn_state = CONNECTING;
-@@ -216,6 +246,16 @@ int vmbus_connect(void)
- 		goto cleanup;
- 	}
- 
-+	if (hv_is_isolation_supported()) {
-+		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
-+		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
-+		if (hv_mark_gpa_visibility(2, pfn,
-+				VMBUS_PAGE_VISIBLE_READ_WRITE)) {
-+			ret = -EFAULT;
-+			goto cleanup;
-+		}
-+	}
-+
- 	msginfo = kzalloc(sizeof(*msginfo) +
- 			  sizeof(struct vmbus_channel_initiate_contact),
- 			  GFP_KERNEL);
-@@ -282,6 +322,8 @@ int vmbus_connect(void)
- 
- void vmbus_disconnect(void)
- {
-+	u64 pfn[2];
-+
- 	/*
- 	 * First send the unload request to the host.
- 	 */
-@@ -301,6 +343,26 @@ void vmbus_disconnect(void)
- 		vmbus_connection.int_page = NULL;
- 	}
- 
-+	if (hv_is_isolation_supported()) {
-+		if (vmbus_connection.monitor_pages_va[0]) {
-+			vunmap(vmbus_connection.monitor_pages[0]);
-+			vmbus_connection.monitor_pages[0]
-+				= vmbus_connection.monitor_pages_va[0];
-+			vmbus_connection.monitor_pages_va[0] = NULL;
-+		}
-+
-+		if (vmbus_connection.monitor_pages_va[1]) {
-+			vunmap(vmbus_connection.monitor_pages[1]);
-+			vmbus_connection.monitor_pages[1]
-+				= vmbus_connection.monitor_pages_va[1];
-+			vmbus_connection.monitor_pages_va[1] = NULL;
-+		}
-+
-+		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
-+		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
-+		hv_mark_gpa_visibility(2, pfn, VMBUS_PAGE_NOT_VISIBLE);
-+	}
-+
- 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
- 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
- 	vmbus_connection.monitor_pages[0] = NULL;
+ 	/* Create and init the channel open message */
+ 	open_info = kzalloc(sizeof(*open_info) +
+ 			   sizeof(struct vmbus_channel_open_channel),
 diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 42f3d9d123a1..40bc0eff6665 100644
+index 40bc0eff6665..15cd23a561f3 100644
 --- a/drivers/hv/hyperv_vmbus.h
 +++ b/drivers/hv/hyperv_vmbus.h
-@@ -240,6 +240,7 @@ struct vmbus_connection {
- 	 * is child->parent notification
- 	 */
- 	struct hv_monitor_page *monitor_pages[2];
-+	void *monitor_pages_va[2];
- 	struct list_head chn_msg_list;
- 	spinlock_t channelmsg_lock;
+@@ -172,6 +172,8 @@ extern int hv_synic_cleanup(unsigned int cpu);
+ /* Interface */
  
+ void hv_ringbuffer_pre_init(struct vmbus_channel *channel);
++int hv_ringbuffer_post_init(struct hv_ring_buffer_info *ring_info,
++		struct page *pages, u32 page_cnt);
+ 
+ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+ 		       struct page *pages, u32 pagecnt, u32 max_pkt_size);
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index 2aee356840a2..d4f93fca1108 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -17,6 +17,8 @@
+ #include <linux/vmalloc.h>
+ #include <linux/slab.h>
+ #include <linux/prefetch.h>
++#include <linux/io.h>
++#include <asm/mshyperv.h>
+ 
+ #include "hyperv_vmbus.h"
+ 
+@@ -179,43 +181,89 @@ void hv_ringbuffer_pre_init(struct vmbus_channel *channel)
+ 	mutex_init(&channel->outbound.ring_buffer_mutex);
+ }
+ 
+-/* Initialize the ring buffer. */
+-int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+-		       struct page *pages, u32 page_cnt, u32 max_pkt_size)
++int hv_ringbuffer_post_init(struct hv_ring_buffer_info *ring_info,
++		       struct page *pages, u32 page_cnt)
+ {
++	u64 physic_addr = page_to_pfn(pages) << PAGE_SHIFT;
++	unsigned long *pfns_wraparound;
++	void *vaddr;
+ 	int i;
+-	struct page **pages_wraparound;
+ 
+-	BUILD_BUG_ON((sizeof(struct hv_ring_buffer) != PAGE_SIZE));
++	if (!hv_isolation_type_snp())
++		return 0;
++
++	physic_addr += ms_hyperv.shared_gpa_boundary;
+ 
+ 	/*
+ 	 * First page holds struct hv_ring_buffer, do wraparound mapping for
+ 	 * the rest.
+ 	 */
+-	pages_wraparound = kcalloc(page_cnt * 2 - 1, sizeof(struct page *),
++	pfns_wraparound = kcalloc(page_cnt * 2 - 1, sizeof(unsigned long),
+ 				   GFP_KERNEL);
+-	if (!pages_wraparound)
++	if (!pfns_wraparound)
+ 		return -ENOMEM;
+ 
+-	pages_wraparound[0] = pages;
++	pfns_wraparound[0] = physic_addr >> PAGE_SHIFT;
+ 	for (i = 0; i < 2 * (page_cnt - 1); i++)
+-		pages_wraparound[i + 1] = &pages[i % (page_cnt - 1) + 1];
+-
+-	ring_info->ring_buffer = (struct hv_ring_buffer *)
+-		vmap(pages_wraparound, page_cnt * 2 - 1, VM_MAP, PAGE_KERNEL);
+-
+-	kfree(pages_wraparound);
++		pfns_wraparound[i + 1] = (physic_addr >> PAGE_SHIFT) +
++			i % (page_cnt - 1) + 1;
+ 
+-
+-	if (!ring_info->ring_buffer)
++	vaddr = vmap_pfn(pfns_wraparound, page_cnt * 2 - 1, PAGE_KERNEL_IO);
++	kfree(pfns_wraparound);
++	if (!vaddr)
+ 		return -ENOMEM;
+ 
+-	ring_info->ring_buffer->read_index =
+-		ring_info->ring_buffer->write_index = 0;
++	/* Clean memory after setting host visibility. */
++	memset((void *)vaddr, 0x00, page_cnt * PAGE_SIZE);
++
++	ring_info->ring_buffer = (struct hv_ring_buffer *)vaddr;
++	ring_info->ring_buffer->read_index = 0;
++	ring_info->ring_buffer->write_index = 0;
+ 
+ 	/* Set the feature bit for enabling flow control. */
+ 	ring_info->ring_buffer->feature_bits.value = 1;
+ 
++	return 0;
++}
++
++/* Initialize the ring buffer. */
++int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
++		       struct page *pages, u32 page_cnt, u32 max_pkt_size)
++{
++	int i;
++	struct page **pages_wraparound;
++
++	BUILD_BUG_ON((sizeof(struct hv_ring_buffer) != PAGE_SIZE));
++
++	if (!hv_isolation_type_snp()) {
++		/*
++		 * First page holds struct hv_ring_buffer, do wraparound mapping for
++		 * the rest.
++		 */
++		pages_wraparound = kcalloc(page_cnt * 2 - 1, sizeof(struct page *),
++					   GFP_KERNEL);
++		if (!pages_wraparound)
++			return -ENOMEM;
++
++		pages_wraparound[0] = pages;
++		for (i = 0; i < 2 * (page_cnt - 1); i++)
++			pages_wraparound[i + 1] = &pages[i % (page_cnt - 1) + 1];
++
++		ring_info->ring_buffer = (struct hv_ring_buffer *)
++			vmap(pages_wraparound, page_cnt * 2 - 1, VM_MAP, PAGE_KERNEL);
++
++		kfree(pages_wraparound);
++
++		if (!ring_info->ring_buffer)
++			return -ENOMEM;
++
++		ring_info->ring_buffer->read_index =
++			ring_info->ring_buffer->write_index = 0;
++
++		/* Set the feature bit for enabling flow control. */
++		ring_info->ring_buffer->feature_bits.value = 1;
++	}
++
+ 	ring_info->ring_size = page_cnt << PAGE_SHIFT;
+ 	ring_info->ring_size_div10_reciprocal =
+ 		reciprocal_value(ring_info->ring_size / 10);
 -- 
 2.25.1
 
