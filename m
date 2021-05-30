@@ -1,50 +1,49 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632A3395006
-	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 09:51:29 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A811E395003
+	for <lists.iommu@lfdr.de>; Sun, 30 May 2021 09:51:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 46CEC40177;
-	Sun, 30 May 2021 07:51:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id ECE1E403DC;
+	Sun, 30 May 2021 07:51:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id digyth3qPt13; Sun, 30 May 2021 07:51:25 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nYXWWNseqHMp; Sun, 30 May 2021 07:51:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 33ED04010E;
-	Sun, 30 May 2021 07:51:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 636A3403E6;
+	Sun, 30 May 2021 07:51:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D8FFC0001;
-	Sun, 30 May 2021 07:51:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 423D1C0001;
+	Sun, 30 May 2021 07:51:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E379C0001
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B1A3D403D2
- for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:21 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=nvidia.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G3SALS80FL_a for <iommu@lists.linux-foundation.org>;
- Sun, 30 May 2021 07:51:18 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20627.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eae::627])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E6C68403DC
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C687FC0001
  for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id A352E606AA
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=nvidia.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CT8SoPVtzu-W for <iommu@lists.linux-foundation.org>;
+ Sun, 30 May 2021 07:51:16 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2078.outbound.protection.outlook.com [40.107.95.78])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 730B160611
+ for <iommu@lists.linux-foundation.org>; Sun, 30 May 2021 07:51:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QrgQ0/2jAVJoie4Xv5OvndvFT5pgFzvj8Qh9xuxyONMmuyP/6XybROZ+RcZ4LMqmxxrCX1NqPUulE9FmZSiK+mGK3kjfBVi/CE/v4sYW5XORb6r6RyX0QEAn5IvbEy5jQzR+qfh81S0BwDxJv8FxPUHn+bsD/ClkIqejzOa/Pb11MqgN+d2h5rTqMEy4yxTMcdYTlA1XUFl/sB7So4kZ1jd7V72ujNI/j+0lRFigUDUAL2owNjNPxL4RSLv3CICTYP51sDVybfqSuHR4dItOh0cyXBl1BFp8rj5Bg7YTf9YhVYLAfG9vXL772GcrYBb6CgU4C5qGyiUH2t9m9KdNgg==
+ b=Qyazt8aY8Aoo3fsiSHo0D5JtC1kcw1xP57H/0ycaO65d01blim4PtgBXCVljktVwHVOXtg9Skfoa4CGlSk4DLnnDe1eF5TM6Bqre+XeahUp3CpDinUbmJ9Nv6wKvyd+OFTP7rJyM629dNcigVtfx0idGxGPtTEJjEyxH1a1yvWJWOSxx4wCl9JykCoOUdWcdFyhUcpMmsE3XJ/hWpg+dtFul/hW80UVdfRy5zqVJfDzNiYrj5DvtkJIioeyZJf4xj2RVfaSY51PBwzA3mMhUowHiZJ9GT7KWaisKRFEJoOUeiZ88awUvBCDBGp32uDE+I9QR+OvzsplDIKNBPIA/7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mz8XHVDiZXtvhQEfutwsyMut0+Ahv0K9+uKnOp8LWPQ=;
- b=QvfpOfhl6hKPCbu/1tniAhcIVHsGVR3HGu/QIdYv7FBM6ggTlz5wbmmN6h3C5rjN+q+eBvRr41QLCFtkM2YvASCBetwVoUxF3DRdEyqIfufUAVC62UuzuQ+QZopFtMZnGzoiSSHI1tw36PWXVQYqrZzZOo9yA4QVtp9gUHi5niFOaa2ADW4C5msqX358wIV8ZPpfcMFQavKQCeLEBS0mh6mdM6H8F7ozNb0culddeYd6Mx4fHsKIBTsSZNm0BrCyyuFIatKuCpQVZz58enl+H6UVWamIPDF3zxQMKQ/c5fIkI/H9GSR8DJYgMJ2a17H8h4uEDpiyAwU4svGY3L5Y6g==
+ bh=GyTU/mfeiohh5yAg2UBmQgzw2czuXS8+Er107jxnbSE=;
+ b=R59JzuZ4sa98xDeInEuqpz5AUGwR0Grsl09GDsFwSfVVpe+2pQSVgTjafq0Yopc9lL/H9/RPJgbjeCYfXfSmB9s2bl87b1km5UOazeB9azUDZAGan3dY1wMsINvp5n/rokqUQWdAZzncGLoMY+2RdN2D276QNMSuWUEpGd3Sl97sx5BUR68l86rzSLKdq0h3yEeonx8tfZgAWweTe1YJ6rwCCelERLWAXDQoQuIsP+JKD7nx+J1XdvhIkVgBYRl82VsCz+PdGqe4LlY+GXH5UjolkDoSVUFWXx7bxKi3j9+Pr5Im3D2EpsYad92hkLtweFLmW9Y4xHwf6ZJaSPGtGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -52,18 +51,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mz8XHVDiZXtvhQEfutwsyMut0+Ahv0K9+uKnOp8LWPQ=;
- b=izZPUcB/NIRCJe+BG4YR8J9jOgGVgD6BqsCccgZp03WyN4a2bQrhoHHZrK2leOA3RncRosqxnceJOH/RLB3b3tStvye7xn4rg8ipcomQqS1R8MIEaP7xL3S92gxOtdlE/9qcLWWccFIHYr6iQRO9y3aJLw91wA+hzFoHn7gnvQdLURMn6B7O2Ib248cJzZLXEj7lTSNlggNfxjXHxUUG0YC6IJkyZ6LG1do9ciTCjXtadNJFz3m5eIseGp3l+Gad8whn2ZVdA8eT4DOd+YtfY3y18uCK0YvoZYIOfZWF9WFdZoNpeUfL4od58CcN1iHLzNNzUzCYLzIi8scfvABuAw==
-Received: from BN8PR15CA0013.namprd15.prod.outlook.com (2603:10b6:408:c0::26)
- by BL0PR12MB4708.namprd12.prod.outlook.com (2603:10b6:208:8d::24)
+ bh=GyTU/mfeiohh5yAg2UBmQgzw2czuXS8+Er107jxnbSE=;
+ b=fE12qyLJJXi+0EFIZSSb5Tl2xeGt1DNiC2BTZtMN0eAAti36OMRBH68HcQi9MzEOK8PhqOraUTPpoNlIQYbKW139krKQyQCUDTL49z+wTGjxycQLGxJJIYwTOkit9OJfxBLCcqAFMq1en3XM9WMAr1cAUtI0WtrpWGOz2aXD1h56W8RZHaAJkCLQs8033hAVm6Du3nyazfY4Hry2BiJZR7F42L49scwDCUuKZ2QI+eI3c+hrLJl+6hQUth5bU+aVu4oevTUpwGSvd8sa/oc0R0M/jaPjA3uc2CNcyAiwEIwGuQzZb2pTljJhtAHQcDAZkyS/1+2ncgxCDDEqK+xNPw==
+Received: from BN8PR15CA0015.namprd15.prod.outlook.com (2603:10b6:408:c0::28)
+ by CH0PR12MB5074.namprd12.prod.outlook.com (2603:10b6:610:e1::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Sun, 30 May
- 2021 07:51:12 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Sun, 30 May
+ 2021 07:51:14 +0000
 Received: from BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:c0:cafe::17) by BN8PR15CA0013.outlook.office365.com
- (2603:10b6:408:c0::26) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:408:c0:cafe::6f) by BN8PR15CA0015.outlook.office365.com
+ (2603:10b6:408:c0::28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Sun, 30 May 2021 07:51:12 +0000
+ Transport; Sun, 30 May 2021 07:51:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; 8bytes.org; dkim=none (message not signed)
  header.d=none;8bytes.org; dmarc=pass action=none header.from=nvidia.com;
@@ -73,16 +72,16 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
 Received: from mail.nvidia.com (216.228.112.34) by
  BN8NAM11FT033.mail.protection.outlook.com (10.13.177.149) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4150.30 via Frontend Transport; Sun, 30 May 2021 07:51:12 +0000
+ 15.20.4150.30 via Frontend Transport; Sun, 30 May 2021 07:51:14 +0000
 Received: from sw-mtx-036.mtx.labs.mlnx (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
  Sun, 30 May 2021 07:51:11 +0000
 From: Parav Pandit <parav@nvidia.com>
 To: <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
  <iommu@lists.linux-foundation.org>
-Subject: [PATCH 1/5] iommu/intel: Use bitfields for DMAR capabilities
-Date: Sun, 30 May 2021 10:50:49 +0300
-Message-ID: <20210530075053.264218-2-parav@nvidia.com>
+Subject: [PATCH 2/5] iommu/intel: Removed unused iommu_count in dmar domain
+Date: Sun, 30 May 2021 10:50:50 +0300
+Message-ID: <20210530075053.264218-3-parav@nvidia.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210530075053.264218-1-parav@nvidia.com>
 References: <20210530075053.264218-1-parav@nvidia.com>
@@ -92,27 +91,27 @@ X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6712caf6-c442-4c18-770c-08d9233fb209
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4708:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB47083AC99878EDC2D4BC5313DC209@BL0PR12MB4708.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-MS-Office365-Filtering-Correlation-Id: 85ccb133-1870-44e7-d334-08d9233fb2f7
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5074:
+X-Microsoft-Antispam-PRVS: <CH0PR12MB5074035787F32AE8A03DC13ADC209@CH0PR12MB5074.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: X2JknHfF5y66fn4k5SRSfMwsmQE9jaEVbyG5zloJpwcfB2hKhxiwOtxI6fpTO15YtEf9FZHOFvWh88G0zTaiA3ezcvIz0DqzTteXoP/8LJDyntFutbHls7qa3ufYnkWuaYlczG7pJTc8R5itFZJI+F507pJTKbCY+KJF7MTmPlKavtzWSOg+D/dbTVfJJy5w+hPP7Z4TMGIFId+yYVZCO2VQuXtr685iYq4nFJRG6b1mwco9MHmMT2mpk86KQMfyMbOcd7TCKnpkSx0IfP7mzQSnwg/PDO4Qx2HYyYb7nKTHxCIMc7NoTRpKeCxHhW68MZMz2K2NphwtBewoPHe621LWl93PgNsTsUTj0zKTRTo+t/HLW8sqj3F5IW5h3Jbn6L9qW4FfIQGF23QLIdbddJoVJVbNxay3uprUaphjLMzxVjby5BRKfpcXyK0uuqY1BzyinxzK+yV4D7c31UErEjSTNqsa7W+m9w85j/mF3PK1qgb3aKe7owhtGiBsKrva3+LP8XykVqPiYzQPH5YDr2m92UgK0HGvS6dYa4rsVT0WkzguXK/q8W6NcEjMl01FcSF+9wkTBlENLL9YgLL5j5Nzzs2SkCyAZYlA9hBqa/i2RTHXjIyi+N6OYwO6ISiRWDcwSvTqOSZySiROTnrfLe8ScAvS/BhvkIURLcZwohMnnTtInmk4Vgs7r333N8Ei
+X-Microsoft-Antispam-Message-Info: p02DE81eWJxmNJrbhJ8o0cOykKXeZ50teMKYEqkCONDSpZpqikSPXqMfLGrTLi6mK9F3YUlemVwMsPWVEU4764AhKa/vAFBdQtt4DbSSj/bVh4BV4bPMWenRfC16Si3pmWTMtt8udopTmX30PXDDA6fNkKsQXtgrmhBViyRYLLQoMDFiizaEPs6o9e6UmYD554uwPpbdEEMhx5TugNxqXy7Hi/+2H/N7qCwaD0ItfNMg3D4AYMttZAIGFF1I+J8AVf0xi3wFM5Twc8DUnDZMAtYc/uJnw83hpfR5DMnRy1HDfSkz5hnIWf8l20mTtBvjot0nLLG8sWgIzh6U969ksu/bHNnDjHSOI22xVfhW5bICF7lIDl8JG2Kt8XvFgsPWaTAIRmqWLmLGvQzNR+xMwiWurwQEgsNkzQ4q4ekiaTk/Sp6/d0J8q8zFRViOKecXv75IXJ1yNLj3oaeYp5SKXZ6RQAaz5+2t7eMropZ0Sm+JM64juW9Nmi2OLkmU7CRmO7u4EBxcBSpRRcSZdl+wlEnAIzlA6lWEDRnXRC57mO966MsisWPd+PjwEVuAFXwsKrnJOHoduYPmXX5C+MSNk07myijj1cIIBZBLqG/pPEcNVHIQ5t8/i102/eg8JK3WbGbz4837gIs+YdNJee0B9xC5IbhOqWNEUJJJNn4pad4=
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(136003)(346002)(39860400002)(376002)(36840700001)(46966006)(36756003)(2906002)(47076005)(70586007)(1076003)(16526019)(82310400003)(36906005)(316002)(54906003)(8936002)(86362001)(356005)(478600001)(7636003)(26005)(82740400003)(4326008)(83380400001)(6666004)(336012)(426003)(186003)(70206006)(107886003)(110136005)(8676002)(5660300002)(2616005)(36860700001)(21314003);
+ SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(46966006)(36840700001)(36860700001)(86362001)(36756003)(16526019)(186003)(8676002)(54906003)(1076003)(7636003)(356005)(110136005)(2616005)(426003)(70206006)(5660300002)(2906002)(47076005)(336012)(83380400001)(6666004)(478600001)(82310400003)(70586007)(82740400003)(8936002)(26005)(107886003)(4326008)(36906005)(316002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2021 07:51:12.4713 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6712caf6-c442-4c18-770c-08d9233fb209
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2021 07:51:14.0404 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85ccb133-1870-44e7-d334-08d9233fb2f7
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4708
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5074
 Cc: will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -131,196 +130,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-IOTLB device presence, iommu coherency and snooping are boolean
-capabilities. Use them as bits and keep them adjacent.
+DMAR domain uses per DMAR refcount. It is indexed by iommu seq_id.
+Older iommu_count is only incremented and decremented but no decisions
+are taken based on this refcount. This is not of much use.
 
-Structure layout before the reorg.
-$ pahole -C dmar_domain drivers/iommu/intel/dmar.o
-struct dmar_domain {
-        int                        nid;                  /*     0     4 */
-        unsigned int               iommu_refcnt[128];    /*     4   512 */
-        /* --- cacheline 8 boundary (512 bytes) was 4 bytes ago --- */
-        u16                        iommu_did[128];       /*   516   256 */
-        /* --- cacheline 12 boundary (768 bytes) was 4 bytes ago --- */
-        bool                       has_iotlb_device;     /*   772     1 */
-
-        /* XXX 3 bytes hole, try to pack */
-
-        struct list_head           devices;              /*   776    16 */
-        struct list_head           subdevices;           /*   792    16 */
-        struct iova_domain         iovad __attribute__((__aligned__(8))); /*   808  2320 */
-        /* --- cacheline 48 boundary (3072 bytes) was 56 bytes ago --- */
-        struct dma_pte *           pgd;                  /*  3128     8 */
-        /* --- cacheline 49 boundary (3136 bytes) --- */
-        int                        gaw;                  /*  3136     4 */
-        int                        agaw;                 /*  3140     4 */
-        int                        flags;                /*  3144     4 */
-        int                        iommu_coherency;      /*  3148     4 */
-        int                        iommu_snooping;       /*  3152     4 */
-        int                        iommu_count;          /*  3156     4 */
-        int                        iommu_superpage;      /*  3160     4 */
-
-        /* XXX 4 bytes hole, try to pack */
-
-        u64                        max_addr;             /*  3168     8 */
-        u32                        default_pasid;        /*  3176     4 */
-
-        /* XXX 4 bytes hole, try to pack */
-
-        struct iommu_domain        domain;               /*  3184    72 */
-
-        /* size: 3256, cachelines: 51, members: 18 */
-        /* sum members: 3245, holes: 3, sum holes: 11 */
-        /* forced alignments: 1 */
-        /* last cacheline: 56 bytes */
-} __attribute__((__aligned__(8)));
-
-After arranging it for natural padding and to make flags as u8 bits, it
-saves 8 bytes for the struct.
-
-struct dmar_domain {
-        int                        nid;                  /*     0     4 */
-        unsigned int               iommu_refcnt[128];    /*     4   512 */
-        /* --- cacheline 8 boundary (512 bytes) was 4 bytes ago --- */
-        u16                        iommu_did[128];       /*   516   256 */
-        /* --- cacheline 12 boundary (768 bytes) was 4 bytes ago --- */
-        u8                         has_iotlb_device:1;   /*   772: 0  1 */
-        u8                         iommu_coherency:1;    /*   772: 1  1 */
-        u8                         iommu_snooping:1;     /*   772: 2  1 */
-
-        /* XXX 5 bits hole, try to pack */
-        /* XXX 3 bytes hole, try to pack */
-
-        struct list_head           devices;              /*   776    16 */
-        struct list_head           subdevices;           /*   792    16 */
-        struct iova_domain         iovad __attribute__((__aligned__(8))); /*   808  2320 */
-        /* --- cacheline 48 boundary (3072 bytes) was 56 bytes ago --- */
-        struct dma_pte *           pgd;                  /*  3128     8 */
-        /* --- cacheline 49 boundary (3136 bytes) --- */
-        int                        gaw;                  /*  3136     4 */
-        int                        agaw;                 /*  3140     4 */
-        int                        flags;                /*  3144     4 */
-        int                        iommu_count;          /*  3148     4 */
-        int                        iommu_superpage;      /*  3152     4 */
-
-        /* XXX 4 bytes hole, try to pack */
-
-        u64                        max_addr;             /*  3160     8 */
-        u32                        default_pasid;        /*  3168     4 */
-
-        /* XXX 4 bytes hole, try to pack */
-
-        struct iommu_domain        domain;               /*  3176    72 */
-
-        /* size: 3248, cachelines: 51, members: 18 */
-        /* sum members: 3236, holes: 3, sum holes: 11 */
-        /* sum bitfield members: 3 bits, bit holes: 1, sum bit holes: 5 bits */
-        /* forced alignments: 1 */
-        /* last cacheline: 48 bytes */
-} __attribute__((__aligned__(8)));
+Hence, remove iommu_count and further simplify domain_detach_iommu()
+by returning void.
 
 Signed-off-by: Parav Pandit <parav@nvidia.com>
 ---
- drivers/iommu/intel/iommu.c | 18 +++++++++---------
- include/linux/intel-iommu.h |  8 ++++----
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/iommu/intel/iommu.c | 11 +++--------
+ include/linux/intel-iommu.h |  1 -
+ 2 files changed, 3 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 708f430af1c4..cdbf4513df9d 100644
+index cdbf4513df9d..51be77c48108 100644
 --- a/drivers/iommu/intel/iommu.c
 +++ b/drivers/iommu/intel/iommu.c
-@@ -625,12 +625,12 @@ static void domain_update_iommu_coherency(struct dmar_domain *domain)
- 	bool found = false;
- 	int i;
+@@ -1919,7 +1919,6 @@ static int domain_attach_iommu(struct dmar_domain *domain,
+ 	assert_spin_locked(&iommu->lock);
  
--	domain->iommu_coherency = 1;
-+	domain->iommu_coherency = true;
+ 	domain->iommu_refcnt[iommu->seq_id] += 1;
+-	domain->iommu_count += 1;
+ 	if (domain->iommu_refcnt[iommu->seq_id] == 1) {
+ 		ndomains = cap_ndoms(iommu->cap);
+ 		num      = find_first_zero_bit(iommu->domain_ids, ndomains);
+@@ -1927,7 +1926,6 @@ static int domain_attach_iommu(struct dmar_domain *domain,
+ 		if (num >= ndomains) {
+ 			pr_err("%s: No free domain ids\n", iommu->name);
+ 			domain->iommu_refcnt[iommu->seq_id] -= 1;
+-			domain->iommu_count -= 1;
+ 			return -ENOSPC;
+ 		}
  
- 	for_each_domain_iommu(i, domain) {
- 		found = true;
- 		if (!iommu_paging_structure_coherency(g_iommus[i])) {
--			domain->iommu_coherency = 0;
-+			domain->iommu_coherency = false;
- 			break;
- 		}
- 	}
-@@ -641,18 +641,18 @@ static void domain_update_iommu_coherency(struct dmar_domain *domain)
- 	rcu_read_lock();
- 	for_each_active_iommu(iommu, drhd) {
- 		if (!iommu_paging_structure_coherency(iommu)) {
--			domain->iommu_coherency = 0;
-+			domain->iommu_coherency = false;
- 			break;
- 		}
- 	}
- 	rcu_read_unlock();
+@@ -1943,16 +1941,15 @@ static int domain_attach_iommu(struct dmar_domain *domain,
+ 	return 0;
  }
  
--static int domain_update_iommu_snooping(struct intel_iommu *skip)
-+static bool domain_update_iommu_snooping(struct intel_iommu *skip)
+-static int domain_detach_iommu(struct dmar_domain *domain,
+-			       struct intel_iommu *iommu)
++static void domain_detach_iommu(struct dmar_domain *domain,
++				struct intel_iommu *iommu)
  {
- 	struct dmar_drhd_unit *drhd;
- 	struct intel_iommu *iommu;
--	int ret = 1;
-+	bool ret = true;
+-	int num, count;
++	int num;
  
- 	rcu_read_lock();
- 	for_each_active_iommu(iommu, drhd) {
-@@ -665,7 +665,7 @@ static int domain_update_iommu_snooping(struct intel_iommu *skip)
- 			 */
- 			if (!sm_supported(iommu) &&
- 			    !ecap_sc_support(iommu->ecap)) {
--				ret = 0;
-+				ret = false;
- 				break;
- 			}
- 		}
-@@ -4508,8 +4508,8 @@ static int md_domain_init(struct dmar_domain *domain, int guest_width)
- 	adjust_width = guestwidth_to_adjustwidth(guest_width);
- 	domain->agaw = width_to_agaw(adjust_width);
+ 	assert_spin_locked(&device_domain_lock);
+ 	assert_spin_locked(&iommu->lock);
  
--	domain->iommu_coherency = 0;
--	domain->iommu_snooping = 0;
-+	domain->iommu_coherency = false;
-+	domain->iommu_snooping = false;
- 	domain->iommu_superpage = 0;
- 	domain->max_addr = 0;
+ 	domain->iommu_refcnt[iommu->seq_id] -= 1;
+-	count = --domain->iommu_count;
+ 	if (domain->iommu_refcnt[iommu->seq_id] == 0) {
+ 		num = domain->iommu_did[iommu->seq_id];
+ 		clear_bit(num, iommu->domain_ids);
+@@ -1961,8 +1958,6 @@ static int domain_detach_iommu(struct dmar_domain *domain,
+ 		domain_update_iommu_cap(domain);
+ 		domain->iommu_did[iommu->seq_id] = 0;
+ 	}
+-
+-	return count;
+ }
  
-@@ -5124,7 +5124,7 @@ static phys_addr_t intel_iommu_iova_to_phys(struct iommu_domain *domain,
- static bool intel_iommu_capable(enum iommu_cap cap)
- {
- 	if (cap == IOMMU_CAP_CACHE_COHERENCY)
--		return domain_update_iommu_snooping(NULL) == 1;
-+		return domain_update_iommu_snooping(NULL);
- 	if (cap == IOMMU_CAP_INTR_REMAP)
- 		return irq_remapping_enabled == 1;
- 
+ static inline int guestwidth_to_adjustwidth(int gaw)
 diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 03faf20a6817..2153c6cbef7e 100644
+index 2153c6cbef7e..50a006cc8c05 100644
 --- a/include/linux/intel-iommu.h
 +++ b/include/linux/intel-iommu.h
-@@ -546,7 +546,10 @@ struct dmar_domain {
- 					 * domain ids are 16 bit wide according
- 					 * to VT-d spec, section 9.3 */
- 
--	bool has_iotlb_device;
-+	u8 has_iotlb_device: 1;
-+	u8 iommu_coherency: 1;		/* indicate coherency of iommu access */
-+	u8 iommu_snooping: 1;		/* indicate snooping control feature */
-+
- 	struct list_head devices;	/* all devices' list */
- 	struct list_head subdevices;	/* all subdevices' list */
- 	struct iova_domain iovad;	/* iova's that belong to this domain */
-@@ -558,9 +561,6 @@ struct dmar_domain {
+@@ -561,7 +561,6 @@ struct dmar_domain {
  	int		agaw;
  
  	int		flags;		/* flags to find out type of domain */
--
--	int		iommu_coherency;/* indicate coherency of iommu access */
--	int		iommu_snooping; /* indicate snooping control feature*/
- 	int		iommu_count;	/* reference count of iommu */
+-	int		iommu_count;	/* reference count of iommu */
  	int		iommu_superpage;/* Level of superpages supported:
  					   0 == 4KiB (no superpages), 1 == 2MiB,
+ 					   2 == 1GiB, 3 == 512GiB, 4 == 1TiB */
 -- 
 2.26.2
 
