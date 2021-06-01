@@ -2,78 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C685396DD1
-	for <lists.iommu@lfdr.de>; Tue,  1 Jun 2021 09:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5C7396E59
+	for <lists.iommu@lfdr.de>; Tue,  1 Jun 2021 09:55:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6A52F40339;
-	Tue,  1 Jun 2021 07:16:11 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1DEA24045A;
+	Tue,  1 Jun 2021 07:55:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s14RBeGzIAQf; Tue,  1 Jun 2021 07:16:10 +0000 (UTC)
+	with ESMTP id fU3wpKNE3tvc; Tue,  1 Jun 2021 07:55:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7B2E640343;
-	Tue,  1 Jun 2021 07:16:10 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DFB9440465;
+	Tue,  1 Jun 2021 07:55:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DDFB9C0001;
-	Tue,  1 Jun 2021 07:16:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3CC42C0027;
+	Tue,  1 Jun 2021 07:55:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8398AC0001
- for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 07:16:08 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3F44AC0001
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 07:55:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 60CA083CD7
- for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 07:16:08 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id E504483B47
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 07:55:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tOgP6c_TA6Ut for <iommu@lists.linux-foundation.org>;
- Tue,  1 Jun 2021 07:16:07 +0000 (UTC)
+ with ESMTP id FHH5i699V1Su for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Jun 2021 07:55:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D452683CD4
- for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 07:16:06 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FvNfR6PWhz670K;
- Tue,  1 Jun 2021 15:13:03 +0800 (CST)
-Received: from dggpemm500022.china.huawei.com (7.185.36.162) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 1 Jun 2021 15:16:00 +0800
-Received: from [10.174.185.220] (10.174.185.220) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 1 Jun 2021 15:15:59 +0800
-Subject: Re: [RFC] /dev/ioasid uAPI proposal
-To: Lu Baolu <baolu.lu@linux.intel.com>, "Tian, Kevin" <kevin.tian@intel.com>, 
- LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>, "Jason
- Gunthorpe" <jgg@nvidia.com>, David Woodhouse <dwmw2@infradead.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Alex Williamson
- (alex.williamson@redhat.com)" <alex.williamson@redhat.com>, Jason Wang
- <jasowang@redhat.com>
-References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
- <c9c066ae-2a25-0799-51a7-0ca47fff41a1@huawei.com>
- <aa1624bf-e472-2b66-1d20-54ca23c19fd2@linux.intel.com>
-From: Shenming Lu <lushenming@huawei.com>
-Message-ID: <ed4f6e57-4847-3ed2-75de-cea80b2fbdb8@huawei.com>
-Date: Tue, 1 Jun 2021 15:15:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 649268379F
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 07:55:13 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FvMqt6CVVz9sWD; Tue,  1 Jun 2021 16:36:10 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1622529370;
+ bh=RcI3Lx6JqEXLQdQCTtj7ox+tPHAP/LFuk9JoMwCrYnc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g8TTpBDIOhwOzpuTzNz/rgTIH6GOtOp2ImFhD29VybP0A3+MY/DGJ7LOTsp0UzL0t
+ NDTCwcOkwNx796SFiWI5riuLggf6GllJosGLDxvACByxmyNyqKG3MLt4g8mln6Ei+E
+ fiHf3GYNn3wFrctEbMA/+GDV1CZNMv7S++8AnP9I=
+Date: Tue, 1 Jun 2021 13:45:29 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH V4 05/18] iommu/ioasid: Redefine IOASID set and
+ allocation APIs
+Message-ID: <YLWtWRzO/DukUC1a@yekko>
+References: <20210503161518.GM1370958@nvidia.com> <YJy9o8uEZs42/qDM@yekko>
+ <20210513135938.GG1002214@nvidia.com> <YKtbWo7PwIlXjFIV@yekko>
+ <20210524233744.GT1002214@nvidia.com>
+ <ce2fcf21-1803-047b-03f0-7a4108dea7af@nvidia.com>
+ <20210525195257.GG1002214@nvidia.com>
+ <6b13399d-cf03-1e71-3624-c39d4d05e958@nvidia.com>
+ <YK8nXKAJdfT5UVEu@yekko>
+ <2476b70c-9320-a49c-efa5-fb7027e1b572@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <aa1624bf-e472-2b66-1d20-54ca23c19fd2@linux.intel.com>
-Content-Language: en-US
-X-Originating-IP: [10.174.185.220]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500022.china.huawei.com (7.185.36.162)
-X-CFilter-Loop: Reflected
+In-Reply-To: <2476b70c-9320-a49c-efa5-fb7027e1b572@nvidia.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
  Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Kirti Wankhede <kwankhede@nvidia.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Robin Murphy <robin.murphy@arm.com>
+ Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@nvidia.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
+ "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Li Zefan <lizefan@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Tejun Heo <tj@kernel.org>, Jean-Philippe Brucker <jean-philippe@linaro.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,68 +82,117 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============7043516553752540610=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMjAyMS82LzEgMTM6MTAsIEx1IEJhb2x1IHdyb3RlOgo+IEhpIFNoZW5taW5nLAo+IAo+IE9u
-IDYvMS8yMSAxMjozMSBQTSwgU2hlbm1pbmcgTHUgd3JvdGU6Cj4+IE9uIDIwMjEvNS8yNyAxNTo1
-OCwgVGlhbiwgS2V2aW4gd3JvdGU6Cj4+PiAvZGV2L2lvYXNpZCBwcm92aWRlcyBhbiB1bmlmaWVk
-IGludGVyZmFjZSBmb3IgbWFuYWdpbmcgSS9PIHBhZ2UgdGFibGVzIGZvcgo+Pj4gZGV2aWNlcyBh
-c3NpZ25lZCB0byB1c2Vyc3BhY2UuIERldmljZSBwYXNzdGhyb3VnaCBmcmFtZXdvcmtzIChWRklP
-LCB2RFBBLAo+Pj4gZXRjLikgYXJlIGV4cGVjdGVkIHRvIHVzZSB0aGlzIGludGVyZmFjZSBpbnN0
-ZWFkIG9mIGNyZWF0aW5nIHRoZWlyIG93biBsb2dpYyB0bwo+Pj4gaXNvbGF0ZSB1bnRydXN0ZWQg
-ZGV2aWNlIERNQXMgaW5pdGlhdGVkIGJ5IHVzZXJzcGFjZS4KPj4+Cj4+PiBUaGlzIHByb3Bvc2Fs
-IGRlc2NyaWJlcyB0aGUgdUFQSSBvZiAvZGV2L2lvYXNpZCBhbmQgYWxzbyBzYW1wbGUgc2VxdWVu
-Y2VzCj4+PiB3aXRoIFZGSU8gYXMgZXhhbXBsZSBpbiB0eXBpY2FsIHVzYWdlcy4gVGhlIGRyaXZl
-ci1mYWNpbmcga2VybmVsIEFQSSBwcm92aWRlZAo+Pj4gYnkgdGhlIGlvbW11IGxheWVyIGlzIHN0
-aWxsIFRCRCwgd2hpY2ggY2FuIGJlIGRpc2N1c3NlZCBhZnRlciBjb25zZW5zdXMgaXMKPj4+IG1h
-ZGUgb24gdGhpcyB1QVBJLgo+Pj4KPj4+IEl0J3MgYmFzZWQgb24gYSBsZW5ndGh5IGRpc2N1c3Np
-b24gc3RhcnRpbmcgZnJvbSBoZXJlOgo+Pj4gwqDCoMKgwqBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9saW51eC1pb21tdS8yMDIxMDMzMDEzMjgzMC5HTzIzNTYyODFAbnZpZGlhLmNvbS8KPj4+Cj4+
-PiBJdCBlbmRzIHVwIHRvIGJlIGEgbG9uZyB3cml0aW5nIGR1ZSB0byBtYW55IHRoaW5ncyB0byBi
-ZSBzdW1tYXJpemVkIGFuZAo+Pj4gbm9uLXRyaXZpYWwgZWZmb3J0IHJlcXVpcmVkIHRvIGNvbm5l
-Y3QgdGhlbSBpbnRvIGEgY29tcGxldGUgcHJvcG9zYWwuCj4+PiBIb3BlIGl0IHByb3ZpZGVzIGEg
-Y2xlYW4gYmFzZSB0byBjb252ZXJnZS4KPj4+Cj4+Cj4+IFsuLl0KPj4KPj4+Cj4+PiAvKgo+Pj4g
-wqDCoCAqIFBhZ2UgZmF1bHQgcmVwb3J0IGFuZCByZXNwb25zZQo+Pj4gwqDCoCAqCj4+PiDCoMKg
-ICogVGhpcyBpcyBUQkQuIENhbiBiZSBhZGRlZCBhZnRlciBvdGhlciBwYXJ0cyBhcmUgY2xlYXJl
-ZCB1cC4gTGlrZWx5IGl0Cj4+PiDCoMKgICogd2lsbCBiZSBhIHJpbmcgYnVmZmVyIHNoYXJlZCBi
-ZXR3ZWVuIHVzZXIva2VybmVsLCBhbiBldmVudGZkIHRvIG5vdGlmeQo+Pj4gwqDCoCAqIHRoZSB1
-c2VyIGFuZCBhbiBpb2N0bCB0byBjb21wbGV0ZSB0aGUgZmF1bHQuCj4+PiDCoMKgICoKPj4+IMKg
-wqAgKiBUaGUgZmF1bHQgZGF0YSBpcyBwZXIgSS9PIGFkZHJlc3Mgc3BhY2UsIGkuZS46IElPQVNJ
-RCArIGZhdWx0aW5nX2FkZHIKPj4+IMKgwqAgKi8KPj4KPj4gSGksCj4+Cj4+IEl0IHNlZW1zIHRo
-YXQgdGhlIGlvYXNpZCBoYXMgZGlmZmVyZW50IHVzYWdlIGluIGRpZmZlcmVudCBzaXR1YXRpb24s
-IGl0IGNvdWxkCj4+IGJlIGRpcmVjdGx5IHVzZWQgaW4gdGhlIHBoeXNpY2FsIHJvdXRpbmcsIG9y
-IGp1c3QgYSB2aXJ0dWFsIGhhbmRsZSB0aGF0IGluZGljYXRlcwo+PiBhIHBhZ2UgdGFibGUgb3Ig
-YSB2UEFTSUQgdGFibGUgKHN1Y2ggYXMgdGhlIEdQQSBhZGRyZXNzIHNwYWNlLCBpbiB0aGUgc2lt
-cGxlCj4+IHBhc3N0aHJvdWdoIGNhc2UsIHRoZSBETUEgaW5wdXQgdG8gSU9NTVUgd2lsbCBqdXN0
-IGNvbnRhaW4gYSBTdHJlYW0gSUQsIG5vCj4+IFN1YnN0cmVhbSBJRCksIHJpZ2h0Pwo+Pgo+PiBB
-bmQgQmFvbHUgc3VnZ2VzdGVkIHRoYXQgc2luY2Ugb25lIGRldmljZSBtaWdodCBjb25zdW1lIG11
-bHRpcGxlIHBhZ2UgdGFibGVzLAo+PiBpdCdzIG1vcmUgcmVhc29uYWJsZSB0byBoYXZlIG9uZSBm
-YXVsdCBoYW5kbGVyIHBlciBwYWdlIHRhYmxlLiBCeSB0aGlzLCBkbyB3ZQo+PiBoYXZlIHRvIG1h
-aW50YWluIHN1Y2ggYW4gaW9hc2lkIGluZm8gbGlzdCBpbiB0aGUgSU9NTVUgbGF5ZXI/Cj4gCj4g
-QXMgZGlzY3Vzc2VkIGVhcmxpZXIsIHRoZSBJL08gcGFnZSBmYXVsdCBhbmQgY2FjaGUgaW52YWxp
-ZGF0aW9uIHBhdGhzCj4gd2lsbCBoYXZlICJkZXZpY2UgbGFiZWxzIiBzbyB0aGF0IHRoZSBpbmZv
-cm1hdGlvbiBjb3VsZCBiZSBlYXNpbHkKPiB0cmFuc2xhdGVkIGFuZCByb3V0ZWQuCj4gCj4gU28g
-aXQncyBsaWtlbHkgdGhlIHBlci1kZXZpY2UgZmF1bHQgaGFuZGxlciByZWdpc3RlcmluZyBBUEkg
-aW4gaW9tbXUKPiBjb3JlIGNhbiBiZSBrZXB0LCBidXQgL2Rldi9pb2FzaWQgd2lsbCBiZSBncm93
-biB3aXRoIGEgbGF5ZXIgdG8KPiB0cmFuc2xhdGUgYW5kIHByb3BhZ2F0ZSBJL08gcGFnZSBmYXVs
-dCBpbmZvcm1hdGlvbiB0byB0aGUgcmlnaHQKPiBjb25zdW1lcnMuCgpZZWFoLCBoYXZpbmcgYSBn
-ZW5lcmFsIHByZXByb2Nlc3Npbmcgb2YgdGhlIGZhdWx0cyBpbiBJT0FTSUQgc2VlbXMgdG8gYmUK
-YSBkb2FibGUgZGlyZWN0aW9uLiBCdXQgc2luY2UgdGhlcmUgbWF5IGJlIG1vcmUgdGhhbiBvbmUg
-Y29uc3VtZXIgYXQgdGhlCnNhbWUgdGltZSwgd2hvIGlzIHJlc3BvbnNpYmxlIGZvciByZWdpc3Rl
-cmluZyB0aGUgcGVyLWRldmljZSBmYXVsdCBoYW5kbGVyPwoKVGhhbmtzLApTaGVubWluZwoKPiAK
-PiBJZiB0aGluZ3MgZXZvbHZlIGluIHRoaXMgd2F5LCBwcm9iYWJseSB0aGUgU1ZBIEkvTyBwYWdl
-IGZhdWx0IGFsc28gbmVlZHMKPiB0byBiZSBwb3J0ZWQgdG8gL2Rldi9pb2FzaWQuCj4gCj4+Cj4+
-IFRoZW4gaWYgd2UgYWRkIGhvc3QgSU9QRiBzdXBwb3J0IChmb3IgdGhlIEdQQSBhZGRyZXNzIHNw
-YWNlKSBpbiB0aGUgZnV0dXJlCj4+IChJIGhhdmUgc2VudCBhIHNlcmllcyBmb3IgdGhpcyBidXQg
-aXQgYWltZWQgZm9yIFZGSU8sIEkgd2lsbCBjb252ZXJ0IGl0IGZvcgo+PiBJT0FTSUQgbGF0ZXIg
-WzFdIDotKSksIGhvdyBjb3VsZCB3ZSBmaW5kIHRoZSBoYW5kbGVyIGZvciB0aGUgcmVjZWl2ZWQg
-ZmF1bHQKPj4gZXZlbnQgd2hpY2ggb25seSBjb250YWlucyBhIFN0cmVhbSBJRC4uLiBEbyB3ZSBh
-bHNvIGhhdmUgdG8gbWFpbnRhaW4gYQo+PiBkZXYodlBBU0lEKS0+aW9hc2lkIG1hcHBpbmcgaW4g
-dGhlIElPTU1VIGxheWVyPwo+Pgo+PiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcGF0Y2h3
-b3JrL2NvdmVyLzE0MTAyMjMvCj4gCj4gQmVzdCByZWdhcmRzLAo+IGJhb2x1Cj4gLgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxp
-c3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZv
-dW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+
+--===============7043516553752540610==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RMasjA1xbGOcqeUG"
+Content-Disposition: inline
+
+
+--RMasjA1xbGOcqeUG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 27, 2021 at 11:55:00PM +0530, Kirti Wankhede wrote:
+>=20
+>=20
+> On 5/27/2021 10:30 AM, David Gibson wrote:
+> > On Wed, May 26, 2021 at 02:48:03AM +0530, Kirti Wankhede wrote:
+> > >=20
+> > >=20
+> > > On 5/26/2021 1:22 AM, Jason Gunthorpe wrote:
+> > > > On Wed, May 26, 2021 at 12:56:30AM +0530, Kirti Wankhede wrote:
+> > > >=20
+> > > > > 2. iommu backed mdev devices for SRIOV where mdev device is creat=
+ed per
+> > > > > VF (mdev device =3D=3D VF device) then that mdev device has same =
+iommu
+> > > > > protection scope as VF associated to it.
+> > > >=20
+> > > > This doesn't require, and certainly shouldn't create, a fake group.
+> > > >=20
+> > > > Only the VF's real IOMMU group should be used to model an iommu dom=
+ain
+> > > > linked to a VF. Injecting fake groups that are proxies for real gro=
+ups
+> > > > only opens the possibility of security problems like David is
+> > > > concerned with.
+> > > >=20
+> > >=20
+> > > I think this security issue should be addressed by letting mdev device
+> > > inherit its parent's iommu_group, i.e. VF's iommu_group here.
+> >=20
+> > No, that doesn't work.  AIUI part of the whole point of mdevs is to
+> > allow chunks of a single PCI function to be handed out to different
+> > places, because they're isolated from each other not by the system
+> > IOMMU, but by a combination of MMU hardware in the hardware (e.g. in a
+> > GPU card) and software in the mdev driver.
+>=20
+> That's correct for non-iommu backed mdev devices.
+>=20
+> > If mdevs inherited the
+> > group of their parent device they wouldn't count as isolated from each
+> > other, which they should.
+> >=20
+>=20
+> For iommu backed mdev devices for SRIOV, where there can be single mdev
+> device for its parent, here parent device is VF, there can't be multiple
+> mdev devices associated with that VF. In this case mdev can inherit the
+> group of parent device.
+
+Ah, yes, if there's just one mdev for the PCI function, and the
+function doesn't have an internal memory protection unit then this
+makes sense.
+
+Which means we *do* have at least two meaningfully different group
+configurations for mdev:
+  * mdev is in a singleton group independent of the parent PCI device
+  * mdev shares a group with its parent PCI device
+
+Which means even in the case of mdevs, the group structure is *not* a
+meaningless fiction.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--RMasjA1xbGOcqeUG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC1rVYACgkQbDjKyiDZ
+s5LMVxAAsYLjKEMctzEWQ3xVpx/4Hfkf2mPGV/JzCIgHCBaT6eaYbHpLCAGtpuLQ
+Vd7VkM2Ytcl+x9AKw2ssd0VHn9t8VaS1bSshJRCUoaIAN2Nu/HhwQ7IArsS4ro25
+FvsIoALYpr9dwp7u9c2fVAOB8hWPyRH4li3k/xLY1H6c/OSMNhMUyAvOX9iaFQk4
+Fw0/nLH/y17Vf9w1WEqS/X0ePMI0TK8W5UtUjXMOK//3M7jyFsodKLNblNDVnPHg
+BUUFrkmWgLw7pXHYaDnvW411cSRkQ1bzUyMC9Jad6FwdWY/Y9fmuvu/oTvD9fjUS
+vjlxcrIzo/e/AJn9WStMp4FB2PA0iAlonSghB0y1Zxar4eGLjPqC9rEKQ8o1Z2O0
+oKrSZ4JRRGW1c3NBxg9NWIdg1nsn/TdKo3XysOf8a7HexVf0fbz9FWwy4OJ3M0uv
+g5LpDFlb6CFA7ZSs+Crro+PvfWMxp6CR86S9gnN+emo3zw5dDejWgitJeRW2Jsox
+CJMc3+1fVmhUAlgzCvnf5W9vlshod9Nhs32NxQCNxHGEuWUFDQu/mnw2CqGxhWjf
+/KFmvOCm/S0Qo3h1eaadoiRqEhX7uEqW1cuCfxBp4wg3I85nAJEtct1CYUCzsV0q
+ytCWdEh6AQg7aJB0KMrC5TWXGp4vrCn+Dm9tFqXnMMZnVmQ5QZY=
+=vGLv
+-----END PGP SIGNATURE-----
+
+--RMasjA1xbGOcqeUG--
+
+--===============7043516553752540610==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============7043516553752540610==--
