@@ -1,89 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7FA3979BD
-	for <lists.iommu@lfdr.de>; Tue,  1 Jun 2021 20:07:13 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE561397A2E
+	for <lists.iommu@lfdr.de>; Tue,  1 Jun 2021 20:46:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 64BCD40294;
-	Tue,  1 Jun 2021 18:07:12 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2064383A41;
+	Tue,  1 Jun 2021 18:46:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U1jLutw3rpGj; Tue,  1 Jun 2021 18:07:11 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9OS1Huww--uB; Tue,  1 Jun 2021 18:46:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5AEE04029A;
-	Tue,  1 Jun 2021 18:07:11 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5172E835D3;
+	Tue,  1 Jun 2021 18:46:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 34FB7C0001;
-	Tue,  1 Jun 2021 18:07:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33497C0001;
+	Tue,  1 Jun 2021 18:46:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41838C0001
- for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 18:07:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99537C0001
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 18:46:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 22C3260798
- for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 18:07:09 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 82CCA4040F
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 18:46:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IqExoxzFRzSb for <iommu@lists.linux-foundation.org>;
- Tue,  1 Jun 2021 18:07:08 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1EB3060794
- for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 18:07:07 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id b11so11717444edy.4
- for <iommu@lists.linux-foundation.org>; Tue, 01 Jun 2021 11:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Esv6sX04kKkiDuWbC2+d4pQCUltl4LpO+bkOs8CbqkQ=;
- b=hgbApr657+Etn04lQeL3PNx7z27hnAxYFfysC2JIcHd96N8DCGSMtdC15JVH+B0EOm
- AAWw2SYhANXTkueFfQvhwhUrE2QfVnN2EZ90Ve5FixmcIxO5zSbgr0tDXyW/WIR2x4ak
- uBZ0clOaUIwi4fozG+tz9/pVITBkaNEZJmtDyr9hSoMCd9B81ikIfw7E2BYCB8zDj+V4
- 1kL6+ZImodbC1yXUIIEI2b+h20uoZI4Vo3VqRgaJ1e3M1217xKKeg5a3AMj5yaFHGk11
- kF9W8ndt53yww8CuPBu8pPDcwum92ZxNsn+cgLwjf0Zcd5768hP9c0gHCzOvsg2nuQvh
- YPRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Esv6sX04kKkiDuWbC2+d4pQCUltl4LpO+bkOs8CbqkQ=;
- b=snfZ2hKsPQswEOYqw4IDZlEf5/x/SBdVLTtzWSxbPwKberueKnZHDOYcl4fUHsLAm8
- M80MdHEGqd8H3cTprevuALXbxi9W2uQXZNvY6MO3i9HndeR5T9+RRS7JYrhUz7GoHaHw
- /CdqbTPHPsqnxkEuJImGZrlwIOe9CADtv3Pg7go4y4beuS4Gpsxum2bWPeZQL518VcoP
- wHNtcf+FKFzKql8Zq9Qq3BNTQIr9psBisgUD6WAjqBrLN4d8qQGcSsihJSXhYX5N5C16
- pPQ+gL7IcpJzBMeRWht2e2pPX3SWfNflhSwxNP5XtSRmrCYZZbzO2lj09qn3siKBEA+f
- R5ig==
-X-Gm-Message-State: AOAM531V2y/TBvhTiaVwFOySxEKlmIGF8zOhXSSZjk3TSQTrr9r+lwqp
- SXx65gqzFQuyJcCXHHwoK0JLVMQMxow=
-X-Google-Smtp-Source: ABdhPJzCVy7fQlPo5/PSmFNwwyl6CDprhSMUmZ6ZjTAZw7Z9VW6cdy5KZEidZf3eNxY8Kg9tm78RUw==
-X-Received: by 2002:a50:a446:: with SMTP id v6mr34495436edb.254.1622570826320; 
- Tue, 01 Jun 2021 11:07:06 -0700 (PDT)
-Received: from localhost (pd9e51d70.dip0.t-ipconnect.de. [217.229.29.112])
- by smtp.gmail.com with ESMTPSA id u12sm4546514ejz.1.2021.06.01.11.07.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 11:07:04 -0700 (PDT)
-Date: Tue, 1 Jun 2021 20:08:40 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 00/10] arm64: tegra: Prevent early SMMU faults
-Message-ID: <YLZ3qPC8ofjsGkPi@orome.fritz.box>
-References: <20210420172619.3782831-1-thierry.reding@gmail.com>
- <YLEi2FonP568wYrE@orome.fritz.box>
- <20210601122646.GB27832@willie-the-truck>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id y9ODr7ipTMT7 for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Jun 2021 18:46:52 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 31BA7402EE
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Jun 2021 18:46:52 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73DC56D;
+ Tue,  1 Jun 2021 11:46:51 -0700 (PDT)
+Received: from [10.57.73.64] (unknown [10.57.73.64])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7B59C3F774;
+ Tue,  1 Jun 2021 11:46:50 -0700 (PDT)
+Subject: Re: [PATCH 1/1] dma-contiguous: return early for dt case in
+ dma_contiguous_reserve
+To: Dong Aisheng <dongas86@gmail.com>, Dong Aisheng <aisheng.dong@nxp.com>
+References: <20210518112857.1198415-1-aisheng.dong@nxp.com>
+ <CAA+hA=SSeRrnBRGeqVxJ71Cv0uxydidWoKmG6b0bYzoEdcgqOQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <4a7922c0-7696-b4f7-f212-6710f4b2720d@arm.com>
+Date: Tue, 1 Jun 2021 19:46:45 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210601122646.GB27832@willie-the-truck>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- iommu@lists.linux-foundation.org, Jon Hunter <jonathanh@nvidia.com>,
- Nicolin Chen <nicolinc@nvidia.com>, linux-tegra@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <CAA+hA=SSeRrnBRGeqVxJ71Cv0uxydidWoKmG6b0bYzoEdcgqOQ@mail.gmail.com>
+Content-Language: en-GB
+Cc: iommu@lists.linux-foundation.org, open list <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,170 +67,70 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4370867798779650091=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On 2021-05-31 10:21, Dong Aisheng wrote:
+> On Tue, May 18, 2021 at 7:29 PM Dong Aisheng <aisheng.dong@nxp.com> wrote:
+>>
+>> dma_contiguous_reserve() aims to support cmdline case for CMA memory
+>> reserve. But if users define reserved memory in DT,
+>> 'dma_contiguous_default_area' will not be 0, then it's meaningless
+>> to continue to run dma_contiguous_reserve(). So we return early
+>> if detect 'dma_contiguous_default_area' is unzero.
+>>
+>> Cc: Christoph Hellwig <hch@lst.de>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Robin Murphy <robin.murphy@arm.com>
+>> Signed-off-by: Dong Aisheng <aisheng.dong@nxp.com>
+> 
+> Gently ping
 
---===============4370867798779650091==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MH/G2v7nzEjSLE2F"
-Content-Disposition: inline
+The commit message is still wrong, and I still think the change doesn't 
+achieve anything meaningful. This code is hard to make sense of either 
+way because the crucial interplay between size_cmdline and 
+dma_contiguous_default_area is hidden somewhere else entirely, and it 
+would take a much more significant refactoring to clear that up.
 
+Robin.
 
---MH/G2v7nzEjSLE2F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 01, 2021 at 01:26:46PM +0100, Will Deacon wrote:
-> On Fri, May 28, 2021 at 07:05:28PM +0200, Thierry Reding wrote:
-> > On Tue, Apr 20, 2021 at 07:26:09PM +0200, Thierry Reding wrote:
-> > > From: Thierry Reding <treding@nvidia.com>
-> > >=20
-> > > Hi,
-> > >=20
-> > > this is a set of patches that is the result of earlier discussions
-> > > regarding early identity mappings that are needed to avoid SMMU faults
-> > > during early boot.
-> > >=20
-> > > The goal here is to avoid early identity mappings altogether and inst=
-ead
-> > > postpone the need for the identity mappings to when devices are attac=
-hed
-> > > to the SMMU. This works by making the SMMU driver coordinate with the
-> > > memory controller driver on when to start enforcing SMMU translations.
-> > > This makes Tegra behave in a more standard way and pushes the code to
-> > > deal with the Tegra-specific programming into the NVIDIA SMMU
-> > > implementation.
-> > >=20
-> > > Compared to the original version of these patches, I've split the
-> > > preparatory work into a separate patch series because it became very
-> > > large and will be mostly uninteresting for this audience.
-> > >=20
-> > > Patch 1 provides a mechanism to program SID overrides at runtime. Pat=
-ch
-> > > 2 updates the ARM SMMU device tree bindings to include the Tegra186
-> > > compatible string as suggested by Robin during review.
-> > >=20
-> > > Patches 3 and 4 create the fundamentals in the SMMU driver to support
-> > > this and also make this functionality available on Tegra186. Patch 5
-> > > hooks the ARM SMMU up to the memory controller so that the memory cli=
-ent
-> > > stream ID overrides can be programmed at the right time.
-> > >=20
-> > > Patch 6 extends this mechanism to Tegra186 and patches 7-9 enable all=
- of
-> > > this through device tree updates. Patch 10 is included here to show h=
-ow
-> > > SMMU will be enabled for display controllers. However, it cannot be
-> > > applied yet because the code to create identity mappings for potentia=
-lly
-> > > live framebuffers hasn't been merged yet.
-> > >=20
-> > > The end result is that various peripherals will have SMMU enabled, wh=
-ile
-> > > the display controllers will keep using passthrough, as initially set=
- up
-> > > by firmware. Once the device tree bindings have been accepted and the
-> > > SMMU driver has been updated to create identity mappings for the disp=
-lay
-> > > controllers, they can be hooked up to the SMMU and the code in this
-> > > series will automatically program the SID overrides to enable SMMU
-> > > translations at the right time.
-> > >=20
-> > > Note that the series creates a compile time dependency between the
-> > > memory controller and IOMMU trees. If it helps I can provide a branch
-> > > for each tree, modelling the dependency, once the series has been
-> > > reviewed.
-> > >=20
-> > > Changes in v2:
-> > > - split off the preparatory work into a separate series (that needs to
-> > >   be applied first)
-> > > - address review comments by Robin
-> > >=20
-> > > Thierry
-> > >=20
-> > > Thierry Reding (10):
-> > >   memory: tegra: Implement SID override programming
-> > >   dt-bindings: arm-smmu: Add Tegra186 compatible string
-> > >   iommu/arm-smmu: Implement ->probe_finalize()
-> > >   iommu/arm-smmu: tegra: Detect number of instances at runtime
-> > >   iommu/arm-smmu: tegra: Implement SID override programming
-> > >   iommu/arm-smmu: Use Tegra implementation on Tegra186
-> > >   arm64: tegra: Use correct compatible string for Tegra186 SMMU
-> > >   arm64: tegra: Hook up memory controller to SMMU on Tegra186
-> > >   arm64: tegra: Enable SMMU support on Tegra194
-> > >   arm64: tegra: Enable SMMU support for display on Tegra194
-> > >=20
-> > >  .../devicetree/bindings/iommu/arm,smmu.yaml   |  11 +-
-> > >  arch/arm64/boot/dts/nvidia/tegra186.dtsi      |   4 +-
-> > >  arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 166 ++++++++++++++++=
-++
-> > >  drivers/iommu/arm/arm-smmu/arm-smmu-impl.c    |   3 +-
-> > >  drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c  |  90 ++++++++--
-> > >  drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 ++
-> > >  drivers/iommu/arm/arm-smmu/arm-smmu.h         |   1 +
-> > >  drivers/memory/tegra/mc.c                     |   9 +
-> > >  drivers/memory/tegra/tegra186.c               |  72 ++++++++
-> > >  include/soc/tegra/mc.h                        |   3 +
-> > >  10 files changed, 349 insertions(+), 23 deletions(-)
-> >=20
-> > Will, Robin,
-> >=20
-> > do you have any more comments on the ARM SMMU bits of this series? If
-> > not, can you guys provide an Acked-by so that Krzysztof can pick this
-> > (modulo the DT patches) up into the memory-controller tree for v5.14?
-> >=20
-> > I'll send out a v3 with the bisectibilitiy fix that Krishna pointed
-> > out.
->=20
-> Probably best if I queue 3-6 on a separate branch once you send a v3,
-> then Krzysztof can pull that in if he needs it.
-
-Patch 5 has a build-time dependency on patch 1, so they need to go in
-together. The reason why I suggested Krzysztof pick these up is because
-there is a restructuring series that this depends on, which will go into
-Krzysztof's tree. So in order to pull in 3-6, you'd get a bunch of other
-and mostly unrelated stuff as well.
-
-Alternatively I can set this all up on stable branches and send out pull
-requests for both you and Krzysztof to merge. Or if this is all too
-complicated and you'd just prefer to ack the patches I could also take
-this through ARM SoC via the Tegra tree.
-
-Thierry
-
---MH/G2v7nzEjSLE2F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmC2d6gACgkQ3SOs138+
-s6HdFg//RxQga1zW8VQK5x6lzg4jAMYo+qgonVGZsS8QQSzQZLpuYufhLDfg7XFX
-Gi4SlRKn6VNFps03lr299e1HCSb5+48cp54lViMaqCj1dJlK4g6KDbLLE5dGRHrE
-PepcIZw1xZwMpSueqm422ZVBVD+FOqUOHZoNkAZ7rPeHYnvClP2HfmfgAj5mzdCg
-1LNKKOYl/nM2B6zRjtfTSJZC+5tGBumA+F0+1b9R7iee0ya+8QUmFQIrgP25Lywt
-bX/+DI62oxsu6TXfnZags0sBK5LTb6ZmRiWz+5wHDebQGqXR17919OO/i0xZxrQU
-hyVqOUrzbCVG+BmTNJAN9RlP6H/06BSL81N0LQ5veM6FgCULRRYLxOqbpBkmLotc
-LFAQ03ziXKxqhN3E4uL5M1qNWz9PWBS4p4gH35xExbmvSb1wdKI87gJNEnShXTyM
-qRtE2J8DpbjDYrqaJza/bVVouXc3zkc4UdctHj6vtFOqH49WKd9LfB87XJS0jZ4/
-QJabr5f0DRnJlHNkawBnl34DvhRIRGxRl98YbhYbGBYbPUK3niL/5+Rp48KW9UxI
-Gpd/SLBKqUlBmKBtRNKhTWRhLq3yM/GJsjCfLU/nIMyJkhcYM4x9i3lL5dU+loao
-mhXpt0qdbbScggGqmFD3I3Tl6uulZdr9dOXSpNEkKMPvFk2y9Is=
-=UPdE
------END PGP SIGNATURE-----
-
---MH/G2v7nzEjSLE2F--
-
---===============4370867798779650091==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 
+> Regards
+> Aisheng
+> 
+>> ---
+>>   kernel/dma/contiguous.c | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+>> index 3d63d91cba5c..ebade9f43eff 100644
+>> --- a/kernel/dma/contiguous.c
+>> +++ b/kernel/dma/contiguous.c
+>> @@ -171,6 +171,9 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+>>          phys_addr_t selected_limit = limit;
+>>          bool fixed = false;
+>>
+>> +       if (dma_contiguous_default_area)
+>> +               return;
+>> +
+>>          pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
+>>
+>>          if (size_cmdline != -1) {
+>> @@ -191,7 +194,7 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+>>   #endif
+>>          }
+>>
+>> -       if (selected_size && !dma_contiguous_default_area) {
+>> +       if (selected_size) {
+>>                  pr_debug("%s: reserving %ld MiB for global area\n", __func__,
+>>                           (unsigned long)selected_size / SZ_1M);
+>>
+>> --
+>> 2.25.1
+>>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============4370867798779650091==--
