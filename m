@@ -1,91 +1,116 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE1439848D
-	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 10:50:55 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1010D3984A6
+	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 10:54:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 573274020B;
-	Wed,  2 Jun 2021 08:50:54 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 84CC383218;
+	Wed,  2 Jun 2021 08:54:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uxqRXLU0yozz; Wed,  2 Jun 2021 08:50:50 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JqjgDliOTqtx; Wed,  2 Jun 2021 08:54:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DCD5E401D2;
-	Wed,  2 Jun 2021 08:50:49 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 249D482F0F;
+	Wed,  2 Jun 2021 08:54:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3445C0001;
-	Wed,  2 Jun 2021 08:50:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8787C0024;
+	Wed,  2 Jun 2021 08:54:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8A898C0001
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:50:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7D3EAC0001
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:54:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 69CC3401FA
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:50:48 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6B12E401FA
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:54:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=redhat.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6bbTbGWR-OAS for <iommu@lists.linux-foundation.org>;
- Wed,  2 Jun 2021 08:50:44 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0BF3C401D2
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:50:43 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id g20so2791418ejt.0
- for <iommu@lists.linux-foundation.org>; Wed, 02 Jun 2021 01:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=jfHhOkr5oRpwhcn/dzyulVUHea2BAf1l3IILcH6GJvg=;
- b=KSXjDeRuS4TDpidd7KGIhkQvk04ZjF/KBg1BT4Qxv+hZNcyVXRU3uHH/uipZrIH9ec
- y/dGrxBi74DxJ0HUDx9ACKMfc461//RGhAYVm8o2CpoQox/z4OSPErtkm4cK5miQCxyg
- TcFpwcpOIqUp+EwfXZoj80zeIf/7oW+KKAeIrPZA1Cr62mPdJNqJAiLVf1h3A3KW5+Ui
- 9Xem4RhciT2x6ZoMPPcVVhWVUCrc/Jrf+IqH67vhbjhyMHgRKz1c2AIVNmoviJ+IQvKT
- N61LVyw5VBuFjUs3wlUDzOBuNuY/WZGDq+NWrjv6traDmixoxMcEI53wRDDgztkwUARJ
- qsZA==
+ with ESMTP id ICNI0TOhWm02 for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Jun 2021 08:54:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8DD4B401D2
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622624074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TOI6E9j/kLUqqLzfWVG9w8giJlysUj5C+KWef8bCQ8I=;
+ b=iey3U79HA+VvTZDpvn1WzZuVy5l3v5TtkaaFIzHe2il5HHOOGPHzbDXGtiQDNBsOFN19sO
+ mNTCWKrpE+y6XmGPFu41oA/AWk/aqGo8VO6vkp0q+3NJdCwM6Iezl+7WPJ+YfRIsxQXClb
+ E0mOrFzHtGAgKY6sPrOW8RlG6yeWu6k=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-kles00gNOkikS-vfHWI6sQ-1; Wed, 02 Jun 2021 04:54:33 -0400
+X-MC-Unique: kles00gNOkikS-vfHWI6sQ-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ a11-20020a17090a70cbb029015d3e996884so3025773pjm.4
+ for <iommu@lists.linux-foundation.org>; Wed, 02 Jun 2021 01:54:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jfHhOkr5oRpwhcn/dzyulVUHea2BAf1l3IILcH6GJvg=;
- b=fvO0ht7AyW4aY9foWzBiYMUQez1sFq6dLJ1nBrRo/2uPIXOC/KQdC+iv8ri0DfRulP
- frCK76I6vAxpCbWxuq2MaoAQ75/Ving4FGc2GnhAj8kmFGlDmgktKcBjoXaFJ+xKxDI/
- Nvn658W2YVXatHfFvq3R53PnphC+saFjOUneyozDBUTS6N2hZfn6BoRGVY6y2LDrYArj
- RFOxK9q6EaT0h+7yVQAzUkl9AkKJfmePNC5QEOMnbmee+zMPJxE2XGFXvcEt44rflzyQ
- 4admUeBTHDBxpdXdrHtuhZ+g7NXXY9kwMaXRmtSgk5kT5wFmudW0SJDOtatt/bZvdXOY
- kPDg==
-X-Gm-Message-State: AOAM533KlLmplB/laZy0thiLtHKxVVYWuQ4NMjSxt5phcqdTZoQZ2kci
- 9hBf048DkwjDiY4C08rvkCI=
-X-Google-Smtp-Source: ABdhPJz9iGXnkWDeLG4szjDriiFGBV56UP/M9sFVOQYgpX7ABv7shgsozjzYFxg2+3ipyDvqwwSrkg==
-X-Received: by 2002:a17:906:c010:: with SMTP id
- e16mr33534111ejz.214.1622623841920; 
- Wed, 02 Jun 2021 01:50:41 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id gv11sm3061599ejb.13.2021.06.02.01.50.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 01:50:40 -0700 (PDT)
-Date: Wed, 2 Jun 2021 10:52:16 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH v2 00/10] arm64: tegra: Prevent early SMMU faults
-Message-ID: <YLdGwD0dxfER4USn@orome.fritz.box>
-References: <20210420172619.3782831-1-thierry.reding@gmail.com>
- <YLEi2FonP568wYrE@orome.fritz.box>
- <20210601122646.GB27832@willie-the-truck>
- <YLZ3qPC8ofjsGkPi@orome.fritz.box>
- <6826d892-d1ac-e3b1-ebee-68392d11d7c5@canonical.com>
- <8c70f82f-0db9-2312-7fc4-c079899c25a0@canonical.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=TOI6E9j/kLUqqLzfWVG9w8giJlysUj5C+KWef8bCQ8I=;
+ b=d4TEjMV5IqUD1xL0zhxkBJWx5tiqfP9zbMwiuzQhy98+LLDJQ8f1mUsJJtzXWhi3t4
+ HQXv6KRiNPe/mJlunijsWqfvi7rhLY0j/l25vcOYmI3qSABYAk7pC0tvol1HyCdie1P4
+ FSO0ZvozA3L252CVnm5lrprDGc7PsO8F99Uz1wlLzAjPNQXtsdxb+2ypNkZfhPV6C8ch
+ 17n5GmfgBHyCdHQsobCmM0muE8LJa5w/s4HIN0jgXYgZ98vk7xiWuigJw77t30R32Im9
+ TpUFCWc8700PRT0QrQlco6JzdlBfOAF6KUoi+b4Ss2eeS0oyClD5Mr6qsD7GuPk3tfU9
+ 6MCQ==
+X-Gm-Message-State: AOAM533w9lL8QJXIPklAEjPb5J9PsXcoCuyAx8XqGQN9YsQf5c2FEUMC
+ dgoaY/tmCuEStyjuWUSebjeqbzUA3rCugvS6JU5DLvNPD/qjWSQIgKQd4uEYI8rjhdDwSJgHHb9
+ r58XD5I8Drte+tsYghzAncy9BCCf4zg==
+X-Received: by 2002:a17:90a:7306:: with SMTP id
+ m6mr4486583pjk.217.1622624072029; 
+ Wed, 02 Jun 2021 01:54:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQ9jinHicYAMXd7FQEuh3El0Ofh9v6RECp7TK6Os2FVDpLb1bDFUCefzQjoGn2stvAL6/t8g==
+X-Received: by 2002:a17:90a:7306:: with SMTP id
+ m6mr4486565pjk.217.1622624071836; 
+ Wed, 02 Jun 2021 01:54:31 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id w2sm4060045pfc.126.2021.06.02.01.54.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 01:54:31 -0700 (PDT)
+Subject: Re: [RFC] /dev/ioasid uAPI proposal
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <20210531164118.265789ee@yiliu-dev>
+ <78ee2638-1a03-fcc8-50a5-81040f677e69@redhat.com>
+ <20210601113152.6d09e47b@yiliu-dev>
+ <164ee532-17b0-e180-81d3-12d49b82ac9f@redhat.com>
+ <64898584-a482-e6ac-fd71-23549368c508@linux.intel.com>
+ <429d9c2f-3597-eb29-7764-fad3ec9a934f@redhat.com>
+ <MWHPR11MB1886FC7A46837588254794048C3E9@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <05d7f790-870d-5551-1ced-86926a0aa1a6@redhat.com>
+ <MWHPR11MB1886269E2B3DE471F1A9A7618C3E9@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <42a71462-1abc-0404-156c-60a7ee1ad333@redhat.com>
+ <20210601173138.GM1002214@nvidia.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <f69137e3-0f60-4f73-a0ff-8e57c79675d5@redhat.com>
+Date: Wed, 2 Jun 2021 16:54:26 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <8c70f82f-0db9-2312-7fc4-c079899c25a0@canonical.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
-Cc: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
- Jon Hunter <jonathanh@nvidia.com>, Nicolin Chen <nicolinc@nvidia.com>,
- linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20210601173138.GM1002214@nvidia.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ "Alex Williamson \(alex.williamson@redhat.com\)\"\""
+ <alex.williamson@redhat.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, LKML <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,100 +123,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0981570467871310838=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="gbk"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
---===============0981570467871310838==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="PzNzpL2lnE7MtP+o"
-Content-Disposition: inline
-
-
---PzNzpL2lnE7MtP+o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 02, 2021 at 09:35:13AM +0200, Krzysztof Kozlowski wrote:
-> On 02/06/2021 09:33, Krzysztof Kozlowski wrote:
-> > On 01/06/2021 20:08, Thierry Reding wrote:
-> >> On Tue, Jun 01, 2021 at 01:26:46PM +0100, Will Deacon wrote:
-> >>> On Fri, May 28, 2021 at 07:05:28PM +0200, Thierry Reding wrote:
-> >>>> On Tue, Apr 20, 2021 at 07:26:09PM +0200, Thierry Reding wrote:
-> >>>>> From: Thierry Reding <treding@nvidia.com>
-> >>>>>
-> >>> Probably best if I queue 3-6 on a separate branch once you send a v3,
-> >>> then Krzysztof can pull that in if he needs it.
-> >>
-> >> Patch 5 has a build-time dependency on patch 1, so they need to go in
-> >> together. The reason why I suggested Krzysztof pick these up is because
-> >> there is a restructuring series that this depends on, which will go in=
-to
-> >> Krzysztof's tree. So in order to pull in 3-6, you'd get a bunch of oth=
-er
-> >> and mostly unrelated stuff as well.
-> >=20
-> > I missed that part... what other series are needed for this one? Except
-> > Dmitry's power management set I do not have anything in my sight for
-> > Tegras memory controllers.
-> >=20
-> > Anyway, I can take the memory bits and provide a stable tag with these.
-> > Recently there was quite a lot work around Tegra memory controllers, so
-> > this makes especially sense if new patches appear.
->=20
-> OK, I think I have now the patchset you talked about - "memory: tegra:
-> Driver unification" v2, right?
-
-Yes, that's the one. That series is fairly self-contained, but Dmitry's
-power management set has dependencies that pull in the regulator, clock
-and ARM SoC trees.
-
-I did a test merge of the driver unification series with a branch that
-has Dmitry's patches and all the dependencies and there are no conflicts
-so that, fortunately, doesn't further complicates things.
-
-Do you want me to send you a pull request with Dmitry's memory
-controller changes? You could then apply the unification series on top,
-which should allow this SMMU series to apply cleanly on top of that.
-
-I can also carry all these changes in the Tegra tree and send a PR in a
-few days once this has seen a bit more testing in linux-next, which also
-makes sure it's got a bit more testing in our internal test farm.
-
-Thierry
-
---PzNzpL2lnE7MtP+o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmC3RsAACgkQ3SOs138+
-s6HVFg//atk6G7hTlv5sn3s/G3YEJyP2SCQhtRd1CLlwU1YkoTgQ0PJ1q99DrE9Z
-sWfZAAC+t4ler/ZdWQCwclFLt5H3GXSfbVjMc5bTm7+cdk6XnKJY17xgiOEOTCpr
-T75lkHzkY0HWcWqt8g+ZifX2yXlF/y1tmDnIDdNp/sZpwaS2VOMJCl9kZJrv7A2z
-bq2hlCdw/Fkw+SpUpsZaoI93ObWIQSXz19zcDChwPWa0yKuQAUgZtMmhyM0oTNyY
-TkMVikzE0ff/xoZgdcCby03adaqTZlFWR0AwOsOilK2hnl6SbblnXAUwxRzASLDF
-qF2T+jsMYyH2Hg11Q1ZqW68obPUugPiDsetFMMo6WBe9u0Cxlsd1rVZ3jIka6cUq
-Njok0m6NhtCi04BTHKt6KEnTmAr9AuuHCnxlWNCZSdlnFKm7ZaH7JjJYIqLKFEMo
-jihj17YZwYbJiaZ/uvamjS9Ij5LMlmsQSgaXJkEQoxmYNH1PkC7mYxNPcyz0BsrN
-UCANWH2bEOwz51QS/eOdv8vAWBdLDLQ4Yh7n+FIORJapBZtJZ/14iAxwIOq491Mp
-ObDkAl9ULvjhfeXhgolCbHG74sBsWcm27c+rhh3iSyknkN4Hb6fc2q1NZMwtQ132
-sEPLkhYmGOI0h1mnr06qAliHOoyjQJb6+mfl4QENaRIUeqZyjEs=
-=DLjh
------END PGP SIGNATURE-----
-
---PzNzpL2lnE7MtP+o--
-
---===============0981570467871310838==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============0981570467871310838==--
+CtTaIDIwMjEvNi8yIMnPzucxOjMxLCBKYXNvbiBHdW50aG9ycGUg0LS1wDoKPiBPbiBUdWUsIEp1
+biAwMSwgMjAyMSBhdCAwNDo0NzoxNVBNICswODAwLCBKYXNvbiBXYW5nIHdyb3RlOgo+ICAgCj4+
+IFdlIGNhbiBvcGVuIHVwIHRvIH4wVSBmaWxlIGRlc2NyaXB0b3JzLCBJIGRvbid0IHNlZSB3aHkg
+d2UgbmVlZCB0byByZXN0cmljdAo+PiBpdCBpbiB1QVBJLgo+IFRoZXJlIGFyZSBzaWduaWZpY2Fu
+dCBwcm9ibGVtcyB3aXRoIHN1Y2ggbGFyZ2UgZmlsZSBkZXNjcmlwdG9yCj4gdGFibGVzLiBIaWdo
+IEZEIG51bWJlcnMgbWFuIHRoaW5ncyBsaWtlIHNlbGVjdCBkb24ndCB3b3JrIGF0IGFsbAo+IGFu
+eW1vcmUgYW5kIElJUkMgdGhlcmUgYXJlIG1vcmUgY29tcGxpY2F0aW9ucy4KCgpJIGRvbid0IHNl
+ZSBob3cgbXVjaCBkaWZmZXJlbmNlIGZvciBJT0FTSUQgYW5kIG90aGVyIHR5cGUgb2YgZmRzLiBQ
+ZW9wbGUgCmNhbiBjaG9vc2UgdG8gdXNlIHBvbGwgb3IgZXBvbGwuCgpBbmQgd2l0aCB0aGUgY3Vy
+cmVudCBwcm9wb3NhbCwgKGFzc3VtaW5nIHRoZXJlJ3MgYSBOOjEgaW9hc2lkIHRvIAppb2FzaWQp
+LiBJIHdvbmRlciBob3cgc2VsZWN0IGNhbiB3b3JrIGZvciB0aGUgc3BlY2lmaWMgaW9hc2lkLgoK
+VGhhbmtzCgoKPgo+IEEgaHVnZSBudW1iZXIgb2YgRkRzIGZvciB0eXBpY2FsIHVzYWdlcyBzaG91
+bGQgYmUgYXZvaWRlZC4KPgo+IEphc29uCj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1m
+b3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9pb21tdQ==
