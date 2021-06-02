@@ -1,69 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1E23982F3
-	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 09:29:31 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3BA39830D
+	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 09:34:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1E79040324;
-	Wed,  2 Jun 2021 07:29:30 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 493FC401D1;
+	Wed,  2 Jun 2021 07:34:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dD7CrE_j9-NT; Wed,  2 Jun 2021 07:29:26 +0000 (UTC)
+	with ESMTP id 2F81tjoELn7z; Wed,  2 Jun 2021 07:34:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BA9F440349;
-	Wed,  2 Jun 2021 07:29:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DE89A40324;
+	Wed,  2 Jun 2021 07:34:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E50E8C0028;
-	Wed,  2 Jun 2021 07:29:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB0DFC0024;
+	Wed,  2 Jun 2021 07:34:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D81B1C0001
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 07:29:23 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CBA11C0001
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 07:34:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C76D682532
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 07:29:23 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A743D60705
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 07:34:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O60nK_4ylHpt for <iommu@lists.linux-foundation.org>;
- Wed,  2 Jun 2021 07:29:19 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6B3RY1ZbgiEz for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Jun 2021 07:33:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id F0D74836E1
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 07:29:18 +0000 (UTC)
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fw0yh4N0nz9sW4; Wed,  2 Jun 2021 17:29:16 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1622618956;
- bh=uGza2ambRaw52uUD6+0AHLe+nMsKVTQGJ2WrG5YyBgM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tjx74IuRulizpaNftVChf7BNNeGl+1EoQNhIlUofWpJQxeibH3wdkpHdG2F9SnY3M
- /+XTbp+kE+ukN9tHYbjk6ddIPAas4n4QjEsZOYxVxc7/4EeaRuhvn2Mb03GDarZYdi
- vRQ/ZSkrrqyNesAQVv650ekDxOUzfDCcA7V0Fxwg=
-Date: Wed, 2 Jun 2021 17:22:13 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC] /dev/ioasid uAPI proposal
-Message-ID: <YLcxpYDkT1h7hIbQ@yekko>
-References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210528233649.GB3816344@nvidia.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 71DFE606AF
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 07:33:59 +0000 (UTC)
+Received: from mail-wr1-f69.google.com ([209.85.221.69])
+ by youngberry.canonical.com with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <krzysztof.kozlowski@canonical.com>)
+ id 1loLO1-0002BE-CB
+ for iommu@lists.linux-foundation.org; Wed, 02 Jun 2021 07:33:57 +0000
+Received: by mail-wr1-f69.google.com with SMTP id
+ z3-20020adfdf830000b02901198337bc39so61836wrl.0
+ for <iommu@lists.linux-foundation.org>; Wed, 02 Jun 2021 00:33:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HClBKpLS3bvtISBUHHdtztmkoTHT8tlXWF46fhCiu1Q=;
+ b=hdDNtDUh0zaGb6uc6Y4gZtT0dSSGZ+zE633jcGezznCmQ6f5nCRQzL0XRy4BKmtj0j
+ LWQL5STLoPFUH7ba9lyI8vq/1UozPlQ9z/4Tcx7LjWL9OZpYoz2y626WBhfX3GFl/Suu
+ ud60U+9tUvLgEjZYxFMj5hNRfAULj6+3jkoQysHXzcy3DGCjYDoJbmKkPvMFyjUn8LFy
+ vK9fkIezfPrjccDTyLXkersZasDHdnNEU9S+fjFyrcUCssdzYAjwwL+a6dZLu4nod+Ys
+ W7UBLdaBbo3yZxeVWUc3iEX55IcrI6zz1jxsQm4i8dEEbtG2SfMN/OTd/avMMMYiDv1h
+ Ai3w==
+X-Gm-Message-State: AOAM531IGM5pntAFX7oLmLbPiTMviOaDmprGGfTp9Y4Kcqm14T0mS6OB
+ Oj+C4Lua3CjAygVipvlz48fj6bjsuEoPgzWUpqntc48h8mkC+lhhf1N8QfehHwCmfSsVwkeGyqy
+ hoi9okixDHGFbPz4FIvRaIjEiU9F7yAjLrn3NEfzMcVXUATo=
+X-Received: by 2002:a05:6000:148:: with SMTP id
+ r8mr32414881wrx.311.1622619237000; 
+ Wed, 02 Jun 2021 00:33:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQnkoWybqGMGj8ENL2S2XqXPqgS4+4lked9VnSF0GzYamJSAhJ9ADYFKXpPvIHGeavGwK6FQ==
+X-Received: by 2002:a05:6000:148:: with SMTP id
+ r8mr32414863wrx.311.1622619236848; 
+ Wed, 02 Jun 2021 00:33:56 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-185-9.adslplus.ch.
+ [188.155.185.9])
+ by smtp.gmail.com with ESMTPSA id x10sm5671551wrt.65.2021.06.02.00.33.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 00:33:56 -0700 (PDT)
+Subject: Re: [PATCH v2 00/10] arm64: tegra: Prevent early SMMU faults
+To: Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>
+References: <20210420172619.3782831-1-thierry.reding@gmail.com>
+ <YLEi2FonP568wYrE@orome.fritz.box> <20210601122646.GB27832@willie-the-truck>
+ <YLZ3qPC8ofjsGkPi@orome.fritz.box>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <6826d892-d1ac-e3b1-ebee-68392d11d7c5@canonical.com>
+Date: Wed, 2 Jun 2021 09:33:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210528233649.GB3816344@nvidia.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>,
- "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
- "Raj, Ashok" <ashok.raj@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, David Woodhouse <dwmw2@infradead.org>,
- Jason Wang <jasowang@redhat.com>
+In-Reply-To: <YLZ3qPC8ofjsGkPi@orome.fritz.box>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org, Jon Hunter <jonathanh@nvidia.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, linux-tegra@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,227 +99,133 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7325152437516531267=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On 01/06/2021 20:08, Thierry Reding wrote:
+> On Tue, Jun 01, 2021 at 01:26:46PM +0100, Will Deacon wrote:
+>> On Fri, May 28, 2021 at 07:05:28PM +0200, Thierry Reding wrote:
+>>> On Tue, Apr 20, 2021 at 07:26:09PM +0200, Thierry Reding wrote:
+>>>> From: Thierry Reding <treding@nvidia.com>
+>>>>
+>>>> Hi,
+>>>>
+>>>> this is a set of patches that is the result of earlier discussions
+>>>> regarding early identity mappings that are needed to avoid SMMU faults
+>>>> during early boot.
+>>>>
+>>>> The goal here is to avoid early identity mappings altogether and instead
+>>>> postpone the need for the identity mappings to when devices are attached
+>>>> to the SMMU. This works by making the SMMU driver coordinate with the
+>>>> memory controller driver on when to start enforcing SMMU translations.
+>>>> This makes Tegra behave in a more standard way and pushes the code to
+>>>> deal with the Tegra-specific programming into the NVIDIA SMMU
+>>>> implementation.
+>>>>
+>>>> Compared to the original version of these patches, I've split the
+>>>> preparatory work into a separate patch series because it became very
+>>>> large and will be mostly uninteresting for this audience.
+>>>>
+>>>> Patch 1 provides a mechanism to program SID overrides at runtime. Patch
+>>>> 2 updates the ARM SMMU device tree bindings to include the Tegra186
+>>>> compatible string as suggested by Robin during review.
+>>>>
+>>>> Patches 3 and 4 create the fundamentals in the SMMU driver to support
+>>>> this and also make this functionality available on Tegra186. Patch 5
+>>>> hooks the ARM SMMU up to the memory controller so that the memory client
+>>>> stream ID overrides can be programmed at the right time.
+>>>>
+>>>> Patch 6 extends this mechanism to Tegra186 and patches 7-9 enable all of
+>>>> this through device tree updates. Patch 10 is included here to show how
+>>>> SMMU will be enabled for display controllers. However, it cannot be
+>>>> applied yet because the code to create identity mappings for potentially
+>>>> live framebuffers hasn't been merged yet.
+>>>>
+>>>> The end result is that various peripherals will have SMMU enabled, while
+>>>> the display controllers will keep using passthrough, as initially set up
+>>>> by firmware. Once the device tree bindings have been accepted and the
+>>>> SMMU driver has been updated to create identity mappings for the display
+>>>> controllers, they can be hooked up to the SMMU and the code in this
+>>>> series will automatically program the SID overrides to enable SMMU
+>>>> translations at the right time.
+>>>>
+>>>> Note that the series creates a compile time dependency between the
+>>>> memory controller and IOMMU trees. If it helps I can provide a branch
+>>>> for each tree, modelling the dependency, once the series has been
+>>>> reviewed.
+>>>>
+>>>> Changes in v2:
+>>>> - split off the preparatory work into a separate series (that needs to
+>>>>   be applied first)
+>>>> - address review comments by Robin
+>>>>
+>>>> Thierry
+>>>>
+>>>> Thierry Reding (10):
+>>>>   memory: tegra: Implement SID override programming
+>>>>   dt-bindings: arm-smmu: Add Tegra186 compatible string
+>>>>   iommu/arm-smmu: Implement ->probe_finalize()
+>>>>   iommu/arm-smmu: tegra: Detect number of instances at runtime
+>>>>   iommu/arm-smmu: tegra: Implement SID override programming
+>>>>   iommu/arm-smmu: Use Tegra implementation on Tegra186
+>>>>   arm64: tegra: Use correct compatible string for Tegra186 SMMU
+>>>>   arm64: tegra: Hook up memory controller to SMMU on Tegra186
+>>>>   arm64: tegra: Enable SMMU support on Tegra194
+>>>>   arm64: tegra: Enable SMMU support for display on Tegra194
+>>>>
+>>>>  .../devicetree/bindings/iommu/arm,smmu.yaml   |  11 +-
+>>>>  arch/arm64/boot/dts/nvidia/tegra186.dtsi      |   4 +-
+>>>>  arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 166 ++++++++++++++++++
+>>>>  drivers/iommu/arm/arm-smmu/arm-smmu-impl.c    |   3 +-
+>>>>  drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c  |  90 ++++++++--
+>>>>  drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 ++
+>>>>  drivers/iommu/arm/arm-smmu/arm-smmu.h         |   1 +
+>>>>  drivers/memory/tegra/mc.c                     |   9 +
+>>>>  drivers/memory/tegra/tegra186.c               |  72 ++++++++
+>>>>  include/soc/tegra/mc.h                        |   3 +
+>>>>  10 files changed, 349 insertions(+), 23 deletions(-)
+>>>
+>>> Will, Robin,
+>>>
+>>> do you have any more comments on the ARM SMMU bits of this series? If
+>>> not, can you guys provide an Acked-by so that Krzysztof can pick this
+>>> (modulo the DT patches) up into the memory-controller tree for v5.14?
+>>>
+>>> I'll send out a v3 with the bisectibilitiy fix that Krishna pointed
+>>> out.
+>>
+>> Probably best if I queue 3-6 on a separate branch once you send a v3,
+>> then Krzysztof can pull that in if he needs it.
+> 
+> Patch 5 has a build-time dependency on patch 1, so they need to go in
+> together. The reason why I suggested Krzysztof pick these up is because
+> there is a restructuring series that this depends on, which will go into
+> Krzysztof's tree. So in order to pull in 3-6, you'd get a bunch of other
+> and mostly unrelated stuff as well.
 
---===============7325152437516531267==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="j/FYRtVn/XN5nkYp"
-Content-Disposition: inline
+I missed that part... what other series are needed for this one? Except
+Dmitry's power management set I do not have anything in my sight for
+Tegras memory controllers.
 
+Anyway, I can take the memory bits and provide a stable tag with these.
+Recently there was quite a lot work around Tegra memory controllers, so
+this makes especially sense if new patches appear.
 
---j/FYRtVn/XN5nkYp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, May 28, 2021 at 08:36:49PM -0300, Jason Gunthorpe wrote:
-> On Thu, May 27, 2021 at 07:58:12AM +0000, Tian, Kevin wrote:
->=20
-> > 2.1. /dev/ioasid uAPI
-> > +++++++++++++++++
-> >=20
-> > /*
-> >   * Check whether an uAPI extension is supported.=20
-> >   *
-> >   * This is for FD-level capabilities, such as locked page pre-registra=
-tion.=20
-> >   * IOASID-level capabilities are reported through IOASID_GET_INFO.
-> >   *
-> >   * Return: 0 if not supported, 1 if supported.
-> >   */
-> > #define IOASID_CHECK_EXTENSION	_IO(IOASID_TYPE, IOASID_BASE + 0)
->=20
-> =20
-> > /*
-> >   * Register user space memory where DMA is allowed.
-> >   *
-> >   * It pins user pages and does the locked memory accounting so sub-
-> >   * sequent IOASID_MAP/UNMAP_DMA calls get faster.
-> >   *
-> >   * When this ioctl is not used, one user page might be accounted
-> >   * multiple times when it is mapped by multiple IOASIDs which are
-> >   * not nested together.
-> >   *
-> >   * Input parameters:
-> >   *	- vaddr;
-> >   *	- size;
-> >   *
-> >   * Return: 0 on success, -errno on failure.
-> >   */
-> > #define IOASID_REGISTER_MEMORY	_IO(IOASID_TYPE, IOASID_BASE + 1)
-> > #define IOASID_UNREGISTER_MEMORY	_IO(IOASID_TYPE, IOASID_BASE + 2)
->=20
-> So VA ranges are pinned and stored in a tree and later references to
-> those VA ranges by any other IOASID use the pin cached in the tree?
->=20
-> It seems reasonable and is similar to the ioasid parent/child I
-> suggested for PPC.
->=20
-> IMHO this should be merged with the all SW IOASID that is required for
-> today's mdev drivers. If this can be done while keeping this uAPI then
-> great, otherwise I don't think it is so bad to weakly nest a physical
-> IOASID under a SW one just to optimize page pinning.
-
-Right, I think we can simplify the interface by modelling the
-preregistration as a nesting layer.  Well, mostly.. the wrinkle is
-that generally you can't do anything with an ioasid until you've
-attached devices to it, but that doesn't really make sense for the
-prereg layer.  I expect we can find some way to deal with that,
-though.
-
-Actually... to simplify that "weak nesting" concept I wonder if we
-want to expand to 3 ways of specifying the pagetables for the ioasid:
-  1) kernel managed (MAP/UNMAP)
-  2) user managed (BIND/INVALIDATE)
-  3) pass-though (IOVA=3D=3Dparent address)
-
-Obviously pass-through wouldn't be allowed in all circumstances.
-
-> Either way this seems like a smart direction
->=20
-> > /*
-> >   * Allocate an IOASID.=20
-> >   *
-> >   * IOASID is the FD-local software handle representing an I/O address=
-=20
-> >   * space. Each IOASID is associated with a single I/O page table. User=
-=20
-> >   * must call this ioctl to get an IOASID for every I/O address space t=
-hat is
-> >   * intended to be enabled in the IOMMU.
-> >   *
-> >   * A newly-created IOASID doesn't accept any command before it is=20
-> >   * attached to a device. Once attached, an empty I/O page table is=20
-> >   * bound with the IOMMU then the user could use either DMA mapping=20
-> >   * or pgtable binding commands to manage this I/O page table.
->=20
-> Can the IOASID can be populated before being attached?
-
-I don't think it reasonably can.  Until attached, you don't actually
-know what hardware IOMMU will be backing it, and therefore you don't
-know it's capabilities.  You can't really allow mappings if you don't
-even know allowed IOVA ranges and page size.
-
-> >   * Device attachment is initiated through device driver uAPI (e.g. VFI=
-O)
-> >   *
-> >   * Return: allocated ioasid on success, -errno on failure.
-> >   */
-> > #define IOASID_ALLOC	_IO(IOASID_TYPE, IOASID_BASE + 3)
-> > #define IOASID_FREE	_IO(IOASID_TYPE, IOASID_BASE + 4)
->=20
-> I assume alloc will include quite a big structure to satisfy the
-> various vendor needs?
->=20
-> > /*
-> >   * Get information about an I/O address space
-> >   *
-> >   * Supported capabilities:
-> >   *	- VFIO type1 map/unmap;
-> >   *	- pgtable/pasid_table binding
-> >   *	- hardware nesting vs. software nesting;
-> >   *	- ...
-> >   *
-> >   * Related attributes:
-> >   * 	- supported page sizes, reserved IOVA ranges (DMA mapping);
-> >   *	- vendor pgtable formats (pgtable binding);
-> >   *	- number of child IOASIDs (nesting);
-> >   *	- ...
-> >   *
-> >   * Above information is available only after one or more devices are
-> >   * attached to the specified IOASID. Otherwise the IOASID is just a
-> >   * number w/o any capability or attribute.
->=20
-> This feels wrong to learn most of these attributes of the IOASID after
-> attaching to a device.
-
-Yes... but as above, we have no idea what the IOMMU's capabilities are
-until devices are attached.
-
-> The user should have some idea how it intends to use the IOASID when
-> it creates it and the rest of the system should match the intention.
->=20
-> For instance if the user is creating a IOASID to cover the guest GPA
-> with the intention of making children it should indicate this during
-> alloc.
->=20
-> If the user is intending to point a child IOASID to a guest page table
-> in a certain descriptor format then it should indicate it during
-> alloc.
->=20
-> device bind should fail if the device somehow isn't compatible with
-> the scheme the user is tring to use.
-
-[snip]
-> > 2.2. /dev/vfio uAPI
-> > ++++++++++++++++
->=20
-> To be clear you mean the 'struct vfio_device' API, these are not
-> IOCTLs on the container or group?
->=20
-> > /*
-> >    * Bind a vfio_device to the specified IOASID fd
-> >    *
-> >    * Multiple vfio devices can be bound to a single ioasid_fd, but a si=
-ngle
-> >    * vfio device should not be bound to multiple ioasid_fd's.
-> >    *
-> >    * Input parameters:
-> >    *  - ioasid_fd;
-> >    *
-> >    * Return: 0 on success, -errno on failure.
-> >    */
-> > #define VFIO_BIND_IOASID_FD           _IO(VFIO_TYPE, VFIO_BASE + 22)
-> > #define VFIO_UNBIND_IOASID_FD _IO(VFIO_TYPE, VFIO_BASE + 23)
->=20
-> This is where it would make sense to have an output "device id" that
-> allows /dev/ioasid to refer to this "device" by number in events and
-> other related things.
-
-The group number could be used for that, even if there are no group
-fds.  You generally can't identify things more narrowly than group
-anyway.
+> 
+> Alternatively I can set this all up on stable branches and send out pull
+> requests for both you and Krzysztof to merge. Or if this is all too
+> complicated and you'd just prefer to ack the patches I could also take
+> this through ARM SoC via the Tegra tree.
+> 
+> Thierry
+> 
 
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---j/FYRtVn/XN5nkYp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC3MZ8ACgkQbDjKyiDZ
-s5Lp5hAAruXb3NLVtuLjvyAaqaKjXI0hJf+T5aYV2GsPEuBFfL3eejzD0+HE4dI8
-Ww0npi2zKzGpAmFoPvMvfpYsANsnmLH5MdHs2DJ9WxFPGvSF67gZLc44rx1XBc2T
-7IboRgMjF5kcKo0HFI+M7pkuvkwMEkkzZzMj7LQtSGOdyFewTJO24aSQZPwTv+JR
-/+MXWXQqI1zkfOIVm8kCHqtAcz5Z6IlXJ1JYeRxLBZou8j1JJqkq1Xt/pEXhI1oZ
-uIuoQxBwBOEoqBtnlmvUWPYfZ8MI0LnJdMWvBAkqFwzMMgkzfqxM4+hV8OfVBRyh
-R6ZIVtEyNT5EuoTVLz8HEPUMgdMNgu9xObrZBRXJpzv/+lV010P44354bz3VxEvi
-sgwjcCNYH8ZXNq3LuJOs1ApKoSwrE+FDNxJe5RmHVNp0ORzRqVeZ33JZS+sSk/CI
-aem0ComVy47umR3JTjjiq+mBhQDISCIh7efu4tYLZsLbE3zKeHEfq7s87v8yYVcG
-tcUzKYNMUONch/X+ChfbmubBr4aVxpgZ1BU3UzfTmQUWybljRVTdMA5qOsBewNIY
-g9AMwr4/JWlA74pERIu+EDqPLAXt4DRHf7kmiG/uKTlZenCopwn3QGs40W+dAF7Y
-82Etp785d9v9Yg8v5JMKc4nNcY4MK2ilEd0QVB+sK3kX3Zea6CM=
-=TTLB
------END PGP SIGNATURE-----
-
---j/FYRtVn/XN5nkYp--
-
---===============7325152437516531267==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Best regards,
+Krzysztof
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============7325152437516531267==--
