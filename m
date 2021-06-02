@@ -1,96 +1,107 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332CD398D85
-	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 16:57:08 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2C2398DBC
+	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 17:02:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 970616089C;
-	Wed,  2 Jun 2021 14:57:06 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1044B401F1;
+	Wed,  2 Jun 2021 15:01:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fGLJyn1Kf5TC; Wed,  2 Jun 2021 14:57:02 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id DeRL1f1eSmrs; Wed,  2 Jun 2021 15:01:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6C1E7607FA;
-	Wed,  2 Jun 2021 14:57:02 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A75224034C;
+	Wed,  2 Jun 2021 15:01:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 417D0C0024;
-	Wed,  2 Jun 2021 14:57:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7914EC0024;
+	Wed,  2 Jun 2021 15:01:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5FD8C0001
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 14:57:00 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6C7E8C0001
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 15:01:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B5200401F1
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 14:57:00 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5105E83CB1
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 15:01:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Z2EPslGuM0WY for <iommu@lists.linux-foundation.org>;
- Wed,  2 Jun 2021 14:56:56 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id mk8MuD2pSlIM for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Jun 2021 15:01:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A295F40188
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 14:56:56 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id qq22so4273594ejb.9
- for <iommu@lists.linux-foundation.org>; Wed, 02 Jun 2021 07:56:56 -0700 (PDT)
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C8356833DB
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 15:01:52 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id r1so2451503pgk.8
+ for <iommu@lists.linux-foundation.org>; Wed, 02 Jun 2021 08:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9RLU/826fL0tWIk2PrvJDBE7HJXooGGXs9jpMJCjFmk=;
- b=QAnEBPM0bz46mcSUJMsqPwBeBOS6PzdZ3pO2u+CwmZ5N8gyzfkZoGFTknvwVHDvBRn
- fm5DhLt+LvRJmnPK5wyy+BRzxTWm2rVKPg6YBzKd9QWjPbLXroSCUe6zwIx7NU8Q2O3S
- Z5AJH/z1h2RWrvub9IblT3h7/oyqwxXjdJfwEgHA9D6KbzYsk/pJfFYwsxcPZ+T+DJl5
- sQ7PFLl9g0moUcxFEBOo5aMS7n+iJMVTklvREVzLi4zSRAVye/RV8nq1F8RkXMgBb5Jm
- ZOu6m5yMM2Oabson/PLKtvOwyLaKIqzMif6UlBpcA9swXxF1VJHHJb8tLqY6NNdZCTcc
- 85MA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+az3hl/4w22b3I/rRlTcQ1/sSF9KD2GATy/NbYn2SjU=;
+ b=LFh9HsM5N4yAOGzJ85RpIVWyAjUPznHirCf8/j7G4yx59JLH20/Uh4u7wbdu1FOv1R
+ BMS/VcyQyPaNyIBLyV79xaZ6CaUNzIjmBxRj8Fe+1khO8KcH3zpgVSaCPqyrS/mPSxUA
+ SxH1O0RaYnJym4R1ouc54zGTJI9ko785LbI0cE/6JrbOl++1vJMUiWvQ+YxS/x02SX1A
+ GtQ9eZiWdQ81n3fEqhZUgWSVZqHZymyGyts8taigNA7xByYUg2QhaEC1Sqw034dlDQ+n
+ EaQjVI9wbITemQxMjxw+B5xkVM7JxSTIPhVvW43gJtVIEw3fB0lKjLuGjHRyUK5Iy7k4
+ pXzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9RLU/826fL0tWIk2PrvJDBE7HJXooGGXs9jpMJCjFmk=;
- b=S9MT35zD0bnzJZAPVHxkR1kTO0eLBB5CydQ8QjrqFOya/VkYUE98+2P2x4ioEXmhZ+
- BNugXGclXC2FHpmbjABqTLdOUI2LupaO2wtdqzWqgeh1AlWeH/E7bv64blxHu23GdkDv
- QVYjuOmu4cs8D8hQYCaP8iHXDkd//AUrybtmons5M9/a2toEQiQQRLQcxbUO0X6SRrwl
- 9pCnPFocuUvzzcvnYL8E+pRUUQ/qOcvrxy2ClWNbCBZxU+C1stu/q9Y9X4CrlMkdr0UV
- rkJYvZ1D2Jc0aFZGPOKruMkwnxXhYWx/KsvfQAHLggpFKlPKIwH9X/OHfjORiJWujl7D
- kWtw==
-X-Gm-Message-State: AOAM533cCCz++31KZg4Cru6QWuPfNphOJuAaSmLGIgaZj42dmlmyTL+0
- Cq/aYicBIN2TvVa28r8dOMM=
-X-Google-Smtp-Source: ABdhPJxcl5AxBDibOdNUu+8zMhKTO7KIau9/v+b2PNTkAe8Cqa/TRnHv5OrqQdQzkXZ12hw5MhrRfA==
-X-Received: by 2002:a17:906:5299:: with SMTP id
- c25mr19095821ejm.85.1622645814812; 
- Wed, 02 Jun 2021 07:56:54 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id dk12sm131166ejb.84.2021.06.02.07.56.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 07:56:53 -0700 (PDT)
-Date: Wed, 2 Jun 2021 16:58:29 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 00/10] arm64: tegra: Prevent early SMMU faults
-Message-ID: <YLeclZlP8l3dMX4o@orome.fritz.box>
-References: <20210420172619.3782831-1-thierry.reding@gmail.com>
- <YLEi2FonP568wYrE@orome.fritz.box>
- <20210601122646.GB27832@willie-the-truck>
- <YLZ3qPC8ofjsGkPi@orome.fritz.box>
- <6826d892-d1ac-e3b1-ebee-68392d11d7c5@canonical.com>
- <8c70f82f-0db9-2312-7fc4-c079899c25a0@canonical.com>
- <YLdGwD0dxfER4USn@orome.fritz.box>
- <e2341ca1-7b6d-cc19-8c43-1ada0b1f5601@canonical.com>
- <20210602114049.GF30593@willie-the-truck>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+az3hl/4w22b3I/rRlTcQ1/sSF9KD2GATy/NbYn2SjU=;
+ b=Vd6ifc8NwfsUIlInwuOG9F5r8+z1yIVbca3Bs33p22Zfms3G0g6wEFDM1sVxqzbmou
+ eN9ptXbZ7JRnhDp4irYoWKjTVpVE5baDu1du4O0L6w74PYXwh7y1JO1yb4jh8O+aRkAE
+ UCM7A+crIMWyOgB9jJd380kZ9jag1LtXEHfXJzYaIq+01eTI4vYLCCuaGJuxLks+pf2A
+ SGA2CXLbDfAxJiHtxDP3iiPHjcj/U7fHDjEHI0HlGQvBTJ321iza3AigCEuZgfHAb1y6
+ nWoeYaE4jVPflxsK6nKuXRBZpo8x5dB4JrPPpdmIZ6n1l++bNOCTvB6yVyEw4Sm8bCLj
+ QarA==
+X-Gm-Message-State: AOAM530rlu0RKYK+0Z4RvnofOG9lr7I7qO7poUqW1Sa85ZgLpdUFC6yO
+ czjGnqMz8lt5ysZIrr/oaTg=
+X-Google-Smtp-Source: ABdhPJztpeXS5x/Q7Ocwttmq+13ab9HvNAwDx8hEcPtnl/lWI6mAldnzn4lX5IPnQcCsuOUMA5JO9w==
+X-Received: by 2002:a62:4e96:0:b029:2ea:2244:5e31 with SMTP id
+ c144-20020a624e960000b02902ea22445e31mr3354423pfb.43.1622646112263; 
+ Wed, 02 Jun 2021 08:01:52 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:1a:efea::4b1])
+ by smtp.gmail.com with ESMTPSA id
+ y13sm97917pgp.16.2021.06.02.08.01.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 08:01:51 -0700 (PDT)
+Subject: Re: [RFC PATCH V3 09/11] HV/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+To: Boris Ostrovsky <boris.ostrovsky@oracle.com>, kys@microsoft.com,
+ haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ x86@kernel.org, hpa@zytor.com, arnd@arndb.de, dave.hansen@linux.intel.com,
+ luto@kernel.org, peterz@infradead.org, akpm@linux-foundation.org,
+ kirill.shutemov@linux.intel.com, rppt@kernel.org, hannes@cmpxchg.org,
+ cai@lca.pw, krish.sadhukhan@oracle.com, saravanand@fb.com,
+ Tianyu.Lan@microsoft.com, konrad.wilk@oracle.com, hch@lst.de,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, jgross@suse.com,
+ sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
+ xen-devel@lists.xenproject.org, davem@davemloft.net, kuba@kernel.org,
+ jejb@linux.ibm.com, martin.petersen@oracle.com
+References: <20210530150628.2063957-1-ltykernel@gmail.com>
+ <20210530150628.2063957-10-ltykernel@gmail.com>
+ <9488c114-81ad-eb67-79c0-5ed319703d3e@oracle.com>
+From: Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <a023ee3f-ce85-b54f-79c3-146926bf3279@gmail.com>
+Date: Wed, 2 Jun 2021 23:01:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210602114049.GF30593@willie-the-truck>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- iommu@lists.linux-foundation.org, Jon Hunter <jonathanh@nvidia.com>,
- Nicolin Chen <nicolinc@nvidia.com>, linux-tegra@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <9488c114-81ad-eb67-79c0-5ed319703d3e@oracle.com>
+Content-Language: en-US
+Cc: linux-arch@vger.kernel.org, thomas.lendacky@amd.com,
+ linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
+ linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ vkuznets@redhat.com, sunilmut@microsoft.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,139 +114,37 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7919919312694035266=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Hi Boris:
+	Thanks for your review.
 
---===============7919919312694035266==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="NklhWG4Eau+rgwxG"
-Content-Disposition: inline
+On 6/2/2021 9:16 AM, Boris Ostrovsky wrote:
+> 
+> On 5/30/21 11:06 AM, Tianyu Lan wrote:
+>> @@ -91,6 +92,6 @@ int pci_xen_swiotlb_init_late(void)
+>>   EXPORT_SYMBOL_GPL(pci_xen_swiotlb_init_late);
+>>   
+>>   IOMMU_INIT_FINISH(2,
+>> -		  NULL,
+>> +		  hyperv_swiotlb_detect,
+>>   		  pci_xen_swiotlb_init,
+>>   		  NULL);
+> 
+> 
+> Could you explain this change?
 
-
---NklhWG4Eau+rgwxG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 02, 2021 at 12:40:49PM +0100, Will Deacon wrote:
-> On Wed, Jun 02, 2021 at 12:44:58PM +0200, Krzysztof Kozlowski wrote:
-> > On 02/06/2021 10:52, Thierry Reding wrote:
-> > > On Wed, Jun 02, 2021 at 09:35:13AM +0200, Krzysztof Kozlowski wrote:
-> > >> On 02/06/2021 09:33, Krzysztof Kozlowski wrote:
-> > >>> On 01/06/2021 20:08, Thierry Reding wrote:
-> > >>>> On Tue, Jun 01, 2021 at 01:26:46PM +0100, Will Deacon wrote:
-> > >>>>> On Fri, May 28, 2021 at 07:05:28PM +0200, Thierry Reding wrote:
-> > >>>>>> On Tue, Apr 20, 2021 at 07:26:09PM +0200, Thierry Reding wrote:
-> > >>>>>>> From: Thierry Reding <treding@nvidia.com>
-> > >>>>>>>
-> > >>>>> Probably best if I queue 3-6 on a separate branch once you send a=
- v3,
-> > >>>>> then Krzysztof can pull that in if he needs it.
-> > >>>>
-> > >>>> Patch 5 has a build-time dependency on patch 1, so they need to go=
- in
-> > >>>> together. The reason why I suggested Krzysztof pick these up is be=
-cause
-> > >>>> there is a restructuring series that this depends on, which will g=
-o into
-> > >>>> Krzysztof's tree. So in order to pull in 3-6, you'd get a bunch of=
- other
-> > >>>> and mostly unrelated stuff as well.
-> > >>>
-> > >>> I missed that part... what other series are needed for this one? Ex=
-cept
-> > >>> Dmitry's power management set I do not have anything in my sight for
-> > >>> Tegras memory controllers.
-> > >>>
-> > >>> Anyway, I can take the memory bits and provide a stable tag with th=
-ese.
-> > >>> Recently there was quite a lot work around Tegra memory controllers=
-, so
-> > >>> this makes especially sense if new patches appear.
-> > >>
-> > >> OK, I think I have now the patchset you talked about - "memory: tegr=
-a:
-> > >> Driver unification" v2, right?
-> > >=20
-> > > Yes, that's the one. That series is fairly self-contained, but Dmitry=
-'s
-> > > power management set has dependencies that pull in the regulator, clo=
-ck
-> > > and ARM SoC trees.
-> > >=20
-> > > I did a test merge of the driver unification series with a branch that
-> > > has Dmitry's patches and all the dependencies and there are no confli=
-cts
-> > > so that, fortunately, doesn't further complicates things.
-> > >=20
-> > > Do you want me to send you a pull request with Dmitry's memory
-> > > controller changes? You could then apply the unification series on to=
-p,
-> > > which should allow this SMMU series to apply cleanly on top of that.
-> >=20
-> > Makes sense and it looks quite bulletproof for future changes. Let's do
-> > like this. I will apply your patch 1/10 from this v2 on top of it and
-> > driver unification later.
->=20
-> Okey doke. Thierry -- please let me know which patches I can queue. Having
-> the SMMU driver changes in the IOMMU tree really helps in case of conflic=
-ts
-> with other SMMU changes. As I say, I can put stuff on a separate branch f=
-or
-> you if it helps.
-
-Given that the SMMU patches have a build-time dependency on the first
-patch in the series, and the series depends on the unification series, I
-think Krzysztof would have to pull the memory controller branch that I
-have with Dmitry's work, apply the unification series on top and then
-take patch 1 of this series on top of that. That's the state that you'd
-have to pull into the SMMU tree to get the right dependencies.
-
-The SMMU pieces are the leaf of the dependency tree, so technically no
-separate branch is needed, because I don't think anybody would have to
-pull from it. However, a separate branch might make it easier to back
-any of this work out if we have to.
-
-Krzysztof, I do plan on sending out a v3 of the unification series to
-address the two cleanups that Dmitry and you have pointed out. After
-that I can send out v3 of this series to fix the ordering issue that
-Krishna had mentioned. After all of those are applied, would you be able
-to provide a stable branch for Will's SMMU tree?
-
-Thierry
-
---NklhWG4Eau+rgwxG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmC3nJUACgkQ3SOs138+
-s6G5qRAAi9IkZoO8OpHp1SldqyZjWSfQI0mnh9AhIX/kBkbvi378AFhSPNoAH3rG
-pZINISZZIP7WlB/dkV/YQKTiveEHfBgHPxF/i2/ES9SIah6o2BJMKUh7AdpgB+Nk
-oEv3BTH4z12idTkydBdAdzX21I1O41noQnFdNYxhfiO0q5zCSjP+SNaW5CL0H9tW
-VqO3O2nGETEHymcw/2u1oLNHld0ALPUwSiVzB6x32TlTNnusFrgU2SH/ymLeDLgA
-AJ4atRdjjQZPabBymAfzbL6tGSshV7d6Vb7qI6pcEzqEXmgPtcB+CKo8uoSpue6n
-zg3WwdBMtjc4AKSnEQ82kHafaUdW0Cjz0Xp6jeIFJmSYYPNQCF0W3j9sQcQIOQ6e
-/RHB8OGhardOiwZ1QbEz+eQDc1umCPExfm8WCtFi7DxA6mIOkrb2at/fSVVCWbG8
-a9MxLd68bpPuhCWxzgMdjyW3rmCl8S7xLRc0FwjDoxZ2n0XURAwqwWwsIwrUMeUA
-OsvMv+Tq4vmFMV6MEc0kxEnzNsUTXoVL1uPTkwDsxfitb1CqgOxQbnZwOESPhO80
-0rIIAfqoI5QWjiNrNePwlBnwrmZNhTF57wMWm4ELR5bG5CeIYXKCUF2Qf+hjHYEP
-B7GMc1oAkKi978C8VU2hhyIjypSEhqBJRejaIitADr3UdxctPF4=
-=R26M
------END PGP SIGNATURE-----
-
---NklhWG4Eau+rgwxG--
-
---===============7919919312694035266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Hyper-V allocates its own swiotlb bounce buffer and the default
+swiotlb buffer should not be allocated. swiotlb_init() in 
+pci_swiotlb_init() is to allocate default swiotlb buffer.
+To achieve this, put hyperv_swiotlb_detect() as the first entry in the 
+iommu_table_entry list. The detect loop in the pci_iommu_alloc() will 
+exit once hyperv_swiotlb_detect() is called in Hyper-V VM and other 
+iommu_table_entry callback will not be called.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============7919919312694035266==--
