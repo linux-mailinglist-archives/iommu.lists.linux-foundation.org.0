@@ -1,67 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F663983E0
-	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 10:09:58 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8EC3984C5
+	for <lists.iommu@lfdr.de>; Wed,  2 Jun 2021 10:58:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DF9C140354;
-	Wed,  2 Jun 2021 08:09:54 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 40F72402DA;
+	Wed,  2 Jun 2021 08:58:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2k5VbNCDDn-z; Wed,  2 Jun 2021 08:09:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B30DE403B1;
-	Wed,  2 Jun 2021 08:09:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id l4YsJKwxdlQq; Wed,  2 Jun 2021 08:58:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id BF928400FE;
+	Wed,  2 Jun 2021 08:58:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CF76C0024;
-	Wed,  2 Jun 2021 08:09:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D925C0001;
+	Wed,  2 Jun 2021 08:58:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10587C0001
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:09:49 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1C01BC0001
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:45:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id F04338293D
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:09:48 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id EEBC483935
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:45:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xPv8oIHfCUZp for <iommu@lists.linux-foundation.org>;
- Wed,  2 Jun 2021 08:09:45 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E6CC3828FB
- for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:09:44 +0000 (UTC)
-Received: from sslproxy01.your-server.de ([78.46.139.224])
- by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92.3) (envelope-from <daniel@iogearbox.net>)
- id 1loLwV-0002ok-8U; Wed, 02 Jun 2021 10:09:35 +0200
-Received: from [85.7.101.30] (helo=linux-2.home)
- by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <daniel@iogearbox.net>)
- id 1loLwU-000CT0-Vm; Wed, 02 Jun 2021 10:09:35 +0200
-Subject: Re: Regression 5.12.0-rc4 net: ice: significant throughput drop
-To: Jussi Maki <joamaki@gmail.com>, Robin Murphy <robin.murphy@arm.com>
-References: <CAHn8xckNXci+X_Eb2WMv4uVYjO2331UWB2JLtXr_58z0Av8+8A@mail.gmail.com>
- <cc58c09e-bbb5-354a-2030-bf8ebb2adc86@iogearbox.net>
- <7f048c57-423b-68ba-eede-7e194c1fea4e@arm.com>
- <CAHn8xckNt3smeQPi3dgq5i_3vP7KwU45pnP5OCF8nOV_QEdyMA@mail.gmail.com>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <7c04eeea-22d3-c265-8e1e-b3f173f2179f@iogearbox.net>
-Date: Wed, 2 Jun 2021 10:09:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ with ESMTP id kSa5sDubmRvN for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Jun 2021 08:45:09 +0000 (UTC)
+X-Greylist: delayed 00:05:34 by SQLgrey-1.8.0
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id A00E0838D7
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Jun 2021 08:45:05 +0000 (UTC)
+Received: from [192.168.1.155] ([95.114.42.59]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MFsAJ-1lbUtk1PzT-00HQ57; Wed, 02 Jun 2021 10:38:55 +0200
+Subject: Re: [RFC] /dev/ioasid uAPI proposal
+To: Parav Pandit <parav@nvidia.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ David Woodhouse <dwmw2@infradead.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "Alex Williamson (alex.williamson@redhat.com)" <alex.williamson@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <PH0PR12MB5481C1B2249615257A461EEDDC3F9@PH0PR12MB5481.namprd12.prod.outlook.com>
+From: "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <06892e6a-02c9-6c25-84eb-6a4b2177b48d@metux.net>
+Date: Wed, 2 Jun 2021 10:38:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAHn8xckNt3smeQPi3dgq5i_3vP7KwU45pnP5OCF8nOV_QEdyMA@mail.gmail.com>
-Content-Language: en-US
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.2/26188/Tue Jun  1 13:07:16 2021)
-Cc: jroedel@suse.de, netdev@vger.kernel.org, jesse.brandeburg@intel.com,
- hch@lst.de, iommu@lists.linux-foundation.org, anthony.l.nguyen@intel.com,
- gregkh@linuxfoundation.org, intel-wired-lan@lists.osuosl.org,
- bpf <bpf@vger.kernel.org>, davem@davemloft.net
+In-Reply-To: <PH0PR12MB5481C1B2249615257A461EEDDC3F9@PH0PR12MB5481.namprd12.prod.outlook.com>
+Content-Language: tl
+X-Provags-ID: V03:K1:l+r3sN5SfjQDzPJscBIPShHltDwqwPcayg5WV/CYRoSgPIqQpVf
+ nypmndPm+Xcga8629Rm3atqfOUY4jtIpCRBkSvl3tL9FdJLtVCs2fkgZOVCMoIk+e6poH6N
+ Lr1tS/QP3jPWg8oSFFvv1qUsaZfJobcxa3TkLpasX1rJQr+iKvnAf+so6R+0G298HvJhAsJ
+ ckCAZxKX77S/iFXJir6Vg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9o6QtBDvWdM=:Ms9IhfPCknnQWNsxpF2MXn
+ P0jAMZgwgIGi3mTY/UcyXY+tlSR3Ds8heUrozsfmif7rQajdKlb1Os15umCld9E88ck39zUYO
+ FP6yQKioZvlalkx8Weg3CJpah3bq9YG3wk/6Wvp/2c/c53OJQ1yTIzcsRz+zTN3tM4QRhvSXD
+ GkjUz11DJ+YyKGJVO3+4Ejr2+ypGGi965hL1ytFUI3SnX7RVUE1mHBvWjzaEeD7hpJbVq+Bdc
+ vlFRn1XV3tidKLz4fRhq+3EVglM8Dy78eaKPTYol457LmeLKuPFO8Jxxq6AwguuttP1Bfe2IS
+ 2iPG+3slfiDpvvSE9xqCYdM0CAv6BmfkZTEsA4MXizDxKTqQHuHOrwIOZRidNAJelF1v3GhWv
+ te4cTVK5gvgNs+PQ3LTnsFdy3bI8VXffLcFsztdRnWUGXVaC/79tj1zZyRZbNUCPMSilGQ8+I
+ lFXLtKDJLfF2NpnxmjYgw8mnuRxuSY5n3xzjC0ZA9Hq40aSWNOBeYcY8jsROdV7TYPUTS03JX
+ glKjlrBc/HOXsO8Db9cDKU=
+X-Mailman-Approved-At: Wed, 02 Jun 2021 08:58:15 +0000
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
+ Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Kirti Wankhede <kwankhede@nvidia.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,53 +87,29 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 6/1/21 7:42 PM, Jussi Maki wrote:
-> Hi Robin,
-> 
-> On Tue, Jun 1, 2021 at 2:39 PM Robin Murphy <robin.murphy@arm.com> wrote:
->>>> The regression shows as a significant drop in throughput as measured
->>>> with "super_netperf" [0],
->>>> with measured bandwidth of ~95Gbps before and ~35Gbps after:
->>
->> I guess that must be the difference between using the flush queue
->> vs. strict invalidation. On closer inspection, it seems to me that
->> there's a subtle pre-existing bug in the AMD IOMMU driver, in that
->> amd_iommu_init_dma_ops() actually runs *after* amd_iommu_init_api()
->> has called bus_set_iommu(). Does the patch below work?
-> 
-> Thanks for the quick response & patch. I tried it out and indeed it
-> does solve the issue:
-> 
-> # uname -a
-> Linux zh-lab-node-3 5.13.0-rc3-amd-iommu+ #31 SMP Tue Jun 1 17:12:57
-> UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
-> root@zh-lab-node-3:~# ./super_netperf 32 -H 172.18.0.2
-> 95341.2
-> 
-> root@zh-lab-node-3:~# uname -a
-> Linux zh-lab-node-3 5.13.0-rc3-amd-iommu-unpatched #32 SMP Tue Jun 1
-> 17:29:34 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
-> root@zh-lab-node-3:~# ./super_netperf 32 -H 172.18.0.2
-> 33989.5
-
-Robin, probably goes without saying, but please make sure to include ...
-
-Fixes: a250c23f15c2 ("iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE")
-
-... to your fix in [0], maybe along with another Fixes tag pointing to the original
-commit adding this issue. But certainly a250c23f15c2 would be good given the regression
-was uncovered on that one first, so that Greg et al have a chance to pick this fix up
-for stable kernels.
-
-Thanks everyone!
-
-   [0] https://lore.kernel.org/bpf/7f048c57-423b-68ba-eede-7e194c1fea4e@arm.com/
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMzEuMDUuMjEgMTk6MzcsIFBhcmF2IFBhbmRpdCB3cm90ZToKCj4gSXQgYXBwZWFycyB0aGF0
+IHRoaXMgaXMgb25seSB0byBtYWtlIG1hcCBpb2N0bCBmYXN0ZXIgYXBhcnQgZnJvbSBhY2NvdW50
+aW5nLgo+IEl0IGRvZXNuJ3QgaGF2ZSBhbnkgaW9hc2lkIGhhbmRsZSBpbnB1dCBlaXRoZXIuCj4g
+Cj4gSW4gdGhhdCBjYXNlLCBjYW4gaXQgYmUgYSBuZXcgc3lzdGVtIGNhbGw/IFdoeSBkb2VzIGl0
+IGhhdmUgdG8gYmUgdW5kZXIgL2Rldi9pb2FzaWQ/Cj4gRm9yIGV4YW1wbGUgZmV3IHllYXJzIGJh
+Y2sgc3VjaCBzeXN0ZW0gY2FsbCBtcGluKCkgdGhvdWdodCB3YXMgcHJvcG9zZWQgaW4gWzFdLgoK
+SSdtIHZlcnkgcmVsdWN0YW50IHRvIG1vcmUgc3lzY2FsbCBpbmZsYXRpb24uIFdlIGFscmVhZHkg
+aGF2ZSBsb3RzIG9mCnN5c2NhbGxzIHRoYXQgY291bGQgaGF2ZSBiZWVuIGVhc2lseSBkb25lIHZp
+YSBkZXZpY2VzIG9yIGZpbGVzeXN0ZW1zCih5ZXMsIHNvbWUgb2YgdGhlbSBhcmUganVzdCBvbGQg
+VW5peCByZWxpY3MpLgoKU3lzY2FsbHMgZG9uJ3QgcGxheSB3ZWxsIHcvIG1vZHVsZXMsIGNvbnRh
+aW5lcnMsIGRpc3RyaWJ1dGVkIHN5c3RlbXMsCmV0YywgYW5kIG5lZWQgZXh0cmEgbG93LWxldmVs
+IGNvZGUgZm9yIG1vc3Qgbm9uLUMgbGFuZ3VhZ2VzIChlZy4Kc2NyaXB0aW5nIGxhbmd1YWdlcyku
+CgoKLS1tdHgKCi0tIAotLS0KSGlud2VpczogdW52ZXJzY2hsw7xzc2VsdGUgRS1NYWlscyBrw7Zu
+bmVuIGxlaWNodCBhYmdlaMO2cnQgdW5kIG1hbmlwdWxpZXJ0CndlcmRlbiAhIEbDvHIgZWluZSB2
+ZXJ0cmF1bGljaGUgS29tbXVuaWthdGlvbiBzZW5kZW4gU2llIGJpdHRlIGlocmVuCkdQRy9QR1At
+U2NobMO8c3NlbCB6dS4KLS0tCkVucmljbyBXZWlnZWx0LCBtZXR1eCBJVCBjb25zdWx0CkZyZWUg
+c29mdHdhcmUgYW5kIExpbnV4IGVtYmVkZGVkIGVuZ2luZWVyaW5nCmluZm9AbWV0dXgubmV0IC0t
+ICs0OS0xNTEtMjc1NjUyODcKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24u
+b3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lv
+bW11
