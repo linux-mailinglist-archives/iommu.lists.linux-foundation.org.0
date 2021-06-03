@@ -2,61 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E35399F69
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 13:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BCA399FAB
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 13:20:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 42F0B400E7;
-	Thu,  3 Jun 2021 11:00:59 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8999E400ED;
+	Thu,  3 Jun 2021 11:20:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pLT2X9IcdlOo; Thu,  3 Jun 2021 11:00:58 +0000 (UTC)
+	with ESMTP id gMftzyPczWWT; Thu,  3 Jun 2021 11:20:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3C6D7400A7;
-	Thu,  3 Jun 2021 11:00:58 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id ACFB4400EB;
+	Thu,  3 Jun 2021 11:20:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EC9AC0024;
-	Thu,  3 Jun 2021 11:00:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9175FC0001;
+	Thu,  3 Jun 2021 11:20:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40E2BC0001
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 11:00:56 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 542FBC0001
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 11:20:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 18B22400C8
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 11:00:56 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 39B7F400EB
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 11:20:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dhChW2P-wBC2 for <iommu@lists.linux-foundation.org>;
- Thu,  3 Jun 2021 11:00:55 +0000 (UTC)
+ with ESMTP id oi5Y4DI-zaGx for <iommu@lists.linux-foundation.org>;
+ Thu,  3 Jun 2021 11:20:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp2.osuosl.org (Postfix) with ESMTP id 09D6A400A7
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 11:00:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 345F81063;
- Thu,  3 Jun 2021 04:00:54 -0700 (PDT)
-Received: from [10.57.73.64] (unknown [10.57.73.64])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C8CA53F774;
- Thu,  3 Jun 2021 04:00:52 -0700 (PDT)
-Subject: Re: [PATCH v3] iommu/dma: Fix IOVA reserve dma ranges
-To: Sven Peter <sven@svenpeter.dev>,
- Srinath Mannam <srinath.mannam@broadcom.com>, Joerg Roedel
- <joro@8bytes.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Bjorn Helgaas <bhelgaas@google.com>, poza@codeaurora.org
-References: <20200914072319.6091-1-srinath.mannam@broadcom.com>
- <c72a45e4-c156-4a62-bfd7-9cf8a31ff499@www.fastmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <c9b5900b-8212-35c1-c358-46158d34b253@arm.com>
-Date: Thu, 3 Jun 2021 12:00:46 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C0A8A400E7
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 11:20:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77519613E6;
+ Thu,  3 Jun 2021 11:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622719230;
+ bh=yvu1ioWFgeXoiNI15+SCoMtyfAMfsZdkNLqkvbW5ChA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kuUpuVw6pZ0+xCWatONfbiD7PZPYm3CYPslvjBhz43wurBSp8e/Lf/cepm9y9RA6j
+ SpU7YOwwjb6x0MbNkWXmUiv5Vz0O+A4iSJ9Z64Kk+vU2ws5lda5ih7wn2WGdIYDaQl
+ lg4xvtwu9Rps0VVIJk6B2Wb0BoB4H9O+dtg1uCZkqCqEQaT3V/2v/O7znsM8iXuT2W
+ 53UM+etyclo69iNcWVx1U/V8ZjuS9Fg6c4mtjrT+5MWmPdevIHvqUGXsYxlwP+pd5I
+ DDMjDH8C18ecxj8lpm1JP4sBrgkoHaDy0hXVBQFRKIL9cbWzUx6xQPAGnT+2U7uQii
+ zWOzBxa1vF9Wg==
+Date: Thu, 3 Jun 2021 16:50:26 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Subject: Re: [PATCH] x86/cpufeatures: Force disable X86_FEATURE_ENQCMD and
+ remove update_pasid()
+Message-ID: <YLi6+vICUmu07b0E@vkoul-mobl>
+References: <1600187413-163670-1-git-send-email-fenghua.yu@intel.com>
+ <1600187413-163670-10-git-send-email-fenghua.yu@intel.com>
+ <87mtsd6gr9.ffs@nanos.tec.linutronix.de> <YLdZ7bZDPNup1n9c@zn.tnic>
 MIME-Version: 1.0
-In-Reply-To: <c72a45e4-c156-4a62-bfd7-9cf8a31ff499@www.fastmail.com>
-Content-Language: en-GB
-Cc: iommu <iommu@lists.linux-foundation.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <YLdZ7bZDPNup1n9c@zn.tnic>
+Cc: Ravi V Shankar <ravi.v.shankar@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Dave Hansen <dave.hansen@intel.com>,
+ H Peter Anvin <hpa@zytor.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Dave Jiang <dave.jiang@intel.com>, Ashok Raj <ashok.raj@intel.com>,
+ x86 <x86@kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Fenghua Yu <fenghua.yu@intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Tony Luck <tony.luck@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ Jacob Jun Pan <jacob.jun.pan@intel.com>, dmaengine@vger.kernel.org,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,78 +82,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-06-02 21:18, Sven Peter wrote:
-> Hi,
+On 02-06-21, 12:14, Borislav Petkov wrote:
+> ---
+> From: Borislav Petkov <bp@suse.de>
+> Date: Wed, 2 Jun 2021 12:07:52 +0200
+> Subject: [PATCH] dmaengine: idxd: Use cpu_feature_enabled()
 > 
-> I just ran into the exact same issue while working on the M1 DART IOMMU driver
-> and it was fixed by this commit. Thanks!
-> 
-> Would be great if this could be picked up.
+> When testing x86 feature bits, use cpu_feature_enabled() so that
+> build-disabled features can remain off, regardless of what CPUID says.
 
-Oops, apparently I was happy enough with this 9 months ago to forget 
-about it, so if it helps,
+Applied, thanks
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-
-> Tested-by: Sven Peter <sven@svenpeter.dev>
-> 
-> 
-> Best,
-> 
-> 
-> Sven
-> 
-> 
-> On Mon, Sep 14, 2020, at 09:23, Srinath Mannam via iommu wrote:
->> Fix IOVA reserve failure in the case when address of first memory region
->> listed in dma-ranges is equal to 0x0.
->>
->> Fixes: aadad097cd46f ("iommu/dma: Reserve IOVA for PCIe inaccessible
->> DMA address")
->> Signed-off-by: Srinath Mannam <srinath.mannam@broadcom.com>
->> ---
->> Changes from v2:
->>     Modify error message with useful information based on Bjorn's
->> comments.
->>
->> Changes from v1:
->>     Removed unnecessary changes based on Robin's review comments.
->>
->>   drivers/iommu/dma-iommu.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
->> index 5141d49a046b..5b9791f35c5e 100644
->> --- a/drivers/iommu/dma-iommu.c
->> +++ b/drivers/iommu/dma-iommu.c
->> @@ -217,9 +217,11 @@ static int iova_reserve_pci_windows(struct pci_dev *dev,
->>   			lo = iova_pfn(iovad, start);
->>   			hi = iova_pfn(iovad, end);
->>   			reserve_iova(iovad, lo, hi);
->> -		} else {
->> +		} else if (end < start) {
->>   			/* dma_ranges list should be sorted */
->> -			dev_err(&dev->dev, "Failed to reserve IOVA\n");
->> +			dev_err(&dev->dev,
->> +				"Failed to reserve IOVA [%#010llx-%#010llx]\n",
->> +				start, end);
->>   			return -EINVAL;
->>   		}
->>   
->> -- 
->> 2.17.1
->>
->> _______________________________________________
->> iommu mailing list
->> iommu@lists.linux-foundation.org
->> https://lists.linuxfoundation.org/mailman/listinfo/iommu
->>
->>
+-- 
+~Vinod
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
