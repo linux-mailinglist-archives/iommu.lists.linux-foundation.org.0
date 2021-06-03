@@ -1,68 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7AA399CC4
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 10:40:29 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAB9399CCB
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 10:41:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 958ED400DB;
-	Thu,  3 Jun 2021 08:40:27 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BE85383E57;
+	Thu,  3 Jun 2021 08:41:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id squy9vOR5Shq; Thu,  3 Jun 2021 08:40:26 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Wx4sLDCjwSaI; Thu,  3 Jun 2021 08:41:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BD3E140515;
-	Thu,  3 Jun 2021 08:40:26 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id DF98583E32;
+	Thu,  3 Jun 2021 08:41:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D98AC0024;
-	Thu,  3 Jun 2021 08:40:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CA243C0001;
+	Thu,  3 Jun 2021 08:41:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 478ECC0001
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 08:40:24 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1CAA4C0001
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 08:41:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2119E400DF
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 08:40:24 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0B54C83E32
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 08:41:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pVnvPMdOlGLE for <iommu@lists.linux-foundation.org>;
- Thu,  3 Jun 2021 08:40:23 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7841C400DB
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 08:40:23 +0000 (UTC)
-IronPort-SDR: agQBs8Vdb34Og+IBgOKK7oM7pI3TDnYF6s3WTjGQvYUxG/RAKF3YAmA+b9Rbn90gj5rI0aBARm
- SRVSD3q5AOPA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="267863704"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="267863704"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 01:40:16 -0700
-IronPort-SDR: zaG+TekgVIYKs3X+kNC3Jpsm3GjArPLb8T4622NANIInNlDbUKxCtdKvLc+2gWRl4PG2o1KJSB
- DWHRmeXMxOlg==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="447770231"
-Received: from nichilds-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.26.250])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 01:40:13 -0700
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id U0EEek5hB2Lj for <iommu@lists.linux-foundation.org>;
+ Thu,  3 Jun 2021 08:41:23 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mx1.emlix.com (mx1.emlix.com [136.243.223.33])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id BD24D83E1F
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 08:41:23 +0000 (UTC)
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mx1.emlix.com (Postfix) with ESMTPS id 2BC24602D5;
+ Thu,  3 Jun 2021 10:41:21 +0200 (CEST)
+From: Rolf Eike Beer <eb@emlix.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Subject: [PATCH] iommu/vt-d: move variable to more local scope
+Date: Thu, 03 Jun 2021 10:41:19 +0200
+Message-ID: <1943275.8rWz7lOq5N@mobilepool36.emlix.com>
 MIME-Version: 1.0
-In-Reply-To: <YKZ8eqnSnaso3aoe@0xbeefdead.lan>
-References: <20210510152525.GA30093@lst.de> <YKZ8eqnSnaso3aoe@0xbeefdead.lan>
-Subject: Re: i915 and swiotlb_max_segment
-To: Christoph Hellwig <hch@lst.de>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <162270961054.11739.9148402963893484386@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Thu, 03 Jun 2021 11:40:10 +0300
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,49 +59,33 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-+ Tvrtko to take a look
-
-Quoting Konrad Rzeszutek Wilk (2021-05-20 18:12:58)
-> On Mon, May 10, 2021 at 05:25:25PM +0200, Christoph Hellwig wrote:
-> > Hi all,
-> > 
-> > swiotlb_max_segment is a rather strange "API" export by swiotlb.c,
-> > and i915 is the only (remaining) user.
-> > 
-> > swiotlb_max_segment returns 0 if swiotlb is not in use, 1 if
-> > SWIOTLB_FORCE is set or swiotlb-zen is set, and the swiotlb segment
-> > size when swiotlb is otherwise enabled.
-> > 
-> > i915 then uses it to:
-> > 
-> >  a) decided on the max order in i915_gem_object_get_pages_internal
-> >  b) decide on a max segment size in i915_sg_segment_size
-> > 
-> > for a) it really seems i915 should switch to dma_alloc_noncoherent
-> > or dma_alloc_noncontigous ASAP instead of using alloc_page and
-> > streaming DMA mappings.  Any chance I could trick one of the i915
-> > maintaines into doing just that given that the callchain is not
-> > exactly trivial?
-> > 
-> > For b) I'm not sure swiotlb and i915 really agree on the meaning
-> > of the value.  swiotlb_set_max_segment basically returns the entire
-> > size of the swiotlb buffer, while i915 seems to use it to limit
-> > the size each scatterlist entry.  It seems like dma_max_mapping_size
-> > might be the best value to use here.
-> 
-> Yes. The background behind that was SWIOTLB would fail because well, the
-> size of the sg was too large. And some way to limit it to max size
-> was needed - the dma_max_mapping_size "should" be just fine.
-> 
-> > 
-> > Once that is fixed I'd like to kill off swiotlb_max_segment as it is
-> > a horribly confusing API.
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SXQgaXMgb25seSB1c2VkIGluc2lkZSB0aGUgbG9vcCBhbmQgdGhlIG9sZCB2YWx1ZSBpcyBub3Qg
+cmV1c2VkLgoKU2lnbmVkLW9mZi1ieTogUm9sZiBFaWtlIEJlZXIgPGViQGVtbGl4LmNvbT4KLS0t
+CiBkcml2ZXJzL2lvbW11L2ludGVsL2lvbW11LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2lu
+dGVsL2lvbW11LmMgYi9kcml2ZXJzL2lvbW11L2ludGVsL2lvbW11LmMKaW5kZXggYmUzNTI4NGEy
+MDE2Li5mYTI2MmI4MDVkZDYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaW9tbXUvaW50ZWwvaW9tbXUu
+YworKysgYi9kcml2ZXJzL2lvbW11L2ludGVsL2lvbW11LmMKQEAgLTIzNDAsNyArMjM0MCw2IEBA
+IF9fZG9tYWluX21hcHBpbmcoc3RydWN0IGRtYXJfZG9tYWluICpkb21haW4sIHVuc2lnbmVkIGxv
+bmcgaW92X3BmbiwKIAkJIHVuc2lnbmVkIGxvbmcgcGh5c19wZm4sIHVuc2lnbmVkIGxvbmcgbnJf
+cGFnZXMsIGludCBwcm90KQogewogCXVuc2lnbmVkIGludCBsYXJnZXBhZ2VfbHZsID0gMDsKLQl1
+bnNpZ25lZCBsb25nIGx2bF9wYWdlcyA9IDA7CiAJc3RydWN0IGRtYV9wdGUgKnB0ZSA9IE5VTEw7
+CiAJcGh5c19hZGRyX3QgcHRldmFsOwogCXU2NCBhdHRyOwpAQCAtMjM2Niw2ICsyMzY1LDcgQEAg
+X19kb21haW5fbWFwcGluZyhzdHJ1Y3QgZG1hcl9kb21haW4gKmRvbWFpbiwgdW5zaWduZWQgbG9u
+ZyBpb3ZfcGZuLAogCiAJd2hpbGUgKG5yX3BhZ2VzID4gMCkgewogCQl1aW50NjRfdCB0bXA7CisJ
+CXVuc2lnbmVkIGxvbmcgbHZsX3BhZ2VzOwogCiAJCWlmICghcHRlKSB7CiAJCQlsYXJnZXBhZ2Vf
+bHZsID0gaGFyZHdhcmVfbGFyZ2VwYWdlX2NhcHMoZG9tYWluLCBpb3ZfcGZuLAotLSAKMi4zMS4x
+CgoKLS0gClJvbGYgRWlrZSBCZWVyLCBlbWxpeCBHbWJILCBodHRwczovL3d3dy5lbWxpeC5jb20K
+Rm9uICs0OSA1NTEgMzA2NjQtMCwgRmF4ICs0OSA1NTEgMzA2NjQtMTEKR290aGFlciBQbGF0eiAz
+LCAzNzA4MyBHw7Z0dGluZ2VuLCBHZXJtYW55ClNpdHogZGVyIEdlc2VsbHNjaGFmdDogR8O2dHRp
+bmdlbiwgQW10c2dlcmljaHQgR8O2dHRpbmdlbiBIUiBCIDMxNjAKR2VzY2jDpGZ0c2bDvGhydW5n
+OiBIZWlrZSBKb3JkYW4sIERyLiBVd2UgS3JhY2tlIOKAkyBVc3QtSWROci46IERFIDIwNSAxOTgg
+MDU1CgplbWxpeCAtIHNtYXJ0IGVtYmVkZGVkIG9wZW4gc291cmNlCgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11
+QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9u
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
