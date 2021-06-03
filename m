@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1CD399AA6
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 08:28:35 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A719D399AA4
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 08:28:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 94E94404F7;
-	Thu,  3 Jun 2021 06:28:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 269AF40596;
+	Thu,  3 Jun 2021 06:28:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nqhwpwJYv29e; Thu,  3 Jun 2021 06:28:30 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Cr-PUUfZMFl5; Thu,  3 Jun 2021 06:28:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8F50540500;
-	Thu,  3 Jun 2021 06:28:30 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id D7C3C405A0;
+	Thu,  3 Jun 2021 06:28:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 78703C0001;
-	Thu,  3 Jun 2021 06:28:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 049B4C0028;
+	Thu,  3 Jun 2021 06:28:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AEB46C0024
- for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 06:28:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7C699C0001
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 06:28:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 676D84059A
+ by smtp4.osuosl.org (Postfix) with ESMTP id 661B840597
  for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 06:28:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b-7ZXjmCQyKk for <iommu@lists.linux-foundation.org>;
+ with ESMTP id sIouiRBGS1xc for <iommu@lists.linux-foundation.org>;
  Thu,  3 Jun 2021 06:28:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1741040596
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 15FD24058D
  for <iommu@lists.linux-foundation.org>; Thu,  3 Jun 2021 06:28:24 +0000 (UTC)
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FwbYy52Pbz9sWQ; Thu,  3 Jun 2021 16:28:22 +1000 (AEST)
+ id 4FwbYy4cPTz9s5R; Thu,  3 Jun 2021 16:28:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622701702;
- bh=2xuBQMunr1ZQZ9vbpz6j/qlb//Vd4mU8xLiQkXpqKfg=;
+ bh=IEEiXT5ukbF9bVCRBbDqCX5LlE3sy5L+2Kdn6s28K58=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F06Ckzdx/6BrAumJp7tT3RCKq68mj/DzWQ8iusZcMz+TFQbRAAEd/TsB88vDQfKTp
- 7o6qkSbN7B5i77XvnB5qHgzg4J6cI6q1BFMbioTR0h/ePDSw+NJ+rSQ15zwmupX2SL
- 3uB0f8Pr1QEVS0iFJLMPIZjsoh6HGgXCxs6I0f78=
-Date: Thu, 3 Jun 2021 15:13:44 +1000
+ b=KIR+GzyhRu27toheHJDd50KhCPCJbP3gDGUuXZldNPxbTzZf7XO7iP7Va6FbAKtVw
+ oMW2lSGDSJAAs3IwkPuecVOEzpLPFN5RrCse9tETBTjAv5q7b8inQprCzFkEGGT/7I
+ jm7CC6cD+WQ8xfciulygEFE9O20QtHmyjblCEgeA=
+Date: Thu, 3 Jun 2021 15:23:17 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Subject: Re: [RFC] /dev/ioasid uAPI proposal
-Message-ID: <YLhlCINGPGob4Nld@yekko>
+Message-ID: <YLhnRbJJqPUBiRwa@yekko>
 References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210528173538.GA3816344@nvidia.com> <YLcl+zaK6Y0gB54a@yekko>
- <20210602161648.GY1002214@nvidia.com>
+ <20210528195839.GO1002214@nvidia.com>
+ <MWHPR11MB1886A17F36CF744857C531148C3E9@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210601175643.GQ1002214@nvidia.com> <YLcr8B7EPDCejlWZ@yekko>
+ <20210602163753.GZ1002214@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20210602161648.GY1002214@nvidia.com>
+In-Reply-To: <20210602163753.GZ1002214@nvidia.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
  Kevin" <kevin.tian@intel.com>,
  "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
@@ -77,71 +77,99 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5135936153723719575=="
+Content-Type: multipart/mixed; boundary="===============2983875341296008439=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
---===============5135936153723719575==
+--===============2983875341296008439==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="UwcuFoJaxyrb8B7F"
+	protocol="application/pgp-signature"; boundary="ct7l8sovhYah/GNA"
 Content-Disposition: inline
 
 
---UwcuFoJaxyrb8B7F
+--ct7l8sovhYah/GNA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 02, 2021 at 01:16:48PM -0300, Jason Gunthorpe wrote:
-> On Wed, Jun 02, 2021 at 04:32:27PM +1000, David Gibson wrote:
-> > > I agree with Jean-Philippe - at the very least erasing this
-> > > information needs a major rational - but I don't really see why it
-> > > must be erased? The HW reports the originating device, is it just a
-> > > matter of labeling the devices attached to the /dev/ioasid FD so it
-> > > can be reported to userspace?
+On Wed, Jun 02, 2021 at 01:37:53PM -0300, Jason Gunthorpe wrote:
+> On Wed, Jun 02, 2021 at 04:57:52PM +1000, David Gibson wrote:
+>=20
+> > I don't think presence or absence of a group fd makes a lot of
+> > difference to this design.  Having a group fd just means we attach
+> > groups to the ioasid instead of individual devices, and we no longer
+> > need the bookkeeping of "partial" devices.
+>=20
+> Oh, I think we really don't want to attach the group to an ioasid, or
+> at least not as a first-class idea.
+>=20
+> The fundamental problem that got us here is we now live in a world
+> where there are many ways to attach a device to an IOASID:
+
+I'm not seeing that that's necessarily a problem.
+
+>  - A RID binding
+>  - A RID,PASID binding
+>  - A RID,PASID binding for ENQCMD
+
+I have to admit I haven't fully grasped the differences between these
+modes.  I'm hoping we can consolidate at least some of them into the
+same sort of binding onto different IOASIDs (which may be linked in
+parent/child relationships).
+
+>  - A SW TABLE binding
+>  - etc
+>=20
+> The selection of which mode to use is based on the specific
+> driver/device operation. Ie the thing that implements the 'struct
+> vfio_device' is the thing that has to select the binding mode.
+
+I thought userspace selected the binding mode - although not all modes
+will be possible for all devices.
+
+> group attachment was fine when there was only one mode. As you say it
+> is fine to just attach every group member with RID binding if RID
+> binding is the only option.
+>=20
+> When SW TABLE binding was added the group code was hacked up - now the
+> group logic is choosing between RID/SW TABLE in a very hacky and mdev
+> specific way, and this is just a mess.
+
+Sounds like it.  What do you propose instead to handle backwards
+compatibility for group-based VFIO code?
+
+> The flow must carry the IOASID from the /dev/iommu to the vfio_device
+> driver and the vfio_device implementation must choose which binding
+> mode and parameters it wants based on driver and HW configuration.
+>=20
+> eg if two PCI devices are in a group then it is perfectly fine that
+> one device uses RID binding and the other device uses RID,PASID
+> binding.
+
+Uhhhh... I don't see how that can be.  They could well be in the same
+group because their RIDs cannot be distinguished from each other.
+
+> The only place I see for a "group bind" in the uAPI is some compat
+> layer for the vfio container, and the implementation would be quite
+> different, we'd have to call each vfio_device driver in the group and
+> execute the IOASID attach IOCTL.
+>=20
+> > > I would say no on the container. /dev/ioasid =3D=3D the container, ha=
+ving
+> > > two competing objects at once in a single process is just a mess.
 > >=20
-> > HW reports the originating device as far as it knows.  In many cases
-> > where you have multiple devices in an IOMMU group, it's because
-> > although they're treated as separate devices at the kernel level, they
-> > have the same RID at the HW level.  Which means a RID for something in
-> > the right group is the closest you can count on supplying.
+> > Right.  I'd assume that for compatibility, creating a container would
+> > create a single IOASID under the hood with a compatiblity layer
+> > translating the container operations to iosaid operations.
 >=20
-> Granted there may be cases where exact fidelity is not possible, but
-> that doesn't excuse eliminating fedelity where it does exist..
+> It is a nice dream for sure
 >=20
-> > > If there are no hypervisor traps (does this exist?) then there is no
-> > > way to involve the hypervisor here and the child IOASID should simply
-> > > be a pointer to the guest's data structure that describes binding. In
-> > > this case that IOASID should claim all PASIDs when bound to a
-> > > RID.=20
-> >=20
-> > And in that case I think we should call that object something other
-> > than an IOASID, since it represents multiple address spaces.
->=20
-> Maybe.. It is certainly a special case.
->=20
-> We can still consider it a single "address space" from the IOMMU
-> perspective. What has happened is that the address table is not just a
-> 64 bit IOVA, but an extended ~80 bit IOVA formed by "PASID, IOVA".
-
-True.  This does complexify how we represent what IOVA ranges are
-valid, though.  I'll bet you most implementations don't actually
-implement a full 64-bit IOVA, which means we effectively have a large
-number of windows from (0..max IOVA) for each valid pasid.  This adds
-another reason I don't think my concept of IOVA windows is just a
-power specific thing.
-
-> If we are already going in the direction of having the IOASID specify
-> the page table format and other details, specifying that the page
-> tabnle format is the 80 bit "PASID, IOVA" format is a fairly small
-> step.
-
-Well, rather I think userspace needs to request what page table format
-it wants and the kernel tells it whether it can oblige or not.
-
-> I wouldn't twist things into knots to create a difference, but if it
-> is easy to do it wouldn't hurt either.
+> /dev/vfio could be a special case of /dev/ioasid just with a different
+> uapi and ending up with only one IOASID. They could be interchangable
+> from then on, which would simplify the internals of VFIO if it
+> consistently delt with these new ioasid objects everywhere. But last I
+> looked it was complicated enough to best be done later on
 >=20
 > Jason
 >=20
@@ -152,29 +180,29 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---UwcuFoJaxyrb8B7F
+--ct7l8sovhYah/GNA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC4ZQgACgkQbDjKyiDZ
-s5IM8w//d5632xHIUe/SxdcMgeeL1e5mDxHeFH0h0NOYnXs0b3siioEPgoSzjZi2
-eJ5dqCuEkuZ4jMHBZ7xBGhNAYcidi7Ww0e9zCuGHXgUt9OLkf9W5c5eWUugTFzDY
-XFI1VYrP4xD2OsXFr+o3yK5EVXCEQkET8rcSRv8LiKxtxurFJyGPYcX4PZ1unbhi
-jcAy7GezT1Mq71/r4iofe1i/fIYZKqq0oZYWyoXKVXQ1d2ajCT3DN6RnWpcCj760
-ZJlsXUCYNtvb4BqrI6z7pLcJzxxzbcu0TyvrYyOt1VHvHJ+xfgDe38KYTO4qGOBg
-9hScch8s7iQCpTzXfwB7rgIl6rxWglvcM551NZxryzzxKh1pvtfSScwQbObGjQha
-4s0V9xrl6v+rZn8Uzw7Ys6MSHIbf7JN+lfmr7C/5HmfdWRFEC+EFfgKMo0PLd4ex
-PTdzpd3DJbDQA2MYgwKdeKloYtbJ6Nra6OMlPEKMuE9iDeSt88QQ5WBNjYGIP/hl
-T0DyFyVsIDLhnkbF9F/xyrdz4iRzb36ecn9xrRPK04istV8UDdK80hFJU6UG/hMY
-RYzDI/WYMR+ExTnrGcPkY5oT+3cP2t2bs/K+dFRPyPLm+O3P4GwlyxgpCf1psS2X
-QUWBVO91SiYSNxmz4GbaJ7OYTv7VM03wJx9SkFIHs9dTMg+xDOg=
-=1QbC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC4Z0UACgkQbDjKyiDZ
+s5JVmBAAvFLHQONjTSmYF0VpXWkFjszZDezpbL/wjXpuJp+d8d/JHfGH1jaP+UeJ
+dBm4x2+wg5ObhI1DY/Q8OTrTKud71LvN8FayexQ0SKkqzaFTyXvEzP2vr30N2Svc
+qzxReZfDkXPneWNb/IqdVO5KgxVgtNR+tgIlCiFAndJdOcjTPfC38zr3ceNbKn7Q
+kofsipS61OUwkj7X7mUEuzajdYDDQ3yfPGbuI6XY2dJbQd1+Bgv9yfA71yruIw3L
+5JenqmBlO9oJcvU09Db8wZe7iT27Jh5Jl/LAAzSoaVOb8lZkVRKLETgKHRx9SfDf
+xwsIDCpOQ5jtClK4qpGmpATkNgd2q6S7uqb8GsXTXCVxV4GMHKLaDRTGCK4m3hx0
+XPmTZDS3NDShGjeUVvrGNosIriXb0UaWzugtLpvGyRe6U53p9tL8khNUIUKZysrX
+uHH0SxwwK8+4ke8+zPVn48Y6CE1IYWKVHb3oeLmgYLF28W4Qo2FmoVHlO+Go+Z4C
+kh1yKIIm6phXqwIxVn4pFIi5A5u/pnsSVdod3Ll93xTf/Th3fmjAeAeOy9XU3Wf8
+Qp9RmpMopPQARqDDY74Scbg2IxlzM/ks3rqGcKg/aUTaQl5Fhxzan7F5daKsHf1e
+92Ou5VpiV0KKg4FDe160et4u4x/qAjq+ROSkB8I+HoGyZSw6Nsk=
+=6Lix
 -----END PGP SIGNATURE-----
 
---UwcuFoJaxyrb8B7F--
+--ct7l8sovhYah/GNA--
 
---===============5135936153723719575==
+--===============2983875341296008439==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -184,4 +212,4 @@ _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============5135936153723719575==--
+--===============2983875341296008439==--
