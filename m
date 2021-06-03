@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56853997E5
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:55 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A593997E1
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0996183981;
-	Thu,  3 Jun 2021 02:10:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id l80ias2t8m8O; Thu,  3 Jun 2021 02:10:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2E1A383DF1;
-	Thu,  3 Jun 2021 02:10:52 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DE63C0029;
+	by smtp3.osuosl.org (Postfix) with ESMTP id BBA3160AF9;
 	Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iG9BDrYhqy_p; Thu,  3 Jun 2021 02:10:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 831CF60B0E;
+	Thu,  3 Jun 2021 02:10:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B97E8C0027;
+	Thu,  3 Jun 2021 02:10:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0BB37C0011;
- Thu,  3 Jun 2021 00:41:50 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 26A5EC0001;
+ Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id DB3C983D4A;
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1016383D47;
  Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lsyShE1mvt1C; Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
+ with ESMTP id bHz8lGW9uuDT; Thu,  3 Jun 2021 00:41:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B8B5B83D34;
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3249683D39;
  Thu,  3 Jun 2021 00:41:46 +0000 (UTC)
-IronPort-SDR: Zg4YtbxnPZpB32xN5XamZGZJredgAOPbYD5G/+mJxI+EJC7tQv0ohK1udTwMPxMGh3c8CXI5Nu
- 1+9TAU/oCzLA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281571"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281571"
+IronPort-SDR: hHDnAIfNZO1b5+8PMK9zQpOdUa4OtfAc+6T7aKnYiQ3KiacznI9oaN2HYaUsqHXWLQDEXiSCnb
+ GRBO7Gzon39A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281573"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281573"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
-IronPort-SDR: JDUmEcjqrAH9CeDk89linSm2Pj1LPAXJGnfy/iVNbpSrnXWweqPzpqdKqZJTwMMvLOnrmsJBj/
- xooeB7jPrSIQ==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686680"
+IronPort-SDR: GZIRmM+2WIEuOj7sEEVm9Qwh0VotpMIbndySGLgjjwSJlNLzbZ3UOb6csRnGFU1QiQReoRv8ms
+ IQK10R19ZY4A==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686681"
 Received: from tassilo.jf.intel.com ([10.54.74.11])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
 From: Andi Kleen <ak@linux.intel.com>
 To: mst@redhat.com
-Subject: [PATCH v1 5/8] dma: Use size for swiotlb boundary checks
-Date: Wed,  2 Jun 2021 17:41:30 -0700
-Message-Id: <20210603004133.4079390-6-ak@linux.intel.com>
+Subject: [PATCH v1 6/8] dma: Add return value to dma_unmap_page
+Date: Wed,  2 Jun 2021 17:41:31 -0700
+Message-Id: <20210603004133.4079390-7-ak@linux.intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210603004133.4079390-1-ak@linux.intel.com>
 References: <20210603004133.4079390-1-ak@linux.intel.com>
@@ -78,293 +78,173 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-swiotlb currently only uses the start address of a DMA to check if something
-is in the swiotlb or not. But with virtio and untrusted hosts the host
-could give some DMA mapping that crosses the swiotlb boundaries,
-potentially leaking or corrupting data. Add size checks to all the swiotlb
-checks and reject any DMAs that cross the swiotlb buffer boundaries.
+In some situations when we know swiotlb is forced and we have
+to deal with untrusted hosts, it's useful to know if a mapping
+was in the swiotlb or not. This allows us to abort any IO
+operation that would access memory outside the swiotlb.
+
+Otherwise it might be possible for a malicious host to inject
+any guest page in a read operation. While it couldn't directly
+access the results of the read() inside the guest, there
+might scenarios where data is echoed back with a write(),
+and that would then leak guest memory.
+
+Add a return value to dma_unmap_single/page. Most users
+of course will ignore it. The return value is set to EIO
+if we're in forced swiotlb mode and the buffer is not inside
+the swiotlb buffer. Otherwise it's always 0.
+
+A new callback is used to avoid changing all the IOMMU drivers.
 
 Signed-off-by: Andi Kleen <ak@linux.intel.com>
 ---
- drivers/iommu/dma-iommu.c   | 13 ++++++-------
- drivers/xen/swiotlb-xen.c   | 11 ++++++-----
- include/linux/dma-mapping.h |  4 ++--
- include/linux/swiotlb.h     |  8 +++++---
- kernel/dma/direct.c         |  8 ++++----
- kernel/dma/direct.h         |  8 ++++----
- kernel/dma/mapping.c        |  4 ++--
- net/xdp/xsk_buff_pool.c     |  2 +-
- 8 files changed, 30 insertions(+), 28 deletions(-)
+ drivers/iommu/dma-iommu.c   | 17 +++++++++++------
+ include/linux/dma-map-ops.h |  3 +++
+ include/linux/dma-mapping.h |  7 ++++---
+ kernel/dma/mapping.c        |  6 +++++-
+ 4 files changed, 23 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7bcdd1205535..7ef13198721b 100644
+index 7ef13198721b..babe46f2ae3a 100644
 --- a/drivers/iommu/dma-iommu.c
 +++ b/drivers/iommu/dma-iommu.c
-@@ -504,7 +504,7 @@ static void __iommu_dma_unmap_swiotlb(struct device *dev, dma_addr_t dma_addr,
+@@ -491,7 +491,8 @@ static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
+ 	iommu_dma_free_iova(cookie, dma_addr, size, iotlb_gather.freelist);
+ }
+ 
+-static void __iommu_dma_unmap_swiotlb(struct device *dev, dma_addr_t dma_addr,
++static int __iommu_dma_unmap_swiotlb_check(struct device *dev,
++		dma_addr_t dma_addr,
+ 		size_t size, enum dma_data_direction dir,
+ 		unsigned long attrs)
+ {
+@@ -500,12 +501,15 @@ static void __iommu_dma_unmap_swiotlb(struct device *dev, dma_addr_t dma_addr,
+ 
+ 	phys = iommu_iova_to_phys(domain, dma_addr);
+ 	if (WARN_ON(!phys))
+-		return;
++		return -EIO;
  
  	__iommu_dma_unmap(dev, dma_addr, size);
  
--	if (unlikely(is_swiotlb_buffer(phys)))
-+	if (unlikely(is_swiotlb_buffer(phys, size)))
+ 	if (unlikely(is_swiotlb_buffer(phys, size)))
  		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
++	else if (swiotlb_force == SWIOTLB_FORCE)
++		return -EIO;
++	return 0;
  }
  
-@@ -575,7 +575,7 @@ static dma_addr_t __iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
- 	}
- 
- 	iova = __iommu_dma_map(dev, phys, aligned_size, prot, dma_mask);
--	if (iova == DMA_MAPPING_ERROR && is_swiotlb_buffer(phys))
-+	if (iova == DMA_MAPPING_ERROR && is_swiotlb_buffer(phys, org_size))
- 		swiotlb_tbl_unmap_single(dev, phys, org_size, dir, attrs);
- 	return iova;
- }
-@@ -781,7 +781,7 @@ static void iommu_dma_sync_single_for_cpu(struct device *dev,
- 	if (!dev_is_dma_coherent(dev))
- 		arch_sync_dma_for_cpu(phys, size, dir);
- 
--	if (is_swiotlb_buffer(phys))
-+	if (is_swiotlb_buffer(phys, size))
- 		swiotlb_sync_single_for_cpu(dev, phys, size, dir);
+ static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
+@@ -856,12 +860,13 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+ 	return dma_handle;
  }
  
-@@ -794,7 +794,7 @@ static void iommu_dma_sync_single_for_device(struct device *dev,
- 		return;
- 
- 	phys = iommu_iova_to_phys(iommu_get_dma_domain(dev), dma_handle);
--	if (is_swiotlb_buffer(phys))
-+	if (is_swiotlb_buffer(phys, size))
- 		swiotlb_sync_single_for_device(dev, phys, size, dir);
- 
- 	if (!dev_is_dma_coherent(dev))
-@@ -815,7 +815,7 @@ static void iommu_dma_sync_sg_for_cpu(struct device *dev,
- 		if (!dev_is_dma_coherent(dev))
- 			arch_sync_dma_for_cpu(sg_phys(sg), sg->length, dir);
- 
--		if (is_swiotlb_buffer(sg_phys(sg)))
-+		if (is_swiotlb_buffer(sg_phys(sg), sg->length))
- 			swiotlb_sync_single_for_cpu(dev, sg_phys(sg),
- 						    sg->length, dir);
- 	}
-@@ -832,10 +832,9 @@ static void iommu_dma_sync_sg_for_device(struct device *dev,
- 		return;
- 
- 	for_each_sg(sgl, sg, nelems, i) {
--		if (is_swiotlb_buffer(sg_phys(sg)))
-+		if (is_swiotlb_buffer(sg_phys(sg), sg->length))
- 			swiotlb_sync_single_for_device(dev, sg_phys(sg),
- 						       sg->length, dir);
--
- 		if (!dev_is_dma_coherent(dev))
- 			arch_sync_dma_for_device(sg_phys(sg), sg->length, dir);
- 	}
-diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index 24d11861ac7d..333846af8d35 100644
---- a/drivers/xen/swiotlb-xen.c
-+++ b/drivers/xen/swiotlb-xen.c
-@@ -89,7 +89,8 @@ static inline int range_straddles_page_boundary(phys_addr_t p, size_t size)
- 	return 0;
- }
- 
--static int is_xen_swiotlb_buffer(struct device *dev, dma_addr_t dma_addr)
-+static int is_xen_swiotlb_buffer(struct device *dev, dma_addr_t dma_addr,
-+				 size_t size)
+-static void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
++static int iommu_dma_unmap_page_check(struct device *dev, dma_addr_t dma_handle,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
  {
- 	unsigned long bfn = XEN_PFN_DOWN(dma_to_phys(dev, dma_addr));
- 	unsigned long xen_pfn = bfn_to_local_pfn(bfn);
-@@ -100,7 +101,7 @@ static int is_xen_swiotlb_buffer(struct device *dev, dma_addr_t dma_addr)
- 	 * in our domain. Therefore _only_ check address within our domain.
- 	 */
- 	if (pfn_valid(PFN_DOWN(paddr)))
--		return is_swiotlb_buffer(paddr);
-+		return is_swiotlb_buffer(paddr, size);
- 	return 0;
+ 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ 		iommu_dma_sync_single_for_cpu(dev, dma_handle, size, dir);
+-	__iommu_dma_unmap_swiotlb(dev, dma_handle, size, dir, attrs);
++	return __iommu_dma_unmap_swiotlb_check(dev, dma_handle, size, dir,
++					       attrs);
  }
  
-@@ -431,7 +432,7 @@ static void xen_swiotlb_unmap_page(struct device *hwdev, dma_addr_t dev_addr,
- 	}
+ /*
+@@ -946,7 +951,7 @@ static void iommu_dma_unmap_sg_swiotlb(struct device *dev, struct scatterlist *s
+ 	int i;
  
- 	/* NOTE: We use dev_addr here, not paddr! */
--	if (is_xen_swiotlb_buffer(hwdev, dev_addr))
-+	if (is_xen_swiotlb_buffer(hwdev, dev_addr, size))
- 		swiotlb_tbl_unmap_single(hwdev, paddr, size, dir, attrs);
+ 	for_each_sg(sg, s, nents, i)
+-		__iommu_dma_unmap_swiotlb(dev, sg_dma_address(s),
++		__iommu_dma_unmap_swiotlb_check(dev, sg_dma_address(s),
+ 				sg_dma_len(s), dir, attrs);
  }
  
-@@ -448,7 +449,7 @@ xen_swiotlb_sync_single_for_cpu(struct device *dev, dma_addr_t dma_addr,
- 			xen_dma_sync_for_cpu(dev, dma_addr, size, dir);
- 	}
+@@ -1291,7 +1296,7 @@ static const struct dma_map_ops iommu_dma_ops = {
+ 	.mmap			= iommu_dma_mmap,
+ 	.get_sgtable		= iommu_dma_get_sgtable,
+ 	.map_page		= iommu_dma_map_page,
+-	.unmap_page		= iommu_dma_unmap_page,
++	.unmap_page_check	= iommu_dma_unmap_page_check,
+ 	.map_sg			= iommu_dma_map_sg,
+ 	.unmap_sg		= iommu_dma_unmap_sg,
+ 	.sync_single_for_cpu	= iommu_dma_sync_single_for_cpu,
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 0d53a96a3d64..0ed0190f7949 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -69,6 +69,9 @@ struct dma_map_ops {
+ 	u64 (*get_required_mask)(struct device *dev);
+ 	size_t (*max_mapping_size)(struct device *dev);
+ 	unsigned long (*get_merge_boundary)(struct device *dev);
++	int (*unmap_page_check)(struct device *dev, dma_addr_t dma_handle,
++			size_t size, enum dma_data_direction dir,
++			unsigned long attrs);
+ };
  
--	if (is_xen_swiotlb_buffer(dev, dma_addr))
-+	if (is_xen_swiotlb_buffer(dev, dma_addr, size))
- 		swiotlb_sync_single_for_cpu(dev, paddr, size, dir);
- }
- 
-@@ -458,7 +459,7 @@ xen_swiotlb_sync_single_for_device(struct device *dev, dma_addr_t dma_addr,
- {
- 	phys_addr_t paddr = xen_dma_to_phys(dev, dma_addr);
- 
--	if (is_xen_swiotlb_buffer(dev, dma_addr))
-+	if (is_xen_swiotlb_buffer(dev, dma_addr, size))
- 		swiotlb_sync_single_for_device(dev, paddr, size, dir);
- 
- 	if (!dev_is_dma_coherent(dev)) {
+ #ifdef CONFIG_DMA_OPS
 diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 183e7103a66d..37fbd12bd4ab 100644
+index 37fbd12bd4ab..25b8382f8601 100644
 --- a/include/linux/dma-mapping.h
 +++ b/include/linux/dma-mapping.h
-@@ -142,7 +142,7 @@ int dma_set_mask(struct device *dev, u64 mask);
- int dma_set_coherent_mask(struct device *dev, u64 mask);
- u64 dma_get_required_mask(struct device *dev);
- size_t dma_max_mapping_size(struct device *dev);
--bool dma_need_sync(struct device *dev, dma_addr_t dma_addr);
-+bool dma_need_sync(struct device *dev, dma_addr_t dma_addr, size_t size);
- unsigned long dma_get_merge_boundary(struct device *dev);
- struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
- 		enum dma_data_direction dir, gfp_t gfp, unsigned long attrs);
-@@ -258,7 +258,7 @@ static inline size_t dma_max_mapping_size(struct device *dev)
- {
- 	return 0;
- }
--static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
-+static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr, size_t size)
- {
- 	return false;
- }
-diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index 216854a5e513..3e447f722d81 100644
---- a/include/linux/swiotlb.h
-+++ b/include/linux/swiotlb.h
-@@ -101,11 +101,13 @@ struct io_tlb_mem {
- };
- extern struct io_tlb_mem *io_tlb_default_mem;
- 
--static inline bool is_swiotlb_buffer(phys_addr_t paddr)
-+static inline bool is_swiotlb_buffer(phys_addr_t paddr, size_t size)
- {
- 	struct io_tlb_mem *mem = io_tlb_default_mem;
- 
--	return mem && paddr >= mem->start && paddr < mem->end;
-+	if (paddr + size <= paddr) /* wrapping */
-+		return false;
-+	return mem && paddr >= mem->start && paddr + size <= mem->end;
- }
- 
- void __init swiotlb_exit(void);
-@@ -115,7 +117,7 @@ bool is_swiotlb_active(void);
- void __init swiotlb_adjust_size(unsigned long size);
- #else
- #define swiotlb_force SWIOTLB_NO_FORCE
--static inline bool is_swiotlb_buffer(phys_addr_t paddr)
-+static inline bool is_swiotlb_buffer(phys_addr_t paddr, size_t size)
- {
- 	return false;
- }
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index f737e3347059..9ae6f94e868f 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -343,7 +343,7 @@ void dma_direct_sync_sg_for_device(struct device *dev,
- 	for_each_sg(sgl, sg, nents, i) {
- 		phys_addr_t paddr = dma_to_phys(dev, sg_dma_address(sg));
- 
--		if (unlikely(is_swiotlb_buffer(paddr)))
-+		if (unlikely(is_swiotlb_buffer(paddr, sg->length)))
- 			swiotlb_sync_single_for_device(dev, paddr, sg->length,
- 						       dir);
- 
-@@ -369,7 +369,7 @@ void dma_direct_sync_sg_for_cpu(struct device *dev,
- 		if (!dev_is_dma_coherent(dev))
- 			arch_sync_dma_for_cpu(paddr, sg->length, dir);
- 
--		if (unlikely(is_swiotlb_buffer(paddr)))
-+		if (unlikely(is_swiotlb_buffer(paddr, sg->length)))
- 			swiotlb_sync_single_for_cpu(dev, paddr, sg->length,
- 						    dir);
- 
-@@ -501,10 +501,10 @@ size_t dma_direct_max_mapping_size(struct device *dev)
- 	return SIZE_MAX;
- }
- 
--bool dma_direct_need_sync(struct device *dev, dma_addr_t dma_addr)
-+bool dma_direct_need_sync(struct device *dev, dma_addr_t dma_addr, size_t size)
- {
- 	return !dev_is_dma_coherent(dev) ||
--		is_swiotlb_buffer(dma_to_phys(dev, dma_addr));
-+		is_swiotlb_buffer(dma_to_phys(dev, dma_addr), size);
- }
- 
- /**
-diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-index 50afc05b6f1d..4a17e431ae56 100644
---- a/kernel/dma/direct.h
-+++ b/kernel/dma/direct.h
-@@ -16,7 +16,7 @@ bool dma_direct_can_mmap(struct device *dev);
- int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+@@ -103,7 +103,7 @@ static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
+ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 		size_t offset, size_t size, enum dma_data_direction dir,
  		unsigned long attrs);
--bool dma_direct_need_sync(struct device *dev, dma_addr_t dma_addr);
-+bool dma_direct_need_sync(struct device *dev, dma_addr_t dma_addr, size_t size);
- int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+-void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
++int dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
  		enum dma_data_direction dir, unsigned long attrs);
- size_t dma_direct_max_mapping_size(struct device *dev);
-@@ -56,7 +56,7 @@ static inline void dma_direct_sync_single_for_device(struct device *dev,
+ int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs);
+@@ -160,9 +160,10 @@ static inline dma_addr_t dma_map_page_attrs(struct device *dev,
  {
- 	phys_addr_t paddr = dma_to_phys(dev, addr);
- 
--	if (unlikely(is_swiotlb_buffer(paddr)))
-+	if (unlikely(is_swiotlb_buffer(paddr, size)))
- 		swiotlb_sync_single_for_device(dev, paddr, size, dir);
- 
- 	if (!dev_is_dma_coherent(dev))
-@@ -73,7 +73,7 @@ static inline void dma_direct_sync_single_for_cpu(struct device *dev,
- 		arch_sync_dma_for_cpu_all();
- 	}
- 
--	if (unlikely(is_swiotlb_buffer(paddr)))
-+	if (unlikely(is_swiotlb_buffer(paddr, size)))
- 		swiotlb_sync_single_for_cpu(dev, paddr, size, dir);
- 
- 	if (dir == DMA_FROM_DEVICE)
-@@ -113,7 +113,7 @@ static inline void dma_direct_unmap_page(struct device *dev, dma_addr_t addr,
- 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
- 		dma_direct_sync_single_for_cpu(dev, addr, size, dir);
- 
--	if (unlikely(is_swiotlb_buffer(phys)))
-+	if (unlikely(is_swiotlb_buffer(phys, size)))
- 		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
+ 	return DMA_MAPPING_ERROR;
  }
- #endif /* _KERNEL_DMA_DIRECT_H */
+-static inline void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr,
++static inline int dma_unmap_page_attrs(struct device *dev, dma_addr_t addr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
++	return 0;
+ }
+ static inline int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 		int nents, enum dma_data_direction dir, unsigned long attrs)
+@@ -323,7 +324,7 @@ static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+ 			size, dir, attrs);
+ }
+ 
+-static inline void dma_unmap_single_attrs(struct device *dev, dma_addr_t addr,
++static inline int dma_unmap_single_attrs(struct device *dev, dma_addr_t addr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	return dma_unmap_page_attrs(dev, addr, size, dir, attrs);
 diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 2b06a809d0b9..9bf02c8d7d1b 100644
+index 9bf02c8d7d1b..dc0ce649d1f9 100644
 --- a/kernel/dma/mapping.c
 +++ b/kernel/dma/mapping.c
-@@ -716,12 +716,12 @@ size_t dma_max_mapping_size(struct device *dev)
+@@ -162,18 +162,22 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
  }
- EXPORT_SYMBOL_GPL(dma_max_mapping_size);
+ EXPORT_SYMBOL(dma_map_page_attrs);
  
--bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
-+bool dma_need_sync(struct device *dev, dma_addr_t dma_addr, size_t size)
+-void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
++int dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ 		enum dma_data_direction dir, unsigned long attrs)
  {
  	const struct dma_map_ops *ops = get_dma_ops(dev);
++	int ret = 0;
  
- 	if (dma_map_direct(dev, ops))
--		return dma_direct_need_sync(dev, dma_addr);
-+		return dma_direct_need_sync(dev, dma_addr, size);
- 	return ops->sync_single_for_cpu || ops->sync_single_for_device;
+ 	BUG_ON(!valid_dma_direction(dir));
+ 	if (dma_map_direct(dev, ops) ||
+ 	    arch_dma_unmap_page_direct(dev, addr + size))
+ 		dma_direct_unmap_page(dev, addr, size, dir, attrs);
++	else if (ops->unmap_page_check)
++		ret = ops->unmap_page_check(dev, addr, size, dir, attrs);
+ 	else if (ops->unmap_page)
+ 		ops->unmap_page(dev, addr, size, dir, attrs);
+ 	debug_dma_unmap_page(dev, addr, size, dir);
++	return ret;
  }
- EXPORT_SYMBOL_GPL(dma_need_sync);
-diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
-index 8de01aaac4a0..c1e404fe0cf4 100644
---- a/net/xdp/xsk_buff_pool.c
-+++ b/net/xdp/xsk_buff_pool.c
-@@ -399,7 +399,7 @@ int xp_dma_map(struct xsk_buff_pool *pool, struct device *dev,
- 			__xp_dma_unmap(dma_map, attrs);
- 			return -ENOMEM;
- 		}
--		if (dma_need_sync(dev, dma))
-+		if (dma_need_sync(dev, dma, PAGE_SIZE))
- 			dma_map->dma_need_sync = true;
- 		dma_map->dma_pages[i] = dma;
- 	}
+ EXPORT_SYMBOL(dma_unmap_page_attrs);
+ 
 -- 
 2.25.4
 
