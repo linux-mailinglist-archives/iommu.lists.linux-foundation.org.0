@@ -1,63 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDFE3997E0
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:52 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFD73997EA
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C9ED94057D;
-	Thu,  3 Jun 2021 02:10:50 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 73B3E60B17;
+	Thu,  3 Jun 2021 02:10:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R63rAZ91dVeX; Thu,  3 Jun 2021 02:10:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BA78140510;
-	Thu,  3 Jun 2021 02:10:49 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QNQWJ1tN8IfD; Thu,  3 Jun 2021 02:10:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id D732160B0E;
+	Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8CAAFC0024;
-	Thu,  3 Jun 2021 02:10:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EA8BFC0011;
+	Thu,  3 Jun 2021 02:10:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2AF8C0001;
- Thu,  3 Jun 2021 00:41:46 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3029AC002D;
+ Thu,  3 Jun 2021 00:41:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 8326483D3C;
- Thu,  3 Jun 2021 00:41:46 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id BDFA583D3E;
+ Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WiJMTyGt9W3t; Thu,  3 Jun 2021 00:41:46 +0000 (UTC)
+ with ESMTP id b3P6Cr5oM7ij; Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D2B0883D34;
- Thu,  3 Jun 2021 00:41:45 +0000 (UTC)
-IronPort-SDR: 3lrjHO26w4dfXWkQAK3EW2GB7+KmeKtx4We+h/AgJDhDB1GN6DNbqwsJMli/i9X8EghOq+vasY
- 0nS4d2cmkFog==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281572"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281572"
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1E3D583D4A;
+ Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
+IronPort-SDR: 1ba48w/HGThOaZWmvPgbg3vFM0auzFspQ4Pdsew0tnIawxeIo6nZAmniY9M54xZkST8DY5L6/D
+ 2F5g43wXo/JQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281566"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281566"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
-IronPort-SDR: dhLv57dz9HwwibPiEYbHtPMONcCxCLxcsR6TEmsybaNnFlLNXLEmFLYBV1Mc+W09uoYz9GxbpY
- /iz4i02nlxTg==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686674"
+IronPort-SDR: RcO/ziDZiA0zs9KDBzMVcDfkcrCyK0CG+VkWlPWMtZabfLPdUI3KlbztMzBnu5W2HGau7uO170
+ UmLD4vf1CVKw==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686675"
 Received: from tassilo.jf.intel.com ([10.54.74.11])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
 From: Andi Kleen <ak@linux.intel.com>
 To: mst@redhat.com
-Subject: Virtio hardening for TDX
-Date: Wed,  2 Jun 2021 17:41:25 -0700
-Message-Id: <20210603004133.4079390-1-ak@linux.intel.com>
+Subject: [PATCH v1 1/8] virtio: Force only split mode with protected guest
+Date: Wed,  2 Jun 2021 17:41:26 -0700
+Message-Id: <20210603004133.4079390-2-ak@linux.intel.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20210603004133.4079390-1-ak@linux.intel.com>
+References: <20210603004133.4079390-1-ak@linux.intel.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 03 Jun 2021 02:10:48 +0000
-Cc: jasowang@redhat.com, x86@kernel.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
- jpoimboe@redhat.com, robin.murphy@arm.com, hch@lst.de
+Cc: Andi Kleen <ak@linux.intel.com>, jasowang@redhat.com, x86@kernel.org,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, jpoimboe@redhat.com, robin.murphy@arm.com,
+ hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,44 +78,77 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-[v1: Initial post]
+When running under TDX the virtio host is untrusted. The bulk
+of the kernel memory is encrypted and protected, but the virtio
+ring is in special shared memory that is shared with the
+untrusted host.
 
-With confidential computing like TDX the guest doesn't trust the host
-anymore. The host is allowed to DOS of course, but it is not allowed
-to read or write any guest memory not explicitely shared with it.
+This means virtio needs to be hardened against any attacks from
+the host through the ring. Of course it's impossible to prevent DOS
+(the host can chose at any time to stop doing IO), but there
+should be no buffer overruns or similar that might give access to
+any private memory in the guest.
 
-This has implication for virtio. Traditionally virtio didn't assume
-the other side of the communication channel is malicious, and therefore
-didn't do any boundary checks in virtio ring data structures.
+virtio has a lot of modes, most are difficult to harden.
 
-This patchkit does hardening for virtio.  In a TDX like model
-the only host memory accesses allowed are in the virtio ring, 
-as well as the (forced) swiotlb buffer.
+The best for hardening seems to be split mode without indirect
+descriptors. This also simplifies the hardening job because
+it's only a single code path.
 
-This patch kit does various changes to ensure there can be no
-access outside these two areas. It is possible for the host
-to break the communication, but this should result in a IO
-error on the guest, but no memory safety violations.
+Only allow split mode when in a protected guest. Followon
+patches harden the split mode code paths, and we don't want
+an malicious host to force anything else. Also disallow
+indirect mode for similar reasons.
 
-virtio is quite complicated with many modes. To simplify
-the task we enforce that virtio is only in split mode without
-indirect descriptors, when running as a TDX guest. We also
-enforce use of the DMA API.
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+---
+ drivers/virtio/virtio_ring.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Then these code paths are hardened against any corruptions
-on the ring.
-
-This patchkit has components in three subsystems:
-- Hardening changes to virtio, all in the generic virtio-ring
-- Hardening changes to kernel/dma swiotlb to harden swiotlb against
-malicious pointers. It requires an API change which needed a tree sweep.
-- A single x86 patch to enable the arch_has_restricted_memory_access
-for TDX
-
-It depends on Sathya's earlier patchkit that adds the basic infrastructure
-for TDX. This is only needed for the "am I running in TDX" part.
-
-
+diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
+index 71e16b53e9c1..f35629fa47b1 100644
+--- a/drivers/virtio/virtio_ring.c
++++ b/drivers/virtio/virtio_ring.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/hrtimer.h>
+ #include <linux/dma-mapping.h>
++#include <linux/protected_guest.h>
+ #include <xen/xen.h>
+ 
+ #ifdef DEBUG
+@@ -2221,8 +2222,16 @@ void vring_transport_features(struct virtio_device *vdev)
+ 	unsigned int i;
+ 
+ 	for (i = VIRTIO_TRANSPORT_F_START; i < VIRTIO_TRANSPORT_F_END; i++) {
++
++		/*
++		 * In protected guest mode disallow packed or indirect
++		 * because they ain't hardened.
++		 */
++
+ 		switch (i) {
+ 		case VIRTIO_RING_F_INDIRECT_DESC:
++			if (protected_guest_has(VM_MEM_ENCRYPT))
++				goto clear;
+ 			break;
+ 		case VIRTIO_RING_F_EVENT_IDX:
+ 			break;
+@@ -2231,9 +2240,12 @@ void vring_transport_features(struct virtio_device *vdev)
+ 		case VIRTIO_F_ACCESS_PLATFORM:
+ 			break;
+ 		case VIRTIO_F_RING_PACKED:
++			if (protected_guest_has(VM_MEM_ENCRYPT))
++				goto clear;
+ 			break;
+ 		case VIRTIO_F_ORDER_PLATFORM:
+ 			break;
++		clear:
+ 		default:
+ 			/* We don't understand this bit. */
+ 			__virtio_clear_bit(vdev, i);
+-- 
+2.25.4
 
 _______________________________________________
 iommu mailing list
