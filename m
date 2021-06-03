@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFD73997EA
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:59 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D713997E2
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 73B3E60B17;
-	Thu,  3 Jun 2021 02:10:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QNQWJ1tN8IfD; Thu,  3 Jun 2021 02:10:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D732160B0E;
+	by smtp2.osuosl.org (Postfix) with ESMTP id EBF65404E9;
 	Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EA8BFC0011;
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id O16qfKcI1w_f; Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id CC0AB404E6;
 	Thu,  3 Jun 2021 02:10:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E09E1C002B;
+	Thu,  3 Jun 2021 02:10:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3029AC002D;
- Thu,  3 Jun 2021 00:41:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E7BE1C0001;
+ Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id BDFA583D3E;
+ by smtp3.osuosl.org (Postfix) with ESMTP id E07CA60908;
  Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b3P6Cr5oM7ij; Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hjdO4wVF6z56; Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1E3D583D4A;
- Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
-IronPort-SDR: 1ba48w/HGThOaZWmvPgbg3vFM0auzFspQ4Pdsew0tnIawxeIo6nZAmniY9M54xZkST8DY5L6/D
- 2F5g43wXo/JQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281566"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281566"
+ by smtp3.osuosl.org (Postfix) with ESMTPS id EB4F660692;
+ Thu,  3 Jun 2021 00:41:46 +0000 (UTC)
+IronPort-SDR: +UaBi2DOntGJ7ujVVaBeKQ9iI5/HqoEM6awzMfQady6+GxelfK/GELZryIvVL25w9MId3Jxxhg
+ Va14MHETdPjw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281567"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281567"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
-IronPort-SDR: RcO/ziDZiA0zs9KDBzMVcDfkcrCyK0CG+VkWlPWMtZabfLPdUI3KlbztMzBnu5W2HGau7uO170
- UmLD4vf1CVKw==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686675"
+IronPort-SDR: K3BTi3HzghCvT8rf2so/+o1DTXjTr/YZ8EifpkHLF7rTqjM21bTBu7PubLY7Qg1oYQ1TyA0fx7
+ +zxFPR2YbE2g==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686676"
 Received: from tassilo.jf.intel.com ([10.54.74.11])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
 From: Andi Kleen <ak@linux.intel.com>
 To: mst@redhat.com
-Subject: [PATCH v1 1/8] virtio: Force only split mode with protected guest
-Date: Wed,  2 Jun 2021 17:41:26 -0700
-Message-Id: <20210603004133.4079390-2-ak@linux.intel.com>
+Subject: [PATCH v1 2/8] virtio: Add boundary checks to virtio ring
+Date: Wed,  2 Jun 2021 17:41:27 -0700
+Message-Id: <20210603004133.4079390-3-ak@linux.intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210603004133.4079390-1-ak@linux.intel.com>
 References: <20210603004133.4079390-1-ak@linux.intel.com>
@@ -78,75 +78,155 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When running under TDX the virtio host is untrusted. The bulk
-of the kernel memory is encrypted and protected, but the virtio
-ring is in special shared memory that is shared with the
-untrusted host.
+In protected guest mode we don't trust the host.
 
-This means virtio needs to be hardened against any attacks from
-the host through the ring. Of course it's impossible to prevent DOS
-(the host can chose at any time to stop doing IO), but there
-should be no buffer overruns or similar that might give access to
-any private memory in the guest.
+This means we need to make sure the host cannot subvert us through
+virtio communication. In general it can corrupt our virtio data
+and cause a DOS, but it should not be able to access any data
+that is not explicitely under IO.
 
-virtio has a lot of modes, most are difficult to harden.
+Also boundary checking so that the free list (which is accessible
+to the host) cannot point outside the virtio ring. Note it could
+still contain loops or similar, but these should only cause an DOS,
+not a memory corruption or leak.
 
-The best for hardening seems to be split mode without indirect
-descriptors. This also simplifies the hardening job because
-it's only a single code path.
+When we detect any out of bounds descriptor trigger an IO error.
+We also use a WARN() (in case it was a software bug instead of
+an attack). This implies that a malicious host can flood
+the guest kernel log, but that's only a DOS and acceptable
+in the threat model.
 
-Only allow split mode when in a protected guest. Followon
-patches harden the split mode code paths, and we don't want
-an malicious host to force anything else. Also disallow
-indirect mode for similar reasons.
+This patch only hardens the initial consumption of the free list,
+the freeing comes later.
+
+Any of these errors can cause DMA memory leaks, but there is nothing
+we can do about that and that would be just a DOS.
 
 Signed-off-by: Andi Kleen <ak@linux.intel.com>
 ---
- drivers/virtio/virtio_ring.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/virtio/virtio_ring.c | 46 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 42 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
-index 71e16b53e9c1..f35629fa47b1 100644
+index f35629fa47b1..d37ff5a0ff58 100644
 --- a/drivers/virtio/virtio_ring.c
 +++ b/drivers/virtio/virtio_ring.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/hrtimer.h>
- #include <linux/dma-mapping.h>
-+#include <linux/protected_guest.h>
- #include <xen/xen.h>
+@@ -413,6 +413,15 @@ static struct vring_desc *alloc_indirect_split(struct virtqueue *_vq,
+ 	return desc;
+ }
  
- #ifdef DEBUG
-@@ -2221,8 +2222,16 @@ void vring_transport_features(struct virtio_device *vdev)
- 	unsigned int i;
++/* assumes no indirect mode */
++static inline bool inside_split_ring(struct vring_virtqueue *vq,
++				     unsigned index)
++{
++	return !WARN(index >= vq->split.vring.num,
++		    "desc index %u out of bounds (%u)\n",
++		    index, vq->split.vring.num);
++}
++
+ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 				      struct scatterlist *sgs[],
+ 				      unsigned int total_sg,
+@@ -428,6 +437,7 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 	unsigned int i, n, avail, descs_used, prev, err_idx;
+ 	int head;
+ 	bool indirect;
++	int io_err;
  
- 	for (i = VIRTIO_TRANSPORT_F_START; i < VIRTIO_TRANSPORT_F_END; i++) {
+ 	START_USE(vq);
+ 
+@@ -481,7 +491,13 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 
+ 	for (n = 0; n < out_sgs; n++) {
+ 		for (sg = sgs[n]; sg; sg = sg_next(sg)) {
+-			dma_addr_t addr = vring_map_one_sg(vq, sg, DMA_TO_DEVICE);
++			dma_addr_t addr;
 +
-+		/*
-+		 * In protected guest mode disallow packed or indirect
-+		 * because they ain't hardened.
-+		 */
++			io_err = -EIO;
++			if (!inside_split_ring(vq, i))
++				goto unmap_release;
++			io_err = -ENOMEM;
++			addr = vring_map_one_sg(vq, sg, DMA_TO_DEVICE);
+ 			if (vring_mapping_error(vq, addr))
+ 				goto unmap_release;
+ 
+@@ -494,7 +510,13 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 	}
+ 	for (; n < (out_sgs + in_sgs); n++) {
+ 		for (sg = sgs[n]; sg; sg = sg_next(sg)) {
+-			dma_addr_t addr = vring_map_one_sg(vq, sg, DMA_FROM_DEVICE);
++			dma_addr_t addr;
 +
- 		switch (i) {
- 		case VIRTIO_RING_F_INDIRECT_DESC:
-+			if (protected_guest_has(VM_MEM_ENCRYPT))
-+				goto clear;
++			io_err = -EIO;
++			if (!inside_split_ring(vq, i))
++				goto unmap_release;
++			io_err = -ENOMEM;
++			addr = vring_map_one_sg(vq, sg, DMA_FROM_DEVICE);
+ 			if (vring_mapping_error(vq, addr))
+ 				goto unmap_release;
+ 
+@@ -513,6 +535,7 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 		dma_addr_t addr = vring_map_single(
+ 			vq, desc, total_sg * sizeof(struct vring_desc),
+ 			DMA_TO_DEVICE);
++		io_err = -ENOMEM;
+ 		if (vring_mapping_error(vq, addr))
+ 			goto unmap_release;
+ 
+@@ -528,6 +551,10 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 	/* We're using some buffers from the free list. */
+ 	vq->vq.num_free -= descs_used;
+ 
++	io_err = -EIO;
++	if (!inside_split_ring(vq, head))
++		goto unmap_release;
++
+ 	/* Update free pointer */
+ 	if (indirect)
+ 		vq->free_head = virtio16_to_cpu(_vq->vdev,
+@@ -545,6 +572,10 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 	/* Put entry in available array (but don't update avail->idx until they
+ 	 * do sync). */
+ 	avail = vq->split.avail_idx_shadow & (vq->split.vring.num - 1);
++
++	if (avail >= vq->split.vring.num)
++		goto unmap_release;
++
+ 	vq->split.vring.avail->ring[avail] = cpu_to_virtio16(_vq->vdev, head);
+ 
+ 	/* Descriptors and available array need to be set before we expose the
+@@ -576,6 +607,8 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 	for (n = 0; n < total_sg; n++) {
+ 		if (i == err_idx)
  			break;
- 		case VIRTIO_RING_F_EVENT_IDX:
- 			break;
-@@ -2231,9 +2240,12 @@ void vring_transport_features(struct virtio_device *vdev)
- 		case VIRTIO_F_ACCESS_PLATFORM:
- 			break;
- 		case VIRTIO_F_RING_PACKED:
-+			if (protected_guest_has(VM_MEM_ENCRYPT))
-+				goto clear;
- 			break;
- 		case VIRTIO_F_ORDER_PLATFORM:
- 			break;
-+		clear:
- 		default:
- 			/* We don't understand this bit. */
- 			__virtio_clear_bit(vdev, i);
++		if (!inside_split_ring(vq, i))
++			break;
+ 		vring_unmap_one_split(vq, &desc[i]);
+ 		i = virtio16_to_cpu(_vq->vdev, desc[i].next);
+ 	}
+@@ -584,7 +617,7 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
+ 		kfree(desc);
+ 
+ 	END_USE(vq);
+-	return -ENOMEM;
++	return io_err;
+ }
+ 
+ static bool virtqueue_kick_prepare_split(struct virtqueue *_vq)
+@@ -1146,7 +1179,12 @@ static inline int virtqueue_add_packed(struct virtqueue *_vq,
+ 	c = 0;
+ 	for (n = 0; n < out_sgs + in_sgs; n++) {
+ 		for (sg = sgs[n]; sg; sg = sg_next(sg)) {
+-			dma_addr_t addr = vring_map_one_sg(vq, sg, n < out_sgs ?
++			dma_addr_t addr;
++
++			if (curr >= vq->packed.vring.num)
++				goto unmap_release;
++
++			addr = vring_map_one_sg(vq, sg, n < out_sgs ?
+ 					DMA_TO_DEVICE : DMA_FROM_DEVICE);
+ 			if (vring_mapping_error(vq, addr))
+ 				goto unmap_release;
 -- 
 2.25.4
 
