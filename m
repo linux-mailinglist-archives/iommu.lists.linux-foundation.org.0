@@ -1,58 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778BD3997E3
-	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:54 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A03997E8
+	for <lists.iommu@lfdr.de>; Thu,  3 Jun 2021 04:10:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6EDB240510;
+	by smtp3.osuosl.org (Postfix) with ESMTP id A201D60B21;
 	Thu,  3 Jun 2021 02:10:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XqKNyCKXknNt; Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 264E54058B;
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gwa2qPACJg6k; Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8B6FE60B37;
 	Thu,  3 Jun 2021 02:10:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D592C0001;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D8CBC0025;
 	Thu,  3 Jun 2021 02:10:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2CC1BC0001;
- Thu,  3 Jun 2021 00:41:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3FB49C002F;
+ Thu,  3 Jun 2021 00:41:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 0C3AC60692;
+ by smtp3.osuosl.org (Postfix) with ESMTP id 42B6160692;
  Thu,  3 Jun 2021 00:41:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ko0ktDvZfz3N; Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
+ with ESMTP id t-IOlqWXKrfz; Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 420F560869;
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 98C0F608A3;
  Thu,  3 Jun 2021 00:41:47 +0000 (UTC)
-IronPort-SDR: yrG6blln6NFAzBhnr95gVNXa8OgVbBpXjOpuS9dbF5fX94lqjwEZyKkj3FCKxN3XYntIn+3vjf
- U7utElkoWXDg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281574"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281574"
+IronPort-SDR: A9qbVTtF0XgQXj54JSLGGcWZOxeogjGd3UCmDAZxj+hi1cniB9P1ANyuNibu3blcfk7I7yrWgH
+ 81wJh+HmgTDA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="191281575"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="191281575"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 17:41:44 -0700
-IronPort-SDR: VL+aXnuQatkvpNkp3FGdeTErR4yDwQpYb+ewFaiTnnSMh3nd3KYOvi3JsGBefEMdCmu0HYu8xI
- bn1hvlf9segA==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686682"
+ 02 Jun 2021 17:41:45 -0700
+IronPort-SDR: 2pFejv7yOdCVkt/FpXsrK39AE0n8XlGFbMG7ggDFwWorVajHKUYwALrKujQ9Giok8owwu3kAMW
+ bk1Ny78Bc9jg==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="549686683"
 Received: from tassilo.jf.intel.com ([10.54.74.11])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 17:41:44 -0700
 From: Andi Kleen <ak@linux.intel.com>
 To: mst@redhat.com
-Subject: [PATCH v1 7/8] virtio: Abort IO when descriptor points outside forced
- swiotlb
-Date: Wed,  2 Jun 2021 17:41:32 -0700
-Message-Id: <20210603004133.4079390-8-ak@linux.intel.com>
+Subject: [PATCH v1 8/8] virtio: Error out on endless free lists
+Date: Wed,  2 Jun 2021 17:41:33 -0700
+Message-Id: <20210603004133.4079390-9-ak@linux.intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210603004133.4079390-1-ak@linux.intel.com>
 References: <20210603004133.4079390-1-ak@linux.intel.com>
@@ -79,94 +78,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that we have a return value for unmapping DMA mappings that
-are outside the forced swiotlb, use that to abort the IO operation.
+Error out with a warning when the free list loops longer
+than the maximum size while freeing descriptors. While technically
+we don't care about DOS it is still better to abort it early.
 
-This prevents the host from subverting a read to access some
-data in the guest address space, which it might then get access somehow in
-another IO operation. It can subvert reads to point to other
-reads or other writes, but since it controls IO it can do
-that anyways.
-
-This is only done for the split code path, which is the only
-one supported with confidential guests.
+We ran into this problem while fuzzing the virtio interactions
+where the fuzzed code would get stuck for a long time.
 
 Signed-off-by: Andi Kleen <ak@linux.intel.com>
 ---
- drivers/virtio/virtio_ring.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/virtio/virtio_ring.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
-index 1e9aa1e95e1b..244a5b62d85c 100644
+index 244a5b62d85c..96adaa4c5404 100644
 --- a/drivers/virtio/virtio_ring.c
 +++ b/drivers/virtio/virtio_ring.c
-@@ -365,29 +365,31 @@ static int vring_mapping_error(const struct vring_virtqueue *vq,
-  * Split ring specific functions - *_split().
-  */
- 
--static void vring_unmap_one_split(const struct vring_virtqueue *vq,
-+static int vring_unmap_one_split(const struct vring_virtqueue *vq,
- 				  struct vring_desc *desc)
- {
- 	u16 flags;
-+	int ret;
- 
- 	if (!vq->use_dma_api)
--		return;
-+		return 0;
- 
- 	flags = virtio16_to_cpu(vq->vq.vdev, desc->flags);
- 
- 	if (flags & VRING_DESC_F_INDIRECT) {
--		dma_unmap_single(vring_dma_dev(vq),
-+		ret = dma_unmap_single(vring_dma_dev(vq),
- 				 virtio64_to_cpu(vq->vq.vdev, desc->addr),
- 				 virtio32_to_cpu(vq->vq.vdev, desc->len),
- 				 (flags & VRING_DESC_F_WRITE) ?
- 				 DMA_FROM_DEVICE : DMA_TO_DEVICE);
- 	} else {
--		dma_unmap_page(vring_dma_dev(vq),
-+		ret = dma_unmap_page(vring_dma_dev(vq),
- 			       virtio64_to_cpu(vq->vq.vdev, desc->addr),
- 			       virtio32_to_cpu(vq->vq.vdev, desc->len),
- 			       (flags & VRING_DESC_F_WRITE) ?
- 			       DMA_FROM_DEVICE : DMA_TO_DEVICE);
- 	}
-+	return ret;
- }
- 
- static struct vring_desc *alloc_indirect_split(struct virtqueue *_vq,
-@@ -609,6 +611,10 @@ static inline int virtqueue_add_split(struct virtqueue *_vq,
- 			break;
- 		if (!inside_split_ring(vq, i))
- 			break;
-+		/*
-+		 * Ignore unmapping errors since
-+		 * we're aborting anyways.
-+		 */
- 		vring_unmap_one_split(vq, &desc[i]);
- 		i = virtio16_to_cpu(_vq->vdev, desc[i].next);
- 	}
-@@ -671,7 +677,10 @@ static int detach_buf_split(struct vring_virtqueue *vq, unsigned int head,
- 	i = head;
- 
- 	while (vq->split.vring.desc[i].flags & nextflag) {
--		vring_unmap_one_split(vq, &vq->split.vring.desc[i]);
-+		int ret;
-+		ret = vring_unmap_one_split(vq, &vq->split.vring.desc[i]);
-+		if (ret)
-+			return ret;
- 		i = virtio16_to_cpu(vq->vq.vdev, vq->split.vring.desc[i].next);
+@@ -685,6 +685,11 @@ static int detach_buf_split(struct vring_virtqueue *vq, unsigned int head,
  		if (!inside_split_ring(vq, i))
  			return -EIO;
-@@ -878,6 +887,7 @@ static void *virtqueue_detach_unused_buf_split(struct virtqueue *_vq)
- 			continue;
- 		/* detach_buf_split clears data, so grab it now. */
- 		buf = vq->split.desc_state[i].data;
-+		/* Ignore unmap errors because there is nothing to abort */
- 		detach_buf_split(vq, i, NULL);
- 		/* Don't need to check for error because nothing is returned */
- 		vq->split.avail_idx_shadow--;
+ 		vq->vq.num_free++;
++		if (WARN_ONCE(vq->vq.num_free >
++				vq->split.queue_size_in_bytes /
++					sizeof(struct vring_desc),
++				"Virtio freelist corrupted"))
++			return -EIO;
+ 	}
+ 
+ 	vring_unmap_one_split(vq, &vq->split.vring.desc[i]);
 -- 
 2.25.4
 
