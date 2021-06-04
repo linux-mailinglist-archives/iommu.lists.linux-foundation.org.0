@@ -1,74 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9989B39BE9E
-	for <lists.iommu@lfdr.de>; Fri,  4 Jun 2021 19:25:19 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 627EF39BEE8
+	for <lists.iommu@lfdr.de>; Fri,  4 Jun 2021 19:35:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4790C40198;
-	Fri,  4 Jun 2021 17:25:18 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0D11D8439B;
+	Fri,  4 Jun 2021 17:35:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JwRpgmnQjHvt; Fri,  4 Jun 2021 17:25:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CC3AA41DB4;
-	Fri,  4 Jun 2021 17:25:13 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5ci2i1H6hkIW; Fri,  4 Jun 2021 17:35:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1397984398;
+	Fri,  4 Jun 2021 17:35:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B887C0001;
-	Fri,  4 Jun 2021 17:25:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7D3CC0001;
+	Fri,  4 Jun 2021 17:35:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CAC40C0001
- for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 17:25:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3F504C000D
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 17:35:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A9954843DF
- for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 17:25:12 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id B9F1A843DA
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 17:35:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SDR1HyqHEbBw for <iommu@lists.linux-foundation.org>;
- Fri,  4 Jun 2021 17:25:08 +0000 (UTC)
+ with ESMTP id mlmJYC1lIQXD for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Jun 2021 17:35:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2C051843E1
- for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 17:25:05 +0000 (UTC)
-IronPort-SDR: +mwKOmxxnBbrkBG2nRum38iDbZReD6t+X5AdPOU5Zpnzc/APmoJAQNZxI8JZ5HOGZKtH9gytfl
- RW8uRnLhZWZA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="289965326"
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="289965326"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 10:25:05 -0700
-IronPort-SDR: dAFKNKjtmaL7yQnr3K/eB0SbWboMG8HyiCrjLVTN866KgoOVn5Xfj6lI+c9gQvaihlmzACMUqi
- AwFe9T7+EZTg==
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="401025402"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 10:25:05 -0700
-Date: Fri, 4 Jun 2021 10:27:43 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC] /dev/ioasid uAPI proposal
-Message-ID: <20210604102743.0bebc26a@jacob-builder>
-In-Reply-To: <20210604120555.GH1002214@nvidia.com>
-References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210528195839.GO1002214@nvidia.com> <YLcpw5Kx61L7TVmR@yekko>
- <20210602165838.GA1002214@nvidia.com> <YLhsZRc72aIMZajz@yekko>
- <YLn/SJtzuJopSO2x@myrica> <20210604120555.GH1002214@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp1.osuosl.org (Postfix) with ESMTP id C32C084399
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 17:35:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BFC21063;
+ Fri,  4 Jun 2021 10:35:24 -0700 (PDT)
+Received: from [10.57.6.115] (unknown [10.57.6.115])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 74ADE3F73D;
+ Fri,  4 Jun 2021 10:35:23 -0700 (PDT)
+Subject: Re: [PATCH] iommu/amd: Tidy up DMA ops init
+To: Joerg Roedel <joro@8bytes.org>
+References: <665db61e23ff8d54ac5eb391bef520b3a803fcb9.1622727974.git.robin.murphy@arm.com>
+ <YLpGHx+rYnBF64Yh@8bytes.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <781da5b3-4856-9a76-d803-51800dec6033@arm.com>
+Date: Fri, 4 Jun 2021 18:35:17 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Alex Williamson
- \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>, "Raj,
- Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Robin Murphy <robin.murphy@arm.com>,
- LKML <linux-kernel@vger.kernel.org>, Kirti Wankhede <kwankhede@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, David Gibson <david@gibson.dropbear.id.au>,
- David Woodhouse <dwmw2@infradead.org>, Jason Wang <jasowang@redhat.com>
+In-Reply-To: <YLpGHx+rYnBF64Yh@8bytes.org>
+Content-Language: en-GB
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Jussi Maki <joamaki@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,42 +66,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
-
-On Fri, 4 Jun 2021 09:05:55 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Fri, Jun 04, 2021 at 12:24:08PM +0200, Jean-Philippe Brucker wrote:
+On 2021-06-04 16:26, Joerg Roedel wrote:
+> On Thu, Jun 03, 2021 at 02:48:21PM +0100, Robin Murphy wrote:
+>> As discussed on the report thread, I think it makes most sense to merge
+>> this as a fix for 5.13 and not worry about any backporting.
+>>
+>>   drivers/iommu/amd/amd_iommu.h |  2 --
+>>   drivers/iommu/amd/init.c      |  5 -----
+>>   drivers/iommu/amd/iommu.c     | 31 +++++++++++++------------------
+>>   3 files changed, 13 insertions(+), 25 deletions(-)
 > 
-> > I think once it binds a device to an IOASID fd, QEMU will want to probe
-> > what hardware features are available before going further with the
-> > vIOMMU setup (is there PASID, PRI, which page table formats are
-> > supported,  
+> Applied for v5.13, thanks Robin et al for the quick work on this
+> regression.
 > 
-> I think David's point was that qemu should be told what vIOMMU it is
-> emulating exactly (right down to what features it has) and then
-> the goal is simply to match what the vIOMMU needs with direct HW
-> support via /dev/ioasid and fall back to SW emulation when not
-> possible.
-> 
-> If qemu wants to have some auto-configuration: 'pass host IOMMU
-> capabilities' similar to the CPU flags then qemu should probe the
-> /dev/ioasid - and maybe we should just return some highly rolled up
-> "this is IOMMU HW ID ARM SMMU vXYZ" out of some query to guide qemu in
-> doing this.
-> 
-There can be mixed types of physical IOMMUs on the host. So not until a
-device is attached, we would not know if the vIOMMU can match the HW
-support of the device's IOMMU. Perhaps, vIOMMU should check the
-least common denominator features before commit.
+> Robin, do you by chance have a Fixes tag which I can add?
 
-Thanks,
+For the sake of justifying this as "fix" rather than "cleanup", you may 
+as well use the flush queue commit cited in the patch log - I maintain 
+there's nothing technically wrong with that commit itself, but it is the 
+point at which the underlying issue becomes worth fixing due to how they 
+interact ;)
 
-Jacob
+Cheers,
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
