@@ -1,110 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DBE39B064
-	for <lists.iommu@lfdr.de>; Fri,  4 Jun 2021 04:30:11 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 208A139B09F
+	for <lists.iommu@lfdr.de>; Fri,  4 Jun 2021 04:54:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A7D376F944;
-	Fri,  4 Jun 2021 02:30:01 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 309E14061A;
+	Fri,  4 Jun 2021 02:54:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WPnpW91zTjpL; Fri,  4 Jun 2021 02:30:01 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ngpy1Rk_GFUB; Fri,  4 Jun 2021 02:54:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DC1BC6F94C;
-	Fri,  4 Jun 2021 02:30:00 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1BA29405FF;
+	Fri,  4 Jun 2021 02:54:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D49E9C0019;
-	Fri,  4 Jun 2021 02:30:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DEE1BC0001;
+	Fri,  4 Jun 2021 02:54:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 62E35C0001
- for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 02:29:59 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1FBEAC0001
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 02:54:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 4103540697
- for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 02:29:58 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 12B2640694
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 02:54:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LD8PL-3jhVGB for <iommu@lists.linux-foundation.org>;
- Fri,  4 Jun 2021 02:29:57 +0000 (UTC)
+ with ESMTP id 4NjGvYJpptu9 for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Jun 2021 02:54:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 68F0940698
- for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 02:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622773796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gt8hnOglaRtAhIBG091MfWOvOxMu+M8wqRg4Wjd74ow=;
- b=QnMTKsb1Pd2ABhZVIYGLDuTQIBYbja9rF4vDsQwsvj5KVip1HlqMVMOgDuTkDcBHzZPFBd
- M1igUcXdD5HBfOvPL7BvFXPcOB+fc7ecR+BsD2BGp2qdpyipjEU1StJa+Ta44lULVTe23r
- xRbQwPAaELyzLqQ4abhIiO/P/K8DYUU=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-e2f2NiQLPBCGqlCr0gdeJg-1; Thu, 03 Jun 2021 22:29:54 -0400
-X-MC-Unique: e2f2NiQLPBCGqlCr0gdeJg-1
-Received: by mail-pj1-f69.google.com with SMTP id
- pf14-20020a17090b1d8eb029015c31e36747so4310061pjb.2
- for <iommu@lists.linux-foundation.org>; Thu, 03 Jun 2021 19:29:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=gt8hnOglaRtAhIBG091MfWOvOxMu+M8wqRg4Wjd74ow=;
- b=mCbVmoREJiFv84OeXWzNYaujwSB6POG71BVG7g91GJKdybnwwaToSz6Na+fIUtwqaD
- 02EB7Xz9TEEPxKpk6hNLs1AWUnpLn+rp/dUQyV+4bJI2nEouUQubXzhRw8zccGu3SsVp
- M2e2rZaT2ixlW7eEN0xTdEXQ34VZ3FBIylZ9LAcYgiFEz2owlxyggjI067LiQd4FsztU
- Pz6V5YQHa5Lz6jNmuwI3pHXFUdfovDz0Vp8iJaHTQQz1BxYHJYTKkUIJlv/GpZoT5e9S
- t3WrB1yNQL1jusFFG9248kzimGBT64FvSQHaEvLD10pCtlUG3u6tQEc157vd3l/rXGId
- ZLow==
-X-Gm-Message-State: AOAM5309OScrOHXzluZrejWjCwOHaV34WIuU70T9d2vkIfTwzcnMSth5
- mycPkPN27f8aasawJRFYGZpojn5Qvt+56PatDqSZJzbSSnBzmvFEFkfd+5t8hHSz9bcdmynJhp6
- EHxdVRZ+DA3z0+KkMo1KZDNJVbdHQeQ==
-X-Received: by 2002:a17:90a:c20b:: with SMTP id
- e11mr14312028pjt.67.1622773793514; 
- Thu, 03 Jun 2021 19:29:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXfTmOi+wnH/roCuXQXvi+QWyoA9G2ErBsIgSWukz95apd75Y4VLg30EaPsmmCzT9f8zvJ3w==
-X-Received: by 2002:a17:90a:c20b:: with SMTP id
- e11mr14312013pjt.67.1622773793313; 
- Thu, 03 Jun 2021 19:29:53 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id s11sm325912pfm.95.2021.06.03.19.29.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Jun 2021 19:29:52 -0700 (PDT)
-Subject: Re: [PATCH v1 1/8] virtio: Force only split mode with protected guest
-To: Andi Kleen <ak@linux.intel.com>, mst@redhat.com
-References: <20210603004133.4079390-1-ak@linux.intel.com>
- <20210603004133.4079390-2-ak@linux.intel.com>
- <28c8302b-6833-10b4-c0eb-67456e7c4069@redhat.com>
- <09e17c7f-ce51-1a46-72c4-12223bee4e3a@linux.intel.com>
- <1c08bc42-7448-351e-78bf-fcf68d2b2561@redhat.com>
- <5a2d0d70-fa6b-f08d-f222-5c00cf5f9d44@linux.intel.com>
- <9b10bb24-eb27-510e-cf0d-7818ab9166ef@redhat.com>
- <9d6bc785-9613-a2e8-f78f-4547747a331d@linux.intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <93f58cfd-be59-1ea6-e0d0-6840c14d6980@redhat.com>
-Date: Fri, 4 Jun 2021 10:29:47 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.2
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 03F034068F
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Jun 2021 02:54:44 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Fx6hY2SGcz68Tn;
+ Fri,  4 Jun 2021 10:50:53 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 4 Jun 2021 10:54:32 +0800
+Received: from [127.0.0.1] (10.174.177.72) by dggpemm500006.china.huawei.com
+ (7.185.36.236) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 4 Jun 2021
+ 10:54:32 +0800
+Subject: Re: [PATCH v10 1/3] iommu: Enhance IOMMU default DMA mode build
+ options
+To: John Garry <john.garry@huawei.com>, <joro@8bytes.org>, <will@kernel.org>, 
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <robin.murphy@arm.com>
+References: <1622728715-209296-1-git-send-email-john.garry@huawei.com>
+ <1622728715-209296-2-git-send-email-john.garry@huawei.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <0e54ff0f-c668-354e-1ec8-7536c701d3a8@huawei.com>
+Date: Fri, 4 Jun 2021 10:54:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <9d6bc785-9613-a2e8-f78f-4547747a331d@linux.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1622728715-209296-2-git-send-email-john.garry@huawei.com>
 Content-Language: en-US
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
- jpoimboe@redhat.com, robin.murphy@arm.com, hch@lst.de
+X-Originating-IP: [10.174.177.72]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linuxarm@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,22 +77,107 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CuWcqCAyMDIxLzYvMyDkuIvljYg5OjU1LCBBbmRpIEtsZWVuIOWGmemBkzoKPgo+PiBPaywgYnV0
-IHdoYXQgSSBtZWFudCBpcyB0aGlzLCBpZiB3ZSBkb24ndCByZWFkIGZyb20gdGhlIGRlc2NyaXB0
-b3IgCj4+IHJpbmcsIGFuZCB2YWxpZGF0ZSBhbGwgdGhlIG90aGVyIG1ldGFkYXRhIHN1cHBsaWVk
-IGJ5IHRoZSBkZXZpY2UgCj4+ICh1c2VkIGlkIGFuZCBsZW4pLiBUaGVuIHRoZXJlIHNob3VsZCBi
-ZSBubyB3YXkgZm9yIHRoZSBkZXZpY2UgdG8gCj4+IHN1cHByZXNzIHRoZSBkbWEgZmxhZ3MgdG8g
-d3JpdGUgdG8gdGhlIGluZGlyZWN0IGRlc2NyaXB0b3IgdGFibGUuCj4+Cj4+IE9yIGRvIHlvdSBo
-YXZlIGFuIGV4YW1wbGUgaG93IGl0IGNhbiBkbyB0aGF0Pwo+Cj4gSSBkb24ndC4gSWYgeW91IGNh
-biB2YWxpZGF0ZSBldmVyeXRoaW5nIGl0J3MgcHJvYmFibHkgb2sKPgo+IFRoZSBvbmx5IGRyYXdi
-YWNrIGlzIGV2ZW4gbW9yZSBjb2RlIHRvIGF1ZGl0IGFuZCB0ZXN0Lgo+Cj4gLUFuZGkKPgo+CgpP
-aywgdGhlbiBJJ20gZ29pbmcgdG8gcG9zdCBhIGZvcm1hbCBzZXJpZXMsIHBsZWFzZSBoYXZlIGEg
-bG9vayBhbmQgd2UgCmNhbiBzdGFydCBmcm9tIHRoZXJlLgoKVGhhbmtzCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9t
-bXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRp
-b24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+
+
+On 2021/6/3 21:58, John Garry wrote:
+> From: Zhen Lei <thunder.leizhen@huawei.com>
+> 
+> First, add build options IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
+> opportunity to set {lazy|strict} mode as default at build time. Then put
+> the two config options in an choice, as they are mutually-exclusive.
+> 
+> [jpg: Make choice between strict and lazy only (and not passthrough)]
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> ---
+>  drivers/iommu/Kconfig | 34 ++++++++++++++++++++++++++++++++++
+>  drivers/iommu/iommu.c |  3 ++-
+>  2 files changed, 36 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 1f111b399bca..12ef90256df8 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -90,6 +90,40 @@ config IOMMU_DEFAULT_PASSTHROUGH
+>  
+>  	  If unsure, say N here.
+>  
+> +choice
+> +	prompt "IOMMU default DMA mode"
+> +	depends on IOMMU_API
+
+config INTEL_IOMMU
+        depends on PCI_MSI && ACPI && (X86 || IA64)
+
+config AMD_IOMMU
+        depends on X86_64 && PCI && ACPI && HAVE_CMPXCHG_DOUBLE
+
+config ARM_SMMU_V3
+        depends on ARM64
+
+"depends on ARM_SMMU_V3 || INTEL_IOMMU || AMD_IOMMU" may need to be added, because it doesn't work on other platforms.
+
+or "depends on X86 || IA64 || X86_64 || ARM64"
+
+> +
+> +	default IOMMU_DEFAULT_STRICT
+> +	help
+> +	  This option allows an IOMMU DMA mode to be chosen at build time, to
+> +	  override the default DMA mode of each ARCH, removing the need to
+> +	  pass in kernel parameters through command line. It is still possible
+> +	  to provide ARCH-specific or common boot options to override this
+> +	  option.
+> +
+> +	  If unsure, keep the default.
+> +
+> +config IOMMU_DEFAULT_LAZY
+> +	bool "lazy"
+> +	help
+> +	  Support lazy mode, where for every IOMMU DMA unmap operation, the
+> +	  flush operation of IOTLB and the free operation of IOVA are deferred.
+> +	  They are only guaranteed to be done before the related IOVA will be
+> +	  reused.
+> +
+> +config IOMMU_DEFAULT_STRICT
+> +	bool "strict"
+> +	help
+> +	  For every IOMMU DMA unmap operation, the flush operation of IOTLB and
+> +	  the free operation of IOVA are guaranteed to be done in the unmap
+> +	  function.
+> +
+> +	  This mode is safer than the two above, but it maybe slower in some
+> +	  high performace scenarios.
+> +
+> +endchoice
+> +
+>  config OF_IOMMU
+>  	def_bool y
+>  	depends on OF && IOMMU_API
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 966426a96520..177b0dafc535 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -29,7 +29,8 @@ static struct kset *iommu_group_kset;
+>  static DEFINE_IDA(iommu_group_ida);
+>  
+>  static unsigned int iommu_def_domain_type __read_mostly;
+> -static bool iommu_dma_strict __read_mostly = true;
+> +static bool iommu_dma_strict __read_mostly =
+> +			IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+
+Currently, a maximum of 100 columns are allowed in a row.
+
+>  static u32 iommu_cmd_line __read_mostly;
+>  
+>  struct iommu_group {
+> 
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
