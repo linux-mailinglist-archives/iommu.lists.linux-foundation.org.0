@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7159F39D31F
-	for <lists.iommu@lfdr.de>; Mon,  7 Jun 2021 04:47:49 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D21D639D321
+	for <lists.iommu@lfdr.de>; Mon,  7 Jun 2021 04:47:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C355F40015;
-	Mon,  7 Jun 2021 02:47:45 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 675114034A;
+	Mon,  7 Jun 2021 02:47:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hQImo-iQxp4w; Mon,  7 Jun 2021 02:47:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 512CC401E5;
-	Mon,  7 Jun 2021 02:47:41 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Tfws_YxwbJTP; Mon,  7 Jun 2021 02:47:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 024CE40357;
+	Mon,  7 Jun 2021 02:47:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D8DEC002B;
-	Mon,  7 Jun 2021 02:47:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D4EFFC0001;
+	Mon,  7 Jun 2021 02:47:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 22BB8C000E
- for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 02:47:38 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B097C0022
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 02:47:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EA5518348C
- for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 02:47:37 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0C19B401D8
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 02:47:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nCZcuXXYtjEW for <iommu@lists.linux-foundation.org>;
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UwweKN8mqUfQ for <iommu@lists.linux-foundation.org>;
  Mon,  7 Jun 2021 02:47:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 02CAE834BA
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id EDC6F40015
  for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 02:47:36 +0000 (UTC)
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FyyNw4brBz69JC;
- Mon,  7 Jun 2021 10:43:44 +0800 (CST)
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FyyMn1VkKz1BJl4;
+ Mon,  7 Jun 2021 10:42:45 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
  15.1.2176.2; Mon, 7 Jun 2021 10:47:33 +0800
 From: chenxiang <chenxiang66@hisilicon.com>
 To: <robin.murphy@arm.com>, <will@kernel.org>, <joro@8bytes.org>
-Subject: [PATCH 3/4] dma-iommu: add a interface to get iova_domain from iommu
- domain
-Date: Mon, 7 Jun 2021 10:43:01 +0800
-Message-ID: <1623033782-57907-4-git-send-email-chenxiang66@hisilicon.com>
+Subject: [PATCH 4/4] iommu: free cached iovas when rmmod the driver of the
+ last device in the group
+Date: Mon, 7 Jun 2021 10:43:02 +0800
+Message-ID: <1623033782-57907-5-git-send-email-chenxiang66@hisilicon.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1623033782-57907-1-git-send-email-chenxiang66@hisilicon.com>
 References: <1623033782-57907-1-git-send-email-chenxiang66@hisilicon.com>
@@ -76,55 +76,46 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Xiang Chen <chenxiang66@hisilicon.com>
 
-Add a function iommu_domain_to_iova() to get iova_domain from iommu domain.
+When rmmod the driver of the last device in the domain, cached iovas are
+not used and it is better to free them to save memories.
 
 Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
 ---
- drivers/iommu/dma-iommu.c | 7 +++++++
- include/linux/dma-iommu.h | 6 ++++++
- 2 files changed, 13 insertions(+)
+ drivers/iommu/iommu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7bcdd12..a1431a9 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -54,6 +54,13 @@ struct iommu_dma_cookie {
- static DEFINE_STATIC_KEY_FALSE(iommu_deferred_attach_enabled);
- bool iommu_dma_forcedac __read_mostly;
- 
-+struct iova_domain *iommu_domain_to_iova(struct iommu_domain *domain)
-+{
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 808ab70..d318d80 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -9,6 +9,7 @@
+ #include <linux/device.h>
+ #include <linux/kernel.h>
+ #include <linux/bug.h>
++#include <linux/dma-iommu.h>
+ #include <linux/types.h>
+ #include <linux/init.h>
+ #include <linux/export.h>
+@@ -16,6 +17,7 @@
+ #include <linux/errno.h>
+ #include <linux/iommu.h>
+ #include <linux/idr.h>
++#include <linux/iova.h>
+ #include <linux/notifier.h>
+ #include <linux/err.h>
+ #include <linux/pci.h>
+@@ -1667,6 +1669,11 @@ static int iommu_bus_notifier(struct notifier_block *nb,
+ 		group_action = IOMMU_GROUP_NOTIFY_UNBIND_DRIVER;
+ 		break;
+ 	case BUS_NOTIFY_UNBOUND_DRIVER:
++		if (iommu_group_device_count(group) == 1) {
++			struct iommu_domain *domain = group->domain;
 +
-+	return &cookie->iovad;
-+}
-+
- static int __init iommu_dma_forcedac_setup(char *str)
- {
- 	int ret = kstrtobool(str, &iommu_dma_forcedac);
-diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
-index 6e75a2d..8577122 100644
---- a/include/linux/dma-iommu.h
-+++ b/include/linux/dma-iommu.h
-@@ -42,6 +42,8 @@ void iommu_dma_free_cpu_cached_iovas(unsigned int cpu,
- 
- extern bool iommu_dma_forcedac;
- 
-+struct iova_domain *iommu_domain_to_iova(struct iommu_domain *domain);
-+
- #else /* CONFIG_IOMMU_DMA */
- 
- struct iommu_domain;
-@@ -83,5 +85,9 @@ static inline void iommu_dma_get_resv_regions(struct device *dev, struct list_he
- {
- }
- 
-+struct iova_domain *iommu_domain_to_iova(struct iommu_domain *domain)
-+{
-+}
-+
- #endif	/* CONFIG_IOMMU_DMA */
- #endif	/* __DMA_IOMMU_H */
++			free_rcache_cached_iovas(iommu_domain_to_iova(domain));
++		}
+ 		group_action = IOMMU_GROUP_NOTIFY_UNBOUND_DRIVER;
+ 		break;
+ 	}
 -- 
 2.8.1
 
