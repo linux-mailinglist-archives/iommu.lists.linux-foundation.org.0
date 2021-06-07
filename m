@@ -1,51 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4C839D527
-	for <lists.iommu@lfdr.de>; Mon,  7 Jun 2021 08:41:59 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D9C39D52F
+	for <lists.iommu@lfdr.de>; Mon,  7 Jun 2021 08:43:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A47496075B;
-	Mon,  7 Jun 2021 06:41:57 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id EC5CB8341A;
+	Mon,  7 Jun 2021 06:43:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 37SNR0QHNg-v; Mon,  7 Jun 2021 06:41:53 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LZWpe8TLbUyi; Mon,  7 Jun 2021 06:43:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A69E9606BA;
-	Mon,  7 Jun 2021 06:41:53 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id EBACE83466;
+	Mon,  7 Jun 2021 06:43:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 842D6C001C;
-	Mon,  7 Jun 2021 06:41:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D4F90C001C;
+	Mon,  7 Jun 2021 06:43:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 719DAC0001
- for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 06:41:51 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 472E0C0001
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 06:43:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 57B94606A2
- for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 06:41:51 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 27A384019B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 06:43:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fNQeyVotETqF for <iommu@lists.linux-foundation.org>;
- Mon,  7 Jun 2021 06:41:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QWP_Oa5bZEub for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Jun 2021 06:43:15 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 3BF666064A
- for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 06:41:49 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8335440147
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Jun 2021 06:43:15 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C9F1667373; Mon,  7 Jun 2021 08:41:42 +0200 (CEST)
-Date: Mon, 7 Jun 2021 08:41:42 +0200
+ id 19E8068AFE; Mon,  7 Jun 2021 08:43:13 +0200 (CEST)
+Date: Mon, 7 Jun 2021 08:43:12 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Tianyu Lan <ltykernel@gmail.com>
-Subject: Re: [RFC PATCH V3 01/11] x86/HV: Initialize GHCB page in Isolation VM
-Message-ID: <20210607064142.GA24478@lst.de>
+Subject: Re: [RFC PATCH V3 08/11] swiotlb: Add bounce buffer remap address
+ setting function
+Message-ID: <20210607064312.GB24478@lst.de>
 References: <20210530150628.2063957-1-ltykernel@gmail.com>
- <20210530150628.2063957-2-ltykernel@gmail.com>
+ <20210530150628.2063957-9-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210530150628.2063957-2-ltykernel@gmail.com>
+In-Reply-To: <20210530150628.2063957-9-ltykernel@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
  thomas.lendacky@amd.com, peterz@infradead.org, dave.hansen@linux.intel.com,
@@ -79,35 +80,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, May 30, 2021 at 11:06:18AM -0400, Tianyu Lan wrote:
-> +	if (ms_hyperv.ghcb_base) {
-> +		rdmsrl(MSR_AMD64_SEV_ES_GHCB, ghcb_gpa);
-> +
-> +		ghcb_va = ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
-> +		if (!ghcb_va)
-> +			return -ENOMEM;
+On Sun, May 30, 2021 at 11:06:25AM -0400, Tianyu Lan wrote:
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> 
+> For Hyper-V isolation VM with AMD SEV SNP, the bounce buffer(shared memory)
+> needs to be accessed via extra address space(e.g address above bit39).
+> Hyper-V code may remap extra address space outside of swiotlb. swiotlb_
+> bounce() needs to use remap virtual address to copy data from/to bounce
+> buffer. Add new interface swiotlb_set_bounce_remap() to do that.
 
-Can you explain this a bit more?  We've very much deprecated
-ioremap_cache in favor of memremap.  Why yo you need a __iomem address
-here?  Why do we need the remap here at all?
-
-Does the data structure at this address not have any types that we
-could use a struct for?
-
-> +
-> +		rdmsrl(MSR_AMD64_SEV_ES_GHCB, ghcb_gpa);
-> +		ghcb_va = ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
-> +		if (!ghcb_va) {
-
-This seems to duplicate the above code.
-
-> +bool hv_isolation_type_snp(void)
-> +{
-> +	return static_branch_unlikely(&isolation_type_snp);
-> +}
-> +EXPORT_SYMBOL_GPL(hv_isolation_type_snp);
-
-This probably wants a kerneldoc explaining when it should be used.
+Why can't you use the bus_dma_region ranges to remap to your preferred
+address?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
