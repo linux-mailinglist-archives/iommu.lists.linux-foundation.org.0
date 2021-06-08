@@ -1,66 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEBF39F287
-	for <lists.iommu@lfdr.de>; Tue,  8 Jun 2021 11:35:04 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A95639F2A4
+	for <lists.iommu@lfdr.de>; Tue,  8 Jun 2021 11:41:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D985F60872;
-	Tue,  8 Jun 2021 09:35:02 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 15CA083A73;
+	Tue,  8 Jun 2021 09:41:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PY9hgIYncC-Q; Tue,  8 Jun 2021 09:35:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F18176081E;
-	Tue,  8 Jun 2021 09:35:01 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oU-YE5zyt0Uv; Tue,  8 Jun 2021 09:41:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id DC5C1839CD;
+	Tue,  8 Jun 2021 09:41:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CAA6AC0011;
-	Tue,  8 Jun 2021 09:35:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B39B6C0024;
+	Tue,  8 Jun 2021 09:41:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1CD17C0001
- for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 09:35:00 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5592DC0001
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 09:41:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 167A983459
- for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 09:35:00 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 51C1840299
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 09:41:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H-FQ7e4kTYuC for <iommu@lists.linux-foundation.org>;
- Tue,  8 Jun 2021 09:34:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9718883437
- for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 09:34:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD0A761208;
- Tue,  8 Jun 2021 09:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623144898;
- bh=OBg9ZyaK512GGHt182oF1kF5QsrSXhwvc7zhceE23oM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iDb+QR31ZeM+YOq1a0JSVmmISfgSlciNzX/PmhKHv1750KXls7wRjZCHvq/zT9stC
- CThLm/qbdLjJXoWle+V4R5fcGAdx4eoEIrVUm/It3A47aJVhN3Ctk7L1ZPuk6hpVxl
- abUtxuBD4DLrmkD/iXYD8kwVAX3uEy6SN9TQ25l4yeFGP5HwV4MTaIBsBsD00qni23
- t5k0+WW0QoavnXoqbxbazgVPF1B+gJFpQEr1Dcu3yAFFsTAanJ1gUETwGMz5xQAskA
- INiuFeE/aHoi5nG6BRZeuQP0CwrcXpdLuO/HOp9udFSE95oT1tggqpOoU3nsbadaQ6
- VDBodI6R5uqXg==
-Date: Tue, 8 Jun 2021 10:34:53 +0100
-From: Will Deacon <will@kernel.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/1] iommu/vt-d: Select PCI_ATS explicitly
-Message-ID: <20210608093453.GB8935@willie-the-truck>
-References: <20210512065313.3441309-1-baolu.lu@linux.intel.com>
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mediatek.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fiT2EumCrT39 for <iommu@lists.linux-foundation.org>;
+ Tue,  8 Jun 2021 09:41:08 +0000 (UTC)
+X-Greylist: delayed 00:05:01 by SQLgrey-1.8.0
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by smtp2.osuosl.org (Postfix) with ESMTP id E14D340291
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 09:41:07 +0000 (UTC)
+X-UUID: 3e9002f43fa04a4f8ece9a742ed08a52-20210608
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=+B2QImP6/+3dV4dUubTd73D2XzItTeRR9Dm1MA2u5aE=; 
+ b=lTgFCwz2jqS7rYdq8AlB3TCHlmdYVfQ0e5K23qnsgpDL/GfE9uYxvDarwe84n/tdOqc+4pPW3ggd/TMZXjTqj47PX3Wzzsc7rlxFRLi19BQJ1Ur5t7c/FUfbzxPH4cRKNLijkMFxkct2KhXzDc4C3DjU99jpcG29T8yzotJNs2I=;
+X-UUID: 3e9002f43fa04a4f8ece9a742ed08a52-20210608
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <houlong.wei@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1596794492; Tue, 08 Jun 2021 17:35:59 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 8 Jun 2021 17:35:54 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 8 Jun 2021 17:35:52 +0800
+Message-ID: <1623144943.7079.1.camel@mhfsdcap03>
+Subject: Re: [PATCH v5 08/16] media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+From: houlong wei <houlong.wei@mediatek.com>
+To: Yong Wu <yong.wu@mediatek.com>
+Date: Tue, 8 Jun 2021 17:35:43 +0800
+In-Reply-To: <20210410091128.31823-9-yong.wu@mediatek.com>
+References: <20210410091128.31823-1-yong.wu@mediatek.com>
+ <20210410091128.31823-9-yong.wu@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210512065313.3441309-1-baolu.lu@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, sanjay.k.kumar@intel.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- jacob.jun.pan@intel.com
+X-TM-SNTS-SMTP: 73160F7F9D6C1295E7F9E9F7A0C989361B8103D51415275D79DD2191FBD6D2842000:8
+X-MTK: N
+Cc: Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?=
+ <Minghsiu.Tsai@mediatek.com>, Will Deacon <will.deacon@arm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Youlin Pei =?UTF-8?Q?=28=E8=A3=B4=E5=8F=8B=E6=9E=97=29?=
+ <youlin.pei@mediatek.com>, Nicolas Boichat <drinkcat@chromium.org>,
+ Evan Green <evgreen@chromium.org>, "eizan@chromium.org" <eizan@chromium.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Yi Kuo =?UTF-8?Q?=28=E9=83=AD=E6=87=BF=29?= <Yi.Kuo@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Ming-Fan Chen =?UTF-8?Q?=28=E9=99=B3=E6=98=8E=E6=B1=8E=29?=
+ <Ming-Fan.Chen@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Anan Sun =?UTF-8?Q?=28=E5=AD=99=E5=AE=89=E5=AE=89=29?= <Anan.Sun@mediatek.com>,
+ "acourbot@chromium.org" <acourbot@chromium.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Chao Hao =?UTF-8?Q?=28=E9=83=9D=E8=B6=85=29?= <Chao.Hao@mediatek.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,31 +104,133 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, May 12, 2021 at 02:53:13PM +0800, Lu Baolu wrote:
-> The Intel VT-d implementation supports device TLB management. Select
-> PCI_ATS explicitly so that the pci_ats helpers are always available.
+On Sat, 2021-04-10 at 17:11 +0800, Yong Wu wrote:
+> MediaTek IOMMU has already added the device_link between the consumer
+> and smi-larb device. If the mdp device call the pm_runtime_get_sync,
+> the smi-larb's pm_runtime_get_sync also be called automatically.
 > 
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> CC: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
+> CC: Houlong Wei <houlong.wei@mediatek.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: Evan Green <evgreen@chromium.org>
 > ---
->  drivers/iommu/intel/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 40 -------------------
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+>  3 files changed, 43 deletions(-)
 > 
-> diff --git a/drivers/iommu/intel/Kconfig b/drivers/iommu/intel/Kconfig
-> index 28a3d1596c76..7e5b240b801d 100644
-> --- a/drivers/iommu/intel/Kconfig
-> +++ b/drivers/iommu/intel/Kconfig
-> @@ -14,6 +14,7 @@ config INTEL_IOMMU
->  	select SWIOTLB
->  	select IOASID
->  	select IOMMU_DMA
-> +	select PCI_ATS
->  	help
->  	  DMA remapping (DMAR) devices support enables independent address
->  	  translations for Direct Memory Access (DMA) from devices.
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> index b3426a551bea..1e3833f1c9ae 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+>  #include <linux/of_platform.h>
+> -#include <soc/mediatek/smi.h>
+>  
+>  #include "mtk_mdp_comp.h"
+>  
+> @@ -18,14 +17,6 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
+>  {
+>  	int i, err;
+>  
+> -	if (comp->larb_dev) {
+> -		err = mtk_smi_larb_get(comp->larb_dev);
+> -		if (err)
+> -			dev_err(dev,
+> -				"failed to get larb, err %d. type:%d\n",
+> -				err, comp->type);
+> -	}
+> -
+>  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
+>  		if (IS_ERR(comp->clk[i]))
+>  			continue;
+> @@ -46,17 +37,12 @@ void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
+>  			continue;
+>  		clk_disable_unprepare(comp->clk[i]);
+>  	}
+> -
+> -	if (comp->larb_dev)
+> -		mtk_smi_larb_put(comp->larb_dev);
+>  }
+>  
+>  int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
+>  		      struct mtk_mdp_comp *comp,
+>  		      enum mtk_mdp_comp_type comp_type)
+>  {
+> -	struct device_node *larb_node;
+> -	struct platform_device *larb_pdev;
+>  	int ret;
+>  	int i;
+>  
+> @@ -77,32 +63,6 @@ int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
+>  			break;
+>  	}
+>  
+> -	/* Only DMA capable components need the LARB property */
+> -	comp->larb_dev = NULL;
+> -	if (comp->type != MTK_MDP_RDMA &&
+> -	    comp->type != MTK_MDP_WDMA &&
+> -	    comp->type != MTK_MDP_WROT)
+> -		return 0;
+> -
+> -	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
+> -	if (!larb_node) {
+> -		dev_err(dev,
+> -			"Missing mediadek,larb phandle in %pOF node\n", node);
+> -		ret = -EINVAL;
+> -		goto put_dev;
+> -	}
+> -
+> -	larb_pdev = of_find_device_by_node(larb_node);
+> -	if (!larb_pdev) {
+> -		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
+> -		of_node_put(larb_node);
+> -		ret = -EPROBE_DEFER;
+> -		goto put_dev;
+> -	}
+> -	of_node_put(larb_node);
+> -
+> -	comp->larb_dev = &larb_pdev->dev;
+> -
+>  	return 0;
+>  
+>  put_dev:
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> index 1bf0242cce46..36bc1b8f6222 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> @@ -27,14 +27,12 @@ enum mtk_mdp_comp_type {
+>   * @node:	list node to track sibing MDP components
+>   * @dev_node:	component device node
+>   * @clk:	clocks required for component
+> - * @larb_dev:	SMI device required for component
+>   * @type:	component type
+>   */
+>  struct mtk_mdp_comp {
+>  	struct list_head	node;
+>  	struct device_node	*dev_node;
+>  	struct clk		*clk[2];
+> -	struct device		*larb_dev;
+>  	enum mtk_mdp_comp_type	type;
+>  };
+>  
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index 976aa1f4829b..70a8eab16863 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -17,7 +17,6 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/workqueue.h>
+> -#include <soc/mediatek/smi.h>
+>  
+>  #include "mtk_mdp_core.h"
+>  #include "mtk_mdp_m2m.h"
 
-Acked-by: Will Deacon <will@kernel.org>
+Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
 
-Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
