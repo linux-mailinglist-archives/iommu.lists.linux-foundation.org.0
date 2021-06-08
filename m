@@ -2,60 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DC039EBEB
-	for <lists.iommu@lfdr.de>; Tue,  8 Jun 2021 04:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1BA39EBED
+	for <lists.iommu@lfdr.de>; Tue,  8 Jun 2021 04:26:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8A9C460891;
-	Tue,  8 Jun 2021 02:26:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 989556088E;
+	Tue,  8 Jun 2021 02:26:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id l1hSDn5iygn6; Tue,  8 Jun 2021 02:25:59 +0000 (UTC)
+	with ESMTP id 3NFLxjhwtVeV; Tue,  8 Jun 2021 02:26:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id ACD4D6080D;
-	Tue,  8 Jun 2021 02:25:59 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id AD2276088F;
+	Tue,  8 Jun 2021 02:26:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 66D88C0001;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE9FEC0001;
 	Tue,  8 Jun 2021 02:25:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7A81FC0001
- for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 02:25:57 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16AEEC0001
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 02:25:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 52F3D831AC
- for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 02:25:57 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 05394402F4
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 02:25:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MT2r4lst_Wws for <iommu@lists.linux-foundation.org>;
- Tue,  8 Jun 2021 02:25:52 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lNUWJPxRy4Ni for <iommu@lists.linux-foundation.org>;
+ Tue,  8 Jun 2021 02:25:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8107B82C6B
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1D581402F6
  for <iommu@lists.linux-foundation.org>; Tue,  8 Jun 2021 02:25:52 +0000 (UTC)
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FzYxm6L3yz9sW8; Tue,  8 Jun 2021 12:25:48 +1000 (AEST)
+ id 4FzYxn01lXz9sWD; Tue,  8 Jun 2021 12:25:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1623119148;
- bh=lncYIbxArPowV0MRkDFVxKOswtaRzRtG9W2xdghAx6E=;
+ d=gibson.dropbear.id.au; s=201602; t=1623119149;
+ bh=NE7+usqQ/norkxY9YOA2SirvU/XbC99t4zi6zDKs6fI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fl9N/rY051u/vXA8Hw32d6pExmLKI3N41TquwdbFFNmvj4ancl24Wkx4HSWiolM+/
- pT1F2q/2VhF59OyNxNlXSpAEqFIyRsYMFMf4P3aALG2JOQUSOwl3st8G4JX8vKfRtM
- 3qtkRUSTv9gMnqY1vA6bx6Z+lDdwhUTBcM8bIE8I=
-Date: Tue, 8 Jun 2021 10:53:02 +1000
+ b=l5xQK55tG4fFOstusMEH5nVrLBK4ofIa7MChdPnoNlmO6puIFXbKBv4BQMnCh/qeL
+ 1AA2jQ0i8sBitMvTHtP5x7lrBh/CWfRRAI6K2JRx5QtBKyXpTNSvgzMSmXnPl0s84G
+ EcXVcynJIkkcSXJXWbhlUwqaAJgDgZfBcSVU//N8=
+Date: Tue, 8 Jun 2021 11:15:01 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Subject: Re: [RFC] /dev/ioasid uAPI proposal
-Message-ID: <YL6/bjHyuHJTn4Rd@yekko>
+Message-ID: <YL7Elf3KwRarNfLx@yekko>
 References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210528173538.GA3816344@nvidia.com> <YLcl+zaK6Y0gB54a@yekko>
- <20210602161648.GY1002214@nvidia.com> <YLhlCINGPGob4Nld@yekko>
- <20210603115224.GQ1002214@nvidia.com>
+ <bb6846bf-bd3c-3802-e0d7-226ec9b33384@metux.net>
+ <20210602172424.GD1002214@nvidia.com>
+ <bd0f485c-5f70-b087-2a5a-d2fe6e16817d@metux.net>
+ <20210604123054.GL1002214@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20210603115224.GQ1002214@nvidia.com>
+In-Reply-To: <20210604123054.GL1002214@nvidia.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
  Kevin" <kevin.tian@intel.com>,
  "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
@@ -63,7 +64,8 @@ Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
  "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
  Kirti Wankhede <kwankhede@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Jiang,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "Enrico Weigelt, metux IT consult" <lkml@metux.net>, "Jiang,
  Dave" <dave.jiang@intel.com>, David Woodhouse <dwmw2@infradead.org>,
  Jason Wang <jasowang@redhat.com>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -78,66 +80,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4677494160234666538=="
+Content-Type: multipart/mixed; boundary="===============0621494565199870876=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
---===============4677494160234666538==
+--===============0621494565199870876==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="g5xwcfR2A+2YrJL6"
+	protocol="application/pgp-signature"; boundary="T4guhZ6fptkEnI3K"
 Content-Disposition: inline
 
 
---g5xwcfR2A+2YrJL6
+--T4guhZ6fptkEnI3K
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 03, 2021 at 08:52:24AM -0300, Jason Gunthorpe wrote:
-> On Thu, Jun 03, 2021 at 03:13:44PM +1000, David Gibson wrote:
->=20
-> > > We can still consider it a single "address space" from the IOMMU
-> > > perspective. What has happened is that the address table is not just a
-> > > 64 bit IOVA, but an extended ~80 bit IOVA formed by "PASID, IOVA".
+On Fri, Jun 04, 2021 at 09:30:54AM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 04, 2021 at 12:44:28PM +0200, Enrico Weigelt, metux IT consul=
+t wrote:
+> > On 02.06.21 19:24, Jason Gunthorpe wrote:
 > >=20
-> > True.  This does complexify how we represent what IOVA ranges are
-> > valid, though.  I'll bet you most implementations don't actually
-> > implement a full 64-bit IOVA, which means we effectively have a large
-> > number of windows from (0..max IOVA) for each valid pasid.  This adds
-> > another reason I don't think my concept of IOVA windows is just a
-> > power specific thing.
->=20
-> Yes
->=20
-> Things rapidly get into weird hardware specific stuff though, the
-> request will be for things like:
->   "ARM PASID&IO page table format from SMMU IP block vXX"
-
-So, I'm happy enough for picking a user-managed pagetable format to
-imply the set of valid IOVA ranges (though a query might be nice).
-
-I'm mostly thinking of representing (and/or choosing) valid IOVA
-ranges as something for the kernel-managed pagetable style
-(MAP/UNMAP).
-
-> Which may have a bunch of (possibly very weird!) format specific data
-> to describe and/or configure it.
->=20
-> The uAPI needs to be suitably general here. :(
->=20
-> > > If we are already going in the direction of having the IOASID specify
-> > > the page table format and other details, specifying that the page
-> > > tabnle format is the 80 bit "PASID, IOVA" format is a fairly small
-> > > step.
+> > Hi,
 > >=20
-> > Well, rather I think userspace needs to request what page table format
-> > it wants and the kernel tells it whether it can oblige or not.
+> > >> If I understand this correctly, /dev/ioasid is a kind of "common
+> > supplier"
+> > >> to other APIs / devices. Why can't the fd be acquired by the
+> > >> consumer APIs (eg. kvm, vfio, etc) ?
+> > >
+> > > /dev/ioasid would be similar to /dev/vfio, and everything already
+> > > deals with exposing /dev/vfio and /dev/vfio/N together
+> > >
+> > > I don't see it as a problem, just more work.
+> >=20
+> > One of the problems I'm seeing is in container environments: when
+> > passing in an vfio device, we now also need to pass in /dev/ioasid,
+> > thus increasing the complexity in container setup (or orchestration).
 >=20
-> Yes, this is what I ment.
->=20
-> Jason
->=20
+> Containers already needed to do this today. Container orchestration is
+> hard.
+
+Right to use VFIO a container already needs both /dev/vfio and one or
+more /dev/vfio/NNN group devices.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -145,29 +129,29 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---g5xwcfR2A+2YrJL6
+--T4guhZ6fptkEnI3K
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC+v24ACgkQbDjKyiDZ
-s5Khrg/+O8Zfek3/FbN5ebI8tszXAHZwV5BjxM1PNWD6PIjlBfD/7OG7REO2l9w9
-6idpUCjPhg6/3wuCDpPfqgD5xvhKwyW05VrcVUWhKbmMNXZ47iBRkOpeBY99JoIl
-IVJeoRMXRwtdHGem7WKJfrg2KZl7uoFDMB5oxswwukVPfVCema7SGEsjnXXCaeQU
-oUnl8usFPedPUgf04GUlN4mMOQccOiLcg3B6SxytX/yWY+aal0M3XGcWVIT61vOS
-2FEcYxwn1qcZOYMcmqyanLxaAo+8fQ7fSeacF6c5mPG1JJWfdn4J3PCn3Ot8Jz3x
-GPvUm2V79AEu8OyEYLGbGnnEY44TaYho40gaoW67Oq3c5vw/jfxKiTDHQ0sZGcE5
-/Zx7zjw3XbSDogbyG2EYmZK0peVNPcu1UhWXRYMnC6C2KFWDZnxrJLO8/qNNpIHd
-CQXpnEVj8LX5aU4bpg3bTWiidYQ2Ifb+VEyDrJ6NouWwPySDO5Dwv/JySPz8gHbl
-4tmiWz1ZdHoTEY1pSrirzPI1S0OY+5n0S5xXFeRayOFdE+3PZ4a5Mn+FEIIh4ynE
-SYygZh5LM5KuCjLbT1LO7/bUsCWpNBe9yP0C4kTi6rUVvh4nWq7vO9qpxtMeoVyv
-Cd809jz15Cs2A89v65hLgF4MsgFKLxApFx/yXUkp6b27l6gw8Hc=
-=2eQJ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC+xJMACgkQbDjKyiDZ
+s5JQuhAAxlzUDoVWUS7ZAU8E4fL0Z6TVV8A1LN3veamxiqHFJ6IIVtiV5g7Dy0II
+T6GxA3x+7HaPcpMHbqv85GE3DBs7dm4P56B9rTtJU3OkDekISxcG2/IJtIiL0JtJ
+BPWgnN6obAOeGlzl1uIxB9GQucvS1pp71jfxhW9BTFidOSg9UFWSu2IN6Hn0ODr0
+siVRSG3V861K4yf3KH7GSR3mnrna6VUUclP2Bx8REmagVcPdMUqBNXU+4zg339+C
+dwzoc+10bpSYPjgOI77bBCi1fyf5rPixRx3DVEfrWbqgR7AmPT5mrKcd7sL8/ta3
+VmypRFa/+50D9qxBKYEFvqYWJHctQ56ZT1GMxIqd+aIY2Y4G1AeJs2lP0tHcfbV8
+gQ2m+rpEFaRcN1C5aMVKQ2rs8xBUcbEPDQqpoCz3r8UwcuBC3SRNPEV2irfzJgbX
+DaalbaoFGrb7O4Xl5yQ6suRBzr4w6sG9FCBJdzxj8sQgDhnIG2Vj1e+Ve7oqgf1S
+WLZVU2GXIdBC3xn6ek5+37aHhsGenq08WQyX15J1q++TzKxba0fphS3qiKJHYGvI
+8sTLwzIIRaFdhzXJ99gQyZMzRIwhjqFitlp36Ndc7CAoYtIDpt5iM5NY0RczQn2C
+KwVAG28Qz7FdDd2BOeWPFm9CAQJkaJTaVNcNOJhscFENzTVoE2k=
+=HWR1
 -----END PGP SIGNATURE-----
 
---g5xwcfR2A+2YrJL6--
+--T4guhZ6fptkEnI3K--
 
---===============4677494160234666538==
+--===============0621494565199870876==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -177,4 +161,4 @@ _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============4677494160234666538==--
+--===============0621494565199870876==--
