@@ -2,89 +2,87 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A793A15CC
-	for <lists.iommu@lfdr.de>; Wed,  9 Jun 2021 15:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07863A1629
+	for <lists.iommu@lfdr.de>; Wed,  9 Jun 2021 15:53:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EC83A40514;
-	Wed,  9 Jun 2021 13:38:20 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7FA6B40514;
+	Wed,  9 Jun 2021 13:53:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id k9Y2xG4li6Qz; Wed,  9 Jun 2021 13:38:19 +0000 (UTC)
+	with ESMTP id 20M0uYNJgScI; Wed,  9 Jun 2021 13:53:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B66A1404F3;
-	Wed,  9 Jun 2021 13:38:19 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3D929404F4;
+	Wed,  9 Jun 2021 13:53:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93A64C000B;
-	Wed,  9 Jun 2021 13:38:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EAE3C0024;
+	Wed,  9 Jun 2021 13:53:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99067C000B
- for <iommu@lists.linux-foundation.org>; Wed,  9 Jun 2021 13:38:18 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 22ED7C000B
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Jun 2021 13:53:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 756AD60A3D
- for <iommu@lists.linux-foundation.org>; Wed,  9 Jun 2021 13:38:18 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 08C0860A3D
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Jun 2021 13:53:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bs1zTEstSjpf for <iommu@lists.linux-foundation.org>;
- Wed,  9 Jun 2021 13:38:17 +0000 (UTC)
+ with ESMTP id oih55JkksiqG for <iommu@lists.linux-foundation.org>;
+ Wed,  9 Jun 2021 13:53:01 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A1BAD60A39
- for <iommu@lists.linux-foundation.org>; Wed,  9 Jun 2021 13:38:17 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso4242800wms.1
- for <iommu@lists.linux-foundation.org>; Wed, 09 Jun 2021 06:38:17 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9FBF7608E3
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Jun 2021 13:53:01 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id y7so20946734wrh.7
+ for <iommu@lists.linux-foundation.org>; Wed, 09 Jun 2021 06:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2XtC26dDQI+8z2NBND3LcVHi35tPI4TG6eO9es29Zac=;
- b=DzJMNm+3h04RwqPbHWExMNYCF+kaN1b1pLrOfQW7uU+gGHoukXnx3AUoHcpShlEZO0
- G71QT3Yq2vT78oEWlHeQbmVZbe6WM94LtTSdjT/VxIglyPKyK3Q2T/JDNndT0yPXJsLv
- dzSJJGkGwPqQfbRaTULkHwERsRxu0yYuZnTzhu1Xntt4qzZgrVQnNR77xZGHBK9l9stF
- BXbE4iv+o0YLeRS2xXM1E2//e2UMHJyrgFdOtBoiyUlO/bQ62I9kCR/NdZq1THpFdIzK
- 9DCO2qzA06o/FOLDmZ7BKKEoefE45EM+fOjGHTirVfQMUhogaiE+NoMOAtVlA0BO8b+B
- FG7w==
+ bh=0acANAgz0MlP9hPrB8I/frs/iBRqhU+q6XEBhj3gv8Q=;
+ b=Cb4nEUXmhZvh1I1hdtpEsgGzcI8hqQQrc7hh7BmIb/NX9p0nBm+QjwFq9gL6Ze2N9k
+ 5/kF/QBn0UJ0x7F6q/wS/GIekJmnYYdLBYYwnYGSwRI8T1fFvnS0Vt3wj9kG6zU0uN0H
+ ZFPOXyzQVSXJJbyAkKMZ/rIMtRGWVYMRDbH30IuOvtdrAUkcjtlT+BNnp+toj6YK68x+
+ SW+2wbaS6w12L2ph1J9OfxsbLKm6oQc0N4ZXjcenr30sAKY3LkKYddG/44vFeDVCwMyZ
+ s+hkxsGE2LffD4jYDQDPDULTxBaqYCM1nxoPITOvQOymZOUkwmXNOGqH6G9uQtQPxHqg
+ NrFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2XtC26dDQI+8z2NBND3LcVHi35tPI4TG6eO9es29Zac=;
- b=j2uQWzP0v2YkExmbs+OKW3iBEqohjsVCBHV9dZEVVtmVyX3n/0geevAN6mQw5HFm+F
- hkSWd/zfQwRzxWwIouLQA8PiQVc8Y8/ii/aRFk3MRSdPY5iNY6hapy542bIqgZXhquUM
- CiN3jh9XuUfaDTQDwV3XZpsMPhHbDCaKTJU5O+O4Ya9KxgWob3SZ5Lv4OqoNKx/L6pq9
- CWeGl402C7EFkjzFN1BqIpmUiCX+BOwUJnuFqXeMFp+cSXe/VOpkGfpPRfSpxZL+1ify
- JckaVPikY8NHwjUozsHLWwhVe8ZNpbdEuMQCv1+3yJkxvFXcdaBVIQgR8mqIhjnSc3mV
- XdZw==
-X-Gm-Message-State: AOAM533IWUFgnLXJsjZtVRmYU/LtHB2fKiciX4NNFPQvDh3lTL2wQfl8
- meMdhiaTHRCKWQ+n22beg50=
-X-Google-Smtp-Source: ABdhPJwRn7xOH9cpkumSJykpQHFyX0W4qhaLI33hiASlySCZeUqCvFm4zsH9ez6+Ei9TmMDVCfoy+Q==
-X-Received: by 2002:a05:600c:190f:: with SMTP id
- j15mr10147185wmq.4.1623245895818; 
- Wed, 09 Jun 2021 06:38:15 -0700 (PDT)
+ bh=0acANAgz0MlP9hPrB8I/frs/iBRqhU+q6XEBhj3gv8Q=;
+ b=GADMWHatXGQ9BW07IckUpRvNczGbzLZkDnBl8jLvvxM305s/YgJFZWUcokBq/Z5Ds/
+ E+0y7wVR+fjk+mYZPJuS3eG/LDhqjrS4qLCFZDNM36FnySZ/r9JWkZhE4Mch7Bbw2v64
+ mMTJ67BQprl1ReVqqb7g7ofOcvEnHD/9FCam+M1NKDaAj3S8OH+fBBXIecxt347rnYJA
+ Cw4xYDKuVWOXeTBQVJZRICi3kQmGub1rwS2CZOhSPLr7i4Inc3nSG2y/lmuucHM1O8Cy
+ EyrHqAd5Ld+Kuh8ZiRi5EEdoqN1rU0U098wpo4GwLLQy+ZUqw7p7R60S8Jzm/xmA9zAF
+ MDKw==
+X-Gm-Message-State: AOAM533RvSfa4eFBSGpTrRgxuAFDTkpDHMSJadr6cbIzirxihkszqfFl
+ mQQaDSNzo9dHYLbsC1Rr0uw=
+X-Google-Smtp-Source: ABdhPJwdmtEhrw/I6sV9OLtji5VUn/ZbC7buSNEwtJICXxu0yAJLmTXM7NFYTrhsWxKQQG1r2WrGig==
+X-Received: by 2002:adf:9d81:: with SMTP id p1mr27685928wre.287.1623246779787; 
+ Wed, 09 Jun 2021 06:52:59 -0700 (PDT)
 Received: from ziggy.stardust (81.172.61.185.dyn.user.ono.com. [81.172.61.185])
- by smtp.gmail.com with ESMTPSA id u12sm2793979wrr.40.2021.06.09.06.38.14
+ by smtp.gmail.com with ESMTPSA id v16sm10195wrr.6.2021.06.09.06.52.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 06:38:15 -0700 (PDT)
-Subject: Re: [PATCH v5 05/16] media: mtk-jpeg: Use pm_runtime_resume_and_get
- for PM get_sync
+ Wed, 09 Jun 2021 06:52:59 -0700 (PDT)
+Subject: Re: [PATCH v5 09/16] drm/mediatek: Use pm_runtime_resume_and_get for
+ PM get_sync
 To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
 References: <20210410091128.31823-1-yong.wu@mediatek.com>
- <20210410091128.31823-6-yong.wu@mediatek.com>
+ <20210410091128.31823-10-yong.wu@mediatek.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <82aea4aa-0007-369d-9c0d-db0077471b80@gmail.com>
-Date: Wed, 9 Jun 2021 15:38:13 +0200
+Message-ID: <299857fd-533d-5e6e-0744-92ee56078638@gmail.com>
+Date: Wed, 9 Jun 2021 15:52:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210410091128.31823-6-yong.wu@mediatek.com>
+In-Reply-To: <20210410091128.31823-10-yong.wu@mediatek.com>
 Content-Language: en-US
 Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org, yi.kuo@mediatek.com,
  Nicolas Boichat <drinkcat@chromium.org>, acourbot@chromium.org,
@@ -92,9 +90,9 @@ Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org, yi.kuo@mediatek.com,
  Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
  Evan Green <evgreen@chromium.org>, chao.hao@mediatek.com,
  iommu@lists.linux-foundation.org, Matthias Kaehlcke <mka@chromium.org>,
- linux-mediatek@lists.infradead.org, Xia Jiang <xia.jiang@mediatek.com>,
- ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+ linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
+ anan.sun@mediatek.com, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,37 +117,27 @@ On 10/04/2021 11:11, Yong Wu wrote:
 > This patch use pm_runtime_resume_and_get instead of pm_runtime_get
 > to keep usage counter balanced.
 > 
-> CC: Xia Jiang <xia.jiang@mediatek.com>
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
 Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
 > ---
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> index 88a23bce569d..a89c7b206eef 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> @@ -920,7 +920,7 @@ static void mtk_jpeg_enc_device_run(void *priv)
->  	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
->  	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->  
-> -	ret = pm_runtime_get_sync(jpeg->dev);
-> +	ret = pm_runtime_resume_and_get(jpeg->dev);
->  	if (ret < 0)
->  		goto enc_end;
->  
-> @@ -973,7 +973,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
->  		return;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 8b0de90156c6..69d23ce56d2c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -259,7 +259,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+>  		drm_connector_list_iter_end(&conn_iter);
 >  	}
 >  
-> -	ret = pm_runtime_get_sync(jpeg->dev);
-> +	ret = pm_runtime_resume_and_get(jpeg->dev);
->  	if (ret < 0)
->  		goto dec_end;
->  
+> -	ret = pm_runtime_get_sync(crtc->dev->dev);
+> +	ret = pm_runtime_resume_and_get(crtc->dev->dev);
+>  	if (ret < 0) {
+>  		DRM_ERROR("Failed to enable power domain: %d\n", ret);
+>  		return ret;
 > 
 _______________________________________________
 iommu mailing list
