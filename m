@@ -1,75 +1,120 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DE23A239E
-	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 06:45:11 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DAF3A239F
+	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 06:45:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6234E83CA5;
+	by smtp4.osuosl.org (Postfix) with ESMTP id A4E7E40430;
 	Thu, 10 Jun 2021 04:45:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dyZYj-Nplhqa; Thu, 10 Jun 2021 04:45:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C207E83C8D;
-	Thu, 10 Jun 2021 04:45:08 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iuFtxIQ8LTd6; Thu, 10 Jun 2021 04:45:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8CB04402AD;
+	Thu, 10 Jun 2021 04:45:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 74F8FC0022;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C345EC000B;
 	Thu, 10 Jun 2021 04:45:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 43C39C000B
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:27:58 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E70AC000B
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 04:17:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2AEC483B22
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:27:58 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2F5F7606E5
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 04:17:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WD1nXAxlOGvS for <iommu@lists.linux-foundation.org>;
- Thu, 10 Jun 2021 02:27:54 +0000 (UTC)
-X-Greylist: delayed 00:06:39 by SQLgrey-1.8.0
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net
- (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
- by smtp1.osuosl.org (Postfix) with SMTP id 3FDA083B1D
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:27:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID; bh=NMsSgl6f+0/76cM6TWJIRwVGyQWYDV2Tj3+p
- XgGcVjw=; b=h0DdnxmDGdxo/ZvlIym9A/BSoYA8FvRFABsDpIC8PpAroL2Fg8Q7
- eMnqA0rb9qKSRA0+qUfiTrQuALWbYnYgGcy0NpfWsvH25n66Ow/yXHrH5ZI9ZyxF
- tYYPBkrc22ILJ7++iGriysV4XdC8KFb8NJ42oEyjuZlrvPZUGRe3aIg=
-Received: by ajax-webmail-app2 (Coremail) ; Thu, 10 Jun 2021 10:20:24 +0800
- (GMT+08:00)
-X-Originating-IP: [10.162.161.90]
-Date: Thu, 10 Jun 2021 10:20:24 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-To: "Robin Murphy" <robin.murphy@arm.com>
-Subject: Re: Re: [PATCH] iommu/arm-smmu: Fix arm_smmu_device refcount leak
- when arm_smmu_rpm_get fails
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20200917(8294e55f) Copyright (c) 2002-2021 www.mailtech.cn fudan.edu.cn
-In-Reply-To: <e5b8d7f6-862e-bca4-a1e9-35e0de47440e@arm.com>
-References: <1623245709-11123-1-git-send-email-xiyuyang19@fudan.edu.cn>
- <e5b8d7f6-862e-bca4-a1e9-35e0de47440e@arm.com>
-X-SendMailWithSms: false
-X-CM-CTRLDATA: ZmoaFmZvb3Rlcl90eHQ9Mzk1ODoxMA==
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=nvidia.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7681_OSaGOzW for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Jun 2021 04:17:11 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2087.outbound.protection.outlook.com [40.107.243.87])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 24E29606DA
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 04:17:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SxPGoydV2wO3Fp6pG0JJVxoe7V+uuI73GYPQxMYabbKoCZSSLvT8xYGTbfpaa9iArUgeTmrlRC7w15KhhOrR6RS0PxsFKbmv6z5uhEVXqLwqziuB9iS4ZTlB2jXLNGM3WW57WtIQXoYztX7QuZMq6R+UP/0OghxawAm7D0fpvEymZT6WLJANCOPnvlmR5jwb5t64510nXSitQ3VoUFhidgTKYKJU5wh7cLBpo+L+Nuaku81+INe5ZYwKicUnj8b3w+eW37wrxVuo3AfVnjmti4N6QmwL8p+8fuTYvXd1bB+1wmws8emVTzTgASajWroQ/cOwycdcgdYyn02R37oNGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lN5UC54JsdjLxvzHndxBqpmY8Hp7cHJ1XGGKBkiJNA8=;
+ b=nYkPtUbJ+tUMiswm/UiZ9g8trHthkM0ErWEWRFMAGruJ8C//hw69jOb+sZ7nZceWWAL+OIOf8Yz+dh52AZNDeciIdZIbvMj18K/Nu82QygG3Lujj/N+6KeGD2xODynFOBHjDH0SPG+OFhXz1jjR8ZWhIlqnQA7Ux2z75JmdH1l4grZpVbmTFofdlgyw1RONRmxJp4JZHazfzhI+AiJ0lWf/BmCdPF+mdXPWK30nE0PSXsxbS/CsdC0c6fcD9/6qU+TGDZDIHQf2tOwLOrNC5UW/UWzUK+wDKBvyfDBoVzxFUTPgzVLecjAyFlLZCs6kcttHrf5xjI+reoJfo6P4Yqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.32) smtp.rcpttodomain=lists.linux-foundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lN5UC54JsdjLxvzHndxBqpmY8Hp7cHJ1XGGKBkiJNA8=;
+ b=HxPz96IEebpMHZew+GU2SWqFbFpaubbmUyShjT5a4cLYfUS+wi9tZ3Y/PxciHGUv+s3P7nntCfMc2gbXzyhIar/6TB9p6NsQqV2lhy3bP2lq9t2N2PlD2e4t2DYQt0odFIT/TsvPYmwyzaJ0C5g7LdQClh1OvMCKXEHu2jxhxxLgI3qDQ3NtHdWh7O2jdXb8QqeSv8cXtioE0w7HbYd9XKodRxg/ia/ekK+KnO+6kdWeyJyBU8c/EgECO92MZcgBRtkY8OXQYXaf4V53Srp01AKou2UhQZ1zzBtBi1b6k/AW2V9gS/ipD8o8PhHCIENRhvFdAdSsCKVKOtaiAgwVaQ==
+Received: from CO2PR04CA0006.namprd04.prod.outlook.com (2603:10b6:102:1::16)
+ by MWHPR12MB1599.namprd12.prod.outlook.com (2603:10b6:301:10::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Thu, 10 Jun
+ 2021 04:17:09 +0000
+Received: from CO1NAM11FT038.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:102:1:cafe::f8) by CO2PR04CA0006.outlook.office365.com
+ (2603:10b6:102:1::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend
+ Transport; Thu, 10 Jun 2021 04:17:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
+ smtp.mailfrom=nvidia.com; lists.linux-foundation.org; dkim=none (message not
+ signed) header.d=none;lists.linux-foundation.org; dmarc=pass action=none
+ header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ CO1NAM11FT038.mail.protection.outlook.com (10.13.174.231) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 04:17:08 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Jun
+ 2021 21:17:07 -0700
+Received: from amhetre.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 9 Jun 2021 21:17:05 -0700
+From: Ashish Mhetre <amhetre@nvidia.com>
+To: <amhetre@nvidia.com>, <joro@8bytes.org>, <will@kernel.org>,
+ <robin.murphy@arm.com>, <vdumpa@nvidia.com>
+Subject: [PATCH 0/2] iommu/arm-smmu: Fix races in iommu domain/group creation
+Date: Thu, 10 Jun 2021 09:46:52 +0530
+Message-ID: <1623298614-31755-1-git-send-email-amhetre@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Message-ID: <3da0a67a.3d4d.179f3b87d02.Coremail.19210240158@fudan.edu.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: XQUFCgCHTGvodsFgpJpUAw--.21437W
-X-CM-SenderInfo: irzsiiysuqikmy6i3vldqovvfxof0/1tbiAQwIAVKp4t+ptgACsf
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 590325df-a188-4cc9-e067-08d92bc69cd8
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1599:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1599E3043E2D1885EA395C75CA359@MWHPR12MB1599.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GEpngQe68KrYDQmkkRsLoyd1nDJJtEZ5Q9U6nKD+2UkBO7JUWT9Se4SqTP1JeExdOkH2T/xcfXcUVqbcgD8d3PyuIXTWFnFQBRtaUXXug+JRvZLOvxoUKwV5xVyag0a76sgk64tD80aiG1ixeRqHJhDud+H8LatPj6r9SdkQeXlmilQykSj4/ITkIAL40KjQwfdVBZwwHdfm07lVTpjaCjdKspeoboYl1IFv9IkFKTLsrfJpJp0bE6e52k8C37YwwfOhI8zlt4SxBmc7HFvqLqYui3A5l5+RBdvksZD5uRC74mbkFv5X05tRvn3eF0D8V/OsUNIcXIItROEdZ/9vptR6snYzfhpqEr6De1IIzz+CyvSziAFNVmANG6ckWStoZu5C0zPkBc2MSxbA829Aui4QnMon7bnx219N26sNWTkJ2O3q3jYHipLQMR+jVx6wS3ABG90B7B8JLAZHDmz6VLeSo835+vdkZOP3gJAqwBLyvjHp6vxaePT/MFVzcRmKrH9s3NL93chp+wtvTJfqoJA6/LInLuLVMomLVOuZa0bv152TpO8q65PwxpaI4nfqY5pfWFhvNkWACITU9bcLYtPck5Yn/BxL/unBwqRIXsEAVQ1Eo2/YBxzivwShOvRhQOHxQjIoOzu+9nbTdLRnwRFw5gzbrzTnL5AnYorpXjA=
+X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(39860400002)(376002)(396003)(36840700001)(46966006)(356005)(5660300002)(8676002)(70206006)(6636002)(7636003)(70586007)(82740400003)(316002)(186003)(36756003)(478600001)(8936002)(54906003)(2616005)(26005)(82310400003)(7696005)(86362001)(83380400001)(36860700001)(4744005)(336012)(2906002)(47076005)(426003)(6666004)(4326008)(110136005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 04:17:08.2824 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 590325df-a188-4cc9-e067-08d92bc69cd8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1599
 X-Mailman-Approved-At: Thu, 10 Jun 2021 04:45:06 +0000
-Cc: linux-kernel@vger.kernel.org, yuanxzhang@fudan.edu.cn,
- iommu@lists.linux-foundation.org, Xin Tan <tanxin.ctf@gmail.com>,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,117 +127,25 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Xiyu Yang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Xiyu Yang <19210240158@fudan.edu.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Fix races during iommu group/domain creation for devices sharing same SID.
 
-Thanks for your advice, I'll send a v2 patch soon.
+Ashish Mhetre (1):
+  iommu: Fix race condition during default domain allocation
 
+Krishna Reddy (1):
+  iommu/arm-smmu: Fix race condition during iommu_group creation
 
-> -----Original Messages-----
-> From: "Robin Murphy" <robin.murphy@arm.com>
-> Sent Time: 2021-06-09 22:12:11 (Wednesday)
-> To: "Xiyu Yang" <xiyuyang19@fudan.edu.cn>, "Will Deacon" <will@kernel.org>, "Joerg Roedel" <joro@8bytes.org>, "Nicolin Chen" <nicoleotsuka@gmail.com>, "Bjorn Andersson" <bjorn.andersson@linaro.org>, "Krishna Reddy" <vdumpa@nvidia.com>, "Jordan Crouse" <jordan@cosmicpenguin.net>, "Sai Prakash Ranjan" <saiprakash.ranjan@codeaurora.org>, linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-> Cc: yuanxzhang@fudan.edu.cn, "Xin Tan" <tanxin.ctf@gmail.com>
-> Subject: Re: [PATCH] iommu/arm-smmu: Fix arm_smmu_device refcount leak when arm_smmu_rpm_get fails
-> 
-> On 2021-06-09 14:35, Xiyu Yang wrote:
-> > arm_smmu_rpm_get() invokes pm_runtime_get_sync(), which increases the
-> > refcount of the "smmu" even though the return value is less than 0.
-> > 
-> > The reference counting issue happens in some error handling paths of
-> > arm_smmu_rpm_get() in its caller functions. When arm_smmu_rpm_get()
-> > fails, the caller functions forget to decrease the refcount of "smmu"
-> > increased by arm_smmu_rpm_get(), causing a refcount leak.
-> > 
-> > Fix this issue by calling arm_smmu_rpm_put() or jumping to the "rpm_put"
-> > label when arm_smmu_rpm_get() fails.
-> 
-> If only there was some kind of helper function which could encapsulate 
-> the correct expected behaviour in a single place...
-> 
-> In fact with the new pm_runtime_resume_and_get() API I think these two 
-> patches boil down to a one-line change.
-> 
-> Thanks,
-> Robin.
-> 
-> > Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-> > Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
-> > ---
-> >   drivers/iommu/arm/arm-smmu/arm-smmu.c | 13 +++++++++----
-> >   1 file changed, 9 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > index 6f72c4d208ca..177ee54c5534 100644
-> > --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > @@ -840,7 +840,7 @@ static void arm_smmu_destroy_domain_context(struct iommu_domain *domain)
-> >   
-> >   	ret = arm_smmu_rpm_get(smmu);
-> >   	if (ret < 0)
-> > -		return;
-> > +		goto rpm_put;
-> >   
-> >   	/*
-> >   	 * Disable the context bank and free the page tables before freeing
-> > @@ -857,6 +857,7 @@ static void arm_smmu_destroy_domain_context(struct iommu_domain *domain)
-> >   	free_io_pgtable_ops(smmu_domain->pgtbl_ops);
-> >   	__arm_smmu_free_bitmap(smmu->context_map, cfg->cbndx);
-> >   
-> > +rpm_put:
-> >   	arm_smmu_rpm_put(smmu);
-> >   }
-> >   
-> > @@ -1153,7 +1154,7 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
-> >   
-> >   	ret = arm_smmu_rpm_get(smmu);
-> >   	if (ret < 0)
-> > -		return ret;
-> > +		goto rpm_put;
-> >   
-> >   	/* Ensure that the domain is finalised */
-> >   	ret = arm_smmu_init_domain_context(domain, smmu, dev);
-> > @@ -1404,7 +1405,7 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
-> >   
-> >   	ret = arm_smmu_rpm_get(smmu);
-> >   	if (ret < 0)
-> > -		goto out_cfg_free;
-> > +		goto rpm_put;
-> >   
-> >   	ret = arm_smmu_master_alloc_smes(dev);
-> >   	arm_smmu_rpm_put(smmu);
-> > @@ -1417,6 +1418,8 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
-> >   
-> >   	return &smmu->iommu;
-> >   
-> > +rpm_put:
-> > +	arm_smmu_rpm_put(smmu);
-> >   out_cfg_free:
-> >   	kfree(cfg);
-> >   out_free:
-> > @@ -1438,8 +1441,10 @@ static void arm_smmu_release_device(struct device *dev)
-> >   	smmu = cfg->smmu;
-> >   
-> >   	ret = arm_smmu_rpm_get(smmu);
-> > -	if (ret < 0)
-> > +	if (ret < 0) {
-> > +		arm_smmu_rpm_put(smmu);
-> >   		return;
-> > +	}
-> >   
-> >   	arm_smmu_master_free_smes(cfg, fwspec);
-> >   
-> > 
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 6 +++++-
+ drivers/iommu/iommu.c                 | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-
-
-
-
+-- 
+2.7.4
 
 _______________________________________________
 iommu mailing list
