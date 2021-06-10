@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800983A2218
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98C53A2219
 	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 04:04:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 269F960856;
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6E968401F8;
 	Thu, 10 Jun 2021 02:04:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N7cKz60eRVFI; Thu, 10 Jun 2021 02:04:22 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uG9cmET5aKXY; Thu, 10 Jun 2021 02:04:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 294FA6087F;
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9233A40380;
 	Thu, 10 Jun 2021 02:04:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A61CC0028;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D1624C000B;
 	Thu, 10 Jun 2021 02:04:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 60C42C000B
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:04:19 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 08289C000B
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:04:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 755E0405A1
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:04:17 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 2BF5E40542
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:04:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AT9N5Mkwe0NO for <iommu@lists.linux-foundation.org>;
- Thu, 10 Jun 2021 02:04:16 +0000 (UTC)
+ with ESMTP id CXYvZ3xou84Z for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Jun 2021 02:04:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5A76B40594
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:04:16 +0000 (UTC)
-IronPort-SDR: AdFGZh1piEL8hbnv2AiqSL2OexQbWg7GykdHeDc7KYWi9e+HOHJ/fKP9dQ5zeLDJgtVbYIxIur
- fR8GIYpsLwXQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="202184346"
-X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="202184346"
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 355EA4059D
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 02:04:17 +0000 (UTC)
+IronPort-SDR: Y6DAZzwiI/BXnN7YT+vyI7EgfDQP8VFomnWACbCUYQxKQBUIhmgVrF09P4XuzWOSJCV7NMhpPw
+ 8PozQ1+WmmEg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="202184361"
+X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="202184361"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 19:04:00 -0700
-IronPort-SDR: 7L6VU5ZxcsbjBfzz758ToX/XR/trKaffbmed+2hysVboOwZKv/acYIU4ayWZdkr+T1FXpS/TZ7
- 149GtV3Aik3w==
+ 09 Jun 2021 19:04:03 -0700
+IronPort-SDR: T2vebRARFt4nIgK5SIp5yq01yvVo8/MtIHvewD1D2H7jzViU1ck26NDCtnsGXESIcgCpw/uXjD
+ 8w6Z3XX8fe+g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="402500552"
+X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="402500572"
 Received: from allen-box.sh.intel.com ([10.239.159.105])
- by orsmga006.jf.intel.com with ESMTP; 09 Jun 2021 19:03:57 -0700
+ by orsmga006.jf.intel.com with ESMTP; 09 Jun 2021 19:04:00 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 20/23] iommu/vt-d: Removed unused iommu_count in dmar domain
-Date: Thu, 10 Jun 2021 10:01:12 +0800
-Message-Id: <20210610020115.1637656-21-baolu.lu@linux.intel.com>
+Subject: [PATCH 21/23] iommu/vt-d: Remove unnecessary braces
+Date: Thu, 10 Jun 2021 10:01:13 +0800
+Message-Id: <20210610020115.1637656-22-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210610020115.1637656-1-baolu.lu@linux.intel.com>
 References: <20210610020115.1637656-1-baolu.lu@linux.intel.com>
@@ -81,82 +81,30 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Parav Pandit <parav@nvidia.com>
 
-DMAR domain uses per DMAR refcount. It is indexed by iommu seq_id.
-Older iommu_count is only incremented and decremented but no decisions
-are taken based on this refcount. This is not of much use.
-
-Hence, remove iommu_count and further simplify domain_detach_iommu()
-by returning void.
+No need for braces for single line statement under if() block.
 
 Signed-off-by: Parav Pandit <parav@nvidia.com>
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 Link: https://lore.kernel.org/r/20210530075053.264218-1-parav@nvidia.com
 ---
- include/linux/intel-iommu.h |  1 -
- drivers/iommu/intel/iommu.c | 11 +++--------
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ drivers/iommu/intel/iommu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 2621eff04c82..574b932dfe86 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -561,7 +561,6 @@ struct dmar_domain {
- 	int		agaw;
- 
- 	int		flags;		/* flags to find out type of domain */
--	int		iommu_count;	/* reference count of iommu */
- 	int		iommu_superpage;/* Level of superpages supported:
- 					   0 == 4KiB (no superpages), 1 == 2MiB,
- 					   2 == 1GiB, 3 == 512GiB, 4 == 1TiB */
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 430ef2232d47..dd8ecfbfdb23 100644
+index dd8ecfbfdb23..d9a248ee5779 100644
 --- a/drivers/iommu/intel/iommu.c
 +++ b/drivers/iommu/intel/iommu.c
-@@ -1920,7 +1920,6 @@ static int domain_attach_iommu(struct dmar_domain *domain,
- 	assert_spin_locked(&iommu->lock);
+@@ -683,9 +683,8 @@ static int domain_update_iommu_superpage(struct dmar_domain *domain,
+ 	struct intel_iommu *iommu;
+ 	int mask = 0x3;
  
- 	domain->iommu_refcnt[iommu->seq_id] += 1;
--	domain->iommu_count += 1;
- 	if (domain->iommu_refcnt[iommu->seq_id] == 1) {
- 		ndomains = cap_ndoms(iommu->cap);
- 		num      = find_first_zero_bit(iommu->domain_ids, ndomains);
-@@ -1928,7 +1927,6 @@ static int domain_attach_iommu(struct dmar_domain *domain,
- 		if (num >= ndomains) {
- 			pr_err("%s: No free domain ids\n", iommu->name);
- 			domain->iommu_refcnt[iommu->seq_id] -= 1;
--			domain->iommu_count -= 1;
- 			return -ENOSPC;
- 		}
+-	if (!intel_iommu_superpage) {
++	if (!intel_iommu_superpage)
+ 		return 0;
+-	}
  
-@@ -1944,16 +1942,15 @@ static int domain_attach_iommu(struct dmar_domain *domain,
- 	return 0;
- }
- 
--static int domain_detach_iommu(struct dmar_domain *domain,
--			       struct intel_iommu *iommu)
-+static void domain_detach_iommu(struct dmar_domain *domain,
-+				struct intel_iommu *iommu)
- {
--	int num, count;
-+	int num;
- 
- 	assert_spin_locked(&device_domain_lock);
- 	assert_spin_locked(&iommu->lock);
- 
- 	domain->iommu_refcnt[iommu->seq_id] -= 1;
--	count = --domain->iommu_count;
- 	if (domain->iommu_refcnt[iommu->seq_id] == 0) {
- 		num = domain->iommu_did[iommu->seq_id];
- 		clear_bit(num, iommu->domain_ids);
-@@ -1962,8 +1959,6 @@ static int domain_detach_iommu(struct dmar_domain *domain,
- 		domain_update_iommu_cap(domain);
- 		domain->iommu_did[iommu->seq_id] = 0;
- 	}
--
--	return count;
- }
- 
- static inline int guestwidth_to_adjustwidth(int gaw)
+ 	/* set iommu_superpage to the smallest common denominator */
+ 	rcu_read_lock();
 -- 
 2.25.1
 
