@@ -1,83 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CA93A261D
-	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 10:03:06 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82ED13A261F
+	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 10:03:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7D63740527;
-	Thu, 10 Jun 2021 08:03:02 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C979140562;
+	Thu, 10 Jun 2021 08:03:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DYqKy4jXrPeE; Thu, 10 Jun 2021 08:03:01 +0000 (UTC)
+	with ESMTP id qH4gkYM3sBeQ; Thu, 10 Jun 2021 08:03:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 47C694053A;
-	Thu, 10 Jun 2021 08:03:01 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 80AF54056B;
+	Thu, 10 Jun 2021 08:03:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 11F8EC000E;
-	Thu, 10 Jun 2021 08:03:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 433EBC0023;
+	Thu, 10 Jun 2021 08:03:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33980C000E
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0780CC0028
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0307B40543
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:55 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 43567400C9
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4dcvlfYVGJJr for <iommu@lists.linux-foundation.org>;
- Thu, 10 Jun 2021 08:02:53 +0000 (UTC)
+ with ESMTP id Vkzhq7XfL5bx for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Jun 2021 08:02:55 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 90F7A403F8
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:53 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- b145-20020a1c80970000b029019c8c824054so5911884wmd.5
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 01:02:53 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9F5384053A
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:54 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id c9so1137060wrt.5
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 01:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T0y2iCeYYHmrE1fv4Hgj0FTcnFeMz1q5JiDftJFl4po=;
- b=piloNKZ3ohr7pJlYL+8Vi7WuxS6ZzeMjvv2uKYon90XrjsxqgLFIbwbfB4kJsdA0v7
- 0ozBa16idjurywVrDqinefJkY/MNbqYRRsY+mXLdox7/NHHMSpXwsHUTtUdD6mqF5MeE
- 1j0v2DZOWc6tt+q5oa9zHrZx7DL4vKbfMqbvK7ZI4Sc5wHTFmZsz37xjxNu7N7O6u2DM
- V2PGp+w/RUs9vhhztPS7IEFj5dwI8ACn3a9ZurIh+axORWmDDJPjXHpN+itozM2lY/we
- gh+d/rlXU14QiQJZvmQLqOVhYAKcDR7N+3oELLHtsKCQczCwG0bP+72HbuGcXv3q3fRO
- 5hNw==
+ bh=FJBc4XHO8GWouyeNxEp4BksscCRnIRbJmCxL/Ho6xNQ=;
+ b=gU/Ryt42Y4L8Qp2x4zkGmAWsnlMV2urCBzSFHee9R5LvVighC/9rUJhESGZ9a01xq1
+ oHASaXq1yQegw1GEOgSrwev0K9L4dtJfB1/izSl/mO7JPn42KlbmwnjFmf2VAimfcVro
+ y4bEILLbmi5TtrYBTBr/NsStPwbf+faeN04dStHpGfSdTMYbjNDEQBl5+TJpOZ3MW//u
+ Myu6MnpiyjjoAgkFk/Is7V+9lvPzZ8qPMXQtnOdtD1fuc2na97yerJalm+kT29FPETUV
+ PgRlnp+36UI5Jzn/PoxE5HrlAq0qsWl3IjeuKyAAIod2yg2sNnomolBdGI01fpDSLEdC
+ TEyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T0y2iCeYYHmrE1fv4Hgj0FTcnFeMz1q5JiDftJFl4po=;
- b=P5KsqIyph+NEVQHo0xoWepy7SpfllsxoeY//C2ywDWi/VlbFUBQiL620bXggOrGAtH
- WO+/G67pE5576VGrg3xcs1mup0V1D4kDJeK1t27MBNfVC9V/w3o+cTo0516OB7kqZTw/
- jcHHq9x7l1mjVL3HOPh+Jf9ZdxI1h7/6sa+gxX27qcYdfsZdFGCxgw1Jcb84FGS+Fed5
- 0xeNzJu8Rb3+KRiSW7UbC6H0F7RmKWzw5iPVKs2dVDGyutQEWvtUkaS4l2cJDD7wA45m
- T/BKw3cgmXx0LPbGPz9O82SeamFznIN+SBzZeAu9PxTddCa2L1RSaK9IcbHiYWg1ujDd
- cmLw==
-X-Gm-Message-State: AOAM530WVB4J8orkRAlM/4kzmYZzAu5n8b8vHoZXVWsJ0QXsPzeih2hD
- zPC8ic4tqxPdcWOj2gUNvEkAkQ==
-X-Google-Smtp-Source: ABdhPJyhgs0pAJM3GOPSSYmXX4Hm6qTgRSjCiSLLmiqaGmb5GA99bgCBCuS6FCgIdzuYCrwUncTV2A==
-X-Received: by 2002:a1c:a54b:: with SMTP id o72mr3678130wme.124.1623312171684; 
- Thu, 10 Jun 2021 01:02:51 -0700 (PDT)
+ bh=FJBc4XHO8GWouyeNxEp4BksscCRnIRbJmCxL/Ho6xNQ=;
+ b=uQ36j2grmTwuU9mrEdhBt27qS30nupDmNcZSVZceyUSjIswK+L940SbM3NSoLQZmpu
+ Pa6w5nwPxp0B+DYSYEfNASInqt214XhU5BX+XwphqO6gtLlyc/BuJa/J0i3Il9E9GyI7
+ 3VaLCtvN0hOppJDyLepcj0vAaQJDIrSGa2dlKM1KuQ6NiBmXM8w9EJs1zxmFgjT+PJGY
+ EmgAfWgXDBK5a9DQxgyKEmcu7jPTMWw7voHb4UrhCxbuq+MMrFw5Ks0kE4wii2hRSQSL
+ 91kKV/DAgLdVjBMRA07Y/hN86TnR3EaxQeiFL6mCuNQN+u7nbcdk04hxO9jBRLFTDRxC
+ xZBw==
+X-Gm-Message-State: AOAM5324QHmV+7sDqAbejL19dJ/whjPtoIKMvKqnbbUF9SGF1jDlXAxN
+ riczi2VLqPbfUPkqRBrluZNlpQ==
+X-Google-Smtp-Source: ABdhPJwlkaaI7SJCgaZV7OEfblhli4jlnFL/3UcuvdXNz9ii3FGJkj1asIZoobCQXGL2eBrVB559+A==
+X-Received: by 2002:adf:f1ca:: with SMTP id z10mr3965395wro.396.1623312172834; 
+ Thu, 10 Jun 2021 01:02:52 -0700 (PDT)
 Received: from localhost.localdomain (adsl-84-226-111-173.adslplus.ch.
  [84.226.111.173])
- by smtp.gmail.com with ESMTPSA id o3sm2715059wrm.78.2021.06.10.01.02.50
+ by smtp.gmail.com with ESMTPSA id o3sm2715059wrm.78.2021.06.10.01.02.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 01:02:51 -0700 (PDT)
+ Thu, 10 Jun 2021 01:02:52 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: rjw@rjwysocki.net,
 	lenb@kernel.org,
 	joro@8bytes.org,
 	mst@redhat.com
-Subject: [PATCH v4 4/6] iommu/dma: Pass address limit rather than size to
- iommu_setup_dma_ops()
-Date: Thu, 10 Jun 2021 09:51:31 +0200
-Message-Id: <20210610075130.67517-5-jean-philippe@linaro.org>
+Subject: [PATCH v4 5/6] iommu/dma: Simplify calls to iommu_setup_dma_ops()
+Date: Thu, 10 Jun 2021 09:51:32 +0200
+Message-Id: <20210610075130.67517-6-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210610075130.67517-1-jean-philippe@linaro.org>
 References: <20210610075130.67517-1-jean-philippe@linaro.org>
@@ -105,133 +103,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Passing a 64-bit address width to iommu_setup_dma_ops() is valid on
-virtual platforms, but isn't currently possible. The overflow check in
-iommu_dma_init_domain() prevents this even when @dma_base isn't 0. Pass
-a limit address instead of a size, so callers don't have to fake a size
-to work around the check.
+dma-iommu uses the address bounds described in domain->geometry during
+IOVA allocation. The address size parameters of iommu_setup_dma_ops()
+are useful for describing additional limits set by the platform
+firmware, but aren't needed for drivers that call this function from
+probe_finalize(). The base parameter can be zero because dma-iommu
+already removes the first IOVA page, and the limit parameter can be
+U64_MAX because it's only checked against the domain geometry. Simplify
+calls to iommu_setup_dma_ops().
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- include/linux/dma-iommu.h   |  4 ++--
- arch/arm64/mm/dma-mapping.c |  2 +-
- drivers/iommu/amd/iommu.c   |  2 +-
- drivers/iommu/dma-iommu.c   | 12 ++++++------
- drivers/iommu/intel/iommu.c |  2 +-
- 5 files changed, 11 insertions(+), 11 deletions(-)
+ drivers/iommu/amd/iommu.c   |  9 +--------
+ drivers/iommu/dma-iommu.c   |  4 +++-
+ drivers/iommu/intel/iommu.c | 10 +---------
+ 3 files changed, 5 insertions(+), 18 deletions(-)
 
-diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
-index 6e75a2d689b4..758ca4694257 100644
---- a/include/linux/dma-iommu.h
-+++ b/include/linux/dma-iommu.h
-@@ -19,7 +19,7 @@ int iommu_get_msi_cookie(struct iommu_domain *domain, dma_addr_t base);
- void iommu_put_dma_cookie(struct iommu_domain *domain);
- 
- /* Setup call for arch DMA mapping code */
--void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 size);
-+void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 dma_limit);
- 
- /* The DMA API isn't _quite_ the whole story, though... */
- /*
-@@ -50,7 +50,7 @@ struct msi_msg;
- struct device;
- 
- static inline void iommu_setup_dma_ops(struct device *dev, u64 dma_base,
--		u64 size)
-+				       u64 dma_limit)
- {
- }
- 
-diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
-index 4bf1dd3eb041..7bd1d2199141 100644
---- a/arch/arm64/mm/dma-mapping.c
-+++ b/arch/arm64/mm/dma-mapping.c
-@@ -50,7 +50,7 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 
- 	dev->dma_coherent = coherent;
- 	if (iommu)
--		iommu_setup_dma_ops(dev, dma_base, size);
-+		iommu_setup_dma_ops(dev, dma_base, size - dma_base - 1);
- 
- #ifdef CONFIG_XEN
- 	if (xen_swiotlb_detect())
 diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 3ac42bbdefc6..94b96d81fcfd 100644
+index 94b96d81fcfd..d3123bc05c08 100644
 --- a/drivers/iommu/amd/iommu.c
 +++ b/drivers/iommu/amd/iommu.c
-@@ -1713,7 +1713,7 @@ static void amd_iommu_probe_finalize(struct device *dev)
- 	/* Domains are initialized for this device - have a look what we ended up with */
- 	domain = iommu_get_domain_for_dev(dev);
- 	if (domain->type == IOMMU_DOMAIN_DMA)
--		iommu_setup_dma_ops(dev, IOVA_START_PFN << PAGE_SHIFT, 0);
-+		iommu_setup_dma_ops(dev, IOVA_START_PFN << PAGE_SHIFT, U64_MAX);
- 	else
- 		set_dma_ops(dev, NULL);
+@@ -1708,14 +1708,7 @@ static struct iommu_device *amd_iommu_probe_device(struct device *dev)
+ 
+ static void amd_iommu_probe_finalize(struct device *dev)
+ {
+-	struct iommu_domain *domain;
+-
+-	/* Domains are initialized for this device - have a look what we ended up with */
+-	domain = iommu_get_domain_for_dev(dev);
+-	if (domain->type == IOMMU_DOMAIN_DMA)
+-		iommu_setup_dma_ops(dev, IOVA_START_PFN << PAGE_SHIFT, U64_MAX);
+-	else
+-		set_dma_ops(dev, NULL);
++	iommu_setup_dma_ops(dev, 0, U64_MAX);
  }
+ 
+ static void amd_iommu_release_device(struct device *dev)
 diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7bcdd1205535..c62e19bed302 100644
+index c62e19bed302..175f8eaeb5b3 100644
 --- a/drivers/iommu/dma-iommu.c
 +++ b/drivers/iommu/dma-iommu.c
-@@ -319,16 +319,16 @@ static bool dev_is_untrusted(struct device *dev)
-  * iommu_dma_init_domain - Initialise a DMA mapping domain
-  * @domain: IOMMU domain previously prepared by iommu_get_dma_cookie()
-  * @base: IOVA at which the mappable address space starts
-- * @size: Size of IOVA space
-+ * @limit: Last address of the IOVA space
-  * @dev: Device the domain is being initialised for
-  *
-- * @base and @size should be exact multiples of IOMMU page granularity to
-+ * @base and @limit + 1 should be exact multiples of IOMMU page granularity to
-  * avoid rounding surprises. If necessary, we reserve the page at address 0
-  * to ensure it is an invalid IOVA. It is safe to reinitialise a domain, but
-  * any change which could make prior IOVAs invalid will fail.
-  */
- static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
--		u64 size, struct device *dev)
-+				 dma_addr_t limit, struct device *dev)
- {
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	unsigned long order, base_pfn;
-@@ -346,7 +346,7 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 	/* Check the domain allows at least some access to the device... */
- 	if (domain->geometry.force_aperture) {
- 		if (base > domain->geometry.aperture_end ||
--		    base + size <= domain->geometry.aperture_start) {
-+		    limit < domain->geometry.aperture_start) {
- 			pr_warn("specified DMA range outside IOMMU capability\n");
- 			return -EFAULT;
- 		}
-@@ -1308,7 +1308,7 @@ static const struct dma_map_ops iommu_dma_ops = {
-  * The IOMMU core code allocates the default DMA domain, which the underlying
-  * IOMMU driver needs to support via the dma-iommu layer.
-  */
--void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 size)
-+void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 dma_limit)
- {
- 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
- 
-@@ -1320,7 +1320,7 @@ void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 size)
- 	 * underlying IOMMU driver needs to support via the dma-iommu layer.
- 	 */
+@@ -1322,7 +1322,9 @@ void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 dma_limit)
  	if (domain->type == IOMMU_DOMAIN_DMA) {
--		if (iommu_dma_init_domain(domain, dma_base, size, dev))
-+		if (iommu_dma_init_domain(domain, dma_base, dma_limit, dev))
+ 		if (iommu_dma_init_domain(domain, dma_base, dma_limit, dev))
  			goto out_err;
- 		dev->dma_ops = &iommu_dma_ops;
+-		dev->dma_ops = &iommu_dma_ops;
++		set_dma_ops(dev, &iommu_dma_ops);
++	} else {
++		set_dma_ops(dev, NULL);
  	}
+ 
+ 	return;
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index be35284a2016..85f18342603c 100644
+index 85f18342603c..8d866940692a 100644
 --- a/drivers/iommu/intel/iommu.c
 +++ b/drivers/iommu/intel/iommu.c
-@@ -5171,7 +5171,7 @@ static void intel_iommu_probe_finalize(struct device *dev)
+@@ -5165,15 +5165,7 @@ static void intel_iommu_release_device(struct device *dev)
  
- 	if (domain && domain->type == IOMMU_DOMAIN_DMA)
- 		iommu_setup_dma_ops(dev, base,
--				    __DOMAIN_MAX_ADDR(dmar_domain->gaw) - base);
-+				    __DOMAIN_MAX_ADDR(dmar_domain->gaw));
- 	else
- 		set_dma_ops(dev, NULL);
+ static void intel_iommu_probe_finalize(struct device *dev)
+ {
+-	dma_addr_t base = IOVA_START_PFN << VTD_PAGE_SHIFT;
+-	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
+-	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
+-
+-	if (domain && domain->type == IOMMU_DOMAIN_DMA)
+-		iommu_setup_dma_ops(dev, base,
+-				    __DOMAIN_MAX_ADDR(dmar_domain->gaw));
+-	else
+-		set_dma_ops(dev, NULL);
++	iommu_setup_dma_ops(dev, 0, U64_MAX);
  }
+ 
+ static void intel_iommu_get_resv_regions(struct device *device,
 -- 
 2.31.1
 
