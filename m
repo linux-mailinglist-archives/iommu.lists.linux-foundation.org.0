@@ -1,103 +1,91 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FD73A25DF
-	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 09:53:45 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7A03A2617
+	for <lists.iommu@lfdr.de>; Thu, 10 Jun 2021 10:03:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5876283224;
-	Thu, 10 Jun 2021 07:53:43 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9AA8840531;
+	Thu, 10 Jun 2021 08:02:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2ZJa4hUqA0AK; Thu, 10 Jun 2021 07:53:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7C8F783B22;
-	Thu, 10 Jun 2021 07:53:42 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cCgagrZFyWwY; Thu, 10 Jun 2021 08:02:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B70BF40386;
+	Thu, 10 Jun 2021 08:02:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D094C0022;
-	Thu, 10 Jun 2021 07:53:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 34FC3C0023;
+	Thu, 10 Jun 2021 08:02:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8753CC000B
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 07:53:41 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7D11AC000E
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7A5A3400C9
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 07:53:41 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 746FD405BD
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EjbpOzYOBjz1 for <iommu@lists.linux-foundation.org>;
- Thu, 10 Jun 2021 07:53:37 +0000 (UTC)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linaro.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iku53g-ZB2At for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Jun 2021 08:02:48 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 8170440025
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 07:53:37 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id e11so1119408wrg.3
- for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 00:53:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:cc:references:from:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xJS0U9ByX0NxIuJpqaNPHe7gI5LppZzf1YoFLwdpgpQ=;
- b=AtutUx5F3FjGQHEtvWof9HOeTHWeBqvhVw+QiN+Sh6cWWewDfrjuaZjOgIU8GrvZla
- 6PSpE270aJ7Btt2qATsv9ZhQy58/0GoWWD5CnAISW5h2u03IY721oe03cmG/VhveVGw/
- fIvFr3ZW60yd5JvkbVc401CsPLw/sMlHMPcEsS7+8fpbgaPGboXiVI4p2aQC0iupWWUA
- yvllp02g0KpE38Gh0/adERukIXbEQPWpkg5Hwp0/YamaLVTu8RR0KbFJ4rBVKtlUE2CD
- YXQcYwiWadJ1e0HyfnyVp6gQIJJRAngE/XVLL6ga9zNZL97Pp6Vg5oRaiPOGaMV825g7
- /9Xw==
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2AC25405B0
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 08:02:48 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id f2so1120064wri.11
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Jun 2021 01:02:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6d64EfMmKjBsLXuufmWEUBLj9XWA4YjPbU9Y/1wt2B8=;
+ b=ObI/IzUukEYxx+7H8+Qf0c5GsgYSNdbZSErulQp+S5M095cDQ63LAs4nqiCOr4OSe0
+ i/FNuhtV6CsQXPFO7XOQ6EM/eQxQDqwiYBae+RKq3EOIgwxnwJUnU7d09ygRpJh0rbiS
+ WmfD13dPCc27InjhoUw07zaBwR0qqlRJMZrskGrqVpjWJEuhLHcy7PnYvSBzEkMk7Y4C
+ X/nPyuSTqbaIwiPMZbeIP5zs4ELOKDWw4c7/dWuPyF1U172DTBtgjmadVm4nASZWRfbM
+ M0tjl+lcuIZQH59VeO5Eb0JfSz8aylyM0XkCrZmSE6BhddflN5ZkTX1nTFcqksk8IJHb
+ gIbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=xJS0U9ByX0NxIuJpqaNPHe7gI5LppZzf1YoFLwdpgpQ=;
- b=Q8ReF1kNV1ncXI0xe8yWLbvMcSNgrUjzFqa+F1etxqUAi2mGOWcxiuBVNVLUQcIJ+J
- QhEW26yQqK9uPP3wMkQSxn/Wb7jkWby9AylbeKjole9qHww+4i1Ns1grXowm/ALvUacw
- GwdGv+shhh+vLLvmuSwEESqKtZwC5pN8BqHgu7KWzlVbA4Pc9YJMRGFLDvZj7OgINQbc
- 1bXEGeg3F7eRoKqjJsVW2hV2Ry4PqLY4oh5YIVvgMu3CAWTZDbEfvVj9MXY3Gsf8Y750
- 2DOEM8yx0CLoPLbmcjbAUJTO+SwEOnYXI6sju88qzCz83Q15KjRk3R47DWf5VI69F0uQ
- 9U6Q==
-X-Gm-Message-State: AOAM533YhanNtIfmZDH9iMGwLCFO3wyB381ifba/WaCAikpC4MBzwxSR
- yyc5vRN7uSGIl2pF794ndfs=
-X-Google-Smtp-Source: ABdhPJyWIa0BThW8wleRBOOtD6X+dU2YcMMb96LCJzvn3Y7r3nvLUwAHQC9a6Zki2vUnentp0rRZoQ==
-X-Received: by 2002:a5d:6082:: with SMTP id w2mr3851640wrt.209.1623311615564; 
- Thu, 10 Jun 2021 00:53:35 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.126.134])
- by smtp.gmail.com with ESMTPSA id o6sm2696870wre.73.2021.06.10.00.53.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 00:53:34 -0700 (PDT)
-To: Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>
-References: <20210410091128.31823-1-yong.wu@mediatek.com>
- <20210410091128.31823-14-yong.wu@mediatek.com>
- <CAJMQK-iTrQRDDm_=LNqSpvXFd431LYRxXMasJHUpN+K8rJ=Qpg@mail.gmail.com>
- <1620822547.2983.8.camel@mhfsdcap03>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH v5 13/16] media: mtk-vcodec: Get rid of
- mtk_smi_larb_get/put
-Message-ID: <c1422242-8d8c-9592-c22d-288c503cd8b1@gmail.com>
-Date: Thu, 10 Jun 2021 09:53:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ bh=6d64EfMmKjBsLXuufmWEUBLj9XWA4YjPbU9Y/1wt2B8=;
+ b=LHZDkqB16vdURasPwUco+/yDlx/vcmfbw9Gp+v/Vwie44scal8Uk5TEdShBvu1pJwk
+ yCV27nmY7aUxXYw7DVjezJG0sh322eZJZ502872eImUTVt7z/syKAIFqc22j4tN6zsqX
+ u0cd89GORFuxQ+elNeS9tMA0udKB7viYMJRL5VMiZIrsZLj4jLw/4kzl2hOj1pDGb0SD
+ XmJ9PP3xOVIw69+pjDzUssVS/fY4YFatce8lSuX+NJ9W6lcVQ7HupyUhTkhziLTgChbG
+ rtIkw7JsQMAtsaB/t738vDvb2J9KAWst48VlvD0OPX+BMsedpgS+eZt4F5hRIzpfAm8D
+ g0fw==
+X-Gm-Message-State: AOAM533L5e/jRf8HR1h/ta6pjpdjlKxFQloK79BEvY4eUJ4UGIVB/TBJ
+ lknnzyPwzcE9ldfWUx8CgBfD+g==
+X-Google-Smtp-Source: ABdhPJz3GLvas2zyoO7uIAb3y7v6qAeWCy4E0Q2PobZGKURJL4xC2/JOv5xITetYPC0Kt6UtuqclGw==
+X-Received: by 2002:a5d:6b81:: with SMTP id n1mr3885872wrx.144.1623312166388; 
+ Thu, 10 Jun 2021 01:02:46 -0700 (PDT)
+Received: from localhost.localdomain (adsl-84-226-111-173.adslplus.ch.
+ [84.226.111.173])
+ by smtp.gmail.com with ESMTPSA id o3sm2715059wrm.78.2021.06.10.01.02.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 01:02:45 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: rjw@rjwysocki.net,
+	lenb@kernel.org,
+	joro@8bytes.org,
+	mst@redhat.com
+Subject: [PATCH v4 0/6] Add support for ACPI VIOT
+Date: Thu, 10 Jun 2021 09:51:27 +0200
+Message-Id: <20210610075130.67517-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <1620822547.2983.8.camel@mhfsdcap03>
-Content-Language: en-US
-Cc: Will Deacon <will.deacon@arm.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- youlin.pei@mediatek.com, Irui Wang <irui.wang@mediatek.com>,
- Nicolas Boichat <drinkcat@chromium.org>, Evan Green <evgreen@chromium.org>,
- eizan@chromium.org, Matthias Kaehlcke <mka@chromium.org>,
- Devicetree List <devicetree@vger.kernel.org>, yi.kuo@mediatek.com,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- ming-fan.chen@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, anan.sun@mediatek.com,
- srv_heupstream@mediatek.com, Alexandre Courbot <acourbot@chromium.org>,
- lkml <linux-kernel@vger.kernel.org>, chao.hao@mediatek.com,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com, catalin.marinas@arm.com,
+ sudeep.holla@arm.com, robin.murphy@arm.com,
+ virtualization@lists.linux-foundation.org, linux-acpi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, sebastien.boeuf@intel.com,
+ guohanjun@huawei.com, will@kernel.org, dwmw2@infradead.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,77 +103,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Yong,
+Add a driver for the ACPI VIOT table, which provides topology
+information for para-virtual IOMMUs. Enable virtio-iommu on
+non-devicetree platforms, including x86.
 
-On 12/05/2021 14:29, Yong Wu wrote:
-> On Wed, 2021-05-12 at 17:20 +0800, Hsin-Yi Wang wrote:
->> On Sat, Apr 10, 2021 at 5:14 PM Yong Wu <yong.wu@mediatek.com> wrote:
->>>
->>> MediaTek IOMMU has already added the device_link between the consumer
->>> and smi-larb device. If the vcodec device call the pm_runtime_get_sync,
->>> the smi-larb's pm_runtime_get_sync also be called automatically.
->>>
->>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
->>> CC: Irui Wang <irui.wang@mediatek.com>
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> Reviewed-by: Evan Green <evgreen@chromium.org>
->>> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
->>> ---
->>>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 ++-------------
->>>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
->>>  .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
->>>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 46 ++-----------------
->>>  4 files changed, 10 insertions(+), 77 deletions(-)
-> 
-> [...]
-> 
->>> @@ -108,13 +80,6 @@ void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
->>>                 }
->>>         }
->>>
->>> -       ret = mtk_smi_larb_get(pm->larbvenc);
->>> -       if (ret) {
->>> -               mtk_v4l2_err("mtk_smi_larb_get larb3 fail %d", ret);
->>> -               goto clkerr;
->>> -       }
->>> -       return;
->>
->> You can't delete the return; here, otherwise vcodec_clk will be turned
->> off immediately after they are turned on.
-> 
-> Thanks very much for your review.
-> 
-> Sorry for this. You are quite right.
-> 
-> I checked this, it was introduced in v4 when I rebase the code. I will
-> fix it in next time.
-> 
+Since v3 [1] I fixed a build bug for !CONFIG_IOMMU_API. Joerg offered to
+take this series through the IOMMU tree, which requires Acks for patches
+1-3.
 
-Please also make sure that you add all maintainers. I realized that at least for
-the media/platform drivers we miss the maintainer and the corresponding mailing
-list.
-This is especially important in this series, as it spans several subsystems.
+You can find a QEMU implementation at [2], with extra support for
+testing all VIOT nodes including MMIO-based endpoints and IOMMU.
+This series is at [3].
 
-Thanks a lot,
-Matthias
+[1] https://lore.kernel.org/linux-iommu/20210602154444.1077006-1-jean-philippe@linaro.org/
+[2] https://jpbrucker.net/git/qemu/log/?h=virtio-iommu/acpi
+[3] https://jpbrucker.net/git/linux/log/?h=virtio-iommu/acpi
 
->>
->>> -
->>>  clkerr:
->>>         for (i -= 1; i >= 0; i--)
->>>                 clk_disable_unprepare(enc_clk->clk_info[i].vcodec_clk);
->>> @@ -125,7 +90,6 @@ void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm)
->>>         struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
->>>         int i = 0;
->>>
->>> -       mtk_smi_larb_put(pm->larbvenc);
->>>         for (i = enc_clk->clk_num - 1; i >= 0; i--)
->>>                 clk_disable_unprepare(enc_clk->clk_info[i].vcodec_clk);
->>>  }
->>> --
->>> 2.18.0
->>>
-> 
+
+Jean-Philippe Brucker (6):
+  ACPI: arm64: Move DMA setup operations out of IORT
+  ACPI: Move IOMMU setup code out of IORT
+  ACPI: Add driver for the VIOT table
+  iommu/dma: Pass address limit rather than size to
+    iommu_setup_dma_ops()
+  iommu/dma: Simplify calls to iommu_setup_dma_ops()
+  iommu/virtio: Enable x86 support
+
+ drivers/acpi/Kconfig         |   3 +
+ drivers/iommu/Kconfig        |   4 +-
+ drivers/acpi/Makefile        |   2 +
+ drivers/acpi/arm64/Makefile  |   1 +
+ include/acpi/acpi_bus.h      |   3 +
+ include/linux/acpi.h         |   3 +
+ include/linux/acpi_iort.h    |  14 +-
+ include/linux/acpi_viot.h    |  19 ++
+ include/linux/dma-iommu.h    |   4 +-
+ arch/arm64/mm/dma-mapping.c  |   2 +-
+ drivers/acpi/arm64/dma.c     |  50 +++++
+ drivers/acpi/arm64/iort.c    | 129 ++-----------
+ drivers/acpi/bus.c           |   2 +
+ drivers/acpi/scan.c          |  78 +++++++-
+ drivers/acpi/viot.c          | 364 +++++++++++++++++++++++++++++++++++
+ drivers/iommu/amd/iommu.c    |   9 +-
+ drivers/iommu/dma-iommu.c    |  17 +-
+ drivers/iommu/intel/iommu.c  |  10 +-
+ drivers/iommu/virtio-iommu.c |   8 +
+ MAINTAINERS                  |   8 +
+ 20 files changed, 580 insertions(+), 150 deletions(-)
+ create mode 100644 include/linux/acpi_viot.h
+ create mode 100644 drivers/acpi/arm64/dma.c
+ create mode 100644 drivers/acpi/viot.c
+
+-- 
+2.31.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
