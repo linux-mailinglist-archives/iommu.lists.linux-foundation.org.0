@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F203A41F7
-	for <lists.iommu@lfdr.de>; Fri, 11 Jun 2021 14:26:35 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 413593A41FA
+	for <lists.iommu@lfdr.de>; Fri, 11 Jun 2021 14:26:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 99A5660ABF;
-	Fri, 11 Jun 2021 12:26:33 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E432983C12;
+	Fri, 11 Jun 2021 12:26:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e9IC5fDzVv80; Fri, 11 Jun 2021 12:26:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id A473A60753;
-	Fri, 11 Jun 2021 12:26:32 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M6iuN5qUsqq8; Fri, 11 Jun 2021 12:26:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E9BD283C51;
+	Fri, 11 Jun 2021 12:26:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E726C000B;
-	Fri, 11 Jun 2021 12:26:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5451C000B;
+	Fri, 11 Jun 2021 12:26:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C2FCC000B
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 12:26:31 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 50697C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 12:26:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0E02040255
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 12:26:31 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id EF90240255
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 12:26:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J3Hsdp6117pX for <iommu@lists.linux-foundation.org>;
- Fri, 11 Jun 2021 12:26:30 +0000 (UTC)
+ with ESMTP id v9uugqe5qMrk for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Jun 2021 12:26:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 21461404C3
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 12:26:30 +0000 (UTC)
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G1frZ42Gpz6J9Yl;
- Fri, 11 Jun 2021 20:13:34 +0800 (CST)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 13F12404C3
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 12:26:32 +0000 (UTC)
+Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G1frf0fnWz6J9Z5;
+ Fri, 11 Jun 2021 20:13:38 +0800 (CST)
 Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 11 Jun 2021 14:26:27 +0200
+ fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 11 Jun 2021 14:26:31 +0200
 Received: from localhost.localdomain (10.69.192.58) by
  lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 11 Jun 2021 13:26:24 +0100
+ 15.1.2176.2; Fri, 11 Jun 2021 13:26:27 +0100
 From: John Garry <john.garry@huawei.com>
 To: <joro@8bytes.org>, <will@kernel.org>, <dwmw2@infradead.org>,
  <baolu.lu@linux.intel.com>, <robin.murphy@arm.com>
-Subject: [PATCH v12 3/5] iommu/vt-d: Add support for IOMMU default DMA mode
+Subject: [PATCH v12 4/5] iommu/amd: Add support for IOMMU default DMA mode
  build options
-Date: Fri, 11 Jun 2021 20:20:41 +0800
-Message-ID: <1623414043-40745-4-git-send-email-john.garry@huawei.com>
+Date: Fri, 11 Jun 2021 20:20:42 +0800
+Message-ID: <1623414043-40745-5-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1623414043-40745-1-git-send-email-john.garry@huawei.com>
 References: <1623414043-40745-1-git-send-email-john.garry@huawei.com>
@@ -82,99 +82,98 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Zhen Lei <thunder.leizhen@huawei.com>
 
-Make IOMMU_DEFAULT_LAZY default for when INTEL_IOMMU config is set,
-as is current behaviour.
+Make IOMMU_DEFAULT_LAZY default for when AMD_IOMMU config is set, which
+matches current behaviour.
 
-Also delete global flag intel_iommu_strict:
-- In intel_iommu_setup(), call iommu_set_dma_strict(true) directly. The
-  accompanying print is removed, as it replicates the print in
-  iommu_subsys_init(), and, since called from __setup(), should before
-  iommu_subsys_init() (so desired ordering).
+For "fullflush" param, just call iommu_set_dma_strict(true) directly.
+Since this is called from __setup(), it should occur prior to
+iommu_subsys_init(). As such, since we get a strict vs lazy mode print
+there, drop the prints in amd_iommu_init_dma_ops().
 
-- For cap_caching_mode() set in intel_iommu_setup(), call
-  iommu_set_dma_strict(true) directly, and reword the accompanying print
-  and add the missing '\n'.
+Also drop global flag amd_iommu_unmap_flush, as it has no purpose
+any longer.
 
-- For Ironlake GPU, again call iommu_set_dma_strict(true) directly and
-  keep the accompanying print.
+Note that we should not conflict with iommu.strict param when we set
+strict mode, as that param is not for x86.
 
-Note that we should not conflict with iommu.strict param conflicting when
-we set strict mode, as that param is not for x86.
-
-[jpg: Remove intel_iommu_strict]
+[jpg: Rebase for relocated file an drop amd_iommu_unmap_flush]
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/iommu/Kconfig       |  1 +
- drivers/iommu/intel/iommu.c | 15 ++++++---------
- 2 files changed, 7 insertions(+), 9 deletions(-)
+ drivers/iommu/Kconfig               | 2 +-
+ drivers/iommu/amd/amd_iommu_types.h | 6 ------
+ drivers/iommu/amd/init.c            | 3 +--
+ drivers/iommu/amd/iommu.c           | 6 ------
+ 4 files changed, 2 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 2a71347611d4..4467353f981b 100644
+index 4467353f981b..8c1e0f2bba0d 100644
 --- a/drivers/iommu/Kconfig
 +++ b/drivers/iommu/Kconfig
-@@ -94,6 +94,7 @@ choice
+@@ -94,7 +94,7 @@ choice
  	prompt "IOMMU default DMA mode"
  	depends on IOMMU_DMA
  
-+	default IOMMU_DEFAULT_LAZY if INTEL_IOMMU
+-	default IOMMU_DEFAULT_LAZY if INTEL_IOMMU
++	default IOMMU_DEFAULT_LAZY if (AMD_IOMMU || INTEL_IOMMU)
  	default IOMMU_DEFAULT_STRICT
  	help
  	  This option allows an IOMMU DMA mode to be chosen at build time, to
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index be35284a2016..6763e516362c 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -360,7 +360,6 @@ int intel_iommu_enabled = 0;
- EXPORT_SYMBOL_GPL(intel_iommu_enabled);
+diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+index 94c1a7a9876d..8dbe61e2b3c1 100644
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -779,12 +779,6 @@ extern u16 amd_iommu_last_bdf;
+ /* allocation bitmap for domain ids */
+ extern unsigned long *amd_iommu_pd_alloc_bitmap;
  
- static int dmar_map_gfx = 1;
--static int intel_iommu_strict;
- static int intel_iommu_superpage = 1;
- static int iommu_identity_mapping;
- static int iommu_skip_te_disable;
-@@ -453,8 +452,7 @@ static int __init intel_iommu_setup(char *str)
- 			pr_warn("intel_iommu=forcedac deprecated; use iommu.forcedac instead\n");
- 			iommu_dma_forcedac = true;
- 		} else if (!strncmp(str, "strict", 6)) {
--			pr_info("Disable batched IOTLB flush\n");
--			intel_iommu_strict = 1;
-+			iommu_set_dma_strict(true);
- 		} else if (!strncmp(str, "sp_off", 6)) {
- 			pr_info("Disable supported super page\n");
- 			intel_iommu_superpage = 0;
-@@ -4392,9 +4390,9 @@ int __init intel_iommu_init(void)
- 		 * is likely to be much lower than the overhead of synchronizing
- 		 * the virtual and physical IOMMU page-tables.
- 		 */
--		if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
--			pr_warn("IOMMU batching is disabled due to virtualization");
--			intel_iommu_strict = 1;
-+		if (cap_caching_mode(iommu->cap)) {
-+			pr_warn("IOMMU batching disallowed due to virtualization\n");
-+			iommu_set_dma_strict(true);
- 		}
- 		iommu_device_sysfs_add(&iommu->iommu, NULL,
- 				       intel_iommu_groups,
-@@ -4403,7 +4401,6 @@ int __init intel_iommu_init(void)
- 	}
- 	up_read(&dmar_global_lock);
+-/*
+- * If true, the addresses will be flushed on unmap time, not when
+- * they are reused
+- */
+-extern bool amd_iommu_unmap_flush;
+-
+ /* Smallest max PASID supported by any IOMMU in the system */
+ extern u32 amd_iommu_max_pasid;
  
--	iommu_set_dma_strict(intel_iommu_strict);
- 	bus_set_iommu(&pci_bus_type, &intel_iommu_ops);
- 	if (si_domain && !hw_pass_through)
- 		register_memory_notifier(&intel_iommu_memory_nb);
-@@ -5666,8 +5663,8 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
- 	} else if (dmar_map_gfx) {
- 		/* we have to ensure the gfx device is idle before we flush */
- 		pci_info(dev, "Disabling batched IOTLB flush on Ironlake\n");
--		intel_iommu_strict = 1;
--       }
-+		iommu_set_dma_strict(true);
-+	}
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 46280e6e1535..0e6ae6d68f14 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -161,7 +161,6 @@ u16 amd_iommu_last_bdf;			/* largest PCI device id we have
+ 					   to handle */
+ LIST_HEAD(amd_iommu_unity_map);		/* a list of required unity mappings
+ 					   we find in ACPI */
+-bool amd_iommu_unmap_flush;		/* if true, flush on every unmap */
+ 
+ LIST_HEAD(amd_iommu_list);		/* list of all AMD IOMMUs in the
+ 					   system */
+@@ -3099,7 +3098,7 @@ static int __init parse_amd_iommu_options(char *str)
+ {
+ 	for (; *str; ++str) {
+ 		if (strncmp(str, "fullflush", 9) == 0)
+-			amd_iommu_unmap_flush = true;
++			iommu_set_dma_strict(true);
+ 		if (strncmp(str, "force_enable", 12) == 0)
+ 			amd_iommu_force_enable = true;
+ 		if (strncmp(str, "off", 3) == 0)
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index b1fbf2c83df5..32b541ee2e11 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -1775,12 +1775,6 @@ void amd_iommu_domain_update(struct protection_domain *domain)
+ static void __init amd_iommu_init_dma_ops(void)
+ {
+ 	swiotlb = (iommu_default_passthrough() || sme_me_mask) ? 1 : 0;
+-
+-	if (amd_iommu_unmap_flush)
+-		pr_info("IO/TLB flush on unmap enabled\n");
+-	else
+-		pr_info("Lazy IO/TLB flushing enabled\n");
+-	iommu_set_dma_strict(amd_iommu_unmap_flush);
  }
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0040, quirk_calpella_no_shadow_gtt);
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0044, quirk_calpella_no_shadow_gtt);
+ 
+ int __init amd_iommu_init_api(void)
 -- 
 2.26.2
 
