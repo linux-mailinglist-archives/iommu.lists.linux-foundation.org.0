@@ -1,56 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639333A4354
-	for <lists.iommu@lfdr.de>; Fri, 11 Jun 2021 15:50:38 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2A23A4358
+	for <lists.iommu@lfdr.de>; Fri, 11 Jun 2021 15:50:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 02CF84062E;
-	Fri, 11 Jun 2021 13:50:37 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id F2B1260771;
+	Fri, 11 Jun 2021 13:50:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ud4uYPD_AEfc; Fri, 11 Jun 2021 13:50:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id EE8DF41575;
-	Fri, 11 Jun 2021 13:50:35 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Z25V3JwvkAYq; Fri, 11 Jun 2021 13:50:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1A54760763;
+	Fri, 11 Jun 2021 13:50:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C426CC0024;
-	Fri, 11 Jun 2021 13:50:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02A2FC000B;
+	Fri, 11 Jun 2021 13:50:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74937C000B
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 13:50:33 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 88359C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 13:50:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 55AD060771
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 13:50:33 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7748A60763
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 13:50:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vnFWJisEyWtv for <iommu@lists.linux-foundation.org>;
- Fri, 11 Jun 2021 13:50:31 +0000 (UTC)
+ with ESMTP id RYYZ5k_UIGe9 for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Jun 2021 13:50:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 60FEB60763
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 13:50:31 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <colin.king@canonical.com>)
- id 1lrhYG-00074P-Qe; Fri, 11 Jun 2021 13:50:24 +0000
-From: Colin King <colin.king@canonical.com>
-To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- iommu@lists.linux-foundation.org
-Subject: [PATCH][next] iommu/vt-d: Fix dereference of pointer info before it
- is null checked
-Date: Fri, 11 Jun 2021 14:50:24 +0100
-Message-Id: <20210611135024.32781-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9A55B60788
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 13:50:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D7DE61357;
+ Fri, 11 Jun 2021 13:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623419444;
+ bh=4g9zOBMtlLANWjsSzpBI0yPUcR1JafM3BAkdl/2DRjM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=huqExwz9svuE+0K5X/MWkdW0X79ZbDiGNmay76Y88bNqFOJguDAdSitTn8KyMPZ19
+ nlXc4WBp/GZH2SK4kyEAaxdin+T4nTefqJ7xDJP5iY9rbf394O+nUKDadCOiiShU82
+ TbjmsPvLQDQkPB6WlPWc56XRcY135G1u8iMMTqFffViBMEjeSe8ii4SNM0vT4jXDGe
+ g2c6jvOsx30Tc0dqOELYK2FIafC09RqSF6h1wRJSLWnSbsFSJvBVhPFjrzeXj2d/7q
+ x10ouJtJsxfA7dAc9eL+AEpG2bbp5CfmATTbIXjvXvEnbxlpCTNcACLqn9aoB3xuZ+
+ JqS11eowipklQ==
+Date: Fri, 11 Jun 2021 14:50:39 +0100
+From: Will Deacon <will@kernel.org>
+To: Nadav Amit <nadav.amit@gmail.com>
+Subject: Re: [PATCH v3 3/6] iommu: Improve iommu_iotlb_gather helpers
+Message-ID: <20210611135039.GB15776@willie-the-truck>
+References: <20210607182541.119756-1-namit@vmware.com>
+ <20210607182541.119756-4-namit@vmware.com>
 MIME-Version: 1.0
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20210607182541.119756-4-namit@vmware.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Jiajun Cao <caojiajun@vmware.com>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,43 +76,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Mon, Jun 07, 2021 at 11:25:38AM -0700, Nadav Amit wrote:
+> From: Robin Murphy <robin.murphy@arm.com>
+> 
+> The Mediatek driver is not the only one which might want a basic
+> address-based gathering behaviour, so although it's arguably simple
+> enough to open-code, let's factor it out for the sake of cleanliness.
+> Let's also take this opportunity to document the intent of these
+> helpers for clarity.
+> 
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Jiajun Cao <caojiajun@vmware.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Cc: iommu@lists.linux-foundation.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> 
+> ---
+> 
+> Changes from Robin's version:
+> * Added iommu_iotlb_gather_add_range() stub !CONFIG_IOMMU_API
+> * Use iommu_iotlb_gather_add_range() in iommu_iotlb_gather_add_page()
+> ---
+>  drivers/iommu/mtk_iommu.c |  5 +----
+>  include/linux/iommu.h     | 43 ++++++++++++++++++++++++++++++++++-----
+>  2 files changed, 39 insertions(+), 9 deletions(-)
 
-The assignment of iommu from info->iommu occurs before info is null checked
-hence leading to a potential null pointer dereference issue. Fix this by
-assigning iommu and checking if iommu is null after null checking info.
+Acked-by: Will Deacon <will@kernel.org>
 
-Addresses-Coverity: ("Dereference before null check")
-Fixes: 4c82b88696ac ("iommu/vt-d: Allocate/register iopf queue for sva devices")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/iommu/intel/iommu.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index bd93c7ec879e..76a58b8ad6c3 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5329,10 +5329,14 @@ static int intel_iommu_disable_auxd(struct device *dev)
- static int intel_iommu_enable_sva(struct device *dev)
- {
- 	struct device_domain_info *info = get_domain_info(dev);
--	struct intel_iommu *iommu = info->iommu;
-+	struct intel_iommu *iommu;
- 	int ret;
- 
--	if (!info || !iommu || dmar_disabled)
-+	if (!info || dmar_disabled)
-+		return -EINVAL;
-+
-+	iommu = info->iommu;
-+	if (!iommu)
- 		return -EINVAL;
- 
- 	if (!(iommu->flags & VTD_FLAG_SVM_CAPABLE))
--- 
-2.31.1
-
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
