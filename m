@@ -1,67 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20CE3A405E
-	for <lists.iommu@lfdr.de>; Fri, 11 Jun 2021 12:45:33 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A187E3A4062
+	for <lists.iommu@lfdr.de>; Fri, 11 Jun 2021 12:46:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2554583DE2;
-	Fri, 11 Jun 2021 10:45:32 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3FAEC60AC9;
+	Fri, 11 Jun 2021 10:46:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id coy4IWIQvGcF; Fri, 11 Jun 2021 10:45:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 43F6E83DDD;
-	Fri, 11 Jun 2021 10:45:31 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VyUq-du_uMej; Fri, 11 Jun 2021 10:46:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 712C560ABF;
+	Fri, 11 Jun 2021 10:46:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 142BAC0024;
-	Fri, 11 Jun 2021 10:45:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B522C000B;
+	Fri, 11 Jun 2021 10:46:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2DBEDC000B
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 10:45:30 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 70E53C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 10:46:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1C17D60698
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 10:45:30 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 50D0B60AC3
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 10:46:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Qk9j1jdI7CZe for <iommu@lists.linux-foundation.org>;
- Fri, 11 Jun 2021 10:45:29 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A0DB160636
- for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 10:45:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF60C613F1;
- Fri, 11 Jun 2021 10:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623408329;
- bh=H7N82STuZf67I/B25zQwHnR1wGeHBVcwA153V8xgMsI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WBZx9meYLkVr5ydc7IymbBE1oQiQ1bbdKUe3MI5cqxiyStn7E8h3540mPdeFhQkWM
- AhitpJZgHzGLqcW6alsccgNdUuLlKD2G9xyUu13i9BSwVCAtH3eu0s/FsX5iCfUbT1
- rnmwpY/lYAajYmvDqpnZf9+gYo+kHeebSoN6RdYch7hQYHe700m95FmwO0HnN+yWWb
- IOZ1p/8/glLiUmlga1DXEVLyS3s64ns/3mTh2uwmYBte0T7WtphOj/x+uo4Q5HPdEI
- GA1BVDFmQzC/LCLmCGfZGPgu2Snd3vCaJ2HQ2ic1h44pLduLScxNFpcbBVm3+NjTkN
- 6P+smXdy03jRw==
-Date: Fri, 11 Jun 2021 11:45:24 +0100
-From: Will Deacon <will@kernel.org>
-To: Ashish Mhetre <amhetre@nvidia.com>
-Subject: Re: [PATCH 1/2] iommu: Fix race condition during default domain
- allocation
-Message-ID: <20210611104524.GD15274@willie-the-truck>
-References: <1623298614-31755-1-git-send-email-amhetre@nvidia.com>
- <1623298614-31755-2-git-send-email-amhetre@nvidia.com>
+ with ESMTP id brzWrxScAK0s for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Jun 2021 10:46:24 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org
+ [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 5BBE960AB0
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Jun 2021 10:46:24 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 376EC2FB; Fri, 11 Jun 2021 12:46:21 +0200 (CEST)
+Date: Fri, 11 Jun 2021 12:46:19 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v5 13/16] media: mtk-vcodec: Get rid of
+ mtk_smi_larb_get/put
+Message-ID: <YMM++ySKo38OUMXQ@8bytes.org>
+References: <20210410091128.31823-1-yong.wu@mediatek.com>
+ <20210410091128.31823-14-yong.wu@mediatek.com>
+ <CAJMQK-iTrQRDDm_=LNqSpvXFd431LYRxXMasJHUpN+K8rJ=Qpg@mail.gmail.com>
+ <1620822547.2983.8.camel@mhfsdcap03>
+ <c1422242-8d8c-9592-c22d-288c503cd8b1@gmail.com>
+ <1623326528.23717.20.camel@mhfsdcap03>
+ <e7269c80-5437-6ab9-c1db-df0b94eb97d8@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1623298614-31755-2-git-send-email-amhetre@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <e7269c80-5437-6ab9-c1db-df0b94eb97d8@gmail.com>
+Cc: Will Deacon <will.deacon@arm.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ youlin.pei@mediatek.com, Irui Wang <irui.wang@mediatek.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, Evan Green <evgreen@chromium.org>,
+ eizan@chromium.org, Matthias Kaehlcke <mka@chromium.org>,
+ linux-media@vger.kernel.org, Devicetree List <devicetree@vger.kernel.org>,
+ yi.kuo@mediatek.com, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, ming-fan.chen@mediatek.com,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, anan.sun@mediatek.com,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ lkml <linux-kernel@vger.kernel.org>, chao.hao@mediatek.com,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,38 +84,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jun 10, 2021 at 09:46:53AM +0530, Ashish Mhetre wrote:
-> Domain is getting created more than once during asynchronous multiple
-> display heads(devices) probe. All the display heads share same SID and
-> are expected to be in same domain. As iommu_alloc_default_domain() call
-> is not protected, the group->default_domain and group->domain are ending
-> up with different domains and leading to subsequent IOMMU faults.
-> Fix this by protecting iommu_alloc_default_domain() call with group->mutex.
+On Fri, Jun 11, 2021 at 12:07:24PM +0200, Matthias Brugger wrote:
+> That's a good question. I think the media tree would be a good
+> candidate, as it has the biggest bunch of patches. But that would mean
+> that Joerg is fine that.  The DTS part could still go through my tree.
 
-Can you provide some more information about exactly what the h/w
-configuration is, and the callstack which exhibits the race, please?
+IOMMU changes are only a minor part of this, so it should not go through
+the IOMMU tree. When Matthias has reviewed the IOMMU changes, feel free
+to add my
 
-> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
-> ---
->  drivers/iommu/iommu.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 808ab70..2700500 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -273,7 +273,9 @@ int iommu_probe_device(struct device *dev)
->  	 * support default domains, so the return value is not yet
->  	 * checked.
->  	 */
-> +	mutex_lock(&group->mutex);
->  	iommu_alloc_default_domain(group, dev);
-> +	mutex_unlock(&group->mutex);
+	Acked-by: Joerg Roedel <jroedel@suse.de>
 
-It feels wrong to serialise this for everybody just to cater for systems
-with aliasing SIDs between devices.
+to them.
 
-Will
+Regards,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
