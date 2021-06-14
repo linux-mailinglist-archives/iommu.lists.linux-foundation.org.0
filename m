@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BE03A5CEE
-	for <lists.iommu@lfdr.de>; Mon, 14 Jun 2021 08:21:48 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 451F13A5CF7
+	for <lists.iommu@lfdr.de>; Mon, 14 Jun 2021 08:24:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A5489402BD;
-	Mon, 14 Jun 2021 06:21:46 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B75F44049B;
+	Mon, 14 Jun 2021 06:24:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hAFPc2iVbGnl; Mon, 14 Jun 2021 06:21:46 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id t55AcPUDp71O; Mon, 14 Jun 2021 06:24:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DC81840124;
-	Mon, 14 Jun 2021 06:21:45 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8A68A402F3;
+	Mon, 14 Jun 2021 06:24:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B4AFEC000B;
-	Mon, 14 Jun 2021 06:21:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41568C000B;
+	Mon, 14 Jun 2021 06:24:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8232C000B
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:21:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8C0A2C000B
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:24:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 95F606063F
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:21:43 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 79CCC8336D
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:24:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BKztiLidMaL8 for <iommu@lists.linux-foundation.org>;
- Mon, 14 Jun 2021 06:21:43 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DiM-VkJX-xFZ for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Jun 2021 06:24:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 0DC1C605A6
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:21:42 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C2D078333E
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:24:00 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2608B68AFE; Mon, 14 Jun 2021 08:21:40 +0200 (CEST)
-Date: Mon, 14 Jun 2021 08:21:39 +0200
+ id B6EE767373; Mon, 14 Jun 2021 08:23:55 +0200 (CEST)
+Date: Mon, 14 Jun 2021 08:23:55 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v9 05/14] swiotlb: Update is_swiotlb_buffer to add a
+Subject: Re: [PATCH v9 06/14] swiotlb: Update is_swiotlb_active to add a
  struct device argument
-Message-ID: <20210614062139.GE28343@lst.de>
+Message-ID: <20210614062355.GF28343@lst.de>
 References: <20210611152659.2142983-1-tientzu@chromium.org>
- <20210611152659.2142983-6-tientzu@chromium.org>
+ <20210611152659.2142983-7-tientzu@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210611152659.2142983-6-tientzu@chromium.org>
+In-Reply-To: <20210611152659.2142983-7-tientzu@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -89,7 +89,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Looks good,
+>  kernel/dma/direct.c                          | 2 +-
+>  kernel/dma/swiotlb.c                         | 4 ++--
+>  6 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> index ce6b664b10aa..89a894354263 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> @@ -42,7 +42,7 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
+>  
+>  	max_order = MAX_ORDER;
+>  #ifdef CONFIG_SWIOTLB
+> -	if (is_swiotlb_active()) {
+> +	if (is_swiotlb_active(obj->base.dev->dev)) {
+
+This is the same device used for DMA mapping in
+i915_gem_gtt_prepare_pages, so this looks good.
+
+> index f4c2e46b6fe1..2ca9d9a9e5d5 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> @@ -276,7 +276,7 @@ nouveau_ttm_init(struct nouveau_drm *drm)
+>  	}
+>  
+>  #if IS_ENABLED(CONFIG_SWIOTLB) && IS_ENABLED(CONFIG_X86)
+> -	need_swiotlb = is_swiotlb_active();
+> +	need_swiotlb = is_swiotlb_active(dev->dev);
+>  #endif
+
+This looks good, too.
+
+> diff --git a/drivers/pci/xen-pcifront.c b/drivers/pci/xen-pcifront.c
+> index b7a8f3a1921f..0d56985bfe81 100644
+> --- a/drivers/pci/xen-pcifront.c
+> +++ b/drivers/pci/xen-pcifront.c
+> @@ -693,7 +693,7 @@ static int pcifront_connect_and_init_dma(struct pcifront_device *pdev)
+>  
+>  	spin_unlock(&pcifront_dev_lock);
+>  
+> -	if (!err && !is_swiotlb_active()) {
+> +	if (!err && !is_swiotlb_active(&pdev->xdev->dev)) {
+
+This looks good as well.
+
+So I think the devices are all good.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
