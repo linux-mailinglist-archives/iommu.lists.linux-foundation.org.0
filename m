@@ -1,51 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308D63A5D19
-	for <lists.iommu@lfdr.de>; Mon, 14 Jun 2021 08:28:11 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981953A5D22
+	for <lists.iommu@lfdr.de>; Mon, 14 Jun 2021 08:28:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id AD1C4607C7;
-	Mon, 14 Jun 2021 06:28:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 180BA836A7;
+	Mon, 14 Jun 2021 06:28:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id C03jQoacvJSu; Mon, 14 Jun 2021 06:28:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D83E4607A1;
-	Mon, 14 Jun 2021 06:28:08 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id tMrfcmfJyp0G; Mon, 14 Jun 2021 06:28:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4EC3D83546;
+	Mon, 14 Jun 2021 06:28:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B468FC0024;
-	Mon, 14 Jun 2021 06:28:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 26DE3C000B;
+	Mon, 14 Jun 2021 06:28:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C719C000B
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:28:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EC02DC000B
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:28:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2A6F1402BD
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:28:07 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id CDA9560681
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:28:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ztqBrhGt2v-r for <iommu@lists.linux-foundation.org>;
- Mon, 14 Jun 2021 06:28:06 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id KqigDFyMfBEp for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Jun 2021 06:28:22 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9602940124
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:28:06 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 4518A606E7
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 06:28:22 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id DE87267373; Mon, 14 Jun 2021 08:28:01 +0200 (CEST)
-Date: Mon, 14 Jun 2021 08:28:01 +0200
+ id 4C6E068AFE; Mon, 14 Jun 2021 08:28:19 +0200 (CEST)
+Date: Mon, 14 Jun 2021 08:28:18 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
 Subject: Re: [PATCH v9 11/14] swiotlb: Add restricted DMA alloc/free support.
-Message-ID: <20210614062801.GJ28343@lst.de>
+Message-ID: <20210614062818.GK28343@lst.de>
 References: <20210611152659.2142983-1-tientzu@chromium.org>
  <20210611152659.2142983-12-tientzu@chromium.org>
+ <20210614062801.GJ28343@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210611152659.2142983-12-tientzu@chromium.org>
+In-Reply-To: <20210614062801.GJ28343@lst.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -88,8 +89,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-I think merging this with the next two patches would be a little more
-clear.
+On Mon, Jun 14, 2021 at 08:28:01AM +0200, Christoph Hellwig wrote:
+> I think merging this with the next two patches would be a little more
+> clear.
+
+Sorry, I mean the next patch and the previous one.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
