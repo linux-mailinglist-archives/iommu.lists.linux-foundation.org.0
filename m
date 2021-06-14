@@ -1,61 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF12E3A6D04
-	for <lists.iommu@lfdr.de>; Mon, 14 Jun 2021 19:19:43 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1953A6D39
+	for <lists.iommu@lfdr.de>; Mon, 14 Jun 2021 19:30:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 5865140347;
-	Mon, 14 Jun 2021 17:19:42 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lgihZckF-tao; Mon, 14 Jun 2021 17:19:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1E41C404BF;
-	Mon, 14 Jun 2021 17:19:41 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F1997C000B;
-	Mon, 14 Jun 2021 17:19:40 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD694C000B
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 17:19:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id BB85B401D9
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 17:19:38 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E4F7740270;
+	Mon, 14 Jun 2021 17:30:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x8lq9UQE9ULM for <iommu@lists.linux-foundation.org>;
- Mon, 14 Jun 2021 17:19:37 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id f2_lIbKlBuod; Mon, 14 Jun 2021 17:30:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0FFB74038A;
+	Mon, 14 Jun 2021 17:30:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE942C000B;
+	Mon, 14 Jun 2021 17:30:49 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A526C000B
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 17:30:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2CBE483AAC
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 17:30:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id l3srR5BgGV-u for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Jun 2021 17:30:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp2.osuosl.org (Postfix) with ESMTP id 834D840191
- for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 17:19:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8101F11D4;
- Mon, 14 Jun 2021 10:19:36 -0700 (PDT)
-Received: from [10.57.9.136] (unknown [10.57.9.136])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07B363F70D;
- Mon, 14 Jun 2021 10:19:34 -0700 (PDT)
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 32B8C8374F
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Jun 2021 17:30:46 +0000 (UTC)
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G3db804BLz6F9Tn;
+ Tue, 15 Jun 2021 01:23:48 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 14 Jun 2021 19:30:44 +0200
+Received: from [10.47.95.26] (10.47.95.26) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 14 Jun
+ 2021 18:30:43 +0100
 Subject: Re: [PATCH v12 5/5] iommu: Remove mode argument from
  iommu_set_dma_strict()
-To: John Garry <john.garry@huawei.com>, joro@8bytes.org, will@kernel.org,
- dwmw2@infradead.org, baolu.lu@linux.intel.com
+To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>, 
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
 References: <1623414043-40745-1-git-send-email-john.garry@huawei.com>
  <1623414043-40745-6-git-send-email-john.garry@huawei.com>
  <868374d4-e816-b607-82de-7e7c27a4c66b@arm.com>
  <b12d96fa-9879-2739-fadd-2ebb02d75918@huawei.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <56f1fc88-baec-e1cf-109e-59978e2d16a8@arm.com>
-Date: Mon, 14 Jun 2021 18:19:29 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ <56f1fc88-baec-e1cf-109e-59978e2d16a8@arm.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <0e477a85-db02-1513-a449-02a9fbfccdfa@huawei.com>
+Date: Mon, 14 Jun 2021 18:24:39 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <b12d96fa-9879-2739-fadd-2ebb02d75918@huawei.com>
-Content-Language: en-GB
+In-Reply-To: <56f1fc88-baec-e1cf-109e-59978e2d16a8@arm.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.95.26]
+X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
  linuxarm@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -70,89 +81,46 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMjAyMS0wNi0xNCAxODowMywgSm9obiBHYXJyeSB3cm90ZToKPiBPbiAxNC8wNi8yMDIxIDE3
-OjI1LCBSb2JpbiBNdXJwaHkgd3JvdGU6Cj4+IE9uIDIwMjEtMDYtMTEgMTM6MjAsIEpvaG4gR2Fy
-cnkgd3JvdGU6Cj4+PiBXZSBvbmx5IGV2ZXIgbm93IHNldCBzdHJpY3QgbW9kZSBlbmFibGVkIGlu
-IGlvbW11X3NldF9kbWFfc3RyaWN0KCksIHNvCj4+PiBqdXN0IHJlbW92ZSB0aGUgYXJndW1lbnQu
-Cj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogSm9obiBHYXJyeSA8am9obi5nYXJyeUBodWF3ZWkuY29t
-Pgo+Pj4gLS0tCj4+PiDCoCBkcml2ZXJzL2lvbW11L2FtZC9pbml0LmPCoMKgwqAgfCAyICstCj4+
-PiDCoCBkcml2ZXJzL2lvbW11L2ludGVsL2lvbW11LmMgfCA2ICsrKy0tLQo+Pj4gwqAgZHJpdmVy
-cy9pb21tdS9pb21tdS5jwqDCoMKgwqDCoMKgIHwgNSArKy0tLQo+Pj4gwqAgaW5jbHVkZS9saW51
-eC9pb21tdS5owqDCoMKgwqDCoMKgIHwgMiArLQo+Pj4gwqAgNCBmaWxlcyBjaGFuZ2VkLCA3IGlu
-c2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-aW9tbXUvYW1kL2luaXQuYyBiL2RyaXZlcnMvaW9tbXUvYW1kL2luaXQuYwo+Pj4gaW5kZXggMGU2
-YWU2ZDY4ZjE0Li4yN2U5Njc3ZWMzMDMgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2lvbW11L2Ft
-ZC9pbml0LmMKPj4+ICsrKyBiL2RyaXZlcnMvaW9tbXUvYW1kL2luaXQuYwo+Pj4gQEAgLTMwOTgs
-NyArMzA5OCw3IEBAIHN0YXRpYyBpbnQgX19pbml0IHBhcnNlX2FtZF9pb21tdV9vcHRpb25zKGNo
-YXIgCj4+PiAqc3RyKQo+Pj4gwqAgewo+Pj4gwqDCoMKgwqDCoCBmb3IgKDsgKnN0cjsgKytzdHIp
-IHsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoc3RybmNtcChzdHIsICJmdWxsZmx1c2giLCA5
-KSA9PSAwKQo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW9tbXVfc2V0X2RtYV9zdHJpY3Qo
-dHJ1ZSk7Cj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpb21tdV9zZXRfZG1hX3N0cmljdCgp
-Owo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChzdHJuY21wKHN0ciwgImZvcmNlX2VuYWJsZSIs
-IDEyKSA9PSAwKQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYW1kX2lvbW11X2ZvcmNl
-X2VuYWJsZSA9IHRydWU7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHN0cm5jbXAoc3RyLCAi
-b2ZmIiwgMykgPT0gMCkKPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2ludGVsL2lvbW11
-LmMgYi9kcml2ZXJzL2lvbW11L2ludGVsL2lvbW11LmMKPj4+IGluZGV4IDY3NjNlNTE2MzYyYy4u
-ZTc3YjhiNmU3ODM4IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9pb21tdS9pbnRlbC9pb21tdS5j
-Cj4+PiArKysgYi9kcml2ZXJzL2lvbW11L2ludGVsL2lvbW11LmMKPj4+IEBAIC00NTIsNyArNDUy
-LDcgQEAgc3RhdGljIGludCBfX2luaXQgaW50ZWxfaW9tbXVfc2V0dXAoY2hhciAqc3RyKQo+Pj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfd2FybigiaW50ZWxfaW9tbXU9Zm9yY2VkYWMg
-ZGVwcmVjYXRlZDsgdXNlIAo+Pj4gaW9tbXUuZm9yY2VkYWMgaW5zdGVhZFxuIik7Cj4+PiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpb21tdV9kbWFfZm9yY2VkYWMgPSB0cnVlOwo+Pj4gwqDC
-oMKgwqDCoMKgwqDCoMKgIH0gZWxzZSBpZiAoIXN0cm5jbXAoc3RyLCAic3RyaWN0IiwgNikpIHsK
-Pj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlvbW11X3NldF9kbWFfc3RyaWN0KHRydWUpOwo+
-Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW9tbXVfc2V0X2RtYV9zdHJpY3QoKTsKPj4+IMKg
-wqDCoMKgwqDCoMKgwqDCoCB9IGVsc2UgaWYgKCFzdHJuY21wKHN0ciwgInNwX29mZiIsIDYpKSB7
-Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl9pbmZvKCJEaXNhYmxlIHN1cHBvcnRl
-ZCBzdXBlciBwYWdlXG4iKTsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGludGVsX2lv
-bW11X3N1cGVycGFnZSA9IDA7Cj4+PiBAQCAtNDM5Miw3ICs0MzkyLDcgQEAgaW50IF9faW5pdCBp
-bnRlbF9pb21tdV9pbml0KHZvaWQpCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4gwqDC
-oMKgwqDCoMKgwqDCoMKgIGlmIChjYXBfY2FjaGluZ19tb2RlKGlvbW11LT5jYXApKSB7Cj4+PiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl93YXJuKCJJT01NVSBiYXRjaGluZyBkaXNhbGxv
-d2VkIGR1ZSB0byAKPj4+IHZpcnR1YWxpemF0aW9uXG4iKTsKPj4+IC3CoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGlvbW11X3NldF9kbWFfc3RyaWN0KHRydWUpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgaW9tbXVfc2V0X2RtYV9zdHJpY3QoKTsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4+
-PiDCoMKgwqDCoMKgwqDCoMKgwqAgaW9tbXVfZGV2aWNlX3N5c2ZzX2FkZCgmaW9tbXUtPmlvbW11
-LCBOVUxMLAo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGludGVsX2lvbW11X2dyb3VwcywKPj4+IEBAIC01NjYzLDcgKzU2NjMsNyBAQCBzdGF0aWMg
-dm9pZCBxdWlya19jYWxwZWxsYV9ub19zaGFkb3dfZ3R0KHN0cnVjdCAKPj4+IHBjaV9kZXYgKmRl
-dikKPj4+IMKgwqDCoMKgwqAgfSBlbHNlIGlmIChkbWFyX21hcF9nZngpIHsKPj4+IMKgwqDCoMKg
-wqDCoMKgwqDCoCAvKiB3ZSBoYXZlIHRvIGVuc3VyZSB0aGUgZ2Z4IGRldmljZSBpcyBpZGxlIGJl
-Zm9yZSB3ZSBmbHVzaCAqLwo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHBjaV9pbmZvKGRldiwgIkRp
-c2FibGluZyBiYXRjaGVkIElPVExCIGZsdXNoIG9uIElyb25sYWtlXG4iKTsKPj4+IC3CoMKgwqDC
-oMKgwqDCoCBpb21tdV9zZXRfZG1hX3N0cmljdCh0cnVlKTsKPj4+ICvCoMKgwqDCoMKgwqDCoCBp
-b21tdV9zZXRfZG1hX3N0cmljdCgpOwo+Pj4gwqDCoMKgwqDCoCB9Cj4+PiDCoCB9Cj4+PiDCoCBE
-RUNMQVJFX1BDSV9GSVhVUF9IRUFERVIoUENJX1ZFTkRPUl9JRF9JTlRFTCwgMHgwMDQwLCAKPj4+
-IHF1aXJrX2NhbHBlbGxhX25vX3NoYWRvd19ndHQpOwo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-aW9tbXUvaW9tbXUuYyBiL2RyaXZlcnMvaW9tbXUvaW9tbXUuYwo+Pj4gaW5kZXggY2NiZDVkNGMx
-YTUwLi4xNDZjYjcxYzc0NDEgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2lvbW11L2lvbW11LmMK
-Pj4+ICsrKyBiL2RyaXZlcnMvaW9tbXUvaW9tbXUuYwo+Pj4gQEAgLTM1MCwxMCArMzUwLDkgQEAg
-c3RhdGljIGludCBfX2luaXQgaW9tbXVfZG1hX3NldHVwKGNoYXIgKnN0cikKPj4+IMKgIH0KPj4+
-IMKgIGVhcmx5X3BhcmFtKCJpb21tdS5zdHJpY3QiLCBpb21tdV9kbWFfc2V0dXApOwo+Pj4gLXZv
-aWQgaW9tbXVfc2V0X2RtYV9zdHJpY3QoYm9vbCBzdHJpY3QpCj4+PiArdm9pZCBpb21tdV9zZXRf
-ZG1hX3N0cmljdCh2b2lkKQo+Pj4gwqAgewo+Pj4gLcKgwqDCoCBpZiAoc3RyaWN0IHx8ICEoaW9t
-bXVfY21kX2xpbmUgJiBJT01NVV9DTURfTElORV9TVFJJQ1QpKQo+Pgo+PiBXZSBzaG91bGRuJ3Qg
-bmVlZCB0byBrZWVwIElPTU1VX0NNRF9MSU5FX1NUUklDVCBhdCBhbGwgbm93LCBzaW5jZSBpdCAK
-Pj4gd2FzIG9ubHkgdG8gcHJldmVudCBhIGRyaXZlcidzICJkZWZhdWx0IGxhenkiIHNldHRpbmcg
-cGFzc2VkIGluIGhlcmUgCj4+IGZyb20gZG93bmdyYWRpbmcgYW4gZXhwbGljaXRseS1zZXQgc3Ry
-aWN0IG1vZGUuCj4+Cj4+IFdpdGggdGhhdCBjbGVhbmVkIHVwIHRvbywKPj4KPiAKPiBQYXRjaCAx
-LzUgbWVudGlvbnMgd2hldGhlciB0aGUgaW52YWxpZGF0aW9uIHBvbGljeSBjb21lcyBmcm9tIHRo
-ZSAKPiBjbWRsaW5lIC0gc2ltaWxhciB0byB0aGUgZGVmYXVsdCBkb21haW4gdHlwZSBwcmludCAt
-IHNvIEkgd2FzIGdvaW5nIHRvIAo+IGtlZXAgdGhhdC4KCk9oLCBzaWxseSBtZSwgSSdkIGZvcmdv
-dHRlbiB0aGF0IGFscmVhZHkgYW5kIHdhcyBqdXN0IGxvb2tpbmcgYXQgbXkgCmxvY2FsIHRyZWUu
-Li4gTGV0J3Mga2VlcCBpdCBmb3IgY29uc2lzdGVuY3kgd2l0aCBob3cgd2UgcmVwb3J0IHRoZSAK
-ZG9tYWluIHR5cGUgdGhlbi4KCj4gQW5kIHRoZW4gbWF5YmUgd2Ugc2hvdWxkIGFsc28gc2V0IGl0
-IGZyb20gdGhlIGRlcHJlY2F0ZWQgeDg2IAo+IGRyaXZlci1zcGVjaWZpYyBwYXJhbXMuCgpJIGRv
-bid0IHRoaW5rIGl0J3Mgd29ydGggZXhwb3J0aW5nIG1vcmUgbG93LWxldmVsIGd1dHMgdG8gYWxs
-b3cgdGhhdCB0byAKaGFwcGVuIC0gdHlpbmcgaW4gdG8gaW9tbXVfc2V0X2RtYV9zdHJpY3QoKSB3
-b3VsZCBiZSB0b28gbGF0ZSwgYXMgCmJlZm9yZS4gSSB0aGluayB0aGUgc2VwYXJhdGUgcHJfd2Fy
-bigpcyB3aGljaCBhbm5vdW5jZSB0aGUgcmVsZXZhbnQgCnBhcmFtZXRlciBpcyBkZXByZWNhdGVk
-IChidXQgaGFzIHN0aWxsIHRha2VuIGVmZmVjdCkgc2hvdWxkIGJlIGVub3VnaC4KCkNoZWVycywK
-Um9iaW4uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlv
-bW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczov
-L2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On 14/06/2021 18:19, Robin Murphy wrote:
+>>> We shouldn't need to keep IOMMU_CMD_LINE_STRICT at all now, since it 
+>>> was only to prevent a driver's "default lazy" setting passed in here 
+>>> from downgrading an explicitly-set strict mode.
+>>>
+>>> With that cleaned up too,
+>>>
+>>
+>> Patch 1/5 mentions whether the invalidation policy comes from the 
+>> cmdline - similar to the default domain type print - so I was going to 
+>> keep that.
+> 
+> Oh, silly me, I'd forgotten that already and was just looking at my 
+> local tree... Let's keep it for consistency with how we report the 
+> domain type then.
+> 
+>> And then maybe we should also set it from the deprecated x86 
+>> driver-specific params.
+> 
+> I don't think it's worth exporting more low-level guts to allow that to 
+> happen - tying in to iommu_set_dma_strict() would be too late, as 
+> before. I think the separate pr_warn()s which announce the relevant 
+> parameter is deprecated (but has still taken effect) should be enough.
+> 
+
+Fine, I suppose someone using a deprecated interface can't complain 
+about imperfect prints.
+
+And I'll pick up your RB tag (unless you mention otherwise).
+
+Thanks,
+John
+
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
