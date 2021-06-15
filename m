@@ -2,50 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E5E3A80CC
-	for <lists.iommu@lfdr.de>; Tue, 15 Jun 2021 15:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94793A810A
+	for <lists.iommu@lfdr.de>; Tue, 15 Jun 2021 15:42:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4CA0483BF6;
-	Tue, 15 Jun 2021 13:40:38 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9A17A83BFB;
+	Tue, 15 Jun 2021 13:42:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zJVZIURhH7Ag; Tue, 15 Jun 2021 13:40:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 781DB83BF1;
-	Tue, 15 Jun 2021 13:40:37 +0000 (UTC)
+	with ESMTP id C9MqgyTfSZKv; Tue, 15 Jun 2021 13:42:13 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C586583BFA;
+	Tue, 15 Jun 2021 13:42:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 51F49C000B;
-	Tue, 15 Jun 2021 13:40:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A976CC0022;
+	Tue, 15 Jun 2021 13:42:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 294F4C000B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:40:36 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85D8FC000B
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:42:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0B828401E0
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:40:36 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 7DD9F402E6
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:42:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IOcD-KZO61tZ for <iommu@lists.linux-foundation.org>;
- Tue, 15 Jun 2021 13:40:35 +0000 (UTC)
+ with ESMTP id wXnl-siDS0ME for <iommu@lists.linux-foundation.org>;
+ Tue, 15 Jun 2021 13:42:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 6750A4000B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:40:35 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id DBFDA401E4
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:42:11 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C138F67373; Tue, 15 Jun 2021 15:40:32 +0200 (CEST)
-Date: Tue, 15 Jun 2021 15:40:32 +0200
+ id 3D5CB67373; Tue, 15 Jun 2021 15:42:09 +0200 (CEST)
+Date: Tue, 15 Jun 2021 15:42:08 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v10 09/12] swiotlb: Add restricted DMA pool initialization
-Message-ID: <20210615134032.GI20389@lst.de>
+Subject: Re: [PATCH v10 10/12] swiotlb: Add restricted DMA alloc/free support
+Message-ID: <20210615134208.GJ20389@lst.de>
 References: <20210615132711.553451-1-tientzu@chromium.org>
- <20210615132711.553451-10-tientzu@chromium.org>
+ <20210615132711.553451-11-tientzu@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210615132711.553451-10-tientzu@chromium.org>
+In-Reply-To: <20210615132711.553451-11-tientzu@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -88,21 +88,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jun 15, 2021 at 09:27:08PM +0800, Claire Chang wrote:
-> Add the initialization function to create restricted DMA pools from
-> matching reserved-memory nodes.
+On Tue, Jun 15, 2021 at 09:27:09PM +0800, Claire Chang wrote:
+> Add the functions, swiotlb_{alloc,free} to support the memory allocation
+> from restricted DMA pool.
 > 
-> Regardless of swiotlb setting, the restricted DMA pool is preferred if
-> available.
+> The restricted DMA pool is preferred if available.
 > 
-> The restricted DMA pools provide a basic level of protection against the
-> DMA overwriting buffer contents at unexpected times. However, to protect
-> against general data leakage and system memory corruption, the system
-> needs to provide a way to lock down the memory access, e.g., MPU.
-> 
-> Signed-off-by: Claire Chang <tientzu@chromium.org>
+> Note that since coherent allocation needs remapping, one must set up
+> another device coherent pool by shared-dma-pool and use
+> dma_alloc_from_dev_coherent instead for atomic coherent allocation.
 
-Looks good,
+Note: when applied this should go before the next patch to make sure
+bisection works fine.
+
+>  #ifdef CONFIG_DMA_RESTRICTED_POOL
+> +struct page *swiotlb_alloc(struct device *dev, size_t size)
+> +{
+> +	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
+> +	phys_addr_t tlb_addr;
+> +	int index;
+> +
+> +	/*
+> +	 * Skip io_tlb_default_mem since swiotlb_alloc doesn't support atomic
+> +	 * coherent allocation. Otherwise might break existing devices.
+> +	 * One must set up another device coherent pool by shared-dma-pool and
+> +	 * use dma_alloc_from_dev_coherent instead for atomic coherent
+> +	 * allocation to avoid mempry remapping.
+
+s/mempry/memory/g
+
+Otherwise looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
