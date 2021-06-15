@@ -1,51 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1931D3A80B2
-	for <lists.iommu@lfdr.de>; Tue, 15 Jun 2021 15:39:54 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CEC53A80BB
+	for <lists.iommu@lfdr.de>; Tue, 15 Jun 2021 15:40:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B013960623;
-	Tue, 15 Jun 2021 13:39:52 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D667383BF1;
+	Tue, 15 Jun 2021 13:40:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H5pCtnjEHOg7; Tue, 15 Jun 2021 13:39:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EB8D960873;
-	Tue, 15 Jun 2021 13:39:51 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id d40MQVPOrcNA; Tue, 15 Jun 2021 13:40:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 295D483BF6;
+	Tue, 15 Jun 2021 13:40:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C6D16C0022;
-	Tue, 15 Jun 2021 13:39:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 04D3CC000B;
+	Tue, 15 Jun 2021 13:40:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EF23BC000B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:39:49 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 42BF1C000B
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:40:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id CF26A6087F
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:39:49 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 2FC77403ED
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:40:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O96xthpvb_Ek for <iommu@lists.linux-foundation.org>;
- Tue, 15 Jun 2021 13:39:49 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AFKnKEM40Vmp for <iommu@lists.linux-foundation.org>;
+ Tue, 15 Jun 2021 13:40:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2F98860873
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:39:49 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7CC324038A
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 13:40:05 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4BA0568AFE; Tue, 15 Jun 2021 15:39:46 +0200 (CEST)
-Date: Tue, 15 Jun 2021 15:39:45 +0200
+ id BE0D967373; Tue, 15 Jun 2021 15:40:02 +0200 (CEST)
+Date: Tue, 15 Jun 2021 15:40:02 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v10 07/12] swiotlb: Move alloc_size to swiotlb_find_slots
-Message-ID: <20210615133945.GG20389@lst.de>
+Subject: Re: [PATCH v10 08/12] swiotlb: Refactor swiotlb_tbl_unmap_single
+Message-ID: <20210615134002.GH20389@lst.de>
 References: <20210615132711.553451-1-tientzu@chromium.org>
- <20210615132711.553451-8-tientzu@chromium.org>
+ <20210615132711.553451-9-tientzu@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210615132711.553451-8-tientzu@chromium.org>
+In-Reply-To: <20210615132711.553451-9-tientzu@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -87,12 +87,6 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
-
-On Tue, Jun 15, 2021 at 09:27:06PM +0800, Claire Chang wrote:
-> Rename find_slots to swiotlb_find_slots and move the maintenance of
-> alloc_size to it for better code reusability later.
-> 
-> Signed-off-by: Claire Chang <tientzu@chromium.org>
 
 Looks good,
 
