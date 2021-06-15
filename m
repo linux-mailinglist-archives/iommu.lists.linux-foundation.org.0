@@ -1,64 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A41B3A8752
-	for <lists.iommu@lfdr.de>; Tue, 15 Jun 2021 19:16:49 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5131B3A875F
+	for <lists.iommu@lfdr.de>; Tue, 15 Jun 2021 19:16:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BDDA1400C9;
-	Tue, 15 Jun 2021 17:16:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E1BDB608DA;
+	Tue, 15 Jun 2021 17:16:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wRzrhJ8x0LfL; Tue, 15 Jun 2021 17:16:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HbdO79pdke73; Tue, 15 Jun 2021 17:16:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D6CBD401FD;
-	Tue, 15 Jun 2021 17:16:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C0418608E7;
+	Tue, 15 Jun 2021 17:16:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C3D9C000B;
-	Tue, 15 Jun 2021 17:16:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D772C0033;
+	Tue, 15 Jun 2021 17:16:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9B2AC000B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 17:14:56 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1F793C001C
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 17:15:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 9A6EA402F4
- for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 17:14:56 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0DE4B40225
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 17:14:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=quicinc.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1kWTUpgdVwKP for <iommu@lists.linux-foundation.org>;
- Tue, 15 Jun 2021 17:14:55 +0000 (UTC)
+ with ESMTP id PDcqYxFgpDbg for <iommu@lists.linux-foundation.org>;
+ Tue, 15 Jun 2021 17:14:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B233040526
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id E4960401FD
  for <iommu@lists.linux-foundation.org>; Tue, 15 Jun 2021 17:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
  t=1623777295; x=1655313295;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=mN4TJb9ueuhi0oVhusFhmV7MzXLlMZV6zms8zDvW974=;
- b=YxKyKidiWlkkkBFnZxSjSPlFeTt/4ELlJqGQcVaQg2ytNL3uzk7BJR7i
- xAxoVa+yiNVg6lRbZyQrJ3DKa+NEAvtWh9favUoi9hk6A4RegiYyjgRiI
- ZT4wLeuins3KrBonZF21VRI5mESNobpr/K2Vqeoa4CxZS+YAJMOUCQJCe 8=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Jun 2021 10:08:50 -0700
+ bh=D6IUBGYQqCLcl7dcGiUkl6UUi4wbJwdxmuWA7BYn2qc=;
+ b=rveO+xPu5bbveGqT7fTVVqQm4/hQjBjKfgWuNyjL+YFYGZ0gIvZLWrNV
+ hQapuLmfyO/AzGcy16DxvYRfTksTQky/A1xRICegWUGs6J1jGtJ3XPJH2
+ u9UyBhjFN53CZ9nz2AjfBhjRu1063qfye8otV/5HoG2ymtMrNHUTXhzF2 g=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 15 Jun 2021 10:08:50 -0700
 X-QCInternal: smtphost
 Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
  15 Jun 2021 10:08:50 -0700
 Received: from th-lint-040.qualcomm.com (10.80.80.8) by
  nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
  15.0.1497.18; Tue, 15 Jun 2021 10:08:50 -0700
 From: Georgi Djakov <quic_c_gdjako@quicinc.com>
 To: <will@kernel.org>, <robin.murphy@arm.com>
-Subject: [PATCH v6 03/15] iommu/io-pgtable: Introduce map_pages() as a page
- table op
-Date: Tue, 15 Jun 2021 10:08:21 -0700
-Message-ID: <1623776913-390160-4-git-send-email-quic_c_gdjako@quicinc.com>
+Subject: [PATCH v6 04/15] iommu: Add a map_pages() op for IOMMU drivers
+Date: Tue, 15 Jun 2021 10:08:22 -0700
+Message-ID: <1623776913-390160-5-git-send-email-quic_c_gdjako@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1623776913-390160-1-git-send-email-quic_c_gdjako@quicinc.com>
 References: <1623776913-390160-1-git-send-email-quic_c_gdjako@quicinc.com>
@@ -89,43 +90,46 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 
-Mapping memory into io-pgtables follows the same semantics
-that unmapping memory used to follow (i.e. a buffer will be
-mapped one page block per call to the io-pgtable code). This
-means that it can be optimized in the same way that unmapping
-memory was, so add a map_pages() callback to the io-pgtable
-ops structure, so that a range of pages of the same size
-can be mapped within the same call.
+Add a callback for IOMMU drivers to provide a path for the
+IOMMU framework to call into an IOMMU driver, which can
+call into the io-pgtable code, to map a physically contiguous
+rnage of pages of the same size.
+
+For IOMMU drivers that do not specify a map_pages() callback,
+the existing logic of mapping memory one page block at a time
+will be used.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 Suggested-by: Will Deacon <will@kernel.org>
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Georgi Djakov <quic_c_gdjako@quicinc.com>
 ---
- include/linux/io-pgtable.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/linux/iommu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-index 9391c5fa71e6..c43f3b899d2a 100644
---- a/include/linux/io-pgtable.h
-+++ b/include/linux/io-pgtable.h
-@@ -143,6 +143,7 @@ struct io_pgtable_cfg {
-  * struct io_pgtable_ops - Page table manipulation API for IOMMU drivers.
-  *
-  * @map:          Map a physically contiguous memory region.
-+ * @map_pages:    Map a physically contiguous range of pages of the same size.
-  * @unmap:        Unmap a physically contiguous memory region.
-  * @unmap_pages:  Unmap a range of virtually contiguous pages of the same size.
-  * @iova_to_phys: Translate iova to physical address.
-@@ -153,6 +154,9 @@ struct io_pgtable_cfg {
- struct io_pgtable_ops {
- 	int (*map)(struct io_pgtable_ops *ops, unsigned long iova,
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 25a844121be5..d7989d4a7404 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -180,6 +180,8 @@ struct iommu_iotlb_gather {
+  * @attach_dev: attach device to an iommu domain
+  * @detach_dev: detach device from an iommu domain
+  * @map: map a physically contiguous memory region to an iommu domain
++ * @map_pages: map a physically contiguous set of pages of the same size to
++ *             an iommu domain.
+  * @unmap: unmap a physically contiguous memory region from an iommu domain
+  * @unmap_pages: unmap a number of pages of the same size from an iommu domain
+  * @flush_iotlb_all: Synchronously flush all hardware TLBs for this domain
+@@ -230,6 +232,9 @@ struct iommu_ops {
+ 	void (*detach_dev)(struct iommu_domain *domain, struct device *dev);
+ 	int (*map)(struct iommu_domain *domain, unsigned long iova,
  		   phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
-+	int (*map_pages)(struct io_pgtable_ops *ops, unsigned long iova,
++	int (*map_pages)(struct iommu_domain *domain, unsigned long iova,
 +			 phys_addr_t paddr, size_t pgsize, size_t pgcount,
 +			 int prot, gfp_t gfp, size_t *mapped);
- 	size_t (*unmap)(struct io_pgtable_ops *ops, unsigned long iova,
- 			size_t size, struct iommu_iotlb_gather *gather);
- 	size_t (*unmap_pages)(struct io_pgtable_ops *ops, unsigned long iova,
+ 	size_t (*unmap)(struct iommu_domain *domain, unsigned long iova,
+ 		     size_t size, struct iommu_iotlb_gather *iotlb_gather);
+ 	size_t (*unmap_pages)(struct iommu_domain *domain, unsigned long iova,
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
