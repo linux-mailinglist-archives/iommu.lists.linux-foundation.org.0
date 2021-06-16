@@ -1,53 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F80A3A9C25
-	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 15:39:25 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5169E3A9C2C
+	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 15:39:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E3665404E0;
-	Wed, 16 Jun 2021 13:39:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id CA7E940545;
+	Wed, 16 Jun 2021 13:39:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SMnFOPXJdomg; Wed, 16 Jun 2021 13:39:18 +0000 (UTC)
+	with ESMTP id SkMmGerNGUqG; Wed, 16 Jun 2021 13:39:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CCD7840539;
-	Wed, 16 Jun 2021 13:39:17 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D46E040534;
+	Wed, 16 Jun 2021 13:39:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AD3EC0025;
-	Wed, 16 Jun 2021 13:39:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E38A3C002D;
+	Wed, 16 Jun 2021 13:39:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F950C000B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 13:39:15 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03159C000B
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 13:39:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7E972837CD
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 13:39:13 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 88B0383A3E
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 13:39:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=quicinc.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qx8frq5e5xgb for <iommu@lists.linux-foundation.org>;
- Wed, 16 Jun 2021 13:39:12 +0000 (UTC)
+ with ESMTP id WugwEmugVZA2 for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Jun 2021 13:39:13 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
  [199.106.114.39])
- by smtp1.osuosl.org (Postfix) with ESMTPS id CAC82836C8
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 13:39:12 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id CB82383B0B
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 13:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1623850752; x=1655386752;
+ t=1623850753; x=1655386753;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=S018wa2gdw8J/yqGiI977vZ9/2XFkFo+h4T7W/Qq1xk=;
- b=p+sRD+qSM9bICjZU2mkE22FVE18j87c8YNOAQo0z2M9k1sHhs3EXKOxO
- FYZXT/elrQVB8qYH92Bz/beAeAy+DK0QmsN8LuSdO5itG7s/Se/e19tj/
- V6/wlY2bVO6Pkwt0WS9/Ix22O0ul4xQ8Rp+ft97SjfiajY7IjTM4lZVTT A=;
+ bh=+HFv+DKvnPCPsWuXWYMZKBwCYe6e05uqYXwhKa4C3YE=;
+ b=p+O7poGs4vEBHIVltbfN7LovgLs6+OKAmUw8/yhYusL+A7PMGEyc/iQ1
+ Zh/12HoLHduBANAFuTURCbX5uRCoX0yDk/DL/7VkXWqVBS5h3dButvMZQ
+ wpQvB1kgBq3pF1o6fo3JvmQHzFmV1ImteP52nenXukEy32CvgDE07NsQB w=;
 Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 16 Jun 2021 06:39:11 -0700
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 16 Jun 2021 06:39:12 -0700
 X-QCInternal: smtphost
 Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
@@ -57,9 +57,9 @@ Received: from th-lint-040.qualcomm.com (10.80.80.8) by
  15.0.1497.18; Wed, 16 Jun 2021 06:39:08 -0700
 From: Georgi Djakov <quic_c_gdjako@quicinc.com>
 To: <will@kernel.org>, <robin.murphy@arm.com>
-Subject: [PATCH v7 07/15] iommu: Hook up '->unmap_pages' driver callback
-Date: Wed, 16 Jun 2021 06:38:48 -0700
-Message-ID: <1623850736-389584-8-git-send-email-quic_c_gdjako@quicinc.com>
+Subject: [PATCH v7 08/15] iommu: Add support for the map_pages() callback
+Date: Wed, 16 Jun 2021 06:38:49 -0700
+Message-ID: <1623850736-389584-9-git-send-email-quic_c_gdjako@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1623850736-389584-1-git-send-email-quic_c_gdjako@quicinc.com>
 References: <1623850736-389584-1-git-send-email-quic_c_gdjako@quicinc.com>
@@ -87,127 +87,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Will Deacon <will@kernel.org>
+From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 
-Extend iommu_pgsize() to populate an optional 'count' parameter so that
-we can direct unmapping operation to the ->unmap_pages callback if it
-has been provided by the driver.
+Since iommu_pgsize can calculate how many pages of the
+same size can be mapped/unmapped before the next largest
+page size boundary, add support for invoking an IOMMU
+driver's map_pages() callback, if it provides one.
 
-Signed-off-by: Will Deacon <will@kernel.org>
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+Suggested-by: Will Deacon <will@kernel.org>
 Signed-off-by: Georgi Djakov <quic_c_gdjako@quicinc.com>
 ---
- drivers/iommu/iommu.c | 59 +++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 50 insertions(+), 9 deletions(-)
+ drivers/iommu/iommu.c | 43 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 80e14c139d40..725622c7e603 100644
+index 725622c7e603..70a729ce88b1 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -2376,11 +2376,11 @@ phys_addr_t iommu_iova_to_phys(struct iommu_domain *domain, dma_addr_t iova)
- EXPORT_SYMBOL_GPL(iommu_iova_to_phys);
- 
- static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
--			   phys_addr_t paddr, size_t size)
-+			   phys_addr_t paddr, size_t size, size_t *count)
- {
--	unsigned int pgsize_idx;
-+	unsigned int pgsize_idx, pgsize_idx_next;
- 	unsigned long pgsizes;
--	size_t pgsize;
-+	size_t offset, pgsize, pgsize_next;
- 	unsigned long addr_merge = paddr | iova;
- 
- 	/* Page sizes supported by the hardware and small enough for @size */
-@@ -2396,7 +2396,36 @@ static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
- 	/* Pick the biggest page size remaining */
- 	pgsize_idx = __fls(pgsizes);
- 	pgsize = BIT(pgsize_idx);
-+	if (!count)
-+		return pgsize;
- 
-+	/* Find the next biggest support page size, if it exists */
-+	pgsizes = domain->pgsize_bitmap & ~GENMASK(pgsize_idx, 0);
-+	if (!pgsizes)
-+		goto out_set_count;
-+
-+	pgsize_idx_next = __ffs(pgsizes);
-+	pgsize_next = BIT(pgsize_idx_next);
-+
-+	/*
-+	 * There's no point trying a bigger page size unless the virtual
-+	 * and physical addresses are similarly offset within the larger page.
-+	 */
-+	if ((iova ^ paddr) & (pgsize_next - 1))
-+		goto out_set_count;
-+
-+	/* Calculate the offset to the next page size alignment boundary */
-+	offset = pgsize_next - (addr_merge & (pgsize_next - 1));
-+
-+	/*
-+	 * If size is big enough to accommodate the larger page, reduce
-+	 * the number of smaller pages.
-+	 */
-+	if (offset + pgsize_next <= size)
-+		size = offset;
-+
-+out_set_count:
-+	*count = size >> pgsize_idx;
+@@ -2429,6 +2429,30 @@ static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
  	return pgsize;
  }
  
-@@ -2434,7 +2463,7 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
- 	pr_debug("map: iova 0x%lx pa %pa size 0x%zx\n", iova, &paddr, size);
- 
- 	while (size) {
--		size_t pgsize = iommu_pgsize(domain, iova, paddr, size);
-+		size_t pgsize = iommu_pgsize(domain, iova, paddr, size, NULL);
- 
- 		pr_debug("mapping: iova 0x%lx pa %pa pgsize 0x%zx\n",
- 			 iova, &paddr, pgsize);
-@@ -2485,6 +2514,19 @@ int iommu_map_atomic(struct iommu_domain *domain, unsigned long iova,
- }
- EXPORT_SYMBOL_GPL(iommu_map_atomic);
- 
-+static size_t __iommu_unmap_pages(struct iommu_domain *domain,
-+				  unsigned long iova, size_t size,
-+				  struct iommu_iotlb_gather *iotlb_gather)
++static int __iommu_map_pages(struct iommu_domain *domain, unsigned long iova,
++			     phys_addr_t paddr, size_t size, int prot,
++			     gfp_t gfp, size_t *mapped)
 +{
 +	const struct iommu_ops *ops = domain->ops;
 +	size_t pgsize, count;
++	int ret;
 +
-+	pgsize = iommu_pgsize(domain, iova, iova, size, &count);
-+	return ops->unmap_pages ?
-+	       ops->unmap_pages(domain, iova, pgsize, count, iotlb_gather) :
-+	       ops->unmap(domain, iova, pgsize, iotlb_gather);
++	pgsize = iommu_pgsize(domain, iova, paddr, size, &count);
++
++	pr_debug("mapping: iova 0x%lx pa %pa pgsize 0x%zx count %zu\n",
++		 iova, &paddr, pgsize, count);
++
++	if (ops->map_pages) {
++		ret = ops->map_pages(domain, iova, paddr, pgsize, count, prot,
++				     gfp, mapped);
++	} else {
++		ret = ops->map(domain, iova, paddr, pgsize, prot, gfp);
++		*mapped = ret ? 0 : pgsize;
++	}
++
++	return ret;
 +}
 +
- static size_t __iommu_unmap(struct iommu_domain *domain,
- 			    unsigned long iova, size_t size,
- 			    struct iommu_iotlb_gather *iotlb_gather)
-@@ -2494,7 +2536,7 @@ static size_t __iommu_unmap(struct iommu_domain *domain,
- 	unsigned long orig_iova = iova;
- 	unsigned int min_pagesz;
+ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 		       phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+ {
+@@ -2439,7 +2463,7 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	phys_addr_t orig_paddr = paddr;
+ 	int ret = 0;
  
--	if (unlikely(ops->unmap == NULL ||
-+	if (unlikely(!(ops->unmap || ops->unmap_pages) ||
+-	if (unlikely(ops->map == NULL ||
++	if (unlikely(!(ops->map || ops->map_pages) ||
  		     domain->pgsize_bitmap == 0UL))
- 		return 0;
+ 		return -ENODEV;
  
-@@ -2522,10 +2564,9 @@ static size_t __iommu_unmap(struct iommu_domain *domain,
- 	 * or we hit an area that isn't mapped.
- 	 */
- 	while (unmapped < size) {
--		size_t pgsize;
--
--		pgsize = iommu_pgsize(domain, iova, iova, size - unmapped);
--		unmapped_page = ops->unmap(domain, iova, pgsize, iotlb_gather);
-+		unmapped_page = __iommu_unmap_pages(domain, iova,
-+						    size - unmapped,
-+						    iotlb_gather);
- 		if (!unmapped_page)
+@@ -2463,18 +2487,21 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	pr_debug("map: iova 0x%lx pa %pa size 0x%zx\n", iova, &paddr, size);
+ 
+ 	while (size) {
+-		size_t pgsize = iommu_pgsize(domain, iova, paddr, size, NULL);
++		size_t mapped = 0;
+ 
+-		pr_debug("mapping: iova 0x%lx pa %pa pgsize 0x%zx\n",
+-			 iova, &paddr, pgsize);
+-		ret = ops->map(domain, iova, paddr, pgsize, prot, gfp);
++		ret = __iommu_map_pages(domain, iova, paddr, size, prot, gfp,
++					&mapped);
++		/*
++		 * Some pages may have been mapped, even if an error occurred,
++		 * so we should account for those so they can be unmapped.
++		 */
++		size -= mapped;
+ 
+ 		if (ret)
  			break;
  
+-		iova += pgsize;
+-		paddr += pgsize;
+-		size -= pgsize;
++		iova += mapped;
++		paddr += mapped;
+ 	}
+ 
+ 	/* unroll mapping in case something went wrong */
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
