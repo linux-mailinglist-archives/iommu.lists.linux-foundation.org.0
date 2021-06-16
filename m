@@ -1,90 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FE13A9980
-	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 13:45:48 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA10D3A99EF
+	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 14:08:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 69415832C6;
-	Wed, 16 Jun 2021 11:45:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1D18F605FD;
+	Wed, 16 Jun 2021 12:08:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VSJlVHYFil0A; Wed, 16 Jun 2021 11:45:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B1944834D3;
-	Wed, 16 Jun 2021 11:45:46 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id j552xAtWZhcN; Wed, 16 Jun 2021 12:08:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 288086074F;
+	Wed, 16 Jun 2021 12:08:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8306CC000B;
-	Wed, 16 Jun 2021 11:45:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0FADC000F;
+	Wed, 16 Jun 2021 12:08:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1D6BC000B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:45:45 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F25E0C000B
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 12:08:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8FCEE403E8
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:45:45 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id D2E9D82F40
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 12:08:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vhbyPBYzBJNn for <iommu@lists.linux-foundation.org>;
- Wed, 16 Jun 2021 11:45:45 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D563E4045B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:45:44 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id e25so3430463ljj.1
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 04:45:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dtd/r4kQdNTFgMzEtuMDxRln8AeazBFMNuFE+IwxLQ0=;
- b=tM9YyD9dbmrU6QAIak9v1L1Hze3NeFQPPNBEtD4omgZjEyhQcUg1q3wkLUmDpwXXOT
- 6u+FMb976YVcaypY+NkjNsra9tUi2NzMsuaXdS253tuTX+l569fNkUgrvOzggDbWTp8W
- ENky2qq1vTSb11/DZgVTmvzbf9N+SWxrHqqLmE895cQUdLDT00v5gJHuqst+RLC6DELx
- AZubyEXZLMybvYei/eZAvnHzFQnU3mWT2NbfPe9zTz+GpRTN5egfyB5q61LhPml0mNjt
- 9xsP8j3AJPQS9llNh712rLD/eGmKOg1uNQpb4kiRypPtttLcmaoFcMAzMHxwwR+iDCTV
- h9lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dtd/r4kQdNTFgMzEtuMDxRln8AeazBFMNuFE+IwxLQ0=;
- b=NHPtZnljp0pvZbV9QxSkx64UDXh5kj2h0P0gcYn4ltK4+rdNyac9iU9QcMkMdHGvCW
- nALzGkN62ufI9arg3ul+soYw9m3N6E76ibMlgU28T7qoDoNXQcEtGjdSwsnRKSy6e6z1
- RlVbqJID8CPU+wDJgYKi66ODYW6tDx5tUhnngvXzrobqGI2Nn+0ayfRGn8JjQ44aFzXc
- +Yhgf/vZMDW0jDtw+CmfzVqznjEvnEgAqoQ45iMpJy7eaRbRFVMwCUMCrdHKZkBsBxM2
- L7iwF5znkckmOhpMD+qyucr1TD2Ut0Tm4ZRp5TthyCXo5D73+qC1hv/j2zPQrzbsry4p
- cdjg==
-X-Gm-Message-State: AOAM532MmtrxdBPXAZaYTiotVQH+zb+oYab3G5SkA8fC14bQoJcVzU5F
- tMyRRoqUDyTjm9VztQdaV6yUTQOSgVMNC9OWQf4=
-X-Google-Smtp-Source: ABdhPJzI40Mx409ixL6A8VaGSABYZuuy5E1EPuBErhnFhAQBqUvi8LwmZwSBohmrfaadIq0f8nBwGp02vfH8jjD6rDc=
-X-Received: by 2002:a05:651c:291:: with SMTP id
- b17mr2735729ljo.497.1623843942771; 
- Wed, 16 Jun 2021 04:45:42 -0700 (PDT)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oj2QeHEkbC4Q for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Jun 2021 12:08:50 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0E9F382EBA
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 12:08:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CD51A61245;
+ Wed, 16 Jun 2021 12:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623845329;
+ bh=QlkI38WT3hL5S6bnBl68cYI3mNCvqwOg2BtN6RClOD8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gNoqbf4BoEB+mMSkF0LbPACcE8hfdhWziBuc3On0yCSF1OPpARGrphJEZzi5R8zhj
+ EQBk9eSasfJ21LDYEs5fQgad/5i5kQ4hvjwr2VzkCT5qsBkbBa2YuO73damjDS9tPT
+ gEWv6ceU59Ud8WyKcV32BLXCIyoDzCKKiI1Qx1b1D7h7TGQnS6Yc8Hh4jwg0vvdXHU
+ 1ESCA6NJ9d+xly0Ts4XCXJSqpVE+kwtWKvwUzczVJ12VkVaF8vrrLoIIMNmcUpnUot
+ CLEWTlb2HNfBG1sx2OnHpHCbJjguomfMTK9NnEnMModJku7GBFKFrxYfN57naGCL26
+ kwPvkXDDNtLyg==
+Date: Wed, 16 Jun 2021 13:08:38 +0100
+From: Will Deacon <will@kernel.org>
+To: Claire Chang <tientzu@chromium.org>
+Subject: Re: [PATCH v12 00/12] Restricted DMA
+Message-ID: <20210616120837.GA22783@willie-the-truck>
+References: <20210616062157.953777-1-tientzu@chromium.org>
 MIME-Version: 1.0
-References: <20210611095528.9230-1-roman_skakun@epam.com>
- <855a58e2-1e03-4763-cb56-81367b73762c@oracle.com>
- <CADu_u-MqALJkG8RJHrr65vC_sHu-UyvCGwwUfaBong0eir5+hQ@mail.gmail.com>
- <fbaeaad5-ea8a-ff2d-2e62-d27b4d234e8e@oracle.com>
-In-Reply-To: <fbaeaad5-ea8a-ff2d-2e62-d27b4d234e8e@oracle.com>
-From: Roman Skakun <rm.skakun@gmail.com>
-Date: Wed, 16 Jun 2021 14:45:32 +0300
-Message-ID: <CADu_u-MgdJYH-sf57AL_Fg3AnjpHoZ1Bk1nxytmoupJc=hJDfw@mail.gmail.com>
-Subject: Re: [PATCH] swiotlb-xen: override common mmap and get_sgtable dma ops
-To: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Cc: Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Andrii Anisov <andrii_anisov@epam.com>,
+Content-Disposition: inline
+In-Reply-To: <20210616062157.953777-1-tientzu@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, benh@kernel.crashing.org,
+ joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
+ mpe@ellerman.id.au, "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ jxgao@google.com, daniel@ffwll.ch,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- linux-kernel@vger.kernel.org,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- iommu@lists.linux-foundation.org, Roman Skakun <roman_skakun@epam.com>,
- xen-devel@lists.xenproject.org, Volodymyr Babchuk <volodymyr_babchuk@epam.com>
+ maarten.lankhorst@linux.intel.com, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ jani.nikula@linux.intel.com, Rob Herring <robh+dt@kernel.org>,
+ rodrigo.vivi@intel.com, bhelgaas@google.com, boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,13 +99,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> We make sure that we allocate contiguous memory in xen_swiotlb_alloc_coherent().
+Hi Claire,
 
-I understood.
+On Wed, Jun 16, 2021 at 02:21:45PM +0800, Claire Chang wrote:
+> This series implements mitigations for lack of DMA access control on
+> systems without an IOMMU, which could result in the DMA accessing the
+> system memory at unexpected times and/or unexpected addresses, possibly
+> leading to data leakage or corruption.
+> 
+> For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+> not behind an IOMMU. As PCI-e, by design, gives the device full access to
+> system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+> to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+> full chain of exploits; [2], [3]).
+> 
+> To mitigate the security concerns, we introduce restricted DMA. Restricted
+> DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+> specially allocated region and does memory allocation from the same region.
+> The feature on its own provides a basic level of protection against the DMA
+> overwriting buffer contents at unexpected times. However, to protect
+> against general data leakage and system memory corruption, the system needs
+> to provide a way to restrict the DMA to a predefined memory region (this is
+> usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
+> 
+> [1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+> [1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+> [2] https://blade.tencent.com/en/advisories/qualpwn/
+> [3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+> [4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
+> 
+> v12:
+> Split is_dev_swiotlb_force into is_swiotlb_force_bounce (patch 06/12) and
+> is_swiotlb_for_alloc (patch 09/12)
+
+I took this for a spin in an arm64 KVM guest with virtio devices using the
+DMA API and it works as expected on top of swiotlb devel/for-linus-5.14, so:
+
+Tested-by: Will Deacon <will@kernel.org>
+
 Thanks!
 
--- 
-Best Regards, Roman.
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
