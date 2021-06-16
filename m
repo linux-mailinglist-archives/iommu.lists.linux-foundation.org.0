@@ -1,52 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C373A9436
-	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 09:39:34 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1683A9442
+	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 09:39:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8F489606A9;
-	Wed, 16 Jun 2021 07:39:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BACC18343F;
+	Wed, 16 Jun 2021 07:39:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id J-aPa8f-Vtcu; Wed, 16 Jun 2021 07:39:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C55F160719;
-	Wed, 16 Jun 2021 07:39:31 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id p6zJjTZhuh4d; Wed, 16 Jun 2021 07:39:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id EB07483440;
+	Wed, 16 Jun 2021 07:39:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B709C0024;
-	Wed, 16 Jun 2021 07:39:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6684C000B;
+	Wed, 16 Jun 2021 07:39:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D530FC000B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 07:39:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35018C000B
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 07:39:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C24988343F
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 07:39:29 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1673883440
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 07:39:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lrxAlFsF46Ui for <iommu@lists.linux-foundation.org>;
- Wed, 16 Jun 2021 07:39:29 +0000 (UTC)
+ with ESMTP id V9Ygap7c9cdp for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Jun 2021 07:39:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 02406832B0
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 07:39:28 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 706BB8343F
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 07:39:45 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 9C8526736F; Wed, 16 Jun 2021 09:39:22 +0200 (CEST)
-Date: Wed, 16 Jun 2021 09:39:22 +0200
+ id 329CC68B05; Wed, 16 Jun 2021 09:39:42 +0200 (CEST)
+Date: Wed, 16 Jun 2021 09:39:42 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v12 06/12] swiotlb: Use is_swiotlb_force_bounce for
- swiotlb data bouncing
-Message-ID: <20210616073922.GA2326@lst.de>
+Subject: Re: [PATCH v12 09/12] swiotlb: Add restricted DMA alloc/free support
+Message-ID: <20210616073942.GB2326@lst.de>
 References: <20210616062157.953777-1-tientzu@chromium.org>
- <20210616062157.953777-7-tientzu@chromium.org>
+ <20210616062157.953777-10-tientzu@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210616062157.953777-7-tientzu@chromium.org>
+In-Reply-To: <20210616062157.953777-10-tientzu@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
  peterz@infradead.org, benh@kernel.crashing.org,
@@ -89,10 +88,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jun 16, 2021 at 02:21:51PM +0800, Claire Chang wrote:
-> Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
-> use it to determine whether to bounce the data or not. This will be
-> useful later to allow for different pools.
+On Wed, Jun 16, 2021 at 02:21:54PM +0800, Claire Chang wrote:
+> Add the functions, swiotlb_{alloc,free} and is_swiotlb_for_alloc to
+> support the memory allocation from restricted DMA pool.
+> 
+> The restricted DMA pool is preferred if available.
+> 
+> Note that since coherent allocation needs remapping, one must set up
+> another device coherent pool by shared-dma-pool and use
+> dma_alloc_from_dev_coherent instead for atomic coherent allocation.
 > 
 > Signed-off-by: Claire Chang <tientzu@chromium.org>
 
