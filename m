@@ -1,58 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482293A98CC
-	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 13:08:48 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB043A98D0
+	for <lists.iommu@lfdr.de>; Wed, 16 Jun 2021 13:08:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DC32683B34;
-	Wed, 16 Jun 2021 11:08:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A7F3A60A3E;
+	Wed, 16 Jun 2021 11:08:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RDlWSLNFV7HO; Wed, 16 Jun 2021 11:08:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EFA8B83B1B;
-	Wed, 16 Jun 2021 11:08:45 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WaG1fWoytEdT; Wed, 16 Jun 2021 11:08:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C1B1960A40;
+	Wed, 16 Jun 2021 11:08:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AC7DC0025;
-	Wed, 16 Jun 2021 11:08:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CDBBC000B;
+	Wed, 16 Jun 2021 11:08:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7B46AC000B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:08:44 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0C99DC000B
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:08:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 69856403FF
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:08:44 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id EF90040197
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:08:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8kHKriVvYthO for <iommu@lists.linux-foundation.org>;
- Wed, 16 Jun 2021 11:08:43 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id c83iJgRXcTVT for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Jun 2021 11:08:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 0DA6C400CF
- for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:08:42 +0000 (UTC)
-Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G4htF2Kgpz6JBBm;
- Wed, 16 Jun 2021 18:55:33 +0800 (CST)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id AC30A401C9
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Jun 2021 11:08:46 +0000 (UTC)
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G4j1L1x55z6FB2J;
+ Wed, 16 Jun 2021 19:01:42 +0800 (CST)
 Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 16 Jun 2021 13:08:40 +0200
+ 15.1.2176.2; Wed, 16 Jun 2021 13:08:44 +0200
 Received: from localhost.localdomain (10.69.192.58) by
  lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 16 Jun 2021 12:08:37 +0100
+ 15.1.2176.2; Wed, 16 Jun 2021 12:08:40 +0100
 From: John Garry <john.garry@huawei.com>
 To: <joro@8bytes.org>, <will@kernel.org>, <dwmw2@infradead.org>,
  <baolu.lu@linux.intel.com>, <robin.murphy@arm.com>, <corbet@lwn.net>
-Subject: [PATCH v13 1/6] iommu: Deprecate Intel and AMD cmdline methods to
- enable strict mode
-Date: Wed, 16 Jun 2021 19:03:52 +0800
-Message-ID: <1623841437-211832-2-git-send-email-john.garry@huawei.com>
+Subject: [PATCH v13 2/6] iommu: Print strict or lazy mode at init time
+Date: Wed, 16 Jun 2021 19:03:53 +0800
+Message-ID: <1623841437-211832-3-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
 References: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
@@ -80,67 +79,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that the x86 drivers support iommu.strict, deprecate the custom
-methods.
+As well as the default domain type, it's useful to know whether strict
+or lazy for DMA domains, so add this info in a separate print.
+
+The (stict/lazy) mode may be also set via iommu.strict earlyparm, but
+this will be processed prior to iommu_subsys_init(), so that print will be
+accurate for drivers which don't set the mode via custom means.
+
+For the drivers which set the mode via custom means - AMD and Intel drivers
+- they maintain prints to inform a change in policy or that custom cmdline
+methods to change policy are deprecated.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 5 +++--
- drivers/iommu/amd/init.c                        | 4 +++-
- drivers/iommu/intel/iommu.c                     | 1 +
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ drivers/iommu/iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 30e9dd52464e..fcbb36d6eea7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -290,7 +290,8 @@
- 	amd_iommu=	[HW,X86-64]
- 			Pass parameters to the AMD IOMMU driver in the system.
- 			Possible values are:
--			fullflush - enable flushing of IO/TLB entries when
-+			fullflush   [Deprecated, use iommu.strict instead]
-+				  - enable flushing of IO/TLB entries when
- 				    they are unmapped. Otherwise they are
- 				    flushed before they will be reused, which
- 				    is a lot of faster
-@@ -1947,7 +1948,7 @@
- 			bypassed by not enabling DMAR with this option. In
- 			this case, gfx device will use physical address for
- 			DMA.
--		strict [Default Off]
-+		strict [Default Off] [Deprecated, use iommu.strict instead]
- 			With this option on every unmap_single operation will
- 			result in a hardware IOTLB flush operation as opposed
- 			to batching them for performance.
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 46280e6e1535..9f3096d650aa 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -3098,8 +3098,10 @@ static int __init parse_amd_iommu_intr(char *str)
- static int __init parse_amd_iommu_options(char *str)
- {
- 	for (; *str; ++str) {
--		if (strncmp(str, "fullflush", 9) == 0)
-+		if (strncmp(str, "fullflush", 9) == 0) {
-+			pr_warn("amd_iommu=fullflush deprecated; use iommu.strict instead\n");
- 			amd_iommu_unmap_flush = true;
-+		}
- 		if (strncmp(str, "force_enable", 12) == 0)
- 			amd_iommu_force_enable = true;
- 		if (strncmp(str, "off", 3) == 0)
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index bd93c7ec879e..821d8227a4e6 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -454,6 +454,7 @@ static int __init intel_iommu_setup(char *str)
- 			pr_warn("intel_iommu=forcedac deprecated; use iommu.forcedac instead\n");
- 			iommu_dma_forcedac = true;
- 		} else if (!strncmp(str, "strict", 6)) {
-+			pr_warn("intel_iommu=strict deprecated; use iommu.strict instead\n");
- 			pr_info("Disable batched IOTLB flush\n");
- 			intel_iommu_strict = 1;
- 		} else if (!strncmp(str, "sp_off", 6)) {
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 5419c4b9f27a..cf58949cc2f3 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -138,6 +138,11 @@ static int __init iommu_subsys_init(void)
+ 		(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API) ?
+ 			"(set via kernel command line)" : "");
+ 
++	pr_info("DMA domain TLB invalidation policy: %s mode %s\n",
++		iommu_dma_strict ? "strict" : "lazy",
++		(iommu_cmd_line & IOMMU_CMD_LINE_STRICT) ?
++			"(set via kernel command line)" : "");
++
+ 	return 0;
+ }
+ subsys_initcall(iommu_subsys_init);
 -- 
 2.26.2
 
