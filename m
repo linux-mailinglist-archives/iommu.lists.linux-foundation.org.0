@@ -1,85 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC493AC106
-	for <lists.iommu@lfdr.de>; Fri, 18 Jun 2021 04:51:48 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFB23AC151
+	for <lists.iommu@lfdr.de>; Fri, 18 Jun 2021 05:29:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9B0AD607CF;
-	Fri, 18 Jun 2021 02:51:46 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 957B240003;
+	Fri, 18 Jun 2021 03:29:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2D-nnoP4CBmf; Fri, 18 Jun 2021 02:51:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AEF7E6074A;
-	Fri, 18 Jun 2021 02:51:45 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id U-nCN_77nmoy; Fri, 18 Jun 2021 03:29:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9BD5A401CB;
+	Fri, 18 Jun 2021 03:29:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8BD38C000B;
-	Fri, 18 Jun 2021 02:51:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 581F4C0023;
+	Fri, 18 Jun 2021 03:29:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 160D4C000B
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 02:51:44 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0B194C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 03:29:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with UTF8SMTP id EC50D40236
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 02:51:43 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id D675B401CB
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 03:29:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=mg.codeaurora.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id Xm7XHbR3wHda for <iommu@lists.linux-foundation.org>;
- Fri, 18 Jun 2021 02:51:43 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by smtp2.osuosl.org (Postfix) with UTF8SMTPS id 1215B4022B
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 02:51:42 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1623984703; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=l6NvgxWFpAFA4sTezsbgFUqMQajeSOZtH1njEusUkcQ=;
- b=XSEJZ5mHWSBR1vDxzUwJjB6NyNf2Wz58ujIDqwxCzDXZ5ueYdN5UMvbBWslkck9BmjYgucYy
- 0B4awBqCJlJjZrQ4JlsAEs+bqZ58MBuaSBSvNAlDoCzHISz1A91MR6RzQpXkIa43FWsX7ShD
- 0oNIOWStXk/SkR4a8uc63WOCZiA=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 60cc0a39ed59bf69ccb367d4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 18 Jun 2021 02:51:37
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id C7AB5C43146; Fri, 18 Jun 2021 02:51:37 +0000 (UTC)
-Received: from blr-ubuntu-253.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 2D852C43460;
- Fri, 18 Jun 2021 02:51:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2D852C43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
- smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>
-Subject: [PATCHv2 3/3] iommu/arm-smmu-qcom: Set IO_PGTABLE_QUIRK_TLB_INV_ALL
- for QTI SoC impl
-Date: Fri, 18 Jun 2021 08:21:05 +0530
-Message-Id: <eaf513a8d4726c453f981504625e47141c56b000.1623981933.git.saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <cover.1623981933.git.saiprakash.ranjan@codeaurora.org>
-References: <cover.1623981933.git.saiprakash.ranjan@codeaurora.org>
+ with ESMTP id stGvfc8aTvhu for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Jun 2021 03:29:32 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 41E23401C8
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 03:29:31 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id df12so4118115edb.2
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Jun 2021 20:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RMJgBEdiibhwSUyvuLKFkBrL4/U8fE/jxx04irYLGbA=;
+ b=av/95B/MiI0xJSuNnIDSIou3GubtAy+v+Cj0IrEJ68VjpsLdRM7w3o1oORGPuxM9E9
+ WcXBTXk69tPR+JRT9pirwPl1i4rEmPN+ROSzO+PpYUb6DGevaUs4cQChuJ9gWp9jybLU
+ 337xsWnlSDEFmVS8b9WCf45xojO+ucnKBtO3ThsQgErg6gNQGMsF1NJtWAQTA+IzuLEE
+ lYIbqpRQcPEBixvBPRcSDXBPAnVFOEE11AW5zQ6nXaMHXzougZshHL3HBZOa0i1hhh2b
+ I2Et2SNidVGS73kG8qlrW1IyTkcBNKTv++J6c5+xl/hwwNMONF8NwQMk+WXrJ33LwaNC
+ opBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RMJgBEdiibhwSUyvuLKFkBrL4/U8fE/jxx04irYLGbA=;
+ b=VZDAmPgSiOIGJAadOJ4laafw6b7tVRPm6VDGVYHm88NyvRP7nVdW4pYnHAPLSkMSky
+ /RRzqNJBilVqNyXFB6K1pLvXVeYiiaqP9w6C+1Vp0GYBtg0HrAmiFZuUtjVToKPkWRjt
+ Nl7hiKe+cVg7R59Tg/F+S7jvlw8bQ1iK8qCuSbsznxQOJkG2QZGy2ORN4/53074oo+T9
+ P2sAdFziW7mj45PKPZeM1Ap1WlYRRNnLwb6jNDJ2TZXgljMY9AJkYEU69XvyLjPg3l7b
+ uPBNzwGmXbBs8BmIrKKlvoamswIL2mt6m3jAZJSakT2ppYvaWateH7/bmSJGsxNp7lIC
+ LK8A==
+X-Gm-Message-State: AOAM533spxM74KAoXnhMt/VIQhX7j5gz7hndYzS3xgULgAhDHzwR2+yl
+ a7ViftvIRSWdD8w3ldBkg3hfIer+tCHVbAfbenxq
+X-Google-Smtp-Source: ABdhPJykGigJ4CmNJwWRgh5x2T6MNjBJPAc2OA16hTcBQrCjxSZwuj53EmfZdOWUW2UcDeCGl7ONh7uq9+Uou058YZU=
+X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr2042806eds.145.1623986969936; 
+ Thu, 17 Jun 2021 20:29:29 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Thierry Reding <treding@nvidia.com>, linux-arm-msm@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+References: <20210615141331.407-1-xieyongji@bytedance.com>
+ <20210615141331.407-4-xieyongji@bytedance.com>
+ <8aeac914-7602-7323-31bd-71015a26f74c@windriver.com>
+In-Reply-To: <8aeac914-7602-7323-31bd-71015a26f74c@windriver.com>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Fri, 18 Jun 2021 11:29:19 +0800
+Message-ID: <CACycT3t1Dgrzsr7LbBrDhRLDa3qZ85ZOgj9H7r1fqPi-kf7r6Q@mail.gmail.com>
+Subject: Re: Re: [PATCH v8 03/10] eventfd: Increase the recursion depth of
+ eventfd_signal()
+To: He Zhe <zhe.he@windriver.com>
+Cc: kvm <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Christian Brauner <christian.brauner@canonical.com>, qiang.zhang@windriver.com,
+ Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
+ Stefan Hajnoczi <stefanha@redhat.com>, songmuchun@bytedance.com,
+ Jens Axboe <axboe@kernel.dk>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ bcrl@kvack.org, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mika.penttila@nextfour.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,55 +105,91 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Set the pgtable quirk IO_PGTABLE_QUIRK_TLB_INV_ALL for QTI SoC
-implementation to use ::tlb_flush_all() for partial walk flush
-to improve unmap performance.
+On Thu, Jun 17, 2021 at 4:34 PM He Zhe <zhe.he@windriver.com> wrote:
+>
+>
+>
+> On 6/15/21 10:13 PM, Xie Yongji wrote:
+> > Increase the recursion depth of eventfd_signal() to 1. This
+> > is the maximum recursion depth we have found so far, which
+> > can be triggered with the following call chain:
+> >
+> >     kvm_io_bus_write                        [kvm]
+> >       --> ioeventfd_write                   [kvm]
+> >         --> eventfd_signal                  [eventfd]
+> >           --> vhost_poll_wakeup             [vhost]
+> >             --> vduse_vdpa_kick_vq          [vduse]
+> >               --> eventfd_signal            [eventfd]
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > Acked-by: Jason Wang <jasowang@redhat.com>
+>
+> The fix had been posted one year ago.
+>
+> https://lore.kernel.org/lkml/20200410114720.24838-1-zhe.he@windriver.com/
+>
 
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
----
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+OK, so it seems to be a fix for the RT system if my understanding is
+correct? Any reason why it's not merged? I'm happy to rebase my series
+on your patch if you'd like to repost it.
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index 7771d40176de..b8ae51592d00 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -146,6 +146,8 @@ static int qcom_adreno_smmu_init_context(struct arm_smmu_domain *smmu_domain,
- {
- 	struct adreno_smmu_priv *priv;
- 
-+	pgtbl_cfg->quirks |= IO_PGTABLE_QUIRK_TLB_INV_ALL;
-+
- 	/* Only enable split pagetables for the GPU device (SID 0) */
- 	if (!qcom_adreno_smmu_is_gpu_device(dev))
- 		return 0;
-@@ -185,6 +187,14 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
- 	{ }
- };
- 
-+static int qcom_smmu_init_context(struct arm_smmu_domain *smmu_domain,
-+		struct io_pgtable_cfg *pgtbl_cfg, struct device *dev)
-+{
-+	pgtbl_cfg->quirks |= IO_PGTABLE_QUIRK_TLB_INV_ALL;
-+
-+	return 0;
-+}
-+
- static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
- {
- 	unsigned int last_s2cr = ARM_SMMU_GR0_S2CR(smmu->num_mapping_groups - 1);
-@@ -308,6 +318,7 @@ static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
- }
- 
- static const struct arm_smmu_impl qcom_smmu_impl = {
-+	.init_context = qcom_smmu_init_context,
- 	.cfg_probe = qcom_smmu_cfg_probe,
- 	.def_domain_type = qcom_smmu_def_domain_type,
- 	.reset = qcom_smmu500_reset,
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+BTW, I also notice another thread for this issue:
 
+https://lore.kernel.org/linux-fsdevel/DM6PR11MB420291B550A10853403C7592FF349@DM6PR11MB4202.namprd11.prod.outlook.com/T/
+
+>
+> > ---
+> >  fs/eventfd.c            | 2 +-
+> >  include/linux/eventfd.h | 5 ++++-
+> >  2 files changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/fs/eventfd.c b/fs/eventfd.c
+> > index e265b6dd4f34..cc7cd1dbedd3 100644
+> > --- a/fs/eventfd.c
+> > +++ b/fs/eventfd.c
+> > @@ -71,7 +71,7 @@ __u64 eventfd_signal(struct eventfd_ctx *ctx, __u64 n)
+> >        * it returns true, the eventfd_signal() call should be deferred to a
+> >        * safe context.
+> >        */
+> > -     if (WARN_ON_ONCE(this_cpu_read(eventfd_wake_count)))
+> > +     if (WARN_ON_ONCE(this_cpu_read(eventfd_wake_count) > EFD_WAKE_DEPTH))
+> >               return 0;
+> >
+> >       spin_lock_irqsave(&ctx->wqh.lock, flags);
+> > diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
+> > index fa0a524baed0..886d99cd38ef 100644
+> > --- a/include/linux/eventfd.h
+> > +++ b/include/linux/eventfd.h
+> > @@ -29,6 +29,9 @@
+> >  #define EFD_SHARED_FCNTL_FLAGS (O_CLOEXEC | O_NONBLOCK)
+> >  #define EFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS | EFD_SEMAPHORE)
+> >
+> > +/* Maximum recursion depth */
+> > +#define EFD_WAKE_DEPTH 1
+> > +
+> >  struct eventfd_ctx;
+> >  struct file;
+> >
+> > @@ -47,7 +50,7 @@ DECLARE_PER_CPU(int, eventfd_wake_count);
+> >
+> >  static inline bool eventfd_signal_count(void)
+> >  {
+> > -     return this_cpu_read(eventfd_wake_count);
+> > +     return this_cpu_read(eventfd_wake_count) > EFD_WAKE_DEPTH;
+>
+> count is just count. How deep is acceptable should be put
+> where eventfd_signal_count is called.
+>
+
+The return value of this function is boolean rather than integer.
+Please see the comments in eventfd_signal():
+
+"then it should check eventfd_signal_count() before calling this
+function. If it returns true, the eventfd_signal() call should be
+deferred to a safe context."
+
+Thanks,
+Yongji
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
