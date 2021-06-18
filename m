@@ -2,119 +2,91 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F123ACF79
-	for <lists.iommu@lfdr.de>; Fri, 18 Jun 2021 17:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A101D3ACFF7
+	for <lists.iommu@lfdr.de>; Fri, 18 Jun 2021 18:07:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CC239415EE;
-	Fri, 18 Jun 2021 15:52:08 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4D0BC415B2;
+	Fri, 18 Jun 2021 16:07:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sqzjIycrnhmd; Fri, 18 Jun 2021 15:52:07 +0000 (UTC)
+	with ESMTP id yvHGmggSOUvP; Fri, 18 Jun 2021 16:07:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 99FC9415E2;
-	Fri, 18 Jun 2021 15:52:07 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id AC27D415BC;
+	Fri, 18 Jun 2021 16:07:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69A1BC000B;
-	Fri, 18 Jun 2021 15:52:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90388C000B;
+	Fri, 18 Jun 2021 16:07:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 06CEDC000B
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 15:52:06 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E0D7C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 16:07:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 494E583CEE
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 15:52:03 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0F7A182D0F
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 16:07:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
+ dkim=pass (2048-bit key) header.d=oracle.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5mV2sKH93RjP for <iommu@lists.linux-foundation.org>;
- Fri, 18 Jun 2021 15:52:02 +0000 (UTC)
+ with ESMTP id 5FtCJ7qXjQoD for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Jun 2021 16:07:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 897D583CEF
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 15:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624031521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2JEl/D8fElGUs5qE1bIG8tGOHlH8JDuVtFpyPtPAcRM=;
- b=JEFPYe7eYkoNs0u1MF2VlyQ3u0ZtH+8Qz6FK7E9IFj6Vf7dGULakGJI49asSHs8uJYouXW
- fj/L9iteQXMWKHhQpcCPk598sJhvzbcCGhi1cXXZzt8CHX72ZI68u3vjlBC780B7frsuI1
- /TiZlB75ke9C+cwaQnw2Iwq/FM/U0LQ=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-iDFWJIjIPIePFMqG1KChIA-1; Fri, 18 Jun 2021 11:52:00 -0400
-X-MC-Unique: iDFWJIjIPIePFMqG1KChIA-1
-Received: by mail-il1-f198.google.com with SMTP id
- w14-20020a92c88e0000b02901edfbb11919so6070169ilo.10
- for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 08:52:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=2JEl/D8fElGUs5qE1bIG8tGOHlH8JDuVtFpyPtPAcRM=;
- b=QMIWcabYagOAu3kZum8X5m+NZwFHS6HFwHXGN0MswYlMissNLyOoIlLAsmeGA8KWCX
- a6fz+2RKfcS3h7MMaRCcVUrq9TEccKGuekA2vrjyvHNrVjz/uNyLHnV7xanO6FKgyPo4
- WOJYdLv7mwQ6kPA9fDD5bKpz+Tg7slP1biNJ4TYZMo/LlbkLwym4FKqs+N/TqTaKUhu1
- BF9nAKmfujm02OB/c+NK/5fzVQ+aWAY2QRx56XgsNr55j8vXodbDFSs+XL6ydhrBPg0d
- ZMiwdkzOMuE2SJEx0e/TgsR+KQpebeeTwv6t5h38rRojdRVa2TFhhCa2P/LvePNHjqxi
- Br7g==
-X-Gm-Message-State: AOAM533ZbHPEctlnrP0cLck+et5ZDPLEmVzfzq0e3AvQpvL3xmeUyMlj
- 6dn1jv39Y4fKMs2uPO1JnssqVzCmWy5lX8o88BontO8fmIROSTJd+2p9/UPbyHhSvVJwpenirFN
- Kqdvhf3GyOjcO4lfqkO3tpoq56w00VQ==
-X-Received: by 2002:a05:6e02:1383:: with SMTP id
- d3mr6838009ilo.172.1624031519707; 
- Fri, 18 Jun 2021 08:51:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyba3VKvMFyZqbrNjMBnKEoGABQfH7jzv5PsLUxAyjyr9uMPZs6fX5eNRt3vqIMNQW+GtEqg==
-X-Received: by 2002:a05:6e02:1383:: with SMTP id
- d3mr6837986ilo.172.1624031519497; 
- Fri, 18 Jun 2021 08:51:59 -0700 (PDT)
-Received: from redhat.com (c-73-14-100-188.hsd1.co.comcast.net.
- [73.14.100.188])
- by smtp.gmail.com with ESMTPSA id y13sm4516131ioa.51.2021.06.18.08.51.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 08:51:59 -0700 (PDT)
-Date: Fri, 18 Jun 2021 09:51:57 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Raj, Ashok" <ashok.raj@intel.com>
-Subject: Re: Plan for /dev/ioasid RFC v2
-Message-ID: <20210618095157.131eb309.alex.williamson@redhat.com>
-In-Reply-To: <20210618153735.GA37688@otc-nc-03>
-References: <20210612105711.7ac68c83.alex.williamson@redhat.com>
- <20210614140711.GI1002214@nvidia.com>
- <20210614102814.43ada8df.alex.williamson@redhat.com>
- <MWHPR11MB1886239C82D6B66A732830B88C309@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210615101215.4ba67c86.alex.williamson@redhat.com>
- <MWHPR11MB188692A6182B1292FADB3BDB8C0F9@MWHPR11MB1886.namprd11.prod.outlook.com>
- <20210616133937.59050e1a.alex.williamson@redhat.com>
- <MWHPR11MB18865DF9C50F295820D038798C0E9@MWHPR11MB1886.namprd11.prod.outlook.com>
- <YMykBzUHmATPbmdV@8bytes.org> <20210618151506.GG1002214@nvidia.com>
- <20210618153735.GA37688@otc-nc-03>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@nvidia.com>, "Tian, 
- Kevin" <kevin.tian@intel.com>, "parav@mellanox.com" <parav@mellanox.com>,
- "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
- David Gibson <david@gibson.dropbear.id.au>,
- Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
- Shenming Lu <lushenming@huawei.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E0B3882AF5
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Jun 2021 16:07:40 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15IG0sSL005128; Fri, 18 Jun 2021 16:06:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=cZtN+8nwtoxzhypWMGF1iqcvE3f3HnWCGtPwWI8XDW4=;
+ b=x1D8TcHCTJNefN2K5hbMyHjXlF1f+b65shWXgPtY260zKpZHmZ5PiSEx/J4sg6n/W2J/
+ ynDNa6bn1hPMnOavDvBVgox82u3/nzM5mS6Oo6WbBQ5WAxW3vm/6sfJCgXsaKOwucI3o
+ SQw9zyLrTP/lq7Vjyq4h0hsgT9w9H4U7TcI2lWwGzUxdaMeQHMmjnu/ci4/t/iRwpecG
+ jiYKo3l4NbfArpFW9rbIgLU6fY43fWgdNkgqsTGkqQ7t1ZzBR5aXdt/OAyObDGF4xT4r
+ M1yBMPPyq1c4H2lWEPeX/ek0Qu6EXUA43hb1MpTRGcqcQaJO24TWiZONQK7aenn3yEEU cA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 397mptmbhd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Jun 2021 16:06:56 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15IG1Hbf173276;
+ Fri, 18 Jun 2021 16:06:55 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3020.oracle.com with ESMTP id 396way763w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Jun 2021 16:06:55 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15IG6s8f014307;
+ Fri, 18 Jun 2021 16:06:54 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 396way7622-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Jun 2021 16:06:54 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15IG6iP0011853;
+ Fri, 18 Jun 2021 16:06:44 GMT
+Received: from lateralus.us.oracle.com (/10.149.232.101)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 18 Jun 2021 16:06:44 +0000
+From: Ross Philipson <ross.philipson@oracle.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+ iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: [PATCH v2 00/12] x86: Trenchboot secure dynamic launch Linux kernel
+ support
+Date: Fri, 18 Jun 2021 12:12:45 -0400
+Message-Id: <1624032777-7013-1-git-send-email-ross.philipson@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-GUID: kfnuDuVbn0NqkP9qJ6fRNWohmbPfUOk1
+X-Proofpoint-ORIG-GUID: kfnuDuVbn0NqkP9qJ6fRNWohmbPfUOk1
+Cc: dpsmith@apertussolutions.com, ross.philipson@oracle.com,
+ luto@amacapital.net, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+ tglx@linutronix.de, trenchboot-devel@googlegroups.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,55 +99,182 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 18 Jun 2021 08:37:35 -0700
-"Raj, Ashok" <ashok.raj@intel.com> wrote:
+The focus of Trechboot project (https://github.com/TrenchBoot) is to
+enhance the boot security and integrity. This requires the linux kernel
+to be directly invoked by x86 Dynamic launch measurements to establish
+Dynamic Root of Trust for Measurement (DRTM). The dynamic launch will
+be initiated by a boot loader with associated support added to it, for
+example the first targeted boot loader will be GRUB2. An integral part of
+establishing the DRTM involves measuring everything that is intended to
+be run (kernel image, initrd, etc) and everything that will configure
+that kernel to run (command line, boot params, etc) into specific PCRs,
+the DRTM PCRs (17-22), in the TPM. Another key aspect is the dynamic
+launch is rooted in hardware, that is to say the hardware (CPU) is what
+takes the first measurement for the chain of integrity measurements. On
+Intel this is done using the GETSEC instruction provided by Intel's TXT
+and the SKINIT instruction provided by AMD's AMD-V. Information on these
+technologies can be readily found online. This patchset introduces Intel
+TXT support.
 
-> On Fri, Jun 18, 2021 at 12:15:06PM -0300, Jason Gunthorpe wrote:
-> > On Fri, Jun 18, 2021 at 03:47:51PM +0200, Joerg Roedel wrote:  
-> > > Hi Kevin,
-> > > 
-> > > On Thu, Jun 17, 2021 at 07:31:03AM +0000, Tian, Kevin wrote:  
-> > > > Now let's talk about the new IOMMU behavior:
-> > > > 
-> > > > -   A device is blocked from doing DMA to any resource outside of
-> > > >     its group when it's probed by the IOMMU driver. This could be a
-> > > >     special state w/o attaching to any domain, or a new special domain
-> > > >     type which differentiates it from existing domain types (identity, 
-> > > >     dma, or unmanged). Actually existing code already includes a
-> > > >     IOMMU_DOMAIN_BLOCKED type but nobody uses it.  
-> > > 
-> > > There is a reason for the default domain to exist: Devices which require
-> > > RMRR mappings to be present. You can't just block all DMA from devices
-> > > until a driver takes over, we put much effort into making sure there is
-> > > not even a small window in time where RMRR regions (unity mapped regions
-> > > on AMD) are not mapped.  
-> > 
-> > Yes, I think the DMA blocking can only start around/after a VFIO type
-> > driver has probed() and bound to a device in the group, not much
-> > different from today.  
-> 
-> Does this mean when a device has a required "RMRR" that requires a unity
-> mapping we block assigning those devices to guests? I remember we had some
-> restriction but there was a need to go around it at some point in time.
-> 
-> - Either we disallow assigning devices with RMRR
-> - Break that unity map when the device is probed and after which any RMRR
->   access from device will fault.
+To enable the kernel to be launched by GETSEC, a stub must be built
+into the setup section of the compressed kernel to handle the specific
+state that the dynamic launch process leaves the BSP in. Also this stub
+must measure everything that is going to be used as early as possible.
+This stub code and subsequent code must also deal with the specific
+state that the dynamic launch leaves the APs in.
 
-We currently disallow assignment of RMRR encumbered devices except for
-the known cases of USB and IGD.  In the general case, an RMRR imposes
-a requirement on the host system to maintain ranges of identity mapping
-that is incompatible with userspace ownership of the device and IOVA
-address space.  AFAICT, nothing changes in the /dev/iommu model that
-would make it safe to entrust userspace with RMRR encumbered devices.
-Thanks,
+A quick note on terminology. The larger open source project itself is
+called Trenchboot, which is hosted on Github (links below). The kernel
+feature enabling the use of the x86 technology is referred to as "Secure
+Launch" within the kernel code. As such the prefixes sl_/SL_ or
+slaunch/SLAUNCH will be seen in the code. The stub code discussed above
+is referred to as the SL stub.
 
-Alex
+Note that patch 1 was authored by Arvind Sankar. We were not able to get
+a status on this patch but Secure Launch depends on it so it is included
+with the set.
+
+The basic flow is:
+
+ - Entry from the dynamic launch jumps to the SL stub
+ - SL stub fixes up the world on the BSP
+ - For TXT, SL stub wakes the APs, fixes up their worlds
+ - For TXT, APs are left halted waiting for an NMI to wake them
+ - SL stub jumps to startup_32
+ - SL main locates the TPM event log and writes the measurements of
+   configuration and module information into it.
+ - Kernel boot proceeds normally from this point.
+ - During early setup, slaunch_setup() runs to finish some validation
+   and setup tasks.
+ - The SMP bringup code is modified to wake the waiting APs. APs vector
+   to rmpiggy and start up normally from that point.
+ - SL platform module is registered as a late initcall module. It reads
+   the TPM event log and extends the measurements taken into the TPM PCRs.
+ - SL platform module initializes the securityfs interface to allow
+   asccess to the TPM event log and TXT public registers.
+ - Kernel boot finishes booting normally
+ - SEXIT support to leave SMX mode is present on the kexec path and
+   the various reboot paths (poweroff, reset, halt).
+
+Links:
+
+The Trenchboot project including documentation:
+
+https://github.com/trenchboot
+
+Intel TXT is documented in its own specification and in the SDM Instruction Set volume:
+
+https://www.intel.com/content/dam/www/public/us/en/documents/guides/intel-txt-software-development-guide.pdf
+https://software.intel.com/en-us/articles/intel-sdm
+
+AMD SKINIT is documented in the System Programming manual:
+
+https://www.amd.com/system/files/TechDocs/24593.pdf
+
+GRUB2 pre-launch support patchset (WIP):
+
+https://lists.gnu.org/archive/html/grub-devel/2020-05/msg00011.html
+
+Thanks
+Ross Philipson and Daniel P. Smith
+
+Changes in v2:
+
+ - Modified 32b entry code to prevent causing relocations in the compressed
+   kernel.
+ - Dropped patches for compressed kernel TPM PCR extender.
+ - Modified event log code to insert log delimiter events and not rely
+   on TPM access.
+ - Stop extending PCRs in the early Secure Launch stub code.
+ - Removed Kconfig options for hash algorithms and use the algorithms the
+   ACM used.
+ - Match Secure Launch measurement algorithm use to those reported in the
+   TPM 2.0 event log.
+ - Read the TPM events out of the TPM and extend them into the PCRs using
+   the mainline TPM driver. This is done in the late initcall module.
+ - Allow use of alternate PCR 19 and 20 for post ACM measurements.
+ - Add Kconfig constraints needed by Secure Launch (disable KASLR
+   and add x2apic dependency).
+ - Fix testing of SL_FLAGS when determining if Secure Launch is active
+   and the architecture is TXT.
+ - Use SYM_DATA_START_LOCAL macros in early entry point code.
+ - Security audit changes:
+   - Validate buffers passed to MLE do not overlap the MLE and are
+     properly laid out.
+   - Validate buffers and memory regions used by the MLE are
+     protected by IOMMU PMRs.
+ - Force IOMMU to not use passthrough mode during a Secure Launch.
+ - Prevent KASLR use during a Secure Launch.
+
+Arvind Sankar (1):
+  x86/boot: Place kernel_info at a fixed offset
+
+Daniel P. Smith (2):
+  x86: Add early SHA support for Secure Launch early measurements
+  x86: Secure Launch late initcall platform module
+
+Ross Philipson (9):
+  x86: Secure Launch Kconfig
+  x86: Secure Launch main header file
+  x86: Secure Launch kernel early boot stub
+  x86: Secure Launch kernel late boot stub
+  x86: Secure Launch SMP bringup support
+  kexec: Secure Launch kexec SEXIT support
+  reboot: Secure Launch SEXIT support on reboot paths
+  tpm: Allow locality 2 to be set when initializing the TPM for Secure
+    Launch
+  iommu: Do not allow IOMMU passthrough with Secure Launch
+
+ Documentation/x86/boot.rst              |  13 +
+ arch/x86/Kconfig                        |  32 ++
+ arch/x86/boot/compressed/Makefile       |   3 +
+ arch/x86/boot/compressed/early_sha1.c   | 103 +++++
+ arch/x86/boot/compressed/early_sha1.h   |  17 +
+ arch/x86/boot/compressed/early_sha256.c |   7 +
+ arch/x86/boot/compressed/head_64.S      |  37 ++
+ arch/x86/boot/compressed/kaslr.c        |  11 +
+ arch/x86/boot/compressed/kernel_info.S  |  52 ++-
+ arch/x86/boot/compressed/kernel_info.h  |  12 +
+ arch/x86/boot/compressed/sl_main.c      | 523 +++++++++++++++++++++++++
+ arch/x86/boot/compressed/sl_stub.S      | 667 ++++++++++++++++++++++++++++++++
+ arch/x86/boot/compressed/vmlinux.lds.S  |   6 +
+ arch/x86/include/asm/realmode.h         |   3 +
+ arch/x86/kernel/Makefile                |   2 +
+ arch/x86/kernel/asm-offsets.c           |  19 +
+ arch/x86/kernel/reboot.c                |  10 +
+ arch/x86/kernel/setup.c                 |   3 +
+ arch/x86/kernel/slaunch.c               | 543 ++++++++++++++++++++++++++
+ arch/x86/kernel/slmodule.c              | 495 ++++++++++++++++++++++++
+ arch/x86/kernel/smpboot.c               |  86 ++++
+ arch/x86/realmode/rm/header.S           |   3 +
+ arch/x86/realmode/rm/trampoline_64.S    |  37 ++
+ drivers/char/tpm/tpm-chip.c             |  13 +-
+ drivers/iommu/intel/dmar.c              |   4 +
+ drivers/iommu/intel/iommu.c             |   5 +
+ drivers/iommu/iommu.c                   |   6 +-
+ include/linux/slaunch.h                 | 540 ++++++++++++++++++++++++++
+ kernel/kexec_core.c                     |   4 +
+ lib/crypto/sha256.c                     |   8 +
+ lib/sha1.c                              |   4 +
+ 31 files changed, 3261 insertions(+), 7 deletions(-)
+ create mode 100644 arch/x86/boot/compressed/early_sha1.c
+ create mode 100644 arch/x86/boot/compressed/early_sha1.h
+ create mode 100644 arch/x86/boot/compressed/early_sha256.c
+ create mode 100644 arch/x86/boot/compressed/kernel_info.h
+ create mode 100644 arch/x86/boot/compressed/sl_main.c
+ create mode 100644 arch/x86/boot/compressed/sl_stub.S
+ create mode 100644 arch/x86/kernel/slaunch.c
+ create mode 100644 arch/x86/kernel/slmodule.c
+ create mode 100644 include/linux/slaunch.h
+
+-- 
+1.8.3.1
 
 _______________________________________________
 iommu mailing list
