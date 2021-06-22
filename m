@@ -1,53 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D263AFE1E
-	for <lists.iommu@lfdr.de>; Tue, 22 Jun 2021 09:41:58 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7636E3AFE20
+	for <lists.iommu@lfdr.de>; Tue, 22 Jun 2021 09:42:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D0FFA401C0;
-	Tue, 22 Jun 2021 07:41:56 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E644682FB1;
+	Tue, 22 Jun 2021 07:42:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1CpcKpYHsCrA; Tue, 22 Jun 2021 07:41:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 057BE40231;
-	Tue, 22 Jun 2021 07:41:56 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LDxlONu7SnaJ; Tue, 22 Jun 2021 07:42:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 34FD482F06;
+	Tue, 22 Jun 2021 07:42:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8B5DC0022;
-	Tue, 22 Jun 2021 07:41:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A5D0C000E;
+	Tue, 22 Jun 2021 07:42:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76091C000E
- for <iommu@lists.linux-foundation.org>; Tue, 22 Jun 2021 07:41:54 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6E0C4C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Jun 2021 07:42:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5BA6940231
- for <iommu@lists.linux-foundation.org>; Tue, 22 Jun 2021 07:41:54 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4FE4982FB1
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Jun 2021 07:42:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gAweklwHUSJb for <iommu@lists.linux-foundation.org>;
- Tue, 22 Jun 2021 07:41:53 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2SXJMYu6z2mn for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Jun 2021 07:42:03 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 59CCC401C0
- for <iommu@lists.linux-foundation.org>; Tue, 22 Jun 2021 07:41:53 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id CF0AB82F06
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Jun 2021 07:42:02 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id B8FFD67373; Tue, 22 Jun 2021 09:41:48 +0200 (CEST)
-Date: Tue, 22 Jun 2021 09:41:48 +0200
+ id AE40F68AFE; Tue, 22 Jun 2021 09:41:59 +0200 (CEST)
+Date: Tue, 22 Jun 2021 09:41:59 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hamza Mahfooz <someguy@effective-light.com>
-Subject: Re: [PATCH] dma debug: report -EEXIST errors in add_dma_entry
-Message-ID: <20210622074148.GA601@lst.de>
-References: <20210518125443.34148-1-someguy@effective-light.com>
+To: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: Re: [PATCH 1/1] dma-mapping: remove trailing spaces and tabs
+Message-ID: <20210622074159.GB601@lst.de>
+References: <20210608075219.13067-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210518125443.34148-1-someguy@effective-light.com>
+In-Reply-To: <20210608075219.13067-1-thunder.leizhen@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Dan Williams <dan.j.williams@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ iommu <iommu@lists.linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
  Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
