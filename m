@@ -2,121 +2,71 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB323B2584
-	for <lists.iommu@lfdr.de>; Thu, 24 Jun 2021 05:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CBB3B267F
+	for <lists.iommu@lfdr.de>; Thu, 24 Jun 2021 06:52:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D2A6A83C14;
-	Thu, 24 Jun 2021 03:35:06 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 145C683C12;
+	Thu, 24 Jun 2021 04:52:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bZjV3Oxz4X-1; Thu, 24 Jun 2021 03:35:06 +0000 (UTC)
+	with ESMTP id 5PRYtdwD2baE; Thu, 24 Jun 2021 04:52:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DBE6483C0D;
-	Thu, 24 Jun 2021 03:35:05 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DEAFA83B3C;
+	Thu, 24 Jun 2021 04:52:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B5CBC0022;
-	Thu, 24 Jun 2021 03:35:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B613BC000E;
+	Thu, 24 Jun 2021 04:52:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 94C44C000E
- for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 03:35:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3D5AC000E
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:52:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 68CDF60829
- for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 03:35:03 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 94854400CE
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:52:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ewm0cgw2_8wr for <iommu@lists.linux-foundation.org>;
- Thu, 24 Jun 2021 03:35:02 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2WLmkymxpJPB for <iommu@lists.linux-foundation.org>;
+ Thu, 24 Jun 2021 04:52:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 4A3FA60807
- for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 03:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624505701;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5QohIO9QZ56POeZsL8ywMd6mageIeyr6m/mT20FPwPo=;
- b=IvnMUpI8ARjUQ2px4raVHAzkZtw8Xe8nNM9kftL3XfBjKTJcrecktPUp7p9IcpR5MXDNGR
- DE5AgIzEme5gS3gO8raxa67tqctDueaqX9ZfAub2jdg0bSe8pbw5yfGlIiIvz+ic3rtRao
- E5g34nLDd19n6b7XaBsRfiqUYH2+tX8=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-GjGZZcoGMkaYHeMpXlDJ9w-1; Wed, 23 Jun 2021 23:34:59 -0400
-X-MC-Unique: GjGZZcoGMkaYHeMpXlDJ9w-1
-Received: by mail-pf1-f199.google.com with SMTP id
- k196-20020a6284cd0000b0290301abd2c063so3039944pfd.14
- for <iommu@lists.linux-foundation.org>; Wed, 23 Jun 2021 20:34:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=5QohIO9QZ56POeZsL8ywMd6mageIeyr6m/mT20FPwPo=;
- b=aEST7gZPiO/8NvZQnpqrZuJ5cpG0kVHoNwv+T0fpMnEfIr2cpWcEv8yfb8I7sNojPg
- tUG6+uBSumGSgVttOUjeBIKUCxjug0WcrRxA8i99jDN0aXHfoSRIE46fcVWJYooNw7BC
- g4BNUyiEtTTNTf3jUn6J/nbuCZLmSjzcAiHNErYzvXE9eNzXqMfM+AWC7MF8vbyFH+ge
- tXumhA0yPty+QjFsSNBgi7Ezfb4QiRNb42J/b0Kvfz9P7sARVg+S0s/SvuGTPf9TMphN
- rPhsdxnZpWgg/A2m0IsgOMfpN3zAbL6asn5ITJsGT9yHTD59c8BW3g4BL3/IYbi9phH+
- KdKg==
-X-Gm-Message-State: AOAM530v7vrN942jemeMOGKn24jeqYMl6eb+U0fxtpUPn51xa5RZv+kW
- TgWol84XQg8FEteoREypD0NqGK8VYp98As/58a7lsRryPqUH6+gX7XuXsGiXSyvqqJPmSiqo1bA
- jBgtoheItAqncYql0+HUtZAQ5ICfBuA==
-X-Received: by 2002:a17:90b:1191:: with SMTP id
- gk17mr2989115pjb.95.1624505698642; 
- Wed, 23 Jun 2021 20:34:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoEDvRxknwye7AvfyEaKP6cKcvSDe8Ou4kXVMU8NQ9OSeQD22thwiDze8XxBwVGv+OJzWxjg==
-X-Received: by 2002:a17:90b:1191:: with SMTP id
- gk17mr2989081pjb.95.1624505698416; 
- Wed, 23 Jun 2021 20:34:58 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id a15sm1101133pff.128.2021.06.23.20.34.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jun 2021 20:34:57 -0700 (PDT)
-Subject: Re: [PATCH v8 09/10] vduse: Introduce VDUSE - vDPA Device in Userspace
-To: Yongji Xie <xieyongji@bytedance.com>
-References: <20210615141331.407-1-xieyongji@bytedance.com>
- <20210615141331.407-10-xieyongji@bytedance.com>
- <adfb2be9-9ed9-ca37-ac37-4cd00bdff349@redhat.com>
- <CACycT3tAON+-qZev+9EqyL2XbgH5HDspOqNt3ohQLQ8GqVK=EA@mail.gmail.com>
- <1bba439f-ffc8-c20e-e8a4-ac73e890c592@redhat.com>
- <CACycT3uzMJS7vw6MVMOgY4rb=SPfT2srV+8DPdwUVeELEiJgbA@mail.gmail.com>
- <0aeb7cb7-58e5-1a95-d830-68edd7e8ec2e@redhat.com>
- <CACycT3uuooKLNnpPHewGZ=q46Fap2P4XCFirdxxn=FxK+X1ECg@mail.gmail.com>
- <e4cdee72-b6b4-d055-9aac-3beae0e5e3e1@redhat.com>
- <CACycT3u8=_D3hCtJR+d5BgeUQMce6S7c_6P3CVfvWfYhCQeXFA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d2334f66-907c-2e9c-ea4f-f912008e9be8@redhat.com>
-Date: Thu, 24 Jun 2021 11:34:46 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7174F400DC
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:52:26 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4G9SRT1cxCz9sXk; Thu, 24 Jun 2021 14:52:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1624510341;
+ bh=gx1WywRC3hzAXTFvcjV77xiuCCDpKaGBAiNERwWNXHs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iZNjtTIv+aoOOMsQEuR9LI3Ajo5dPFwhh8uRET88yjg6nNycrrgKuuusUubj9oeAP
+ ZDx3VYz++fBd1Jdpbv0q/KrHvxGcYdBW0DlLGmk9BLHt8qDq6PR9nWFSeznFOgwNrK
+ CIxdpyKsA7PT2pbifAk00fEpP3NBndVLifehWURk=
+Date: Thu, 24 Jun 2021 13:49:37 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [RFC] /dev/ioasid uAPI proposal
+Message-ID: <YNQA0aGlaDf+UUTR@yekko>
+References: <MWHPR11MB1886422D4839B372C6AB245F8C239@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210528195839.GO1002214@nvidia.com> <YLcpw5Kx61L7TVmR@yekko>
+ <20210602165838.GA1002214@nvidia.com> <YLhsZRc72aIMZajz@yekko>
+ <YLn/SJtzuJopSO2x@myrica> <YL8O1pAlg1jtHudn@yekko>
+ <YMI/yynDsX/aaG8T@myrica> <YMq6voIhXt7guI+W@yekko>
+ <YMzR46luaG7hXsJi@myrica>
 MIME-Version: 1.0
-In-Reply-To: <CACycT3u8=_D3hCtJR+d5BgeUQMce6S7c_6P3CVfvWfYhCQeXFA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Cc: kvm <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Christian Brauner <christian.brauner@canonical.com>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Stefan Hajnoczi <stefanha@redhat.com>, songmuchun@bytedance.com,
- Jens Axboe <axboe@kernel.dk>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- bcrl@kvack.org, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- =?UTF-8?Q?Mika_Penttil=c3=a4?= <mika.penttila@nextfour.com>
+In-Reply-To: <YMzR46luaG7hXsJi@myrica>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ "Alex Williamson \(alex.williamson@redhat.com\)"
+ <alex.williamson@redhat.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, "Jiang, Dave" <dave.jiang@intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, Jason Wang <jasowang@redhat.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -129,65 +79,194 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============7267447451460966046=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CuWcqCAyMDIxLzYvMjMg5LiL5Y2IMTo1MCwgWW9uZ2ppIFhpZSDlhpnpgZM6Cj4gT24gV2VkLCBK
-dW4gMjMsIDIwMjEgYXQgMTE6MzEgQU0gSmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0LmNvbT4g
-d3JvdGU6Cj4+Cj4+IOWcqCAyMDIxLzYvMjIg5LiL5Y2INDoxNCwgWW9uZ2ppIFhpZSDlhpnpgZM6
-Cj4+PiBPbiBUdWUsIEp1biAyMiwgMjAyMSBhdCAzOjUwIFBNIEphc29uIFdhbmcgPGphc293YW5n
-QHJlZGhhdC5jb20+IHdyb3RlOgo+Pj4+IOWcqCAyMDIxLzYvMjIg5LiL5Y2IMzoyMiwgWW9uZ2pp
-IFhpZSDlhpnpgZM6Cj4+Pj4+PiBXZSBuZWVkIGZpeCBhIHdheSB0byBwcm9wYWdhdGUgdGhlIGVy
-cm9yIHRvIHRoZSB1c2Vyc3BhY2UuCj4+Pj4+Pgo+Pj4+Pj4gRS5nIGlmIHdlIHdhbnQgdG8gc3Rv
-cCB0aGUgZGVpdmNlLCB3ZSB3aWxsIGRlbGF5IHRoZSBzdGF0dXMgcmVzZXQgdW50aWwKPj4+Pj4+
-IHdlIGdldCByZXNwb3NlIGZyb20gdGhlIHVzZXJzcGFjZT8KPj4+Pj4+Cj4+Pj4+IEkgZGlkbid0
-IGdldCBob3cgdG8gZGVsYXkgdGhlIHN0YXR1cyByZXNldC4gQW5kIHNob3VsZCBpdCBiZSBhIERv
-Uwo+Pj4+PiB0aGF0IHdlIHdhbnQgdG8gZml4IGlmIHRoZSB1c2Vyc3BhY2UgZG9lc24ndCBnaXZl
-IGEgcmVzcG9uc2UgZm9yZXZlcj8KPj4+PiBZb3UncmUgcmlnaHQuIFNvIGxldCdzIG1ha2Ugc2V0
-X3N0YXR1cygpIGNhbiBmYWlsIGZpcnN0LCB0aGVuIHByb3BhZ2F0ZQo+Pj4+IGl0cyBmYWlsdXJl
-IHZpYSBWSE9TVF9WRFBBX1NFVF9TVEFUVVMuCj4+Pj4KPj4+IE9LLiBTbyB3ZSBvbmx5IG5lZWQg
-dG8gcHJvcGFnYXRlIHRoZSBmYWlsdXJlIGluIHRoZSB2aG9zdC12ZHBhIGNhc2UsIHJpZ2h0Pwo+
-Pgo+PiBJIHRoaW5rIG5vdCwgd2UgbmVlZCB0byBkZWFsIHdpdGggdGhlIHJlc2V0IGZvciB2aXJ0
-aW8gYXMgd2VsbDoKPj4KPj4gRS5nIGluIHJlZ2lzdGVyX3ZpcnRpb19kZXZpY2VzKCksIHdlIGhh
-dmU6Cj4+Cj4+ICAgICAgICAgICAvKiBXZSBhbHdheXMgc3RhcnQgYnkgcmVzZXR0aW5nIHRoZSBk
-ZXZpY2UsIGluIGNhc2UgYSBwcmV2aW91cwo+PiAgICAgICAgICAgICogZHJpdmVyIG1lc3NlZCBp
-dCB1cC4gIFRoaXMgYWxzbyB0ZXN0cyB0aGF0IGNvZGUgcGF0aCBhCj4+IGxpdHRsZS4gKi8KPj4g
-ICAgICAgICBkZXYtPmNvbmZpZy0+cmVzZXQoZGV2KTsKPj4KPj4gV2UgcHJvYmFibHkgbmVlZCB0
-byBtYWtlIHJlc2V0IGNhbiBmYWlsIGFuZCB0aGVuIGZhaWwgdGhlCj4+IHJlZ2lzdGVyX3ZpcnRp
-b19kZXZpY2UoKSBhcyB3ZWxsLgo+Pgo+IE9LLCBsb29rcyBsaWtlIHZpcnRpb19hZGRfc3RhdHVz
-KCkgYW5kIHZpcnRpb19kZXZpY2VfcmVhZHkoKVsxXSBzaG91bGQKPiBiZSBhbHNvIG1vZGlmaWVk
-IGlmIHdlIG5lZWQgdG8gcHJvcGFnYXRlIHRoZSBmYWlsdXJlIGluIHRoZQo+IHZpcnRpby12ZHBh
-IGNhc2UuIE9yIGRvIHdlIG9ubHkgbmVlZCB0byBjYXJlIGFib3V0IHRoZSByZXNldCBjYXNlPwo+
-Cj4gWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyMTA1MTcwOTM0MjguNjcwLTEt
-eGlleW9uZ2ppQGJ5dGVkYW5jZS5jb20vCgoKTXkgdW5kZXJzdGFuZGluZyBpcyBEUklWRVJfT0sg
-aXMgbm90IHNvbWV0aGluZyB0aGF0IG5lZWRzIHRvIGJlIHZhbGlkYXRlZDoKCiIKCkRSSVZFUl9P
-SyAoNCkKSW5kaWNhdGVzIHRoYXQgdGhlIGRyaXZlciBpcyBzZXQgdXAgYW5kIHJlYWR5IHRvIGRy
-aXZlIHRoZSBkZXZpY2UuCgoiCgpTaW5jZSB0aGUgc3BlYyBkb2Vzbid0IHJlcXVpcmUgdG8gcmUt
-cmVhZCB0aGUgYW5kIGNoZWNrIGlmIERSSVZFUl9PSyBpcyAKc2V0IGluIDMuMS4xIERyaXZlciBS
-ZXF1aXJlbWVudHM6IERldmljZSBJbml0aWFsaXphdGlvbi4KCkl0J3MgbW9yZSBhYm91dCAidGVs
-bGluZyB0aGUgZGV2aWNlIHRoYXQgZHJpdmVyIGlzIHJlYWR5LiIKCkJ1dCB3ZSBkb24gaGF2ZSBz
-b21lIHN0YXR1cyBiaXQgdGhhdCByZXF1aXJlcyB0aGUgc3luY2hyb25pemF0aW9uIHdpdGggCnRo
-ZSBkZXZpY2UuCgoxKSBGRUFUVVJFU19PSywgc3BlYyByZXF1aXJlcyB0byByZS1yZWFkIHRoZSBz
-dGF0dXMgYml0IHRvIGNoZWNrIHdoZXRoZXIgCm9yIGl0IGl0IHdhcyBzZXQgYnkgdGhlIGRldmlj
-ZToKCiIKClJlLXJlYWQgZGV2aWNlIHN0YXR1cyB0byBlbnN1cmUgdGhlIEZFQVRVUkVTX09LIGJp
-dCBpcyBzdGlsbCBzZXQ6IApvdGhlcndpc2UsIHRoZSBkZXZpY2UgZG9lcyBub3Qgc3VwcG9ydCBv
-dXIgc3Vic2V0IG9mIGZlYXR1cmVzIGFuZCB0aGUgCmRldmljZSBpcyB1bnVzYWJsZS4KCiIKClRo
-aXMgaXMgdXNlZnVsIGZvciBzb21lIGRldmljZSB3aGljaCBjYW4gb25seSBzdXBwb3J0IGEgc3Vi
-c2V0IG9mIHRoZSAKZmVhdHVyZXMuIEUuZyBhIGRldmljZSB0aGF0IGNhbiBvbmx5IHdvcmsgZm9y
-IHBhY2tlZCB2aXJ0cXVldWUuIFRoaXMgCm1lYW5zIHRoZSBjdXJyZW50IGRlc2lnbiBvZiBzZXRf
-ZmVhdHVyZXMgd29uJ3Qgd29yaywgd2UgbmVlZCBlaXRoZXI6CgoxYSkgcmVsYXkgdGhlIHNldF9m
-ZWF0dXJlcyByZXF1ZXN0IHRvIHVzZXJzcGFjZQoKb3IKCjFiKSBpbnRyb2R1Y2UgYSBtYW5kYXRl
-ZF9kZXZpY2VfZmVhdHVyZXMgZHVyaW5nIGRldmljZSBjcmVhdGlvbiBhbmQgCnZhbGlkYXRlIHRo
-ZSBkcml2ZXIgZmVhdHVyZXMgZHVyaW5nIHRoZSBzZXRfZmVhdHVyZXMoKSwgYW5kIGRvbid0IHNl
-dCAKRkVBVFVSRVNfT0sgaWYgdGhleSBkb24ndCBtYXRjaC4KCgoyKSBTb21lIHRyYW5zcG9ydHMg
-KFBDSSkgcmVxdWlyZXMgdG8gcmUtcmVhZCB0aGUgc3RhdHVzIHRvIGVuc3VyZSB0aGUgCnN5bmNo
-cm9uaXphdGlvbi4KCiIKCkFmdGVyIHdyaXRpbmcgMCB0byBkZXZpY2Vfc3RhdHVzLCB0aGUgZHJp
-dmVyIE1VU1Qgd2FpdCBmb3IgYSByZWFkIG9mIApkZXZpY2Vfc3RhdHVzIHRvIHJldHVybiAwIGJl
-Zm9yZSByZWluaXRpYWxpemluZyB0aGUgZGV2aWNlLgoKIgoKU28gd2UgbmVlZCB0byBkZWFsIHdp
-dGggYm90aCBGRUFUVVJFU19PSyBhbmQgcmVzZXQsIGJ1dCBwcm9iYWJseSBub3QgCkRSSVZFUl9P
-Sy4KClRoYW5rcwoKCj4KPiBUaGFua3MsCj4gWW9uZ2ppCj4KCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0
-cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcv
-bWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+
+--===============7267447451460966046==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1H+1uPZlhx9jF8kT"
+Content-Disposition: inline
+
+
+--1H+1uPZlhx9jF8kT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jun 18, 2021 at 07:03:31PM +0200, Jean-Philippe Brucker wrote:
+> On Thu, Jun 17, 2021 at 01:00:14PM +1000, David Gibson wrote:
+> > On Thu, Jun 10, 2021 at 06:37:31PM +0200, Jean-Philippe Brucker wrote:
+> > > On Tue, Jun 08, 2021 at 04:31:50PM +1000, David Gibson wrote:
+> > > > For the qemu case, I would imagine a two stage fallback:
+> > > >=20
+> > > >     1) Ask for the exact IOMMU capabilities (including pagetable
+> > > >        format) that the vIOMMU has.  If the host can supply, you're
+> > > >        good
+> > > >=20
+> > > >     2) If not, ask for a kernel managed IOAS.  Verify that it can m=
+ap
+> > > >        all the IOVA ranges the guest vIOMMU needs, and has an equal=
+ or
+> > > >        smaller pagesize than the guest vIOMMU presents.  If so,
+> > > >        software emulate the vIOMMU by shadowing guest io pagetable
+> > > >        updates into the kernel managed IOAS.
+> > > >=20
+> > > >     3) You're out of luck, don't start.
+> > > >    =20
+> > > > For both (1) and (2) I'd expect it to be asking this question *afte=
+r*
+> > > > saying what devices are attached to the IOAS, based on the virtual
+> > > > hardware configuration.  That doesn't cover hotplug, of course, for
+> > > > that you have to just fail the hotplug if the new device isn't
+> > > > supportable with the IOAS you already have.
+> > >=20
+> > > Yes. So there is a point in time when the IOAS is frozen, and cannot =
+take
+> > > in new incompatible devices. I think that can support the usage I had=
+ in
+> > > mind. If the VMM (non-QEMU, let's say) wanted to create one IOASID FD=
+ per
+> > > feature set it could bind the first device, freeze the features, then=
+ bind
+> >=20
+> > Are you thinking of this "freeze the features" as an explicitly
+> > triggered action?  I have suggested that an explicit "ENABLE" step
+> > might be useful, but that hasn't had much traction from what I've
+> > seen.
+>=20
+> Seems like we do need an explicit enable step for the flow you described
+> above:
+>=20
+> a) Bind all devices to an ioasid. Each bind succeeds.
+> b) Ask for a specific set of features for this aggregate of device. Ask
+>    for (1), fall back to (2), or abort.
+> c) Boot the VM
+> d) Hotplug a device, bind it to the ioasid. We're long past negotiating
+>    features for the ioasid, so the host needs to reject the bind if the
+>    new device is incompatible with what was requested at (b)
+>=20
+> So a successful request at (b) would be the point where we change the
+> behavior of bind.
+>=20
+> Since the kernel needs a form of feature check in any case, I still have a
+> preference for aborting the bind at (a) if the device isn't exactly
+> compatible with other devices already in the ioasid, because it might be
+> simpler to implement in the host, but I don't feel strongly about this.
+>=20
+>=20
+> > > I'd like to understand better where the difficulty lies, with migrati=
+on.
+> > > Is the problem, once we have a guest running on physical machine A, to
+> > > make sure that physical machine B supports the same IOMMU properties
+> > > before migrating the VM over to B?  Why can't QEMU (instead of the us=
+er)
+> > > select a feature set on machine A, then when time comes to migrate, q=
+uery
+> > > all information from the host kernel on machine B and check that it
+> > > matches what was picked for machine A?  Or is it only trying to
+> > > accommodate different sets of features between A and B, that would be=
+ too
+> > > difficult?
+> >=20
+> > There are two problems
+> >=20
+> > 1) Although it could be done in theory, it's hard, and it would need a
+> > huge rewrite to qemu's whole migration infrastructure to do this.
+> > We'd need a way of representing host features, working out which sets
+> > are compatible with which others depending on what things the guest is
+> > allowed to use, encoding the information in the migration stream and
+> > reporting failure.  None of this exists now.
+> >=20
+> > Indeed qemu requires that you create the (stopped) machine on the
+> > destination (including virtual hardware configuration) before even
+> > attempting to process the incoming migration.  It does not for the
+> > most part transfer the machine configuration in the migration stream.
+> > Now, that's generally considered a flaw with the design, but fixing it
+> > is a huge project that no-one's really had the energy to begin despite
+> > the idea being around for years.
+> >=20
+> > 2) It makes behaviour really hard to predict for management layers
+> > above.  Things like oVirt automatically migrate around a cluster for
+> > load balancing.  At the moment the model which works is basically that
+> > you if you request the same guest features on each end of the
+> > migration, and qemu starts with that configuration on each end, the
+> > migration should work (or only fail for transient reasons).  If you
+> > can't know if the migration is possible until you get the incoming
+> > stream, reporting and exposing what will and won't work to the layer
+> > above also becomes an immensely fiddly problem.
+>=20
+> That was really useful, thanks. One thing I'm worried about is the user
+> having to know way too much detail about IOMMUs in order to pick a precise
+> configuration. The Arm SMMUs have a lot of small features that
+> implementations can mix and match and that a user shouldn't have to care
+> about, and there are lots of different implementations by various vendors.
+> I suppose QEMU can offer a couple of configurations with predefined sets
+> of features, but it seems easy to end up with a config that gets rejected
+> because it is slightly different than the hardware. Anyway this is a
+> discussion we can have once we touch on the features in GET_INFO, I don't
+> have a precise idea at the moment.
+
+That's a reasonable concern.  Most of this is about selecting good
+default modes in the machine type and virtual devices.  In general it
+would be best to make the defaults for the virtual devices use only
+features that are either available on enough current hardware or can
+be software emulated without too much trouble.  Roughly have the qemu
+mode default to the least common denominator IOMMU capabilities.  We
+can update those defaults with new machine types as new hardware
+becomes current and older stuff becomes rare/obsolete.  That still
+leaves selecting an old machine type or explicitly overriding the
+parameters if you need to either a) work on an old host that's missing
+capabilities or b) want to take full advantage of a new host.
+
+This can be a pretty complex judgement call of course.  There are many
+tradeoffs, particularly of performance on new hosts versus
+compatibility with old hosts.  There can be compelling reasons to
+restrict the default model to new(ish) hardware even though it means
+quite a lot of people with older hardware will need awkward options
+(we have a non IOMMU related version of this problem on POWER; for
+security reasons, current machine types default to enabling several
+Spectre mitigations - but that means qemu won't start without special
+options on hosts that have an old firmware which doesn't support those
+mitigations).
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--1H+1uPZlhx9jF8kT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDUAM8ACgkQbDjKyiDZ
+s5IsEQ/+KuPQmgXZ7w8X3+AKd6WcXV7MXhmj04w4OSBEg7W4ZsUI0Z9K44hlu8Jh
+aWGISehQxrfSuz9fN66zB/fRw3qPiP5UAv2adZZFzn0IUFHLJgViaNoyyi1AmcRt
+floi0Lr8i9M0q+LnzPgnXjgTrXyossv8n6/x1V8Lneiez8L/SYFQz9wX7SFhNCV+
+OqEhgoH3B5MmXa8GMeArkARXktTvpS7/MkD+1q+fCCEWQfGOetZStMlI+rgZKMg/
+qrfcU1GH459uYOf9ZP1H5MXbbuO0ecsqWFTryPdXwQdv22OnF70KQX5cIbTGwS/X
++AtIyIwENzAXXr0OAHyDYn4MZhYmbv3roHH0d54fx2e5lZ4l8VKQQv6+khErtkzW
+hMQJpy4UUjst+vhn04KTyxFW6AvQLmCAzldy8NLWRVqaz8m9XzUjMkmLgF78L/m8
+RtP7d5z9zskbbSz0XkbeVhNFIBbCXpU7hVDmRSUYXeYYMR60R/clk34u+MntO7RQ
+ybaoQrauhtd8mR55ZIpvFojKFr/e/D3ZCkOWqYh7E50a/pUZkxt2QEgZK6IFhuIs
+gv4AJTJguJ3ijnMclp4i6165vS5B/RE5Ruvw08e0K0tTaGY3Hzs3eYkVGWeDZvQd
+Cjh4QlrQS048cFIR/8ARDShPsi0Y5wIRkjwgbuqNdDQ4s96TkZo=
+=RxEB
+-----END PGP SIGNATURE-----
+
+--1H+1uPZlhx9jF8kT--
+
+--===============7267447451460966046==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============7267447451460966046==--
