@@ -1,104 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5CF3B266E
-	for <lists.iommu@lfdr.de>; Thu, 24 Jun 2021 06:46:51 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1713B2684
+	for <lists.iommu@lfdr.de>; Thu, 24 Jun 2021 06:52:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AC57683AB5;
-	Thu, 24 Jun 2021 04:46:49 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A0B4160882;
+	Thu, 24 Jun 2021 04:52:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ClImg0NJHi_w; Thu, 24 Jun 2021 04:46:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A69AA83BF4;
-	Thu, 24 Jun 2021 04:46:48 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bZ-IPghoKf1L; Thu, 24 Jun 2021 04:52:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 77AE160885;
+	Thu, 24 Jun 2021 04:52:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EF97C0022;
-	Thu, 24 Jun 2021 04:46:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9A78C0024;
+	Thu, 24 Jun 2021 04:52:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8484FC001A
- for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:46:45 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 47FB3C000E
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:52:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5C43460804
- for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:46:45 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 354C54010E
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:52:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BXLlrdh57ltT for <iommu@lists.linux-foundation.org>;
- Thu, 24 Jun 2021 04:46:44 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E674A607AB
- for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:46:43 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id hq39so7398670ejc.5
- for <iommu@lists.linux-foundation.org>; Wed, 23 Jun 2021 21:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qV+mylXL/2SS4mJCMLehWyslEuC3Qq8x/PXCguBgY/I=;
- b=yLsRfVae0FF0DXCc80Qe7rbCzVIrdmQDyeaVXSgU7731bg1QMqw4lgqLCxjyZUZjwu
- TDH7cb0lIajOurwizpXzJMb1Ld/YEZ/vOZ/tKUWon1ytyFmk7qtEyniUaT9wfomHXaCZ
- Q5k7DOlqy4oW2+TRbKidZkfTZk1foP9dbr9CEZLKOgBzOUjNXSWZEPhSFmyl+eKMt16P
- UetkLAJ4Ll73DccWxMTSvwQYbyiWwHF4SXeF68p10765hT8FeXCxeTOqWo6XDYYUASaW
- U0fLxWjMmOWM2r455SZayrz6m1rBoWQox1axwCaI6sMaC6VcTv4xi2V6T6wMsgxpGUUR
- 4qsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qV+mylXL/2SS4mJCMLehWyslEuC3Qq8x/PXCguBgY/I=;
- b=CjLZ8hbXD2BitH2kY0Ux28ZObHuCOGPBKQFg4s8NbBz/dw+jXmKv0MuEFvS27a1KAo
- VCGPjabWZ8Se3fmRe2kTt/UeZ6lz6Xz4vIMFLjqWEqDS7IXg7/xDDBlXcg5cMwNMTDbp
- ns1iG36v7+tSahhkLuFE75LfRBzBmO9kTHewZRu5tfQOGCdBF0OTcMS0AlHK++f9DYKP
- W0lTUPoi3gfz8BW3u3n7soUaV3gu4hVczBHF1Otsmq+x5SxPn80/NfSIQI5ubBuyN1aZ
- i5J2f1l3sAt4XlKtz82Be2O+TisRjWV9fVVag3KuxCLJWViZv+Tb2+59Hs5i5B7XURaO
- 4k3g==
-X-Gm-Message-State: AOAM532jKxdzVQ3r5jtoybR3hursP2JbVlKmmiCxM8NFjNQ74zbFJxph
- +VTWj0j5DVQIa4DDNRUUrMx0ooV5elqWboZZ2OI9
-X-Google-Smtp-Source: ABdhPJxLv6gMYjF4IzwXDzBGPms1QJcwsfrq54qSD0tH6LJ386sUw0R2U1ERHQHkfRm0DArekdU8YwZzZP3+ubsA+P4=
-X-Received: by 2002:a17:906:3c4a:: with SMTP id
- i10mr3283231ejg.372.1624510001769; 
- Wed, 23 Jun 2021 21:46:41 -0700 (PDT)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2oQHj2Wy5nPC for <iommu@lists.linux-foundation.org>;
+ Thu, 24 Jun 2021 04:52:30 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D49CE403E4
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Jun 2021 04:52:29 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4G9SRT5RZJz9t1s; Thu, 24 Jun 2021 14:52:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1624510341;
+ bh=CUOvolS00mt6fsyyOcaBeHpDD1l35MwCPi+iWoJuI20=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e+t14wM8FUhdgZVe3bPvZMI676YD8wnW8ic6Am/0whGW4VYhlxJ2x750ZLghvljKa
+ pYU9Vmqh+k0qSi+vs9n+kCUu6e4pjtqwaMMUw1A0otHxPj0N10CtjgTB4tg+0kutjy
+ TWZMThky96oa00b4SxnlTGrcqPApbZCJf2wwIb5E=
+Date: Thu, 24 Jun 2021 14:50:45 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: Plan for /dev/ioasid RFC v2
+Message-ID: <YNQPJfNixs23RaJm@yekko>
+References: <YMDjfmJKUDSrbZbo@8bytes.org>
+ <20210609101532.452851eb.alex.williamson@redhat.com>
+ <20210609102722.5abf62e1.alex.williamson@redhat.com>
+ <20210609184940.GH1002214@nvidia.com>
+ <20210610093842.6b9a4e5b.alex.williamson@redhat.com>
+ <BN6PR11MB187579A2F88C77ED2131CEF08C349@BN6PR11MB1875.namprd11.prod.outlook.com>
+ <20210611153850.7c402f0b.alex.williamson@redhat.com>
+ <MWHPR11MB1886C2A0A8AA3000EBD5F8E18C319@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210614133819.GH1002214@nvidia.com>
+ <MWHPR11MB1886A6B3AC4AD249405E5B178C309@MWHPR11MB1886.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <20210615141331.407-1-xieyongji@bytedance.com>
- <20210615141331.407-10-xieyongji@bytedance.com>
- <adfb2be9-9ed9-ca37-ac37-4cd00bdff349@redhat.com>
- <CACycT3tAON+-qZev+9EqyL2XbgH5HDspOqNt3ohQLQ8GqVK=EA@mail.gmail.com>
- <1bba439f-ffc8-c20e-e8a4-ac73e890c592@redhat.com>
- <CACycT3uzMJS7vw6MVMOgY4rb=SPfT2srV+8DPdwUVeELEiJgbA@mail.gmail.com>
- <0aeb7cb7-58e5-1a95-d830-68edd7e8ec2e@redhat.com>
- <CACycT3uuooKLNnpPHewGZ=q46Fap2P4XCFirdxxn=FxK+X1ECg@mail.gmail.com>
- <e4cdee72-b6b4-d055-9aac-3beae0e5e3e1@redhat.com>
- <CACycT3u8=_D3hCtJR+d5BgeUQMce6S7c_6P3CVfvWfYhCQeXFA@mail.gmail.com>
- <d2334f66-907c-2e9c-ea4f-f912008e9be8@redhat.com>
-In-Reply-To: <d2334f66-907c-2e9c-ea4f-f912008e9be8@redhat.com>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Thu, 24 Jun 2021 12:46:30 +0800
-Message-ID: <CACycT3uCSLUDVpQHdrmuxSuoBDg-4n22t+N-Jm2GoNNp9JYB2w@mail.gmail.com>
-Subject: Re: Re: [PATCH v8 09/10] vduse: Introduce VDUSE - vDPA Device in
- Userspace
-To: Jason Wang <jasowang@redhat.com>
-Cc: kvm <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Christian Brauner <christian.brauner@canonical.com>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Stefan Hajnoczi <stefanha@redhat.com>, songmuchun@bytedance.com,
- Jens Axboe <axboe@kernel.dk>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- bcrl@kvack.org, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mika.penttila@nextfour.com>
+In-Reply-To: <MWHPR11MB1886A6B3AC4AD249405E5B178C309@MWHPR11MB1886.namprd11.prod.outlook.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
+ Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@nvidia.com>,
+ "parav@mellanox.com" <parav@mellanox.com>,
+ Alex Williamson <alex.williamson@redhat.com>, "Enrico Weigelt,
+ metux IT consult" <lkml@metux.net>, Robin Murphy <robin.murphy@arm.com>,
+ LKML <linux-kernel@vger.kernel.org>, Shenming Lu <lushenming@huawei.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,73 +85,143 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0456932545382681290=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gVGh1LCBKdW4gMjQsIDIwMjEgYXQgMTE6MzUgQU0gSmFzb24gV2FuZyA8amFzb3dhbmdAcmVk
-aGF0LmNvbT4gd3JvdGU6Cj4KPgo+IOWcqCAyMDIxLzYvMjMg5LiL5Y2IMTo1MCwgWW9uZ2ppIFhp
-ZSDlhpnpgZM6Cj4gPiBPbiBXZWQsIEp1biAyMywgMjAyMSBhdCAxMTozMSBBTSBKYXNvbiBXYW5n
-IDxqYXNvd2FuZ0ByZWRoYXQuY29tPiB3cm90ZToKPiA+Pgo+ID4+IOWcqCAyMDIxLzYvMjIg5LiL
-5Y2INDoxNCwgWW9uZ2ppIFhpZSDlhpnpgZM6Cj4gPj4+IE9uIFR1ZSwgSnVuIDIyLCAyMDIxIGF0
-IDM6NTAgUE0gSmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPj4+PiDl
-nKggMjAyMS82LzIyIOS4i+WNiDM6MjIsIFlvbmdqaSBYaWUg5YaZ6YGTOgo+ID4+Pj4+PiBXZSBu
-ZWVkIGZpeCBhIHdheSB0byBwcm9wYWdhdGUgdGhlIGVycm9yIHRvIHRoZSB1c2Vyc3BhY2UuCj4g
-Pj4+Pj4+Cj4gPj4+Pj4+IEUuZyBpZiB3ZSB3YW50IHRvIHN0b3AgdGhlIGRlaXZjZSwgd2Ugd2ls
-bCBkZWxheSB0aGUgc3RhdHVzIHJlc2V0IHVudGlsCj4gPj4+Pj4+IHdlIGdldCByZXNwb3NlIGZy
-b20gdGhlIHVzZXJzcGFjZT8KPiA+Pj4+Pj4KPiA+Pj4+PiBJIGRpZG4ndCBnZXQgaG93IHRvIGRl
-bGF5IHRoZSBzdGF0dXMgcmVzZXQuIEFuZCBzaG91bGQgaXQgYmUgYSBEb1MKPiA+Pj4+PiB0aGF0
-IHdlIHdhbnQgdG8gZml4IGlmIHRoZSB1c2Vyc3BhY2UgZG9lc24ndCBnaXZlIGEgcmVzcG9uc2Ug
-Zm9yZXZlcj8KPiA+Pj4+IFlvdSdyZSByaWdodC4gU28gbGV0J3MgbWFrZSBzZXRfc3RhdHVzKCkg
-Y2FuIGZhaWwgZmlyc3QsIHRoZW4gcHJvcGFnYXRlCj4gPj4+PiBpdHMgZmFpbHVyZSB2aWEgVkhP
-U1RfVkRQQV9TRVRfU1RBVFVTLgo+ID4+Pj4KPiA+Pj4gT0suIFNvIHdlIG9ubHkgbmVlZCB0byBw
-cm9wYWdhdGUgdGhlIGZhaWx1cmUgaW4gdGhlIHZob3N0LXZkcGEgY2FzZSwgcmlnaHQ/Cj4gPj4K
-PiA+PiBJIHRoaW5rIG5vdCwgd2UgbmVlZCB0byBkZWFsIHdpdGggdGhlIHJlc2V0IGZvciB2aXJ0
-aW8gYXMgd2VsbDoKPiA+Pgo+ID4+IEUuZyBpbiByZWdpc3Rlcl92aXJ0aW9fZGV2aWNlcygpLCB3
-ZSBoYXZlOgo+ID4+Cj4gPj4gICAgICAgICAgIC8qIFdlIGFsd2F5cyBzdGFydCBieSByZXNldHRp
-bmcgdGhlIGRldmljZSwgaW4gY2FzZSBhIHByZXZpb3VzCj4gPj4gICAgICAgICAgICAqIGRyaXZl
-ciBtZXNzZWQgaXQgdXAuICBUaGlzIGFsc28gdGVzdHMgdGhhdCBjb2RlIHBhdGggYQo+ID4+IGxp
-dHRsZS4gKi8KPiA+PiAgICAgICAgIGRldi0+Y29uZmlnLT5yZXNldChkZXYpOwo+ID4+Cj4gPj4g
-V2UgcHJvYmFibHkgbmVlZCB0byBtYWtlIHJlc2V0IGNhbiBmYWlsIGFuZCB0aGVuIGZhaWwgdGhl
-Cj4gPj4gcmVnaXN0ZXJfdmlydGlvX2RldmljZSgpIGFzIHdlbGwuCj4gPj4KPiA+IE9LLCBsb29r
-cyBsaWtlIHZpcnRpb19hZGRfc3RhdHVzKCkgYW5kIHZpcnRpb19kZXZpY2VfcmVhZHkoKVsxXSBz
-aG91bGQKPiA+IGJlIGFsc28gbW9kaWZpZWQgaWYgd2UgbmVlZCB0byBwcm9wYWdhdGUgdGhlIGZh
-aWx1cmUgaW4gdGhlCj4gPiB2aXJ0aW8tdmRwYSBjYXNlLiBPciBkbyB3ZSBvbmx5IG5lZWQgdG8g
-Y2FyZSBhYm91dCB0aGUgcmVzZXQgY2FzZT8KPiA+Cj4gPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvbGttbC8yMDIxMDUxNzA5MzQyOC42NzAtMS14aWV5b25namlAYnl0ZWRhbmNlLmNvbS8K
-Pgo+Cj4gTXkgdW5kZXJzdGFuZGluZyBpcyBEUklWRVJfT0sgaXMgbm90IHNvbWV0aGluZyB0aGF0
-IG5lZWRzIHRvIGJlIHZhbGlkYXRlZDoKPgo+ICIKPgo+IERSSVZFUl9PSyAoNCkKPiBJbmRpY2F0
-ZXMgdGhhdCB0aGUgZHJpdmVyIGlzIHNldCB1cCBhbmQgcmVhZHkgdG8gZHJpdmUgdGhlIGRldmlj
-ZS4KPgo+ICIKPgo+IFNpbmNlIHRoZSBzcGVjIGRvZXNuJ3QgcmVxdWlyZSB0byByZS1yZWFkIHRo
-ZSBhbmQgY2hlY2sgaWYgRFJJVkVSX09LIGlzCj4gc2V0IGluIDMuMS4xIERyaXZlciBSZXF1aXJl
-bWVudHM6IERldmljZSBJbml0aWFsaXphdGlvbi4KPgo+IEl0J3MgbW9yZSBhYm91dCAidGVsbGlu
-ZyB0aGUgZGV2aWNlIHRoYXQgZHJpdmVyIGlzIHJlYWR5LiIKPgo+IEJ1dCB3ZSBkb24gaGF2ZSBz
-b21lIHN0YXR1cyBiaXQgdGhhdCByZXF1aXJlcyB0aGUgc3luY2hyb25pemF0aW9uIHdpdGgKPiB0
-aGUgZGV2aWNlLgo+Cj4gMSkgRkVBVFVSRVNfT0ssIHNwZWMgcmVxdWlyZXMgdG8gcmUtcmVhZCB0
-aGUgc3RhdHVzIGJpdCB0byBjaGVjayB3aGV0aGVyCj4gb3IgaXQgaXQgd2FzIHNldCBieSB0aGUg
-ZGV2aWNlOgo+Cj4gIgo+Cj4gUmUtcmVhZCBkZXZpY2Ugc3RhdHVzIHRvIGVuc3VyZSB0aGUgRkVB
-VFVSRVNfT0sgYml0IGlzIHN0aWxsIHNldDoKPiBvdGhlcndpc2UsIHRoZSBkZXZpY2UgZG9lcyBu
-b3Qgc3VwcG9ydCBvdXIgc3Vic2V0IG9mIGZlYXR1cmVzIGFuZCB0aGUKPiBkZXZpY2UgaXMgdW51
-c2FibGUuCj4KPiAiCj4KPiBUaGlzIGlzIHVzZWZ1bCBmb3Igc29tZSBkZXZpY2Ugd2hpY2ggY2Fu
-IG9ubHkgc3VwcG9ydCBhIHN1YnNldCBvZiB0aGUKPiBmZWF0dXJlcy4gRS5nIGEgZGV2aWNlIHRo
-YXQgY2FuIG9ubHkgd29yayBmb3IgcGFja2VkIHZpcnRxdWV1ZS4gVGhpcwo+IG1lYW5zIHRoZSBj
-dXJyZW50IGRlc2lnbiBvZiBzZXRfZmVhdHVyZXMgd29uJ3Qgd29yaywgd2UgbmVlZCBlaXRoZXI6
-Cj4KPiAxYSkgcmVsYXkgdGhlIHNldF9mZWF0dXJlcyByZXF1ZXN0IHRvIHVzZXJzcGFjZQo+Cj4g
-b3IKPgo+IDFiKSBpbnRyb2R1Y2UgYSBtYW5kYXRlZF9kZXZpY2VfZmVhdHVyZXMgZHVyaW5nIGRl
-dmljZSBjcmVhdGlvbiBhbmQKPiB2YWxpZGF0ZSB0aGUgZHJpdmVyIGZlYXR1cmVzIGR1cmluZyB0
-aGUgc2V0X2ZlYXR1cmVzKCksIGFuZCBkb24ndCBzZXQKPiBGRUFUVVJFU19PSyBpZiB0aGV5IGRv
-bid0IG1hdGNoLgo+Cj4KPiAyKSBTb21lIHRyYW5zcG9ydHMgKFBDSSkgcmVxdWlyZXMgdG8gcmUt
-cmVhZCB0aGUgc3RhdHVzIHRvIGVuc3VyZSB0aGUKPiBzeW5jaHJvbml6YXRpb24uCj4KPiAiCj4K
-PiBBZnRlciB3cml0aW5nIDAgdG8gZGV2aWNlX3N0YXR1cywgdGhlIGRyaXZlciBNVVNUIHdhaXQg
-Zm9yIGEgcmVhZCBvZgo+IGRldmljZV9zdGF0dXMgdG8gcmV0dXJuIDAgYmVmb3JlIHJlaW5pdGlh
-bGl6aW5nIHRoZSBkZXZpY2UuCj4KPiAiCj4KPiBTbyB3ZSBuZWVkIHRvIGRlYWwgd2l0aCBib3Ro
-IEZFQVRVUkVTX09LIGFuZCByZXNldCwgYnV0IHByb2JhYmx5IG5vdAo+IERSSVZFUl9PSy4KPgoK
-T0ssIEkgc2VlLiBUaGFua3MgZm9yIHRoZSBleHBsYW5hdGlvbi4gT25lIG1vcmUgcXVlc3Rpb24g
-aXMgaG93IGFib3V0CmNsZWFyaW5nIHRoZSBjb3JyZXNwb25kaW5nIHN0YXR1cyBiaXQgaW4gZ2V0
-X3N0YXR1cygpIHJhdGhlciB0aGFuCm1ha2luZyBzZXRfc3RhdHVzKCkgZmFpbC4gU2luY2UgdGhl
-IHNwZWMgcmVjb21tZW5kcyB0aGlzIHdheSBmb3IKdmFsaWRhdGlvbiB3aGljaCBpcyBkb25lIGlu
-IHZpcnRpb19kZXZfcmVtb3ZlKCkgYW5kCnZpcnRpb19maW5hbGl6ZV9mZWF0dXJlcygpLgoKVGhh
-bmtzLApZb25namkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0
-dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+
+--===============0456932545382681290==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="eoUsj9hAKr/fBY8i"
+Content-Disposition: inline
+
+
+--eoUsj9hAKr/fBY8i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 15, 2021 at 01:21:35AM +0000, Tian, Kevin wrote:
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > Sent: Monday, June 14, 2021 9:38 PM
+> >=20
+> > On Mon, Jun 14, 2021 at 03:09:31AM +0000, Tian, Kevin wrote:
+> >=20
+> > > If a device can be always blocked from accessing memory in the IOMMU
+> > > before it's bound to a driver or more specifically before the driver
+> > > moves it to a new security context, then there is no need for VFIO
+> > > to track whether IOASIDfd has taken over ownership of the DMA
+> > > context for all devices within a group.
+> >=20
+> > I've been assuming we'd do something like this, where when a device is
+> > first turned into a VFIO it tells the IOMMU layer that this device
+> > should be DMA blocked unless an IOASID is attached to
+> > it. Disconnecting an IOASID returns it to blocked.
+>=20
+> Or just make sure a device is in block-DMA when it's unbound from a
+> driver or a security context.
+
+So I'm not entirely clear here if you're envisaging putting the device
+into no-DMA mode by altering the IOMMU setup or by quiescing it at the
+register level (e.g. by resetting it).  But, neither approach allows
+you to safely put a device into no-DMA mode if users have access to
+another device in the group.
+
+The IOMMU approach doesn't work, because the IOMMU may not be able to
+distinguish the two devices from each other.
+
+The register approach doesn't work, because even if you successfully
+quiesce the device, the user could poke it indirectly via the other
+device in the group, pulling it out of quiescent mode.
+
+> Then no need to explicitly tell IOMMU layer=20
+> to do so when it's bound to a new driver.
+>=20
+> Currently the default domain type applies even when a device is not
+> bound. This implies that if iommu=3Dpassthrough a device is always=20
+> allowed to access arbitrary system memory with or without a driver.
+> I feel the current domain type (identity, dma, unmanged) should apply
+> only when a driver is loaded...
+
+A whole group has to be in the same DMA context at the same time.
+That's the definition of a group.
+
+> > > If this works I didn't see the need for vfio to keep the sequence.
+> > > VFIO still keeps group fd to claim ownership of all devices in a
+> > > group.
+> >=20
+> > As Alex says you still have to deal with the problem that device A in
+> > a group can gain control of device B in the same group.
+>=20
+> There is no isolation in the group then how could vfio prevent device
+> A from gaining control of device B? for example when both are attached
+> to the same GPA address space with device MMIO bar included, devA
+> can do p2p to devB. It's all user's policy how to deal with devices within
+> the group.=20
+>=20
+> >=20
+> > This means device A and B can not be used from to two different
+> > security contexts.
+>=20
+> It depends on how the security context is defined. From iommu layer
+> p.o.v, an IOASID is a security context which isolates a device from
+> the rest of the system (but not the sibling in the same group). As you
+> suggested earlier, it's completely sane if an user wants to attach
+> devices in a group to different IOASIDs. Here I just talk about this fact.
+>=20
+> >=20
+> > If the /dev/iommu FD is the security context then the tracking is
+> > needed there.
+> >=20
+>=20
+> As I replied to Alex, my point is that VFIO doesn't need to know the
+> attaching status of each device in a group before it can allow user to
+> access a device. As long as a device in a group either in block DMA
+> or switch to a new address space created via /dev/iommu FD, there's
+> no problem to allow user accessing it. User cannot do harm to the
+> world outside of the group. User knows there is no isolation within
+> the group. that is it.
+>=20
+> Thanks
+> Kevin
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--eoUsj9hAKr/fBY8i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDUDyMACgkQbDjKyiDZ
+s5KjaA/9EPMEsLemYo6QFgWL2LNDDKTanMJQkWieLTfB4rSTop8+qdgEyXKOIOZu
+Iv8nkPNdJy3ylIYKWWYi2mxMNaTR+qHDGFRLc9WK1m++oqM3Q7laNOt39QZ5Uy1P
+VCDc9dYIvKz+XAL9ihYV/i07LDHhec/0CvbEC7EDRnCQRoTZTEaPW7zsQmB4juR/
+X3WLPrrvQJKIT9s49MJd7ZSLwBVn9+sdXU+DjqmhuZZBTyFTdesNvGCd5lpbCM9D
+vKDKufOB8jRe1CyXuVfFPiIWpj5y8ixRvgOpGvt2DPODwurIWl0yDhLHAezyhoW7
+6igINNFVQhk0cVEHuyBUFUknzLg4gdoxgcGeNhYRkRsGLbFyiCIyxzTLVPQJ5/NS
+EQvt7zAIMjgYIFVL8QDimf+QZbD3NtGr8DiDMYGJtb2LCDpdbHQ8BG4Zk7D1Gdd0
+M1Dw5xiuUHsOVr+FLal2KUybESDq104z432KhmPo2Cj3zUrjp57M9FmrN3CWmXAG
+/+Gu6O+k2xvQwR4tFag7dGtAr4BlxUf4ja2DThPGVkmTe/EKYaRZ5YEWuozI62oR
+rJSJLbR4mnqf8mcQzawrBwp37SJlypo2m/1FtgYnuPHUjUJf21uvGHw3v4KD9rO/
+iX5lcN/pPE+j7WvY0WfK9tv9HlTbLn57EoQm97z9k3j7s6Az0oY=
+=log0
+-----END PGP SIGNATURE-----
+
+--eoUsj9hAKr/fBY8i--
+
+--===============0456932545382681290==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============0456932545382681290==--
