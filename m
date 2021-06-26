@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39383B4E4D
-	for <lists.iommu@lfdr.de>; Sat, 26 Jun 2021 13:02:21 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8A53B4E4F
+	for <lists.iommu@lfdr.de>; Sat, 26 Jun 2021 13:02:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E81544014E;
-	Sat, 26 Jun 2021 11:02:19 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 675746068F;
+	Sat, 26 Jun 2021 11:02:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0Yg7uFFNnRbZ; Sat, 26 Jun 2021 11:02:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B197640228;
-	Sat, 26 Jun 2021 11:02:18 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pdN8KIjTnzn3; Sat, 26 Jun 2021 11:02:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 78BEF6067A;
+	Sat, 26 Jun 2021 11:02:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B1A72C0029;
-	Sat, 26 Jun 2021 11:02:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 547D2C000E;
+	Sat, 26 Jun 2021 11:02:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8EA03C001C
- for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:15 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 38D1FC001D
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5DFED83657
+ by smtp3.osuosl.org (Postfix) with ESMTP id ED2446063E
  for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id epHme67dJPFq for <iommu@lists.linux-foundation.org>;
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id P7Zbc2cS_fF2 for <iommu@lists.linux-foundation.org>;
  Sat, 26 Jun 2021 11:02:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0854B81065
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 0E81660623
  for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:13 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GBrRD0vwTzXlKy;
- Sat, 26 Jun 2021 18:56:56 +0800 (CST)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GBrTl34jBzZh1W;
+ Sat, 26 Jun 2021 18:59:07 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.2; Sat, 26 Jun 2021 19:02:10 +0800
 Received: from thunder-town.china.huawei.com (10.174.179.0) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 26 Jun 2021 19:02:09 +0800
+ 15.1.2176.2; Sat, 26 Jun 2021 19:02:10 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
  Roedel" <joro@8bytes.org>, linux-arm-kernel
  <linux-arm-kernel@lists.infradead.org>, iommu
  <iommu@lists.linux-foundation.org>, linux-kernel
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH RFC 3/8] iommu/arm-smmu-v3: Add and use static helper function
- arm_smmu_get_cmdq()
-Date: Sat, 26 Jun 2021 19:01:25 +0800
-Message-ID: <20210626110130.2416-4-thunder.leizhen@huawei.com>
+Subject: [PATCH RFC 4/8] iommu/arm-smmu-v3: Extract reusable function
+ __arm_smmu_cmdq_skip_err()
+Date: Sat, 26 Jun 2021 19:01:26 +0800
+Message-ID: <20210626110130.2416-5-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20210626110130.2416-1-thunder.leizhen@huawei.com>
 References: <20210626110130.2416-1-thunder.leizhen@huawei.com>
@@ -80,106 +80,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-One SMMU has only one normal CMDQ. Therefore, this CMDQ is used regardless
-of the core on which the command is inserted. It can be referenced
-directly through "smmu->cmdq". However, one SMMU has multiple ECMDQs, and
-the ECMDQ used by the core on which the command insertion is executed may
-be different. So the helper function arm_smmu_get_cmdq() is added, which
-returns the CMDQ/ECMDQ that the current core should use. Currently, the
-code that supports ECMDQ is not added. just simply returns "&smmu->cmdq".
-
-Many subfunctions of arm_smmu_cmdq_issue_cmdlist() use "&smmu->cmdq" or
-"&smmu->cmdq.q" directly. To support ECMDQ, they need to call the newly
-added function arm_smmu_get_cmdq() instead.
-
-Note that normal CMDQ is still required until ECMDQ is available.
+When SMMU_GERROR.CMDQP_ERR is different to SMMU_GERRORN.CMDQP_ERR, it
+indicates that one or more errors have been encountered on a command queue
+control page interface. We need to traverse all ECMDQs in that control
+page to find all errors. For each ECMDQ error handling, it is much the
+same as the CMDQ error handling. This common processing part is extracted
+as a new function __arm_smmu_cmdq_skip_err().
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 22 ++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index a5361153ca1d6a4..e4af13b1e7fc015 100644
+index e4af13b1e7fc015..62b2742daab3257 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -335,10 +335,14 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
- 	return 0;
+@@ -359,7 +359,8 @@ static void arm_smmu_cmdq_build_sync_cmd(u64 *cmd, struct arm_smmu_device *smmu,
+ 	arm_smmu_cmdq_build_cmd(cmd, &ent);
  }
  
-+static struct arm_smmu_cmdq *arm_smmu_get_cmdq(struct arm_smmu_device *smmu)
+-static void arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu)
++static void __arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu,
++				     struct arm_smmu_queue *q)
+ {
+ 	static const char * const cerror_str[] = {
+ 		[CMDQ_ERR_CERROR_NONE_IDX]	= "No error",
+@@ -370,7 +371,6 @@ static void arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu)
+ 
+ 	int i;
+ 	u64 cmd[CMDQ_ENT_DWORDS];
+-	struct arm_smmu_queue *q = &smmu->cmdq.q;
+ 	u32 cons = readl_relaxed(q->cons_reg);
+ 	u32 idx = FIELD_GET(CMDQ_CONS_ERR, cons);
+ 	struct arm_smmu_cmdq_ent cmd_sync = {
+@@ -416,6 +416,11 @@ static void arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu)
+ 	queue_write(Q_ENT(q, cons), cmd, q->ent_dwords);
+ }
+ 
++static void arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu)
 +{
-+	return &smmu->cmdq;
++	__arm_smmu_cmdq_skip_err(smmu, &smmu->cmdq.q);
 +}
 +
- static void arm_smmu_cmdq_build_sync_cmd(u64 *cmd, struct arm_smmu_device *smmu,
--					 u32 prod)
-+					 struct arm_smmu_queue *q, u32 prod)
- {
--	struct arm_smmu_queue *q = &smmu->cmdq.q;
- 	struct arm_smmu_cmdq_ent ent = {
- 		.opcode = CMDQ_OP_CMD_SYNC,
- 	};
-@@ -578,7 +582,7 @@ static int arm_smmu_cmdq_poll_until_not_full(struct arm_smmu_device *smmu,
- {
- 	unsigned long flags;
- 	struct arm_smmu_queue_poll qp;
--	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
-+	struct arm_smmu_cmdq *cmdq = arm_smmu_get_cmdq(smmu);
- 	int ret = 0;
- 
- 	/*
-@@ -594,7 +598,7 @@ static int arm_smmu_cmdq_poll_until_not_full(struct arm_smmu_device *smmu,
- 
- 	queue_poll_init(smmu, &qp);
- 	do {
--		llq->val = READ_ONCE(smmu->cmdq.q.llq.val);
-+		llq->val = READ_ONCE(cmdq->q.llq.val);
- 		if (!queue_full(llq))
- 			break;
- 
-@@ -613,7 +617,7 @@ static int __arm_smmu_cmdq_poll_until_msi(struct arm_smmu_device *smmu,
- {
- 	int ret = 0;
- 	struct arm_smmu_queue_poll qp;
--	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
-+	struct arm_smmu_cmdq *cmdq = arm_smmu_get_cmdq(smmu);
- 	u32 *cmd = (u32 *)(Q_ENT(&cmdq->q, llq->prod));
- 
- 	queue_poll_init(smmu, &qp);
-@@ -636,12 +640,12 @@ static int __arm_smmu_cmdq_poll_until_consumed(struct arm_smmu_device *smmu,
- 					       struct arm_smmu_ll_queue *llq)
- {
- 	struct arm_smmu_queue_poll qp;
--	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
-+	struct arm_smmu_cmdq *cmdq = arm_smmu_get_cmdq(smmu);
- 	u32 prod = llq->prod;
- 	int ret = 0;
- 
- 	queue_poll_init(smmu, &qp);
--	llq->val = READ_ONCE(smmu->cmdq.q.llq.val);
-+	llq->val = READ_ONCE(cmdq->q.llq.val);
- 	do {
- 		if (queue_consumed(llq, prod))
- 			break;
-@@ -731,7 +735,7 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 	u32 prod;
- 	unsigned long flags;
- 	bool owner;
--	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
-+	struct arm_smmu_cmdq *cmdq = arm_smmu_get_cmdq(smmu);
- 	struct arm_smmu_ll_queue llq = {
- 		.max_n_shift = cmdq->q.llq.max_n_shift,
- 	}, head = llq;
-@@ -771,7 +775,7 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 	arm_smmu_cmdq_write_entries(cmdq, cmds, llq.prod, n);
- 	if (sync) {
- 		prod = queue_inc_prod_n(&llq, n);
--		arm_smmu_cmdq_build_sync_cmd(cmd_sync, smmu, prod);
-+		arm_smmu_cmdq_build_sync_cmd(cmd_sync, smmu, &cmdq->q, prod);
- 		queue_write(Q_ENT(&cmdq->q, prod), cmd_sync, CMDQ_ENT_DWORDS);
- 
- 		/*
+ /*
+  * Command queue locking.
+  * This is a form of bastardised rwlock with the following major changes:
 -- 
 2.26.0.106.g9fadedd
 
