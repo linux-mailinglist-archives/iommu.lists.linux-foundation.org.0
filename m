@@ -1,67 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA123B4D64
-	for <lists.iommu@lfdr.de>; Sat, 26 Jun 2021 09:27:17 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B7C3B4E4A
+	for <lists.iommu@lfdr.de>; Sat, 26 Jun 2021 13:02:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B6C30401E4;
-	Sat, 26 Jun 2021 07:27:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6B8D560623;
+	Sat, 26 Jun 2021 11:02:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id I9vvd8hM468B; Sat, 26 Jun 2021 07:27:12 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NqO4nbhs5b3M; Sat, 26 Jun 2021 11:02:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C807540119;
-	Sat, 26 Jun 2021 07:27:11 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 899B96066D;
+	Sat, 26 Jun 2021 11:02:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A23DCC000E;
-	Sat, 26 Jun 2021 07:27:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 535D1C001F;
+	Sat, 26 Jun 2021 11:02:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7344BC000E
- for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 07:27:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71401C000E
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 52784836EA
- for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 07:27:09 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5C6F7403F3
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5dMfNJ7ybD1v for <iommu@lists.linux-foundation.org>;
- Sat, 26 Jun 2021 07:27:08 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id I6bW6doaHhzo for <iommu@lists.linux-foundation.org>;
+ Sat, 26 Jun 2021 11:02:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A4851836AE
- for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 07:27:08 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GBljH58MFz74Wq;
- Sat, 26 Jun 2021 15:23:47 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 217284029F
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:02:13 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GBrRC6pVGzXkWv;
+ Sat, 26 Jun 2021 18:56:55 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 26 Jun 2021 15:27:02 +0800
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ 15.1.2176.2; Sat, 26 Jun 2021 19:02:08 +0800
+Received: from thunder-town.china.huawei.com (10.174.179.0) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 26 Jun 2021 15:27:01 +0800
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-To: Arnd Bergmann <arnd@arndb.de>, <linux-arch@vger.kernel.org>,
+ 15.1.2176.2; Sat, 26 Jun 2021 19:02:07 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
+ Roedel" <joro@8bytes.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, iommu
+ <iommu@lists.linux-foundation.org>, linux-kernel
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH 9/9] dma-debug: Use memory_intersects() directly
-Date: Sat, 26 Jun 2021 15:34:39 +0800
-Message-ID: <20210626073439.150586-10-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210626073439.150586-1-wangkefeng.wang@huawei.com>
-References: <20210626073439.150586-1-wangkefeng.wang@huawei.com>
+Subject: [PATCH RFC 0/8] iommu/arm-smmu-v3: add support for ECMDQ register mode
+Date: Sat, 26 Jun 2021 19:01:22 +0800
+Message-ID: <20210626110130.2416-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500001.china.huawei.com (7.185.36.107)
+X-Originating-IP: [10.174.179.0]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
 X-CFilter-Loop: Reflected
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,46 +77,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use memory_intersects() directly instead of private overlap() function.
+SMMU v3.3 added a new feature, which is Enhanced Command queue interface
+for reducing contention when submitting Commands to the SMMU, in this
+patch set, ECMDQ is the abbreviation of Enhanced Command Queue.
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: iommu@lists.linux-foundation.org
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- kernel/dma/debug.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+When the hardware supports ECMDQ and each core can exclusively use one ECMDQ,
+each core does not need to compete with other cores when using its own ECMDQ.
+This means that each core can insert commands in parallel. If each ECMDQ can
+execute commands in parallel, the overall performance may be better. However,
+our hardware currently does not support multiple ECMDQ execute commands in
+parallel.
 
-diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
-index 14de1271463f..8ef737223999 100644
---- a/kernel/dma/debug.c
-+++ b/kernel/dma/debug.c
-@@ -1066,20 +1066,10 @@ static void check_for_stack(struct device *dev,
- 	}
- }
- 
--static inline bool overlap(void *addr, unsigned long len, void *start, void *end)
--{
--	unsigned long a1 = (unsigned long)addr;
--	unsigned long b1 = a1 + len;
--	unsigned long a2 = (unsigned long)start;
--	unsigned long b2 = (unsigned long)end;
--
--	return !(b1 <= a2 || a1 >= b2);
--}
--
- static void check_for_illegal_area(struct device *dev, void *addr, unsigned long len)
- {
--	if (overlap(addr, len, _stext, _etext) ||
--	    overlap(addr, len, __start_rodata, __end_rodata))
-+	if (memory_intersects(_stext, _etext, addr, len) ||
-+	    memory_intersects(__start_rodata, __end_rodata, addr, len))
- 		err_printk(dev, NULL, "device driver maps memory from kernel text or rodata [addr=%p] [len=%lu]\n", addr, len);
- }
- 
+In order to reuse existing code, I originally still call arm_smmu_cmdq_issue_cmdlist()
+to insert commands. Even so, however, there was a performance improvement of nearly 12%
+in strict mode.
+
+The test environment is the EMU, which simulates the connection of the 200 Gbit/s NIC.
+Number of queues:    passthrough   lazy   strict(ECMDQ)  strict(CMDQ)
+      6                  188        180       162           145        --> 11.7% improvement
+      8                  188        188       184           183        --> 0.55% improvement
+
+In recent days, I implemented a new function without competition with other
+cores to replace arm_smmu_cmdq_issue_cmdlist() when a core can have an ECMDQ.
+I'm guessing it might get better performance results. Because the EMU is too
+slow, it will take a while before the relevant data is available.
+
+
+Zhen Lei (8):
+  iommu/arm-smmu-v3: Use command queue batching helpers to improve
+    performance
+  iommu/arm-smmu-v3: Add and use static helper function
+    arm_smmu_cmdq_issue_cmd_with_sync()
+  iommu/arm-smmu-v3: Add and use static helper function
+    arm_smmu_get_cmdq()
+  iommu/arm-smmu-v3: Extract reusable function
+    __arm_smmu_cmdq_skip_err()
+  iommu/arm-smmu-v3: Add support for ECMDQ register mode
+  iommu/arm-smmu-v3: Ensure that a set of associated commands are
+    inserted in the same ECMDQ
+  iommu/arm-smmu-v3: Add arm_smmu_ecmdq_issue_cmdlist() for non-shared
+    ECMDQ
+  iommu/arm-smmu-v3: Add support for less than one ECMDQ per core
+
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 483 ++++++++++++++++++--
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  37 ++
+ 2 files changed, 489 insertions(+), 31 deletions(-)
+
 -- 
-2.26.2
+2.26.0.106.g9fadedd
+
 
 _______________________________________________
 iommu mailing list
