@@ -1,126 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30633B586B
-	for <lists.iommu@lfdr.de>; Mon, 28 Jun 2021 06:40:33 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201163B58E4
+	for <lists.iommu@lfdr.de>; Mon, 28 Jun 2021 08:00:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 521A1605FB;
-	Mon, 28 Jun 2021 04:40:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 94EB782FE4;
+	Mon, 28 Jun 2021 06:00:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jJ1tLdfV4a-K; Mon, 28 Jun 2021 04:40:31 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JWbooVglbfjO; Mon, 28 Jun 2021 06:00:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 78FE8606CB;
-	Mon, 28 Jun 2021 04:40:31 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C623A82FD7;
+	Mon, 28 Jun 2021 06:00:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B2A9C000E;
-	Mon, 28 Jun 2021 04:40:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1CCDC000E;
+	Mon, 28 Jun 2021 06:00:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F5B2C0022
- for <iommu@lists.linux-foundation.org>; Mon, 28 Jun 2021 04:40:30 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CEA6FC000E
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 18:17:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D0BDA606CB
- for <iommu@lists.linux-foundation.org>; Mon, 28 Jun 2021 04:40:29 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id B0C2482605
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 18:17:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RhTE6D2ZdlcL for <iommu@lists.linux-foundation.org>;
- Mon, 28 Jun 2021 04:40:29 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 322D1605FB
- for <iommu@lists.linux-foundation.org>; Mon, 28 Jun 2021 04:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624855228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AHA+LCiynBinIcwBex84PZFjkFyKiA5ldfw47X4q5zo=;
- b=EosRAJfPd3yjQlteTns+LimkmM4hrRFLsjcuZWaYTi2DailVkht5ySZsuVRyDpq9EdEukZ
- fzneOriK7zgKO5lBXzxM9VFI6EaRoc6aYrj55jA4jnU+coIT8sWv5r2bskbn0gwc9qxlzL
- vQ8GVVzXhE3APCYL+8D6bozDNqFGQx8=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-qDz5qUAHNsyDqeCqwcxBZw-1; Mon, 28 Jun 2021 00:40:24 -0400
-X-MC-Unique: qDz5qUAHNsyDqeCqwcxBZw-1
-Received: by mail-pl1-f198.google.com with SMTP id
- c24-20020a1709028498b0290128cdfbb2f1so681845plo.14
- for <iommu@lists.linux-foundation.org>; Sun, 27 Jun 2021 21:40:24 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 04Xbmx4CO0Lc for <iommu@lists.linux-foundation.org>;
+ Sat, 26 Jun 2021 18:17:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 4BDBC825E8
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 18:17:41 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ o35-20020a05600c5123b02901e6a7a3266cso5590146wms.1
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Jun 2021 11:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kota.moe; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K6SbdIom3zgio+kZ6wfwDJH7rKPEfDAGy8TdscQ1Fts=;
+ b=c6cU2RJcxB9treX5hi/OxkWRplBi7U9CErc1rc4z3B1uzmoMpEqqGdlY+LWXH7N5DH
+ swjMX20G2YEJmG9iZ0b09BNw848w7hUZj3VyKZo8AeSMYihuCF9ZM4RA8CLuF49SbKAB
+ HUiQgKLP2q3MpTKaB6Fp+44UVWbd9koTN5U9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=AHA+LCiynBinIcwBex84PZFjkFyKiA5ldfw47X4q5zo=;
- b=ajyFty3w8i+nKIAg0M2vfc52uZeqTla4w1EDoCZfXz5MT97UhzhdtK3bXA0W1SnUvY
- 93rJbPKk8UURYqrzlQhJPvlwlon4r6+7Dtg2dmxmnixFkIyhz5PY6SdH+ezRELp3uDu/
- Zi8YBAaJgigCX5IvcLzI2yWeWgnIrZyubocgkxsGHv9jrJIYehvGdSKCh/404rDOuc00
- N9T5YtCLoPnczfVXpwSIUrv6z+PKKO3L8S08wjrFe4DRE6QAqE1trWx+l4p5zSTMtB+T
- YRwTG0WHWKCnYM5PAnuEFNaDc2JXzaicG2b/322x/VZv7NJ21W2FshFADqXWJmVKWgdu
- BE7w==
-X-Gm-Message-State: AOAM530sT8TBESSbnTc+0vjPXmk/h2S9W2nNMfQxO8U69GmI0iIiE9bB
- h/ssD43qa7H2wLYEaG7N5hBqc5I+/tDJqTd6lBZb0mOUvZ28MbOzMHieBMcse+YgsVRWxsY5tws
- iF7/Q13utV3Op82haswbsKFsg28GcmQ==
-X-Received: by 2002:a17:90a:73ca:: with SMTP id
- n10mr35061285pjk.16.1624855223792; 
- Sun, 27 Jun 2021 21:40:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwo0o1s5KBYLlDLTqUhWl2FmmtFdw3BbxmCq5oGFB7ob0lz6rjRGdc+HVA7kjdSm4QccHUIRQ==
-X-Received: by 2002:a17:90a:73ca:: with SMTP id
- n10mr35061255pjk.16.1624855223625; 
- Sun, 27 Jun 2021 21:40:23 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id x143sm12654203pfc.6.2021.06.27.21.40.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Jun 2021 21:40:23 -0700 (PDT)
-Subject: Re: [PATCH v8 09/10] vduse: Introduce VDUSE - vDPA Device in Userspace
-To: Yongji Xie <xieyongji@bytedance.com>
-References: <20210615141331.407-1-xieyongji@bytedance.com>
- <20210615141331.407-10-xieyongji@bytedance.com>
- <adfb2be9-9ed9-ca37-ac37-4cd00bdff349@redhat.com>
- <CACycT3tAON+-qZev+9EqyL2XbgH5HDspOqNt3ohQLQ8GqVK=EA@mail.gmail.com>
- <1bba439f-ffc8-c20e-e8a4-ac73e890c592@redhat.com>
- <CACycT3uzMJS7vw6MVMOgY4rb=SPfT2srV+8DPdwUVeELEiJgbA@mail.gmail.com>
- <0aeb7cb7-58e5-1a95-d830-68edd7e8ec2e@redhat.com>
- <CACycT3uuooKLNnpPHewGZ=q46Fap2P4XCFirdxxn=FxK+X1ECg@mail.gmail.com>
- <e4cdee72-b6b4-d055-9aac-3beae0e5e3e1@redhat.com>
- <CACycT3u8=_D3hCtJR+d5BgeUQMce6S7c_6P3CVfvWfYhCQeXFA@mail.gmail.com>
- <d2334f66-907c-2e9c-ea4f-f912008e9be8@redhat.com>
- <CACycT3uCSLUDVpQHdrmuxSuoBDg-4n22t+N-Jm2GoNNp9JYB2w@mail.gmail.com>
- <48cab125-093b-2299-ff9c-3de8c7c5ed3d@redhat.com>
- <CACycT3tS=10kcUCNGYm=dUZsK+vrHzDvB3FSwAzuJCu3t+QuUQ@mail.gmail.com>
- <b10b3916-74d4-3171-db92-be0afb479a1c@redhat.com>
- <CACycT3vpMFbc9Fzuo9oksMaA-pVb1dEVTEgjNoft16voryPSWQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d7e42109-0ba6-3e1a-c42a-898b6f33c089@redhat.com>
-Date: Mon, 28 Jun 2021 12:40:14 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K6SbdIom3zgio+kZ6wfwDJH7rKPEfDAGy8TdscQ1Fts=;
+ b=Y6ivB6anICy00EJvQqNDY+2x7hXQG6UoeiHEGr1+vgNVyI52IrqQ/GgBgrSnw7JSHG
+ 1MvjBrkdIfb6EwlRwBaBmpC3bB13rSXrHYaOu/KHczm50HGI7AUfp2SgYof0cYmLwVPC
+ JZOsvvmV6+EXpJKn90JJyvERLCk76im8Nr4TESfUYEYFL61gT9HGSWvV8iIl+TgpgOxi
+ YC56h8pWbZqq/En0/ZkkxdERfNCkmKVrNzxbyYGrmuA7JoVer8O9kqM3+2ENF0fC3VsA
+ koPvSDunTEhWt8GsAxuNJd2hLZXfQW2iHWWvL/MjsElPIyQjZdY7ndbIp3RaOmKRL5v3
+ dHVQ==
+X-Gm-Message-State: AOAM5321B7tWlty/jP0Eetpxn6HkQ86BlOHXPVtalsB0vRxuXz34pd/p
+ v2lGdsqMT0biy6gHxlFmDl38l+92llqiw76bu7rncA==
+X-Google-Smtp-Source: ABdhPJxOEjtV4xly2hQKRSYOj/QdYtY37Z1yVHzjvMk45DdusPTcP6PcPe1UsAYNko+U8dIogiNwPfBjWQkq7A0F3CY=
+X-Received: by 2002:a7b:cc09:: with SMTP id f9mr17569753wmh.104.1624731459793; 
+ Sat, 26 Jun 2021 11:17:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACycT3vpMFbc9Fzuo9oksMaA-pVb1dEVTEgjNoft16voryPSWQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Cc: kvm <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Christian Brauner <christian.brauner@canonical.com>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Stefan Hajnoczi <stefanha@redhat.com>, songmuchun@bytedance.com,
- Jens Axboe <axboe@kernel.dk>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- bcrl@kvack.org, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- =?UTF-8?Q?Mika_Penttil=c3=a4?= <mika.penttila@nextfour.com>
+References: <YMWl4UnFBAVRDnys@eldamar.lan>
+ <162352833546.2353.230557992597997974.reportbug@home.kota.moe>
+ <2f7c7d36-b6f4-f8ab-756e-a563fa03b9e4@arm.com> <YNOCXe1cuNDNAB+Z@eldamar.lan>
+In-Reply-To: <YNOCXe1cuNDNAB+Z@eldamar.lan>
+From: =?UTF-8?B?4oCN5bCP5aSq?= <nospam@kota.moe>
+Date: Sun, 27 Jun 2021 04:17:03 +1000
+Message-ID: <CACsxjPZEMbxjiRQit7yaykL8LwHFdCg53ObCfTCdRLYV_-_Few@mail.gmail.com>
+Subject: Re: Bug#989778: Regression in at least 5.10.y and mainline: Firewire
+ audio interface fails to work properly (when booted under Xen)
+To: Salvatore Bonaccorso <carnil@debian.org>
+X-Mailman-Approved-At: Mon, 28 Jun 2021 06:00:28 +0000
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ linux-kernel@vger.kernel.org, 989778-maintonly@bugs.debian.org,
+ iommu@lists.linux-foundation.org, xen-devel@lists.xenproject.org,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Jianxiong Gao <jxgao@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -133,28 +89,88 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1134603870334167146=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CuWcqCAyMDIxLzYvMjUg5LiL5Y2IMTI6MTksIFlvbmdqaSBYaWUg5YaZ6YGTOgo+PiAyYikgZm9y
-IHNldF9zdGF0dXMoKTogc2ltcGx5IHJlbGF5IHRoZSBtZXNzYWdlIHRvIHVzZXJzcGFjZSwgcmVw
-bHkgaXMgbm8KPj4gbmVlZGVkLiBVc2Vyc3BhY2Ugd2lsbCB1c2UgYSBjb21tYW5kIHRvIHVwZGF0
-ZSB0aGUgc3RhdHVzIHdoZW4gdGhlCj4+IGRhdGFwYXRoIGlzIHN0b3AuIFRoZSB0aGUgc3RhdHVz
-IGNvdWxkIGJlIGZldGNoZWQgdmlhIGdldF9zdGF0cygpLgo+Pgo+PiAyYiBsb29rcyBtb3JlIHNw
-ZWMgY29tcGxhaW50Lgo+Pgo+IExvb2tzIGdvb2QgdG8gbWUuIEFuZCBJIHRoaW5rIHdlIGNhbiB1
-c2UgdGhlIHJlcGx5IG9mIHRoZSBtZXNzYWdlIHRvCj4gdXBkYXRlIHRoZSBzdGF0dXMgaW5zdGVh
-ZCBvZiBpbnRyb2R1Y2luZyBhIG5ldyBjb21tYW5kLgo+CgpKdXN0IG5vdGljZSB0aGlzIHBhcnQg
-aW4gdmlydGlvX2ZpbmFsaXplX2ZlYXR1cmVzKCk6CgogwqDCoMKgwqDCoMKgwqAgdmlydGlvX2Fk
-ZF9zdGF0dXMoZGV2LCBWSVJUSU9fQ09ORklHX1NfRkVBVFVSRVNfT0spOwogwqDCoMKgwqDCoMKg
-wqAgc3RhdHVzID0gZGV2LT5jb25maWctPmdldF9zdGF0dXMoZGV2KTsKIMKgwqDCoMKgwqDCoMKg
-IGlmICghKHN0YXR1cyAmIFZJUlRJT19DT05GSUdfU19GRUFUVVJFU19PSykpIHsKClNvIHdlIG5v
-IHJlcGx5IGRvZXNuJ3Qgd29yayBmb3IgRkVBVFVSRVNfT0suCgpTbyBteSB1bmRlcnN0YW5kaW5n
-IGlzOgoKMSkgV2UgbXVzdCBub3QgdXNlIG5vcmVwbHkgZm9yIHNldF9zdGF0dXMoKQoyKSBXZSBj
-YW4gdXNlIG5vcmVwbHkgZm9yIGdldF9zdGF0dXMoKSwgYnV0IGl0IHJlcXVpcmVzIGEgbmV3IGlv
-Y3RsIHRvIAp1cGRhdGUgdGhlIHN0YXR1cy4KClNvIGl0IGxvb2tzIHRvIG1lIHdlIG5lZWQgc3lu
-Y2hyb25pemUgZm9yIGJvdGggZ2V0X3N0YXR1cygpIGFuZCAKc2V0X3N0YXR1cygpLgoKVGhhbmtz
-CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUg
-bWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
-dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+--===============1134603870334167146==
+Content-Type: multipart/alternative; boundary="00000000000084412605c5af4556"
+
+--00000000000084412605c5af4556
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, 24 Jun 2021 at 04:50, Salvatore Bonaccorso <carnil@debian.org>
+wrote:
+
+> Hi Robin,
+>
+> On Mon, Jun 14, 2021 at 02:29:08PM +0100, Robin Murphy wrote:
+> > On 2021-06-13 07:29, Salvatore Bonaccorso wrote:
+> > > A user in Debian reported the above issue, which was reproducible with
+> > > 5.13-rc5 and 5.10.y as packaged in Debian and found that 85a5a6875ca9
+> > > ("swiotlb: don't modify orig_addr in swiotlb_tbl_sync_single") that
+> > > introduced the issue.
+> >
+> > Sounds like it's probably the same thing as being discussed over here:
+> >
+> >
+> https://lore.kernel.org/linux-iommu/2e899de2-4b69-c4b6-33a6-09fb8949d2fd@nxp.com/
+>
+> Thanks for the pointer, it seems that now it has been fixed upstream
+> with 5f89468e2f06 ("swiotlb: manipulate orig_addr when tlb_addr has
+> offset").
+>
+
+I've checked out upstream v5.13 b7050b242430f3170e0b57f5f55136e44cb8dc66
+(which includes the above commit) and confirmed that my issue is now
+resolved.
+Now to wait for it to reach Debian :)
+
+--00000000000084412605c5af4556
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 24 Jun 2021 at 04:50, Salvatore Bonaccorso &lt;<a href=3D"ma=
+ilto:carnil@debian.org">carnil@debian.org</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">Hi Robin,<br>
+<br>
+On Mon, Jun 14, 2021 at 02:29:08PM +0100, Robin Murphy wrote:<br>
+&gt; On 2021-06-13 07:29, Salvatore Bonaccorso wrote:<br>
+&gt; &gt; A user in Debian reported the above issue, which was reproducible=
+ with<br>
+&gt; &gt; 5.13-rc5 and 5.10.y as packaged in Debian and found that 85a5a687=
+5ca9<br>
+&gt; &gt; (&quot;swiotlb: don&#39;t modify orig_addr in swiotlb_tbl_sync_si=
+ngle&quot;) that<br>
+&gt; &gt; introduced the issue.<br>
+&gt; <br>
+&gt; Sounds like it&#39;s probably the same thing as being discussed over h=
+ere:<br>
+&gt; <br>
+&gt; <a href=3D"https://lore.kernel.org/linux-iommu/2e899de2-4b69-c4b6-33a6=
+-09fb8949d2fd@nxp.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.k=
+ernel.org/linux-iommu/2e899de2-4b69-c4b6-33a6-09fb8949d2fd@nxp.com/</a><br>
+<br>
+Thanks for the pointer, it seems that now it has been fixed upstream<br>
+with 5f89468e2f06 (&quot;swiotlb: manipulate orig_addr when tlb_addr has<br=
+>
+offset&quot;).<br></blockquote><div><br></div><div>I&#39;ve checked out ups=
+tream v5.13 b7050b242430f3170e0b57f5f55136e44cb8dc66 (which includes the ab=
+ove commit) and confirmed that my issue is now resolved. <br></div><div>Now=
+ to wait for it to reach Debian :)<br></div></div></div>
+
+--00000000000084412605c5af4556--
+
+--===============1134603870334167146==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1134603870334167146==--
