@@ -1,83 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445A23B71EC
-	for <lists.iommu@lfdr.de>; Tue, 29 Jun 2021 14:16:38 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8394D3B7283
+	for <lists.iommu@lfdr.de>; Tue, 29 Jun 2021 14:52:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BF2F14037B;
-	Tue, 29 Jun 2021 12:16:36 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 015BE605FF;
+	Tue, 29 Jun 2021 12:52:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8y9mAPt7EqKk; Tue, 29 Jun 2021 12:16:35 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SxJwhthnc7d6; Tue, 29 Jun 2021 12:52:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BE033403A4;
-	Tue, 29 Jun 2021 12:16:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1EA46605B2;
+	Tue, 29 Jun 2021 12:52:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F0F7C000E;
-	Tue, 29 Jun 2021 12:16:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DFCE6C000E;
+	Tue, 29 Jun 2021 12:52:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 38922C000E
- for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 12:16:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8A1D8C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 12:52:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1720760784
- for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 12:16:34 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 76B894046E
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 12:52:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=chromium.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DWAQXnSk5LfG for <iommu@lists.linux-foundation.org>;
- Tue, 29 Jun 2021 12:16:32 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DCCDF6077E
- for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 12:16:32 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id f11so586787plg.0
- for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 05:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JTFvXmTEK7ZNerH/JtM4n3rDUhmzB5t0n3YIuLeO91E=;
- b=P/Cem1OLebedCiFEzX+z+nyRcO8XCyCPwO2cT6NQpGSax1j38jYuB8ZxuzUMG550QJ
- N6AXqDrucmMBL3XOHkMnUUI8oG2yZmO2NzfzH3OQw+xxF2UUZp6CDJa2vRxgtl0nSOgg
- A81exZpPokUUyZawnZohBg9MTXxaHuGNY+rx0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JTFvXmTEK7ZNerH/JtM4n3rDUhmzB5t0n3YIuLeO91E=;
- b=TH+6i95bqcV8gUN9R0kFpsUtyPEbcUnJM16QMfudu3/VDN1Rt498lG3xbhrBOo31Hi
- yGlvg/ZHTdQcpCKf+ndV7yRYWyXpCYJKQxZB2apCRulOzKGTRrFOcseHywAz2g01NCsX
- YwtXKv3WgR0vvLkVwBtBRtVPIkpxG+gyM3JwFLHN+Z3Prx1TpGspu2R+DgLohocyrJZv
- QXEiE2RaP+vab6io6zZ12io3s5MmPfD3c5VGZXlitQInWFl9JypVNKVxpfnqqLq710zQ
- NPrXXWaToGGgwXH02KeGQFQ0nLn03h5FA+5OzwldWporhrBf8Gn0/KYxLHu2IwzIJU0G
- hEUQ==
-X-Gm-Message-State: AOAM533WehNhdaTu8CvSvjQ17EH4YTHnscMmgsBLXV4/U40DP409zitv
- ZONOZJYgG7zDZ4XI/PgL6G3W0g==
-X-Google-Smtp-Source: ABdhPJzbJDsgus4m2r74nhMTRhIy44L6PLzl+efQb5XZsUNrh6rba/6GUjo5ZaMgftY7iMWaxmMhLQ==
-X-Received: by 2002:a17:90b:605:: with SMTP id
- gb5mr13165548pjb.62.1624968992397; 
- Tue, 29 Jun 2021 05:16:32 -0700 (PDT)
-Received: from localhost ([2401:fa00:95:205:3adb:8783:d6da:e6ca])
- by smtp.gmail.com with UTF8SMTPSA id x20sm7319646pge.41.2021.06.29.05.16.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jun 2021 05:16:31 -0700 (PDT)
-From: Claire Chang <tientzu@chromium.org>
-To: konrad.wilk@oracle.com, hch@lst.de, m.szyprowski@samsung.com,
- robin.murphy@arm.com, Will Deacon <will@kernel.org>, sstabellini@kernel.org
-Subject: [PATCH v2] swiotlb: fix implicit debugfs_create_dir declaration
-Date: Tue, 29 Jun 2021 20:16:25 +0800
-Message-Id: <20210629121625.3633999-1-tientzu@chromium.org>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 30BnkxxfIOOC for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Jun 2021 12:52:21 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3C00040298
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Jun 2021 12:52:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04B5B106F;
+ Tue, 29 Jun 2021 05:52:20 -0700 (PDT)
+Received: from [10.57.46.146] (unknown [10.57.46.146])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67C163F718;
+ Tue, 29 Jun 2021 05:52:18 -0700 (PDT)
+Subject: Re: [PATCH v2] swiotlb: fix implicit debugfs_create_dir declaration
+To: Claire Chang <tientzu@chromium.org>, konrad.wilk@oracle.com, hch@lst.de,
+ m.szyprowski@samsung.com, Will Deacon <will@kernel.org>,
+ sstabellini@kernel.org
+References: <20210629121625.3633999-1-tientzu@chromium.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <7f544c68-721c-bbcc-3614-cbadce7261a9@arm.com>
+Date: Tue, 29 Jun 2021 13:52:14 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel test robot <lkp@intel.com>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Claire Chang <tientzu@chromium.org>
+In-Reply-To: <20210629121625.3633999-1-tientzu@chromium.org>
+Content-Language: en-GB
+Cc: kernel test robot <lkp@intel.com>, iommu@lists.linux-foundation.org,
+ Nicolas Boichat <drinkcat@chromium.org>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,54 +67,66 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Remove the ifdef to fix implicit function declaration for other pools.
+On 2021-06-29 13:16, Claire Chang wrote:
+> Remove the ifdef to fix implicit function declaration for other pools.
+> 
+> Fixes: 1d9f94400a7a ("swiotlb: Refactor swiotlb_create_debugfs")
 
-Fixes: 1d9f94400a7a ("swiotlb: Refactor swiotlb_create_debugfs")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Claire Chang <tientzu@chromium.org>
----
- kernel/dma/swiotlb.c | 5 -----
- 1 file changed, 5 deletions(-)
+There doesn't appear to be a problem with that commit - AFAICS it's 
+461021875c50 ("swiotlb: Add restricted DMA pool initialization") which 
+introduces a reference to debugfs_create_dir() outside the existing 
+#ifdef guards.
 
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 0ffbaae9fba2..8ae0bef392c3 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -36,9 +36,7 @@
- #include <linux/scatterlist.h>
- #include <linux/mem_encrypt.h>
- #include <linux/set_memory.h>
--#ifdef CONFIG_DEBUG_FS
- #include <linux/debugfs.h>
--#endif
- #ifdef CONFIG_DMA_RESTRICTED_POOL
- #include <linux/io.h>
- #include <linux/of.h>
-@@ -686,7 +684,6 @@ bool is_swiotlb_active(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(is_swiotlb_active);
- 
--#ifdef CONFIG_DEBUG_FS
- static struct dentry *debugfs_dir;
- 
- static void swiotlb_create_debugfs_files(struct io_tlb_mem *mem)
-@@ -709,8 +706,6 @@ static int __init swiotlb_create_default_debugfs(void)
- 
- late_initcall(swiotlb_create_default_debugfs);
- 
--#endif
--
- #ifdef CONFIG_DMA_RESTRICTED_POOL
- struct page *swiotlb_alloc(struct device *dev, size_t size)
- {
--- 
-2.32.0.93.g670b81a890-goog
+FWIW (assuming it's the real problem) I'd be inclined to factor out the 
+debugfs bits from rmem_swiotlb_device_init() into a separate 
+rmem_swiotlb_debugfs_init() (or similar) function which can live 
+alongside the others under the #ifdef and be stubbed out in an #else case.
 
+Robin.
+
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Claire Chang <tientzu@chromium.org>
+> ---
+>   kernel/dma/swiotlb.c | 5 -----
+>   1 file changed, 5 deletions(-)
+> 
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 0ffbaae9fba2..8ae0bef392c3 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -36,9 +36,7 @@
+>   #include <linux/scatterlist.h>
+>   #include <linux/mem_encrypt.h>
+>   #include <linux/set_memory.h>
+> -#ifdef CONFIG_DEBUG_FS
+>   #include <linux/debugfs.h>
+> -#endif
+>   #ifdef CONFIG_DMA_RESTRICTED_POOL
+>   #include <linux/io.h>
+>   #include <linux/of.h>
+> @@ -686,7 +684,6 @@ bool is_swiotlb_active(struct device *dev)
+>   }
+>   EXPORT_SYMBOL_GPL(is_swiotlb_active);
+>   
+> -#ifdef CONFIG_DEBUG_FS
+>   static struct dentry *debugfs_dir;
+>   
+>   static void swiotlb_create_debugfs_files(struct io_tlb_mem *mem)
+> @@ -709,8 +706,6 @@ static int __init swiotlb_create_default_debugfs(void)
+>   
+>   late_initcall(swiotlb_create_default_debugfs);
+>   
+> -#endif
+> -
+>   #ifdef CONFIG_DMA_RESTRICTED_POOL
+>   struct page *swiotlb_alloc(struct device *dev, size_t size)
+>   {
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
