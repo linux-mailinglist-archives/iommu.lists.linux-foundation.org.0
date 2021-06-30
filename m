@@ -2,57 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90D93B7BA5
-	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 04:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF3B3B7BDB
+	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 04:41:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 56EBE405FA;
-	Wed, 30 Jun 2021 02:36:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1A7CD405FB;
+	Wed, 30 Jun 2021 02:41:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IDQKYNTRQ3XN; Wed, 30 Jun 2021 02:36:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8DD3E405F7;
-	Wed, 30 Jun 2021 02:36:44 +0000 (UTC)
+	with ESMTP id Ivf45MmvVWrB; Wed, 30 Jun 2021 02:41:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0170B40603;
+	Wed, 30 Jun 2021 02:41:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 68589C000E;
-	Wed, 30 Jun 2021 02:36:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB25BC000E;
+	Wed, 30 Jun 2021 02:41:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CAB7FC000E
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:36:43 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8EF1AC000E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:41:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C6D85606F0
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:36:43 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7C40E40602
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:41:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZIpOnWazNfSE for <iommu@lists.linux-foundation.org>;
- Wed, 30 Jun 2021 02:36:39 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id craM8PFCuJ7u for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Jun 2021 02:41:49 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E71086065C
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:36:38 +0000 (UTC)
-X-UUID: b4cb33e6b3634fb2a6ee3674bccd518a-20210630
-X-UUID: b4cb33e6b3634fb2a6ee3674bccd518a-20210630
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 87AF8405FB
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:41:49 +0000 (UTC)
+X-UUID: 9133614e654a4f41ace6830a2ab031df-20210630
+X-UUID: 9133614e654a4f41ace6830a2ab031df-20210630
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
  (envelope-from <yong.wu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 41645959; Wed, 30 Jun 2021 10:36:34 +0800
+ with ESMTP id 1337792272; Wed, 30 Jun 2021 10:36:41 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 30 Jun 2021 10:36:32 +0800
+ 15.0.1497.2; Wed, 30 Jun 2021 10:36:40 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 30 Jun 2021 10:36:31 +0800
+ Transport; Wed, 30 Jun 2021 10:36:39 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
  Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 09/24] iommu/mediatek: Always pm_runtime_get while tlb flush
-Date: Wed, 30 Jun 2021 10:34:49 +0800
-Message-ID: <20210630023504.18177-10-yong.wu@mediatek.com>
+Subject: [PATCH 10/24] iommu/mediatek: Always enable output PA over 32bits in
+ isr
+Date: Wed, 30 Jun 2021 10:34:50 +0800
+Message-ID: <20210630023504.18177-11-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210630023504.18177-1-yong.wu@mediatek.com>
 References: <20210630023504.18177-1-yong.wu@mediatek.com>
@@ -82,41 +83,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In previous soc, some SoC don't have PM. Only mt8192 has power-domain,
-and it's display's power-domain which nearly always is enabled.
+Currently the output PA[32:33] is contained by the flag IOVA_34.
+This is not right. the iova_34 has no relation with pa[32:33].
+the 32bits iova still could map to pa[32:33], This patch move it
+out of the flag.
 
-When there are 2 M4U HW, it may has problem.
-In this function, we get the pm_status via the m4u dev, but it don't
-reflect the real power-domain status of the HW since there may be other
-HW also use that power-domain.
+This patch no need fix tag since currently only mt8192 use the
+calulation and it always has this IOVA_34 flag.
 
-Currently We can not get the real power-domain status, thus I always
-pm_runtime_get here.
-
-This pach is only a preparing patch for 2 HW sharing pgtable in different
-power-domains, like mt8195 case. thus, no need fix tags here.
-
-this patch may drop the performance, we expect the user could
-pm_runtime_get_sync before dma_alloc_attrs.
+This is preparing for the IOMMU that still use IOVA 32bits.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/mtk_iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index ed3455b5cef0..fcf70787d3d1 100644
+index fcf70787d3d1..35e321ed6d3d 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -231,7 +231,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
+@@ -287,11 +287,11 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
+ 	write = fault_iova & F_MMU_FAULT_VA_WRITE_BIT;
+ 	if (MTK_IOMMU_HAS_FLAG(data->plat_data, IOVA_34_EN)) {
+ 		va34_32 = FIELD_GET(F_MMU_INVAL_VA_34_32_MASK, fault_iova);
+-		pa34_32 = FIELD_GET(F_MMU_INVAL_PA_34_32_MASK, fault_iova);
+ 		fault_iova = fault_iova & F_MMU_INVAL_VA_31_12_MASK;
+ 		fault_iova |= (u64)va34_32 << 32;
+-		fault_pa |= (u64)pa34_32 << 32;
+ 	}
++	pa34_32 = FIELD_GET(F_MMU_INVAL_PA_34_32_MASK, fault_iova);
++	fault_pa |= (u64)pa34_32 << 32;
  
- 	for_each_m4u(data, head) {
- 		if (has_pm) {
--			if (pm_runtime_get_if_in_use(data->dev) <= 0)
-+			if (pm_runtime_resume_and_get(data->dev) < 0)
- 				continue;
- 		}
- 
+ 	fault_port = F_MMU_INT_ID_PORT_ID(regval);
+ 	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_SUB_COMM)) {
 -- 
 2.18.0
 
