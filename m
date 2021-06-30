@@ -1,80 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956223B7E2B
-	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 09:31:49 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E043B7F61
+	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 10:50:39 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2CA926084B;
-	Wed, 30 Jun 2021 07:31:48 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5D12F608C0;
+	Wed, 30 Jun 2021 08:50:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rpf0nsdzr3b0; Wed, 30 Jun 2021 07:31:46 +0000 (UTC)
+	with ESMTP id BpY1EeTQE_iZ; Wed, 30 Jun 2021 08:50:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 79D956081E;
-	Wed, 30 Jun 2021 07:31:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5A10E608BA;
+	Wed, 30 Jun 2021 08:50:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4963BC0022;
-	Wed, 30 Jun 2021 07:31:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 10946C0022;
+	Wed, 30 Jun 2021 08:50:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7E9CDC000E
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 07:31:45 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0349AC000E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 08:50:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5478B40639
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 07:31:45 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id D69BC83A6F
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 08:50:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=mediatek.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CdGfQYliWhRA for <iommu@lists.linux-foundation.org>;
- Wed, 30 Jun 2021 07:31:37 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id et4p_DSfvosQ for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Jun 2021 08:50:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by smtp4.osuosl.org (Postfix) with ESMTP id 720DD405FB
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 07:31:30 +0000 (UTC)
-X-UUID: d8c28328ba0341c8a7351691847667c5-20210630
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=62IYE54IdDULAKwoKbHVM6/DHaOQllqFJgwJn2lFs3o=; 
- b=Js6kweoZOvtGLYzNFo9t8a6+U0vW5lmffG+YczPcM8ZIJNp9LAJ2Ldjy9xqh81eVmBJJgc1hfG1FBIJtP0VJKWyMSewHqH4K4tuJEWDOGUgjyn6wIks8PM/I3ocSQxFLg/JMQFk+ft45X+EgAYPvsMJpjQugEuHmV8xvZqKMIHY=;
-X-UUID: d8c28328ba0341c8a7351691847667c5-20210630
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1737304554; Wed, 30 Jun 2021 15:31:08 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 30 Jun 2021 15:30:58 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 30 Jun 2021 15:30:57 +0800
-Message-ID: <1625038257.25647.5.camel@mhfsdcap03>
-Subject: Re: [PATCH 01/24] dt-bindings: mediatek: mt8195: Add binding for MM
- IOMMU
-From: Yong Wu <yong.wu@mediatek.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Date: Wed, 30 Jun 2021 15:30:57 +0800
-In-Reply-To: <41809d87-0f1b-13fd-b565-26a17626aad9@canonical.com>
-References: <20210630023504.18177-1-yong.wu@mediatek.com>
- <20210630023504.18177-2-yong.wu@mediatek.com>
- <41809d87-0f1b-13fd-b565-26a17626aad9@canonical.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 56D7983A67
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 08:50:34 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GFFMv58LFzZp54;
+ Wed, 30 Jun 2021 16:47:23 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 30 Jun 2021 16:50:30 +0800
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 30 Jun 2021 16:50:28 +0800
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.2176.012; Wed, 30 Jun 2021 09:50:26 +0100
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Jon Nettleton <jon@solid-run.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: RE: [PATCH v5 7/8] iommu/arm-smmu: Get associated RMR info and
+ install bypass SMR
+Thread-Topic: [PATCH v5 7/8] iommu/arm-smmu: Get associated RMR info and
+ install bypass SMR
+Thread-Index: AQHXUIyLvua7xjhPQkeDex9n58702KsTV/iAgBdgBoCAAGnfAIAAMyCAgAEihEA=
+Date: Wed, 30 Jun 2021 08:50:26 +0000
+Message-ID: <d2223be42ce9497da8c02a87558beab6@huawei.com>
+References: <20210524110222.2212-1-shameerali.kolothum.thodi@huawei.com>
+ <20210524110222.2212-8-shameerali.kolothum.thodi@huawei.com>
+ <2bc3ae21-f2af-ee2c-5e9d-d47633e0439e@arm.com>
+ <CABdtJHtpN7s2gTwUkeWcachOnk6djgMaJLGtnKq5SExA82bDDA@mail.gmail.com>
+ <b33c1525-5a74-a985-fd39-f4df8614f210@arm.com>
+ <CABdtJHsz+ycVffJTyekau_OY6ROmoTBWAGd_guikxauT=nnuJQ@mail.gmail.com>
+In-Reply-To: <CABdtJHsz+ycVffJTyekau_OY6ROmoTBWAGd_guikxauT=nnuJQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.82.108]
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 1963F5674633076AEF957F6E442E2D1D0BE305E0B7F438FD146FEE00D7D59E362000:8
-X-MTK: N
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- chao.hao@mediatek.com, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
- Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, anan.sun@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+X-CFilter-Loop: Reflected
+Cc: Linuxarm <linuxarm@huawei.com>, Steven
+ Price <steven.price@arm.com>, ACPI Devel
+ Maling List <linux-acpi@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ wanghuiqiang <wanghuiqiang@huawei.com>,
+ "Guohanjun \(Hanjun Guo\)" <guohanjun@huawei.com>,
+ yangyicong <yangyicong@huawei.com>,
+ "Sami.Mujawar@arm.com" <Sami.Mujawar@arm.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,69 +97,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, 2021-06-30 at 08:26 +0200, Krzysztof Kozlowski wrote:
-> On 30/06/2021 04:34, Yong Wu wrote:
-> > This patch adds descriptions for mt8195 IOMMU which also use ARM
-> > Short-Descriptor translation table format.
-> > 
-> > In mt8195, there are two smi-common HW and IOMMU, one is for vdo(video
-> > output), the other is for vpp(video processing pipe). They connects
-> > with different smi-larbs, then some setting(larbid_remap) is different.
-> > Differentiate them with the compatible string.
-> > 
-> > Something like this:
-> > 
-> >     IOMMU(VDO)          IOMMU(VPP)
-> >        |                   |
-> >   SMI_COMMON_VDO      SMI_COMMON_VPP
-> >   ---------------     ----------------
-> >   |      |   ...      |      |     ...
-> > larb0 larb2  ...    larb1 larb3    ...
-> > 
-> > Another change is that we have a new IOMMU that is for infra master like
-> > PCIe and USB. The infra master don't have the larb and ports, thus we
-> > rename the port header file to mt8195-memory-port.h rather than
-> > mt8195-larb-port.h.
-> > 
-> > Also, the IOMMU is not only for MM, thus, we don't call it "m4u" which
-> > means "MultiMedia Memory Management UNIT". thus, use the "iommu" as the
-> > compatiable string.
-> > 
-> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > ---
-> >  .../bindings/iommu/mediatek,iommu.yaml        |   7 +
-> >  .../dt-bindings/memory/mt8195-memory-port.h   | 390 ++++++++++++++++++
-> >  2 files changed, 397 insertions(+)
-> >  create mode 100644 include/dt-bindings/memory/mt8195-memory-port.h
-> > 
+
+
+> -----Original Message-----
+> From: Jon Nettleton [mailto:jon@solid-run.com]
+> Sent: 29 June 2021 17:26
+> To: Robin Murphy <robin.murphy@arm.com>
+> Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>;
+> linux-arm-kernel <linux-arm-kernel@lists.infradead.org>; ACPI Devel Maling
+> List <linux-acpi@vger.kernel.org>; iommu@lists.linux-foundation.org; Linuxarm
+> <linuxarm@huawei.com>; Steven Price <steven.price@arm.com>; Guohanjun
+> (Hanjun Guo) <guohanjun@huawei.com>; yangyicong
+> <yangyicong@huawei.com>; Sami.Mujawar@arm.com; wanghuiqiang
+> <wanghuiqiang@huawei.com>
+> Subject: Re: [PATCH v5 7/8] iommu/arm-smmu: Get associated RMR info and
+> install bypass SMR
 > 
-> I understand this will go through IOMMU tree. Do you know about any
-> further patches for memory controllers which will need the header?
 
-This header file will only be used in dtsi file. the iommu masters will
-use these port definitions in the dtsi.
-
-The SMI driver no need include this header file.
-
-By the way, the mt8195 SMI patches is at:
-
-https://lore.kernel.org/linux-mediatek/20210616114346.18812-1-yong.wu@mediatek.com/ 
-
+[...]
+ 
+> Shameer,
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Sorry for the delays.  Here is a diff of the changes that should
+> address the issues pointed out by Robin,
+> I have tested that this works as expected on my HoneyComb LX2160A.
 
-Thanks very much for your quick review.
+Ok. Thanks for that.
 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> index ab7b9db77625..a358bd326d0b 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> @@ -2068,29 +2068,21 @@ static void
+> arm_smmu_rmr_install_bypass_smr(struct arm_smmu_device *smmu)
+>         struct list_head rmr_list;
+>         struct iommu_resv_region *e;
+>         int i, cnt = 0;
+> -       u32 smr;
+>         u32 reg;
 > 
+>         INIT_LIST_HEAD(&rmr_list);
+>         if (iommu_dma_get_rmrs(dev_fwnode(smmu->dev), &rmr_list))
+>                 return;
 > 
-> Best regards,
-> Krzysztof
+> -       reg = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_sCR0);
+> +       /* Rather than trying to look at existing mappings that
+> +        * are setup by the firmware and then invalidate the ones
+> +        * that do no have matching RMR entries, just disable the
+> +        * SMMU until it gets enabled again in the reset routine.
+> +        */
 > 
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> -       if ((reg & ARM_SMMU_sCR0_USFCFG) && !(reg &
+> ARM_SMMU_sCR0_CLIENTPD)) {
+> -               /*
+> -                * SMMU is already enabled and disallowing bypass, so
+> preserve
+> -                * the existing SMRs
+> -                */
+> -               for (i = 0; i < smmu->num_mapping_groups; i++) {
+> -                       smr = arm_smmu_gr0_read(smmu,
+> ARM_SMMU_GR0_SMR(i));
+> -                       if (!FIELD_GET(ARM_SMMU_SMR_VALID, smr))
+> -                               continue;
+> -                       smmu->smrs[i].id =
+> FIELD_GET(ARM_SMMU_SMR_ID, smr);
+> -                       smmu->smrs[i].mask =
+> FIELD_GET(ARM_SMMU_SMR_MASK, smr);
+> -                       smmu->smrs[i].valid = true;
+> -               }
+> -       }
+> +       reg = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_sCR0);
+> +       reg &= ~ARM_SMMU_sCR0_CLIENTPD;
+> +       arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_sCR0, reg);
+> 
+>         list_for_each_entry(e, &rmr_list, list) {
+>                 u32 sid = e->fw_data.rmr.sid;
+> @@ -2100,25 +2092,16 @@ static void
+> arm_smmu_rmr_install_bypass_smr(struct arm_smmu_device *smmu)
+>                         continue;
+>                 if (smmu->s2crs[i].count == 0) {
+>                         smmu->smrs[i].id = sid;
+> -                       smmu->smrs[i].mask = ~0;
+> +                       smmu->smrs[i].mask = 0;
+>                         smmu->smrs[i].valid = true;
+>                 }
+>                 smmu->s2crs[i].count++;
+>                 smmu->s2crs[i].type = S2CR_TYPE_BYPASS;
+>                 smmu->s2crs[i].privcfg = S2CR_PRIVCFG_DEFAULT;
+> -               smmu->s2crs[i].cbndx = 0xff;
+> 
+>                 cnt++;
+>         }
+> 
+> -       if ((reg & ARM_SMMU_sCR0_USFCFG) && !(reg &
+> ARM_SMMU_sCR0_CLIENTPD)) {
+> -               /* Remove the valid bit for unused SMRs */
+> -               for (i = 0; i < smmu->num_mapping_groups; i++) {
+> -                       if (smmu->s2crs[i].count == 0)
+> -                               smmu->smrs[i].valid = false;
+> -               }
+> -       }
+> -
+>         dev_notice(smmu->dev, "\tpreserved %d boot mapping%s\n", cnt,
+>                    cnt == 1 ? "" : "s");
+>         iommu_dma_put_rmrs(dev_fwnode(smmu->dev), &rmr_list);
+> 
+> Please include that in your next patch series.  Let me know if you
+> want me to send you the patch direct
+> off the list.
 
+No problem, I will take this in next.
+
+Thanks,
+Shameer
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
