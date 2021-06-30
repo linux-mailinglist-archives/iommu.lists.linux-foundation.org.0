@@ -1,54 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027CC3B84B8
-	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 16:07:24 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF803B84B7
+	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 16:07:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DB9B0415C4;
-	Wed, 30 Jun 2021 14:07:21 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2262E83B8D;
+	Wed, 30 Jun 2021 14:07:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id k4InZ6XxEW8x; Wed, 30 Jun 2021 14:07:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3C701415B5;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lOpuFrJOq159; Wed, 30 Jun 2021 14:07:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id A74F183BAB;
 	Wed, 30 Jun 2021 14:07:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE454C0024;
-	Wed, 30 Jun 2021 14:07:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3279BC000E;
+	Wed, 30 Jun 2021 14:07:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49FB8C000E
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 13:49:24 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B62F4C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 13:53:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 37E7D40568
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 13:49:24 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A34A660592
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 13:53:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CMjOxRDB6uKJ for <iommu@lists.linux-foundation.org>;
- Wed, 30 Jun 2021 13:49:22 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id c929WY2C6DM7 for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Jun 2021 13:53:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 097F8404F6
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 13:49:21 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1533D6079A
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 13:53:40 +0000 (UTC)
 Received: from maud (unknown [IPv6:2600:8800:8c04:8c00::912b])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EF5171F43548;
- Wed, 30 Jun 2021 14:49:13 +0100 (BST)
-Date: Wed, 30 Jun 2021 09:49:07 -0400
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3BA061F43564;
+ Wed, 30 Jun 2021 14:53:32 +0100 (BST)
+Date: Wed, 30 Jun 2021 09:53:26 -0400
 From: Alyssa Rosenzweig <alyssa@collabora.com>
 To: Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v4 3/3] iommu: dart: Add DART iommu driver
-Message-ID: <YNx2U4GPoKxV3PWd@maud>
+Subject: Re: [PATCH v4 1/3] iommu: io-pgtable: add DART pagetable format
+Message-ID: <YNx3Vvs9VjvIpx2f@maud>
 References: <20210627143405.77298-1-sven@svenpeter.dev>
- <20210627143405.77298-4-sven@svenpeter.dev>
+ <20210627143405.77298-2-sven@svenpeter.dev>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210627143405.77298-4-sven@svenpeter.dev>
+In-Reply-To: <20210627143405.77298-2-sven@svenpeter.dev>
 X-Mailman-Approved-At: Wed, 30 Jun 2021 14:07:16 +0000
 Cc: devicetree@vger.kernel.org, r.czerwinski@pengutronix.de,
  Arnd Bergmann <arnd@kernel.org>, Will Deacon <will@kernel.org>,
@@ -77,53 +77,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Looks really good! Just a few minor comments. With them addressed,
-
-	Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-
-> +	  Say Y here if you are using an Apple SoC with a DART IOMMU.
-
-Nit: Do we need to spell out "with a DART IOMMU"? Don't all the apple
-socs need DART?
-
-> +/*
-> + * This structure is used to identify a single stream attached to a domain.
-> + * It's used as a list inside that domain to be able to attach multiple
-> + * streams to a single domain. Since multiple devices can use a single stream
-> + * it additionally keeps track of how many devices are represented by this
-> + * stream. Once that number reaches zero it is detached from the IOMMU domain
-> + * and all translations from this stream are disabled.
-> + *
-> + * @dart: DART instance to which this stream belongs
-> + * @sid: stream id within the DART instance
-> + * @num_devices: count of devices attached to this stream
-> + * @stream_head: list head for the next stream
-> + */
-> +struct apple_dart_stream {
-> +	struct apple_dart *dart;
-> +	u32 sid;
-> +
-> +	u32 num_devices;
-> +
-> +	struct list_head stream_head;
-> +};
-
-It wasn't obvious to me why we can get away without reference counting.
-Looking ahead it looks like we assert locks in each case. Maybe add
-that to the comment?
-
-```
-> +static void apple_dart_hw_set_ttbr(struct apple_dart *dart, u16 sid, u16 idx,
-> +				   phys_addr_t paddr)
-> +{
-> +	writel(DART_TTBR_VALID | (paddr >> DART_TTBR_SHIFT),
-> +	       dart->regs + DART_TTBR(sid, idx));
-> +}
-```
-
-Should we be checking alignment here? Something like
-
-    BUG_ON(paddr & ((1 << DART_TTBR_SHIFT) - 1));
+Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
