@@ -2,57 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646233B7BBA
-	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 04:37:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7273B7BDF
+	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 04:42:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0B987608AC;
-	Wed, 30 Jun 2021 02:37:37 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8C47860894;
+	Wed, 30 Jun 2021 02:42:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XvRtql33CFLN; Wed, 30 Jun 2021 02:37:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 80ACE60894;
-	Wed, 30 Jun 2021 02:37:35 +0000 (UTC)
+	with ESMTP id VGH7xg9YNlB1; Wed, 30 Jun 2021 02:42:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id A85696087F;
+	Wed, 30 Jun 2021 02:42:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 65207C000E;
-	Wed, 30 Jun 2021 02:37:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EC7FC000E;
+	Wed, 30 Jun 2021 02:42:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 16B93C000E
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:37:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B66C8C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:42:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 12FE560894
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:37:34 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id B199F40603
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:42:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SYvD_6B4o6Uw for <iommu@lists.linux-foundation.org>;
- Wed, 30 Jun 2021 02:37:31 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zRNBwTXMcgp1 for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Jun 2021 02:42:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 0C516608AC
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:37:30 +0000 (UTC)
-X-UUID: 7edf48f8388540f287a4eb1c734c49f2-20210630
-X-UUID: 7edf48f8388540f287a4eb1c734c49f2-20210630
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 852163939; Wed, 30 Jun 2021 10:37:26 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B3271405FB
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:42:44 +0000 (UTC)
+X-UUID: cf01319e079d4900bf48d323f8c13343-20210630
+X-UUID: cf01319e079d4900bf48d323f8c13343-20210630
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1338062040; Wed, 30 Jun 2021 10:37:39 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 30 Jun 2021 10:37:25 +0800
+ 15.0.1497.2; Wed, 30 Jun 2021 10:37:37 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 30 Jun 2021 10:37:24 +0800
+ Transport; Wed, 30 Jun 2021 10:37:36 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
  Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 16/24] iommu/mediatek: Only adjust code about register base
-Date: Wed, 30 Jun 2021 10:34:56 +0800
-Message-ID: <20210630023504.18177-17-yong.wu@mediatek.com>
+Subject: [PATCH 17/24] iommu/mediatek: Just move code position in hw_init
+Date: Wed, 30 Jun 2021 10:34:57 +0800
+Message-ID: <20210630023504.18177-18-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210630023504.18177-1-yong.wu@mediatek.com>
 References: <20210630023504.18177-1-yong.wu@mediatek.com>
@@ -82,120 +82,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This patch have no functional change. Use "base" instead of the
-data->base. This is avoid to touch too many lines in the next patches.
+No functional change too. mt8195 IOMMU support bank functions.
+some global control etting is in bank0. and the other banks have its
+bank independent setting. this patch only moves the control settings
+and the independent registers together.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 43 ++++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ drivers/iommu/mtk_iommu.c | 48 +++++++++++++++++++--------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 5e046587eef4..1072a10e36ce 100644
+index 1072a10e36ce..5237c837128e 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -240,6 +240,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
- {
- 	struct list_head *head = data->hw_list;
- 	bool has_pm = !!data->dev->pm_domain;
-+	void __iomem *base = data->base;
- 	unsigned long flags;
- 	int ret;
- 	u32 tmp;
-@@ -252,17 +253,15 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
- 
- 		spin_lock_irqsave(&data->tlb_lock, flags);
- 		writel_relaxed(F_INVLD_EN1 | F_INVLD_EN0,
--			       data->base + data->plat_data->inv_sel_reg);
-+			       base + data->plat_data->inv_sel_reg);
- 
--		writel_relaxed(MTK_IOMMU_TLB_ADDR(iova),
--			       data->base + REG_MMU_INVLD_START_A);
-+		writel_relaxed(MTK_IOMMU_TLB_ADDR(iova), base + REG_MMU_INVLD_START_A);
- 		writel_relaxed(MTK_IOMMU_TLB_ADDR(iova + size - 1),
--			       data->base + REG_MMU_INVLD_END_A);
--		writel_relaxed(F_MMU_INV_RANGE,
--			       data->base + REG_MMU_INVALIDATE);
-+			       base + REG_MMU_INVLD_END_A);
-+		writel_relaxed(F_MMU_INV_RANGE, base + REG_MMU_INVALIDATE);
- 
- 		/* tlb sync */
--		ret = readl_poll_timeout_atomic(data->base + REG_MMU_CPE_DONE,
-+		ret = readl_poll_timeout_atomic(base + REG_MMU_CPE_DONE,
- 						tmp, tmp != 0, 10, 1000);
- 		if (ret) {
- 			dev_warn(data->dev,
-@@ -270,7 +269,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
- 			mtk_iommu_tlb_flush_all(data);
- 		}
- 		/* Clear the CPE status */
--		writel_relaxed(0, data->base + REG_MMU_CPE_DONE);
-+		writel_relaxed(0, base + REG_MMU_CPE_DONE);
- 		spin_unlock_irqrestore(&data->tlb_lock, flags);
- 
- 		if (has_pm)
-@@ -284,23 +283,25 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
- 	struct mtk_iommu_domain *dom = data->m4u_dom;
- 	unsigned int fault_larb = 0, fault_port = 0, sub_comm = 0;
- 	u32 int_state, regval, va34_32, pa34_32;
-+	const struct mtk_iommu_plat_data *plat_data = data->plat_data;
-+	void __iomem *base = data->base;
- 	u64 fault_iova, fault_pa;
- 	bool layer, write;
- 
- 	/* Read error info from registers */
--	int_state = readl_relaxed(data->base + REG_MMU_FAULT_ST1);
-+	int_state = readl_relaxed(base + REG_MMU_FAULT_ST1);
- 	if (int_state & F_REG_MMU0_FAULT_MASK) {
--		regval = readl_relaxed(data->base + REG_MMU0_INT_ID);
--		fault_iova = readl_relaxed(data->base + REG_MMU0_FAULT_VA);
--		fault_pa = readl_relaxed(data->base + REG_MMU0_INVLD_PA);
-+		regval = readl_relaxed(base + REG_MMU0_INT_ID);
-+		fault_iova = readl_relaxed(base + REG_MMU0_FAULT_VA);
-+		fault_pa = readl_relaxed(base + REG_MMU0_INVLD_PA);
- 	} else {
--		regval = readl_relaxed(data->base + REG_MMU1_INT_ID);
--		fault_iova = readl_relaxed(data->base + REG_MMU1_FAULT_VA);
--		fault_pa = readl_relaxed(data->base + REG_MMU1_INVLD_PA);
-+		regval = readl_relaxed(base + REG_MMU1_INT_ID);
-+		fault_iova = readl_relaxed(base + REG_MMU1_FAULT_VA);
-+		fault_pa = readl_relaxed(base + REG_MMU1_INVLD_PA);
+@@ -743,30 +743,6 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
  	}
- 	layer = fault_iova & F_MMU_FAULT_VA_LAYER_BIT;
- 	write = fault_iova & F_MMU_FAULT_VA_WRITE_BIT;
--	if (MTK_IOMMU_HAS_FLAG(data->plat_data, IOVA_34_EN)) {
-+	if (MTK_IOMMU_HAS_FLAG(plat_data, IOVA_34_EN)) {
- 		va34_32 = FIELD_GET(F_MMU_INVAL_VA_34_32_MASK, fault_iova);
- 		fault_iova = fault_iova & F_MMU_INVAL_VA_31_12_MASK;
- 		fault_iova |= (u64)va34_32 << 32;
-@@ -308,12 +309,12 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
- 	pa34_32 = FIELD_GET(F_MMU_INVAL_PA_34_32_MASK, fault_iova);
- 	fault_pa |= (u64)pa34_32 << 32;
+ 	writel_relaxed(regval, data->base + REG_MMU_CTRL_REG);
  
--	if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_MM)) {
-+	if (MTK_IOMMU_IS_TYPE(plat_data, MTK_IOMMU_TYPE_MM)) {
- 		fault_port = F_MMU_INT_ID_PORT_ID(regval);
--		if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_SUB_COMM_2BITS)) {
-+		if (MTK_IOMMU_HAS_FLAG(plat_data, HAS_SUB_COMM_2BITS)) {
- 			fault_larb = F_MMU_INT_ID_COMM_ID(regval);
- 			sub_comm = F_MMU_INT_ID_SUB_COMM_ID(regval);
--		} else if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_SUB_COMM_3BITS)) {
-+		} else if (MTK_IOMMU_HAS_FLAG(plat_data, HAS_SUB_COMM_3BITS)) {
- 			fault_larb = F_MMU_INT_ID_COMM_ID_EXT(regval);
- 			sub_comm = F_MMU_INT_ID_SUB_COMM_ID_EXT(regval);
- 		} else {
-@@ -332,9 +333,9 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
- 	}
- 
- 	/* Interrupt clear */
--	regval = readl_relaxed(data->base + REG_MMU_INT_CONTROL0);
-+	regval = readl_relaxed(base + REG_MMU_INT_CONTROL0);
- 	regval |= F_INT_CLR_BIT;
+-	regval = F_L2_MULIT_HIT_EN |
+-		F_TABLE_WALK_FAULT_INT_EN |
+-		F_PREETCH_FIFO_OVERFLOW_INT_EN |
+-		F_MISS_FIFO_OVERFLOW_INT_EN |
+-		F_PREFETCH_FIFO_ERR_INT_EN |
+-		F_MISS_FIFO_ERR_INT_EN;
 -	writel_relaxed(regval, data->base + REG_MMU_INT_CONTROL0);
-+	writel_relaxed(regval, base + REG_MMU_INT_CONTROL0);
+-
+-	regval = F_INT_TRANSLATION_FAULT |
+-		F_INT_MAIN_MULTI_HIT_FAULT |
+-		F_INT_INVALID_PA_FAULT |
+-		F_INT_ENTRY_REPLACEMENT_FAULT |
+-		F_INT_TLB_MISS_FAULT |
+-		F_INT_MISS_TRANSACTION_FIFO_FAULT |
+-		F_INT_PRETETCH_TRANSATION_FIFO_FAULT;
+-	writel_relaxed(regval, data->base + REG_MMU_INT_MAIN_CONTROL);
+-
+-	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_LEGACY_IVRP_PADDR))
+-		regval = (data->protect_base >> 1) | (data->enable_4GB << 31);
+-	else
+-		regval = lower_32_bits(data->protect_base) |
+-			 upper_32_bits(data->protect_base);
+-	writel_relaxed(regval, data->base + REG_MMU_IVRP_PADDR);
+-
+ 	if (data->enable_4GB &&
+ 	    MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_VLD_PA_RNG)) {
+ 		/*
+@@ -800,6 +776,30 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
+ 	}
+ 	writel_relaxed(regval, data->base + REG_MMU_MISC_CTRL);
  
- 	mtk_iommu_tlb_flush_all(data);
- 
++	regval = F_L2_MULIT_HIT_EN |
++		F_TABLE_WALK_FAULT_INT_EN |
++		F_PREETCH_FIFO_OVERFLOW_INT_EN |
++		F_MISS_FIFO_OVERFLOW_INT_EN |
++		F_PREFETCH_FIFO_ERR_INT_EN |
++		F_MISS_FIFO_ERR_INT_EN;
++	writel_relaxed(regval, data->base + REG_MMU_INT_CONTROL0);
++
++	regval = F_INT_TRANSLATION_FAULT |
++		F_INT_MAIN_MULTI_HIT_FAULT |
++		F_INT_INVALID_PA_FAULT |
++		F_INT_ENTRY_REPLACEMENT_FAULT |
++		F_INT_TLB_MISS_FAULT |
++		F_INT_MISS_TRANSACTION_FIFO_FAULT |
++		F_INT_PRETETCH_TRANSATION_FIFO_FAULT;
++	writel_relaxed(regval, data->base + REG_MMU_INT_MAIN_CONTROL);
++
++	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_LEGACY_IVRP_PADDR))
++		regval = (data->protect_base >> 1) | (data->enable_4GB << 31);
++	else
++		regval = lower_32_bits(data->protect_base) |
++			 upper_32_bits(data->protect_base);
++	writel_relaxed(regval, data->base + REG_MMU_IVRP_PADDR);
++
+ 	if (devm_request_irq(data->dev, data->irq, mtk_iommu_isr, 0,
+ 			     dev_name(data->dev), (void *)data)) {
+ 		writel_relaxed(0, data->base + REG_MMU_PT_BASE_ADDR);
 -- 
 2.18.0
 
