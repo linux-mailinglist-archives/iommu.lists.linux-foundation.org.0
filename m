@@ -1,64 +1,95 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A833B8497
-	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 16:02:10 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE60C3B869C
+	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 17:57:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C1ACF4159D;
-	Wed, 30 Jun 2021 14:02:08 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id CDE7383B86;
+	Wed, 30 Jun 2021 15:57:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ORsQsCyO6ZTS; Wed, 30 Jun 2021 14:02:06 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zZc7OKJ4L7HE; Wed, 30 Jun 2021 15:56:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id BAEC6415B7;
-	Wed, 30 Jun 2021 14:02:06 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C0BB983BAB;
+	Wed, 30 Jun 2021 15:56:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94A07C001C;
-	Wed, 30 Jun 2021 14:02:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84729C0022;
+	Wed, 30 Jun 2021 15:56:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 338D8C0010
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 14:02:05 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B5722C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 15:56:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 11061415B6
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 14:02:05 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 99F01415A7
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 15:56:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BiB3-x_yy1IW for <iommu@lists.linux-foundation.org>;
- Wed, 30 Jun 2021 14:02:02 +0000 (UTC)
+ with ESMTP id UPuzGLIYuZeY for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Jun 2021 15:56:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id CE5214159D
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 14:02:02 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05ED36D;
- Wed, 30 Jun 2021 07:02:02 -0700 (PDT)
-Received: from [10.57.40.45] (unknown [10.57.40.45])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99D623F718;
- Wed, 30 Jun 2021 07:02:00 -0700 (PDT)
-Subject: Re: [PATCH] iommu/arm: Cleanup resources in case of probe error path
-To: Marek Szyprowski <m.szyprowski@samsung.com>, Will Deacon <will@kernel.org>
-References: <20210608164559.204023-1-ameynarkhede03@gmail.com>
- <CGME20210630124816eucas1p27563f0a456c0196e20937619aa2f8d26@eucas1p2.samsung.com>
- <26f6a765-37c8-d63a-a779-384f095d5770@samsung.com>
- <20210630125940.GA8515@willie-the-truck>
- <4e3b1685-323e-2a7e-3aae-7c21b28fc65f@samsung.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <bc07bd52-ed2e-0a44-80a7-36b581018b40@arm.com>
-Date: Wed, 30 Jun 2021 15:01:56 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 719334159E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 15:56:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EC0061396;
+ Wed, 30 Jun 2021 15:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625068615;
+ bh=t4c1D/KrdZudddoFFMreAQi55GnAG0OUL4mpRujr/+8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nFQR+NYjpCrpMIj0+9nBAj35wlj1qXRWbFKtyhNDLpJTAm3BAAOI+jIUn7QIQ6LMC
+ /D08b/Wyq1LKmfD6NJJYuuUXm1XpHRMF+bzag+U7SE0Xnf1l+0yaFFUCUoKE4yB6Fx
+ KHCUGF9UUbr1kSihYQ7S2P6QTrW/0sw9J8RiF/5y7S55QWGDrjBUVqbIJpceKtB839
+ 13XYMsllNYSyOsjMPZqtEclitRsqTPicPLIWpPGvJ9tnj6RZjijLVBtTMriTuGUDnx
+ pujXO32GnzzUvzSsthpj3FxbtH2/lBtbWkeBfV4uT8mpQQ+qjMcUVFz7XO5LQkzFA7
+ Ko9guip4RPSmA==
+Date: Wed, 30 Jun 2021 08:56:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
+ swiotlb data bouncing
+Message-ID: <YNyUQwiagNeZ9YeJ@Ryzen-9-3900X.localdomain>
+References: <20210624155526.2775863-1-tientzu@chromium.org>
+ <20210624155526.2775863-7-tientzu@chromium.org>
+ <YNvMDFWKXSm4LRfZ@Ryzen-9-3900X.localdomain>
+ <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
+ <20210630114348.GA8383@willie-the-truck>
 MIME-Version: 1.0
-In-Reply-To: <4e3b1685-323e-2a7e-3aae-7c21b28fc65f@samsung.com>
-Content-Language: en-GB
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-kernel@vger.kernel.org, Amey Narkhede <ameynarkhede03@gmail.com>,
- Jon Hunter <jonathanh@nvidia.com>, iommu@lists.linux-foundation.org,
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20210630114348.GA8383@willie-the-truck>
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, benh@kernel.crashing.org,
+ joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ Jianxiong Gao <jxgao@google.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ maarten.lankhorst@linux.intel.com, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ jani.nikula@linux.intel.com, Rob Herring <robh+dt@kernel.org>,
+ rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
+ Claire Chang <tientzu@chromium.org>, boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ bauerman@linux.ibm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,92 +102,90 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMjAyMS0wNi0zMCAxNDo0OCwgTWFyZWsgU3p5cHJvd3NraSB3cm90ZToKPiBPbiAzMC4wNi4y
-MDIxIDE0OjU5LCBXaWxsIERlYWNvbiB3cm90ZToKPj4gT24gV2VkLCBKdW4gMzAsIDIwMjEgYXQg
-MDI6NDg6MTVQTSArMDIwMCwgTWFyZWsgU3p5cHJvd3NraSB3cm90ZToKPj4+IE9uIDA4LjA2LjIw
-MjEgMTg6NDUsIEFtZXkgTmFya2hlZGUgd3JvdGU6Cj4+Pj4gSWYgZGV2aWNlIHJlZ2lzdHJhdGlv
-biBmYWlscywgcmVtb3ZlIHN5c2ZzIGF0dHJpYnV0ZQo+Pj4+IGFuZCBpZiBzZXR0aW5nIGJ1cyBj
-YWxsYmFja3MgZmFpbHMsIHVucmVnaXN0ZXIgdGhlIGRldmljZQo+Pj4+IGFuZCBjbGVhbnVwIHRo
-ZSBzeXNmcyBhdHRyaWJ1dGUuCj4+Pj4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBBbWV5IE5hcmtoZWRl
-IDxhbWV5bmFya2hlZGUwM0BnbWFpbC5jb20+Cj4+PiBUaGlzIHBhdGNoIGxhbmRlZCBpbiBsaW51
-eC1uZXh0IHNvbWUgdGltZSBhZ28gYXMgY29tbWl0IDI0OWM5ZGM2YWEwZAo+Pj4gKCJpb21tdS9h
-cm06IENsZWFudXAgcmVzb3VyY2VzIGluIGNhc2Ugb2YgcHJvYmUgZXJyb3IgcGF0aCIpLiBBZnRl
-cgo+Pj4gYmlzZWN0aW5nIGFuZCBzb21lIG1hbnVhbCBzZWFyY2hpbmcgSSBmaW5hbGx5IGZvdW5k
-IHRoYXQgaXQgaXMKPj4+IHJlc3BvbnNpYmxlIGZvciBicmVha2luZyBzMmlkbGUgb24gRHJhZ29u
-Qm9hcmQgNDEwYy4gSGVyZSBpcyB0aGUgbG9nCj4+PiAoY2FwdHVyZWQgd2l0aCBub19jb25zb2xl
-X3N1c3BlbmQpOgo+Pj4KPj4+ICMgdGltZSBydGN3YWtlIC1zMTAgLW1tZW0KPj4+IHJ0Y3dha2U6
-IHdha2V1cCBmcm9tICJtZW0iIHVzaW5nIC9kZXYvcnRjMCBhdCBUaHUgSmFuwqAgMSAwMDowMjox
-MyAxOTcwCj4+PiBQTTogc3VzcGVuZCBlbnRyeSAoczJpZGxlKQo+Pj4gRmlsZXN5c3RlbXMgc3lu
-YzogMC4wMDIgc2Vjb25kcwo+Pj4gRnJlZXppbmcgdXNlciBzcGFjZSBwcm9jZXNzZXMgLi4uIChl
-bGFwc2VkIDAuMDA2IHNlY29uZHMpIGRvbmUuCj4+PiBPT00ga2lsbGVyIGRpc2FibGVkLgo+Pj4g
-RnJlZXppbmcgcmVtYWluaW5nIGZyZWV6YWJsZSB0YXNrcyAuLi4gKGVsYXBzZWQgMC4wMDQgc2Vj
-b25kcykgZG9uZS4KPj4+IFVuYWJsZSB0byBoYW5kbGUga2VybmVsIE5VTEwgcG9pbnRlciBkZXJl
-ZmVyZW5jZSBhdCB2aXJ0dWFsIGFkZHJlc3MKPj4+IDAwMDAwMDAwMDAwMDAwNzAKPj4+IE1lbSBh
-Ym9ydCBpbmZvOgo+Pj4gICAgwqAgRVNSID0gMHg5NjAwMDAwNgo+Pj4gICAgwqAgRUMgPSAweDI1
-OiBEQUJUIChjdXJyZW50IEVMKSwgSUwgPSAzMiBiaXRzCj4+PiAgICDCoCBTRVQgPSAwLCBGblYg
-PSAwCj4+PiAgICDCoCBFQSA9IDAsIFMxUFRXID0gMAo+Pj4gICAgwqAgRlNDID0gMHgwNjogbGV2
-ZWwgMiB0cmFuc2xhdGlvbiBmYXVsdAo+Pj4gRGF0YSBhYm9ydCBpbmZvOgo+Pj4gICAgwqAgSVNW
-ID0gMCwgSVNTID0gMHgwMDAwMDAwNgo+Pj4gICAgwqAgQ00gPSAwLCBXblIgPSAwCj4+PiB1c2Vy
-IHBndGFibGU6IDRrIHBhZ2VzLCA0OC1iaXQgVkFzLCBwZ2RwPTAwMDAwMDAwOGFkMDgwMDAKPj4+
-IFswMDAwMDAwMDAwMDAwMDcwXSBwZ2Q9MDgwMDAwMDA4NWMzYzAwMywgcDRkPTA4MDAwMDAwODVj
-M2MwMDMsCj4+PiBwdWQ9MDgwMDAwMDA4OGRjZjAwMywgcG1kPTAwMDAwMDAwMDAwMDAwMDAKPj4+
-IEludGVybmFsIGVycm9yOiBPb3BzOiA5NjAwMDAwNiBbIzFdIFBSRUVNUFQgU01QCj4+PiBNb2R1
-bGVzIGxpbmtlZCBpbjogYmx1ZXRvb3RoIGVjZGhfZ2VuZXJpYyBlY2MgcmZraWxsIGlwdjYgYXg4
-ODc5NmIKPj4+IHZlbnVzX2VuYyB2ZW51c19kZWMgdmlkZW9idWYyX2RtYV9jb250aWcgYXNpeCBj
-cmN0MTBkaWZfY2UgYWR2NzUxMQo+Pj4gc25kX3NvY19tc204OTE2X2FuYWxvZyBxY29tX3NwbWlf
-dGVtcF9hbGFybSBydGNfcG04eHh4IHFjb21fcG9uCj4+PiBxY29tX2NhbXNzIHFjb21fc3BtaV92
-YWRjIHZpZGVvYnVmMl9kbWFfc2cgcWNvbV92YWRjX2NvbW1vbiBtc20KPj4+IHZlbnVzX2NvcmUg
-djRsMl9md25vZGUgdjRsMl9hc3luYyBzbmRfc29jX21zbTg5MTZfZGlnaXRhbAo+Pj4gdmlkZW9i
-dWYyX21lbW9wcyBzbmRfc29jX2xwYXNzX2FwcTgwMTYgc25kX3NvY19scGFzc19jcHUgdjRsMl9t
-ZW0ybWVtCj4+PiBzbmRfc29jX2xwYXNzX3BsYXRmb3JtIHNuZF9zb2NfYXBxODAxNl9zYmMgdmlk
-ZW9idWYyX3Y0bDIKPj4+IHNuZF9zb2NfcWNvbV9jb21tb24gcWNvbV9ybmcgdmlkZW9idWYyX2Nv
-bW1vbiBpMmNfcWNvbV9jY2kgcW5vY19tc204OTE2Cj4+PiB2aWRlb2RldiBtYyBpY2Nfc21kX3Jw
-bSBtZHRfbG9hZGVyIHNvY2luZm8gZGlzcGxheV9jb25uZWN0b3Igcm10ZnNfbWVtCj4+PiBDUFU6
-IDEgUElEOiAxNTIyIENvbW06IHJ0Y3dha2UgTm90IHRhaW50ZWQgNS4xMy4wLW5leHQtMjAyMTA2
-MjkgIzM1OTIKPj4+IEhhcmR3YXJlIG5hbWU6IFF1YWxjb21tIFRlY2hub2xvZ2llcywgSW5jLiBB
-UFEgODAxNiBTQkMgKERUKQo+Pj4gcHN0YXRlOiA4MDAwMDAwNSAoTnpjdiBkYWlmIC1QQU4gLVVB
-TyAtVENPIEJUWVBFPS0tKQo+Pj4gcGMgOiBtc21fcnVudGltZV9zdXNwZW5kKzB4MWMvMHg2MCBb
-bXNtXQo+Pj4gbHIgOiBtc21fcG1fc3VzcGVuZCsweDE4LzB4MzggW21zbV0KPj4+IC4uLgo+Pj4g
-Q2FsbCB0cmFjZToKPj4+ICAgIMKgbXNtX3J1bnRpbWVfc3VzcGVuZCsweDFjLzB4NjAgW21zbV0K
-Pj4+ICAgIMKgbXNtX3BtX3N1c3BlbmQrMHgxOC8weDM4IFttc21dCj4+PiAgICDCoGRwbV9ydW5f
-Y2FsbGJhY2srMHg4NC8weDM3OAo+PiBJIHdvbmRlciBpZiB3ZSdyZSBtaXNzaW5nIGEgcG1fcnVu
-dGltZV9kaXNhYmxlKCkgY2FsbCBvbiB0aGUgZmFpbHVyZSBwYXRoPwo+PiBpLmUuIHNvbWV0aGlu
-ZyBsaWtlIHRoZSBkaWZmIGJlbG93Li4uCj4gCj4gSSd2ZSBjaGVja2VkIGFuZCBpdCBkb2Vzbid0
-IGZpeCBhbnl0aGluZy4KCldoYXQncyBoYXBwZW5lZCBwcmV2aW91c2x5PyBIYXMgYW4gSU9NTVUg
-YWN0dWFsbHkgZmFpbGVkIHRvIHByb2JlLCBvciBpcyAKdGhpcyBhIGZpZGRseSAiY29kZSBtb3Zl
-bWVudCB1bnZlaWxzIGxhdGVudCBidWcgZWxzZXdoZXJlIiBraW5kIG9mIAp0aGluZz8gVGhlcmUg
-ZG9lc24ndCBsb29rIHRvIGJlIG11Y2ggY2FwYWJsZSBvZiBnb2luZyB3cm9uZyBpbiAKbXNtX3J1
-bnRpbWVfc3VzcGVuZCgpIGl0c2VsZiwgc28gaXMgdGhlIERSTSBkcml2ZXIgYWxzbyBpbiBhIGJy
-b2tlbiAKaGFsZi1wcm9iZWQgc3RhdGUgd2hlcmUgaXQncyBsZWZ0IGl0cyBwbV9ydW50aW1lX29w
-cyBiZWhpbmQgd2l0aG91dCBpdHMgCmRydmRhdGEgYmVpbmcgdmFsaWQ/CgpSb2Jpbi4KCj4gCj4+
-IFdpbGwKPj4KPj4gLS0tPjgKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvYXJtL2Fy
-bS1zbW11L3Fjb21faW9tbXUuYyBiL2RyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11L3Fjb21faW9t
-bXUuYwo+PiBpbmRleCAyNWVkNDQ0ZmY5NGQuLmNlOGYzNTQ3NTVkMCAxMDA2NDQKPj4gLS0tIGEv
-ZHJpdmVycy9pb21tdS9hcm0vYXJtLXNtbXUvcWNvbV9pb21tdS5jCj4+ICsrKyBiL2RyaXZlcnMv
-aW9tbXUvYXJtL2FybS1zbW11L3Fjb21faW9tbXUuYwo+PiBAQCAtODM2LDE0ICs4MzYsMTQgQEAg
-c3RhdGljIGludCBxY29tX2lvbW11X2RldmljZV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
-ICpwZGV2KQo+PiAgICAgICAgICAgcmV0ID0gZGV2bV9vZl9wbGF0Zm9ybV9wb3B1bGF0ZShkZXYp
-Owo+PiAgICAgICAgICAgaWYgKHJldCkgewo+PiAgICAgICAgICAgICAgICAgICBkZXZfZXJyKGRl
-diwgIkZhaWxlZCB0byBwb3B1bGF0ZSBpb21tdSBjb250ZXh0c1xuIik7Cj4+IC0gICAgICAgICAg
-ICAgICByZXR1cm4gcmV0Owo+PiArICAgICAgICAgICAgICAgZ290byBlcnJfcG1fZGlzYWJsZTsK
-Pj4gICAgICAgICAgIH0KPj4gICAgCj4+ICAgICAgICAgICByZXQgPSBpb21tdV9kZXZpY2Vfc3lz
-ZnNfYWRkKCZxY29tX2lvbW11LT5pb21tdSwgZGV2LCBOVUxMLAo+PiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBkZXZfbmFtZShkZXYpKTsKPj4gICAgICAgICAgIGlmIChy
-ZXQpIHsKPj4gICAgICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWlsZWQgdG8gcmVnaXN0
-ZXIgaW9tbXUgaW4gc3lzZnNcbiIpOwo+PiAtICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPj4g
-KyAgICAgICAgICAgICAgIGdvdG8gZXJyX3BtX2Rpc2FibGU7Cj4+ICAgICAgICAgICB9Cj4+ICAg
-IAo+PiAgICAgICAgICAgcmV0ID0gaW9tbXVfZGV2aWNlX3JlZ2lzdGVyKCZxY29tX2lvbW11LT5p
-b21tdSwgJnFjb21faW9tbXVfb3BzLCBkZXYpOwo+PiBAQCAtODY5LDYgKzg2OSw5IEBAIHN0YXRp
-YyBpbnQgcWNvbV9pb21tdV9kZXZpY2VfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
-dikKPj4gICAgCj4+ICAgIGVycl9zeXNmc19yZW1vdmU6Cj4+ICAgICAgICAgICBpb21tdV9kZXZp
-Y2Vfc3lzZnNfcmVtb3ZlKCZxY29tX2lvbW11LT5pb21tdSk7Cj4+ICsKPj4gK2Vycl9wbV9kaXNh
-YmxlOgo+PiArICAgICAgIHBtX3J1bnRpbWVfZGlzYWJsZShkZXYpOwo+PiAgICAgICAgICAgcmV0
-dXJuIHJldDsKPj4gICAgfQo+Pgo+IEJlc3QgcmVnYXJkcwo+IApfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlz
-dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+Hi Will and Claire,
+
+On Wed, Jun 30, 2021 at 12:43:48PM +0100, Will Deacon wrote:
+> On Wed, Jun 30, 2021 at 05:17:27PM +0800, Claire Chang wrote:
+> > On Wed, Jun 30, 2021 at 9:43 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > On Thu, Jun 24, 2021 at 11:55:20PM +0800, Claire Chang wrote:
+> > > > Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
+> > > > use it to determine whether to bounce the data or not. This will be
+> > > > useful later to allow for different pools.
+> > > >
+> > > > Signed-off-by: Claire Chang <tientzu@chromium.org>
+> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > > Tested-by: Stefano Stabellini <sstabellini@kernel.org>
+> > > > Tested-by: Will Deacon <will@kernel.org>
+> > > > Acked-by: Stefano Stabellini <sstabellini@kernel.org>
+> > >
+> > > This patch as commit af452ec1b1a3 ("swiotlb: Use is_swiotlb_force_bounce
+> > > for swiotlb data bouncing") causes my Ryzen 3 4300G system to fail to
+> > > get to an X session consistently (although not every single time),
+> > > presumably due to a crash in the AMDGPU driver that I see in dmesg.
+> > >
+> > > I have attached logs at af452ec1b1a3 and f127c9556a8e and I am happy
+> > > to provide any further information, debug, or test patches as necessary.
+> > 
+> > Are you using swiotlb=force? or the swiotlb_map is called because of
+> > !dma_capable? (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/kernel/dma/direct.h#n93)
+> 
+> The command line is in the dmesg:
+> 
+>   | Kernel command line: initrd=\amd-ucode.img initrd=\initramfs-linux-next-llvm.img root=PARTUUID=8680aa0c-cf09-4a69-8cf3-970478040ee7 rw intel_pstate=no_hwp irqpoll
+> 
+> but I worry that this looks _very_ similar to the issue reported by Qian
+> Cai which we thought we had fixed. Nathan -- is the failure deterministic?
+
+Yes, for the most part. It does not happen every single boot so when I
+was bisecting, I did a series of seven boots and only considered the
+revision good when all seven of them made it to LightDM's greeter. My
+results that I notated show most bad revisions failed anywhere from four
+to six times.
+
+> > `BUG: unable to handle page fault for address: 00000000003a8290` and
+> > the fact it crashed at `_raw_spin_lock_irqsave` look like the memory
+> > (maybe dev->dma_io_tlb_mem) was corrupted?
+> > The dev->dma_io_tlb_mem should be set here
+> > (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/pci/probe.c#n2528)
+> > through device_initialize.
+> 
+> I'm less sure about this. 'dma_io_tlb_mem' should be pointing at
+> 'io_tlb_default_mem', which is a page-aligned allocation from memblock.
+> The spinlock is at offset 0x24 in that structure, and looking at the
+> register dump from the crash:
+> 
+> Jun 29 18:28:42 hp-4300G kernel: RSP: 0018:ffffadb4013db9e8 EFLAGS: 00010006
+> Jun 29 18:28:42 hp-4300G kernel: RAX: 00000000003a8290 RBX: 0000000000000000 RCX: ffff8900572ad580
+> Jun 29 18:28:42 hp-4300G kernel: RDX: ffff89005653f024 RSI: 00000000000c0000 RDI: 0000000000001d17
+> Jun 29 18:28:42 hp-4300G kernel: RBP: 000000000a20d000 R08: 00000000000c0000 R09: 0000000000000000
+> Jun 29 18:28:42 hp-4300G kernel: R10: 000000000a20d000 R11: ffff89005653f000 R12: 0000000000000212
+> Jun 29 18:28:42 hp-4300G kernel: R13: 0000000000001000 R14: 0000000000000002 R15: 0000000000200000
+> Jun 29 18:28:42 hp-4300G kernel: FS:  00007f1f8898ea40(0000) GS:ffff890057280000(0000) knlGS:0000000000000000
+> Jun 29 18:28:42 hp-4300G kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> Jun 29 18:28:42 hp-4300G kernel: CR2: 00000000003a8290 CR3: 00000001020d0000 CR4: 0000000000350ee0
+> Jun 29 18:28:42 hp-4300G kernel: Call Trace:
+> Jun 29 18:28:42 hp-4300G kernel:  _raw_spin_lock_irqsave+0x39/0x50
+> Jun 29 18:28:42 hp-4300G kernel:  swiotlb_tbl_map_single+0x12b/0x4c0
+> 
+> Then that correlates with R11 holding the 'dma_io_tlb_mem' pointer and
+> RDX pointing at the spinlock. Yet RAX is holding junk :/
+> 
+> I agree that enabling KASAN would be a good idea, but I also think we
+> probably need to get some more information out of swiotlb_tbl_map_single()
+> to see see what exactly is going wrong in there.
+
+I can certainly enable KASAN and if there is any debug print I can add
+or dump anything, let me know!
+
+Cheers,
+Nathan
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
