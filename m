@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E69E3B7BB9
-	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 04:37:28 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EC2FF40619;
-	Wed, 30 Jun 2021 02:37:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id agO96x07tBwj; Wed, 30 Jun 2021 02:37:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 2E3DB40635;
-	Wed, 30 Jun 2021 02:37:25 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E92B6C000E;
-	Wed, 30 Jun 2021 02:37:24 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0CF81C000E
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:37:24 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 999B73B7BDE
+	for <lists.iommu@lfdr.de>; Wed, 30 Jun 2021 04:42:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E0E7D60894
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:37:23 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4BA4960894;
+	Wed, 30 Jun 2021 02:42:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t375tCeYnaiY for <iommu@lists.linux-foundation.org>;
- Wed, 30 Jun 2021 02:37:19 +0000 (UTC)
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id snJ_r4eTDVMu; Wed, 30 Jun 2021 02:42:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6A93D606F0;
+	Wed, 30 Jun 2021 02:42:29 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D012C0022;
+	Wed, 30 Jun 2021 02:42:29 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC168C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:42:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id C51584060A
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:42:27 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FQ_dZbx6jY9w for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Jun 2021 02:42:27 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 0CEC0608F2
- for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:37:18 +0000 (UTC)
-X-UUID: e2e00aae97f94ee98b64e34473523dea-20210630
-X-UUID: e2e00aae97f94ee98b64e34473523dea-20210630
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8FE4C405FB
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Jun 2021 02:42:26 +0000 (UTC)
+X-UUID: 1cd5d294c24f45bd8bfdbb530b2f1a36-20210630
+X-UUID: 1cd5d294c24f45bd8bfdbb530b2f1a36-20210630
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <yong.wu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1404309989; Wed, 30 Jun 2021 10:37:14 +0800
+ with ESMTP id 690753351; Wed, 30 Jun 2021 10:37:21 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 30 Jun 2021 10:37:12 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 30 Jun 2021 10:37:19 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 30 Jun 2021 10:37:11 +0800
+ Transport; Wed, 30 Jun 2021 10:37:18 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
  Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 14/24] iommu/mediatek: Add PCIe support
-Date: Wed, 30 Jun 2021 10:34:54 +0800
-Message-ID: <20210630023504.18177-15-yong.wu@mediatek.com>
+Subject: [PATCH 15/24] iommu/mediatek: Add mt8195 support
+Date: Wed, 30 Jun 2021 10:34:55 +0800
+Message-ID: <20210630023504.18177-16-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210630023504.18177-1-yong.wu@mediatek.com>
 References: <20210630023504.18177-1-yong.wu@mediatek.com>
@@ -82,84 +82,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Currently the code for of_iommu_configure_dev_id is like this:
-
-static int of_iommu_configure_dev_id(struct device_node *master_np,
-                                     struct device *dev,
-                                     const u32 *id)
-{
-       struct of_phandle_args iommu_spec = { .args_count = 1 };
-
-       err = of_map_id(master_np, *id, "iommu-map",
-                       "iommu-map-mask", &iommu_spec.np,
-                       iommu_spec.args);
-...
-}
-
-it can only support only one id output. BUT our PCIe HW has two ID(one is
-for writing, the other is for reading). I'm not sure if we should change
-of_map_id to support output MAX_PHANDLE_ARGS.
-
-In this patch I add the solution in ourselve drivers. If it's pcie case,
-enable one more bit.
-
-Not all infra iommu support PCIe, thus I add a PCIe support flag here.
+mt8195 has 3 IOMMU, containing 2 MM IOMMUs, one is for vdo, the other
+is for vpp. and 1 INFRA IOMMU.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/iommu/mtk_iommu.c | 42 +++++++++++++++++++++++++++++++++++++++
+ drivers/iommu/mtk_iommu.h |  1 +
+ 2 files changed, 43 insertions(+)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 1b62896c6666..33303243771b 100644
+index 33303243771b..5e046587eef4 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -22,6 +22,7 @@
- #include <linux/of_iommu.h>
- #include <linux/of_irq.h>
- #include <linux/of_platform.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-@@ -134,6 +135,7 @@
- #define MTK_IOMMU_TYPE_MM		(0x0 << 13)
- #define MTK_IOMMU_TYPE_INFRA		(0x1 << 13)
- #define MTK_IOMMU_TYPE_MASK		(0x3 << 13)
-+#define IFA_IOMMU_PCIe_SUPPORT		BIT(15)
+@@ -1152,6 +1152,45 @@ static const struct mtk_iommu_plat_data mt8192_data = {
+ 			   {0, 14, 16}, {0, 13, 18, 17}},
+ };
  
- #define MTK_IOMMU_HAS_FLAG(pdata, _x)	(!!(((pdata)->flags) & (_x)))
- 
-@@ -399,8 +401,12 @@ static int mtk_iommu_config(struct mtk_iommu_data *data, struct device *dev,
- 				larb_mmu->mmu &= ~MTK_SMI_MMU_EN(portid);
- 		} else if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_INFRA)) {
- 			peri_mmuen_msk = BIT(portid);
--			peri_mmuen = enable ? peri_mmuen_msk : 0;
- 
-+			/* PCIdev has only one output id, enable the next writing bit for PCIe */
-+			if (dev_is_pci(dev))
-+				peri_mmuen_msk |= BIT(portid + 1);
++static const struct mtk_iommu_plat_data mt8195_data_infra = {
++	.m4u_plat	  = M4U_MT8195,
++	.flags            = WR_THROT_EN | DCM_DISABLE |
++			    MTK_IOMMU_TYPE_INFRA | IFA_IOMMU_PCIe_SUPPORT,
++	.pericfg_comp_str = "mediatek,mt8195-pericfg_ao",
++	.inv_sel_reg      = REG_MMU_INV_SEL_GEN2,
++	.iova_region      = single_domain,
++	.iova_region_nr   = ARRAY_SIZE(single_domain),
++};
 +
-+			peri_mmuen = enable ? peri_mmuen_msk : 0;
- 			ret = regmap_update_bits(data->pericfg, PERICFG_IOMMU_1,
- 						 peri_mmuen_msk, peri_mmuen);
- 			if (ret)
-@@ -980,6 +986,15 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 		ret = component_master_add_with_match(dev, &mtk_iommu_com_ops, match);
- 		if (ret)
- 			goto out_bus_set_null;
-+	} else if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_INFRA) &&
-+		   MTK_IOMMU_HAS_FLAG(data->plat_data, IFA_IOMMU_PCIe_SUPPORT)) {
-+		#ifdef CONFIG_PCI
-+		if (!iommu_present(&pci_bus_type)) {
-+			ret = bus_set_iommu(&pci_bus_type, &mtk_iommu_ops);
-+			if (ret) /* PCIe fail don't affect platform_bus. */
-+				goto out_list_del;
-+		}
-+		#endif
- 	}
- 	return ret;
++static const struct mtk_iommu_plat_data mt8195_data_vdo = {
++	.m4u_plat	= M4U_MT8195,
++	.flags          = HAS_SUB_COMM_2BITS | OUT_ORDER_WR_EN | WR_THROT_EN |
++			  NOT_STD_AXI_MODE | IOVA_34_EN | SHARE_PGTABLE |
++			  MTK_IOMMU_TYPE_MM,
++	.hw_list        = &m4ulist,
++	.inv_sel_reg    = REG_MMU_INV_SEL_GEN2,
++	.iova_region	= mt8192_multi_dom,
++	.iova_region_nr	= ARRAY_SIZE(mt8192_multi_dom),
++	.larbid_remap   = {{2, 0}, {21}, {24}, {7}, {19}, {9, 10, 11},
++			   {13, 17, 15/* 17b */, 25}, {5}},
++};
++
++static const struct mtk_iommu_plat_data mt8195_data_vdp = {
++	.m4u_plat	= M4U_MT8195,
++	.flags          = HAS_SUB_COMM_3BITS | OUT_ORDER_WR_EN | WR_THROT_EN |
++			  NOT_STD_AXI_MODE | IOVA_34_EN | SHARE_PGTABLE |
++			  MTK_IOMMU_TYPE_MM,
++	.hw_list        = &m4ulist,
++	.inv_sel_reg    = REG_MMU_INV_SEL_GEN2,
++	.iova_region	= mt8192_multi_dom,
++	.iova_region_nr	= ARRAY_SIZE(mt8192_multi_dom),
++	.larbid_remap   = {{1}, {3}, {22, 0, 0, 0, 23}, {8},
++			   {20}, {12},
++			   /* 16: 16a; 29: 16b; 30: CCUtop0; 31: CCUtop1 */
++			   {14, 16, 29, 26, 30, 31, 18},
++			   {4, 0, 0, 0, 6}},
++};
++
+ static const struct of_device_id mtk_iommu_of_ids[] = {
+ 	{ .compatible = "mediatek,mt2712-m4u", .data = &mt2712_data},
+ 	{ .compatible = "mediatek,mt6779-m4u", .data = &mt6779_data},
+@@ -1159,6 +1198,9 @@ static const struct of_device_id mtk_iommu_of_ids[] = {
+ 	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
+ 	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
+ 	{ .compatible = "mediatek,mt8192-m4u", .data = &mt8192_data},
++	{ .compatible = "mediatek,mt8195-iommu-infra", .data = &mt8195_data_infra},
++	{ .compatible = "mediatek,mt8195-iommu-vdo",   .data = &mt8195_data_vdo},
++	{ .compatible = "mediatek,mt8195-iommu-vpp",   .data = &mt8195_data_vdp},
+ 	{}
+ };
  
+diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+index cdc241a51c2f..d9425807e980 100644
+--- a/drivers/iommu/mtk_iommu.h
++++ b/drivers/iommu/mtk_iommu.h
+@@ -46,6 +46,7 @@ enum mtk_iommu_plat {
+ 	M4U_MT8173,
+ 	M4U_MT8183,
+ 	M4U_MT8192,
++	M4U_MT8195,
+ };
+ 
+ struct mtk_iommu_iova_region;
 -- 
 2.18.0
 
