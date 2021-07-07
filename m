@@ -1,63 +1,102 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B5D3BE766
-	for <lists.iommu@lfdr.de>; Wed,  7 Jul 2021 13:47:19 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D18E63BEAC2
+	for <lists.iommu@lfdr.de>; Wed,  7 Jul 2021 17:35:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E9706404A4;
-	Wed,  7 Jul 2021 11:47:17 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nEOLlgl6p6Xo; Wed,  7 Jul 2021 11:47:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id EC68840132;
-	Wed,  7 Jul 2021 11:47:16 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CA375C000E;
-	Wed,  7 Jul 2021 11:47:16 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E85ABC000E
- for <iommu@lists.linux-foundation.org>; Wed,  7 Jul 2021 11:47:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E42C0835D9
- for <iommu@lists.linux-foundation.org>; Wed,  7 Jul 2021 11:47:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 131FA82D04;
+	Wed,  7 Jul 2021 15:35:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nTs0Rxlkhe4v for <iommu@lists.linux-foundation.org>;
- Wed,  7 Jul 2021 11:47:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp1.osuosl.org (Postfix) with ESMTP id DFF74834C6
- for <iommu@lists.linux-foundation.org>; Wed,  7 Jul 2021 11:47:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0300C1042;
- Wed,  7 Jul 2021 04:47:13 -0700 (PDT)
-Received: from [10.57.35.192] (unknown [10.57.35.192])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EABE63F73B;
- Wed,  7 Jul 2021 04:47:11 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/1] dma-debug: fix check_for_illegal_area() in
- debug_dma_map_sg()
-To: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-References: <20210705185252.4074653-1-gerald.schaefer@linux.ibm.com>
- <20210705185252.4074653-2-gerald.schaefer@linux.ibm.com>
- <3bb87b4c-f646-20fe-7cc5-c7449432811e@arm.com>
- <20210706211207.48f15496@thinkpad>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ae61c67a-6735-ed72-adf3-56570c9b7251@arm.com>
-Date: Wed, 7 Jul 2021 12:47:07 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id d9WdM3JxvHUM; Wed,  7 Jul 2021 15:35:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DE0E882CDE;
+	Wed,  7 Jul 2021 15:35:11 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B65D7C000E;
+	Wed,  7 Jul 2021 15:35:11 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3D280C000E
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Jul 2021 15:35:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 293A7402FB
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Jul 2021 15:35:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OLNbrHVj4aKL for <iommu@lists.linux-foundation.org>;
+ Wed,  7 Jul 2021 15:35:04 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 81F2740304
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Jul 2021 15:35:04 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id 17so2518195pfz.4
+ for <iommu@lists.linux-foundation.org>; Wed, 07 Jul 2021 08:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jkolUPwi5vmrrny8Lv1Ra8OVYttbBuLIiyALxAjfV3U=;
+ b=uMrytKrdPPAXlONXoKnZbDo6E2aSYBoFVoQVDqkbtkCONIx0wfe5zboS/QgKGbqPlK
+ HS7DtVjHbxLaSrJiY3p/LKmA3t54P4RWelPEkaOkO8stQ7CAdvAy7zQxCEhobAKO24Uc
+ yzBRueqU/xom01Q9hKCy71J3KiVnkJ5uKwhY48+BfUMU4AbwU4AHP4T0qES8oolzCvTS
+ TR/u5P+44atse+4WTf8EAqCmkpOdPJMPQcSu8WGo5Hw7d5AOnMUTkIvh5Nho1JiSvb7Y
+ Ull2Bm5sux8+oXfXdMFGsGaeiQSo5wus3T4DkOI5mIPdsA0acl20F6nCBoK1W6wpKLxn
+ 8ZDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jkolUPwi5vmrrny8Lv1Ra8OVYttbBuLIiyALxAjfV3U=;
+ b=E5GjDqtKBZmmv/Y2z/TJaOdmvpPbbZIlatgdVW3eBFjNytZ3jAc6yPBH0tGPAN/028
+ iuqw2ReH6tADV8A+2qCYwKVyHeiaBXpPygxvpLbjiP15a8GXi19nB6RJWnj9rQDOM/4O
+ 7BoXmphnmyRc1+goDMkiagpulXHLF2iYLg/+57hIo8/jfFPLzgVobqy2RXY4TWEJiJ+0
+ K8CMUXstwTA83Z80xgIorCO96gjOW1wjktirw3eY6nmGq86myQWSUyV6K1KEl4ue6iog
+ MK9uIcXnlby/gtTSwOckx50WvlzbyEfqVYLXL/rZSM+d36pxENevfV8PjXmVq/cGmbWy
+ HcBg==
+X-Gm-Message-State: AOAM530DPmZIxuxQXa5kQ/H/zAcXG9XjCLBimFz3hwYPqsu8JoH6rAVR
+ zNvt+LE2IYFPOeWDo3iGMiQ=
+X-Google-Smtp-Source: ABdhPJyD+VDToE/d2GDA5bL79Z5IjrRMQN05lni8aQ82HOiaAKMvr6K+0cHHIUktpTxzsCLuEpzwiw==
+X-Received: by 2002:a62:5547:0:b029:2ec:8f20:4e2 with SMTP id
+ j68-20020a6255470000b02902ec8f2004e2mr26077347pfb.71.1625672103921; 
+ Wed, 07 Jul 2021 08:35:03 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.corp.microsoft.com
+ ([2001:4898:80e8:0:6b7f:cf3e:bbf2:d229])
+ by smtp.gmail.com with ESMTPSA id y11sm21096877pfo.160.2021.07.07.08.35.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 08:35:03 -0700 (PDT)
+From: Tianyu Lan <ltykernel@gmail.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+ dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+ konrad.wilk@oracle.com, boris.ostrovsky@oracle.com, jgross@suse.com,
+ sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
+ davem@davemloft.net, kuba@kernel.org, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, arnd@arndb.de, hch@lst.de,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, Tianyu.Lan@microsoft.com,
+ rppt@kernel.org, kirill.shutemov@linux.intel.com,
+ akpm@linux-foundation.org, thomas.lendacky@amd.com, ardb@kernel.org,
+ nramas@linux.microsoft.com, robh@kernel.org, keescook@chromium.org,
+ martin.b.radev@gmail.com, pgonda@google.com, hannes@cmpxchg.org,
+ krish.sadhukhan@oracle.com, saravanand@fb.com,
+ xen-devel@lists.xenproject.org, rientjes@google.com, tj@kernel.org,
+ michael.h.kelley@microsoft.com
+Subject: [RFC PATCH V4 00/12] x86/Hyper-V: Add Hyper-V Isolation VM support
+Date: Wed,  7 Jul 2021 11:34:41 -0400
+Message-Id: <20210707153456.3976348-1-ltykernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210706211207.48f15496@thinkpad>
-Content-Language: en-GB
-Cc: linux-s390 <linux-s390@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Niklas Schnelle <schnelle@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ brijesh.singh@amd.com, linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ anparri@microsoft.com, vkuznets@redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,108 +109,105 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-07-06 20:12, Gerald Schaefer wrote:
-> On Tue, 6 Jul 2021 10:22:40 +0100
-> Robin Murphy <robin.murphy@arm.com> wrote:
-> 
->> On 2021-07-05 19:52, Gerald Schaefer wrote:
->>> The following warning occurred sporadically on s390:
->>> DMA-API: nvme 0006:00:00.0: device driver maps memory from kernel text or rodata [addr=0000000048cc5e2f] [len=131072]
->>> WARNING: CPU: 4 PID: 825 at kernel/dma/debug.c:1083 check_for_illegal_area+0xa8/0x138
->>>
->>> It is a false-positive warning, due to a broken logic in debug_dma_map_sg().
->>> check_for_illegal_area() should check for overlay of sg elements with kernel
->>> text or rodata. It is called with sg_dma_len(s) instead of s->length as
->>> parameter. After the call to ->map_sg(), sg_dma_len() contains the length
->>> of possibly combined sg elements in the DMA address space, and not the
->>> individual sg element length, which would be s->length.
->>>
->>> The check will then use the kernel start address of an sg element, and add
->>> the DMA length for overlap check, which can result in the false-positive
->>> warning because the DMA length can be larger than the actual single sg
->>> element length in kernel address space.
->>>
->>> In addition, the call to check_for_illegal_area() happens in the iteration
->>> over mapped_ents, which will not include all individual sg elements if
->>> any of them were combined in ->map_sg().
->>>
->>> Fix this by using s->length instead of sg_dma_len(s). Also put the call to
->>> check_for_illegal_area() in a separate loop, iterating over all the
->>> individual sg elements ("nents" instead of "mapped_ents").
->>>
->>> Fixes: 884d05970bfb ("dma-debug: use sg_dma_len accessor")
->>> Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
->>> Signed-off-by: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
->>> ---
->>>    kernel/dma/debug.c | 10 ++++++----
->>>    1 file changed, 6 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
->>> index 14de1271463f..d7d44b7fe7e2 100644
->>> --- a/kernel/dma/debug.c
->>> +++ b/kernel/dma/debug.c
->>> @@ -1299,6 +1299,12 @@ void debug_dma_map_sg(struct device *dev, struct scatterlist *sg,
->>>    	if (unlikely(dma_debug_disabled()))
->>>    		return;
->>>    
->>> +	for_each_sg(sg, s, nents, i) {
->>> +		if (!PageHighMem(sg_page(s))) {
->>> +			check_for_illegal_area(dev, sg_virt(s), s->length);
->>> +		}
->>> +	}
->>> +
->>>    	for_each_sg(sg, s, mapped_ents, i) {
->>>    		entry = dma_entry_alloc();
->>>    		if (!entry)
->>> @@ -1316,10 +1322,6 @@ void debug_dma_map_sg(struct device *dev, struct scatterlist *sg,
->>>    
->>>    		check_for_stack(dev, sg_page(s), s->offset);
->>
->> Strictly this should probably be moved to the new loop as well, as it is
->> similarly concerned with validating the source segments rather than the
->> DMA mappings - I think with virtually-mapped stacks it might technically
->> be possible for a stack page to be physically adjacent to a "valid" page
->> such that it could get merged and overlooked if it were near the end of
->> the list, although in fairness that would probably be indicative of
->> something having gone far more fundamentally wrong. Otherwise, the
->> overall reasoning looks sound to me.
-> 
-> I see, good point. I think I can add this to my patch, and a different
-> subject like "dma-debug: fix sg checks in debug_dma_map_sg()".
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-TBH it's more of a conceptual cleanliness thing than a significant 
-practical concern, but if we *are* breaking out a separate "validate the 
-source elements" step then it does seem logical to capture everything 
-relevant at once.
+Hyper-V provides two kinds of Isolation VMs. VBS(Virtualization-based
+security) and AMD SEV-SNP unenlightened Isolation VMs. This patchset
+is to add support for these Isolation VM support in Linux.
 
-> However, I do not quite understand why check_for_stack() does not also
-> consider s->length. It seems to check only the first page of an sg
-> element.
-> 
-> So, shouldn't check_for_stack() behave similar to check_for_illegal_area(),
-> i.e. check all source sg elements for overlap with the task stack area?
+The memory of these vms are encrypted and host can't access guest
+memory directly. Hyper-V provides new host visibility hvcall and
+the guest needs to call new hvcall to mark memory visible to host
+before sharing memory with host. For security, all network/storage
+stack memory should not be shared with host and so there is bounce
+buffer requests.
 
-Realistically, creating a scatterlist segment pointing to the stack at 
-all would already be quite an audacious feat of brokenness, but getting 
-a random stack page in the middle of a segment would seem to imply 
-something having gone so catastrophically wrong that it's destined to 
-end very badly whether or not dma-debug squawks about it - not to 
-mention getting lucky enough for said random stack page to actually 
-belong to the current task stack in the first place :)
+Vmbus channel ring buffer already plays bounce buffer role because
+all data from/to host needs to copy from/to between the ring buffer
+and IO stack memory. So mark vmbus channel ring buffer visible.
 
-Robin.
+There are two exceptions - packets sent by vmbus_sendpacket_
+pagebuffer() and vmbus_sendpacket_mpb_desc(). These packets
+contains IO stack memory address and host will access these memory.
+So add allocation bounce buffer support in vmbus for these packets.
 
-> If yes, then this probably should be a separate patch, but I can try
-> to come up with something and send a new RFC with two patches. Maybe
-> check_for_stack() can also be integrated into check_for_illegal_area(),
-> they are both called at the same places. And mapping memory from the
-> stack also sounds rather illegal.
-> 
+For SNP isolation VM, guest needs to access the shared memory via
+extra address space which is specified by Hyper-V CPUID HYPERV_CPUID_
+ISOLATION_CONFIG. The access physical address of the shared memory
+should be bounce buffer memory GPA plus with shared_gpa_boundary
+reported by CPUID.
+
+Change since v3:
+       - Add interface set_memory_decrypted_map() to decrypt memory and
+         map bounce buffer in extra address space 
+       - Remove swiotlb remap function and store the remap address
+         returned by set_memory_decrypted_map() in swiotlb mem data structure.
+       - Introduce hv_set_mem_enc() to make code more readable in the __set_memory_enc_dec().
+
+Change since v2:
+       - Remove not UIO driver in Isolation VM patch
+       - Use vmap_pfn() to replace ioremap_page_range function in
+       order to avoid exposing symbol ioremap_page_range() and
+       ioremap_page_range()
+       - Call hv set mem host visibility hvcall in set_memory_encrypted/decrypted()
+       - Enable swiotlb force mode instead of adding Hyper-V dma map/unmap hook
+       - Fix code style
+
+Tianyu Lan (12):
+  x86/HV: Initialize shared memory boundary in the Isolation VM.
+  x86/HV: Add new hvcall guest address host visibility support
+  HV: Mark vmbus ring buffer visible to host in Isolation VM
+  HV: Add Write/Read MSR registers via ghcb page
+  HV: Add ghcb hvcall support for SNP VM
+  HV/Vmbus: Add SNP support for VMbus channel initiate message
+  HV/Vmbus: Initialize VMbus ring buffer for Isolation VM
+  x86/Swiotlb/HV: Add Swiotlb bounce buffer remap function for HV IVM
+  HV/IOMMU: Enable swiotlb bounce buffer for Isolation VM
+  HV/Netvsc: Add Isolation VM support for netvsc driver
+  HV/Storvsc: Add Isolation VM support for storvsc driver
+  x86/HV: Not set memory decrypted/encrypted during kexec alloc/free
+    page in IVM
+
+ arch/x86/hyperv/Makefile           |   2 +-
+ arch/x86/hyperv/hv_init.c          |  25 +--
+ arch/x86/hyperv/ivm.c              | 299 +++++++++++++++++++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h |  18 ++
+ arch/x86/include/asm/mshyperv.h    |  84 +++++++-
+ arch/x86/include/asm/set_memory.h  |   2 +
+ arch/x86/include/asm/sev-es.h      |   4 +
+ arch/x86/kernel/cpu/mshyperv.c     |   5 +
+ arch/x86/kernel/machine_kexec_64.c |   5 +-
+ arch/x86/kernel/sev-es-shared.c    |  21 +-
+ arch/x86/mm/pat/set_memory.c       |  34 +++-
+ arch/x86/xen/pci-swiotlb-xen.c     |   3 +-
+ drivers/hv/Kconfig                 |   1 +
+ drivers/hv/channel.c               |  48 ++++-
+ drivers/hv/connection.c            |  71 ++++++-
+ drivers/hv/hv.c                    | 129 +++++++++----
+ drivers/hv/hyperv_vmbus.h          |   3 +
+ drivers/hv/ring_buffer.c           |  84 ++++++--
+ drivers/hv/vmbus_drv.c             |   3 +
+ drivers/iommu/hyperv-iommu.c       |  62 ++++++
+ drivers/net/hyperv/hyperv_net.h    |   6 +
+ drivers/net/hyperv/netvsc.c        | 144 +++++++++++++-
+ drivers/net/hyperv/rndis_filter.c  |   2 +
+ drivers/scsi/storvsc_drv.c         |  68 ++++++-
+ include/asm-generic/hyperv-tlfs.h  |   1 +
+ include/asm-generic/mshyperv.h     |  53 ++++-
+ include/linux/hyperv.h             |  16 ++
+ include/linux/swiotlb.h            |   4 +
+ kernel/dma/swiotlb.c               |  11 +-
+ 29 files changed, 1097 insertions(+), 111 deletions(-)
+ create mode 100644 arch/x86/hyperv/ivm.c
+
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
