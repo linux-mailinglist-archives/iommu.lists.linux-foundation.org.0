@@ -1,95 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7B93BF7A6
-	for <lists.iommu@lfdr.de>; Thu,  8 Jul 2021 11:34:14 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3592A3BF7AD
+	for <lists.iommu@lfdr.de>; Thu,  8 Jul 2021 11:38:39 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B310582BBC;
-	Thu,  8 Jul 2021 09:34:12 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C34AF40166;
+	Thu,  8 Jul 2021 09:38:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0YjcSjylsbtI; Thu,  8 Jul 2021 09:34:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CE886826D6;
-	Thu,  8 Jul 2021 09:34:11 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NylP7F7ub5vF; Thu,  8 Jul 2021 09:38:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B32F34015E;
+	Thu,  8 Jul 2021 09:38:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A8BB9C001F;
-	Thu,  8 Jul 2021 09:34:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90256C001F;
+	Thu,  8 Jul 2021 09:38:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F1A6C000E
- for <iommu@lists.linux-foundation.org>; Thu,  8 Jul 2021 09:34:10 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BC904C000E
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Jul 2021 09:38:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 012BA82B9F
- for <iommu@lists.linux-foundation.org>; Thu,  8 Jul 2021 09:34:10 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B8CBF6070D
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Jul 2021 09:38:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mOkZOIZz0oxU for <iommu@lists.linux-foundation.org>;
- Thu,  8 Jul 2021 09:34:09 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 26692826D6
- for <iommu@lists.linux-foundation.org>; Thu,  8 Jul 2021 09:34:09 +0000 (UTC)
-Received: from mail-wm1-f72.google.com ([209.85.128.72])
- by youngberry.canonical.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <krzysztof.kozlowski@canonical.com>)
- id 1m1QQ3-0006cW-9k
- for iommu@lists.linux-foundation.org; Thu, 08 Jul 2021 09:34:07 +0000
-Received: by mail-wm1-f72.google.com with SMTP id
- j141-20020a1c23930000b0290212502cb19aso2155555wmj.0
- for <iommu@lists.linux-foundation.org>; Thu, 08 Jul 2021 02:34:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E0C7nCPw9ngmgHYShx7ewbeQGAOF1fcpotAi0fhHmT0=;
- b=Q4VCNWPYC2x3jSkGePMW3VBEehlw58RzITilGmFsHohZOx6LlUn0Bp/ufxfIIHBSBa
- vFyHYlTQXSZS0Fcx2nxqq3nMjY5dckaauXq0Kd7aKtNmZfZ598j8AiwRvdgxDRwx1kI0
- 8L81ZxQndtkbtauhh2ehjvrL47B32Rq6tp8010G5TcW2qt/558yGtlPmh546QIH1gpf0
- Mr2LpToViV4zhIxBvrU+Qw/OlVUxEkEUnDA04q9v4syeCI74dm6/ImB2y7zwrqp74j+4
- Oz3VwugTo9X18h3uJPQHWrAHIelYOVeOpB1lJwYpDOE6V0T6vFFwc70uxhz8oc1Q16sC
- 3OGQ==
-X-Gm-Message-State: AOAM531KA2DWXZ/BuwF6390L8nImz9EVmV7SXvTTSP2TN5Upceid9Zuk
- iSO1NFfx8gcPZrR9UqZnAOgJTroErrJH9su2+L9oV4vbp411qT7SvNSRnnXi35u9uIMD/PNdRij
- AGwA2EWsL90QN1BP6VdMtCl1vnZ4r6fW9XWSu9GzlmOd8SoI=
-X-Received: by 2002:a05:6000:12c7:: with SMTP id
- l7mr32033337wrx.177.1625736846964; 
- Thu, 08 Jul 2021 02:34:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6b2RvxjwXvMJgFoy20i+dUp4HtIQ58rbfVrXOuRcq9Ho/OovvbcDwRF9C+0n3tuxHzLL9uQ==
-X-Received: by 2002:a05:6000:12c7:: with SMTP id
- l7mr32033308wrx.177.1625736846800; 
- Thu, 08 Jul 2021 02:34:06 -0700 (PDT)
-Received: from [192.168.3.211] (xdsl-188-155-177-222.adslplus.ch.
- [188.155.177.222])
- by smtp.gmail.com with ESMTPSA id p7sm1637544wrr.21.2021.07.08.02.34.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 02:34:06 -0700 (PDT)
-Subject: Re: [PATCH 4/9] memory: mtk-smi: Rename smi_gen to smi_type
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20210616114346.18812-1-yong.wu@mediatek.com>
- <20210616114346.18812-5-yong.wu@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <a3abe400-4172-4f62-1548-b78b9ec4c157@canonical.com>
-Date: Thu, 8 Jul 2021 11:34:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3r-t2iq4H_j9 for <iommu@lists.linux-foundation.org>;
+ Thu,  8 Jul 2021 09:38:34 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F2A7F606E9
+ for <iommu@lists.linux-foundation.org>; Thu,  8 Jul 2021 09:38:33 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 28043312; Thu,  8 Jul 2021 11:38:31 +0200 (CEST)
+Date: Thu, 8 Jul 2021 11:38:29 +0200
+From: "joro@8bytes.org" <joro@8bytes.org>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH v14 0/6] iommu: Enhance IOMMU default DMA mode build
+ options
+Message-ID: <YObHla5Vyr+YaCI7@8bytes.org>
+References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
+ <1b75de8f-a2e3-6297-0f56-b2f1548495b0@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210616114346.18812-5-yong.wu@mediatek.com>
-Content-Language: en-US
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com, srv_heupstream@mediatek.com,
- Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, iommu@lists.linux-foundation.org,
- linux-mediatek@lists.infradead.org, anthony.huang@mediatek.com,
- ming-fan.chen@mediatek.com, yi.kuo@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <1b75de8f-a2e3-6297-0f56-b2f1548495b0@huawei.com>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org" <will@kernel.org>,
+ Linuxarm <linuxarm@huawei.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "dwmw2@infradead.org" <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,29 +70,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 16/06/2021 13:43, Yong Wu wrote:
-> This is a preparing patch for adding smi sub common.
+Hi John,
 
-Don't write "This patch". Use simple imperative:
-"Prepare for adding smi sub common."
-
-https://elixir.bootlin.com/linux/v5.13/source/Documentation/process/submitting-patches.rst#L89
- 
-> About the previou smi_gen, we have gen1/gen2 that stand for the generation
-> number for HW. I plan to add a new type(sub_common), then the "gen" is not
-> prober. this patch only change it to "type", No functional change.
-
-Same.
-
+On Fri, Jun 25, 2021 at 05:41:09PM +0100, John Garry wrote:
+> We think that this series is ready to go.
 > 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->  drivers/memory/mtk-smi.c | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
+> There would be a build conflict with the following:
+> https://lore.kernel.org/linux-iommu/20210616100500.174507-1-namit@vmware.com/
 > 
+> So please let us know where you stand on it, so that could be resolved.
+> 
+> Robin and Baolu have kindly reviewed all the patches, apart from the AMD
+> one.
 
-Best regards,
-Krzysztof
+The AMD one also looks good to me, please re-send after the merge window
+closes and I will take care of it then. Note that I usually start
+merging new stuff after -rc3 is out.
+
+Regards,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
