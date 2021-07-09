@@ -1,69 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04503C23D0
-	for <lists.iommu@lfdr.de>; Fri,  9 Jul 2021 14:56:55 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8C83C250B
+	for <lists.iommu@lfdr.de>; Fri,  9 Jul 2021 15:35:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6914E4058B;
-	Fri,  9 Jul 2021 12:56:54 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E27B2423A3;
+	Fri,  9 Jul 2021 13:35:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ey2sQP_LxbuV; Fri,  9 Jul 2021 12:56:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5A86A40248;
-	Fri,  9 Jul 2021 12:56:53 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id CAfZxPqOsXii; Fri,  9 Jul 2021 13:35:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B5EC64239E;
+	Fri,  9 Jul 2021 13:35:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B09BC000E;
-	Fri,  9 Jul 2021 12:56:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 692C5C0022;
+	Fri,  9 Jul 2021 13:35:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EA39EC000E;
- Fri,  9 Jul 2021 12:56:51 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18533C000E;
+ Fri,  9 Jul 2021 13:35:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C520F60774;
- Fri,  9 Jul 2021 12:56:51 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1486C605F2;
+ Fri,  9 Jul 2021 13:35:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KhkLGdWTw4Zq; Fri,  9 Jul 2021 12:56:51 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp3.osuosl.org (Postfix) with ESMTP id C91B360731;
- Fri,  9 Jul 2021 12:56:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31DFFED1;
- Fri,  9 Jul 2021 05:56:50 -0700 (PDT)
-Received: from [10.57.35.192] (unknown [10.57.35.192])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 258A53F66F;
- Fri,  9 Jul 2021 05:56:48 -0700 (PDT)
-Subject: Re: [RFC v1 3/8] intel/vt-d: make DMAR table parsing code more
- flexible
-To: Wei Liu <wei.liu@kernel.org>,
- Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+ with ESMTP id e1gN9qyjNdPp; Fri,  9 Jul 2021 13:35:00 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 59B10605F1;
+ Fri,  9 Jul 2021 13:35:00 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id g16so2287729wrw.5;
+ Fri, 09 Jul 2021 06:35:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=t65TrXzTgBuxjzSlReCJ6QpG572DUj+HfWyNKCca6RQ=;
+ b=Qv9u1QO3unyqOyV+03hq9Cmoq1QrzoxfVVAd7ISz0ok0z9Rpsnwq9ac7yQr5tXIvdg
+ F1Ef26HfLFcDnkOLRCNlLAKHQobxoFkOONkjkR1dEivTk7HTpcbpEYeprV93TwcJI+3U
+ fr77d/5Fn0OULSLyjokgG82EDt8WSDXDEKtBY20hhKOA9e4IRNc7IEjOmlKy/eeADGXb
+ SVWZOibV9YWG8aNfVf6JY4skMyS5KY4DAheMHH2aZmfDw/Q9KbKIKrr9vT1N8ylbIUdt
+ UHY6SHlve53BLI2bcFnI1mOz+cZ0XswS76d07nzZpmaKs7MQfVr3P+LA6JeQSg93TSzn
+ 68CQ==
+X-Gm-Message-State: AOAM5337lfcdqemn75GTdW7aw6vyVVPmI74qulcTU70Ir/wnoUX3vhm7
+ qSyxG5V5Z8gz0vH7hcBsEa4=
+X-Google-Smtp-Source: ABdhPJzHHNK5AYPEu+qwIR4GYzqj1yEC+9+CdEccFDeVhjdj+9HVf35OD8XaFW5bR5NKmUQP2/tU3w==
+X-Received: by 2002:a5d:5751:: with SMTP id q17mr13896201wrw.18.1625837698522; 
+ Fri, 09 Jul 2021 06:34:58 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+ by smtp.gmail.com with ESMTPSA id b20sm5067213wmj.7.2021.07.09.06.34.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 06:34:58 -0700 (PDT)
+Date: Fri, 9 Jul 2021 13:34:56 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [RFC v1 6/8] mshv: command line option to skip devices in PV-IOMMU
+Message-ID: <20210709133456.awctvxgtivjo6fuj@liuwe-devbox-debian-v2>
 References: <20210709114339.3467637-1-wei.liu@kernel.org>
- <20210709114339.3467637-4-wei.liu@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e1dcc315-4ebb-661e-4289-d176b3db39b5@arm.com>
-Date: Fri, 9 Jul 2021 13:56:46 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210709114339.3467637-7-wei.liu@kernel.org>
+ <1c839a00-0f5f-fdfa-cfb3-f345bef9f849@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210709114339.3467637-4-wei.liu@kernel.org>
-Content-Language: en-GB
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, pasha.tatashin@soleen.com,
- kumarpraveen@linux.microsoft.com, Will Deacon <will@kernel.org>,
+Content-Disposition: inline
+In-Reply-To: <1c839a00-0f5f-fdfa-cfb3-f345bef9f849@arm.com>
+Cc: Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ pasha.tatashin@soleen.com, kumarpraveen@linux.microsoft.com,
+ Vineeth Pillai <viremana@linux.microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
+ Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
- Michael Kelley <mikelley@microsoft.com>,
- "open list:INTEL IOMMU VT-d" <iommu@lists.linux-foundation.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
  Nuno Das Neves <nunodasneves@linux.microsoft.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Will Deacon <will@kernel.org>,
  virtualization@lists.linux-foundation.org,
- David Woodhouse <dwmw2@infradead.org>,
- Vineeth Pillai <viremana@linux.microsoft.com>
+ Michael Kelley <mikelley@microsoft.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,170 +92,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-07-09 12:43, Wei Liu wrote:
-> Microsoft Hypervisor provides a set of hypercalls to manage device
-> domains. The root kernel should parse the DMAR so that it can program
-> the IOMMU (with hypercalls) correctly.
+On Fri, Jul 09, 2021 at 01:46:19PM +0100, Robin Murphy wrote:
+> On 2021-07-09 12:43, Wei Liu wrote:
+> > Some devices may have been claimed by the hypervisor already. One such
+> > example is a user can assign a NIC for debugging purpose.
+> > 
+> > Ideally Linux should be able to tell retrieve that information, but
+> > there is no way to do that yet. And designing that new mechanism is
+> > going to take time.
+> > 
+> > Provide a command line option for skipping devices. This is a stopgap
+> > solution, so it is intentionally undocumented. Hopefully we can retire
+> > it in the future.
 > 
-> The DMAR code was designed to work with Intel IOMMU only. Add two more
-> parameters to make it useful to Microsoft Hypervisor. Microsoft
-> Hypervisor does not need the DMAR parsing code to allocate an Intel
-> IOMMU structure; it also wishes to always reparse the DMAR table even
-> after it has been parsed before.
+> Huh? If the host is using a device, why the heck is it exposing any
+> knowledge of that device to the guest at all, let alone allowing the guest
+> to do anything that could affect its operation!?
 
-We've recently defined the VIOT table for describing paravirtualised 
-IOMMUs - would it make more sense to extend that to support the 
-Microsoft implementation than to abuse a hardware-specific table? Am I 
-right in assuming said hypervisor isn't intended to only ever run on 
-Intel hardware?
+The host in this setup consists of the hypervisor, the root kernel and a
+bunch of user space programs.
 
-Robin.
+Root is not an ordinary guest. It does need to know all the hardware to
+manage the platform. Hypervisor does not claim more devices than it
+needs to, nor does it try to hide hardware details from the root.
 
-> Adjust Intel IOMMU code to use the new dmar_table_init. There should be
-> no functional change to Intel IOMMU code.
+The hypervisor can protect itself just fine. Any attempt to use the
+already claimed devices will be blocked or rejected, so are the attempts
+to attach them to device domains.
+
+That, however, leads to some interesting interactions between the
+hypervisor and Linux kernel.  When kernel initializes IOMMU during boot,
+it will try to attach all devices in one go. Any failure there will
+cause kernel to detach the already attached devices. That's not fatal to
+kernel, and is only a minor annoyance to our current use case, because
+the default domain is a passthrough domain anyway. It will become
+problematic once we switch the default domain to a DMA domain to further
+tighten security during Linux boot.
+
+Wei.
+
 > 
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> ---
-> We may be able to combine alloc and force_parse?
-> ---
->   drivers/iommu/intel/dmar.c          | 38 ++++++++++++++++++++---------
->   drivers/iommu/intel/iommu.c         |  2 +-
->   drivers/iommu/intel/irq_remapping.c |  2 +-
->   include/linux/dmar.h                |  2 +-
->   4 files changed, 30 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-> index 84057cb9596c..bd72f47c728b 100644
-> --- a/drivers/iommu/intel/dmar.c
-> +++ b/drivers/iommu/intel/dmar.c
-> @@ -408,7 +408,8 @@ dmar_find_dmaru(struct acpi_dmar_hardware_unit *drhd)
->    * structure which uniquely represent one DMA remapping hardware unit
->    * present in the platform
->    */
-> -static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
-> +static int dmar_parse_one_drhd_internal(struct acpi_dmar_header *header,
-> +		void *arg, bool alloc)
->   {
->   	struct acpi_dmar_hardware_unit *drhd;
->   	struct dmar_drhd_unit *dmaru;
-> @@ -440,12 +441,14 @@ static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
->   		return -ENOMEM;
->   	}
->   
-> -	ret = alloc_iommu(dmaru);
-> -	if (ret) {
-> -		dmar_free_dev_scope(&dmaru->devices,
-> -				    &dmaru->devices_cnt);
-> -		kfree(dmaru);
-> -		return ret;
-> +	if (alloc) {
-> +		ret = alloc_iommu(dmaru);
-> +		if (ret) {
-> +			dmar_free_dev_scope(&dmaru->devices,
-> +					    &dmaru->devices_cnt);
-> +			kfree(dmaru);
-> +			return ret;
-> +		}
->   	}
->   	dmar_register_drhd_unit(dmaru);
->   
-> @@ -456,6 +459,16 @@ static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
->   	return 0;
->   }
->   
-> +static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
-> +{
-> +	return dmar_parse_one_drhd_internal(header, arg, true);
-> +}
-> +
-> +int dmar_parse_one_drhd_noalloc(struct acpi_dmar_header *header, void *arg)
-> +{
-> +	return dmar_parse_one_drhd_internal(header, arg, false);
-> +}
-> +
->   static void dmar_free_drhd(struct dmar_drhd_unit *dmaru)
->   {
->   	if (dmaru->devices && dmaru->devices_cnt)
-> @@ -633,7 +646,7 @@ static inline int dmar_walk_dmar_table(struct acpi_table_dmar *dmar,
->    * parse_dmar_table - parses the DMA reporting table
->    */
->   static int __init
-> -parse_dmar_table(void)
-> +parse_dmar_table(bool alloc)
->   {
->   	struct acpi_table_dmar *dmar;
->   	int drhd_count = 0;
-> @@ -650,6 +663,9 @@ parse_dmar_table(void)
->   		.cb[ACPI_DMAR_TYPE_SATC] = &dmar_parse_one_satc,
->   	};
->   
-> +	if (!alloc)
-> +		cb.cb[ACPI_DMAR_TYPE_HARDWARE_UNIT] = &dmar_parse_one_drhd_noalloc;
-> +
->   	/*
->   	 * Do it again, earlier dmar_tbl mapping could be mapped with
->   	 * fixed map.
-> @@ -840,13 +856,13 @@ void __init dmar_register_bus_notifier(void)
->   }
->   
->   
-> -int __init dmar_table_init(void)
-> +int __init dmar_table_init(bool alloc, bool force_parse)
->   {
->   	static int dmar_table_initialized;
->   	int ret;
->   
-> -	if (dmar_table_initialized == 0) {
-> -		ret = parse_dmar_table();
-> +	if (dmar_table_initialized == 0 || force_parse) {
-> +		ret = parse_dmar_table(alloc);
->   		if (ret < 0) {
->   			if (ret != -ENODEV)
->   				pr_info("Parse DMAR table failure.\n");
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index be35284a2016..a4294d310b93 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -4310,7 +4310,7 @@ int __init intel_iommu_init(void)
->   	}
->   
->   	down_write(&dmar_global_lock);
-> -	if (dmar_table_init()) {
-> +	if (dmar_table_init(true, false)) {
->   		if (force_on)
->   			panic("tboot: Failed to initialize DMAR table\n");
->   		goto out_free_dmar;
-> diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-> index f912fe45bea2..0e8abef862e4 100644
-> --- a/drivers/iommu/intel/irq_remapping.c
-> +++ b/drivers/iommu/intel/irq_remapping.c
-> @@ -732,7 +732,7 @@ static int __init intel_prepare_irq_remapping(void)
->   		return -ENODEV;
->   	}
->   
-> -	if (dmar_table_init() < 0)
-> +	if (dmar_table_init(true, false) < 0)
->   		return -ENODEV;
->   
->   	if (intel_cap_audit(CAP_AUDIT_STATIC_IRQR, NULL))
-> diff --git a/include/linux/dmar.h b/include/linux/dmar.h
-> index e04436a7ff27..f88535d41a6e 100644
-> --- a/include/linux/dmar.h
-> +++ b/include/linux/dmar.h
-> @@ -106,7 +106,7 @@ static inline bool dmar_rcu_check(void)
->   	for_each_dev_scope((devs), (cnt), (i), (tmp))			\
->   		if (!(tmp)) { continue; } else
->   
-> -extern int dmar_table_init(void);
-> +extern int dmar_table_init(bool alloc, bool force_parse);
->   extern int dmar_dev_scope_init(void);
->   extern void dmar_register_bus_notifier(void);
->   extern int dmar_parse_dev_scope(void *start, void *end, int *cnt,
+> Robin.
 > 
 _______________________________________________
 iommu mailing list
