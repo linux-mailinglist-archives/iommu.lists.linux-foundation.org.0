@@ -2,58 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589853C2237
-	for <lists.iommu@lfdr.de>; Fri,  9 Jul 2021 12:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCB13C229F
+	for <lists.iommu@lfdr.de>; Fri,  9 Jul 2021 13:11:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D171A40191;
-	Fri,  9 Jul 2021 10:27:04 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id DB3D4405D2;
+	Fri,  9 Jul 2021 11:11:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zsga8J-0kwsD; Fri,  9 Jul 2021 10:27:04 +0000 (UTC)
+	with ESMTP id YgZ41ScHuVoK; Fri,  9 Jul 2021 11:11:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E1E4C400FF;
-	Fri,  9 Jul 2021 10:27:03 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E0751405C9;
+	Fri,  9 Jul 2021 11:11:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AD62BC000E;
-	Fri,  9 Jul 2021 10:27:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BA362C000E;
+	Fri,  9 Jul 2021 11:11:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35DB0C000E
- for <iommu@lists.linux-foundation.org>; Fri,  9 Jul 2021 10:27:02 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3183DC001A
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Jul 2021 11:11:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0B8A1421E9
- for <iommu@lists.linux-foundation.org>; Fri,  9 Jul 2021 10:27:02 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id AB730405C5
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Jul 2021 11:11:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TcqnTr29D_UY for <iommu@lists.linux-foundation.org>;
- Fri,  9 Jul 2021 10:27:00 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jmb0p7fntssE for <iommu@lists.linux-foundation.org>;
+ Fri,  9 Jul 2021 11:11:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id B7BFE421E2
- for <iommu@lists.linux-foundation.org>; Fri,  9 Jul 2021 10:27:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D53F5ED1;
- Fri,  9 Jul 2021 03:26:59 -0700 (PDT)
-Received: from [10.57.35.192] (unknown [10.57.35.192])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B37B33F5A1;
- Fri,  9 Jul 2021 03:26:58 -0700 (PDT)
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 20E93405A7
+ for <iommu@lists.linux-foundation.org>; Fri,  9 Jul 2021 11:11:47 +0000 (UTC)
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GLqyn74LDz6J6X3;
+ Fri,  9 Jul 2021 19:03:29 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 9 Jul 2021 13:11:44 +0200
+Received: from [10.47.93.40] (10.47.93.40) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 9 Jul 2021
+ 12:11:43 +0100
 Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
  from remote numa node
-To: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux-foundation.org
+To: Robin Murphy <robin.murphy@arm.com>, Ming Lei <ming.lei@redhat.com>,
+ <linux-nvme@lists.infradead.org>, Will Deacon <will@kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux-foundation.org>
 References: <YOgK8fdv7dOQtkET@T590>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
-Date: Fri, 9 Jul 2021 11:26:53 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <a44e8a68-d789-e3db-4fbb-404defb431f6@huawei.com>
+Date: Fri, 9 Jul 2021 12:04:24 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <YOgK8fdv7dOQtkET@T590>
-Content-Language: en-GB
+In-Reply-To: <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.93.40]
+X-ClientProxiedBy: lhreml737-chm.china.huawei.com (10.201.108.187) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Cc: linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -67,76 +78,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-07-09 09:38, Ming Lei wrote:
-> Hello,
-> 
-> I observed that NVMe performance is very bad when running fio on one
-> CPU(aarch64) in remote numa node compared with the nvme pci numa node.
-> 
-> Please see the test result[1] 327K vs. 34.9K.
-> 
-> Latency trace shows that one big difference is in iommu_dma_unmap_sg(),
-> 1111 nsecs vs 25437 nsecs.
-
-Are you able to dig down further into that? iommu_dma_unmap_sg() itself 
-doesn't do anything particularly special, so whatever makes a difference 
-is probably happening at a lower level, and I suspect there's probably 
-an SMMU involved. If for instance it turns out to go all the way down to 
-__arm_smmu_cmdq_poll_until_consumed() because polling MMIO from the 
-wrong node is slow, there's unlikely to be much you can do about that 
-other than the global "go faster" knobs (iommu.strict and 
-iommu.passthrough) with their associated compromises.
-
-Robin.
-
-> [1] fio test & results
-> 
-> 1) fio test result:
-> 
-> - run fio on local CPU
-> taskset -c 0 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
-> + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
-> IOPS: 327K
-> avg latency of iommu_dma_unmap_sg(): 1111 nsecs
-> 
-> 
-> - run fio on remote CPU
-> taskset -c 80 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
-> + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
-> IOPS: 34.9K
-> avg latency of iommu_dma_unmap_sg(): 25437 nsecs
-> 
-> 2) system info
-> [root@ampere-mtjade-04 ~]# lscpu | grep NUMA
-> NUMA node(s):                    2
-> NUMA node0 CPU(s):               0-79
-> NUMA node1 CPU(s):               80-159
-> 
-> lspci | grep NVMe
-> 0003:01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983
-> 
-> [root@ampere-mtjade-04 ~]# cat /sys/block/nvme1n1/device/device/numa_node
-> 0
-> 
-> 
-> 
-> Thanks,
-> Ming
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMDkvMDcvMjAyMSAxMToyNiwgUm9iaW4gTXVycGh5IHdyb3RlOgo+IG4gMjAyMS0wNy0wOSAw
+OTozOCwgTWluZyBMZWkgd3JvdGU6Cj4+IEhlbGxvLAo+Pgo+PiBJIG9ic2VydmVkIHRoYXQgTlZN
+ZSBwZXJmb3JtYW5jZSBpcyB2ZXJ5IGJhZCB3aGVuIHJ1bm5pbmcgZmlvIG9uIG9uZQo+PiBDUFUo
+YWFyY2g2NCkgaW4gcmVtb3RlIG51bWEgbm9kZSBjb21wYXJlZCB3aXRoIHRoZSBudm1lIHBjaSBu
+dW1hIG5vZGUuCj4+Cj4+IFBsZWFzZSBzZWUgdGhlIHRlc3QgcmVzdWx0WzFdIDMyN0sgdnMuIDM0
+LjlLLgo+Pgo+PiBMYXRlbmN5IHRyYWNlIHNob3dzIHRoYXQgb25lIGJpZyBkaWZmZXJlbmNlIGlz
+IGluIGlvbW11X2RtYV91bm1hcF9zZygpLAo+PiAxMTExIG5zZWNzIHZzIDI1NDM3IG5zZWNzLgo+
+IAo+IEFyZSB5b3UgYWJsZSB0byBkaWcgZG93biBmdXJ0aGVyIGludG8gdGhhdD8gaW9tbXVfZG1h
+X3VubWFwX3NnKCkgaXRzZWxmIAo+IGRvZXNuJ3QgZG8gYW55dGhpbmcgcGFydGljdWxhcmx5IHNw
+ZWNpYWwsIHNvIHdoYXRldmVyIG1ha2VzIGEgZGlmZmVyZW5jZSAKPiBpcyBwcm9iYWJseSBoYXBw
+ZW5pbmcgYXQgYSBsb3dlciBsZXZlbCwgYW5kIEkgc3VzcGVjdCB0aGVyZSdzIHByb2JhYmx5IAo+
+IGFuIFNNTVUgaW52b2x2ZWQuIElmIGZvciBpbnN0YW5jZSBpdCB0dXJucyBvdXQgdG8gZ28gYWxs
+IHRoZSB3YXkgZG93biB0byAKPiBfX2FybV9zbW11X2NtZHFfcG9sbF91bnRpbF9jb25zdW1lZCgp
+IGJlY2F1c2UgcG9sbGluZyBNTUlPIGZyb20gdGhlIAo+IHdyb25nIG5vZGUgaXMgc2xvdywgdGhl
+cmUncyB1bmxpa2VseSB0byBiZSBtdWNoIHlvdSBjYW4gZG8gYWJvdXQgdGhhdCAKPiBvdGhlciB0
+aGFuIHRoZSBnbG9iYWwgImdvIGZhc3RlciIga25vYnMgKGlvbW11LnN0cmljdCBhbmQgCj4gaW9t
+bXUucGFzc3Rocm91Z2gpIHdpdGggdGhlaXIgYXNzb2NpYXRlZCBjb21wcm9taXNlcy4KClRoZXJl
+IHdhcyBhbHNvIHRoZSBkaXNhYmxlX21zaXBvbGxpbmcgb3B0aW9uOgoKaHR0cHM6Ly9naXQua2Vy
+bmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUv
+ZHJpdmVycy9pb21tdS9hcm0vYXJtLXNtbXUtdjMvYXJtLXNtbXUtdjMuYyNuNDIKCkJ1dCBJIGFt
+IG5vdCBzdXJlIGlmIHRoYXQgcGxhdGZvcm0gZXZlbiBzdXBwb3J0cyBNU0kgcG9sbGluZyAob3Ig
+aGFzIApzbW11IHYzKS4KCllvdSBjb3VsZCBhbHNvIHRyeSBpb21tdS5mb3JjZWRhYz0xIGNtZGxp
+bmUgb3B0aW9uLiBCdXQgSSBkb3VidCBpdCB3aWxsIApoZWxwIHNpbmNlIHRoZSBpc3N1ZSB3YXMg
+bWVudGlvbmVkIHRvIGJlIE5VTUEgcmVsYXRlZC4KCj4gCj4gUm9iaW4uCj4gCj4+IFsxXSBmaW8g
+dGVzdCAmIHJlc3VsdHMKPj4KPj4gMSkgZmlvIHRlc3QgcmVzdWx0Ogo+Pgo+PiAtIHJ1biBmaW8g
+b24gbG9jYWwgQ1BVCj4+IHRhc2tzZXQgLWMgMCB+L2dpdC90b29scy90ZXN0L252bWUvaW9fdXJp
+bmcgMTAgMSAvZGV2L252bWUxbjEgNGsKPj4gKyBmaW8gLS1icz00ayAtLWlvZW5naW5lPWlvX3Vy
+aW5nIC0tZml4ZWRidWZzIC0tcmVnaXN0ZXJmaWxlcyAtLWhpcHJpIAo+PiAtLWlvZGVwdGg9NjQg
+LS1pb2RlcHRoX2JhdGNoX3N1Ym1pdD0xNiAtLWlvZGVwdGhfYmF0Y2hfY29tcGxldGVfbWluPTE2
+IAo+PiAtLWZpbGVuYW1lPS9kZXYvbnZtZTFuMSAtLWRpcmVjdD0xIC0tcnVudGltZT0xMCAtLW51
+bWpvYnM9MSAKPj4gLS1ydz1yYW5kcmVhZCAtLW5hbWU9dGVzdCAtLWdyb3VwX3JlcG9ydGluZwo+
+Pgo+PiBJT1BTOiAzMjdLCj4+IGF2ZyBsYXRlbmN5IG9mIGlvbW11X2RtYV91bm1hcF9zZygpOiAx
+MTExIG5zZWNzCj4+Cj4+Cj4+IC0gcnVuIGZpbyBvbiByZW1vdGUgQ1BVCj4+IHRhc2tzZXQgLWMg
+ODAgfi9naXQvdG9vbHMvdGVzdC9udm1lL2lvX3VyaW5nIDEwIDEgL2Rldi9udm1lMW4xIDRrCj4+
+ICsgZmlvIC0tYnM9NGsgLS1pb2VuZ2luZT1pb191cmluZyAtLWZpeGVkYnVmcyAtLXJlZ2lzdGVy
+ZmlsZXMgLS1oaXByaSAKPj4gLS1pb2RlcHRoPTY0IC0taW9kZXB0aF9iYXRjaF9zdWJtaXQ9MTYg
+LS1pb2RlcHRoX2JhdGNoX2NvbXBsZXRlX21pbj0xNiAKPj4gLS1maWxlbmFtZT0vZGV2L252bWUx
+bjEgLS1kaXJlY3Q9MSAtLXJ1bnRpbWU9MTAgLS1udW1qb2JzPTEgCj4+IC0tcnc9cmFuZHJlYWQg
+LS1uYW1lPXRlc3QgLS1ncm91cF9yZXBvcnRpbmcKPj4KPj4gSU9QUzogMzQuOUsKPj4gYXZnIGxh
+dGVuY3kgb2YgaW9tbXVfZG1hX3VubWFwX3NnKCk6IDI1NDM3IG5zZWNzCj4+Cj4+IDIpIHN5c3Rl
+bSBpbmZvCj4+IFtyb290QGFtcGVyZS1tdGphZGUtMDQgfl0jIGxzY3B1IHwgZ3JlcCBOVU1BCj4+
+IE5VTUEgbm9kZShzKTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyCj4+
+IE5VTUEgbm9kZTAgQ1BVKHMpOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMC03OQo+PiBO
+VU1BIG5vZGUxIENQVShzKTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDgwLTE1OQo+Pgo+
+PiBsc3BjaSB8IGdyZXAgTlZNZQo+PiAwMDAzOjAxOjAwLjAgTm9uLVZvbGF0aWxlIG1lbW9yeSBj
+b250cm9sbGVyOiBTYW1zdW5nIEVsZWN0cm9uaWNzIENvIAo+PiBMdGQgTlZNZSBTU0QgQ29udHJv
+bGxlciBTTTk4MS9QTTk4MS9QTTk4Mwo+Pgo+PiBbcm9vdEBhbXBlcmUtbXRqYWRlLTA0IH5dIyBj
+YXQgL3N5cy9ibG9jay9udm1lMW4xL2RldmljZS9kZXZpY2UvbnVtYV9ub2RlIAoKU2luY2UgaXQn
+cyBhbXBlcmUsIEkgZ3Vlc3MgaXQncyBzbW11IHYzLgoKQlRXLCBpZiB5b3UgcmVtZW1iZXIsIEkg
+ZGlkIHJhaXNlIGEgcGVyZm9ybWFuY2UgaXNzdWUgb2Ygc21tdXYzIHdpdGggCk5WTWUgYmVmb3Jl
+OgpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1pb21tdS9iMmE2ZTI2ZC02ZDBkLTdmMGQt
+ZjIyMi01ODk4MTJmNzAxZDJAaHVhd2VpLmNvbS8KCkkgZGlkIGhhdmUgdGhpcyBzZXJpZXMgdG8g
+aW1wcm92ZSBwZXJmb3JtYW5jZSBmb3Igc3lzdGVtcyB3aXRoIGxvdHMgb2YgCkNQVXMsIGxpa2Ug
+YWJvdmUsIGJ1dCBub3QgYWNjZXB0ZWQ6Cmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWlv
+bW11LzE1OTgwMTgwNjItMTc1NjA4LTEtZ2l0LXNlbmQtZW1haWwtam9obi5nYXJyeUBodWF3ZWku
+Y29tLwoKVGhhbmtzLApKb2huCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlv
+bi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8v
+aW9tbXU=
