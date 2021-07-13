@@ -1,75 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4849D3C6C5E
-	for <lists.iommu@lfdr.de>; Tue, 13 Jul 2021 10:47:48 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9383C6C61
+	for <lists.iommu@lfdr.de>; Tue, 13 Jul 2021 10:47:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E8F6E405E3;
-	Tue, 13 Jul 2021 08:47:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id AF7336086C;
+	Tue, 13 Jul 2021 08:47:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3Uow1KMajx-n; Tue, 13 Jul 2021 08:47:45 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Y1UMoj-7q0zG; Tue, 13 Jul 2021 08:47:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C154340608;
-	Tue, 13 Jul 2021 08:47:45 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C0D0F60886;
+	Tue, 13 Jul 2021 08:47:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A6048C000E;
-	Tue, 13 Jul 2021 08:47:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 933E8C001A;
+	Tue, 13 Jul 2021 08:47:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 28CF8C001A
- for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 08:47:44 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 23B13C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 08:47:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 025404061E
- for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 08:47:43 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 3695481BC2
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 08:47:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vWwmeKdFXpa2 for <iommu@lists.linux-foundation.org>;
- Tue, 13 Jul 2021 08:47:42 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hgj_r4NyGUaM for <iommu@lists.linux-foundation.org>;
+ Tue, 13 Jul 2021 08:47:45 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1B4014061A
- for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 08:47:42 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- v18-20020a17090ac912b0290173b9578f1cso1502927pjt.0
- for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 01:47:42 -0700 (PDT)
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id AAF7882B1B
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 08:47:45 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id u14so20984423pga.11
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Jul 2021 01:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FdoZ+4EM7JCQgZ86bDT9RbGlh7q+AWgllGjoIYPWL9Q=;
- b=gA1/QgaUqMMGrBGGpEVYK8fMzHiF70tOx013tB9CxkOMsIAz6K9CyWbLukiYsceeeK
- WT3omC6T/UV02GbqJntqFcUEJy/CsH+2v38lltH8hTUVi5bDMirNFM2m8jsgCd53U/1v
- Lc/Oygn7Gsw282JeKIqoiMuvIbDZt/am73WeLkzOY2/CkX4nQAuUu3ul4s5GPTxJkyx3
- dWRyzileES+3pFwFh509M/IKBfUS06G83m9tPJd2yiq3RvUawNvAiQ6SGLm5AoV3JD3Q
- Yf50mdZiBV6HqGDPHp59XIyHUg9RniZUw56YWfFOmyWOXjXu+QsXkJ6TpitVDuk7cFO9
- CT5A==
+ bh=duCG4IP24crSQcX/Hc+dmtkejh6EvJA1HRc0A4ISBjM=;
+ b=jhEklg55ncTgryEBNVp2R8QmbT0mSSZ9Jbx/vRWE7VCj3bWE2z2dIOjal3v7V87F+w
+ KXfQDIBXqy11zkoXvndvUbGlVPDEiXSl+fAQR2u1kh3sE66g/ycHI3ytjUjkQxSBJH/g
+ AZxHQhTacxVYFFdIyyjgze0ilCXCS/jDuumV2MlbMyoRI0UfccSBvPIQYWOGLs4/8MSa
+ /LKjYT2XeUKg2HCwHW37u9JbUA9UywMRQY5Oh21L5F5yKxW5N31AISgPj+ldmzvcwtCe
+ E1Q/Vl13UyWPfsgrfUc5jX89w8ETwn8bjbTAF+M6GLaU7IxUmlm0UT8g4Vzjxqr6Yp/e
+ wF9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FdoZ+4EM7JCQgZ86bDT9RbGlh7q+AWgllGjoIYPWL9Q=;
- b=PpeXiaQB1QDHZHM2KxWFqaacehoM2jUsND4Vi/C2awY2RoFOtNzu0edKsGVRpdU9QY
- oc8Qyhl1Mkmmwqotu73u17LHNsX0ngoiY2WktsQMM9LJ8/9ILQYsDwY0bsqdykOVBvE/
- slIx9Mok0w1fO1srm5p5DY43XaOCTD+PbwRIMNJBnjsknGiFrmAbPU6wXsVCbGUMH0NY
- AP/iQPSxq7aJmlvRaepATuDjYd1+cH3KJ0m2nZh75tCJdqZzpIcR3AtqLgjp0grU4KIu
- iULiDiVEv5XFIQgY2OETr7UJox9qlfKSQTikYfnLN/POcTPPUsmvF2G9IDe23xeGEjhP
- Uhmw==
-X-Gm-Message-State: AOAM533LJY+dIglxH20WbpPB0Cl9prtB36B/8fE0+ZJp722ojHzCK6vR
- Rc9hADlenBiRQN3DvMed4m+X
-X-Google-Smtp-Source: ABdhPJy/YXaKCppxOExioeRxTLQv1sj8lcUHDptTXIY/sm3klehqPKR0QkOZNRfSckm4SM+jax8f+w==
-X-Received: by 2002:a17:90b:1b4d:: with SMTP id
- nv13mr1935868pjb.216.1626166061630; 
- Tue, 13 Jul 2021 01:47:41 -0700 (PDT)
+ bh=duCG4IP24crSQcX/Hc+dmtkejh6EvJA1HRc0A4ISBjM=;
+ b=Ue1iXBRetmMSuH7/dW/b+C63kSI/koMMr2tvocdkmbH651wL264a3POyNZMYr3XmZT
+ FWwso4ViBFc7VuMjMBtKT8T+7zNAPb/F1bMDGwmYPxTuuqGYIHI7RYRwB43pbUraJn4n
+ yn84cJyaG4MxDL7nda2C6+/yVK40FSlppgUA41HTfjFCkr29AssAJipUd2HyRU4qb0NK
+ oam9VJEkC3aIhyKoHGq3vhWsOdXucXLnHSq8ZswdbmLuvoQxiz2squyVk2QsS2Gz3m4q
+ bZet25pzLGSQahQCyC92HNxdqdvllSPNADh7nmurybGh0O4f/6sPxI0xQn8pGEgvHbye
+ 7b3g==
+X-Gm-Message-State: AOAM533BQCA9o5r1KVmBGWuFQSOspLvPjd4GM1Y/ADKcutuQX0n+roBx
+ XVicdkDIkaAfeYcMckh9enJb
+X-Google-Smtp-Source: ABdhPJzUKtRs1AySsyiLpLF85eJbibtFpTyQ7lV4V3lGutdi9feZAXM7KOxrD2p11DbuRgxCB1AMmQ==
+X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
+ e22-20020a62ee160000b02902feffcf775amr3339041pfi.59.1626166065181; 
+ Tue, 13 Jul 2021 01:47:45 -0700 (PDT)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id w2sm15858457pjq.5.2021.07.13.01.47.40
+ by smtp.gmail.com with ESMTPSA id b22sm17658102pfi.181.2021.07.13.01.47.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 01:47:41 -0700 (PDT)
+ Tue, 13 Jul 2021 01:47:44 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
@@ -78,10 +79,9 @@ To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
  dan.carpenter@oracle.com, joro@8bytes.org, gregkh@linuxfoundation.org,
  zhe.he@windriver.com, xiaodong.liu@intel.com
-Subject: [PATCH v9 05/17] vhost-vdpa: Fail the vhost_vdpa_set_status() on
- reset failure
-Date: Tue, 13 Jul 2021 16:46:44 +0800
-Message-Id: <20210713084656.232-6-xieyongji@bytedance.com>
+Subject: [PATCH v9 06/17] vhost-vdpa: Handle the failure of vdpa_reset()
+Date: Tue, 13 Jul 2021 16:46:45 +0800
+Message-Id: <20210713084656.232-7-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210713084656.232-1-xieyongji@bytedance.com>
 References: <20210713084656.232-1-xieyongji@bytedance.com>
@@ -106,43 +106,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Re-read the device status to ensure it's set to zero during
-resetting. Otherwise, fail the vhost_vdpa_set_status() after timeout.
+The vdpa_reset() may fail now. This adds check to its return
+value and fail the vhost_vdpa_open().
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- drivers/vhost/vdpa.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/vhost/vdpa.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
-index bb374a801bda..62b6d911c57d 100644
+index 62b6d911c57d..8615756306ec 100644
 --- a/drivers/vhost/vdpa.c
 +++ b/drivers/vhost/vdpa.c
-@@ -157,7 +157,7 @@ static long vhost_vdpa_set_status(struct vhost_vdpa *v, u8 __user *statusp)
+@@ -116,12 +116,13 @@ static void vhost_vdpa_unsetup_vq_irq(struct vhost_vdpa *v, u16 qid)
+ 	irq_bypass_unregister_producer(&vq->call_ctx.producer);
+ }
+ 
+-static void vhost_vdpa_reset(struct vhost_vdpa *v)
++static int vhost_vdpa_reset(struct vhost_vdpa *v)
+ {
  	struct vdpa_device *vdpa = v->vdpa;
- 	const struct vdpa_config_ops *ops = vdpa->config;
- 	u8 status, status_old;
--	int nvqs = v->nvqs;
-+	int timeout = 0, nvqs = v->nvqs;
- 	u16 i;
  
- 	if (copy_from_user(&status, statusp, sizeof(status)))
-@@ -173,6 +173,15 @@ static long vhost_vdpa_set_status(struct vhost_vdpa *v, u8 __user *statusp)
- 		return -EINVAL;
- 
- 	ops->set_status(vdpa, status);
-+	if (status == 0) {
-+		while (ops->get_status(vdpa)) {
-+			timeout += 20;
-+			if (timeout > VDPA_RESET_TIMEOUT_MS)
-+				return -EIO;
+-	vdpa_reset(vdpa);
+ 	v->in_batch = 0;
 +
-+			msleep(20);
-+		}
-+	}
++	return vdpa_reset(vdpa);
+ }
  
- 	if ((status & VIRTIO_CONFIG_S_DRIVER_OK) && !(status_old & VIRTIO_CONFIG_S_DRIVER_OK))
- 		for (i = 0; i < nvqs; i++)
+ static long vhost_vdpa_get_device_id(struct vhost_vdpa *v, u8 __user *argp)
+@@ -871,7 +872,9 @@ static int vhost_vdpa_open(struct inode *inode, struct file *filep)
+ 		return -EBUSY;
+ 
+ 	nvqs = v->nvqs;
+-	vhost_vdpa_reset(v);
++	r = vhost_vdpa_reset(v);
++	if (r)
++		goto err;
+ 
+ 	vqs = kmalloc_array(nvqs, sizeof(*vqs), GFP_KERNEL);
+ 	if (!vqs) {
 -- 
 2.11.0
 
