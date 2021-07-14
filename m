@@ -1,60 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08183C851B
-	for <lists.iommu@lfdr.de>; Wed, 14 Jul 2021 15:18:59 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D0D3C8580
+	for <lists.iommu@lfdr.de>; Wed, 14 Jul 2021 15:46:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8479483B00;
-	Wed, 14 Jul 2021 13:18:58 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9686A4059D;
+	Wed, 14 Jul 2021 13:46:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5tn-E7ovPsbR; Wed, 14 Jul 2021 13:18:57 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iDkWGu6Pp6R9; Wed, 14 Jul 2021 13:46:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9D55A83B01;
-	Wed, 14 Jul 2021 13:18:57 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B470B40593;
+	Wed, 14 Jul 2021 13:46:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 77969C000E;
-	Wed, 14 Jul 2021 13:18:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59EEAC000E;
+	Wed, 14 Jul 2021 13:46:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 326DEC000E
- for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 13:18:56 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C17CC000E;
+ Wed, 14 Jul 2021 13:46:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 224E383B01
- for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 13:18:56 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 87B31402EA;
+ Wed, 14 Jul 2021 13:46:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GPtkYqjQZ2Vq for <iommu@lists.linux-foundation.org>;
- Wed, 14 Jul 2021 13:18:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 96D2D83B00
- for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 13:18:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="207324761"
-X-IronPort-AV: E=Sophos;i="5.84,239,1620716400"; d="scan'208";a="207324761"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2021 06:18:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,239,1620716400"; d="scan'208";a="571172012"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 14 Jul 2021 06:18:52 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 14 Jul 2021 16:18:51 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/i915/fbc: Allow FBC + VT-d on SKL/BXT
-Date: Wed, 14 Jul 2021 16:18:37 +0300
-Message-Id: <20210714131837.8978-5-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210714131837.8978-1-ville.syrjala@linux.intel.com>
-References: <20210714131837.8978-1-ville.syrjala@linux.intel.com>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id LcH0tR2KllZ6; Wed, 14 Jul 2021 13:46:08 +0000 (UTC)
+X-Greylist: delayed 05:50:02 by SQLgrey-1.8.0
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from smtprelay.hostedemail.com (smtprelay0200.hostedemail.com
+ [216.40.44.200])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 67213402D2;
+ Wed, 14 Jul 2021 13:46:08 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 9EC7418282F1F;
+ Wed, 14 Jul 2021 04:20:20 +0000 (UTC)
+Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+ by smtprelay07.hostedemail.com (Postfix) with ESMTP id 8829C1844C6AC;
+ Wed, 14 Jul 2021 04:20:17 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf20.hostedemail.com (Postfix) with ESMTPA id A90B018A600; 
+ Wed, 14 Jul 2021 04:20:10 +0000 (UTC)
+Message-ID: <8aa028a0117ecb51d209861f926a84ce74fe0c46.camel@perches.com>
+Subject: Re: [PATCH v9 03/17] vdpa: Fix code indentation
+From: Joe Perches <joe@perches.com>
+To: Xie Yongji <xieyongji@bytedance.com>, mst@redhat.com,
+ jasowang@redhat.com,  stefanha@redhat.com, sgarzare@redhat.com,
+ parav@nvidia.com, hch@infradead.org,  christian.brauner@canonical.com,
+ rdunlap@infradead.org, willy@infradead.org,  viro@zeniv.linux.org.uk,
+ axboe@kernel.dk, bcrl@kvack.org, corbet@lwn.net, 
+ mika.penttila@nextfour.com, dan.carpenter@oracle.com, joro@8bytes.org, 
+ gregkh@linuxfoundation.org, zhe.he@windriver.com, xiaodong.liu@intel.com
+Date: Tue, 13 Jul 2021 21:20:09 -0700
+In-Reply-To: <20210713084656.232-4-xieyongji@bytedance.com>
+References: <20210713084656.232-1-xieyongji@bytedance.com>
+ <20210713084656.232-4-xieyongji@bytedance.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: A90B018A600
+X-Stat-Signature: w8c8skx4hq53kyxkkcs5f64b7rox7x57
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19IxVK6JNPE/co+tp8AToMXmxFv5EZRX50=
+X-HE-Tag: 1626236410-955187
+Cc: kvm@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ songmuchun@bytedance.com, linux-fsdevel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,41 +82,130 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCldp
-dGggdGhlIGlvbW11IGRyaXZlciBkaXNhYmxpbmcgVlQtZCBzdXBlcnBhZ2UgaXQgc2hvdWxkIGJl
-CnNhZmUgdG8gdXNlIEZCQyBvbiBTS0wvQlhUIHdpdGggVlQtZCBvdGhlcndpc2UgZW5hYmxlZC4K
-CkNjOiBEYXZpZCBXb29kaG91c2UgPGR3bXcyQGluZnJhZGVhZC5vcmc+CkNjOiBMdSBCYW9sdSA8
-YmFvbHUubHVAbGludXguaW50ZWwuY29tPgpDYzogaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlv
-bi5vcmcKU2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiYy5j
-IHwgMTYgLS0tLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDE2IGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmJjLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiYy5jCmluZGV4IDgyZWZmYjY0YTNi
-OS4uZGU0NGY5M2EzM2QwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2ZiYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmJj
-LmMKQEAgLTE0NDgsMTkgKzE0NDgsNiBAQCBzdGF0aWMgaW50IGludGVsX3Nhbml0aXplX2ZiY19v
-cHRpb24oc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2KQogCXJldHVybiAwOwogfQog
-Ci1zdGF0aWMgYm9vbCBuZWVkX2ZiY192dGRfd2Eoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRl
-dl9wcml2KQotewotCS8qIFdhRmJjVHVybk9mZkZiY1doZW5IeXBlclZpc29ySXNVc2VkOnNrbCxi
-eHQgKi8KLQlpZiAoaW50ZWxfdnRkX2FjdGl2ZSgpICYmCi0JICAgIChJU19TS1lMQUtFKGRldl9w
-cml2KSB8fCBJU19CUk9YVE9OKGRldl9wcml2KSkpIHsKLQkJZHJtX2luZm8oJmRldl9wcml2LT5k
-cm0sCi0JCQkgIkRpc2FibGluZyBmcmFtZWJ1ZmZlciBjb21wcmVzc2lvbiAoRkJDKSB0byBwcmV2
-ZW50IHNjcmVlbiBmbGlja2VyIHdpdGggVlQtZCBlbmFibGVkXG4iKTsKLQkJcmV0dXJuIHRydWU7
-Ci0JfQotCi0JcmV0dXJuIGZhbHNlOwotfQotCiAvKioKICAqIGludGVsX2ZiY19pbml0IC0gSW5p
-dGlhbGl6ZSBGQkMKICAqIEBkZXZfcHJpdjogdGhlIGk5MTUgZGV2aWNlCkBAIC0xNDc4LDkgKzE0
-NjUsNiBAQCB2b2lkIGludGVsX2ZiY19pbml0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZf
-cHJpdikKIAlpZiAoIWRybV9tbV9pbml0aWFsaXplZCgmZGV2X3ByaXYtPm1tLnN0b2xlbikpCiAJ
-CW1rd3JpdGVfZGV2aWNlX2luZm8oZGV2X3ByaXYpLT5kaXNwbGF5Lmhhc19mYmMgPSBmYWxzZTsK
-IAotCWlmIChuZWVkX2ZiY192dGRfd2EoZGV2X3ByaXYpKQotCQlta3dyaXRlX2RldmljZV9pbmZv
-KGRldl9wcml2KS0+ZGlzcGxheS5oYXNfZmJjID0gZmFsc2U7Ci0KIAlkZXZfcHJpdi0+cGFyYW1z
-LmVuYWJsZV9mYmMgPSBpbnRlbF9zYW5pdGl6ZV9mYmNfb3B0aW9uKGRldl9wcml2KTsKIAlkcm1f
-ZGJnX2ttcygmZGV2X3ByaXYtPmRybSwgIlNhbml0aXplZCBlbmFibGVfZmJjIHZhbHVlOiAlZFxu
-IiwKIAkJICAgIGRldl9wcml2LT5wYXJhbXMuZW5hYmxlX2ZiYyk7Ci0tIAoyLjMxLjEKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcg
-bGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
-Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Tue, 2021-07-13 at 16:46 +0800, Xie Yongji wrote:
+> Use tabs to indent the code instead of spaces.
+
+There are a lot more of these in this file.
+
+$ ./scripts/checkpatch.pl --fix-inplace --strict include/linux/vdpa.h
+
+and a little typing gives:
+---
+ include/linux/vdpa.h | 50 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
+
+diff --git a/include/linux/vdpa.h b/include/linux/vdpa.h
+index 3357ac98878d4..14cd4248e59fd 100644
+--- a/include/linux/vdpa.h
++++ b/include/linux/vdpa.h
+@@ -43,17 +43,17 @@ struct vdpa_vq_state_split {
+  * @last_used_idx: used index
+  */
+ struct vdpa_vq_state_packed {
+-        u16	last_avail_counter:1;
+-        u16	last_avail_idx:15;
+-        u16	last_used_counter:1;
+-        u16	last_used_idx:15;
++	u16	last_avail_counter:1;
++	u16	last_avail_idx:15;
++	u16	last_used_counter:1;
++	u16	last_used_idx:15;
+ };
+ 
+ struct vdpa_vq_state {
+-     union {
+-          struct vdpa_vq_state_split split;
+-          struct vdpa_vq_state_packed packed;
+-     };
++	union {
++		struct vdpa_vq_state_split split;
++		struct vdpa_vq_state_packed packed;
++	};
+ };
+ 
+ struct vdpa_mgmt_dev;
+@@ -131,7 +131,7 @@ struct vdpa_iova_range {
+  *				@vdev: vdpa device
+  *				@idx: virtqueue index
+  *				@state: pointer to returned state (last_avail_idx)
+- * @get_vq_notification: 	Get the notification area for a virtqueue
++ * @get_vq_notification:	Get the notification area for a virtqueue
+  *				@vdev: vdpa device
+  *				@idx: virtqueue index
+  *				Returns the notifcation area
+@@ -277,13 +277,13 @@ struct vdpa_device *__vdpa_alloc_device(struct device *parent,
+ 					const struct vdpa_config_ops *config,
+ 					size_t size, const char *name);
+ 
+-#define vdpa_alloc_device(dev_struct, member, parent, config, name)   \
+-			  container_of(__vdpa_alloc_device( \
+-				       parent, config, \
+-				       sizeof(dev_struct) + \
+-				       BUILD_BUG_ON_ZERO(offsetof( \
+-				       dev_struct, member)), name), \
+-				       dev_struct, member)
++#define vdpa_alloc_device(dev_struct, member, parent, config, name)	\
++	container_of(__vdpa_alloc_device(parent, config,		\
++					 sizeof(dev_struct) +		\
++					 BUILD_BUG_ON_ZERO(offsetof(dev_struct,	\
++								    member)), \
++					 name),				\
++		     dev_struct, member)
+ 
+ int vdpa_register_device(struct vdpa_device *vdev, int nvqs);
+ void vdpa_unregister_device(struct vdpa_device *vdev);
+@@ -308,8 +308,8 @@ struct vdpa_driver {
+ int __vdpa_register_driver(struct vdpa_driver *drv, struct module *owner);
+ void vdpa_unregister_driver(struct vdpa_driver *drv);
+ 
+-#define module_vdpa_driver(__vdpa_driver) \
+-	module_driver(__vdpa_driver, vdpa_register_driver,	\
++#define module_vdpa_driver(__vdpa_driver)				\
++	module_driver(__vdpa_driver, vdpa_register_driver,		\
+ 		      vdpa_unregister_driver)
+ 
+ static inline struct vdpa_driver *drv_to_vdpa(struct device_driver *driver)
+@@ -339,25 +339,25 @@ static inline struct device *vdpa_get_dma_dev(struct vdpa_device *vdev)
+ 
+ static inline void vdpa_reset(struct vdpa_device *vdev)
+ {
+-        const struct vdpa_config_ops *ops = vdev->config;
++	const struct vdpa_config_ops *ops = vdev->config;
+ 
+ 	vdev->features_valid = false;
+-        ops->set_status(vdev, 0);
++	ops->set_status(vdev, 0);
+ }
+ 
+ static inline int vdpa_set_features(struct vdpa_device *vdev, u64 features)
+ {
+-        const struct vdpa_config_ops *ops = vdev->config;
++	const struct vdpa_config_ops *ops = vdev->config;
+ 
+ 	vdev->features_valid = true;
+-        return ops->set_features(vdev, features);
++	return ops->set_features(vdev, features);
+ }
+ 
+-
+-static inline void vdpa_get_config(struct vdpa_device *vdev, unsigned offset,
++static inline void vdpa_get_config(struct vdpa_device *vdev,
++				   unsigned int offset,
+ 				   void *buf, unsigned int len)
+ {
+-        const struct vdpa_config_ops *ops = vdev->config;
++	const struct vdpa_config_ops *ops = vdev->config;
+ 
+ 	/*
+ 	 * Config accesses aren't supposed to trigger before features are set.
+
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
