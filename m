@@ -1,102 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEE63C83D1
-	for <lists.iommu@lfdr.de>; Wed, 14 Jul 2021 13:24:11 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE453C8505
+	for <lists.iommu@lfdr.de>; Wed, 14 Jul 2021 15:10:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E463640298;
-	Wed, 14 Jul 2021 11:24:09 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 744B740593;
+	Wed, 14 Jul 2021 13:10:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qqBMZOCv5oUV; Wed, 14 Jul 2021 11:24:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C056B40292;
-	Wed, 14 Jul 2021 11:24:05 +0000 (UTC)
+	with ESMTP id CJG9vls16TXy; Wed, 14 Jul 2021 13:10:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0E63F4053C;
+	Wed, 14 Jul 2021 13:10:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 877A4C000E;
-	Wed, 14 Jul 2021 11:24:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D11CBC000E;
+	Wed, 14 Jul 2021 13:10:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C822C000E
- for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 11:24:04 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E70B4C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 12:44:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2964C6074B
- for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 11:24:04 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id C72FF40256
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 12:44:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=gmx.net
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cWD9Xhb6eDyv for <iommu@lists.linux-foundation.org>;
- Wed, 14 Jul 2021 11:24:03 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D1539606BE
- for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 11:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1626261811;
- bh=bRr42QOU3WxiGukaiKaQo9qQhX/uefmYG0L+VFBR0cY=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=MH7MDNZQYjkv/8bbwBkSy/dTHjnZEPLNjx58GhW9NiKHHaEhkZIBMgl+1jheOfYNx
- sjSLqyorceUCLaV+PPaVTyVLnTnuLOwvgbv9UIdtSSouT/ugGyPoD0cnAxEyO/tBby
- KIzRPQDofNHx0bvw8YjucC6+kgI+v0FtYHZpN/kY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.152.136] ([217.61.152.136]) by web-mail.gmx.net
- (3c-app-gmx-bs01.server.lan [172.19.170.50]) (via HTTP); Wed, 14 Jul 2021
- 13:23:31 +0200
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3dPusQ5PY7TI for <iommu@lists.linux-foundation.org>;
+ Wed, 14 Jul 2021 12:44:23 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 92D2140001
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Jul 2021 12:44:22 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+ by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 59B93240005;
+ Wed, 14 Jul 2021 12:44:17 +0000 (UTC)
+Date: Wed, 14 Jul 2021 14:44:17 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: More dropping redundant minItems/maxItems
+Message-ID: <YO7cIQLn3i4+zOK/@piout.net>
+References: <20210713193453.690290-1-robh@kernel.org>
 MIME-Version: 1.0
-Message-ID: <trinity-345a7606-49c0-417a-b40a-5ff156332354-1626261811356@3c-app-gmx-bs01>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Aw: Re:  [PATCH v6 00/11] Clean up "mediatek,larb"
-Date: Wed, 14 Jul 2021 13:23:31 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <1626261496.14352.16.camel@mhfsdcap03>
-References: <20210714025626.5528-1-yong.wu@mediatek.com>
- <trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01>
- <1626261496.14352.16.camel@mhfsdcap03>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:C0a90b1taoG2cfcfP1pde1q2MNu5r1lIgwNvN5NXJS81Z6XyWAFZhMImid05bZKAZUc1Z
- fSbF+ihXoQ925TRhUh/2PryeQrkBTUM6JIUaLAvZhNfmBG35Ckp7hDn2PsC6SOkInfw03TSGwAnq
- QVkUFPFGffmEj3883aNhVDGijVAV0Dj7a1YKE2SJcV1ysSSD1b5nQ6xxg4LGX+ho7QSyvTaUSA5/
- VeO3HfkSU+3+B2YcXrhadx1ynHb86Y/11K6GLOIm5WEjhoUM5E0xij5biHeSELX8yOKYJratdjjD
- DA=
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DZIjrERjTx0=:zO1GGiDuxmWNpY4kEGNX+H
- Qsmf9C4I97mAD+wP1pU8z1eVgOesso/R5WsIidAM5D5eoNM9Jq9vra+7B0hV+BiXqHlm/N2U8
- AU3rTTheff7I21iXOz3ILBB3bGN35C3B0KptIb4TN1MAOKfCNobq+RN/zUswYDl0kZ4eUR9c0
- tQGm/bjLfNmBpNJHquyGdQvZYZNq2DH8QApwTchWdAEnpNcF+KOpKXpYjySgkTnaBYwVj27pW
- nDbtsU5XednjYl88TCAk3MdLCU/njHPVEi8eLjrm12TvLdsgmyoYJgQ3BqBfit76+TcdTzEaj
- 8oSosUKEC17F7PKZVCu360ZGcAfd7x+mFySyONxorqV3I0Ge29/VKMmQCUx6U4tGyE/tedka0
- RX/CBC10tyIElacx5U7+9OoA+hRzKwTS9LRYmixBzk4cXG/5G4+j5ljnyn57NrDQp9fuMGkwH
- vk4taR0w6XvN8s45fZ+qBA/Vzfq/o2D5Jnk1CrTsYwZRGO7EH3DubSJEKxu8Q/SfXw+yPfXD2
- QcYHX3vFQ95LjF+yBhj7MDkk83UPCbZujqhgGuzFULXV9/KpR40RKpwh37QTl0x+I283hMmgo
- yZjPMs8hjkNCjgYaF3X/Y6tG+n2TFGBWh36cu9O5iTbFSEXYKv0BUaEKLtwxiEUfLEYqFZeP1
- RGJafeHCi3VQkh24Z0kvP/wCasLOFs3jsuq2je+vhXaEdZJ9NeCB9D3wVis0CVRxceZ/6F0z+
- aWWCGUHZw8ekZPLQRrauLJKsPcMo3Awj4mlBI3ggYs1VbVrpwEBT98jdeIMoiUs72pausS9ap
- BJ1DOYDL0HTAvkX8qv8ayhDVShLTwcji0NvCJczKYjZbdxnY7c=
-Cc: Xia Jiang <xia.jiang@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>,
+Content-Disposition: inline
+In-Reply-To: <20210713193453.690290-1-robh@kernel.org>
+X-Mailman-Approved-At: Wed, 14 Jul 2021 13:10:32 +0000
+Cc: linux-usb@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-mtd@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Will Deacon <will@kernel.org>,
+ linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
- Matthias Kaehlcke <mka@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
- Tiffany Lin <tiffany.lin@mediatek.com>, yi.kuo@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- ming-fan.chen@mediatek.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
- acourbot@chromium.org, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Daniel Vetter <daniel@ffwll.ch>, Robin Murphy <robin.murphy@arm.com>
+ Richard Weinberger <richard@nod.at>, Sebastian Siewior <bigeasy@linutronix.de>,
+ devicetree@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Brian Norris <computersforpeace@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,31 +78,181 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> Gesendet: Mittwoch, 14. Juli 2021 um 13:18 Uhr
-> Von: "Yong Wu" <yong.wu@mediatek.com>
-> Hi Frank,
->
-> Thanks for your report. mt7623 use mtk_iommu_v1.c.
->
-> I will try to reproduce this locally.
+On 13/07/2021 13:34:53-0600, Rob Herring wrote:
+> Another round of removing redundant minItems/maxItems from new schema in
+> the recent merge window.
+> 
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+> 
+> This condition is partially checked with the meta-schema already, but
+> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
+> An improved meta-schema is pending.
+> 
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: Alessandro Zummo <a.zummo@towertech.it>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
+> Cc: Brian Norris <computersforpeace@gmail.com>
+> Cc: Kamal Dasu <kdasu.kdev@gmail.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Sebastian Siewior <bigeasy@linutronix.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: linux-clk@vger.kernel.org
+> Cc: iommu@lists.linux-foundation.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-rtc@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Hi,
+> ---
+>  .../devicetree/bindings/clock/brcm,iproc-clocks.yaml      | 1 -
+>  .../devicetree/bindings/iommu/rockchip,iommu.yaml         | 2 --
+>  .../bindings/memory-controllers/arm,pl353-smc.yaml        | 1 -
+>  Documentation/devicetree/bindings/mtd/brcm,brcmnand.yaml  | 8 --------
+>  .../devicetree/bindings/rtc/faraday,ftrtc010.yaml         | 1 -
+>  Documentation/devicetree/bindings/usb/nxp,isp1760.yaml    | 2 --
+>  6 files changed, 15 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/brcm,iproc-clocks.yaml b/Documentation/devicetree/bindings/clock/brcm,iproc-clocks.yaml
+> index 8dc7b404ee12..1174c9aa9934 100644
+> --- a/Documentation/devicetree/bindings/clock/brcm,iproc-clocks.yaml
+> +++ b/Documentation/devicetree/bindings/clock/brcm,iproc-clocks.yaml
+> @@ -50,7 +50,6 @@ properties:
+>  
+>    reg:
+>      minItems: 1
+> -    maxItems: 3
+>      items:
+>        - description: base register
+>        - description: power register
+> diff --git a/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml b/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
+> index d2e28a9e3545..ba9124f721f1 100644
+> --- a/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
+> +++ b/Documentation/devicetree/bindings/iommu/rockchip,iommu.yaml
+> @@ -28,14 +28,12 @@ properties:
+>        - description: configuration registers for MMU instance 0
+>        - description: configuration registers for MMU instance 1
+>      minItems: 1
+> -    maxItems: 2
+>  
+>    interrupts:
+>      items:
+>        - description: interruption for MMU instance 0
+>        - description: interruption for MMU instance 1
+>      minItems: 1
+> -    maxItems: 2
+>  
+>    clocks:
+>      items:
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml b/Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml
+> index 7a63c85ef8c5..01c9acf9275d 100644
+> --- a/Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml
+> +++ b/Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml
+> @@ -57,7 +57,6 @@ properties:
+>  
+>    ranges:
+>      minItems: 1
+> -    maxItems: 3
+>      description: |
+>        Memory bus areas for interacting with the devices. Reflects
+>        the memory layout with four integer values following:
+> diff --git a/Documentation/devicetree/bindings/mtd/brcm,brcmnand.yaml b/Documentation/devicetree/bindings/mtd/brcm,brcmnand.yaml
+> index e5f1a33332a5..dd5a64969e37 100644
+> --- a/Documentation/devicetree/bindings/mtd/brcm,brcmnand.yaml
+> +++ b/Documentation/devicetree/bindings/mtd/brcm,brcmnand.yaml
+> @@ -84,7 +84,6 @@ properties:
+>  
+>    interrupts:
+>      minItems: 1
+> -    maxItems: 3
+>      items:
+>        - description: NAND CTLRDY interrupt
+>        - description: FLASH_DMA_DONE if flash DMA is available
+> @@ -92,7 +91,6 @@ properties:
+>  
+>    interrupt-names:
+>      minItems: 1
+> -    maxItems: 3
+>      items:
+>        - const: nand_ctlrdy
+>        - const: flash_dma_done
+> @@ -148,8 +146,6 @@ allOf:
+>      then:
+>        properties:
+>          reg-names:
+> -          minItems: 2
+> -          maxItems: 2
+>            items:
+>              - const: nand
+>              - const: nand-int-base
+> @@ -161,8 +157,6 @@ allOf:
+>      then:
+>        properties:
+>          reg-names:
+> -          minItems: 3
+> -          maxItems: 3
+>            items:
+>              - const: nand
+>              - const: nand-int-base
+> @@ -175,8 +169,6 @@ allOf:
+>      then:
+>        properties:
+>          reg-names:
+> -          minItems: 3
+> -          maxItems: 3
+>            items:
+>              - const: nand
+>              - const: iproc-idm
+> diff --git a/Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml b/Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+> index 657c13b62b67..056d42daae06 100644
+> --- a/Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+> @@ -30,7 +30,6 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    minItems: 2
+>      items:
+>        - description: PCLK clocks
+>        - description: EXTCLK clocks. Faraday calls it CLK1HZ and says the clock
+> diff --git a/Documentation/devicetree/bindings/usb/nxp,isp1760.yaml b/Documentation/devicetree/bindings/usb/nxp,isp1760.yaml
+> index a88f99adfe8e..f238848ad094 100644
+> --- a/Documentation/devicetree/bindings/usb/nxp,isp1760.yaml
+> +++ b/Documentation/devicetree/bindings/usb/nxp,isp1760.yaml
+> @@ -25,14 +25,12 @@ properties:
+>  
+>    interrupts:
+>      minItems: 1
+> -    maxItems: 2
+>      items:
+>        - description: Host controller interrupt
+>        - description: Device controller interrupt in isp1761
+>  
+>    interrupt-names:
+>      minItems: 1
+> -    maxItems: 2
+>      items:
+>        - const: host
+>        - const: peripheral
+> -- 
+> 2.27.0
+> 
 
-as far as i have debugged it dev->iommu_group is NULL, so it crashes on first access (dev_info)
-
-drivers/iommu/iommu.c:
-
- 923 void iommu_group_remove_device(struct device *dev)
- 924 {
- 925 printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
- 926     struct iommu_group *group = dev->iommu_group;
- 927     struct group_device *tmp_device, *device = NULL;
- 928
- 929 printk(KERN_ALERT "DEBUG: Passed %s %d 0x%08x\n",__FUNCTION__,__LINE__,(unsigned int)group);
- 930     dev_info(dev, "Removing from iommu group %d\n", group->id);
-
-
-regards Frank
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
