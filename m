@@ -1,57 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72213CA3B7
-	for <lists.iommu@lfdr.de>; Thu, 15 Jul 2021 19:16:16 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 184B33CA3C2
+	for <lists.iommu@lfdr.de>; Thu, 15 Jul 2021 19:16:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1FE1D83E18;
-	Thu, 15 Jul 2021 17:16:15 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id AC890403CD;
+	Thu, 15 Jul 2021 17:16:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uE7Xb-5J71gq; Thu, 15 Jul 2021 17:16:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 405B783E08;
-	Thu, 15 Jul 2021 17:16:14 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 72Upo9BNQ0fd; Thu, 15 Jul 2021 17:16:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B6C4740E81;
+	Thu, 15 Jul 2021 17:16:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D611C000E;
-	Thu, 15 Jul 2021 17:16:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 922E0C000E;
+	Thu, 15 Jul 2021 17:16:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7457DC000E
- for <iommu@lists.linux-foundation.org>; Thu, 15 Jul 2021 17:16:13 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD782C000E
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Jul 2021 17:16:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6393F40404
- for <iommu@lists.linux-foundation.org>; Thu, 15 Jul 2021 17:16:13 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9C86840E84
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Jul 2021 17:16:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PSDhSbjN5WN5 for <iommu@lists.linux-foundation.org>;
- Thu, 15 Jul 2021 17:16:10 +0000 (UTC)
+ with ESMTP id YiBPegy0vcTd for <iommu@lists.linux-foundation.org>;
+ Thu, 15 Jul 2021 17:16:42 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A6F6540E7D
- for <iommu@lists.linux-foundation.org>; Thu, 15 Jul 2021 17:16:10 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id F14B740E79
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Jul 2021 17:16:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=vqT1KkJerIfgaTefMotO3Chy3j++S8LdBe9O7PbAuPI=; b=UhCSGYb9Hh594E6gCqsPd8BAVF
- pKFOgXIbxUfdPPVzF/cB5FTH/VcdadsNJpPOA8fb+86FYlUkje813rqTyXqNkfFOXrg4vHIBiEawd
- Ue5POEIn3rBPYfLExsc8Xja8ytUmXiEc8lXyB3lQzMnXCaAVoW1S122sN/Y4PRvsldT9zx4D31hmj
- kyU+tBa+DDzOnhd34ZpsrgCfP0Rr2jhoThfhiK+pV4GXkeLKZpvj2ObNCjHzjvTvru3hoWuWfadGb
- EjJv2OgYrXLxoQt2XfM+U4v/5ffh1bHMKHptxk8xY/3AhuOcIgRNd7QM1pWeQCGZ2tl+ugxArmRZZ
- JObh356A==;
+ bh=tVzBPY6/Bgdpsr8bmfZpwFmQV8rVEWLD9Ju+AXRRB/Q=; b=sT6nIphYRpQg2LPmIHPAN9+aTu
+ GJh+kG/x4SM7ujeEOwTJw5ilEgyuKzytEd4BRwwLa0nLKahIc7+GQ9qJ4fA5Hu9384ZtjsbuG2b92
+ s51DHr3LmCxuscjDOqlyMZ7uwWmozJZCa9HkoIp885CAsrDYo/QLqd7pHbw54nqIDcuExXUrrVRfw
+ hZPArbok7AiyAtDvc1e+GRkLRV8zgo/jTjvTVyD1VZI/lSLxAe/izWpR6ucAyWORMvAeNpU6T2dEP
+ ToPwTmhEJvkkerb0Tb9hn7uJF1hapwuF3GeNQtxgW4wYN95t0lZGeB9IRWqetmlEjHzeTZ71Uml4S
+ 1lVZm5YQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1m44V4-0001yb-4h; Thu, 15 Jul 2021 10:46:15 -0600
+ id 1m44V1-0001yg-Li; Thu, 15 Jul 2021 10:46:12 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1m44Uo-0001nK-5k; Thu, 15 Jul 2021 10:45:58 -0600
+ id 1m44Uo-0001nN-8x; Thu, 15 Jul 2021 10:45:58 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
@@ -59,8 +57,8 @@ To: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
  linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
  iommu@lists.linux-foundation.org, linux-parisc@vger.kernel.org,
  xen-devel@lists.xenproject.org
-Date: Thu, 15 Jul 2021 10:45:33 -0600
-Message-Id: <20210715164544.6827-6-logang@deltatee.com>
+Date: Thu, 15 Jul 2021 10:45:34 -0600
+Message-Id: <20210715164544.6827-7-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210715164544.6827-1-logang@deltatee.com>
 References: <20210715164544.6827-1-logang@deltatee.com>
@@ -73,18 +71,17 @@ X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org,
  linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
  linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org, hch@lst.de,
  m.szyprowski@samsung.com, robin.murphy@arm.com, sbates@raithlin.com,
- martin.oliveira@eideticom.com, logang@deltatee.com, rth@twiddle.net,
- ink@jurassic.park.msu.ru, mattst88@gmail.com
+ martin.oliveira@eideticom.com, logang@deltatee.com, linux@armlinux.org.uk,
+ tsbogend@alpha.franken.de
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v1 05/16] alpha: return error code from alpha_pci_map_sg()
+Subject: [PATCH v1 06/16] ARM/dma-mapping: return error code from .map_sg() ops
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Robin Murphy <robin.murphy@arm.com>,
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Robin Murphy <robin.murphy@arm.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
- Stephen Bates <sbates@raithlin.com>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Richard Henderson <rth@twiddle.net>, Logan Gunthorpe <logang@deltatee.com>,
- Christoph Hellwig <hch@lst.de>
+ Stephen Bates <sbates@raithlin.com>, Russell King <linux@armlinux.org.uk>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,59 +101,92 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Martin Oliveira <martin.oliveira@eideticom.com>
 
-The .map_sg() op now expects an error code instead of zero on failure.
-
-pci_map_single_1() can fail for different reasons, but since the only
-supported type of error return is DMA_MAPPING_ERROR, we coalesce those
-errors into EINVAL.
-
-ENOMEM is returned when no page tables can be allocated.
+The .map_sg() op now expects an error code instead of zero on failure,
+so propagate any errors that may happen all the way up.
 
 Signed-off-by: Martin Oliveira <martin.oliveira@eideticom.com>
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 ---
- arch/alpha/kernel/pci_iommu.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ arch/arm/mm/dma-mapping.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index 35d7b3096d6e..72fc2465d13c 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -649,7 +649,9 @@ static int alpha_pci_map_sg(struct device *dev, struct scatterlist *sg,
- 		sg->dma_address
- 		  = pci_map_single_1(pdev, SG_ENT_VIRT_ADDRESS(sg),
- 				     sg->length, dac_allowed);
--		return sg->dma_address != DMA_MAPPING_ERROR;
-+		if (sg->dma_address == DMA_MAPPING_ERROR)
-+			return -EINVAL;
-+		return 1;
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index c4b8df2ad328..8c286e690756 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -980,7 +980,7 @@ int arm_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 	struct scatterlist *s;
+-	int i, j;
++	int i, j, ret;
+ 
+ 	for_each_sg(sg, s, nents, i) {
+ #ifdef CONFIG_NEED_SG_DMA_LENGTH
+@@ -988,7 +988,8 @@ int arm_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ #endif
+ 		s->dma_address = ops->map_page(dev, sg_page(s), s->offset,
+ 						s->length, dir, attrs);
+-		if (dma_mapping_error(dev, s->dma_address))
++		ret = dma_mapping_error(dev, s->dma_address);
++		if (ret)
+ 			goto bad_mapping;
  	}
- 
- 	start = sg;
-@@ -685,8 +687,10 @@ static int alpha_pci_map_sg(struct device *dev, struct scatterlist *sg,
- 	if (out < end)
- 		out->dma_length = 0;
- 
--	if (out - start == 0)
-+	if (out - start == 0) {
- 		printk(KERN_WARNING "pci_map_sg failed: no entries?\n");
-+		return -ENOMEM;
-+	}
- 	DBGA("pci_map_sg: %ld entries\n", out - start);
- 
- 	return out - start;
-@@ -699,7 +703,7 @@ static int alpha_pci_map_sg(struct device *dev, struct scatterlist *sg,
- 	   entries.  Unmap them now.  */
- 	if (out > start)
- 		pci_unmap_sg(pdev, start, out - start, dir);
+ 	return nents;
+@@ -996,7 +997,7 @@ int arm_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+  bad_mapping:
+ 	for_each_sg(sg, s, i, j)
+ 		ops->unmap_page(dev, sg_dma_address(s), sg_dma_len(s), dir, attrs);
 -	return 0;
-+	return -ENOMEM;
++	return ret;
  }
  
- /* Unmap a set of streaming mode DMA translations.  Again, cpu read
+ /**
+@@ -1622,7 +1623,7 @@ static int __iommu_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		     bool is_coherent)
+ {
+ 	struct scatterlist *s = sg, *dma = sg, *start = sg;
+-	int i, count = 0;
++	int i, count = 0, ret;
+ 	unsigned int offset = s->offset;
+ 	unsigned int size = s->offset + s->length;
+ 	unsigned int max = dma_get_max_seg_size(dev);
+@@ -1634,8 +1635,10 @@ static int __iommu_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		s->dma_length = 0;
+ 
+ 		if (s->offset || (size & ~PAGE_MASK) || size + s->length > max) {
+-			if (__map_sg_chunk(dev, start, size, &dma->dma_address,
+-			    dir, attrs, is_coherent) < 0)
++			ret = __map_sg_chunk(dev, start, size,
++					     &dma->dma_address, dir, attrs,
++					     is_coherent);
++			if (ret < 0)
+ 				goto bad_mapping;
+ 
+ 			dma->dma_address += offset;
+@@ -1648,8 +1651,9 @@ static int __iommu_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		}
+ 		size += s->length;
+ 	}
+-	if (__map_sg_chunk(dev, start, size, &dma->dma_address, dir, attrs,
+-		is_coherent) < 0)
++	ret = __map_sg_chunk(dev, start, size, &dma->dma_address, dir, attrs,
++			     is_coherent);
++	if (ret < 0)
+ 		goto bad_mapping;
+ 
+ 	dma->dma_address += offset;
+@@ -1660,7 +1664,7 @@ static int __iommu_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ bad_mapping:
+ 	for_each_sg(sg, s, count, i)
+ 		__iommu_remove_mapping(dev, sg_dma_address(s), sg_dma_len(s));
+-	return 0;
++	return ret;
+ }
+ 
+ /**
 -- 
 2.20.1
 
