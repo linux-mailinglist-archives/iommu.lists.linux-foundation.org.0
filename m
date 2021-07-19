@@ -1,75 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98DC3CD03C
-	for <lists.iommu@lfdr.de>; Mon, 19 Jul 2021 11:12:48 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EFA3CD055
+	for <lists.iommu@lfdr.de>; Mon, 19 Jul 2021 11:15:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0AACC4043B;
-	Mon, 19 Jul 2021 09:12:47 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C849D40229;
+	Mon, 19 Jul 2021 09:15:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ykUq9DTqJzd5; Mon, 19 Jul 2021 09:12:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D92BC40439;
-	Mon, 19 Jul 2021 09:12:45 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OTauZaWg6tYQ; Mon, 19 Jul 2021 09:15:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D37E440253;
+	Mon, 19 Jul 2021 09:15:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E87AC000E;
-	Mon, 19 Jul 2021 09:12:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4EECC000E;
+	Mon, 19 Jul 2021 09:15:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5D56DC000E
- for <iommu@lists.linux-foundation.org>; Mon, 19 Jul 2021 09:12:43 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C5F25C000E
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Jul 2021 09:15:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2C7A2830E6
- for <iommu@lists.linux-foundation.org>; Mon, 19 Jul 2021 09:12:43 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id A5F764022C
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Jul 2021 09:15:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3fPrxGtQR7u3 for <iommu@lists.linux-foundation.org>;
- Mon, 19 Jul 2021 09:12:41 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 19qe4tLyIgiq for <iommu@lists.linux-foundation.org>;
+ Mon, 19 Jul 2021 09:15:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7A0DA82D57
- for <iommu@lists.linux-foundation.org>; Mon, 19 Jul 2021 09:12:41 +0000 (UTC)
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GSwjL0hSdz6D8tQ;
- Mon, 19 Jul 2021 16:57:58 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 11:12:38 +0200
-Received: from [10.47.85.214] (10.47.85.214) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 19 Jul
- 2021 10:12:37 +0100
-Subject: Re: [PATCH v4 6/6] dma-iommu: Pass iova len for IOVA domain init
-To: Dan Carpenter <dan.carpenter@oracle.com>, "kbuild@lists.01.org"
- <kbuild@lists.01.org>, "joro@8bytes.org" <joro@8bytes.org>, "will@kernel.org"
- <will@kernel.org>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>
-References: <202107150933.iNUojyx8-lkp@intel.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <70faf101-63c9-ef08-78df-9697f6257778@huawei.com>
-Date: Mon, 19 Jul 2021 10:12:40 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
-MIME-Version: 1.0
-In-Reply-To: <202107150933.iNUojyx8-lkp@intel.com>
-Content-Language: en-US
-X-Originating-IP: [10.47.85.214]
-X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
- "lkp@intel.com" <lkp@intel.com>, "airlied@linux.ie" <airlied@linux.ie>,
- Linuxarm <linuxarm@huawei.com>, "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
+Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net
+ (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
+ by smtp2.osuosl.org (Postfix) with SMTP id 8DD7040229
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Jul 2021 09:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fudan.edu.cn; s=dkim; h=Received:Mime-Version:Message-ID:
+ Subject:Date:From:To:Cc:Content-Type; bh=bbvnGJ169VK66Pl2rOYk9Fp
+ SM0kpPoTf9qERkWSIq68=; b=iDkl88YxZ2BxiAtpHYiZ/OX3YFitKAIzc5Xg+JP
+ 3xMuLHPHDgjjqyq2C5XZBGIHRWsVyAsC1hGYQHdBRtIsrZS0O13TopEhEAfFTp4O
+ LLUs2gdFyDMQxuw3cq+vs5UXNy+2+3sR2Z7wKditchJxr5WrtbqUQmew8/3WYCyZ
+ c7ZQ=
+Received: from localhost (unknown [39.144.45.47])
+ by app1 (Coremail) with SMTP id XAUFCgD3GZ6eQvVgOGKKAA--.54619S2;
+ Mon, 19 Jul 2021 17:15:11 +0800 (CST)
+Mime-Version: 1.0
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+Message-ID: 
+Subject: Re: [PATCH] iommu/amd: Convert from atomic_t to refcount_t on
+ device_state->count
+Date: Mon, 19 Jul 2021 17:15:10 +0800 (GMT+08:00)
+To: =?UTF-8?B?V2lsbCBEZWFjb24=?=<will@kernel.org>
+X-CM-TRANSID: XAUFCgD3GZ6eQvVgOGKKAA--.54619S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKry3Jr4DGw4xAr1DJr1xGrg_yoWDWrc_Aw
+ s7Xr1vy39ayF4vy3ZFyFn3ZryF9r42yrWkZryv93y8Za4fGrWFqan5XryFgrs5ZF4qyFyY
+ vFs3AayIv34xXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbRAYjsxI4VW5JwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2vYz4IE57IF64xv32x2
+ 64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG67k08I80eVWUJVW8JwAqx4xG6c
+ 804VAFz4xC04v7Mc02F40EFcxC0VAKzVAqx4xG6I80ewAqx4xG64kEw2xG04xIwI0_Ar0_
+ Cr1lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACY4xI67k04243AVAKzVAKj4xxM4xvF2IEb7IF
+ 0Fy26I8I3I1lFcxC0VAqx4xG64xE4I8GawAKzVCjr7xvwVAFz4v204v26I0v724lw4CEc2
+ x0rVAKj4xxMxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+ JVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r1j6r18MI8E67AF67
+ kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+ 6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMI
+ IF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnI
+ WIevJa73UjIFyTuYvjxUOuWlDUUUU
+X-CM-SenderInfo: irzsiiysuqikmy6i3vldqovvfxof0/
+Cc: =?UTF-8?B?WGluIFRhbg==?= <tanxin.ctf@gmail.com>,
+ =?UTF-8?B??= <yuanxzhang@fudan.edu.cn>,
+ =?UTF-8?B??= <linux-kernel@vger.kernel.org>,
+ =?UTF-8?B??= <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,125 +91,68 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+From: =?UTF-8?B?WGl5dSBZYW5n?= via iommu <iommu@lists.linux-foundation.org>
+Reply-To: =?UTF-8?B?WGl5dSBZYW5n?= <xiyuyang19@fudan.edu.cn>
+Content-Type: multipart/mixed; boundary="===============1396451643005782457=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 19/07/2021 08:58, Dan Carpenter wrote:
-> Hi John,
-> 
-> url:    https://github.com/0day-ci/linux/commits/John-Garry/iommu-Allow-IOVA-rcache-range-be-configured/20210714-184328
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-> config: ia64-randconfig-m031-20210714 (attached as .config)
-> compiler: ia64-linux-gcc (GCC) 9.3.0
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> smatch warnings:
-> drivers/iommu/dma-iommu.c:384 iommu_dma_init_domain() warn: variable dereferenced before check 'dev' (see line 374)
-> 
+--===============1396451643005782457==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_0_199937958.1626686110433"
 
-thanks for the notice
-
-> vim +/dev +384 drivers/iommu/dma-iommu.c
-> 
-> 06d60728ff5c01 Christoph Hellwig     2019-05-20  332  static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
-> ac6d704679d343 Jean-Philippe Brucker 2021-06-18  333  				 dma_addr_t limit, struct device *dev)
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  334  {
-> fdbe574eb69312 Robin Murphy          2017-01-19  335  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> c61a4633a56aaa Shaokun Zhang         2019-01-24  336  	unsigned long order, base_pfn;
-> 6b0c54e7f27159 Yunsheng Lin          2019-08-24  337  	struct iova_domain *iovad;
-> de4ba360c3e4ed John Garry            2021-07-14  338  	size_t max_opt_dma_size;
-> de4ba360c3e4ed John Garry            2021-07-14  339  	unsigned long iova_len = 0;
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  340
-> fdbe574eb69312 Robin Murphy          2017-01-19  341  	if (!cookie || cookie->type != IOMMU_DMA_IOVA_COOKIE)
-> fdbe574eb69312 Robin Murphy          2017-01-19  342  		return -EINVAL;
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  343
-> 6b0c54e7f27159 Yunsheng Lin          2019-08-24  344  	iovad = &cookie->iovad;
-> 6b0c54e7f27159 Yunsheng Lin          2019-08-24  345
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  346  	/* Use the smallest supported page size for IOVA granularity */
-> d16e0faab911cc Robin Murphy          2016-04-07  347  	order = __ffs(domain->pgsize_bitmap);
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  348  	base_pfn = max_t(unsigned long, 1, base >> order);
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  349
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  350  	/* Check the domain allows at least some access to the device... */
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  351  	if (domain->geometry.force_aperture) {
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  352  		if (base > domain->geometry.aperture_end ||
-> ac6d704679d343 Jean-Philippe Brucker 2021-06-18  353  		    limit < domain->geometry.aperture_start) {
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  354  			pr_warn("specified DMA range outside IOMMU capability\n");
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  355  			return -EFAULT;
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  356  		}
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  357  		/* ...then finally give it a kicking to make sure it fits */
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  358  		base_pfn = max_t(unsigned long, base_pfn,
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  359  				domain->geometry.aperture_start >> order);
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  360  	}
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  361
-> f51d7bb79c1124 Robin Murphy          2017-01-16  362  	/* start_pfn is always nonzero for an already-initialised domain */
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  363  	if (iovad->start_pfn) {
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  364  		if (1UL << order != iovad->granule ||
-> f51d7bb79c1124 Robin Murphy          2017-01-16  365  		    base_pfn != iovad->start_pfn) {
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  366  			pr_warn("Incompatible range for DMA domain\n");
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  367  			return -EFAULT;
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  368  		}
-> 7c1b058c8b5a31 Robin Murphy          2017-03-16  369
-> 7c1b058c8b5a31 Robin Murphy          2017-03-16  370  		return 0;
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  371  	}
-> 7c1b058c8b5a31 Robin Murphy          2017-03-16  372
-> de4ba360c3e4ed John Garry            2021-07-14  373
-> de4ba360c3e4ed John Garry            2021-07-14 @374  	max_opt_dma_size = iommu_group_get_max_opt_dma_size(dev->iommu_group);
->                                                                                                              ^^^^^^^^^^^^^^^^
-> New unchecked dereference
-> 
-> de4ba360c3e4ed John Garry            2021-07-14  375  	if (max_opt_dma_size) {
-> de4ba360c3e4ed John Garry            2021-07-14  376  		unsigned long shift = __ffs(1UL << order);
-> de4ba360c3e4ed John Garry            2021-07-14  377
-> de4ba360c3e4ed John Garry            2021-07-14  378  		iova_len = max_opt_dma_size >> shift;
-> de4ba360c3e4ed John Garry            2021-07-14  379  		iova_len = roundup_pow_of_two(iova_len);
-> de4ba360c3e4ed John Garry            2021-07-14  380  	}
-> de4ba360c3e4ed John Garry            2021-07-14  381
-> de4ba360c3e4ed John Garry            2021-07-14  382  	init_iova_domain(iovad, 1UL << order, base_pfn, iova_len);
-> 2da274cdf998a1 Zhen Lei              2018-09-20  383
-> 82c3cefb9f1652 Lu Baolu              2021-02-25 @384  	if (!cookie->fq_domain && (!dev || !dev_is_untrusted(dev)) &&
->                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> 
-> a250c23f15c21c Robin Murphy          2021-04-01  385  	    domain->ops->flush_iotlb_all && !iommu_get_dma_strict(domain)) {
-> b34e9b0de3c411 Tom Murphy            2020-09-10  386  		if (init_iova_flush_queue(iovad, iommu_dma_flush_iotlb_all,
-> 2a2b8eaa5b2566 Tom Murphy            2020-11-24  387  					  iommu_dma_entry_dtor))
-> b34e9b0de3c411 Tom Murphy            2020-09-10  388  			pr_warn("iova flush queue initialization failed\n");
-> b34e9b0de3c411 Tom Murphy            2020-09-10  389  		else
-> 2da274cdf998a1 Zhen Lei              2018-09-20  390  			cookie->fq_domain = domain;
-> 2da274cdf998a1 Zhen Lei              2018-09-20  391  	}
-> 2da274cdf998a1 Zhen Lei              2018-09-20  392
-> 7c1b058c8b5a31 Robin Murphy          2017-03-16  393  	if (!dev)
->                                                              ^^^^
-> Old code has checks for NULL
-> 
-
-I doubt that in practice we need this check.
-
-Function iommu_dma_init_domain() is only called by 
-iommu_setup_dma_ops(). Furthermore, iommu_setup_dma_ops() calls 
-iommu_get_domain_for_dev(dev), which cannot safely handle dev == NULL 
-for when we call iommu_dma_init_domain() there. As such, the dev == NULL 
-checks in iommu_dma_init_domain() are effectively redundant.
+------=_Part_0_199937958.1626686110433
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: base64
 
 
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  394  		return 0;
-> 7c1b058c8b5a31 Robin Murphy          2017-03-16  395
-> 7c1b058c8b5a31 Robin Murphy          2017-03-16  396  	return iova_reserve_iommu_regions(dev, domain);
-> 0db2e5d18f76a6 Robin Murphy          2015-10-01  397  }
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-> 
-> .
-> 
+------=_Part_0_199937958.1626686110433
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: base64
+
+PGRpdj5ZZXMsIEkgYWxyZWFkeSBzZW5kIG9uZSBwYXRjaCBhYm91dCBwYXNpZF9zdGF0ZS48L2Rp
+dj48ZGl2Pjxicj48L2Rpdj48ZGl2PjwhLS1lbXB0eXNpZ24tLT48L2Rpdj48ZGl2PjxkaXYgc3R5
+bGU9ImZvbnQtc2l6ZToxMnB4O3BhZGRpbmc6MnB4IDA7Ij4tLS1PcmlnaW5hbC0tLTwvZGl2Pjxk
+aXYgc3R5bGU9ImZvbnQtc2l6ZToxMnB4O2JhY2tncm91bmQ6I2YwZjBmMDtjb2xvcjojMjEyMTIx
+O3BhZGRpbmc6OHB4IWltcG9ydGFudDtib3JkZXItcmFkaXVzOjRweDtsaW5lLWhlaWdodDoxLjU7
+Ij48ZGl2PjxiPkZyb206PC9iPiAiV2lsbCBEZWFjb24iJmx0O3dpbGxAa2VybmVsLm9yZyZndDs8
+L2Rpdj48ZGl2PjxiPkRhdGU6PC9iPiBNb24sIEp1bCAxOSwgMjAyMSAxNzowNyBQTTwvZGl2Pjxk
+aXY+PGI+VG86PC9iPiAiWGl5dSBZYW5nIiZsdDt4aXl1eWFuZzE5QGZ1ZGFuLmVkdS5jbiZndDs7
+PC9kaXY+PGRpdj48Yj5DYzo8L2I+ICJKb2VyZyBSb2VkZWwiJmx0O2pvcm9AOGJ5dGVzLm9yZyZn
+dDs7IlN1cmF2ZWUgU3V0aGlrdWxwYW5pdCImbHQ7c3VyYXZlZS5zdXRoaWt1bHBhbml0QGFtZC5j
+b20mZ3Q7OyJpb21tdSImbHQ7aW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcmZ3Q7OyJs
+aW51eC1rZXJuZWwiJmx0O2xpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7OyJ5dWFueHpo
+YW5nIiZsdDt5dWFueHpoYW5nQGZ1ZGFuLmVkdS5jbiZndDs7IlhpbiBUYW4iJmx0O3Rhbnhpbi5j
+dGZAZ21haWwuY29tJmd0Ozs8L2Rpdj48ZGl2PjxiPlN1YmplY3Q6PC9iPiBSZTogW1BBVENIXSBp
+b21tdS9hbWQ6IENvbnZlcnQgZnJvbSBhdG9taWNfdCB0byByZWZjb3VudF90IG9uIGRldmljZV9z
+dGF0ZS0mZ3Q7Y291bnQ8L2Rpdj48L2Rpdj48YnI+T24mbmJzcDtNb24sJm5ic3A7SnVsJm5ic3A7
+MTksJm5ic3A7MjAyMSZuYnNwO2F0Jm5ic3A7MDI6MDA6MzdQTSZuYnNwOyswODAwLCZuYnNwO1hp
+eXUmbmJzcDtZYW5nJm5ic3A7d3JvdGU6PGJyPiZndDsmbmJzcDtyZWZjb3VudF90Jm5ic3A7dHlw
+ZSZuYnNwO2FuZCZuYnNwO2NvcnJlc3BvbmRpbmcmbmJzcDtBUEkmbmJzcDtjYW4mbmJzcDtwcm90
+ZWN0Jm5ic3A7cmVmY291bnRlcnMmbmJzcDtmcm9tPGJyPiZndDsmbmJzcDthY2NpZGVudGFsJm5i
+c3A7dW5kZXJmbG93Jm5ic3A7YW5kJm5ic3A7b3ZlcmZsb3cmbmJzcDthbmQmbmJzcDtmdXJ0aGVy
+Jm5ic3A7dXNlLWFmdGVyLWZyZWUmbmJzcDtzaXR1YXRpb25zLjxicj4mZ3Q7Jm5ic3A7PGJyPiZn
+dDsmbmJzcDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1hpeXUmbmJzcDtZYW5nJm5ic3A7PHhpeXV5YW5n
+MTlAZnVkYW4uZWR1LmNuPjxicj4mZ3Q7Jm5ic3A7U2lnbmVkLW9mZi1ieTombmJzcDtYaW4mbmJz
+cDtUYW4mbmJzcDs8dGFueGluLmN0ZkBnbWFpbC5jb20+PGJyPiZndDsmbmJzcDstLS08YnI+Jmd0
+OyZuYnNwOyZuYnNwO2RyaXZlcnMvaW9tbXUvYW1kL2lvbW11X3YyLmMmbmJzcDt8Jm5ic3A7MTEm
+bmJzcDsrKysrKystLS0tLTxicj4mZ3Q7Jm5ic3A7Jm5ic3A7MSZuYnNwO2ZpbGUmbmJzcDtjaGFu
+Z2VkLCZuYnNwOzYmbmJzcDtpbnNlcnRpb25zKCspLCZuYnNwOzUmbmJzcDtkZWxldGlvbnMoLSk8
+YnI+PGJyPkNhbiZuYnNwO3Bhc2lkX3N0YXRlOjpjb3VudCZuYnNwO2JlJm5ic3A7Y29udmVydGVk
+Jm5ic3A7c2ltaWxhcmx5Pzxicj48YnI+V2lsbDxicj48L3Rhbnhpbi5jdGZAZ21haWwuY29tPjwv
+eGl5dXlhbmcxOUBmdWRhbi5lZHUuY24+PC9kaXY+
+------=_Part_0_199937958.1626686110433--
+
+
+--===============1396451643005782457==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1396451643005782457==--
+
