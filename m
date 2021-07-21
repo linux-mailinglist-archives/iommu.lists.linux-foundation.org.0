@@ -1,90 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BA43D0C95
-	for <lists.iommu@lfdr.de>; Wed, 21 Jul 2021 12:54:02 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C62B43D0CA8
+	for <lists.iommu@lfdr.de>; Wed, 21 Jul 2021 13:07:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1B9E482F14;
-	Wed, 21 Jul 2021 10:54:01 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 528B460AE0;
+	Wed, 21 Jul 2021 11:07:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tPLX2f3Vd13O; Wed, 21 Jul 2021 10:54:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1CA3B82F03;
-	Wed, 21 Jul 2021 10:54:00 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aMkhpbKYh_0c; Wed, 21 Jul 2021 11:07:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7B29660617;
+	Wed, 21 Jul 2021 11:07:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 37CB2C002A;
-	Wed, 21 Jul 2021 10:53:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A02BC0022;
+	Wed, 21 Jul 2021 11:07:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68C01C000E
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 10:45:36 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B6A3FC000E
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 11:07:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 56E5460716
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 10:45:36 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id B3D0081BB0
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 11:07:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=chromium.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4v6-2h8sQaSV for <iommu@lists.linux-foundation.org>;
- Wed, 21 Jul 2021 10:45:35 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9C5BA606C6
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 10:45:35 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id gx2so1399080pjb.5
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 03:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3lABi16nL4MQbRpp+EfVh/1lUieQouz0Mt1Eq3+g03o=;
- b=e1Kye+SB7N4WedVaQMXh+r+XKa4tTEZMwHQLriWWLC4r29k6eiqa6TbO3ygi1pNDw/
- KPESXu1ee6k4rudQCQ4a16OyvOBhEPMAWpvD1pwyncIeyJx+5+Q2MIyDjKLI2HAJ0DR2
- OTMAk4Hr+4D+jMX8+ll/bSXIJHTyOuqNsX2Q8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3lABi16nL4MQbRpp+EfVh/1lUieQouz0Mt1Eq3+g03o=;
- b=PQXEHBMpVRJyJ6WR0p1THkIo7GI7/jNptGNTTpolJgtfW6wPTA5MA3h/JYP3gIPCRX
- cIRyzdyDMcXvVSn7pEBgEZ5JI8mvHrIkoQas56ccGiMpm2SkrqjlCRExktsQoerkwZsj
- jlZtKInEmir5W86BFsHw3R/Zk0JiIGWXvYekkl9XjhTm86ChV06JyiRMblNWYOA84n4y
- 48GEFmB17Il82umv3aVsMC/hgv1Mc0w+S31Qou9zgt/IO3TzIhoXuDUA/w8EPoM9s84n
- BSFy9kFisxdCOYr6GyOicy9zBBxWxW427mck46jWL/q8RiVJTtaG/ELLmxEwnRjMryk8
- eNnA==
-X-Gm-Message-State: AOAM533GlFJn47Bd1ru5J7c/IQ1HHXjugyiDiNE6peAn26OIbUhaDueB
- B679zvbET0+BcPxbJGPLozSmOod67tuGH2CFQ6Yb4A==
-X-Google-Smtp-Source: ABdhPJwseMcBhtA89/xVOfkSjI8Er/1b+WzAHYlvJAI5MGItY7qPIiQanSoTGq6Tkh3CF9f6U0apmV9yj3pMNUucrsU=
-X-Received: by 2002:a17:90a:f3cb:: with SMTP id
- ha11mr3173568pjb.144.1626864335082; 
- Wed, 21 Jul 2021 03:45:35 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jSexpL-jTqqV for <iommu@lists.linux-foundation.org>;
+ Wed, 21 Jul 2021 11:07:29 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 4CB9081B35
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 11:07:29 +0000 (UTC)
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GVC8m0yxyz6D8Wf;
+ Wed, 21 Jul 2021 18:52:40 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 21 Jul 2021 13:07:26 +0200
+Received: from [10.47.85.43] (10.47.85.43) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 21 Jul
+ 2021 12:07:25 +0100
+Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
+ from remote numa node
+To: Ming Lei <ming.lei@redhat.com>
+References: <YOgK8fdv7dOQtkET@T590>
+ <23e7956b-f3b5-b585-3c18-724165994051@arm.com> <YOhcOv1oOwm6fco+@T590>
+ <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com> <YPd7IGFZrsTRfUxE@T590>
+ <74537f9c-af5f-cd84-60ab-49ca6220310e@huawei.com> <YPfwAN1onpSKoeBj@T590>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com>
+Date: Wed, 21 Jul 2021 12:07:22 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20210715121209.31024-1-yong.wu@mediatek.com>
- <20210715121209.31024-7-yong.wu@mediatek.com>
-In-Reply-To: <20210715121209.31024-7-yong.wu@mediatek.com>
-From: Ikjoon Jang <ikjn@chromium.org>
-Date: Wed, 21 Jul 2021 18:45:23 +0800
-Message-ID: <CAATdQgCPunSYpxCE4ZfMBtbmyGik-AbxX+yh+F4m9EYDnCMObg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/11] memory: mtk-smi: Add error handle for smi_probe
-To: Yong Wu <yong.wu@mediatek.com>
-X-Mailman-Approved-At: Wed, 21 Jul 2021 10:53:57 +0000
-Cc: youlin.pei@mediatek.com,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, yi.kuo@mediatek.com,
- srv_heupstream <srv_heupstream@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Robin Murphy <robin.murphy@arm.com>, open list <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, anthony.huang@mediatek.com,
- ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
- Will Deacon <will@kernel.org>, "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <YPfwAN1onpSKoeBj@T590>
+Content-Language: en-US
+X-Originating-IP: [10.47.85.43]
+X-ClientProxiedBy: lhreml734-chm.china.huawei.com (10.201.108.85) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,53 +80,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jul 15, 2021 at 8:23 PM Yong Wu <yong.wu@mediatek.com> wrote:
->
-> Add error handle while component_add fail.
->
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+On 21/07/2021 10:59, Ming Lei wrote:
+>> I have now removed that from the tree, so please re-pull.
+> Now the kernel can be built successfully, but not see obvious improvement
+> on the reported issue:
+> 
+> [root@ampere-mtjade-04 ~]# uname -a
+> Linux ampere-mtjade-04.khw4.lab.eng.bos.redhat.com 5.14.0-rc2_smmu_fix+ #2 SMP Wed Jul 21 05:49:03 EDT 2021 aarch64 aarch64 aarch64 GNU/Linux
+> 
+> [root@ampere-mtjade-04 ~]# taskset -c 0 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
+> + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
+> test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
+> fio-3.27
+> Starting 1 process
+> Jobs: 1 (f=1): [r(1)][100.0%][r=1503MiB/s][r=385k IOPS][eta 00m:00s]
+> test: (groupid=0, jobs=1): err= 0: pid=3143: Wed Jul 21 05:58:14 2021
+>    read: IOPS=384k, BW=1501MiB/s (1573MB/s)(14.7GiB/10001msec)
 
-Reviewed-by: Ikjoon Jang <ikjn@chromium.org>
+I am not sure what baseline you used previously, but you were getting 
+327K then, so at least this would be an improvement.
 
-> ---
-> It don't have the error handle when v1. it is not a fatal error.
-> thus don't add fix tags.
-> ---
->  drivers/memory/mtk-smi.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-> index 6f8e582bace5..e68cbb51dd12 100644
-> --- a/drivers/memory/mtk-smi.c
-> +++ b/drivers/memory/mtk-smi.c
-> @@ -330,7 +330,15 @@ static int mtk_smi_larb_probe(struct platform_device *pdev)
->
->         pm_runtime_enable(dev);
->         platform_set_drvdata(pdev, larb);
-> -       return component_add(dev, &mtk_smi_larb_component_ops);
-> +       ret = component_add(dev, &mtk_smi_larb_component_ops);
-> +       if (ret)
-> +               goto err_pm_disable;
-> +       return 0;
-> +
-> +err_pm_disable:
-> +       pm_runtime_disable(dev);
-> +       device_link_remove(dev, larb->smi_common_dev);
-> +       return ret;
->  }
->
->  static int mtk_smi_larb_remove(struct platform_device *pdev)
-> --
-> 2.18.0
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> 
+> [root@ampere-mtjade-04 ~]# taskset -c 80 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
+> + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
+> test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
+> fio-3.27
+> Starting 1 process
+> Jobs: 1 (f=1): [r(1)][100.0%][r=138MiB/s][r=35.4k IOPS][eta 00m:00s]
+> test: (groupid=0, jobs=1): err= 0: pid=3063: Wed Jul 21 05:55:31 2021
+>    read: IOPS=35.4k, BW=138MiB/s (145MB/s)(1383MiB/10001msec)
+
+I can try similar on our arm64 board when I get a chance.
+
+Thanks,
+John
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
