@@ -1,51 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1853D1616
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1243D1615
 	for <lists.iommu@lfdr.de>; Wed, 21 Jul 2021 20:21:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 66B904044C;
-	Wed, 21 Jul 2021 18:20:58 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yK266FzjeQhl; Wed, 21 Jul 2021 18:20:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 722DD40436;
-	Wed, 21 Jul 2021 18:20:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AE9EC0022;
-	Wed, 21 Jul 2021 18:20:57 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D2A6C000E
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 18:20:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7FD6540517
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 18:20:55 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A14E140516;
+	Wed, 21 Jul 2021 18:20:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sKx8yqL1xhkA for <iommu@lists.linux-foundation.org>;
- Wed, 21 Jul 2021 18:20:54 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LvkYN-Rlgm90; Wed, 21 Jul 2021 18:20:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B38694051D;
+	Wed, 21 Jul 2021 18:20:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 95B9AC000E;
+	Wed, 21 Jul 2021 18:20:58 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 44906C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 18:20:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 38575608B5
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 18:20:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bS1CHDjnh1kG for <iommu@lists.linux-foundation.org>;
+ Wed, 21 Jul 2021 18:20:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp2.osuosl.org (Postfix) with ESMTP id CADB840518
- for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 18:20:54 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8C492608B2
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Jul 2021 18:20:56 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 20977D6E;
- Wed, 21 Jul 2021 11:20:54 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D4174113E;
+ Wed, 21 Jul 2021 11:20:55 -0700 (PDT)
 Received: from 010265703453.arm.com (unknown [10.57.36.146])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A520F3F694;
- Wed, 21 Jul 2021 11:20:52 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5DC4E3F694;
+ Wed, 21 Jul 2021 11:20:54 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: joro@8bytes.org,
 	will@kernel.org
-Subject: [PATCH 05/23] iommu/exynos: Drop IOVA cookie management
-Date: Wed, 21 Jul 2021 19:20:16 +0100
-Message-Id: <35917dcca8d431802176c47dc5c43192f4ebf679.1626888444.git.robin.murphy@arm.com>
+Subject: [PATCH 06/23] iommu/ipmmu-vmsa: Drop IOVA cookie management
+Date: Wed, 21 Jul 2021 19:20:17 +0100
+Message-Id: <1ca98c5c7ce4e6daf27803adc6f4b362362ce651.1626888444.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1626888444.git.robin.murphy@arm.com>
 References: <cover.1626888444.git.robin.murphy@arm.com>
@@ -73,58 +73,64 @@ The core code bakes its own cookies now.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/exynos-iommu.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+ drivers/iommu/ipmmu-vmsa.c | 27 ++++-----------------------
+ 1 file changed, 4 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
-index d0fbf1d10e18..34085d069cda 100644
---- a/drivers/iommu/exynos-iommu.c
-+++ b/drivers/iommu/exynos-iommu.c
-@@ -735,20 +735,16 @@ static struct iommu_domain *exynos_iommu_domain_alloc(unsigned type)
- 	/* Check if correct PTE offsets are initialized */
- 	BUG_ON(PG_ENT_SHIFT < 0 || !dma_dev);
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index 51ea6f00db2f..31252268f0d0 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -564,10 +564,13 @@ static irqreturn_t ipmmu_irq(int irq, void *dev)
+  * IOMMU Operations
+  */
  
-+	if (type != IOMMU_DOMAIN_DMA && type != IOMMU_DOMAIN_UNMANAGED)
+-static struct iommu_domain *__ipmmu_domain_alloc(unsigned type)
++static struct iommu_domain *ipmmu_domain_alloc(unsigned type)
+ {
+ 	struct ipmmu_vmsa_domain *domain;
+ 
++	if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
 +		return NULL;
 +
  	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
  	if (!domain)
  		return NULL;
+@@ -577,27 +580,6 @@ static struct iommu_domain *__ipmmu_domain_alloc(unsigned type)
+ 	return &domain->io_domain;
+ }
  
--	if (type == IOMMU_DOMAIN_DMA) {
--		if (iommu_get_dma_cookie(&domain->domain) != 0)
--			goto err_pgtable;
--	} else if (type != IOMMU_DOMAIN_UNMANAGED) {
--		goto err_pgtable;
+-static struct iommu_domain *ipmmu_domain_alloc(unsigned type)
+-{
+-	struct iommu_domain *io_domain = NULL;
+-
+-	switch (type) {
+-	case IOMMU_DOMAIN_UNMANAGED:
+-		io_domain = __ipmmu_domain_alloc(type);
+-		break;
+-
+-	case IOMMU_DOMAIN_DMA:
+-		io_domain = __ipmmu_domain_alloc(type);
+-		if (io_domain && iommu_get_dma_cookie(io_domain)) {
+-			kfree(io_domain);
+-			io_domain = NULL;
+-		}
+-		break;
 -	}
 -
- 	domain->pgtable = (sysmmu_pte_t *)__get_free_pages(GFP_KERNEL, 2);
- 	if (!domain->pgtable)
--		goto err_dma_cookie;
-+		goto err_pgtable;
- 
- 	domain->lv2entcnt = (short *)__get_free_pages(GFP_KERNEL | __GFP_ZERO, 1);
- 	if (!domain->lv2entcnt)
-@@ -779,9 +775,6 @@ static struct iommu_domain *exynos_iommu_domain_alloc(unsigned type)
- 	free_pages((unsigned long)domain->lv2entcnt, 1);
- err_counter:
- 	free_pages((unsigned long)domain->pgtable, 2);
--err_dma_cookie:
--	if (type == IOMMU_DOMAIN_DMA)
--		iommu_put_dma_cookie(&domain->domain);
- err_pgtable:
- 	kfree(domain);
- 	return NULL;
-@@ -809,9 +802,6 @@ static void exynos_iommu_domain_free(struct iommu_domain *iommu_domain)
- 
- 	spin_unlock_irqrestore(&domain->lock, flags);
- 
--	if (iommu_domain->type == IOMMU_DOMAIN_DMA)
--		iommu_put_dma_cookie(iommu_domain);
+-	return io_domain;
+-}
 -
- 	dma_unmap_single(dma_dev, virt_to_phys(domain->pgtable), LV1TABLE_SIZE,
- 			 DMA_TO_DEVICE);
- 
+ static void ipmmu_domain_free(struct iommu_domain *io_domain)
+ {
+ 	struct ipmmu_vmsa_domain *domain = to_vmsa_domain(io_domain);
+@@ -606,7 +588,6 @@ static void ipmmu_domain_free(struct iommu_domain *io_domain)
+ 	 * Free the domain resources. We assume that all devices have already
+ 	 * been detached.
+ 	 */
+-	iommu_put_dma_cookie(io_domain);
+ 	ipmmu_domain_destroy_context(domain);
+ 	free_io_pgtable_ops(domain->iop);
+ 	kfree(domain);
 -- 
 2.25.1
 
