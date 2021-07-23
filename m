@@ -1,88 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D973D3E15
-	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 19:02:16 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 222643D3F3B
+	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 19:50:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 24FFC405A5;
-	Fri, 23 Jul 2021 17:02:12 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 800B260BAB;
+	Fri, 23 Jul 2021 17:50:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4ZhnYnIpeGGB; Fri, 23 Jul 2021 17:02:11 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id otQyWYt_Oq1B; Fri, 23 Jul 2021 17:50:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 203BE405A4;
-	Fri, 23 Jul 2021 17:02:11 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7547D60BE1;
+	Fri, 23 Jul 2021 17:50:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03F2BC0020;
-	Fri, 23 Jul 2021 17:02:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 778CEC0010;
+	Fri, 23 Jul 2021 17:50:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27452C000E
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:02:10 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1325FC000E
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:50:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 148A4406A3
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:02:10 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 023D14020A
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:50:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
+ dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id V9juoCGYWLyT for <iommu@lists.linux-foundation.org>;
- Fri, 23 Jul 2021 17:02:09 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4E6D440693
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:02:09 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id u8so3982302plr.1
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 10:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=A0INaGmwcF2KYhrXOp1c817JL5QEuWK4ejcza4aRKbI=;
- b=Mzria5QLEIIaxfKeWVY9kN0L009L0dESyRZOPPZZhZghHNbg5NUrVCX6YbEnUNZyUH
- Jn7ae65cz8cOPxoTvrTuEnkDGSrOl+6LvZ4MLIxS+0Vz8H5HD1pZrBG91hfrWb8aC/kC
- C6SDLWUGRehoGFWRbzGgqtdYFdaGslE6LlbXMauVX5RPYfni9HVri97fFczKcsyYKGDg
- VlsUwOnkbGYuyLRpktOpSoxm/IlBEoi1PSD2MLUs2bOkvWq5f2yZovpdJztIcN/Unpuh
- yrKl1NgMrYLMCH/+qG2ORsE5sO0DvFcTippqr/grnkjiTBTux1w2BVULWPTH9U/sF1UR
- iCiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A0INaGmwcF2KYhrXOp1c817JL5QEuWK4ejcza4aRKbI=;
- b=nIGt4/1A3RHKCq0OvfppQqHoQ7wX389qSFQX9lafG14oI2P6AjfrKIh0Ao2yIwrgEb
- jtbL3guWOCUa430yHTNy7IwhcV2wKKfBnyk6ys9jdvvlbtxVsPFh9Ll5SlaZZL4bqTHM
- j10nbEbYXNbVthW0YKv5wHHvHYrIOMzQobeS7nOpw4ITbzgSz/v4z5PSZZve+amGvPAq
- mXOsv+0FgoZ23GkhI/cVvGAPM/yLKzDr0Nnfa+8FWlvz54uGVliCF+aU6U/Jk0xqYE+b
- uTv9Y9XEWfZ2p7+A1emCZzLrwu7QV7lA3RivYCaYZKjYLkRXlikTUQYdBxzGm02b+umW
- TQAQ==
-X-Gm-Message-State: AOAM530P08uYqUAnrNWJ2pkLJNLGR8kniWlE+ohEF8V98SrvEgPwL07G
- K2rgp99vyJ5gFdzOsko8R8w=
-X-Google-Smtp-Source: ABdhPJzYzPan6NB/50zb11zliDqlwUfAV0lnD+3epo+lXInk+xL0xUNTc8dPlFmsmi660UZk77sgsg==
-X-Received: by 2002:a17:902:9a81:b029:12b:567:6eef with SMTP id
- w1-20020a1709029a81b029012b05676eefmr4448023plp.35.1627059728580; 
- Fri, 23 Jul 2021 10:02:08 -0700 (PDT)
-Received: from sc2-haas01-esx0118.eng.vmware.com ([66.170.99.1])
- by smtp.gmail.com with ESMTPSA id d15sm33479004pfl.82.2021.07.23.10.02.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 10:02:08 -0700 (PDT)
-From: Nadav Amit <nadav.amit@gmail.com>
-X-Google-Original-From: Nadav Amit
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v6 7/7] iommu/amd: Use only natural aligned flushes in a VM
-Date: Fri, 23 Jul 2021 02:32:09 -0700
-Message-Id: <20210723093209.714328-8-namit@vmware.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210723093209.714328-1-namit@vmware.com>
-References: <20210723093209.714328-1-namit@vmware.com>
+ with ESMTP id bDkegnfEsL62 for <iommu@lists.linux-foundation.org>;
+ Fri, 23 Jul 2021 17:50:20 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id F34334020D
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+ :references:content-disposition:in-reply-to;
+ bh=LQAXJCFOAL4wucMr1J1VtJo8YmjL7Kj+0Z4w4rvIHlA=; b=TaYSXIwq9R6P6E55tx/ubbtnmS
+ Ix5S11dwF37+JjGSmV0s6xjYEbeV6HdQPY8L4ceTMQxqpBLWTmndOS7kQPDkYi2krgtZOLSSVrbb9
+ c0wyfIKZ/WK/9ISrP+H4LcIuYdyOl+C/RV6yOHboEG5zPmMsNfK3aO2OoJum1Yw5QAO6ceknbIXSK
+ YJ19q++0q3iOK/z8UWCCZbVtohsVag7m/aVg7sT15ZTzk7ir/QgR0nCButA7tc9Ka/8+8ms4RDMBa
+ ZTvS5QgWu1CMefIqiLZqWI4h41+KbLiC3sS/uG0C6Qqc+uqKCjukEFJp4LCqKNzSSEPRjV4K5xyIk
+ redVVngg==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1m6zJN-0005Lg-Sm; Fri, 23 Jul 2021 11:50:14 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1m6zJK-0005qW-Eh; Fri, 23 Jul 2021 11:50:10 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org
+Date: Fri, 23 Jul 2021 11:49:47 -0600
+Message-Id: <20210723175008.22410-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Nadav Amit <namit@vmware.com>,
- Jiajun Cao <caojiajun@vmware.com>, Will Deacon <will@kernel.org>
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org, hch@lst.de,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, sbates@raithlin.com,
+ martin.oliveira@eideticom.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v2 00/21] .map_sg() error cleanup
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Stephen Bates <sbates@raithlin.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,119 +97,104 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Nadav Amit <namit@vmware.com>
+Hi,
 
-When running on an AMD vIOMMU, it is better to avoid TLB flushes
-of unmodified PTEs. vIOMMUs require the hypervisor to synchronize the
-virtualized IOMMU's PTEs with the physical ones. This process induce
-overheads.
+This v2 of the series is spun out and expanded from my work to add
+P2PDMA support to DMA map operations[1]. v1 is at [2]. The main changes
+in v1 are to more carefully define the meaning of the error codes for
+dma_map_sgtable().
 
-AMD IOMMU allows us to flush any range that is aligned to the power of
-2. So when running on top of a vIOMMU, break the range into sub-ranges
-that are naturally aligned, and flush each one separately. This apporach
-is better when running with a vIOMMU, but on physical IOMMUs, the
-penalty of IOTLB misses due to unnecessary flushed entries is likely to
-be low.
+The P2PDMA work requires distinguishing different error conditions in
+a map_sg operation. dma_map_sgtable() already allows for returning an
+error code (where as dma_map_sg() is only allowed to return zero)
+however, it currently only returns -EINVAL when a .map_sg() call returns
+zero.
 
-Repurpose (i.e., keeping the name, changing the logic)
-domain_flush_pages() so it is used to choose whether to perform one
-flush of the whole range or multiple ones to avoid flushing unnecessary
-ranges. Use NpCache, as usual, to infer whether the IOMMU is physical or
-virtual.
+This series cleans up all .map_sg() implementations to return appropriate
+error codes. After the cleanup, dma_map_sg() will still return zero,
+however dma_map_sgtable() will pass the error code from the .map_sg()
+call. Thanks go to Martn Oliveira for doing a lot of the cleanup of the
+obscure implementations.
 
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jiajun Cao <caojiajun@vmware.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: iommu@lists.linux-foundation.org
-Cc: linux-kernel@vger.kernel.org
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Nadav Amit <namit@vmware.com>
----
- drivers/iommu/amd/iommu.c | 47 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 42 insertions(+), 5 deletions(-)
+The patch set is based off of v5.14-rc2 and a git repo can be found
+here:
 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 7846fcb1e92b..3f6428aa68cd 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -1261,15 +1261,52 @@ static void __domain_flush_pages(struct protection_domain *domain,
- }
- 
- static void domain_flush_pages(struct protection_domain *domain,
--			       u64 address, size_t size)
-+			       u64 address, size_t size, int pde)
- {
--	__domain_flush_pages(domain, address, size, 0);
-+	if (likely(!amd_iommu_np_cache)) {
-+		__domain_flush_pages(domain, address, size, pde);
-+		return;
-+	}
-+
-+	/*
-+	 * When NpCache is on, we infer that we run in a VM and use a vIOMMU.
-+	 * In such setups it is best to avoid flushes of ranges which are not
-+	 * naturally aligned, since it would lead to flushes of unmodified
-+	 * PTEs. Such flushes would require the hypervisor to do more work than
-+	 * necessary. Therefore, perform repeated flushes of aligned ranges
-+	 * until you cover the range. Each iteration flushes the smaller
-+	 * between the natural alignment of the address that we flush and the
-+	 * greatest naturally aligned region that fits in the range.
-+	 */
-+	while (size != 0) {
-+		int addr_alignment = __ffs(address);
-+		int size_alignment = __fls(size);
-+		int min_alignment;
-+		size_t flush_size;
-+
-+		/*
-+		 * size is always non-zero, but address might be zero, causing
-+		 * addr_alignment to be negative. As the casting of the
-+		 * argument in __ffs(address) to long might trim the high bits
-+		 * of the address on x86-32, cast to long when doing the check.
-+		 */
-+		if (likely((unsigned long)address != 0))
-+			min_alignment = min(addr_alignment, size_alignment);
-+		else
-+			min_alignment = size_alignment;
-+
-+		flush_size = 1ul << min_alignment;
-+
-+		__domain_flush_pages(domain, address, flush_size, pde);
-+		address += flush_size;
-+		size -= flush_size;
-+	}
- }
- 
- /* Flush the whole IO/TLB for a given protection domain - including PDE */
- void amd_iommu_domain_flush_tlb_pde(struct protection_domain *domain)
- {
--	__domain_flush_pages(domain, 0, CMD_INV_IOMMU_ALL_PAGES_ADDRESS, 1);
-+	domain_flush_pages(domain, 0, CMD_INV_IOMMU_ALL_PAGES_ADDRESS, 1);
- }
- 
- void amd_iommu_domain_flush_complete(struct protection_domain *domain)
-@@ -1296,7 +1333,7 @@ static void domain_flush_np_cache(struct protection_domain *domain,
- 		unsigned long flags;
- 
- 		spin_lock_irqsave(&domain->lock, flags);
--		domain_flush_pages(domain, iova, size);
-+		domain_flush_pages(domain, iova, size, 1);
- 		amd_iommu_domain_flush_complete(domain);
- 		spin_unlock_irqrestore(&domain->lock, flags);
- 	}
-@@ -2200,7 +2237,7 @@ static void amd_iommu_iotlb_sync(struct iommu_domain *domain,
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&dom->lock, flags);
--	__domain_flush_pages(dom, gather->start, gather->end - gather->start, 1);
-+	domain_flush_pages(dom, gather->start, gather->end - gather->start, 1);
- 	amd_iommu_domain_flush_complete(dom);
- 	spin_unlock_irqrestore(&dom->lock, flags);
- }
--- 
-2.25.1
+  https://github.com/sbates130272/linux-p2pmem map_sg_err_cleanup_v2
 
+Thanks,
+
+Logan
+
+[1] https://lore.kernel.org/linux-block/20210513223203.5542-1-logang@deltatee.com/
+[2] https://lore.kernel.org/linux-mips/20210715164544.6827-1-logang@deltatee.com/
+
+--
+
+Changes in v2:
+  - Attempt to define the meanings of the errors returned by
+    dma_map_sgtable() and restrict the valid return codes of
+    .map_sg implementations. (Per Christoph)
+  - Change dma_map_sgtable() to EXPORT_SYMBOL_GPL() (Per Christoph)
+  - Add patches to remove the erroneous setting of sg->dma_address
+    to DMA_MAP_ERROR in a few .map_sg(0 implementations. (Per
+    Christoph).
+
+--
+
+Logan Gunthorpe (10):
+  dma-mapping: Allow map_sg() ops to return negative error codes
+  dma-direct: Return appropriate error code from dma_direct_map_sg()
+  iommu: Return full error code from iommu_map_sg[_atomic]()
+  dma-iommu: Return error code from iommu_dma_map_sg()
+  ARM/dma-mapping: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  powerpc/iommu: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  s390/pci: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  sparc/iommu: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  x86/amd_gart: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  dma-mapping: Disallow .map_sg operations from returning zero on error
+
+Martin Oliveira (11):
+  alpha: return error code from alpha_pci_map_sg()
+  ARM/dma-mapping: return error code from .map_sg() ops
+  ia64/sba_iommu: return error code from sba_map_sg_attrs()
+  MIPS/jazzdma: return error code from jazz_dma_map_sg()
+  powerpc/iommu: return error code from .map_sg() ops
+  s390/pci: return error code from s390_dma_map_sg()
+  sparc/iommu: return error codes from .map_sg() ops
+  parisc: return error code from .map_sg() ops
+  xen: swiotlb: return error code from xen_swiotlb_map_sg()
+  x86/amd_gart: return error code from gart_map_sg()
+  dma-mapping: return error code from dma_dummy_map_sg()
+
+ arch/alpha/kernel/pci_iommu.c           | 10 ++-
+ arch/arm/mm/dma-mapping.c               | 26 +++++---
+ arch/ia64/hp/common/sba_iommu.c         |  6 +-
+ arch/mips/jazz/jazzdma.c                |  2 +-
+ arch/powerpc/kernel/iommu.c             |  6 +-
+ arch/powerpc/platforms/ps3/system-bus.c |  2 +-
+ arch/powerpc/platforms/pseries/vio.c    |  5 +-
+ arch/s390/pci/pci_dma.c                 | 13 ++--
+ arch/sparc/kernel/iommu.c               |  6 +-
+ arch/sparc/kernel/pci_sun4v.c           |  6 +-
+ arch/sparc/mm/iommu.c                   |  2 +-
+ arch/x86/kernel/amd_gart_64.c           | 18 +++---
+ drivers/iommu/dma-iommu.c               | 23 +++++--
+ drivers/iommu/iommu.c                   | 15 ++---
+ drivers/parisc/ccio-dma.c               |  2 +-
+ drivers/parisc/sba_iommu.c              |  2 +-
+ drivers/xen/swiotlb-xen.c               |  2 +-
+ include/linux/dma-map-ops.h             |  5 +-
+ include/linux/dma-mapping.h             | 35 ++--------
+ include/linux/iommu.h                   | 22 +++----
+ kernel/dma/direct.c                     |  2 +-
+ kernel/dma/dummy.c                      |  2 +-
+ kernel/dma/mapping.c                    | 86 ++++++++++++++++++++++---
+ 23 files changed, 181 insertions(+), 117 deletions(-)
+
+
+base-commit: 2734d6c1b1a089fb593ef6a23d4b70903526fe0c
+--
+2.20.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
