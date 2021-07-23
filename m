@@ -1,76 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293C53D4250
-	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 23:40:42 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC283D4253
+	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 23:40:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B2D9B60A59;
-	Fri, 23 Jul 2021 21:40:40 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1C70E40613;
+	Fri, 23 Jul 2021 21:40:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c8HMzcXSbAiK; Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AFC5E606FD;
-	Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NSFsO5LO1Ma7; Fri, 23 Jul 2021 21:40:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 182FF4060D;
+	Fri, 23 Jul 2021 21:40:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 85825C001F;
-	Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4004AC0022;
+	Fri, 23 Jul 2021 21:40:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98E03C000E
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:38 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 31D65C0010
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 83CE460A3E
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:38 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id C90A460A3E
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=wdc.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BvJbtgihEl30 for <iommu@lists.linux-foundation.org>;
+ with ESMTP id Zm0d4m18xDt8 for <iommu@lists.linux-foundation.org>;
  Fri, 23 Jul 2021 21:40:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1573A60720
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 45AD0608E7
  for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1627076436; x=1658612436;
+ t=1627076437; x=1658612437;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TtAadJ6hGLCmc033TEnWfjUBgRsF/DZxBUrEEIez1Fo=;
- b=f+nu0/CdxWwarErcZi4FgffE9SA7p80eptXiZ/Z1mdzqrCrwKsmi7HMS
- 8Yw8Xrwz/h/bHq82XXP9hUxjjl0JLozLp/WcXMGcL5eDtGCUyoyP4uTAq
- 2pMzWvVKt00TQ7UF6AlcvUHfkUeMvjzZKavIUXr5MVCH9RpNG2gsWCsaY
- /tCDYDc27fjwCuPPglupMUAoNu0J4HAmd2GXcbQNMPM7vJfOqu2ftix+B
- wgFgadYzCD8r1EFR1tqZHf0AK5OkNVc/vsuDv8VE+9Ck8wf6WH4SgLWjU
- L8zGks/8yHE2bqk5SlyhYD7TQByNmQlsoftAgh118OA6G/0YMUxWMi04b A==;
-X-IronPort-AV: E=Sophos;i="5.84,265,1620662400"; d="scan'208";a="279198455"
+ bh=h6g3J4tjDKnyTria/2MziFd3JxC/MOWlZq41Ya428Sw=;
+ b=FaoN1xzh2WIdwmWW2Gu0RAGxzGlJaPrrAwKlYNtwWhCuuprcncCWpBum
+ 7QW+pNPcrs2JTwyDYwhIRv9QywrC85OrQ0f4istmd/VRKLujvUjlHIyHt
+ lTz+ZYVV8sxmloLE0wP1VkcwbPxixMYExfJdp6EYCfVLmjWFCjf4KKbYy
+ n1Pfb5NTiorUzkBZAylJRvia4gd2W5ppXjRgYlvZWEwPDxeXmGvQpJQ2Z
+ Inh8JpkRNIh/MLSToQS/XCKiaxBtTrHI+NX0PZUjOuxhzsqaJT9t6mbZo
+ IRSrqbh29i7/5xHk/zAQUFaY61WMy3XkWtOR8jyb8C+Qz8RLFBmEJxcAG A==;
+X-IronPort-AV: E=Sophos;i="5.84,265,1620662400"; d="scan'208";a="279198460"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2021 05:40:36 +0800
-IronPort-SDR: MEtxWDUrR7OY2iqDlN2CpqmRA2klWW1vVLyTHp8zwRmlS89ictk3j+ZOa7fgugiwZdy5Xbnj9+
- VGjJV3QDmJhjywKg/e6551Fnfl9B/kZH6AvQp9wdXUGPhj2aLHUhZzl+Ux1rkIwiCnSkutnVTh
- 4e8dEoL7YsjMoDNtaI3VwqDfegf2jDIiyXHfh6mGik2nPAea3/HZ6Ujz74uCpjwYdV5OLxkRdI
- zQKJ+1MblqlDnUtXZijNI8mOT/FFYc3ZNnIapvHknZAoM+hc7Jgbcx28sWDdru3XRbye1CQvmy
- 3fIctP2RxqdkfxffE5/+0oVt
+IronPort-SDR: +5+ki43nHfotRi7Nk3o7v8E9RxTe91qpfxps5bSvhotIb8hbzp8nhRj37KjGyLC4AqAscyoJsk
+ 74NP/1X/ZpwDquZSKrrJos7ueQTHqR66WQVFONuA+Md47fHkwFVZ54I+n8TRqQxC1Rmm0kSdld
+ rEO05AVlyhsW2zwlEuoo6i33iB0ljVgB1BwpTCDsGoYToRoF+mt7ALl4QAtPvm7h8c2hoPP7JV
+ A7NuvUrMEvGtaP/AzvYpmBhxBnRBOR62YV9dVw49UkEpgo/oWnEgyJa/EHiGy0GrvkHKhf43AD
+ XcWsHciaL6hm7EGhxAlhjZcF
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 14:18:25 -0700
-IronPort-SDR: iht1k14TXaRgYuHcExQMxXDvBJ3lM+d2qFu0HNLMP/m1Lxt3+sb+N39um9cWnSgGv+xK+oULw8
- GD+comDzjiA03Yi/yzbvF1tLI9LK7/uFKDc61+UxJ+unNE4NlgItR+mWHeop/k1FW+LDY1iGkv
- bIRs/GghVxg/KlDKAwSOAE56h8UurPmyEwvBnYOlWDOK8rQ6pIUqNcTdfmUWYQvtbTUB8AstNj
- ybmzgG1fG/v3JWXcN82OQ0gkWAp2DRz2Ef6vAOkDxAxJMNcx1b1yxxQEbRI/2TozKavkbY18h1
- UWw=
+ 23 Jul 2021 14:18:26 -0700
+IronPort-SDR: RopbJ1mZd7BhWsWcKFEmQ7WtbbN2Hmd5BOsJ+cqYC6WWZaLYWC+YxSjr74sWYzac7mWE8ByX20
+ CjRTn0VmrM7uFgp31+YYSGzhOkMwzw0yorw6oML5t49P3RXU1r2Ggeemijjor6l/XapslEa0m2
+ efJZGKLNB4+Wh1h6o8OMOfaZYU44hIeGI7gVEgGMpQJprdd/+e6YslEk3fnyYFOqj73qVJG5et
+ AvJhFih8nRANtXfnJPf3u9tps3aivhLC4QFlxZWyQwvdpA3R/L/rUVEQ84bdHZ67CJxbGW5mA9
+ YWY=
 WDCIronportException: Internal
 Received: from ucfbox21.ad.shared (HELO hulk.wdc.com) ([10.225.167.4])
- by uls-op-cesaip01.wdc.com with ESMTP; 23 Jul 2021 14:40:36 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 23 Jul 2021 14:40:37 -0700
 From: Atish Patra <atish.patra@wdc.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RFC 2/5] of: Move of_dma_get_range to of_address.h
-Date: Fri, 23 Jul 2021 14:40:28 -0700
-Message-Id: <20210723214031.3251801-3-atish.patra@wdc.com>
+Subject: [RFC 3/5] dma-mapping: Enable global non-coherent pool support for
+ RISC-V
+Date: Fri, 23 Jul 2021 14:40:29 -0700
+Message-Id: <20210723214031.3251801-4-atish.patra@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210723214031.3251801-1-atish.patra@wdc.com>
 References: <20210723214031.3251801-1-atish.patra@wdc.com>
@@ -99,60 +102,123 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Currently, of_dma_get_range is kept in of_private.h as it is used by only
-OF support code.
+Currently, linux,dma-default is used to reserve a global non-coherent pool
+to allocate memory for dma operations. This can be useful for RISC-V as
+well as the ISA specification doesn't specify a method to modify PMA
+attributes or page table entries to define non-cacheable area yet.
+A non-cacheable memory window is an alternate options for vendors to
+support non-coherent devices. "dma-ranges" must be used in conjunction with
+"linux,dma-default" property to define one or more mappings between device
+and cpu accesible memory regions.
 
-Move it to of_address.h so that it can be used by the code outside OF
-support code.
+This allows RISC-V to use global pool for non-coherent platforms that
+relies on a uncached memory region that is outside of the system ram.
 
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
- drivers/of/of_private.h    | 10 ----------
- include/linux/of_address.h | 12 ++++++++++++
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ kernel/dma/coherent.c | 49 ++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 41 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-index 631489f7f8c0..f65f801e3aae 100644
---- a/drivers/of/of_private.h
-+++ b/drivers/of/of_private.h
-@@ -160,16 +160,6 @@ extern int of_bus_n_addr_cells(struct device_node *np);
- extern int of_bus_n_size_cells(struct device_node *np);
+diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+index 97677df5408b..d0b33b1a76f0 100644
+--- a/kernel/dma/coherent.c
++++ b/kernel/dma/coherent.c
+@@ -9,6 +9,8 @@
+ #include <linux/module.h>
+ #include <linux/dma-direct.h>
+ #include <linux/dma-map-ops.h>
++#include <linux/of_address.h>
++#include <linux/libfdt.h>
  
- struct bus_dma_region;
--#if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
--int of_dma_get_range(struct device_node *np,
--		const struct bus_dma_region **map);
--#else
--static inline int of_dma_get_range(struct device_node *np,
--		const struct bus_dma_region **map)
--{
--	return -ENODEV;
--}
--#endif
- 
- void fdt_init_reserved_mem(void);
- void fdt_reserved_mem_save_node(unsigned long node, const char *uname,
-diff --git a/include/linux/of_address.h b/include/linux/of_address.h
-index 45598dbec269..0e20f85850fc 100644
---- a/include/linux/of_address.h
-+++ b/include/linux/of_address.h
-@@ -154,4 +154,16 @@ static inline const __be32 *of_get_pci_address(struct device_node *dev, int bar_
- 	return __of_get_address(dev, -1, bar_no, size, flags);
+ struct dma_coherent_mem {
+ 	void		*virt_base;
+@@ -302,19 +304,27 @@ int dma_mmap_from_global_coherent(struct vm_area_struct *vma, void *vaddr,
+ 					vaddr, size, ret);
  }
  
-+struct bus_dma_region;
-+#if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
-+int of_dma_get_range(struct device_node *np,
-+		const struct bus_dma_region **map);
-+#else
-+static inline int of_dma_get_range(struct device_node *np,
-+		const struct bus_dma_region **map)
-+{
-+	return -ENODEV;
-+}
-+#endif
+-int dma_init_global_coherent(phys_addr_t phys_addr, size_t size)
++static int __dma_init_global_coherent(phys_addr_t phys_addr, dma_addr_t device_addr, size_t size)
+ {
+ 	struct dma_coherent_mem *mem;
+ 
+-	mem = dma_init_coherent_memory(phys_addr, phys_addr, size, true);
++	if (phys_addr == device_addr)
++		mem = dma_init_coherent_memory(phys_addr, device_addr, size, true);
++	else
++		mem = dma_init_coherent_memory(phys_addr, device_addr, size, false);
 +
- #endif /* __OF_ADDRESS_H */
+ 	if (IS_ERR(mem))
+ 		return PTR_ERR(mem);
+ 	dma_coherent_default_memory = mem;
+ 	pr_info("DMA: default coherent area is set\n");
+ 	return 0;
+ }
+-#endif /* CONFIG_DMA_GLOBAL_POOL */
+ 
++int dma_init_global_coherent(phys_addr_t phys_addr, size_t size)
++{
++	return __dma_init_global_coherent(phys_addr, phys_addr, size);
++}
++#endif /* CONFIG_DMA_GLOBAL_POOL */
+ /*
+  * Support for reserved memory regions defined in device tree
+  */
+@@ -329,8 +339,8 @@ static int rmem_dma_device_init(struct reserved_mem *rmem, struct device *dev)
+ 	if (!rmem->priv) {
+ 		struct dma_coherent_mem *mem;
+ 
+-		mem = dma_init_coherent_memory(rmem->base, rmem->base,
+-					       rmem->size, true);
++		mem = dma_init_coherent_memory(rmem->base, rmem->base, rmem->size, true);
++
+ 		if (IS_ERR(mem))
+ 			return PTR_ERR(mem);
+ 		rmem->priv = mem;
+@@ -358,7 +368,7 @@ static int __init rmem_dma_setup(struct reserved_mem *rmem)
+ 	if (of_get_flat_dt_prop(node, "reusable", NULL))
+ 		return -EINVAL;
+ 
+-#ifdef CONFIG_ARM
++#if defined(CONFIG_ARM) || defined(CONFIG_RISCV)
+ 	if (!of_get_flat_dt_prop(node, "no-map", NULL)) {
+ 		pr_err("Reserved memory: regions without no-map are not yet supported\n");
+ 		return -EINVAL;
+@@ -382,10 +392,33 @@ static int __init rmem_dma_setup(struct reserved_mem *rmem)
+ #ifdef CONFIG_DMA_GLOBAL_POOL
+ static int __init dma_init_reserved_memory(void)
+ {
++	struct device_node *np;
++	const struct bus_dma_region *map = NULL;
++	int ret;
++	int64_t uc_offset = 0;
++
+ 	if (!dma_reserved_default_memory)
+ 		return -ENOMEM;
+-	return dma_init_global_coherent(dma_reserved_default_memory->base,
+-					dma_reserved_default_memory->size);
++
++	/* dma-ranges is only valid for global pool i.e. dma-default is set */
++	np = of_find_node_with_property(NULL, "linux,dma-default");
++	if (!np)
++		goto global_init;
++	of_node_put(np);
++
++	ret = of_dma_get_range(np, &map);
++	if (ret < 0)
++		goto global_init;
++
++	/* Sanity check for the non-coherent global pool from uncached region */
++	if (map->dma_start == dma_reserved_default_memory->base &&
++	    map->size == dma_reserved_default_memory->size)
++		uc_offset = map->offset;
++
++global_init:
++	return __dma_init_global_coherent(dma_reserved_default_memory->base + uc_offset,
++					  dma_reserved_default_memory->base,
++					  dma_reserved_default_memory->size);
+ }
+ core_initcall(dma_init_reserved_memory);
+ #endif /* CONFIG_DMA_GLOBAL_POOL */
 -- 
 2.31.1
 
