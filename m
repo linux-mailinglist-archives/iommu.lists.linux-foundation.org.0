@@ -1,79 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6353D4251
-	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 23:40:43 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1333D4254
+	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 23:40:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AEB6E400B9;
-	Fri, 23 Jul 2021 21:40:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 597134060D;
+	Fri, 23 Jul 2021 21:40:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ETRx5UAiTL8i; Fri, 23 Jul 2021 21:40:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CBC934014D;
-	Fri, 23 Jul 2021 21:40:40 +0000 (UTC)
+	with ESMTP id tWFFwBVCg6Yq; Fri, 23 Jul 2021 21:40:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6D76340619;
+	Fri, 23 Jul 2021 21:40:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C2DAEC0022;
-	Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75075C000E;
+	Fri, 23 Jul 2021 21:40:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31D97C000E
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94286C000E
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 127E840676
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3B630405DE
  for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=wdc.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nMswp-sTGW-j for <iommu@lists.linux-foundation.org>;
+ with ESMTP id Jq0tYOVCxrEW for <iommu@lists.linux-foundation.org>;
  Fri, 23 Jul 2021 21:40:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 45AA3405DE
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 84F1A405F8
  for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1627076438; x=1658612438;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FZmD5JDut8+hqQnxscDF4nA471lKHOPpWVdLU/AZ18o=;
- b=NzEP6GJ+vTrZoRsYL1+hVW6/+YPNJDfc5n3/6RZW4PS2/rXhDcO+YApS
- AL5bqTuhZkv7/MMOw0copSp7mjUWFZJ8w/T7we6iCxzJkQudfmG6Izyhb
- cf0jQzXnpCazii7TWqbIfQGAmjt4wLw2InJmRZ/enzeyzBUqesFqcwLQ1
- mwu7dcSkXfxAhNGRd9zhgav+wjILac8t66aTwcxW3wYPWqh7FhC2kccl5
- XVPg7r8LKd+mVRVpoPdshgfaxvTLMT55QzbIR/Vf7B780gprIQD/QrG81
- Bn2DCWaDvNU5qMMqbxMQz4f7v2DZPMaY7bKvsjTtVQWapRwQeNzE5LNvn A==;
-X-IronPort-AV: E=Sophos;i="5.84,265,1620662400"; d="scan'208";a="279198465"
+ bh=CVn7oX0CjfibpYFFpqHWKgpHrrL7Xnf/XJqEMEbWufY=;
+ b=I3YhLYCYXOyjQmfd7NjMgSObNw8JiNTFxnRo8fqzh2qWV45pc5DfbL+Y
+ 5YvdAe4WfY4N4PZAjlnX9cZtX8ZrGun5JUlnuVyxvs7e6y7dnc5PrnYAh
+ 2f1/l1dvOBUW2gNkpXfE0hLm7fFRodvwlC1zxWRF91KdMD8h5J+x8SHW4
+ Zs4mAh5ntglJIhbqVFsYr0jMYwGB5wXbzdljSipEBByVD8dYwnmQ64HTI
+ VKkFu7C5T8iak80e/N0eIC3XQ6/lBKnE6aWHSD4J2VQ3E13sEeDNlWsqB
+ mAvNf57iybdhlONt1QHcvV4qE9OkW64o4vz8ulVBxod3/dil/f2Y7Fdvz g==;
+X-IronPort-AV: E=Sophos;i="5.84,265,1620662400"; d="scan'208";a="279198470"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2021 05:40:37 +0800
-IronPort-SDR: CKyth6h+GJV94USuHn1bOW42ZgtKw0dLRV7tL/18iFvQj2cSXsH46jxwkR32jSkzXH66J/S+AT
- 2/8wzLvir0UgWKGawGJa5RKNJL/gFVnVX/5hOpFco+CGGn3l/Moq+S5ztY94NpZUcVMjX4dSoe
- ioQ3m5nxmLvsveZcX9ypIve2r/b9CPwmA1O6zkgUA+n7IIEjeQL9qQ20rq0rvmeQPtRu+UclQz
- txdttosBoVUkj0c3Q1YHkG9ROExIDf1ITv4p8VibAnwQdm8FNWu55bYmwOGwZhnh4XXU9ImrcW
- /xe4cKLHX1BTkpnNk7AxFgaO
+ by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2021 05:40:38 +0800
+IronPort-SDR: Hlown/MIZ3X0k31csXzw+BoF5tuk6Sr6nXKVGF61sUcj3B/wTvM1hne8eAgr65D/CnKF9/GuvW
+ eZSKPEyMJdc6shl518Xfi6eDsYgIgvk4rtYxuuVLvLMJBmZdo4MDClarg0qCzgQivlg4PVLPAF
+ 7O/jWePEoMs1GSjrnzcrXUTgQvqRuIUp9uR51U+SV0FBFg2e2YyhiPS6YzDdaXY9yIERgEzUUa
+ WDGdA2pFAndBxBEgVevFrUqgxrj4knU0n/a7H29hwJwPS4HsAOjGMdegknRsmOqqgfVsUyJ4Lg
+ 5frQhfw6B1bG2EwX0hgXvjzt
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 14:18:26 -0700
-IronPort-SDR: LjlOnqwO6a/04wGjvbug293m/8qn7cznMgBruMkmo6Tel5ZJMkE6+M7OvZdwEvPubcxMheZERt
- lQ+sNikSqbrehg8ASur9Vjq9mL3Z4lqGj5A946yoMS6Ts92f/InosBlv1k2y7BMcnZXeI9zPvx
- mJQEjGWo0n4PPJ7AA4mRZXBBF3gLp53/vEUqb9aWh7AAOyzSZkDvpyEMe1gzV0DokMofyshPSa
- GwceP5V147VgMQfr8U+sGdKkY+aTpBTNx89lHFjrE172mP1ushHKqjMVO+Y4cL8vURhvNaPxhK
- Jzc=
+ 23 Jul 2021 14:18:27 -0700
+IronPort-SDR: qhmdgrA1THlc1t/uoxnlsIj0rUGoMMu54qei7gUWzJ87apTwDnCvOIRNBoziAyb682Fgk8jRYW
+ UcnQ0MFzhh8mMx4cCW8MaT8l+6SGuqwmTGzpjclU1SRda/TiKJfNmAERHZ7vruJbQbqj+9akst
+ Zy3PrYdD05YDUud56v6fL93ksTdhe8tU/rO4Z3KZSrDBVeLvwxNigChWwMk+eKF4Kh9+8OoRpp
+ HbIAUxanozLZ7K6AaSrtNE+1ypjkoxDYqn0/HSxVF48FGlduZ0tmkOcdTrI8grrvNtTC8wvyvW
+ Vu0=
 WDCIronportException: Internal
 Received: from ucfbox21.ad.shared (HELO hulk.wdc.com) ([10.225.167.4])
  by uls-op-cesaip01.wdc.com with ESMTP; 23 Jul 2021 14:40:38 -0700
 From: Atish Patra <atish.patra@wdc.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RFC 4/5] dma-direct: Allocate dma pages directly if global pool
- allocation fails
-Date: Fri, 23 Jul 2021 14:40:30 -0700
-Message-Id: <20210723214031.3251801-5-atish.patra@wdc.com>
+Subject: [RFC 5/5] RISC-V: Support a new config option for non-coherent DMA
+Date: Fri, 23 Jul 2021 14:40:31 -0700
+Message-Id: <20210723214031.3251801-6-atish.patra@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210723214031.3251801-1-atish.patra@wdc.com>
 References: <20210723214031.3251801-1-atish.patra@wdc.com>
@@ -102,40 +101,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-DMA_GLOBAL_POOL config may be enabled for platforms where global pool is
-not supported because a generic defconfig is expected to boot on different
-platforms. Specifically, some RISC-V platforms may use global pool for
-non-coherent devices while some other platforms are completely coherent.
-However, it is expected that single kernel image must boot on all the
-platforms.
-
-Continue the dma direct allocation if a allocation from global pool failed.
-This indicates that the platform is relying on some other method (direct
-remap) or just have coherent devices.
+In future, there will be more RISC-V platforms with non-coherent DMA.
+Instead of selecting all the required config options in every soc, create
+a new config that selects all the required configs related non-coherent
+DMA.
 
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
- kernel/dma/direct.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ arch/riscv/Kconfig | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index d1d0258ed6d0..984ea776f099 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -161,8 +161,11 @@ void *dma_direct_alloc(struct device *dev, size_t size,
- 		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 8fcceb8eda07..931b283c8ec9 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -209,6 +209,14 @@ config PGTABLE_LEVELS
+ config LOCKDEP_SUPPORT
+ 	def_bool y
  
- 	if (IS_ENABLED(CONFIG_DMA_GLOBAL_POOL) &&
--	    !dev_is_dma_coherent(dev))
--		return dma_alloc_from_global_coherent(dev, size, dma_handle);
-+	    !dev_is_dma_coherent(dev)) {
-+		ret = dma_alloc_from_global_coherent(dev, size, dma_handle);
-+		if (ret)
-+			return ret;
-+	}
++config RISCV_DMA_NONCOHERENT
++	bool
++	select ARCH_HAS_DMA_PREP_COHERENT
++	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
++	select ARCH_HAS_SYNC_DMA_FOR_CPU
++	select ARCH_HAS_SETUP_DMA_OPS
++	select DMA_GLOBAL_POOL
++
+ source "arch/riscv/Kconfig.socs"
+ source "arch/riscv/Kconfig.erratas"
  
- 	/*
- 	 * Remapping or decrypting memory may block. If either is required and
 -- 
 2.31.1
 
