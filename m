@@ -1,89 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1333D4254
-	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 23:40:47 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B9A3D425E
+	for <lists.iommu@lfdr.de>; Fri, 23 Jul 2021 23:42:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 597134060D;
-	Fri, 23 Jul 2021 21:40:44 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 49CEC60715;
+	Fri, 23 Jul 2021 21:42:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tWFFwBVCg6Yq; Fri, 23 Jul 2021 21:40:43 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bWeuH2q-Pn2S; Fri, 23 Jul 2021 21:42:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6D76340619;
-	Fri, 23 Jul 2021 21:40:43 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2DDBD606FD;
+	Fri, 23 Jul 2021 21:42:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75075C000E;
-	Fri, 23 Jul 2021 21:40:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 04F92C000E;
+	Fri, 23 Jul 2021 21:42:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 94286C000E
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1FF6C000E
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:42:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3B630405DE
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:39 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id C3A4360715
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:42:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=wdc.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Jq0tYOVCxrEW for <iommu@lists.linux-foundation.org>;
- Fri, 23 Jul 2021 21:40:38 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 84F1A405F8
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1627076438; x=1658612438;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=CVn7oX0CjfibpYFFpqHWKgpHrrL7Xnf/XJqEMEbWufY=;
- b=I3YhLYCYXOyjQmfd7NjMgSObNw8JiNTFxnRo8fqzh2qWV45pc5DfbL+Y
- 5YvdAe4WfY4N4PZAjlnX9cZtX8ZrGun5JUlnuVyxvs7e6y7dnc5PrnYAh
- 2f1/l1dvOBUW2gNkpXfE0hLm7fFRodvwlC1zxWRF91KdMD8h5J+x8SHW4
- Zs4mAh5ntglJIhbqVFsYr0jMYwGB5wXbzdljSipEBByVD8dYwnmQ64HTI
- VKkFu7C5T8iak80e/N0eIC3XQ6/lBKnE6aWHSD4J2VQ3E13sEeDNlWsqB
- mAvNf57iybdhlONt1QHcvV4qE9OkW64o4vz8ulVBxod3/dil/f2Y7Fdvz g==;
-X-IronPort-AV: E=Sophos;i="5.84,265,1620662400"; d="scan'208";a="279198470"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2021 05:40:38 +0800
-IronPort-SDR: Hlown/MIZ3X0k31csXzw+BoF5tuk6Sr6nXKVGF61sUcj3B/wTvM1hne8eAgr65D/CnKF9/GuvW
- eZSKPEyMJdc6shl518Xfi6eDsYgIgvk4rtYxuuVLvLMJBmZdo4MDClarg0qCzgQivlg4PVLPAF
- 7O/jWePEoMs1GSjrnzcrXUTgQvqRuIUp9uR51U+SV0FBFg2e2YyhiPS6YzDdaXY9yIERgEzUUa
- WDGdA2pFAndBxBEgVevFrUqgxrj4knU0n/a7H29hwJwPS4HsAOjGMdegknRsmOqqgfVsUyJ4Lg
- 5frQhfw6B1bG2EwX0hgXvjzt
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 14:18:27 -0700
-IronPort-SDR: qhmdgrA1THlc1t/uoxnlsIj0rUGoMMu54qei7gUWzJ87apTwDnCvOIRNBoziAyb682Fgk8jRYW
- UcnQ0MFzhh8mMx4cCW8MaT8l+6SGuqwmTGzpjclU1SRda/TiKJfNmAERHZ7vruJbQbqj+9akst
- Zy3PrYdD05YDUud56v6fL93ksTdhe8tU/rO4Z3KZSrDBVeLvwxNigChWwMk+eKF4Kh9+8OoRpp
- HbIAUxanozLZ7K6AaSrtNE+1ypjkoxDYqn0/HSxVF48FGlduZ0tmkOcdTrI8grrvNtTC8wvyvW
- Vu0=
-WDCIronportException: Internal
-Received: from ucfbox21.ad.shared (HELO hulk.wdc.com) ([10.225.167.4])
- by uls-op-cesaip01.wdc.com with ESMTP; 23 Jul 2021 14:40:38 -0700
-From: Atish Patra <atish.patra@wdc.com>
-To: linux-kernel@vger.kernel.org
-Subject: [RFC 5/5] RISC-V: Support a new config option for non-coherent DMA
-Date: Fri, 23 Jul 2021 14:40:31 -0700
-Message-Id: <20210723214031.3251801-6-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210723214031.3251801-1-atish.patra@wdc.com>
-References: <20210723214031.3251801-1-atish.patra@wdc.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TmyaIEloRYQw for <iommu@lists.linux-foundation.org>;
+ Fri, 23 Jul 2021 21:42:01 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id AAEEB606FD
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 21:42:01 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id l145so4421832ybf.7
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 14:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z4wRlXm54e3C3fuLfTWWm+AhBVsv03apMT1xPphwuac=;
+ b=dB+dx1fxF4JegMhLECUyoU5542K4bedOLBloAj9atRP2r5OkvIja8syfi3HPvdd/g2
+ qEbjfmLxW1YZ9GCendFo8POwz8rNKhQnjLbWNBt7Vo1FMgA16fFeVFumICSZ/kIjrPRg
+ 4m0PJyvKwTmK0lfdRFJDGf4snvmoLoCd+PGQM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z4wRlXm54e3C3fuLfTWWm+AhBVsv03apMT1xPphwuac=;
+ b=CHyZm0G3JsvFKvTUXZOqGsuXXSH8TccACf58ZchbJqy9awnOvWzHGfnPtFcnLOSECl
+ XcE1KPcg/fkn2RtlLsD225dcmAAZoNfprNfHY966uarxVySw5dSAIB/094/V2T7Nl+Ut
+ uM54K+wkciY/XJ1/xbjQc0yTd2/S+k6WaOA22fHCPPajXqfxs+y6zpnY6QBcbE8IgUY2
+ c91/nl3cn5+cyINmgn3zJZhv8FwADTDXf0FZHOMNCKzfpx0AHbcvN/kFAkkgCFN0OGMP
+ kF4FcgyOK6k2NBn+pcOq0uYmJIbxPViu1oyYozXzO3BmcabHK0LypIJZfRY4ekgdZQzo
+ SuSQ==
+X-Gm-Message-State: AOAM533K/XBswEFWWGXofGR9P9crZdGBvwsoCKtvAQojKswYHYJkg7rz
+ SRaf0DGHdj74sQY3jk4zi0QOngVoU0D7FL8qS/bu
+X-Google-Smtp-Source: ABdhPJyxNk4dBKh+nVb0yY5onNvD2+GMd5ddJFERs4q+Noxze2O0nDCTkCDvf/IfUkf03HDgO2GXZQt2BunJYA4hhxs=
+X-Received: by 2002:a25:d015:: with SMTP id h21mr8642248ybg.202.1627076520639; 
+ Fri, 23 Jul 2021 14:42:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
- Tobias Klauser <tklauser@distanz.ch>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh+dt@kernel.org>, Atish Patra <atish.patra@wdc.com>,
- iommu@lists.linux-foundation.org, Guo Ren <guoren@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- linux-riscv@lists.infradead.org, Frank Rowand <frowand.list@gmail.com>,
- Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>
+References: <20210712061704.4162464-1-hch@lst.de>
+ <20210712061704.4162464-7-hch@lst.de>
+In-Reply-To: <20210712061704.4162464-7-hch@lst.de>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Fri, 23 Jul 2021 14:41:50 -0700
+Message-ID: <CAOnJCUJyBCwCzCAjpO2Kn4+eNx+FAGbbxotW4UqEnFVJN69GXQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] dma-mapping: make the global coherent pool conditional
+To: Christoph Hellwig <hch@lst.de>
+Cc: Vladimir Murzin <vladimir.murzin@arm.com>,
+ Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>,
+ "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Dillon Min <dillon.minfei@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,38 +92,182 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In future, there will be more RISC-V platforms with non-coherent DMA.
-Instead of selecting all the required config options in every soc, create
-a new config that selects all the required configs related non-coherent
-DMA.
+On Sun, Jul 11, 2021 at 11:25 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Only build the code to support the global coherent pool if support for
+> it is enabled.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Tested-by: Dillon Min <dillon.minfei@gmail.com>
+> ---
+>  include/linux/dma-map-ops.h | 18 +++++++-------
+>  kernel/dma/coherent.c       | 47 ++++++++++++++++++++-----------------
+>  2 files changed, 35 insertions(+), 30 deletions(-)
+>
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index 7e49bb86a0c0..9b79aa4dd300 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -170,13 +170,6 @@ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+>  int dma_release_from_dev_coherent(struct device *dev, int order, void *vaddr);
+>  int dma_mmap_from_dev_coherent(struct device *dev, struct vm_area_struct *vma,
+>                 void *cpu_addr, size_t size, int *ret);
+> -
+> -void *dma_alloc_from_global_coherent(struct device *dev, ssize_t size,
+> -               dma_addr_t *dma_handle);
+> -int dma_release_from_global_coherent(int order, void *vaddr);
+> -int dma_mmap_from_global_coherent(struct vm_area_struct *vma, void *cpu_addr,
+> -               size_t size, int *ret);
+> -int dma_init_global_coherent(phys_addr_t phys_addr, size_t size);
+>  #else
+>  static inline int dma_declare_coherent_memory(struct device *dev,
+>                 phys_addr_t phys_addr, dma_addr_t device_addr, size_t size)
+> @@ -186,7 +179,16 @@ static inline int dma_declare_coherent_memory(struct device *dev,
+>  #define dma_alloc_from_dev_coherent(dev, size, handle, ret) (0)
+>  #define dma_release_from_dev_coherent(dev, order, vaddr) (0)
+>  #define dma_mmap_from_dev_coherent(dev, vma, vaddr, order, ret) (0)
+> +#endif /* CONFIG_DMA_DECLARE_COHERENT */
+>
+> +#ifdef CONFIG_DMA_GLOBAL_POOL
+> +void *dma_alloc_from_global_coherent(struct device *dev, ssize_t size,
+> +               dma_addr_t *dma_handle);
+> +int dma_release_from_global_coherent(int order, void *vaddr);
+> +int dma_mmap_from_global_coherent(struct vm_area_struct *vma, void *cpu_addr,
+> +               size_t size, int *ret);
+> +int dma_init_global_coherent(phys_addr_t phys_addr, size_t size);
+> +#else
+>  static inline void *dma_alloc_from_global_coherent(struct device *dev,
+>                 ssize_t size, dma_addr_t *dma_handle)
+>  {
+> @@ -201,7 +203,7 @@ static inline int dma_mmap_from_global_coherent(struct vm_area_struct *vma,
+>  {
+>         return 0;
+>  }
+> -#endif /* CONFIG_DMA_DECLARE_COHERENT */
+> +#endif /* CONFIG_DMA_GLOBAL_POOL */
+>
+>  /*
+>   * This is the actual return value from the ->alloc_noncontiguous method.
+> diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+> index 160d4e246ecb..c05408902a68 100644
+> --- a/kernel/dma/coherent.c
+> +++ b/kernel/dma/coherent.c
+> @@ -20,8 +20,6 @@ struct dma_coherent_mem {
+>         bool            use_dev_dma_pfn_offset;
+>  };
+>
+> -static struct dma_coherent_mem *dma_coherent_default_memory __ro_after_init;
+> -
+>  static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *dev)
+>  {
+>         if (dev && dev->dma_mem)
+> @@ -191,16 +189,6 @@ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+>         return 1;
+>  }
+>
+> -void *dma_alloc_from_global_coherent(struct device *dev, ssize_t size,
+> -                                    dma_addr_t *dma_handle)
+> -{
+> -       if (!dma_coherent_default_memory)
+> -               return NULL;
+> -
+> -       return __dma_alloc_from_coherent(dev, dma_coherent_default_memory, size,
+> -                                        dma_handle);
+> -}
+> -
+>  static int __dma_release_from_coherent(struct dma_coherent_mem *mem,
+>                                        int order, void *vaddr)
+>  {
+> @@ -236,15 +224,6 @@ int dma_release_from_dev_coherent(struct device *dev, int order, void *vaddr)
+>         return __dma_release_from_coherent(mem, order, vaddr);
+>  }
+>
+> -int dma_release_from_global_coherent(int order, void *vaddr)
+> -{
+> -       if (!dma_coherent_default_memory)
+> -               return 0;
+> -
+> -       return __dma_release_from_coherent(dma_coherent_default_memory, order,
+> -                       vaddr);
+> -}
+> -
+>  static int __dma_mmap_from_coherent(struct dma_coherent_mem *mem,
+>                 struct vm_area_struct *vma, void *vaddr, size_t size, int *ret)
+>  {
+> @@ -290,6 +269,28 @@ int dma_mmap_from_dev_coherent(struct device *dev, struct vm_area_struct *vma,
+>         return __dma_mmap_from_coherent(mem, vma, vaddr, size, ret);
+>  }
+>
+> +#ifdef CONFIG_DMA_GLOBAL_POOL
+> +static struct dma_coherent_mem *dma_coherent_default_memory __ro_after_init;
+> +
+> +void *dma_alloc_from_global_coherent(struct device *dev, ssize_t size,
+> +                                    dma_addr_t *dma_handle)
+> +{
+> +       if (!dma_coherent_default_memory)
+> +               return NULL;
+> +
+> +       return __dma_alloc_from_coherent(dev, dma_coherent_default_memory, size,
+> +                                        dma_handle);
+> +}
+> +
+> +int dma_release_from_global_coherent(int order, void *vaddr)
+> +{
+> +       if (!dma_coherent_default_memory)
+> +               return 0;
+> +
+> +       return __dma_release_from_coherent(dma_coherent_default_memory, order,
+> +                       vaddr);
+> +}
+> +
+>  int dma_mmap_from_global_coherent(struct vm_area_struct *vma, void *vaddr,
+>                                    size_t size, int *ret)
+>  {
+> @@ -311,6 +312,7 @@ int dma_init_global_coherent(phys_addr_t phys_addr, size_t size)
+>         pr_info("DMA: default coherent area is set\n");
+>         return 0;
+>  }
+> +#endif /* CONFIG_DMA_GLOBAL_POOL */
+>
+>  /*
+>   * Support for reserved memory regions defined in device tree
+> @@ -377,6 +379,7 @@ static int __init rmem_dma_setup(struct reserved_mem *rmem)
+>         return 0;
+>  }
+>
+> +#ifdef CONFIG_DMA_GLOBAL_POOL
+>  static int __init dma_init_reserved_memory(void)
+>  {
+>         if (!dma_reserved_default_memory)
+> @@ -384,8 +387,8 @@ static int __init dma_init_reserved_memory(void)
+>         return dma_init_global_coherent(dma_reserved_default_memory->base,
+>                                         dma_reserved_default_memory->size);
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
----
- arch/riscv/Kconfig | 8 ++++++++
- 1 file changed, 8 insertions(+)
+dma_reserved_default_memory also needs to be moved inside
+CONFIG_DMA_GLOBAL_POOL because
+all the usages are already part of that config.
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 8fcceb8eda07..931b283c8ec9 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -209,6 +209,14 @@ config PGTABLE_LEVELS
- config LOCKDEP_SUPPORT
- 	def_bool y
- 
-+config RISCV_DMA_NONCOHERENT
-+	bool
-+	select ARCH_HAS_DMA_PREP_COHERENT
-+	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
-+	select ARCH_HAS_SYNC_DMA_FOR_CPU
-+	select ARCH_HAS_SETUP_DMA_OPS
-+	select DMA_GLOBAL_POOL
-+
- source "arch/riscv/Kconfig.socs"
- source "arch/riscv/Kconfig.erratas"
- 
--- 
-2.31.1
 
+>  }
+> -
+>  core_initcall(dma_init_reserved_memory);
+> +#endif /* CONFIG_DMA_GLOBAL_POOL */
+>
+>  RESERVEDMEM_OF_DECLARE(dma, "shared-dma-pool", rmem_dma_setup);
+>  #endif
+> --
+> 2.30.2
+>
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+
+
+
+--
+Regards,
+Atish
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
