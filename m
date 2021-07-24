@@ -1,89 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A41D3D43F5
-	for <lists.iommu@lfdr.de>; Sat, 24 Jul 2021 02:29:25 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F153D4519
+	for <lists.iommu@lfdr.de>; Sat, 24 Jul 2021 07:23:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1CAF54020C;
-	Sat, 24 Jul 2021 00:29:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CB03C405D5;
+	Sat, 24 Jul 2021 05:23:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 96VQAFLvmfRZ; Sat, 24 Jul 2021 00:29:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1EC774015F;
-	Sat, 24 Jul 2021 00:29:23 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Tsij94m2YI1J; Sat, 24 Jul 2021 05:23:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id BA60E405C9;
+	Sat, 24 Jul 2021 05:23:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E9824C001F;
-	Sat, 24 Jul 2021 00:29:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D9F8C001F;
+	Sat, 24 Jul 2021 05:23:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 569BAC000E
- for <iommu@lists.linux-foundation.org>; Sat, 24 Jul 2021 00:29:21 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EC03FC000E
+ for <iommu@lists.linux-foundation.org>; Sat, 24 Jul 2021 05:23:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5185B4147E
- for <iommu@lists.linux-foundation.org>; Sat, 24 Jul 2021 00:29:21 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id E6E43405C9
+ for <iommu@lists.linux-foundation.org>; Sat, 24 Jul 2021 05:23:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hwqGI6-YUPz9 for <iommu@lists.linux-foundation.org>;
- Sat, 24 Jul 2021 00:29:20 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7839A406B9
- for <iommu@lists.linux-foundation.org>; Sat, 24 Jul 2021 00:29:20 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id o13so3076428qkk.9
- for <iommu@lists.linux-foundation.org>; Fri, 23 Jul 2021 17:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qf6d8SRXv1lvTGNIT1Gr1+kbBtlMdmpvy2P7MIdCQCU=;
- b=NotMNJPtiWda/Z83VeqYVn1Tvo3zIyWM28lAJ03A1MtE75FbinSxcoodvtEZK3DPNo
- thZDa0pspMfmbugGk8QbOAzLK5xYC098P7RQXfaT8595umyyC7tlO501YAl9n0AnHW/y
- t2LUf5tWOx3Uq6uxM6qSKVAUu2gPKkFBNtqDDBZfOJiGTbai3n1UZy8rNkGMaX7b9Bwj
- STvudW9XdjlS3CzdLSXed+f0BwOCz1UB64k9V5R/uYF5wH4js11neBvELOCJDMjJuV3w
- IozLJRmet/NK+9joSIgOIvKw83lvXXsmWlJkCUbWDGOFHY4kK1oMqk7+ussjt6rKCVo+
- sZqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=qf6d8SRXv1lvTGNIT1Gr1+kbBtlMdmpvy2P7MIdCQCU=;
- b=tcsmjGdvsE1IRsTvkUndHbJnz2OW/wpZoPQoBxxz/vOyj3VbXWxb7NUBhopP0l2Ixo
- Frjzm/xWWCZtcaWs2fUvtzyyZOJ2fP0iTBv+2w4/+eV4D8rm8u2lj0HOM7P1MVu2Ew1h
- t4JGS57BTSoe5C72glPTqK05ZFEC8cBky1xa6VHP6sevZIolQNMgeM3Tc7bXiM7/Woan
- r4VFPNMIuOer8WAfKb2neoiar+WSWyP1x7Sn8IyG4Ozq+qsluFXbLfdTnPPqgyd9l05K
- 2zXnLj7fve3YsBvLF5GpatqGMYU/JeeuAnFhixPNEvfQYV5mGUoPe5azuvWRJ5bOIb0g
- v5BQ==
-X-Gm-Message-State: AOAM5304WRrRrqi3++cqTFoCabmaZ/xPgU1UUyE2w67t0kYBevbsary+
- +kw9LsAxoR5tzDt6LIQUIDQ=
-X-Google-Smtp-Source: ABdhPJyMLqR3nayBDmkd63sKrmioXTMGScqttjDSlSqS/KFNaC/c42XefEHO1dentzlT5yAG7r/yVA==
-X-Received: by 2002:a05:620a:2fb:: with SMTP id
- a27mr7121715qko.279.1627086559400; 
- Fri, 23 Jul 2021 17:29:19 -0700 (PDT)
-Received: from fedora ([130.44.160.152])
- by smtp.gmail.com with ESMTPSA id x23sm1041976qkf.36.2021.07.23.17.29.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 17:29:19 -0700 (PDT)
-Date: Fri, 23 Jul 2021 20:29:16 -0400
-From: Konrad Rzeszutek Wilk <konrad@darnok.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 0/4] Fix restricted DMA vs swiotlb_exit()
-Message-ID: <YPte3K+4PPjGAQt/@fedora>
-References: <20210720133826.9075-1-will@kernel.org>
+ with ESMTP id 27cXnfNoZrUS for <iommu@lists.linux-foundation.org>;
+ Sat, 24 Jul 2021 05:23:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B530E405C8
+ for <iommu@lists.linux-foundation.org>; Sat, 24 Jul 2021 05:23:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="297564638"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="297564638"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 22:23:37 -0700
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="502965794"
+Received: from yuhaipen-mobl.ccr.corp.intel.com (HELO [10.254.209.247])
+ ([10.254.209.247])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 22:23:35 -0700
+To: Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org, will@kernel.org
+References: <cover.1626888444.git.robin.murphy@arm.com>
+ <11efdfa4ee223d12769d17459fcf789c626d7b82.1626888445.git.robin.murphy@arm.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 17/23] iommu/vt-d: Prepare for multiple DMA domain types
+Message-ID: <7599b48f-169d-283f-782b-e54c667346e8@linux.intel.com>
+Date: Sat, 24 Jul 2021 13:23:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210720133826.9075-1-will@kernel.org>
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- iommu@lists.linux-foundation.org, Claire Chang <tientzu@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <11efdfa4ee223d12769d17459fcf789c626d7b82.1626888445.git.robin.murphy@arm.com>
+Content-Language: en-US
+Cc: linux-kernel@vger.kernel.org, dianders@chromium.org,
+ iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,29 +70,89 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jul 20, 2021 at 02:38:22PM +0100, Will Deacon wrote:
-> Hi again, folks,
-> 
-> This is version two of the patch series I posted yesterday:
-> 
->   https://lore.kernel.org/r/20210719123054.6844-1-will@kernel.org
-> 
-> The only changes since v1 are:
-> 
->   * Squash patches 2 and 3, amending the commit message accordingly
->   * Add Reviewed-by and Tested-by tags from Christoph and Claire (thanks!)
-> 
-> I'd usually leave it a bit longer between postings, but since this fixes
-> issues with patches in -next I thought I'd spin a new version immediately.
+Hi Robin,
 
-Thank you!
+On 2021/7/22 2:20, Robin Murphy wrote:
+> In preparation for the strict vs. non-strict decision for DMA domains to
+> be expressed in the domain type, make sure we expose our flush queue
+> awareness by accepting the new domain type, and test the specific
+> feature flag where we want to identify DMA domains in general. The DMA
+> ops setup can simply be made unconditional, since iommu-dma already
+> knows not to touch identity domains.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>   drivers/iommu/intel/iommu.c | 15 ++++++---------
+>   1 file changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index e2add5a0caef..77d322272743 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -601,7 +601,7 @@ struct intel_iommu *domain_get_iommu(struct dmar_domain *domain)
+>   	int iommu_id;
+>   
+>   	/* si_domain and vm domain should not get here. */
+> -	if (WARN_ON(domain->domain.type != IOMMU_DOMAIN_DMA))
+> +	if (WARN_ON(!(domain->domain.type & __IOMMU_DOMAIN_DMA)))
+>   		return NULL;
+>   
+>   	for_each_domain_iommu(iommu_id, domain)
+> @@ -1035,7 +1035,7 @@ static struct dma_pte *pfn_to_dma_pte(struct dmar_domain *domain,
+>   			pteval = ((uint64_t)virt_to_dma_pfn(tmp_page) << VTD_PAGE_SHIFT) | DMA_PTE_READ | DMA_PTE_WRITE;
+>   			if (domain_use_first_level(domain)) {
+>   				pteval |= DMA_FL_PTE_XD | DMA_FL_PTE_US;
+> -				if (domain->domain.type == IOMMU_DOMAIN_DMA)
+> +				if (domain->domain.type & __IOMMU_DOMAIN_DMA_API)
+>   					pteval |= DMA_FL_PTE_ACCESS;
+>   			}
+>   			if (cmpxchg64(&pte->val, 0ULL, pteval))
+> @@ -2346,7 +2346,7 @@ __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
+>   	if (domain_use_first_level(domain)) {
+>   		attr |= DMA_FL_PTE_XD | DMA_FL_PTE_US;
+>   
+> -		if (domain->domain.type == IOMMU_DOMAIN_DMA) {
+> +		if (domain->domain.type & __IOMMU_DOMAIN_DMA_API) {
+>   			attr |= DMA_FL_PTE_ACCESS;
+>   			if (prot & DMA_PTE_WRITE)
+>   				attr |= DMA_FL_PTE_DIRTY;
+> @@ -4528,6 +4528,7 @@ static struct iommu_domain *intel_iommu_domain_alloc(unsigned type)
+>   
+>   	switch (type) {
+>   	case IOMMU_DOMAIN_DMA:
+> +	case IOMMU_DOMAIN_DMA_FQ:
+>   	case IOMMU_DOMAIN_UNMANAGED:
+>   		dmar_domain = alloc_domain(0);
+>   		if (!dmar_domain) {
+> @@ -5164,12 +5165,8 @@ static void intel_iommu_release_device(struct device *dev)
+>   
+>   static void intel_iommu_probe_finalize(struct device *dev)
+>   {
+> -	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
+> -
+> -	if (domain && domain->type == IOMMU_DOMAIN_DMA)
+> -		iommu_setup_dma_ops(dev, 0, U64_MAX);
+> -	else
+> -		set_dma_ops(dev, NULL);
+> +	set_dma_ops(dev, NULL);
 
-I put them in devel/for-linus-5.15 and linux-next.
+Is it reasonable to remove above line? The idea is that vendor iommu
+driver should not override the dma_ops if device doesn't have a DMA
+domain.
+
+> +	iommu_setup_dma_ops(dev, 0, U64_MAX);
+>   }
+>   
+>   static void intel_iommu_get_resv_regions(struct device *device,
+> 
+
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
