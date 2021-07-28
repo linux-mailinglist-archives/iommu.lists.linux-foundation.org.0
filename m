@@ -1,67 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941763D896C
-	for <lists.iommu@lfdr.de>; Wed, 28 Jul 2021 10:07:24 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 936973D8C11
+	for <lists.iommu@lfdr.de>; Wed, 28 Jul 2021 12:40:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CADAD6086A;
-	Wed, 28 Jul 2021 08:07:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 04111400E1;
+	Wed, 28 Jul 2021 10:40:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4WIab3FQDVLM; Wed, 28 Jul 2021 08:07:21 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eLi2dSMmMHdi; Wed, 28 Jul 2021 10:40:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C935560865;
-	Wed, 28 Jul 2021 08:07:20 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D660B40207;
+	Wed, 28 Jul 2021 10:40:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B876C000E;
-	Wed, 28 Jul 2021 08:07:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 85025C0022;
+	Wed, 28 Jul 2021 10:40:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 03E44C000E
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 08:07:19 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 58E8EC000E
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 10:40:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E7882405F7
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 08:07:18 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4772B606D3
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 10:40:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UZnJVmjS-Qv9 for <iommu@lists.linux-foundation.org>;
- Wed, 28 Jul 2021 08:07:15 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4C599405ED
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 08:07:15 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GZR3673wVz7yfB;
- Wed, 28 Jul 2021 16:02:26 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 16:07:10 +0800
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 16:07:09 +0800
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-To: <arnd@arndb.de>, <linux-arch@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
- <rostedt@goodmis.org>, <mingo@redhat.com>, <davem@davemloft.net>,
- <ast@kernel.org>, <ryabinin.a.a@gmail.com>
-Subject: [PATCH v2 0/7] sections: Unify kernel sections range check and use
-Date: Wed, 28 Jul 2021 16:13:13 +0800
-Message-ID: <20210728081320.20394-1-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.26.2
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mailerdienst.de
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jyLQVZOXBKgo for <iommu@lists.linux-foundation.org>;
+ Wed, 28 Jul 2021 10:40:35 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mxwww.masterlogin.de (mxwww.masterlogin.de
+ [IPv6:2a03:2900:1:1::a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F0447605CB
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 10:40:34 +0000 (UTC)
+Received: from mxout1.routing.net (unknown [192.168.10.81])
+ by backup.mxwww.masterlogin.de (Postfix) with ESMTPS id 08C6D2C5C4
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 10:35:19 +0000 (UTC)
+Received: from mxbox2.masterlogin.de (unknown [192.168.10.89])
+ by mxout1.routing.net (Postfix) with ESMTP id 506D13FC25;
+ Wed, 28 Jul 2021 10:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
+ s=20200217; t=1627468513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NxU06HLhrl9+rLyaZWdBMl0a7U1akRA+tjgjOr6pMYU=;
+ b=LIT9It63QvpF3ZFNFDrvNEFGugyOiUgFtR6AvRUGkvR3zsWvUmhuvWsn0kr6EaaKe5iD8m
+ zRmGZD17fkL/vKmYQKW+5LPpi5yY4bc0ni3NuK0HPfYULxPZlVzmvwOmG44gwyBhFswbW9
+ n5FKE5/VryVSVQSKxjhUpFhfk5T7Eu8=
+Received: from frank-s9 (fttx-pool-217.61.145.245.bambit.de [217.61.145.245])
+ by mxbox2.masterlogin.de (Postfix) with ESMTPSA id 98E7C1007DD;
+ Wed, 28 Jul 2021 10:35:12 +0000 (UTC)
+Date: Wed, 28 Jul 2021 12:35:07 +0200
+User-Agent: K-9 Mail for Android
+In-Reply-To: <YO/hpPpu6Z526+Ia@8bytes.org>
+References: <20210715071150.82157-1-linux@fw-web.de>
+ <YO/hpPpu6Z526+Ia@8bytes.org>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-Cc: linux-s390@vger.kernel.org, Kefeng Wang <wangkefeng.wang@huawei.com>,
- mpe@ellerman.id.au, iommu@lists.linux-foundation.org, paulus@samba.org,
- benh@kernel.crashing.org, bpf@vger.kernel.org
+Subject: Re: [PATCH] iommu: check if group is NULL before remove device
+To: Joerg Roedel <joro@8bytes.org>
+From: Frank Wunderlich <linux@fw-web.de>
+Message-ID: <F2ABC95E-D39F-4713-8959-91366DE4ECB8@fw-web.de>
+X-Mail-ID: c5da2f25-14af-4163-bd01-1aee1eb1c340
+Cc: iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
+ linux-kernel@vger.kernel.org, Frank Wunderlich <frank-w@public-files.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,68 +86,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There are three head files(kallsyms.h, kernel.h and sections.h) which
-include the kernel sections range check, let's make some cleanup and
-unify them.
+Hi Joerg,
 
-1. cleanup arch specific text/data check and fix address boundary check
-   in kallsyms.h
-2. make all the basic/core kernel range check function into sections.h
-3. update all the callers, and use the helper in sections.h to simplify
-   the code
+Sorry for late reply, somehow i marked message as read without answering it.
 
-After this series, we have 5 APIs about kernel sections range check in
-sections.h
+Am 15. Juli 2021 09:20:04 MESZ schrieb Joerg Roedel <joro@8bytes.org>:
+>On Thu, Jul 15, 2021 at 09:11:50AM +0200, Frank Wunderlich wrote:
+>> From: Frank Wunderlich <frank-w@public-files.de>
+>> 
+>> if probe is failing, iommu_group may be not initialized,
+>
+>Sentences start with capital letters.
+>
+>IOMMU patch subjects too, after the 'iommu:' prefix.
 
- * is_kernel_core_data()	--- come from core_kernel_data() in kernel.h
- * is_kernel_rodata()		--- already in sections.h
- * is_kernel_text()		--- come from kallsyms.h
- * is_kernel_inittext()		--- come from kernel.h and kallsyms.h
- * is_kernel()			--- come from kallsyms.h
+Will fix these in v2
 
+>> so freeing it will result in NULL pointer access
+>
+>Please describe in more detail how this NULL-ptr dereference is
+>triggered.
 
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-arch@vger.kernel.org 
-Cc: iommu@lists.linux-foundation.org
-Cc: bpf@vger.kernel.org 
+I had this by testing this series: 
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=515129
 
-v2:
-- add ACK/RW to patch2, and drop inappropriate fix tag
-- keep 'core' to check kernel data, suggestted by Steven Rostedt
-  <rostedt@goodmis.org>, rename is_kernel_data() to is_kernel_core_data()
-- drop patch8 which is merged
-- drop patch9 which is resend independently
+Initialization in mtk driver was failed (i guess the iommu group was not yet created), cleanup was started and so this function is called with a NULL group pointer. I can try to find my debug-trace if you need a kind of backtrace.
 
-v1:
-https://lore.kernel.org/linux-arch/20210626073439.150586-1-wangkefeng.wang@huawei.com
-
-Kefeng Wang (7):
-  kallsyms: Remove arch specific text and data check
-  kallsyms: Fix address-checks for kernel related range
-  sections: Move and rename core_kernel_data() to is_kernel_core_data()
-  sections: Move is_kernel_inittext() into sections.h
-  kallsyms: Rename is_kernel() and is_kernel_text()
-  sections: Add new is_kernel() and is_kernel_text()
-  powerpc/mm: Use is_kernel_text() and is_kernel_inittext() helper
-
- arch/powerpc/mm/pgtable_32.c   |  7 +---
- arch/x86/kernel/unwind_orc.c   |  2 +-
- arch/x86/net/bpf_jit_comp.c    |  2 +-
- include/asm-generic/sections.h | 71 ++++++++++++++++++++++++++--------
- include/linux/kallsyms.h       | 21 +++-------
- include/linux/kernel.h         |  2 -
- kernel/cfi.c                   |  2 +-
- kernel/extable.c               | 33 ++--------------
- kernel/locking/lockdep.c       |  3 --
- kernel/trace/ftrace.c          |  2 +-
- mm/kasan/report.c              |  2 +-
- net/sysctl_net.c               |  2 +-
- 12 files changed, 72 insertions(+), 77 deletions(-)
-
--- 
-2.26.2
-
+regards Frank
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
