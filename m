@@ -1,87 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE773D91A4
-	for <lists.iommu@lfdr.de>; Wed, 28 Jul 2021 17:17:40 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 332B23DA093
+	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 11:51:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D7A0C831C1;
-	Wed, 28 Jul 2021 15:17:38 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B2F5B40546;
+	Thu, 29 Jul 2021 09:51:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3o_iSI8O8Tq0; Wed, 28 Jul 2021 15:17:38 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id B8HnHdj_E_7y; Thu, 29 Jul 2021 09:51:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1B04683AAB;
-	Wed, 28 Jul 2021 15:17:38 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C77F840543;
+	Thu, 29 Jul 2021 09:51:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EAE7DC0022;
-	Wed, 28 Jul 2021 15:17:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 83666C000E;
+	Thu, 29 Jul 2021 09:51:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D3627C000E
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:17:35 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF996C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:20:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C2E7B405E6
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:17:35 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with UTF8SMTP id AF8E7827BB
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:20:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cfufEK6CPWpc for <iommu@lists.linux-foundation.org>;
- Wed, 28 Jul 2021 15:17:34 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C400E405AB
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627485453;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G74hAD1INJz4al2p5kUqrIQ36rIkhCEJh1SOa5TxS9s=;
- b=PLkuyu1PNnPK5vwatnMIK+ysKtTfN1UCJ6wxI+VVCWADFP/CRIs9QfpmJPOWwdEZPooYGr
- /+XCIPOgWyyKw5KF1PKSmgE9gYcIiaa2smUQI74RLgtAfmpxPzPMbHVNI8tsnflnsQZDbd
- VdEOCuKIDOtG+eMyQ4JWSSthIG8O80M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-UDtteHy1NGmvPeuayJGZwg-1; Wed, 28 Jul 2021 11:17:29 -0400
-X-MC-Unique: UDtteHy1NGmvPeuayJGZwg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B449801AC0;
- Wed, 28 Jul 2021 15:17:28 +0000 (UTC)
-Received: from T590 (ovpn-12-35.pek2.redhat.com [10.72.12.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27C7A1971B;
- Wed, 28 Jul 2021 15:17:19 +0000 (UTC)
-Date: Wed, 28 Jul 2021 23:17:20 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.garry@huawei.com>
-Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
- from remote numa node
-Message-ID: <YQF1AKS6Y14dLU/A@T590>
-References: <YPklDMng1hL3bQ+v@T590>
- <9c929985-4fcb-e65d-0265-34c820b770ea@huawei.com>
- <YPlGOOMSdm6Bcyy/@T590>
- <fc552129-e89d-74ad-9e57-30e3ffe4cf5d@huawei.com>
- <YPmUoBk9u+tU2rbS@T590>
- <0adbe03b-ce26-e4d3-3425-d967bc436ef5@arm.com>
- <YPqYDY9/VAhfHNfU@T590>
- <6ceab844-465f-3bf3-1809-5df1f1dbbc5c@huawei.com>
- <CAFj5m9J+9vO=CK3uPP+va5EoWffZj9ruSRe2fDDLXn+AE971CQ@mail.gmail.com>
- <ead87bf2-ddfa-eb67-db44-9619c6cdb714@huawei.com>
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mg.codeaurora.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with UTF8SMTP id yrVAk49HtEYA for <iommu@lists.linux-foundation.org>;
+ Wed, 28 Jul 2021 15:20:55 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by smtp1.osuosl.org (Postfix) with UTF8SMTPS id CDB5082695
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:20:49 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627485654; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
+ To: From: Reply-To: Sender;
+ bh=NMBA6eMZ2++sBypZUxc6pdznV/MW5syE3FBstf0UH5I=;
+ b=BFqPU2m2R0GQVlIJZVI6K/7QZNxnNuJSIP8x1G7QoFadzO8IG3HeieOaPr4HZUP5QWSLUOAM
+ c8MF6WfPimB92MWX3OgXsnsRoRwnV66oB2LtYDPChx4wZV+W2fkcLQMR6H2Q5Aoa4loZrWqh
+ VLO9L/sstCmL2+t9yk5EFdDeyr4=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 610175c61dd16c8788c57f93 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 15:20:38
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D2570C4323A; Wed, 28 Jul 2021 15:20:37 +0000 (UTC)
+Received: from BCAIN (i-global254.qualcomm.com [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bcain)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1CDC3C433D3;
+ Wed, 28 Jul 2021 15:20:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1CDC3C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=bcain@codeaurora.org
+From: "Brian Cain" <bcain@codeaurora.org>
+To: "'Christoph Hellwig'" <hch@lst.de>, <iommu@lists.linux-foundation.org>,
+ "'Russell King'" <linux@armlinux.org.uk>
+References: <20210712061704.4162464-1-hch@lst.de>
+In-Reply-To: <20210712061704.4162464-1-hch@lst.de>
+Subject: RE: add support for the global coherent pool to the dma core
+Date: Wed, 28 Jul 2021 10:20:34 -0500
+Message-ID: <03d501d783c4$1d3f10e0$57bd32a0$@codeaurora.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ead87bf2-ddfa-eb67-db44-9619c6cdb714@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Cc: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, iommu@lists.linux-foundation.org,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQGLBLs9KUWyWP2l5ibPYuIecai1XKvxfn8g
+X-Mailman-Approved-At: Thu, 29 Jul 2021 09:51:07 +0000
+Cc: 'Vladimir Murzin' <vladimir.murzin@arm.com>, "'Manning,
+ Sid'" <sidneym@quicinc.com>, linux-hexagon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 'Dillon Min' <dillon.minfei@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,40 +94,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Reply-To: bcain@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jul 28, 2021 at 11:38:18AM +0100, John Garry wrote:
-> On 28/07/2021 02:32, Ming Lei wrote:
-> > On Mon, Jul 26, 2021 at 3:51 PM John Garry<john.garry@huawei.com>  wrote:
-> > > On 23/07/2021 11:21, Ming Lei wrote:
-> > > > > Thanks, I was also going to suggest the latter, since it's what
-> > > > > arm_smmu_cmdq_issue_cmdlist() does with IRQs masked that should be most
-> > > > > indicative of where the slowness most likely stems from.
-> > > > The improvement from 'iommu.strict=0' is very small:
-> > > > 
-> > > Have you tried turning off the IOMMU to ensure that this is really just
-> > > an IOMMU problem?
-> > > 
-> > > You can try setting CONFIG_ARM_SMMU_V3=n in the defconfig or passing
-> > > cmdline param iommu.passthrough=1 to bypass the the SMMU (equivalent to
-> > > disabling for kernel drivers).
-> > Bypassing SMMU via iommu.passthrough=1 basically doesn't make a difference
-> > on this issue.
-> 
-> A ~90% throughput drop still seems to me to be too high to be a software
-> issue. More so since I don't see similar on my system. And that throughput
-> drop does not lead to a total CPU usage drop, from the fio log.
-> 
-> Do you know if anyone has run memory benchmark tests on this board to find
-> out NUMA effect? I think lmbench or stream could be used for this.
 
-https://lore.kernel.org/lkml/YOhbc5C47IzC893B@T590/
 
--- 
-Ming
+> -----Original Message-----
+> From: Christoph Hellwig <hch@lst.de>
+> Sent: Monday, July 12, 2021 1:17 AM
+> To: iommu@lists.linux-foundation.org; Russell King
+<linux@armlinux.org.uk>;
+> Brian Cain <bcain@codeaurora.org>
+> Cc: Dillon Min <dillon.minfei@gmail.com>; Vladimir Murzin
+> <vladimir.murzin@arm.com>; linux-arm-kernel@lists.infradead.org; linux-
+> hexagon@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: add support for the global coherent pool to the dma core
+> 
+> Hi all,
+> 
+> this series adds support for using the global coherent (aka uncached)
+> pool to the generic dma-direct code and then switches arm-nommu and
+> hexagon over to it, together with a bunch of cleanups.
+
+Christoph,
+
+Thanks for sending this -- I will take a look and give some feedback soon.
+
+> Diffstat:
+>  arch/arm/Kconfig                |    5 -
+>  arch/arm/mm/dma-mapping-nommu.c |  173
++--------------------------------------
+> -
+>  arch/hexagon/Kconfig            |    1
+>  arch/hexagon/kernel/dma.c       |   57 ++-----------
+>  include/linux/dma-map-ops.h     |   18 ++--
+>  kernel/dma/Kconfig              |    4
+>  kernel/dma/coherent.c           |  159
++++++++++++++++++-------------------
+>  kernel/dma/direct.c             |   15 +++
+>  8 files changed, 124 insertions(+), 308 deletions(-)
 
 _______________________________________________
 iommu mailing list
