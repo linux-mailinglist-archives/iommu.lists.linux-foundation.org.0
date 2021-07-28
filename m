@@ -1,102 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9F83D9104
-	for <lists.iommu@lfdr.de>; Wed, 28 Jul 2021 16:53:44 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE773D91A4
+	for <lists.iommu@lfdr.de>; Wed, 28 Jul 2021 17:17:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 48CC360894;
-	Wed, 28 Jul 2021 14:53:43 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D7A0C831C1;
+	Wed, 28 Jul 2021 15:17:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vCLhiAy_EebM; Wed, 28 Jul 2021 14:53:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 4649360893;
-	Wed, 28 Jul 2021 14:53:42 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3o_iSI8O8Tq0; Wed, 28 Jul 2021 15:17:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1B04683AAB;
+	Wed, 28 Jul 2021 15:17:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21D0FC0010;
-	Wed, 28 Jul 2021 14:53:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EAE7DC0022;
+	Wed, 28 Jul 2021 15:17:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99052C000E
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 14:53:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D3627C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:17:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7ADCF60894
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 14:53:40 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id C2E7B405E6
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:17:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pKos2TjGIwO0 for <iommu@lists.linux-foundation.org>;
- Wed, 28 Jul 2021 14:53:39 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id BBC786088D
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 14:53:39 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- a4-20020a17090aa504b0290176a0d2b67aso10446775pjq.2
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 07:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=29igml5xJQT7NZ/zHELD608zwBtMw+CBZNUu6aD3TXw=;
- b=SU5+MP1dlZCdXiG26CqRqBNmqpOnXlHHd6+fcRsxbvw2EKuyqOU5Mopp7bVlS/zejO
- csfVLQRSDXU/7dyozcqNTbp4P2dmnl8BvfUDZ1Gqg7dgoQW5/yF5uiTbfYAy+VmENB1e
- ZbRjIv/17kq9qz1Iwt0YvmWCsP015hBjqyx7Z42jWLt2YBzb/erhrTjXS+igHusqWvTV
- bsLn/A16PIaeWfmCBYPCwhZk+c/L4TU0ebGyf7PLH2QjuceGtPagZYnSsDqBPkotX/hN
- i7oMHXglQkgWHkJisLKxQxmwRHNVomuhibIwUMR5k1D0bq2YE4VhqLodvPvuOU9g6oxL
- pZ+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=29igml5xJQT7NZ/zHELD608zwBtMw+CBZNUu6aD3TXw=;
- b=FeuRiNxr0c/myzUY0U1uQM1tH6z5+FNP0ZPLEkOu00SWNzeMCudJj7+ypemXq17V0Q
- /1Q6tAAwLzqv9XQzMwJ2UVN5RgvR5uaUXNMtzcu2vfr0XLyp2N3p3+75IN+1paVIJWPx
- SDrMOx7X8wfygt8OI2jT1kxhwA1jdZ6rNnw5o2m6FpGlzCnYFVicr435XIH5ezy5OtTm
- twJH1gTKAn9nN1N0KW13sv2GNlXTEbjPVBwkG3BuhJLaUx07E+oyOVk6nIoKKVC1RS3L
- 9uJj7lJLH9io9Zjdc/K/pFayny8tsXgB7KzNqd7Gv5DfnotVthWmvT4IG9N/ppCxq8uW
- zhHQ==
-X-Gm-Message-State: AOAM533RLlPQgQkbYetr7vKxpwwVvc/MasXrXgbGEkegaBf04xTCouFd
- ZHEbxUyfe9aaRpP6LNL1irg=
-X-Google-Smtp-Source: ABdhPJzheaAoRTrkFU3jE3YHYpkFIR7nUHQbhRWDG+7XrGIy9dCpNUWuhIUXvdG5v42plPOPnYbJQA==
-X-Received: by 2002:a63:84:: with SMTP id 126mr169114pga.221.1627484019244;
- Wed, 28 Jul 2021 07:53:39 -0700 (PDT)
-Received: from ubuntu-Virtual-Machine.corp.microsoft.com
- ([2001:4898:80e8:0:3823:141e:6d51:f0ad])
- by smtp.gmail.com with ESMTPSA id n134sm277558pfd.89.2021.07.28.07.53.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 07:53:38 -0700 (PDT)
-From: Tianyu Lan <ltykernel@gmail.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
- dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
- konrad.wilk@oracle.com, boris.ostrovsky@oracle.com, jgross@suse.com,
- sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
- davem@davemloft.net, kuba@kernel.org, jejb@linux.ibm.com,
- martin.petersen@oracle.com, arnd@arndb.de, hch@lst.de,
- m.szyprowski@samsung.com, robin.murphy@arm.com, thomas.lendacky@amd.com,
- brijesh.singh@amd.com, ardb@kernel.org, Tianyu.Lan@microsoft.com,
- rientjes@google.com, martin.b.radev@gmail.com, akpm@linux-foundation.org,
- rppt@kernel.org, kirill.shutemov@linux.intel.com,
- aneesh.kumar@linux.ibm.com, krish.sadhukhan@oracle.com, saravanand@fb.com,
- xen-devel@lists.xenproject.org, pgonda@google.com, david@redhat.com,
- keescook@chromium.org, hannes@cmpxchg.org, sfr@canb.auug.org.au,
- michael.h.kelley@microsoft.com
-Subject: [PATCH 13/13] HV/Storvsc: Add Isolation VM support for storvsc driver
-Date: Wed, 28 Jul 2021 10:52:28 -0400
-Message-Id: <20210728145232.285861-14-ltykernel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210728145232.285861-1-ltykernel@gmail.com>
-References: <20210728145232.285861-1-ltykernel@gmail.com>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=redhat.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cfufEK6CPWpc for <iommu@lists.linux-foundation.org>;
+ Wed, 28 Jul 2021 15:17:34 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C400E405AB
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627485453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G74hAD1INJz4al2p5kUqrIQ36rIkhCEJh1SOa5TxS9s=;
+ b=PLkuyu1PNnPK5vwatnMIK+ysKtTfN1UCJ6wxI+VVCWADFP/CRIs9QfpmJPOWwdEZPooYGr
+ /+XCIPOgWyyKw5KF1PKSmgE9gYcIiaa2smUQI74RLgtAfmpxPzPMbHVNI8tsnflnsQZDbd
+ VdEOCuKIDOtG+eMyQ4JWSSthIG8O80M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-UDtteHy1NGmvPeuayJGZwg-1; Wed, 28 Jul 2021 11:17:29 -0400
+X-MC-Unique: UDtteHy1NGmvPeuayJGZwg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B449801AC0;
+ Wed, 28 Jul 2021 15:17:28 +0000 (UTC)
+Received: from T590 (ovpn-12-35.pek2.redhat.com [10.72.12.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27C7A1971B;
+ Wed, 28 Jul 2021 15:17:19 +0000 (UTC)
+Date: Wed, 28 Jul 2021 23:17:20 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
+ from remote numa node
+Message-ID: <YQF1AKS6Y14dLU/A@T590>
+References: <YPklDMng1hL3bQ+v@T590>
+ <9c929985-4fcb-e65d-0265-34c820b770ea@huawei.com>
+ <YPlGOOMSdm6Bcyy/@T590>
+ <fc552129-e89d-74ad-9e57-30e3ffe4cf5d@huawei.com>
+ <YPmUoBk9u+tU2rbS@T590>
+ <0adbe03b-ce26-e4d3-3425-d967bc436ef5@arm.com>
+ <YPqYDY9/VAhfHNfU@T590>
+ <6ceab844-465f-3bf3-1809-5df1f1dbbc5c@huawei.com>
+ <CAFj5m9J+9vO=CK3uPP+va5EoWffZj9ruSRe2fDDLXn+AE971CQ@mail.gmail.com>
+ <ead87bf2-ddfa-eb67-db44-9619c6cdb714@huawei.com>
 MIME-Version: 1.0
-Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- anparri@microsoft.com, vkuznets@redhat.com
+Content-Disposition: inline
+In-Reply-To: <ead87bf2-ddfa-eb67-db44-9619c6cdb714@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Cc: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,164 +99,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+On Wed, Jul 28, 2021 at 11:38:18AM +0100, John Garry wrote:
+> On 28/07/2021 02:32, Ming Lei wrote:
+> > On Mon, Jul 26, 2021 at 3:51 PM John Garry<john.garry@huawei.com>  wrote:
+> > > On 23/07/2021 11:21, Ming Lei wrote:
+> > > > > Thanks, I was also going to suggest the latter, since it's what
+> > > > > arm_smmu_cmdq_issue_cmdlist() does with IRQs masked that should be most
+> > > > > indicative of where the slowness most likely stems from.
+> > > > The improvement from 'iommu.strict=0' is very small:
+> > > > 
+> > > Have you tried turning off the IOMMU to ensure that this is really just
+> > > an IOMMU problem?
+> > > 
+> > > You can try setting CONFIG_ARM_SMMU_V3=n in the defconfig or passing
+> > > cmdline param iommu.passthrough=1 to bypass the the SMMU (equivalent to
+> > > disabling for kernel drivers).
+> > Bypassing SMMU via iommu.passthrough=1 basically doesn't make a difference
+> > on this issue.
+> 
+> A ~90% throughput drop still seems to me to be too high to be a software
+> issue. More so since I don't see similar on my system. And that throughput
+> drop does not lead to a total CPU usage drop, from the fio log.
+> 
+> Do you know if anyone has run memory benchmark tests on this board to find
+> out NUMA effect? I think lmbench or stream could be used for this.
 
-In Isolation VM, all shared memory with host needs to mark visible
-to host via hvcall. vmbus_establish_gpadl() has already done it for
-storvsc rx/tx ring buffer. The page buffer used by vmbus_sendpacket_
-mpb_desc() still need to handle. Use DMA API to map/umap these
-memory during sending/receiving packet and Hyper-V DMA ops callback
-will use swiotlb function to allocate bounce buffer and copy data
-from/to bounce buffer.
+https://lore.kernel.org/lkml/YOhbc5C47IzC893B@T590/
 
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- drivers/scsi/storvsc_drv.c | 68 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 63 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 328bb961c281..78320719bdd8 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -21,6 +21,8 @@
- #include <linux/device.h>
- #include <linux/hyperv.h>
- #include <linux/blkdev.h>
-+#include <linux/io.h>
-+#include <linux/dma-mapping.h>
- #include <scsi/scsi.h>
- #include <scsi/scsi_cmnd.h>
- #include <scsi/scsi_host.h>
-@@ -427,6 +429,8 @@ struct storvsc_cmd_request {
- 	u32 payload_sz;
- 
- 	struct vstor_packet vstor_packet;
-+	u32 hvpg_count;
-+	struct hv_dma_range *dma_range;
- };
- 
- 
-@@ -509,6 +513,14 @@ struct storvsc_scan_work {
- 	u8 tgt_id;
- };
- 
-+#define storvsc_dma_map(dev, page, offset, size, dir) \
-+	dma_map_page(dev, page, offset, size, dir)
-+
-+#define storvsc_dma_unmap(dev, dma_range, dir)		\
-+		dma_unmap_page(dev, dma_range.dma,	\
-+			       dma_range.mapping_size,	\
-+			       dir ? DMA_FROM_DEVICE : DMA_TO_DEVICE)
-+
- static void storvsc_device_scan(struct work_struct *work)
- {
- 	struct storvsc_scan_work *wrk;
-@@ -1260,6 +1272,7 @@ static void storvsc_on_channel_callback(void *context)
- 	struct hv_device *device;
- 	struct storvsc_device *stor_device;
- 	struct Scsi_Host *shost;
-+	int i;
- 
- 	if (channel->primary_channel != NULL)
- 		device = channel->primary_channel->device_obj;
-@@ -1314,6 +1327,15 @@ static void storvsc_on_channel_callback(void *context)
- 				request = (struct storvsc_cmd_request *)scsi_cmd_priv(scmnd);
- 			}
- 
-+			if (request->dma_range) {
-+				for (i = 0; i < request->hvpg_count; i++)
-+					storvsc_dma_unmap(&device->device,
-+						request->dma_range[i],
-+						request->vstor_packet.vm_srb.data_in == READ_TYPE);
-+
-+				kfree(request->dma_range);
-+			}
-+
- 			storvsc_on_receive(stor_device, packet, request);
- 			continue;
- 		}
-@@ -1810,7 +1832,9 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 		unsigned int hvpgoff, hvpfns_to_add;
- 		unsigned long offset_in_hvpg = offset_in_hvpage(sgl->offset);
- 		unsigned int hvpg_count = HVPFN_UP(offset_in_hvpg + length);
-+		dma_addr_t dma;
- 		u64 hvpfn;
-+		u32 size;
- 
- 		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
- 
-@@ -1824,6 +1848,13 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 		payload->range.len = length;
- 		payload->range.offset = offset_in_hvpg;
- 
-+		cmd_request->dma_range = kcalloc(hvpg_count,
-+				 sizeof(*cmd_request->dma_range),
-+				 GFP_ATOMIC);
-+		if (!cmd_request->dma_range) {
-+			ret = -ENOMEM;
-+			goto free_payload;
-+		}
- 
- 		for (i = 0; sgl != NULL; sgl = sg_next(sgl)) {
- 			/*
-@@ -1847,9 +1878,29 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 			 * last sgl should be reached at the same time that
- 			 * the PFN array is filled.
- 			 */
--			while (hvpfns_to_add--)
--				payload->range.pfn_array[i++] =	hvpfn++;
-+			while (hvpfns_to_add--) {
-+				size = min(HV_HYP_PAGE_SIZE - offset_in_hvpg,
-+					   (unsigned long)length);
-+				dma = storvsc_dma_map(&dev->device, pfn_to_page(hvpfn++),
-+						      offset_in_hvpg, size,
-+						      scmnd->sc_data_direction);
-+				if (dma_mapping_error(&dev->device, dma)) {
-+					ret = -ENOMEM;
-+					goto free_dma_range;
-+				}
-+
-+				if (offset_in_hvpg) {
-+					payload->range.offset = dma & ~HV_HYP_PAGE_MASK;
-+					offset_in_hvpg = 0;
-+				}
-+
-+				cmd_request->dma_range[i].dma = dma;
-+				cmd_request->dma_range[i].mapping_size = size;
-+				payload->range.pfn_array[i++] = dma >> HV_HYP_PAGE_SHIFT;
-+				length -= size;
-+			}
- 		}
-+		cmd_request->hvpg_count = hvpg_count;
- 	}
- 
- 	cmd_request->payload = payload;
-@@ -1860,13 +1911,20 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 	put_cpu();
- 
- 	if (ret == -EAGAIN) {
--		if (payload_sz > sizeof(cmd_request->mpb))
--			kfree(payload);
- 		/* no more space */
--		return SCSI_MLQUEUE_DEVICE_BUSY;
-+		ret = SCSI_MLQUEUE_DEVICE_BUSY;
-+		goto free_dma_range;
- 	}
- 
- 	return 0;
-+
-+free_dma_range:
-+	kfree(cmd_request->dma_range);
-+
-+free_payload:
-+	if (payload_sz > sizeof(cmd_request->mpb))
-+		kfree(payload);
-+	return ret;
- }
- 
- static struct scsi_host_template scsi_driver = {
 -- 
-2.25.1
+Ming
 
 _______________________________________________
 iommu mailing list
