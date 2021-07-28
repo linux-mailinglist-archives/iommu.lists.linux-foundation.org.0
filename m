@@ -1,87 +1,124 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332B23DA093
-	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 11:51:12 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D18133D91EE
+	for <lists.iommu@lfdr.de>; Wed, 28 Jul 2021 17:29:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B2F5B40546;
-	Thu, 29 Jul 2021 09:51:10 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6D6224028B;
+	Wed, 28 Jul 2021 15:29:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B8HnHdj_E_7y; Thu, 29 Jul 2021 09:51:10 +0000 (UTC)
+	with ESMTP id oosVvPHbj9tl; Wed, 28 Jul 2021 15:29:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C77F840543;
-	Thu, 29 Jul 2021 09:51:09 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8A4C140248;
+	Wed, 28 Jul 2021 15:29:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83666C000E;
-	Thu, 29 Jul 2021 09:51:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 67CA3C0022;
+	Wed, 28 Jul 2021 15:29:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BF996C000E
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:20:55 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4385BC000E
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:29:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with UTF8SMTP id AF8E7827BB
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:20:55 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 3E77F837CD
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:29:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=mg.codeaurora.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id yrVAk49HtEYA for <iommu@lists.linux-foundation.org>;
- Wed, 28 Jul 2021 15:20:55 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by smtp1.osuosl.org (Postfix) with UTF8SMTPS id CDB5082695
- for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:20:49 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627485654; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=NMBA6eMZ2++sBypZUxc6pdznV/MW5syE3FBstf0UH5I=;
- b=BFqPU2m2R0GQVlIJZVI6K/7QZNxnNuJSIP8x1G7QoFadzO8IG3HeieOaPr4HZUP5QWSLUOAM
- c8MF6WfPimB92MWX3OgXsnsRoRwnV66oB2LtYDPChx4wZV+W2fkcLQMR6H2Q5Aoa4loZrWqh
- VLO9L/sstCmL2+t9yk5EFdDeyr4=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 610175c61dd16c8788c57f93 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 15:20:38
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D2570C4323A; Wed, 28 Jul 2021 15:20:37 +0000 (UTC)
-Received: from BCAIN (i-global254.qualcomm.com [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bcain)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 1CDC3C433D3;
- Wed, 28 Jul 2021 15:20:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1CDC3C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=bcain@codeaurora.org
-From: "Brian Cain" <bcain@codeaurora.org>
-To: "'Christoph Hellwig'" <hch@lst.de>, <iommu@lists.linux-foundation.org>,
- "'Russell King'" <linux@armlinux.org.uk>
-References: <20210712061704.4162464-1-hch@lst.de>
-In-Reply-To: <20210712061704.4162464-1-hch@lst.de>
-Subject: RE: add support for the global coherent pool to the dma core
-Date: Wed, 28 Jul 2021 10:20:34 -0500
-Message-ID: <03d501d783c4$1d3f10e0$57bd32a0$@codeaurora.org>
+ with ESMTP id JlVqguX_xuae for <iommu@lists.linux-foundation.org>;
+ Wed, 28 Jul 2021 15:29:48 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 939AD83578
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 15:29:47 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="212678031"
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="212678031"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 08:29:46 -0700
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="517575500"
+Received: from sobsiex-desk2.amr.corp.intel.com (HELO [10.212.198.197])
+ ([10.212.198.197])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 08:29:43 -0700
+Subject: Re: [PATCH 03/13] x86/HV: Add new hvcall guest address host
+ visibility support
+To: Tianyu Lan <ltykernel@gmail.com>, kys@microsoft.com,
+ haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ x86@kernel.org, hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+ peterz@infradead.org, konrad.wilk@oracle.com, boris.ostrovsky@oracle.com,
+ jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
+ davem@davemloft.net, kuba@kernel.org, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, arnd@arndb.de, hch@lst.de,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, thomas.lendacky@amd.com,
+ brijesh.singh@amd.com, ardb@kernel.org, Tianyu.Lan@microsoft.com,
+ rientjes@google.com, martin.b.radev@gmail.com, akpm@linux-foundation.org,
+ rppt@kernel.org, kirill.shutemov@linux.intel.com,
+ aneesh.kumar@linux.ibm.com, krish.sadhukhan@oracle.com, saravanand@fb.com,
+ xen-devel@lists.xenproject.org, pgonda@google.com, david@redhat.com,
+ keescook@chromium.org, hannes@cmpxchg.org, sfr@canb.auug.org.au,
+ michael.h.kelley@microsoft.com
+References: <20210728145232.285861-1-ltykernel@gmail.com>
+ <20210728145232.285861-4-ltykernel@gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <c00e269c-da4c-c703-0182-0221c73a76cc@intel.com>
+Date: Wed, 28 Jul 2021 08:29:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQGLBLs9KUWyWP2l5ibPYuIecai1XKvxfn8g
-X-Mailman-Approved-At: Thu, 29 Jul 2021 09:51:07 +0000
-Cc: 'Vladimir Murzin' <vladimir.murzin@arm.com>, "'Manning,
- Sid'" <sidneym@quicinc.com>, linux-hexagon@vger.kernel.org,
- linux-kernel@vger.kernel.org, 'Dillon Min' <dillon.minfei@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20210728145232.285861-4-ltykernel@gmail.com>
+Content-Language: en-US
+Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ anparri@microsoft.com, vkuznets@redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,49 +131,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Reply-To: bcain@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On 7/28/21 7:52 AM, Tianyu Lan wrote:
+> @@ -1986,7 +1988,9 @@ static int __set_memory_enc_dec(unsigned long addr, int numpages, bool enc)
+>  	int ret;
+>  
+>  	/* Nothing to do if memory encryption is not active */
+> -	if (!mem_encrypt_active())
+> +	if (hv_is_isolation_supported())
+> +		return hv_set_mem_enc(addr, numpages, enc);
+> +	else if (!mem_encrypt_active())
+>  		return 0;
 
+__set_memory_enc_dec() is turning into a real mess.  SEV, TDX and now
+Hyper-V are messing around in here.
 
-> -----Original Message-----
-> From: Christoph Hellwig <hch@lst.de>
-> Sent: Monday, July 12, 2021 1:17 AM
-> To: iommu@lists.linux-foundation.org; Russell King
-<linux@armlinux.org.uk>;
-> Brian Cain <bcain@codeaurora.org>
-> Cc: Dillon Min <dillon.minfei@gmail.com>; Vladimir Murzin
-> <vladimir.murzin@arm.com>; linux-arm-kernel@lists.infradead.org; linux-
-> hexagon@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: add support for the global coherent pool to the dma core
-> 
-> Hi all,
-> 
-> this series adds support for using the global coherent (aka uncached)
-> pool to the generic dma-direct code and then switches arm-nommu and
-> hexagon over to it, together with a bunch of cleanups.
+It doesn't help that these additions are totally uncommented.  Even
+worse is that hv_set_mem_enc() was intentionally named "enc" when it
+presumably has nothing to do with encryption.
 
-Christoph,
+This needs to be refactored.  The current __set_memory_enc_dec() can
+become __set_memory_enc_pgtable().  It gets used for the hypervisors
+that get informed about "encryption" status via page tables: SEV and TDX.
 
-Thanks for sending this -- I will take a look and give some feedback soon.
+Then, rename hv_set_mem_enc() to hv_set_visible_hcall().  You'll end up
+with:
 
-> Diffstat:
->  arch/arm/Kconfig                |    5 -
->  arch/arm/mm/dma-mapping-nommu.c |  173
-+--------------------------------------
-> -
->  arch/hexagon/Kconfig            |    1
->  arch/hexagon/kernel/dma.c       |   57 ++-----------
->  include/linux/dma-map-ops.h     |   18 ++--
->  kernel/dma/Kconfig              |    4
->  kernel/dma/coherent.c           |  159
-+++++++++++++++++-------------------
->  kernel/dma/direct.c             |   15 +++
->  8 files changed, 124 insertions(+), 308 deletions(-)
+int __set_memory_enc_dec(unsigned long addr, int numpages, bool enc)
+{
+	if (hv_is_isolation_supported())
+		return hv_set_visible_hcall(...);
 
+	if (mem_encrypt_active() || ...)
+		return __set_memory_enc_pgtable();
+
+	/* Nothing to do */
+	return 0;
+}
+
+That tells the story pretty effectively, in code.
+
+> +int hv_set_mem_enc(unsigned long addr, int numpages, bool enc)
+> +{
+> +	return hv_set_mem_host_visibility((void *)addr,
+> +			numpages * HV_HYP_PAGE_SIZE,
+> +			enc ? VMBUS_PAGE_NOT_VISIBLE
+> +			: VMBUS_PAGE_VISIBLE_READ_WRITE);
+> +}
+
+I know this is off in Hyper-V code, but this just makes my eyes bleed.
+I'd much rather see something which is less compact but readable.
+
+> +/* Hyper-V GPA map flags */
+> +#define	VMBUS_PAGE_NOT_VISIBLE		0
+> +#define	VMBUS_PAGE_VISIBLE_READ_ONLY	1
+> +#define	VMBUS_PAGE_VISIBLE_READ_WRITE	3
+
+That looks suspiciously like an enum.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
