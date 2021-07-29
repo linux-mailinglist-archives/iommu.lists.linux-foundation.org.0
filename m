@@ -1,94 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C673D9EBB
-	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 09:37:36 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F383D9FF8
+	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 11:00:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 34AC5608EF;
-	Thu, 29 Jul 2021 07:37:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9CEAF402B7;
+	Thu, 29 Jul 2021 09:00:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qa6DnNovjkTk; Thu, 29 Jul 2021 07:37:34 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RFFfHA8_fUyH; Thu, 29 Jul 2021 09:00:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E2D0D608D5;
-	Thu, 29 Jul 2021 07:37:33 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9006240503;
+	Thu, 29 Jul 2021 09:00:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A91E4C0010;
-	Thu, 29 Jul 2021 07:37:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D527C000E;
+	Thu, 29 Jul 2021 09:00:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4184C000E
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 07:37:32 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3BFF8C000E;
+ Thu, 29 Jul 2021 09:00:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9276D83B0D
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 07:37:32 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1E95981ABA;
+ Thu, 29 Jul 2021 09:00:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jR3O5uKhS5nt for <iommu@lists.linux-foundation.org>;
- Thu, 29 Jul 2021 07:37:31 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 892EB83B09
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 07:37:31 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id d1so5988224pll.1
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 00:37:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZwhAH0F4f+dla5ydIiXHt9Z2ZRDF+Tm2EIsqRAKSvCk=;
- b=ipQQAaLUnIsq/8OzP0aQX0aEbOom8ZuQLMISnXtuDNfa/f/WkdsN6mQcH1+BHcq6Lr
- m+cz3Yheh6sca0j+5gzELbypWQzqwmRB4BmXROIBG/rLiRiOD+HQjf81DqL0PnI0pzpz
- nBn9pywAlNt3+eY0uFVWSsQ9MT6cmowlFaUUZdrkvhk9XTzU9QZU+whCH/G9/B6USPss
- sbK8FYWWU0m1g21U1CR5HC3YL8536es2veDLZ3StqxMvZWp+HjKP5IM4EneyTBqrGoUR
- Fq10u7taiXCjzEBo26fGgS4N6nil6xmWz6ssrQQ3wFPeso7TlROVeo8zeuUv5nSdkb4c
- fI3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZwhAH0F4f+dla5ydIiXHt9Z2ZRDF+Tm2EIsqRAKSvCk=;
- b=WtLpq+bDatZFlrXOS/vOFB4+IY71JMqV7vxtrIfcu3cIwPwizDi4LpuzhRoPEXttD9
- cqFQJu01vNZ8rTmDE0uUAqeDanKRO/xKB8cDXG74vIvqTKSX8hWOefixL5l2RJDW2dsK
- 75bN68VGBJ6oKSoTU7w2BkaYGK/JYUxPZbwiPSeM81fu7lGNk261njp+peRm527QJaVJ
- /m6S/QJjzdDTx8LwShvZxdBjgVqnWShzJnv9NImw3z9ua+DVsF3/DvWkky/kblDsV1pt
- livwGHOQd6taLEpA5tFG4TS+/LEcnr0XtKQ+TCv0wxqcjkOPfGHId+/l+++COfBeOr44
- 1Sgg==
-X-Gm-Message-State: AOAM532I46Qkl56bOc37ZM2LFbFAg3RDbICg+0jREJ8xVZCSTfH07bfB
- xsm4FYvdMSl5Lf0um2gdisX/
-X-Google-Smtp-Source: ABdhPJzxkbYRwk3u37hmk3GqtET8HODyrHgYpJs+wT1O73nsmpefgxYtxywbKQTN9OUxz9BcTgJc0Q==
-X-Received: by 2002:a17:90a:bc4b:: with SMTP id
- t11mr4035516pjv.139.1627544250679; 
- Thu, 29 Jul 2021 00:37:30 -0700 (PDT)
-Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id 10sm2410832pjc.41.2021.07.29.00.37.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 00:37:30 -0700 (PDT)
-From: Xie Yongji <xieyongji@bytedance.com>
-To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
- sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
- christian.brauner@canonical.com, rdunlap@infradead.org,
- willy@infradead.org, viro@zeniv.linux.org.uk, axboe@kernel.dk,
- bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
- dan.carpenter@oracle.com, joro@8bytes.org, gregkh@linuxfoundation.org,
- zhe.he@windriver.com, xiaodong.liu@intel.com, joe@perches.com
-Subject: [PATCH v10 17/17] Documentation: Add documentation for VDUSE
-Date: Thu, 29 Jul 2021 15:35:03 +0800
-Message-Id: <20210729073503.187-18-xieyongji@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210729073503.187-1-xieyongji@bytedance.com>
+ with ESMTP id 6oj5jKb1lb73; Thu, 29 Jul 2021 09:00:13 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E62B681AA7;
+ Thu, 29 Jul 2021 09:00:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E270E60EB2;
+ Thu, 29 Jul 2021 09:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1627549213;
+ bh=iKCa5zaatMGxfmjPygB9q8yUR26Gr2lGQvSccgKgkHI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fC4m4iItZ4VRU1damAIBbCj4ko+1mwl+raqKpdAzq6vrXPLQuSGLdUjrWhTv7t73P
+ Q27zsIqk2Adz0zw/GAlY4a+cwBHhNp7fP9APYomkUEGsALG6IDvdiS6lIL67qALqTI
+ dJYqcxXgj+U/og9rbSP6uY8uh+xftfoT3Yp9Qz6Q=
+Date: Thu, 29 Jul 2021 11:00:11 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Xie Yongji <xieyongji@bytedance.com>
+Subject: Re: [PATCH v10 16/17] vduse: Introduce VDUSE - vDPA Device in
+ Userspace
+Message-ID: <YQJuG7zrzdWm+ieZ@kroah.com>
 References: <20210729073503.187-1-xieyongji@bytedance.com>
+ <20210729073503.187-17-xieyongji@bytedance.com>
 MIME-Version: 1.0
-Cc: kvm@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
- songmuchun@bytedance.com, linux-fsdevel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20210729073503.187-17-xieyongji@bytedance.com>
+Cc: kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com,
+ virtualization@lists.linux-foundation.org, christian.brauner@canonical.com,
+ corbet@lwn.net, willy@infradead.org, hch@infradead.org,
+ dan.carpenter@oracle.com, sgarzare@redhat.com, xiaodong.liu@intel.com,
+ linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, stefanha@redhat.com,
+ songmuchun@bytedance.com, axboe@kernel.dk, zhe.he@windriver.com,
+ netdev@vger.kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, bcrl@kvack.org, joe@perches.com,
+ mika.penttila@nextfour.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,270 +82,238 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-VDUSE (vDPA Device in Userspace) is a framework to support
-implementing software-emulated vDPA devices in userspace. This
-document is intended to clarify the VDUSE design and usage.
+On Thu, Jul 29, 2021 at 03:35:02PM +0800, Xie Yongji wrote:
+> +/*
+> + * The basic configuration of a VDUSE device, which is used by
+> + * VDUSE_CREATE_DEV ioctl to create a VDUSE device.
+> + */
+> +struct vduse_dev_config {
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
----
- Documentation/userspace-api/index.rst |   1 +
- Documentation/userspace-api/vduse.rst | 232 ++++++++++++++++++++++++++++++++++
- 2 files changed, 233 insertions(+)
- create mode 100644 Documentation/userspace-api/vduse.rst
+Please document this structure using kernel doc so we know what all the
+fields are.
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 0b5eefed027e..c432be070f67 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -27,6 +27,7 @@ place where this information is gathered.
-    iommu
-    media/index
-    sysfs-platform_profile
-+   vduse
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/userspace-api/vduse.rst b/Documentation/userspace-api/vduse.rst
-new file mode 100644
-index 000000000000..30c9d1482126
---- /dev/null
-+++ b/Documentation/userspace-api/vduse.rst
-@@ -0,0 +1,232 @@
-+==================================
-+VDUSE - "vDPA Device in Userspace"
-+==================================
-+
-+vDPA (virtio data path acceleration) device is a device that uses a
-+datapath which complies with the virtio specifications with vendor
-+specific control path. vDPA devices can be both physically located on
-+the hardware or emulated by software. VDUSE is a framework that makes it
-+possible to implement software-emulated vDPA devices in userspace. And
-+to make the device emulation more secure, the emulated vDPA device's
-+control path is handled in the kernel and only the data path is
-+implemented in the userspace.
-+
-+Note that only virtio block device is supported by VDUSE framework now,
-+which can reduce security risks when the userspace process that implements
-+the data path is run by an unprivileged user. The support for other device
-+types can be added after the security issue of corresponding device driver
-+is clarified or fixed in the future.
-+
-+Create/Destroy VDUSE devices
-+------------------------
-+
-+VDUSE devices are created as follows:
-+
-+1. Create a new VDUSE instance with ioctl(VDUSE_CREATE_DEV) on
-+   /dev/vduse/control.
-+
-+2. Setup each virtqueue with ioctl(VDUSE_VQ_SETUP) on /dev/vduse/$NAME.
-+
-+3. Begin processing VDUSE messages from /dev/vduse/$NAME. The first
-+   messages will arrive while attaching the VDUSE instance to vDPA bus.
-+
-+4. Send the VDPA_CMD_DEV_NEW netlink message to attach the VDUSE
-+   instance to vDPA bus.
-+
-+VDUSE devices are destroyed as follows:
-+
-+1. Send the VDPA_CMD_DEV_DEL netlink message to detach the VDUSE
-+   instance from vDPA bus.
-+
-+2. Close the file descriptor referring to /dev/vduse/$NAME.
-+
-+3. Destroy the VDUSE instance with ioctl(VDUSE_DESTROY_DEV) on
-+   /dev/vduse/control.
-+
-+The netlink messages can be sent via vdpa tool in iproute2 or use the
-+below sample codes:
-+
-+.. code-block:: c
-+
-+	static int netlink_add_vduse(const char *name, enum vdpa_command cmd)
-+	{
-+		struct nl_sock *nlsock;
-+		struct nl_msg *msg;
-+		int famid;
-+
-+		nlsock = nl_socket_alloc();
-+		if (!nlsock)
-+			return -ENOMEM;
-+
-+		if (genl_connect(nlsock))
-+			goto free_sock;
-+
-+		famid = genl_ctrl_resolve(nlsock, VDPA_GENL_NAME);
-+		if (famid < 0)
-+			goto close_sock;
-+
-+		msg = nlmsg_alloc();
-+		if (!msg)
-+			goto close_sock;
-+
-+		if (!genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ, famid, 0, 0, cmd, 0))
-+			goto nla_put_failure;
-+
-+		NLA_PUT_STRING(msg, VDPA_ATTR_DEV_NAME, name);
-+		if (cmd == VDPA_CMD_DEV_NEW)
-+			NLA_PUT_STRING(msg, VDPA_ATTR_MGMTDEV_DEV_NAME, "vduse");
-+
-+		if (nl_send_sync(nlsock, msg))
-+			goto close_sock;
-+
-+		nl_close(nlsock);
-+		nl_socket_free(nlsock);
-+
-+		return 0;
-+	nla_put_failure:
-+		nlmsg_free(msg);
-+	close_sock:
-+		nl_close(nlsock);
-+	free_sock:
-+		nl_socket_free(nlsock);
-+		return -1;
-+	}
-+
-+How VDUSE works
-+---------------
-+
-+As mentioned above, a VDUSE device is created by ioctl(VDUSE_CREATE_DEV) on
-+/dev/vduse/control. With this ioctl, userspace can specify some basic configuration
-+such as device name (uniquely identify a VDUSE device), virtio features, virtio
-+configuration space, the number of virtqueues and so on for this emulated device.
-+Then a char device interface (/dev/vduse/$NAME) is exported to userspace for device
-+emulation. Userspace can use the VDUSE_VQ_SETUP ioctl on /dev/vduse/$NAME to
-+add per-virtqueue configuration such as the max size of virtqueue to the device.
-+
-+After the initialization, the VDUSE device can be attached to vDPA bus via
-+the VDPA_CMD_DEV_NEW netlink message. Userspace needs to read()/write() on
-+/dev/vduse/$NAME to receive/reply some control messages from/to VDUSE kernel
-+module as follows:
-+
-+.. code-block:: c
-+
-+	static int vduse_message_handler(int dev_fd)
-+	{
-+		int len;
-+		struct vduse_dev_request req;
-+		struct vduse_dev_response resp;
-+
-+		len = read(dev_fd, &req, sizeof(req));
-+		if (len != sizeof(req))
-+			return -1;
-+
-+		resp.request_id = req.request_id;
-+
-+		switch (req.type) {
-+
-+		/* handle different types of messages */
-+
-+		}
-+
-+		len = write(dev_fd, &resp, sizeof(resp));
-+		if (len != sizeof(resp))
-+			return -1;
-+
-+		return 0;
-+	}
-+
-+There are now three types of messages introduced by VDUSE framework:
-+
-+- VDUSE_GET_VQ_STATE: Get the state for virtqueue, userspace should return
-+  avail index for split virtqueue or the device/driver ring wrap counters and
-+  the avail and used index for packed virtqueue.
-+
-+- VDUSE_SET_STATUS: Set the device status, userspace should follow
-+  the virtio spec: https://docs.oasis-open.org/virtio/virtio/v1.1/virtio-v1.1.html
-+  to process this message. For example, fail to set the FEATURES_OK device
-+  status bit if the device can not accept the negotiated virtio features
-+  get from the VDUSE_DEV_GET_FEATURES ioctl.
-+
-+- VDUSE_UPDATE_IOTLB: Notify userspace to update the memory mapping for specified
-+  IOVA range, userspace should firstly remove the old mapping, then setup the new
-+  mapping via the VDUSE_IOTLB_GET_FD ioctl.
-+
-+After DRIVER_OK status bit is set via the VDUSE_SET_STATUS message, userspace is
-+able to start the dataplane processing as follows:
-+
-+1. Get the specified virtqueue's information with the VDUSE_VQ_GET_INFO ioctl,
-+   including the size, the IOVAs of descriptor table, available ring and used ring,
-+   the state and the ready status.
-+
-+2. Pass the above IOVAs to the VDUSE_IOTLB_GET_FD ioctl so that those IOVA regions
-+   can be mapped into userspace. Some sample codes is shown below:
-+
-+.. code-block:: c
-+
-+	static int perm_to_prot(uint8_t perm)
-+	{
-+		int prot = 0;
-+
-+		switch (perm) {
-+		case VDUSE_ACCESS_WO:
-+			prot |= PROT_WRITE;
-+			break;
-+		case VDUSE_ACCESS_RO:
-+			prot |= PROT_READ;
-+			break;
-+		case VDUSE_ACCESS_RW:
-+			prot |= PROT_READ | PROT_WRITE;
-+			break;
-+		}
-+
-+		return prot;
-+	}
-+
-+	static void *iova_to_va(int dev_fd, uint64_t iova, uint64_t *len)
-+	{
-+		int fd;
-+		void *addr;
-+		size_t size;
-+		struct vduse_iotlb_entry entry;
-+
-+		entry.start = iova;
-+		entry.last = iova;
-+
-+		/*
-+		 * Find the first IOVA region that overlaps with the specified
-+		 * range [start, last] and return the corresponding file descriptor.
-+		 */
-+		fd = ioctl(dev_fd, VDUSE_IOTLB_GET_FD, &entry);
-+		if (fd < 0)
-+			return NULL;
-+
-+		size = entry.last - entry.start + 1;
-+		*len = entry.last - iova + 1;
-+		addr = mmap(0, size, perm_to_prot(entry.perm), MAP_SHARED,
-+			    fd, entry.offset);
-+		close(fd);
-+		if (addr == MAP_FAILED)
-+			return NULL;
-+
-+		/*
-+		 * Using some data structures such as linked list to store
-+		 * the iotlb mapping. The munmap(2) should be called for the
-+		 * cached mapping when the corresponding VDUSE_UPDATE_IOTLB
-+		 * message is received or the device is reset.
-+		 */
-+
-+		return addr + iova - entry.start;
-+	}
-+
-+3. Setup the kick eventfd for the specified virtqueues with the VDUSE_VQ_SETUP_KICKFD
-+   ioctl. The kick eventfd is used by VDUSE kernel module to notify userspace to
-+   consume the available ring.
-+
-+4. Listen to the kick eventfd and consume the available ring. The buffer described
-+   by the descriptors in the descriptor table should be also mapped into userspace
-+   via the VDUSE_IOTLB_GET_FD ioctl before accessing.
-+
-+5. Inject an interrupt for specific virtqueue with the VDUSE_INJECT_VQ_IRQ ioctl
-+   after the used ring is filled.
-+
-+For more details on the uAPI, please see include/uapi/linux/vduse.h.
--- 
-2.11.0
+> +#define VDUSE_NAME_MAX	256
+> +	char name[VDUSE_NAME_MAX]; /* vduse device name, needs to be NUL terminated */
+> +	__u32 vendor_id; /* virtio vendor id */
+> +	__u32 device_id; /* virtio device id */
+> +	__u64 features; /* virtio features */
+> +	__u32 vq_num; /* the number of virtqueues */
+> +	__u32 vq_align; /* the allocation alignment of virtqueue's metadata */
+> +	__u32 reserved[13]; /* for future use */
 
+This HAS to be tested to be all 0, otherwise you can never use it in the
+future.  I did not see the code doing that at all.
+
+> +	__u32 config_size; /* the size of the configuration space */
+> +	__u8 config[0]; /* the buffer of the configuration space */
+
+config[]; please instead?  I thought we were getting rid of all of the
+0-length arrays in the kernel tree.
+
+> +};
+> +
+> +/* Create a VDUSE device which is represented by a char device (/dev/vduse/$NAME) */
+> +#define VDUSE_CREATE_DEV	_IOW(VDUSE_BASE, 0x02, struct vduse_dev_config)
+> +
+> +/*
+> + * Destroy a VDUSE device. Make sure there are no more references
+> + * to the char device (/dev/vduse/$NAME).
+> + */
+> +#define VDUSE_DESTROY_DEV	_IOW(VDUSE_BASE, 0x03, char[VDUSE_NAME_MAX])
+> +
+> +/* The ioctls for VDUSE device (/dev/vduse/$NAME) */
+> +
+> +/*
+> + * The information of one IOVA region, which is retrieved from
+> + * VDUSE_IOTLB_GET_FD ioctl.
+> + */
+> +struct vduse_iotlb_entry {
+> +	__u64 offset; /* the mmap offset on returned file descriptor */
+> +	__u64 start; /* start of the IOVA range: [start, last] */
+> +	__u64 last; /* last of the IOVA range: [start, last] */
+> +#define VDUSE_ACCESS_RO 0x1
+> +#define VDUSE_ACCESS_WO 0x2
+> +#define VDUSE_ACCESS_RW 0x3
+> +	__u8 perm; /* access permission of this region */
+> +};
+> +
+> +/*
+> + * Find the first IOVA region that overlaps with the range [start, last]
+> + * and return the corresponding file descriptor. Return -EINVAL means the
+> + * IOVA region doesn't exist. Caller should set start and last fields.
+> + */
+> +#define VDUSE_IOTLB_GET_FD	_IOWR(VDUSE_BASE, 0x10, struct vduse_iotlb_entry)
+> +
+> +/*
+> + * Get the negotiated virtio features. It's a subset of the features in
+> + * struct vduse_dev_config which can be accepted by virtio driver. It's
+> + * only valid after FEATURES_OK status bit is set.
+> + */
+> +#define VDUSE_DEV_GET_FEATURES	_IOR(VDUSE_BASE, 0x11, __u64)
+> +
+> +/*
+> + * The information that is used by VDUSE_DEV_SET_CONFIG ioctl to update
+> + * device configuration space.
+> + */
+> +struct vduse_config_data {
+> +	__u32 offset; /* offset from the beginning of configuration space */
+> +	__u32 length; /* the length to write to configuration space */
+> +	__u8 buffer[0]; /* buffer used to write from */
+
+again, buffer[];?
+
+> +};
+> +
+> +/* Set device configuration space */
+> +#define VDUSE_DEV_SET_CONFIG	_IOW(VDUSE_BASE, 0x12, struct vduse_config_data)
+> +
+> +/*
+> + * Inject a config interrupt. It's usually used to notify virtio driver
+> + * that device configuration space has changed.
+> + */
+> +#define VDUSE_DEV_INJECT_CONFIG_IRQ	_IO(VDUSE_BASE, 0x13)
+> +
+> +/*
+> + * The basic configuration of a virtqueue, which is used by
+> + * VDUSE_VQ_SETUP ioctl to setup a virtqueue.
+> + */
+> +struct vduse_vq_config {
+> +	__u32 index; /* virtqueue index */
+> +	__u16 max_size; /* the max size of virtqueue */
+> +};
+> +
+> +/*
+> + * Setup the specified virtqueue. Make sure all virtqueues have been
+> + * configured before the device is attached to vDPA bus.
+> + */
+> +#define VDUSE_VQ_SETUP		_IOW(VDUSE_BASE, 0x14, struct vduse_vq_config)
+> +
+> +struct vduse_vq_state_split {
+> +	__u16 avail_index; /* available index */
+> +};
+> +
+> +struct vduse_vq_state_packed {
+> +	__u16 last_avail_counter:1; /* last driver ring wrap counter observed by device */
+> +	__u16 last_avail_idx:15; /* device available index */
+
+Bit fields in a user structure?  Are you sure this is going to work
+well?  Why not just make this a __u16 and then mask off what you want so
+that you do not run into endian issues?
+
+> +	__u16 last_used_counter:1; /* device ring wrap counter */
+> +	__u16 last_used_idx:15; /* used index */
+> +};
+> +
+> +/*
+> + * The information of a virtqueue, which is retrieved from
+> + * VDUSE_VQ_GET_INFO ioctl.
+> + */
+> +struct vduse_vq_info {
+> +	__u32 index; /* virtqueue index */
+> +	__u32 num; /* the size of virtqueue */
+> +	__u64 desc_addr; /* address of desc area */
+> +	__u64 driver_addr; /* address of driver area */
+> +	__u64 device_addr; /* address of device area */
+> +	union {
+> +		struct vduse_vq_state_split split; /* split virtqueue state */
+> +		struct vduse_vq_state_packed packed; /* packed virtqueue state */
+> +	};
+> +	__u8 ready; /* ready status of virtqueue */
+> +};
+> +
+> +/* Get the specified virtqueue's information. Caller should set index field. */
+> +#define VDUSE_VQ_GET_INFO	_IOWR(VDUSE_BASE, 0x15, struct vduse_vq_info)
+> +
+> +/*
+> + * The eventfd configuration for the specified virtqueue. It's used by
+> + * VDUSE_VQ_SETUP_KICKFD ioctl to setup kick eventfd.
+> + */
+> +struct vduse_vq_eventfd {
+> +	__u32 index; /* virtqueue index */
+> +#define VDUSE_EVENTFD_DEASSIGN -1
+> +	int fd; /* eventfd, -1 means de-assigning the eventfd */
+
+Don't we have a file descriptor type?  I could be wrong.
+
+> +};
+> +
+> +/*
+> + * Setup kick eventfd for specified virtqueue. The kick eventfd is used
+> + * by VDUSE kernel module to notify userspace to consume the avail vring.
+> + */
+> +#define VDUSE_VQ_SETUP_KICKFD	_IOW(VDUSE_BASE, 0x16, struct vduse_vq_eventfd)
+> +
+> +/*
+> + * Inject an interrupt for specific virtqueue. It's used to notify virtio driver
+> + * to consume the used vring.
+> + */
+> +#define VDUSE_VQ_INJECT_IRQ	_IOW(VDUSE_BASE, 0x17, __u32)
+> +
+> +/* The control messages definition for read/write on /dev/vduse/$NAME */
+> +
+> +enum vduse_req_type {
+> +	/* Get the state for specified virtqueue from userspace */
+> +	VDUSE_GET_VQ_STATE,
+> +	/* Set the device status */
+> +	VDUSE_SET_STATUS,
+> +	/*
+> +	 * Notify userspace to update the memory mapping for specified
+> +	 * IOVA range via VDUSE_IOTLB_GET_FD ioctl
+> +	 */
+> +	VDUSE_UPDATE_IOTLB,
+> +};
+> +
+> +struct vduse_vq_state {
+> +	__u32 index; /* virtqueue index */
+> +	union {
+> +		struct vduse_vq_state_split split; /* split virtqueue state */
+> +		struct vduse_vq_state_packed packed; /* packed virtqueue state */
+> +	};
+> +};
+> +
+> +struct vduse_dev_status {
+> +	__u8 status; /* device status */
+> +};
+> +
+> +struct vduse_iova_range {
+> +	__u64 start; /* start of the IOVA range: [start, end] */
+> +	__u64 last; /* last of the IOVA range: [start, end] */
+> +};
+> +
+> +struct vduse_dev_request {
+> +	__u32 type; /* request type */
+> +	__u32 request_id; /* request id */
+> +	__u32 reserved[2]; /* for future use */
+
+Again, this HAS to be checked to be 0 and aborted if not, otherwise you
+can never use it in the future.
+
+> +	union {
+> +		struct vduse_vq_state vq_state; /* virtqueue state, only use index */
+> +		struct vduse_dev_status s; /* device status */
+> +		struct vduse_iova_range iova; /* IOVA range for updating */
+> +		__u32 padding[16]; /* padding */
+> +	};
+> +};
+> +
+> +struct vduse_dev_response {
+> +	__u32 request_id; /* corresponding request id */
+> +#define VDUSE_REQ_RESULT_OK	0x00
+> +#define VDUSE_REQ_RESULT_FAILED	0x01
+> +	__u32 result; /* the result of request */
+> +	__u32 reserved[2]; /* for future use */
+
+Same here, you have to check this.
+
+> +	union {
+> +		struct vduse_vq_state vq_state; /* virtqueue state */
+> +		__u32 padding[16]; /* padding */
+
+Check this padding too.
+
+thanks,
+
+greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
