@@ -1,57 +1,106 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346B63DA7D1
-	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 17:49:17 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D28A83DA746
+	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 17:13:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A780E405A4;
-	Thu, 29 Jul 2021 15:49:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 49FE160662;
+	Thu, 29 Jul 2021 15:13:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sLixgLSi-kPh; Thu, 29 Jul 2021 15:49:14 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 61FAMXB0YjSM; Thu, 29 Jul 2021 15:13:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A06EB4059B;
-	Thu, 29 Jul 2021 15:49:14 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 58F5460669;
+	Thu, 29 Jul 2021 15:13:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E4ABC000E;
-	Thu, 29 Jul 2021 15:49:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 34756C000E;
+	Thu, 29 Jul 2021 15:13:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0C1FAC000E
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:49:13 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B671AC000E
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:13:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E2D0A60607
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:49:12 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B1BCB60662
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:13:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nQ3LWOGJmvHy for <iommu@lists.linux-foundation.org>;
- Thu, 29 Jul 2021 15:49:10 +0000 (UTC)
-X-Greylist: delayed 00:44:43 by SQLgrey-1.8.0
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B233260BEA
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:49:10 +0000 (UTC)
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1m97a1-0003o0-7g; Thu, 29 Jul 2021 17:04:13 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: joro@8bytes.org, will@kernel.org, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 00/24] iommu: Refactor DMA domain strictness
-Date: Thu, 29 Jul 2021 17:04:12 +0200
-Message-ID: <2947762.k3LOHGUjKi@diego>
-In-Reply-To: <cover.1627468308.git.robin.murphy@arm.com>
-References: <cover.1627468308.git.robin.murphy@arm.com>
+ with ESMTP id qE8JjWLSs0_l for <iommu@lists.linux-foundation.org>;
+ Thu, 29 Jul 2021 15:13:29 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 895FB6061C
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:13:29 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ q17-20020a17090a2e11b02901757deaf2c8so9989253pjd.0
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 08:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=akMNdPJ4WS5nbnxgvsvMYm/zRUHwcBCfIsow9Ks6kis=;
+ b=dLioqOpBl2TpGowMKGZzRjcLFx0fZ0sBHYpCjAxABGEJkW9CgwGvHYqQ7apVDck0xx
+ W5FuDqVbCnNd70/DtkMCPd4nqMpezuT6upxl41IkUNtJlgdLrD+RhjExDK3z3ce7yAyi
+ 4T3pGiS49Fpux5+3O0k15LkGMg6tQKFB1XgNeZAHuGRcTvc6EBLKsj3eNAVBiUHKR1xX
+ /CgKKN3LRKSV3ywoC91cZi4VtcHW9BdxphQdF31SCJLo1LkxTmqp53t070UtFqT4mdev
+ zb6GH16wdrsVQodoRsmLapOWCa0r0OH1HB0WqtJ3jUF4EHVlDutR3ypdLueHvAxYkwe8
+ 3NDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=akMNdPJ4WS5nbnxgvsvMYm/zRUHwcBCfIsow9Ks6kis=;
+ b=SWOyBZ/hxD6ChuboOjVi6w02eBV6eNXVbHGrNwyQIh+QuiaEzSgmrptiR+mstaPdfd
+ OP0t/uHuP9tC473t7qJGi6Y5krErn11KjPr25BWiDzivi5GXxFc6JXGJ12QP7+rOOUko
+ pthQuuOrrUcy0ZUiuvUhDcvgeUYvY3iZWN647Niwf5dvlanrxbVg3Dm1TyRHCasf3fqT
+ MrvF3PPbMYLfSb/EVd//MmMb0OHDjd4E0HK5do8l+LgyDu6BwSmerOUjOh2NVt03i/NT
+ qcpLsPUwRI5JzCAtOHHA8l6YrQvmcWnyCdt6Fgu3NNs9VG28Ph3VS8cSpfBkEZW6uXJZ
+ Ru1w==
+X-Gm-Message-State: AOAM532B783MuEUbb5R2erphrtL5fm/fH+d8DRYM1RywZzn187z5metd
+ Be1L9Nl/Sg8IH8ri+AmDS8E=
+X-Google-Smtp-Source: ABdhPJz+1u+t4XYMb612jZVRZC2eq6EVWswZWptItrWPSpDVi083nnf1kcuFDG/7rvR4ghR/eM6m5A==
+X-Received: by 2002:a63:5505:: with SMTP id j5mr4265664pgb.250.1627571608984; 
+ Thu, 29 Jul 2021 08:13:28 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:1a:efea::4b1])
+ by smtp.gmail.com with ESMTPSA id
+ c7sm4247137pgq.22.2021.07.29.08.13.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jul 2021 08:13:28 -0700 (PDT)
+Subject: Re: [PATCH 09/13] DMA: Add dma_map_decrypted/dma_unmap_encrypted()
+ function
+From: Tianyu Lan <ltykernel@gmail.com>
+To: Christoph Hellwig <hch@infradead.org>
+References: <20210728145232.285861-1-ltykernel@gmail.com>
+ <20210728145232.285861-10-ltykernel@gmail.com>
+Message-ID: <da69c920-c12a-b4ad-7554-68b9e99bb6ce@gmail.com>
+Date: Thu, 29 Jul 2021 23:13:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Cc: Maxime Ripard <mripard@kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
- Chunyan Zhang <chunyan.zhang@unisoc.com>, dianders@chromium.org,
- iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20210728145232.285861-10-ltykernel@gmail.com>
+Content-Language: en-US
+Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, david@redhat.com,
+ peterz@infradead.org, dave.hansen@linux.intel.com, hpa@zytor.com,
+ anparri@microsoft.com, kys@microsoft.com, will@kernel.org,
+ boris.ostrovsky@oracle.com, linux-arch@vger.kernel.org, sfr@canb.auug.org.au,
+ wei.liu@kernel.org, sstabellini@kernel.org, sthemmin@microsoft.com,
+ xen-devel@lists.xenproject.org, linux-scsi@vger.kernel.org,
+ aneesh.kumar@linux.ibm.com, x86@kernel.org, decui@microsoft.com,
+ ardb@kernel.org, michael.h.kelley@microsoft.com, mingo@redhat.com,
+ pgonda@google.com, rientjes@google.com, kuba@kernel.org, jejb@linux.ibm.com,
+ martin.b.radev@gmail.com, thomas.lendacky@amd.com, Tianyu.Lan@microsoft.com,
+ keescook@chromium.org, arnd@arndb.de, konrad.wilk@oracle.com,
+ haiyangz@microsoft.com, bp@alien8.de, luto@kernel.org,
+ krish.sadhukhan@oracle.com, tglx@linutronix.de, akpm@linux-foundation.org,
+ jgross@suse.com, martin.petersen@oracle.com, saravanand@fb.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kirill.shutemov@linux.intel.com,
+ hannes@cmpxchg.org, vkuznets@redhat.com, robin.murphy@arm.com,
+ davem@davemloft.net, rppt@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -64,147 +113,106 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Robin,
 
-Am Mittwoch, 28. Juli 2021, 17:58:21 CEST schrieb Robin Murphy:
-> Hi all,
+Hi Christoph:
+      Could you have a look at this patch and the following patch
+"[PATCH 10/13] x86/Swiotlb: Add Swiotlb bounce buffer remap function
+for HV IVM" These two patches follows your previous comments and add 
+dma_map_decrypted/dma_unmap_decrypted(). I don't add arch prefix because 
+each platform may populate their callbacks into dma memory decrypted ops.
+
+Thanks.
+
+On 7/28/2021 10:52 PM, Tianyu Lan wrote:
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 > 
-> Here's v2 where things start to look more realistic, hence the expanded
-> CC list. The patches are now based on the current iommu/core branch to
-> take John's iommu_set_dma_strict() cleanup into account.
+> In Hyper-V Isolation VM with AMD SEV, swiotlb boucne buffer
+> needs to be mapped into address space above vTOM and so
+> introduce dma_map_decrypted/dma_unmap_encrypted() to map/unmap
+> bounce buffer memory. The platform can populate man/unmap callback
+> in the dma memory decrypted ops.
 > 
-> The series remiains in two (or possibly 3) logical parts - for people
-> CC'd on cookie cleanup patches, the later parts should not affect you
-> since your drivers don't implement non-strict mode anyway; the cleanup
-> is all pretty straightforward, but please do yell at me if I've managed
-> to let a silly mistake slip through and broken your driver.
+> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> ---
+>   include/linux/dma-map-ops.h |  9 +++++++++
+>   kernel/dma/mapping.c        | 22 ++++++++++++++++++++++
+>   2 files changed, 31 insertions(+)
 > 
-> This time I have also build-tested x86 as well as arm64 :)
-
-TL;DR: arm64 yay, arm32 nay ;-)
-
-testcase:
-5.14-rc3
-+ iommu/next
-+ patches 1+8 (the ones you cc'd me on)
-  iommu: Pull IOVA cookie management into the core
-  iommu/rockchip: Drop IOVA cookie management
-
-rk3399+hdmi (puma): boots with graphics
-rk3399+edp (kevin): boots with graphics
-px30+dsi (minievb): boots with graphics
-
-rk3288 (arm32, veyron-pinky): hangs when trying to start the rockchip-drm
-at some points the rest of the system recovers and fills the log with
-
-[   47.193776] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-[   47.193867] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:31:plane-0] commit wait timed out
-[   57.433743] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-[   57.433828] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:40:plane-4] commit wait timed out
-
-spews
-
-testcase 2:
-5.14-rc3
-+ iommu/next
-
-all works fine on both arm32+arm64
-
-
-That whole iommu voodoo is a bit over my head right now, so I'm not sure
-what to poke to diagnose this.
-
-
-Heiko
-
-
-> Changes in v2:
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index 0d53a96a3d64..01d60a024e45 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -71,6 +71,11 @@ struct dma_map_ops {
+>   	unsigned long (*get_merge_boundary)(struct device *dev);
+>   };
+>   
+> +struct dma_memory_decrypted_ops {
+> +	void *(*map)(void *addr, unsigned long size);
+> +	void (*unmap)(void *addr);
+> +};
+> +
+>   #ifdef CONFIG_DMA_OPS
+>   #include <asm/dma-mapping.h>
+>   
+> @@ -374,6 +379,10 @@ static inline void debug_dma_dump_mappings(struct device *dev)
+>   }
+>   #endif /* CONFIG_DMA_API_DEBUG */
+>   
+> +void *dma_map_decrypted(void *addr, unsigned long size);
+> +int dma_unmap_decrypted(void *addr, unsigned long size);
+> +
+>   extern const struct dma_map_ops dma_dummy_ops;
+> +extern struct dma_memory_decrypted_ops dma_memory_generic_decrypted_ops;
+>   
+>   #endif /* _LINUX_DMA_MAP_OPS_H */
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 2b06a809d0b9..6fb150dc1750 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -13,11 +13,13 @@
+>   #include <linux/of_device.h>
+>   #include <linux/slab.h>
+>   #include <linux/vmalloc.h>
+> +#include <asm/set_memory.h>
+>   #include "debug.h"
+>   #include "direct.h"
+>   
+>   bool dma_default_coherent;
+>   
+> +struct dma_memory_decrypted_ops dma_memory_generic_decrypted_ops;
+>   /*
+>    * Managed DMA API
+>    */
+> @@ -736,3 +738,23 @@ unsigned long dma_get_merge_boundary(struct device *dev)
+>   	return ops->get_merge_boundary(dev);
+>   }
+>   EXPORT_SYMBOL_GPL(dma_get_merge_boundary);
+> +
+> +void *dma_map_decrypted(void *addr, unsigned long size)
+> +{
+> +	if (set_memory_decrypted((unsigned long)addr,
+> +				 size / PAGE_SIZE))
+> +		return NULL;
+> +
+> +	if (dma_memory_generic_decrypted_ops.map)
+> +		return dma_memory_generic_decrypted_ops.map(addr, size);
+> +	else
+> +		return addr;
+> +}
+> +
+> +int dma_unmap_encrypted(void *addr, unsigned long size)
+> +{
+> +	if (dma_memory_generic_decrypted_ops.unmap)
+> +		dma_memory_generic_decrypted_ops.unmap(addr);
+> +
+> +	return set_memory_encrypted((unsigned long)addr, size / PAGE_SIZE);
+> +}
 > 
-> - Add iommu_is_dma_domain() helper to abstract flag check (and help
->   avoid silly typos like the one in v1).
-> - Tweak a few commit messages for spelling and (hopefully) clarity.
-> - Move the iommu_create_device_direct_mappings() update to patch #14
->   where it should have been.
-> - Rewrite patch #20 as a conversion of the now-existing option.
-> - Clean up the ops->flush_iotlb_all check which is also made redundant
->   by the new domain type
-> - Add patch #24, which is arguably tangential, but it was something I
->   spotted during the rebase, so...
-> 
-> Once again, the whole lot is available on a branch here:
-> 
-> https://gitlab.arm.com/linux-arm/linux-rm/-/tree/iommu/fq
-> 
-> Thanks,
-> Robin.
-> 
-> 
-> CC: Marek Szyprowski <m.szyprowski@samsung.com>
-> CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> CC: Geert Uytterhoeven <geert+renesas@glider.be>
-> CC: Yong Wu <yong.wu@mediatek.com>
-> CC: Heiko Stuebner <heiko@sntech.de>
-> CC: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> CC: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> CC: Maxime Ripard <mripard@kernel.org>
-> CC: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> Robin Murphy (24):
->   iommu: Pull IOVA cookie management into the core
->   iommu/amd: Drop IOVA cookie management
->   iommu/arm-smmu: Drop IOVA cookie management
->   iommu/vt-d: Drop IOVA cookie management
->   iommu/exynos: Drop IOVA cookie management
->   iommu/ipmmu-vmsa: Drop IOVA cookie management
->   iommu/mtk: Drop IOVA cookie management
->   iommu/rockchip: Drop IOVA cookie management
->   iommu/sprd: Drop IOVA cookie management
->   iommu/sun50i: Drop IOVA cookie management
->   iommu/virtio: Drop IOVA cookie management
->   iommu/dma: Unexport IOVA cookie management
->   iommu/dma: Remove redundant "!dev" checks
->   iommu: Introduce explicit type for non-strict DMA domains
->   iommu/amd: Prepare for multiple DMA domain types
->   iommu/arm-smmu: Prepare for multiple DMA domain types
->   iommu/vt-d: Prepare for multiple DMA domain types
->   iommu: Express DMA strictness via the domain type
->   iommu: Expose DMA domain strictness via sysfs
->   iommu: Merge strictness and domain type configs
->   iommu/dma: Factor out flush queue init
->   iommu: Allow enabling non-strict mode dynamically
->   iommu/arm-smmu: Allow non-strict in pgtable_quirks interface
->   iommu: Only log strictness for DMA domains
-> 
->  .../ABI/testing/sysfs-kernel-iommu_groups     |  2 +
->  drivers/iommu/Kconfig                         | 80 +++++++++----------
->  drivers/iommu/amd/iommu.c                     | 21 +----
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 25 ++++--
->  drivers/iommu/arm/arm-smmu/arm-smmu.c         | 29 ++++---
->  drivers/iommu/arm/arm-smmu/qcom_iommu.c       |  8 --
->  drivers/iommu/dma-iommu.c                     | 44 +++++-----
->  drivers/iommu/exynos-iommu.c                  | 18 +----
->  drivers/iommu/intel/iommu.c                   | 23 ++----
->  drivers/iommu/iommu.c                         | 53 +++++++-----
->  drivers/iommu/ipmmu-vmsa.c                    | 27 +------
->  drivers/iommu/mtk_iommu.c                     |  6 --
->  drivers/iommu/rockchip-iommu.c                | 11 +--
->  drivers/iommu/sprd-iommu.c                    |  6 --
->  drivers/iommu/sun50i-iommu.c                  | 12 +--
->  drivers/iommu/virtio-iommu.c                  |  8 --
->  include/linux/dma-iommu.h                     |  9 ++-
->  include/linux/iommu.h                         | 15 +++-
->  18 files changed, 171 insertions(+), 226 deletions(-)
-> 
-> 
-
-
-
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
