@@ -1,113 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96083DA096
-	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 11:51:15 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 803323DA094
+	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 11:51:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7FAA340192;
-	Thu, 29 Jul 2021 09:51:14 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hesXO6luShVJ; Thu, 29 Jul 2021 09:51:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1729140426;
+	by smtp3.osuosl.org (Postfix) with ESMTP id BF6BD6067E;
 	Thu, 29 Jul 2021 09:51:11 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LNdZ8Ov483pq; Thu, 29 Jul 2021 09:51:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id A645860A4E;
+	Thu, 29 Jul 2021 09:51:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F083AC0029;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9BD8C0025;
 	Thu, 29 Jul 2021 09:51:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3CBACC000E
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 05:05:57 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1B77CC000E
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 04:30:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 261FF6068B
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 05:05:57 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id EC65040312
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 04:30:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=ibm.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kxgx7Zgu7Web for <iommu@lists.linux-foundation.org>;
- Thu, 29 Jul 2021 05:05:56 +0000 (UTC)
-X-Greylist: delayed 00:44:05 by SQLgrey-1.8.0
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D27DA60634
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 05:05:55 +0000 (UTC)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16T4FEtZ182812; Thu, 29 Jul 2021 00:21:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=content-type : subject :
- from : in-reply-to : date : cc : message-id : references : to :
- content-transfer-encoding : mime-version; s=pp1;
- bh=lhTVW3t0lTF5kza0RELN9IffV7THs5vCoJtihBxvY3w=;
- b=GJzzg3zwiEa86QHC6SaV8sCDIKmHuyJntUFheqCQd74yNm+fsSZR/BWlUhDB+cUo762t
- GtNvpdTtxsnrgJOvyG0ZXWtim0ub84I3gz1cto8zKp+BhlhQ06tiTty3f62/N7MND2du
- e2RYiTdRV5hVbCwLKCj0gwtxoK04kgXvX/8di0wlf9M8kZ0N2UlymFDyvMo7gFflGjwG
- h6ZthjWZoWP6SxypOGh2A7R6GtgntNemWim28v1WN87cKKnWEBUPZE8gIhgLyTvrfOcS
- bJCUZNzGOC131DlyDGY87vEFWmlqyr2odiemd4bhyK6W4Z2rWp53fcnSQQ5cK+2etZRY Bg== 
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3a3n4y8483-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jul 2021 00:21:45 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16T4D5kg007046;
- Thu, 29 Jul 2021 04:21:43 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3a235khen5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jul 2021 04:21:43 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16T4LffY25559496
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 29 Jul 2021 04:21:41 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 029BEA405B;
- Thu, 29 Jul 2021 04:21:41 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22762A4062;
- Thu, 29 Jul 2021 04:21:38 +0000 (GMT)
-Received: from smtpclient.apple (unknown [9.43.126.126])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 29 Jul 2021 04:21:37 +0000 (GMT)
-Subject: Re: [powerpc][next-20210727] Boot failure - kernel BUG at
- arch/powerpc/kernel/interrupt.c:98!
-From: Sachin Sant <sachinp@linux.vnet.ibm.com>
-In-Reply-To: <YQGVZnMe9hFieF8D@Ryzen-9-3900X.localdomain>
-Date: Thu, 29 Jul 2021 09:51:36 +0530
-Message-Id: <63F21E55-B11E-4B30-B436-C063C405D9C5@linux.vnet.ibm.com>
-References: <1905CD70-7656-42AE-99E2-A31FC3812EAC@linux.vnet.ibm.com>
- <YQGVZnMe9hFieF8D@Ryzen-9-3900X.localdomain>
-To: Nathan Chancellor <nathan@kernel.org>
-X-Mailer: Apple Mail (2.3654.100.0.2.22)
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TmBeoEqtp6gufjRfjgGV6pBLwHd7ZQEp
-X-Proofpoint-ORIG-GUID: TmBeoEqtp6gufjRfjgGV6pBLwHd7ZQEp
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-29_03:2021-07-27,
- 2021-07-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- clxscore=1011 mlxlogscore=768 spamscore=0 bulkscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2107290024
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=dabbelt-com.20150623.gappssmtp.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id eh2fYJfTk0Kl for <iommu@lists.linux-foundation.org>;
+ Thu, 29 Jul 2021 04:30:24 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id D20E4402F0
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 04:30:24 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id q2so5404101plr.11
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Jul 2021 21:30:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PPE0zooLgyR9UCdP8xX+4M+xn5NMefkRnT3Z8S+2rxo=;
+ b=jVAy9Axj38CP6qzQCubayURG3GC5N6GQpLn7DerOn3bVNLAo5e2aBMRAWBAlFMjEyZ
+ 4472RxpG50pI67eMjOrpldqqqzhay6vk6Lb7CdtG0zE9KbIZhrZNpknQ7LG3XXrvYvvg
+ 9+ZSD0KURwgn7rDsa3vOQIlvOF/4bvQlt3z85tXylMVwPsRRQu9cgVkI0mhelF7lUeAk
+ xQxAlcTZ1pz36ZJN1RENmEhvawUmrcKaMmggmRUkq9j6Rnz1lCCJOrjmn8RiIMw/CgQ1
+ oalmOGZtWH9kw2Qo/EmvQ1AVOxl6Sgao67e78xpQhmKEDKMDx0mtHp7NEy74QZ3RM8bG
+ +HfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=PPE0zooLgyR9UCdP8xX+4M+xn5NMefkRnT3Z8S+2rxo=;
+ b=FwST5l2Xs3KL5Fl+S70853B1s3dCsz0JGKNZuTwgr8XGnRTSKB0RzaSiSFkXvWObi1
+ sM/MYCTAWUNmtc6TsB50jM4FcqtmH3e0hQr1oT/MvmChj7yTbiOSN5dSNAJSIVl7NHFx
+ vHcsamOQLCB+em6sV8lvGCGv0WiPydy5deYGc4XPcadN1XsdAhYQYDPXMydPkDAshwdH
+ hkJktSuB0sk8l59bVGyCL31qg78uyaj0WMOlf2PApoiNLwraLVXw7hF4MGlozpiE07v/
+ hIHSqB5L3A9FLoVq2eFAXPD76IeoLD1uXlIu7GJnfevZ4Gz7DTlpGvBc6lBbYinQfWX3
+ xd0w==
+X-Gm-Message-State: AOAM533MPXh6DAI5TU61eDPHbMUUsCXUAnA4I7N/txWR6vw8KmOJvH8b
+ g5nhdAHlb0QaGtUyT/5ZTobdhA==
+X-Google-Smtp-Source: ABdhPJxnCACwbpVayPk6V7fFVJvDGneCsIVO8qAKvIDi/fVY508+0MplapegPRHObLAXo+BVyVhlUA==
+X-Received: by 2002:a05:6a00:9a3:b029:355:d45b:ad9a with SMTP id
+ u35-20020a056a0009a3b0290355d45bad9amr3098900pfg.73.1627533024171; 
+ Wed, 28 Jul 2021 21:30:24 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id z2sm1752300pgl.61.2021.07.28.21.30.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 21:30:23 -0700 (PDT)
+Date: Wed, 28 Jul 2021 21:30:23 -0700 (PDT)
+X-Google-Original-Date: Wed, 28 Jul 2021 20:39:59 PDT (-0700)
+Subject: Re: [RFC 0/5] Support non-coherent DMA on RISC-V using a global pool
+In-Reply-To: <20210723214031.3251801-1-atish.patra@wdc.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Atish Patra <Atish.Patra@wdc.com>
+Message-ID: <mhng-11e1ab27-21eb-4b20-9185-c256fcaaab99@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
 X-Mailman-Approved-At: Thu, 29 Jul 2021 09:51:07 +0000
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- iommu@lists.linux-foundation.org, linux-next@vger.kernel.org,
- Claire Chang <tientzu@chromium.org>, linuxppc-dev@lists.ozlabs.org,
- Christoph Hellwig <hch@lst.de>
+Cc: devicetree@vger.kernel.org, aou@eecs.berkeley.edu, tklauser@distanz.ch,
+ robin.murphy@arm.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ Atish Patra <Atish.Patra@wdc.com>, iommu@lists.linux-foundation.org,
+ guoren@linux.alibaba.com, Paul Walmsley <paul.walmsley@sifive.com>,
+ linux-riscv@lists.infradead.org, frowand.list@gmail.com,
+ Christoph Hellwig <hch@lst.de>, dvyukov@google.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,30 +99,94 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Cgo+IE9uIDI4LUp1bC0yMDIxLCBhdCAxMTowNSBQTSwgTmF0aGFuIENoYW5jZWxsb3IgPG5hdGhh
-bkBrZXJuZWwub3JnPiB3cm90ZToKPiAKPiBPbiBXZWQsIEp1bCAyOCwgMjAyMSBhdCAwMTozMTow
-NlBNICswNTMwLCBTYWNoaW4gU2FudCB3cm90ZToKPj4gbGludXgtbmV4dCBmYWlscyB0byBib290
-IG9uIFBvd2VyIHNlcnZlciAoUE9XRVI4L1BPV0VSOSkuIEZvbGxvd2luZyB0cmFjZXMKPj4gYXJl
-IHNlZW4gZHVyaW5nIGJvb3QKPj4gCj4+IFsgICAgMC4wMTA3OTldIHNvZnR3YXJlIElPIFRMQjog
-dGVhcmluZyBkb3duIGRlZmF1bHQgbWVtb3J5IHBvb2wKPj4gWyAgICAwLjAxMDgwNV0gLS0tLS0t
-LS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tCj4+IFsgICAgMC4wMTA4MDhdIGtlcm5lbCBC
-VUcgYXQgYXJjaC9wb3dlcnBjL2tlcm5lbC9pbnRlcnJ1cHQuYzo5OCEKPj4gWyAgICAwLjAxMDgx
-Ml0gT29wczogRXhjZXB0aW9uIGluIGtlcm5lbCBtb2RlLCBzaWc6IDUgWyMxXQrigKbigKYuCj4g
-Cj4gSSBub3RpY2VkIHRoaXMgd2l0aCBPcGVuU1VTRSdzIHBwYzY0bGUgY29uZmlnIFsxXSBhbmQg
-bXkgYmlzZWN0IGxhbmRlZCBvbgo+IGNvbW1pdCBhZDZjMDAyODMxNjMgKCJzd2lvdGxiOiBGcmVl
-IHRibCBtZW1vcnkgaW4gc3dpb3RsYl9leGl0KCkiKS4gVGhhdAoKSW5kZWVkLiBUaGFua3MgTmF0
-aGFuLgpCaXNlY3QgcG9pbnRzIHRvIHRoaXMgY29tbWl0LiAgUmV2ZXJ0aW5nIHRoZSBjb21taXQg
-YWxsb3dzIHRoZSBrZXJuZWwgdG8gYm9vdC4KClRoYW5rcwotU2FjaGluCgo+IHNlcmllcyBqdXN0
-IGtlZXBzIG9uIGdpdmluZy4uLiBBZGRpbmcgc29tZSBwZW9wbGUgZnJvbSB0aGF0IHRocmVhZCB0
-bwo+IHRoaXMgb25lLiBPcmlnaW5hbCB0aHJlYWQ6Cj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-ci8xOTA1Q0Q3MC03NjU2LTQyQUUtOTlFMi1BMzFGQzM4MTJFQUNAbGludXgudm5ldC5pYm0uY29t
-Lwo+IAo+IFsxXTogaHR0cHM6Ly9naXRodWIuY29tL29wZW5TVVNFL2tlcm5lbC1zb3VyY2UvcmF3
-L21hc3Rlci9jb25maWcvcHBjNjRsZS9kZWZhdWx0Cj4gCj4gQ2hlZXJzLAo+IE5hdGhhbgoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGlu
-ZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGlu
-dXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On Fri, 23 Jul 2021 14:40:26 PDT (-0700), Atish Patra wrote:
+> RISC-V privilege specification doesn't define an IOMMU or any method modify
+> PMA attributes or PTE entries to allow non-coherent mappings yet. In
+> the beginning, this approach was adopted assuming that most of the RISC-V
+> platforms would support full cache-coherent IO. Here is excerpt from the
+> priv spec section 3.6.5
+>
+> "In RISC-V platforms, the use of hardware-incoherent regions is discouraged
+> due to software complexity, performance, and energy impacts."
+>
+> While some of the RISC-V platforms adhere to the above suggestion, not all
+> platforms can afford to build to fully cache-coherent I/O devices. To
+> address DMA for non-coherent I/O devices, we need to mark a region of memory
+> as non-cacheable. Some of the platforms rely on a fixed region of uncached
+> memory that is remapped to the system memory while some other modify
+> the PTE entries to achieve that.
+>
+> The patch3 solves the issue for the fist use case by using a global
+> pool of memory that is reserved for DMA. The device access the reserved area
+> of the region while corresponding CPU address will be from uncached region
+> As the uncached region is remapped to the beginning of the system ram, both
+> CPU and device get the same view.
+>
+> To facilitate streaming DMA APIs, patch 1 introduces a set of generic
+> cache operations. Any platform can use the generic ops to provide platform
+> specific cache management operations. Once the standard RISC-V CMO extension
+> is available, it will also use these generic ops.
+>
+> To address the second use case, Page Based Memory Attribute (PBMT) extension
+> is proposed. Once the extension is in good shape, we can leverage that
+> using CONFIG_DIRECT_REMAP. Currently, it is selected via a compile time config
+> option. We will probably need another arch specific hooks to know if the
+> platform supports direct remap at runtime. For RISC-V, it will check the
+> presence of PBMT extension while other arch function will simply return true
+
+IIUC this is another extension that's not yet frozen or implemented in 
+hardware?  Is this one compatible with what's in the c906, or is it 
+doing things its own way?
+
+> if DIRECT_REMAP is enabled. This is required as arious different config
+> (DIRECT_REMAP, GLOBAL_POOL) will be enabled in the defconfig so that a
+> unified kernel image can boot on all RISC-V platforms.
+>
+> This patch series depends on Christoph's global pool support series[1].
+> Tested on Qemu, HiFive unleashed and beagleV. This series is also available
+> at [2].
+> This series also solves the non-coherent DMA support on beagleV but requires
+> additional beagleV specific patches[3] which will be upstreamed soon.
+>
+>
+> [1] https://lists.linuxfoundation.org/pipermail/iommu/2021-July/057266.html
+> [2] https://github.com/atishp04/linux/tree/riscv_nc_global_pool
+> [3] https://github.com/atishp04/linux/tree/wip_beaglev_dma_nc_global
+>
+> Atish Patra (5):
+> RISC-V: Implement arch_sync_dma* functions
+> of: Move of_dma_get_range to of_address.h
+> dma-mapping: Enable global non-coherent pool support for RISC-V
+> dma-direct: Allocate dma pages directly if global pool allocation
+> fails
+> RISC-V: Support a new config option for non-coherent DMA
+>
+> arch/riscv/Kconfig                       |  8 +++
+> arch/riscv/include/asm/dma-noncoherent.h | 19 +++++++
+> arch/riscv/mm/Makefile                   |  1 +
+> arch/riscv/mm/dma-noncoherent.c          | 66 ++++++++++++++++++++++++
+> drivers/of/of_private.h                  | 10 ----
+> include/linux/of_address.h               | 12 +++++
+> kernel/dma/coherent.c                    | 49 +++++++++++++++---
+> kernel/dma/direct.c                      |  7 ++-
+> 8 files changed, 152 insertions(+), 20 deletions(-)
+> create mode 100644 arch/riscv/include/asm/dma-noncoherent.h
+> create mode 100644 arch/riscv/mm/dma-noncoherent.c
+
+Can you guys please make up your minds about how this is going to be 
+supported at the ISA level?  I get a different answer every day here: 
+sometimes it's that these systems are not compliant, sometimes that 
+Linux is the compliance suite, sometimes that we're doing an ISA 
+extension, and sometimes that we're doing the SBI stuff.
+
+I don't really care all that much about what the decision is, but it's 
+impossible to move forward without some semblance of a plan.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
