@@ -2,111 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 511D83DA706
-	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 17:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346B63DA7D1
+	for <lists.iommu@lfdr.de>; Thu, 29 Jul 2021 17:49:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 950C54058D;
-	Thu, 29 Jul 2021 15:02:38 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A780E405A4;
+	Thu, 29 Jul 2021 15:49:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Lr0YVs_DiqUU; Thu, 29 Jul 2021 15:02:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A9C644058B;
-	Thu, 29 Jul 2021 15:02:37 +0000 (UTC)
+	with ESMTP id sLixgLSi-kPh; Thu, 29 Jul 2021 15:49:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A06EB4059B;
+	Thu, 29 Jul 2021 15:49:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6EA52C000E;
-	Thu, 29 Jul 2021 15:02:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E4ABC000E;
+	Thu, 29 Jul 2021 15:49:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 72655C000E
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:02:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0C1FAC000E
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:49:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5235C400AE
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:02:35 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id E2D0A60607
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:49:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fpI25OLkO4pj for <iommu@lists.linux-foundation.org>;
- Thu, 29 Jul 2021 15:02:34 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7A2A740171
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:02:34 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id f13so7346778plj.2
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 08:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+bK/E9hMSXhFLJuYffyy4lnGRV/WQf1v1wRicssH11c=;
- b=FwB6x7B4iG0F7MUs9/9F6Dg/9PoCSP7gVTcOX0ocOJU41g4H+lOYYpyql4IyYVFcQY
- /jR2vjQ8vXFjFKbHbASRXdJemRdLMW21jXT3DV06qcoHuzHkTjYfMvskkaAemBRPzjTP
- h4JIu0oy0kK8PPRWkGWT9A0ZMN37pPHspf8nHPV3REyaJvIq/2bRvESuNsbdqOhCVZps
- wVNuJN0Wcl6YgLLFJnGARAl2uxPd4PQ0Gk5oTKljpXKFW8Dd8N4UiP1kBqxQ7w9zRhD8
- K8YjAuIKZcJf6XeOYfYrcl4FxeujnfCoH+ST0WDAmJ9l2jF1cG2dsUQ3hNCcIAs2tXUI
- dquA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+bK/E9hMSXhFLJuYffyy4lnGRV/WQf1v1wRicssH11c=;
- b=qVayri/HlF9F4lCICzNfomue1DfTidaGaf/H1blg45TgxNCLtkyXITZ6kPYGTOjcEM
- 49mvAn4i8lUvePKiuSHpJSkW6AWNZQHW4zSW9Qr034z7aGVcyIYmcr7DIEbvpyAt7zfE
- KLCAvsJlhKVASgH+7kblbM0iZOswHfMgh6uEQuo1XN1Xm/KnSWjTq4D6hkVtlUFUCGUn
- AvL217pBi/pnK6QVFwYnRa3wqMQcoFsN7zAB7gsFnRRgJZaEB30QoxnufT/jhHLRWeYq
- 8IXt6+hB0MleIjwfI5RZgQ9qgsmUw0aW3X1NhkwPdLAOXkB2WcX8eePEM2bRjGGU0qZM
- 4dnA==
-X-Gm-Message-State: AOAM531Q3Nj0risIKCGxQI4FrAjHlgKZMDtmo9IUgRY+YPH0H7DQvCw3
- XMCZSeUQJX/u0zoF8IY+Gj8=
-X-Google-Smtp-Source: ABdhPJzBGI9zTfesOKkMJXLKPI10+fN42IwNJPZiUXGYmFrvx/nDBD1B0BKa0HCMXpw5NCSATnP3lw==
-X-Received: by 2002:a17:90a:e651:: with SMTP id
- ep17mr5748786pjb.85.1627570953940; 
- Thu, 29 Jul 2021 08:02:33 -0700 (PDT)
-Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:1a:efea::4b1])
- by smtp.gmail.com with ESMTPSA id
- h30sm4026153pfr.191.2021.07.29.08.02.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 08:02:33 -0700 (PDT)
-Subject: Re: [PATCH 03/13] x86/HV: Add new hvcall guest address host
- visibility support
-To: Dave Hansen <dave.hansen@intel.com>, kys@microsoft.com,
- haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- x86@kernel.org, hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
- peterz@infradead.org, konrad.wilk@oracle.com, boris.ostrovsky@oracle.com,
- jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
- davem@davemloft.net, kuba@kernel.org, jejb@linux.ibm.com,
- martin.petersen@oracle.com, arnd@arndb.de, hch@lst.de,
- m.szyprowski@samsung.com, robin.murphy@arm.com, thomas.lendacky@amd.com,
- brijesh.singh@amd.com, ardb@kernel.org, Tianyu.Lan@microsoft.com,
- rientjes@google.com, martin.b.radev@gmail.com, akpm@linux-foundation.org,
- rppt@kernel.org, kirill.shutemov@linux.intel.com,
- aneesh.kumar@linux.ibm.com, krish.sadhukhan@oracle.com, saravanand@fb.com,
- xen-devel@lists.xenproject.org, pgonda@google.com, david@redhat.com,
- keescook@chromium.org, hannes@cmpxchg.org, sfr@canb.auug.org.au,
- michael.h.kelley@microsoft.com
-References: <20210728145232.285861-1-ltykernel@gmail.com>
- <20210728145232.285861-4-ltykernel@gmail.com>
- <a2444c36-0103-8e1c-7005-d97f77f90e85@intel.com>
- <0d956a05-7d24-57a0-f4a9-dccc849b52fc@gmail.com>
- <ec1d4cfd-bbbc-e27a-7589-e85d9f0438f4@intel.com>
-From: Tianyu Lan <ltykernel@gmail.com>
-Message-ID: <8df2845d-ee90-56d0-1228-adebb103ec37@gmail.com>
-Date: Thu, 29 Jul 2021 23:02:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id nQ3LWOGJmvHy for <iommu@lists.linux-foundation.org>;
+ Thu, 29 Jul 2021 15:49:10 +0000 (UTC)
+X-Greylist: delayed 00:44:43 by SQLgrey-1.8.0
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B233260BEA
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 15:49:10 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1m97a1-0003o0-7g; Thu, 29 Jul 2021 17:04:13 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: joro@8bytes.org, will@kernel.org, Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v2 00/24] iommu: Refactor DMA domain strictness
+Date: Thu, 29 Jul 2021 17:04:12 +0200
+Message-ID: <2947762.k3LOHGUjKi@diego>
+In-Reply-To: <cover.1627468308.git.robin.murphy@arm.com>
+References: <cover.1627468308.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <ec1d4cfd-bbbc-e27a-7589-e85d9f0438f4@intel.com>
-Content-Language: en-US
-Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- anparri@microsoft.com, vkuznets@redhat.com
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ Chunyan Zhang <chunyan.zhang@unisoc.com>, dianders@chromium.org,
+ iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,46 +64,148 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gNy8yOS8yMDIxIDEwOjA5IFBNLCBEYXZlIEhhbnNlbiB3cm90ZToKPiBPbiA3LzI5LzIxIDY6
-MDEgQU0sIFRpYW55dSBMYW4gd3JvdGU6Cj4+IE9uIDcvMjkvMjAyMSAxOjA2IEFNLCBEYXZlIEhh
-bnNlbiB3cm90ZToKPj4+IE9uIDcvMjgvMjEgNzo1MiBBTSwgVGlhbnl1IExhbiB3cm90ZToKPj4+
-PiBAQCAtMTk4Niw3ICsxOTg4LDkgQEAgc3RhdGljIGludCBfX3NldF9tZW1vcnlfZW5jX2RlYyh1
-bnNpZ25lZCBsb25nCj4+Pj4gYWRkciwgaW50IG51bXBhZ2VzLCBib29sIGVuYykKPj4+PiAgwqDC
-oMKgwqDCoCBpbnQgcmV0Owo+Pj4+ICDCoCDCoMKgwqDCoMKgIC8qIE5vdGhpbmcgdG8gZG8gaWYg
-bWVtb3J5IGVuY3J5cHRpb24gaXMgbm90IGFjdGl2ZSAqLwo+Pj4+IC3CoMKgwqAgaWYgKCFtZW1f
-ZW5jcnlwdF9hY3RpdmUoKSkKPj4+PiArwqDCoMKgIGlmIChodl9pc19pc29sYXRpb25fc3VwcG9y
-dGVkKCkpCj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiBodl9zZXRfbWVtX2VuYyhhZGRyLCBu
-dW1wYWdlcywgZW5jKTsKPj4+PiArwqDCoMKgIGVsc2UgaWYgKCFtZW1fZW5jcnlwdF9hY3RpdmUo
-KSkKPj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAwOwo+Pj4KPj4+IE9uZSBtb3JlIHRo
-aW5nLsKgIElmIHlvdSdyZSBnb2luZyB0byBiZSBwYXRjaGluZyBnZW5lcmljIGNvZGUsIHBsZWFz
-ZQo+Pj4gc3RhcnQgdXNpbmcgZmVhdHVyZSBjaGVja3MgdGhhdCBjYW4gZ2V0IG9wdGltaXplZCBh
-d2F5IGF0IHJ1bnRpbWUuCj4+PiBodl9pc19pc29sYXRpb25fc3VwcG9ydGVkKCkgZG9lc24ndCBs
-b29rIGxpa2UgdGhlIHdvcmxkJ3MgY2hlYXBlc3QKPj4+IGNoZWNrLsKgIEl0IGNhbid0IGJlIGlu
-bGluZWQgYW5kIGNvc3RzIGF0IGxlYXN0IGEgZnVuY3Rpb24gY2FsbC4KPj4KPj4gWWVzLCB5b3Ug
-YXJlIHJpZ2h0LiBIb3cgYWJvdXQgYWRkaW5nIGEgc3RhdGljIGJyYW5jaCBrZXkgZm9yIHRoZSBj
-aGVjawo+PiBvZiBpc29sYXRpb24gVk0/IFRoaXMgbWF5IHJlZHVjZSB0aGUgY2hlY2sgY29zdC4K
-PiAKPiBJIGRvbid0IHRoaW5rIHlvdSBuZWVkIGEgc3RhdGljIGtleS4KPiAKPiBUaGVyZSBhcmUg
-YmFzaWNhbGx5IHRocmVlIGNob2ljZXM6Cj4gMS4gVXNlIGFuIGV4aXN0aW5nIFg4Nl9GRUFUVVJF
-IGJpdC4gIEkgdGhpbmsgdGhlcmUncyBhbHJlYWR5IG9uZSBmb3IKPiAgICAgd2hlbiB5b3UgYXJl
-IHJ1bm5pbmcgdW5kZXIgYSBoeXBlcnZpc29yLiAgSXQncyBub3Qgc3VwZXIgcHJlY2lzZSwKPiAg
-ICAgYnV0IGl0J3MgYmV0dGVyIHRoYW4gd2hhdCB5b3UgaGF2ZS4KPiAyLiBEZWZpbmUgYSBuZXcg
-WDg2X0ZFQVRVUkUgYml0IGZvciB3aGVuIHlvdSBhcmUgcnVubmluZyB1bmRlcgo+ICAgICBIeXBl
-ci1WLgo+IDMuIERlZmluZSBhIG5ldyBYODZfRkVBVFVSRSBiaXQgc3BlY2lmaWNhbGx5IGZvciBI
-eXBlci1WIGlzb2xhdGlvbiBWTQo+ICAgICBzdXBwb3J0LiAgVGhpcyBwYXJ0aWN1bGFyIGZlYXR1
-cmUgbWlnaHQgYmUgYSBsaXR0bGUgdW5jb21tb24gdG8KPiAgICAgZGVzZXJ2ZSBpdHMgb3duIGJp
-dC4KPiAKPiBJJ2QgcHJvYmFibHkganVzdCBkbyAjMi4KPiAKClRoZXJlIGlzIHg4Nl9oeXBlcl90
-eXBlIHRvIGlkZW50aWZ5IGh5cGVydmlzb3IgdHlwZSBhbmQgd2UgbWF5IGNoZWNrIAp0aGlzIHZh
-cmlhYmxlIGFmdGVyIGNoZWNraW5nIFg4Nl9GRUFUVVJFX0hZUEVSVklTT1IuCgpzdGF0aWMgaW5s
-aW5lIGJvb2wgaHZfaXNfaXNvbGF0aW9uX3N1cHBvcnRlZCh2b2lkKQp7CglpZiAoIWNwdV9mZWF0
-dXJlX2VuYWJsZWQoWDg2X0ZFQVRVUkVfSFlQRVJWSVNPUikpCgkJcmV0dXJuIDA7CgogICAgICAg
-ICBpZiAoeDg2X2h5cGVyX3R5cGUgIT0gWDg2X0hZUEVSX01TX0hZUEVSVikKICAgICAgICAgICAg
-ICAgICByZXR1cm4gMDsKCgkvLyBvdXQgb2YgbGluZSBmdW5jdGlvbiBjYWxsOgoJcmV0dXJuIF9f
-aHZfaXNfaXNvbGF0aW9uX3N1cHBvcnRlZCgpOwp9CQpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGlu
-dXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxt
-YW4vbGlzdGluZm8vaW9tbXU=
+Hi Robin,
+
+Am Mittwoch, 28. Juli 2021, 17:58:21 CEST schrieb Robin Murphy:
+> Hi all,
+> 
+> Here's v2 where things start to look more realistic, hence the expanded
+> CC list. The patches are now based on the current iommu/core branch to
+> take John's iommu_set_dma_strict() cleanup into account.
+> 
+> The series remiains in two (or possibly 3) logical parts - for people
+> CC'd on cookie cleanup patches, the later parts should not affect you
+> since your drivers don't implement non-strict mode anyway; the cleanup
+> is all pretty straightforward, but please do yell at me if I've managed
+> to let a silly mistake slip through and broken your driver.
+> 
+> This time I have also build-tested x86 as well as arm64 :)
+
+TL;DR: arm64 yay, arm32 nay ;-)
+
+testcase:
+5.14-rc3
++ iommu/next
++ patches 1+8 (the ones you cc'd me on)
+  iommu: Pull IOVA cookie management into the core
+  iommu/rockchip: Drop IOVA cookie management
+
+rk3399+hdmi (puma): boots with graphics
+rk3399+edp (kevin): boots with graphics
+px30+dsi (minievb): boots with graphics
+
+rk3288 (arm32, veyron-pinky): hangs when trying to start the rockchip-drm
+at some points the rest of the system recovers and fills the log with
+
+[   47.193776] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+[   47.193867] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:31:plane-0] commit wait timed out
+[   57.433743] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+[   57.433828] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:40:plane-4] commit wait timed out
+
+spews
+
+testcase 2:
+5.14-rc3
++ iommu/next
+
+all works fine on both arm32+arm64
+
+
+That whole iommu voodoo is a bit over my head right now, so I'm not sure
+what to poke to diagnose this.
+
+
+Heiko
+
+
+> Changes in v2:
+> 
+> - Add iommu_is_dma_domain() helper to abstract flag check (and help
+>   avoid silly typos like the one in v1).
+> - Tweak a few commit messages for spelling and (hopefully) clarity.
+> - Move the iommu_create_device_direct_mappings() update to patch #14
+>   where it should have been.
+> - Rewrite patch #20 as a conversion of the now-existing option.
+> - Clean up the ops->flush_iotlb_all check which is also made redundant
+>   by the new domain type
+> - Add patch #24, which is arguably tangential, but it was something I
+>   spotted during the rebase, so...
+> 
+> Once again, the whole lot is available on a branch here:
+> 
+> https://gitlab.arm.com/linux-arm/linux-rm/-/tree/iommu/fq
+> 
+> Thanks,
+> Robin.
+> 
+> 
+> CC: Marek Szyprowski <m.szyprowski@samsung.com>
+> CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> CC: Geert Uytterhoeven <geert+renesas@glider.be>
+> CC: Yong Wu <yong.wu@mediatek.com>
+> CC: Heiko Stuebner <heiko@sntech.de>
+> CC: Chunyan Zhang <chunyan.zhang@unisoc.com>
+> CC: Chunyan Zhang <chunyan.zhang@unisoc.com>
+> CC: Maxime Ripard <mripard@kernel.org>
+> CC: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> 
+> Robin Murphy (24):
+>   iommu: Pull IOVA cookie management into the core
+>   iommu/amd: Drop IOVA cookie management
+>   iommu/arm-smmu: Drop IOVA cookie management
+>   iommu/vt-d: Drop IOVA cookie management
+>   iommu/exynos: Drop IOVA cookie management
+>   iommu/ipmmu-vmsa: Drop IOVA cookie management
+>   iommu/mtk: Drop IOVA cookie management
+>   iommu/rockchip: Drop IOVA cookie management
+>   iommu/sprd: Drop IOVA cookie management
+>   iommu/sun50i: Drop IOVA cookie management
+>   iommu/virtio: Drop IOVA cookie management
+>   iommu/dma: Unexport IOVA cookie management
+>   iommu/dma: Remove redundant "!dev" checks
+>   iommu: Introduce explicit type for non-strict DMA domains
+>   iommu/amd: Prepare for multiple DMA domain types
+>   iommu/arm-smmu: Prepare for multiple DMA domain types
+>   iommu/vt-d: Prepare for multiple DMA domain types
+>   iommu: Express DMA strictness via the domain type
+>   iommu: Expose DMA domain strictness via sysfs
+>   iommu: Merge strictness and domain type configs
+>   iommu/dma: Factor out flush queue init
+>   iommu: Allow enabling non-strict mode dynamically
+>   iommu/arm-smmu: Allow non-strict in pgtable_quirks interface
+>   iommu: Only log strictness for DMA domains
+> 
+>  .../ABI/testing/sysfs-kernel-iommu_groups     |  2 +
+>  drivers/iommu/Kconfig                         | 80 +++++++++----------
+>  drivers/iommu/amd/iommu.c                     | 21 +----
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 25 ++++--
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c         | 29 ++++---
+>  drivers/iommu/arm/arm-smmu/qcom_iommu.c       |  8 --
+>  drivers/iommu/dma-iommu.c                     | 44 +++++-----
+>  drivers/iommu/exynos-iommu.c                  | 18 +----
+>  drivers/iommu/intel/iommu.c                   | 23 ++----
+>  drivers/iommu/iommu.c                         | 53 +++++++-----
+>  drivers/iommu/ipmmu-vmsa.c                    | 27 +------
+>  drivers/iommu/mtk_iommu.c                     |  6 --
+>  drivers/iommu/rockchip-iommu.c                | 11 +--
+>  drivers/iommu/sprd-iommu.c                    |  6 --
+>  drivers/iommu/sun50i-iommu.c                  | 12 +--
+>  drivers/iommu/virtio-iommu.c                  |  8 --
+>  include/linux/dma-iommu.h                     |  9 ++-
+>  include/linux/iommu.h                         | 15 +++-
+>  18 files changed, 171 insertions(+), 226 deletions(-)
+> 
+> 
+
+
+
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
