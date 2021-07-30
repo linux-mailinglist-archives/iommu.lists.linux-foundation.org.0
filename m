@@ -1,69 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BE63DB713
-	for <lists.iommu@lfdr.de>; Fri, 30 Jul 2021 12:21:11 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC903DB7F5
+	for <lists.iommu@lfdr.de>; Fri, 30 Jul 2021 13:42:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5006440100;
-	Fri, 30 Jul 2021 10:21:10 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E8B8383A80;
+	Fri, 30 Jul 2021 11:42:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6C9KDOEK6fc2; Fri, 30 Jul 2021 10:21:09 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mlC7m8hKTVeW; Fri, 30 Jul 2021 11:42:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 48F0D40104;
-	Fri, 30 Jul 2021 10:21:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1127F82DE6;
+	Fri, 30 Jul 2021 11:42:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 27B38C001F;
-	Fri, 30 Jul 2021 10:21:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E0E4AC001F;
+	Fri, 30 Jul 2021 11:42:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EE6D7C000E
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 10:21:06 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F211EC000E
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 11:42:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E496460671
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 10:21:06 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id E894F83A5F
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 11:42:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3jtZ2CIvv7rd for <iommu@lists.linux-foundation.org>;
- Fri, 30 Jul 2021 10:21:06 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pPfMVfMQxi8N for <iommu@lists.linux-foundation.org>;
+ Fri, 30 Jul 2021 11:42:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D43BE60610
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 10:21:05 +0000 (UTC)
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GbjqL5Syzz6G9Gw;
- Fri, 30 Jul 2021 18:11:42 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 30 Jul 2021 12:21:02 +0200
-Received: from [10.47.25.95] (10.47.25.95) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Jul
- 2021 11:21:01 +0100
-Subject: Re: [PATCH v2 19/24] iommu: Expose DMA domain strictness via sysfs
-To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
-References: <cover.1627468308.git.robin.murphy@arm.com>
- <dd26592103c7613ef9fdff703d0d2ed2df8305c2.1627468310.git.robin.murphy@arm.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <5078e29c-029c-8bab-613f-46c94507c64d@huawei.com>
-Date: Fri, 30 Jul 2021 11:20:42 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2F2EC82DE6
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 11:42:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA0B56103B;
+ Fri, 30 Jul 2021 11:42:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627645357;
+ bh=nRa9TJJxTAW4vDwwhA6VyorL4FVC9dzFn9iKflCLVG4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AX4PmDXFu2OLhlDawWaxLNHParYoTGmSJs27Idg5FL5pTfeInPD7rwiKgXxtrPeI+
+ YnwXvpvboeOTSnmX/9f+mJ3pK9gkCHjGs1oOX1FEqc/IlpAEENMFlPxjozGkEsqeRe
+ +SJcWyl4yBDUBIX9BWRzNcVNNGHxZAwrWROd3Slwwzk9h7ai3tQmQ+Rw3tJslJOoEA
+ JDxgIz+qYcifZf5UFEZ2HUVKcEEErOFWHEP3BSmqPcUWWS0MWvPMPstHVDuFBYfJrV
+ n3N3cwwEGzSKSNAO4b1VbXellnqtPpwftg22Q3+Z80kzZ2DcYa8RZJu3CXAzO/vKm4
+ W5of3aDkiQuZQ==
+From: Will Deacon <will@kernel.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] powerpc/svm: Don't issue ultracalls if !mem_encrypt_active()
+Date: Fri, 30 Jul 2021 12:42:31 +0100
+Message-Id: <20210730114231.23445-1-will@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <dd26592103c7613ef9fdff703d0d2ed2df8305c2.1627468310.git.robin.murphy@arm.com>
-Content-Language: en-US
-X-Originating-IP: [10.47.25.95]
-X-ClientProxiedBy: lhreml735-chm.china.huawei.com (10.201.108.86) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: dianders@chromium.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Cc: Sachin Sant <sachinp@linux.vnet.ibm.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, linuxppc-dev@lists.ozlabs.org,
+ Robin Murphy <robin.murphy@arm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, iommu@lists.linux-foundation.org,
+ Claire Chang <tientzu@chromium.org>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,26 +71,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 28/07/2021 16:58, Robin Murphy wrote:
-> The sysfs interface for default domain types exists primarily so users
-> can choose the performance/security tradeoff relevant to their own
-> workload. As such, the choice between the policies for DMA domains fits
-> perfectly as an additional point on that scale - downgrading a
-> particular device from a strict default to non-strict may be enough to
-> let it reach the desired level of performance, while still retaining
-> more peace of mind than with a wide-open identity domain. Now that we've
-> abstracted non-strict mode as a distinct type of DMA domain, allow it to
-> be chosen through the user interface as well.
-> 
-> Signed-off-by: Robin Murphy<robin.murphy@arm.com>
-> ---
+Commit ad6c00283163 ("swiotlb: Free tbl memory in swiotlb_exit()")
+introduced a set_memory_encrypted() call to swiotlb_exit() so that the
+buffer pages are returned to an encrypted state prior to being freed.
 
-Reviewed-by: John Garry <john.garry@huawei.com>
+Sachin reports that this leads to the following crash on a Power server:
+
+[    0.010799] software IO TLB: tearing down default memory pool
+[    0.010805] ------------[ cut here ]------------
+[    0.010808] kernel BUG at arch/powerpc/kernel/interrupt.c:98!
+
+Nick spotted that this is because set_memory_encrypted() is issuing an
+ultracall which doesn't exist for the processor, and should therefore
+be gated by mem_encrypt_active() to mirror the x86 implementation.
+
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Claire Chang <tientzu@chromium.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Fixes: ad6c00283163 ("swiotlb: Free tbl memory in swiotlb_exit()")
+Suggested-by: Nicholas Piggin <npiggin@gmail.com>
+Reported-by: Sachin Sant <sachinp@linux.vnet.ibm.com>
+Tested-by: Sachin Sant <sachinp@linux.vnet.ibm.com>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+Link: https://lore.kernel.org/r/1905CD70-7656-42AE-99E2-A31FC3812EAC@linux.vnet.ibm.com/
+Signed-off-by: Will Deacon <will@kernel.org>
+---
+ arch/powerpc/platforms/pseries/svm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/powerpc/platforms/pseries/svm.c b/arch/powerpc/platforms/pseries/svm.c
+index 1d829e257996..87f001b4c4e4 100644
+--- a/arch/powerpc/platforms/pseries/svm.c
++++ b/arch/powerpc/platforms/pseries/svm.c
+@@ -63,6 +63,9 @@ void __init svm_swiotlb_init(void)
+ 
+ int set_memory_encrypted(unsigned long addr, int numpages)
+ {
++	if (!mem_encrypt_active())
++		return 0;
++
+ 	if (!PAGE_ALIGNED(addr))
+ 		return -EINVAL;
+ 
+@@ -73,6 +76,9 @@ int set_memory_encrypted(unsigned long addr, int numpages)
+ 
+ int set_memory_decrypted(unsigned long addr, int numpages)
+ {
++	if (!mem_encrypt_active())
++		return 0;
++
+ 	if (!PAGE_ALIGNED(addr))
+ 		return -EINVAL;
+ 
+-- 
+2.32.0.554.ge1b32706d8-goog
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
