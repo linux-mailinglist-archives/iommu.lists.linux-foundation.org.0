@@ -1,52 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422923DB129
-	for <lists.iommu@lfdr.de>; Fri, 30 Jul 2021 04:32:25 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D9C3DB15F
+	for <lists.iommu@lfdr.de>; Fri, 30 Jul 2021 04:53:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E25F483B4A;
-	Fri, 30 Jul 2021 02:32:23 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 85A8D406A9;
+	Fri, 30 Jul 2021 02:53:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WLho0c1NrHSI; Fri, 30 Jul 2021 02:32:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D421B83B4D;
-	Fri, 30 Jul 2021 02:32:22 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9629cxhfeoec; Fri, 30 Jul 2021 02:53:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8DB5F406B1;
+	Fri, 30 Jul 2021 02:53:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B30B5C0022;
-	Fri, 30 Jul 2021 02:32:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5DFEEC000E;
+	Fri, 30 Jul 2021 02:53:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8198C000E
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:32:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD894C000E
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:53:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7E31560650
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:32:21 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A99B7605D2
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:53:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pfF9uekRANel for <iommu@lists.linux-foundation.org>;
- Fri, 30 Jul 2021 02:32:20 +0000 (UTC)
+ with ESMTP id LIH4kM1Ef8hE for <iommu@lists.linux-foundation.org>;
+ Fri, 30 Jul 2021 02:53:31 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.wantstofly.org (hmm.wantstofly.org [213.239.204.108])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 118516063F
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:32:19 +0000 (UTC)
-Received: by mail.wantstofly.org (Postfix, from userid 1000)
- id 9A5A47F03E; Fri, 30 Jul 2021 05:32:16 +0300 (EEST)
-Date: Fri, 30 Jul 2021 05:32:16 +0300
-From: Lennert Buytenhek <buytenh@wantstofly.org>
-To: "Suthikulpanit, Suravee" <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v2] iommu/amd: Use report_iommu_fault()
-Message-ID: <YQNksD4G1SS/yGM2@wantstofly.org>
-References: <YP7jbfRFxMeFONKl@wantstofly.org>
- <8cc39d3c-6086-cfe3-9743-901c51ad4bab@amd.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BD2D360620
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:53:30 +0000 (UTC)
+X-UUID: 57878119c16b4be6b327136db865f85d-20210730
+X-UUID: 57878119c16b4be6b327136db865f85d-20210730
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 643913909; Fri, 30 Jul 2021 10:53:24 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 30 Jul 2021 10:53:23 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 30 Jul 2021 10:53:16 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v7 00/12] Clean up "mediatek,larb"
+Date: Fri, 30 Jul 2021 10:52:26 +0800
+Message-ID: <20210730025238.22456-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8cc39d3c-6086-cfe3-9743-901c51ad4bab@amd.com>
-Cc: iommu@lists.linux-foundation.org
+X-MTK: N
+Cc: Xia Jiang <xia.jiang@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Will Deacon <will.deacon@arm.com>,
+ dri-devel@lists.freedesktop.org, anthony.huang@mediatek.com,
+ youlin.pei@mediatek.com, Nicolas Boichat <drinkcat@chromium.org>,
+ Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
+ Matthias Kaehlcke <mka@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Frank Wunderlich <frank-w@public-files.de>, yi.kuo@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ ming-fan.chen@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
+ anan.sun@mediatek.com, srv_heupstream@mediatek.com, acourbot@chromium.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Daniel Vetter <daniel@ffwll.ch>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -64,187 +89,127 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jul 28, 2021 at 04:51:27PM -0500, Suthikulpanit, Suravee wrote:
+MediaTek IOMMU block diagram always like below:
 
-> Lennert,
+        M4U
+         |
+    smi-common
+         |
+  -------------
+  |         |  ...
+  |         |
+larb1     larb2
+  |         |
+vdec       venc
 
-Hi Suravee,
+All the consumer connect with smi-larb, then connect with smi-common.
 
+When the consumer works, it should enable the smi-larb's power which also
+need enable the smi-common's power firstly.
 
-> > This patch makes iommu/amd call report_iommu_fault() when an I/O page
-> > fault occurs, which has two effects:
-> > 
-> > 1) It allows device drivers to register a callback to be notified of
-> >     I/O page faults, via the iommu_set_fault_handler() API.
-> > 
-> > 2) It triggers the io_page_fault tracepoint in report_iommu_fault()
-> >     when an I/O page fault occurs.
-> > 
-> > I'm mainly interested in (2).  We have a daemon with some rasdaemon-like
-> > functionality for handling platform errors, and being able to be notified
-> > of I/O page faults for initiating corrective action is very useful -- and
-> > receiving such events via event tracing is a lot nicer than having to
-> > scrape them from kmsg.
-> > 
-> > A number of other IOMMU drivers already use report_iommu_fault(), and
-> > I/O page faults on those IOMMUs therefore already seem to trigger this
-> > tracepoint -- but this isn't (yet) the case for AMD-Vi and Intel DMAR.
-> > 
-> > I copied the logic from the other callers of report_iommu_fault(), where
-> > if that function returns zero, the driver will have handled the fault,
-> > in which case we avoid logging information about the fault to the printk
-> > buffer from the IOMMU driver.
-> > 
-> > With this patch I see io_page_fault event tracing entries as expected:
-> > 
-> >     irq/24-AMD-Vi-48    [002] ....   978.554289: io_page_fault: IOMMU:[drvname] 0000:05:00.0 iova=0x0000000091482640 flags=0x0000
-> >     irq/24-AMD-Vi-48    [002] ....   978.554294: io_page_fault: IOMMU:[drvname] 0000:05:00.0 iova=0x0000000091482650 flags=0x0000
-> >     irq/24-AMD-Vi-48    [002] ....   978.554299: io_page_fault: IOMMU:[drvname] 0000:05:00.0 iova=0x0000000091482660 flags=0x0000
-> >     irq/24-AMD-Vi-48    [002] ....   978.554305: io_page_fault: IOMMU:[drvname] 0000:05:00.0 iova=0x0000000091482670 flags=0x0000
-> >     irq/24-AMD-Vi-48    [002] ....   978.554310: io_page_fault: IOMMU:[drvname] 0000:05:00.0 iova=0x0000000091482680 flags=0x0000
-> >     irq/24-AMD-Vi-48    [002] ....   978.554315: io_page_fault: IOMMU:[drvname] 0000:05:00.0 iova=0x00000000914826a0 flags=0x0000
-> > 
-> > For determining IOMMU_FAULT_{READ,WRITE}, I followed the AMD IOMMU
-> > spec, but I haven't tested that bit of the code, as the page faults I
-> > encounter are all to non-present (!EVENT_FLAG_PR) mappings, in which
-> > case EVENT_FLAG_RW doesn't make sense.
-> > 
-> > Signed-off-by: Lennert Buytenhek <buytenh@wantstofly.org>
-> > ---
-> > Changes since v1 RFC:
-> > 
-> > - Don't call report_iommu_fault() for IRQ remapping faults.
-> >    (Suggested by Joerg Roedel.)
-> > 
-> >   drivers/iommu/amd/amd_iommu_types.h |  4 ++++
-> >   drivers/iommu/amd/iommu.c           | 29 +++++++++++++++++++++++++++++
-> >   2 files changed, 33 insertions(+)
-> > 
-> > diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-> > index 94c1a7a9876d..2f2c6630c24c 100644
-> > --- a/drivers/iommu/amd/amd_iommu_types.h
-> > +++ b/drivers/iommu/amd/amd_iommu_types.h
-> > @@ -138,6 +138,10 @@
-> >   #define EVENT_DOMID_MASK_HI	0xf0000
-> >   #define EVENT_FLAGS_MASK	0xfff
-> >   #define EVENT_FLAGS_SHIFT	0x10
-> > +#define EVENT_FLAG_TR		0x100
-> > +#define EVENT_FLAG_RW		0x020
-> > +#define EVENT_FLAG_PR		0x010
-> > +#define EVENT_FLAG_I		0x008
-> >   /* feature control bits */
-> >   #define CONTROL_IOMMU_EN        0x00ULL
-> > diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-> > index a7d6d78147b7..d9fb2c22d44a 100644
-> > --- a/drivers/iommu/amd/iommu.c
-> > +++ b/drivers/iommu/amd/iommu.c
-> 
-> What if we introduce:
-> 
-> +/*
-> + * AMD I/O Virtualization Technology (IOMMU) Specification,
-> + * revision 3.00, section 2.5.3 ("IO_PAGE_FAULT Event") says
-> + * that the RW ("read-write") bit is only valid if the I/O
-> + * page fault was caused by a memory transaction request
-> + * referencing a page that was marked present.
-> + */
-> +#define IO_PAGE_FAULT_MEM_MASK \
-> +       (EVENT_FLAG_TR | EVENT_FLAG_PR | EVENT_FLAG_I)
-> +#define IS_IOMMU_MEM_TRANSACTION(x)    \
-> +       ((x & IO_PAGE_FAULT_MEM_MASK) == EVENT_FLAG_PR)
-> 
-> Note that this should have already checked w/ EVENT_FLAG_I == 0.
-> 
-> 
-> > @@ -484,6 +484,34 @@ static void amd_iommu_report_page_fault(u16 devid, u16 domain_id,
-> >   	if (pdev)
-> >   		dev_data = dev_iommu_priv_get(&pdev->dev);
-> > +	/*
-> > +	 * If this is a DMA fault (for which the I(nterrupt) bit will
-> > +	 * be unset), allow report_iommu_fault() to prevent logging it.
-> > +	 */
-> > +	if (dev_data && ((flags & EVENT_FLAG_I) == 0)) {
-> > +		int report_flags;
-> > +
-> > +		/*
-> > +		 * AMD I/O Virtualization Technology (IOMMU) Specification,
-> > +		 * revision 3.00, section 2.5.3 ("IO_PAGE_FAULT Event") says
-> > +		 * that the RW ("read-write") bit is only valid if the I/O
-> > +		 * page fault was caused by a memory transaction request
-> > +		 * referencing a page that was marked present.
-> > +		 */
-> > +		report_flags = 0;
-> > +		if ((flags & (EVENT_FLAG_TR | EVENT_FLAG_PR)) ==
-> > +							EVENT_FLAG_PR) {
-> > +			if (flags & EVENT_FLAG_RW)
-> > +				report_flags |= IOMMU_FAULT_WRITE;
-> > +			else
-> > +				report_flags |= IOMMU_FAULT_READ;
-> > +		}
-> > +
-> > +		if (!report_iommu_fault(&dev_data->domain->domain,
-> > +					&pdev->dev, address, report_flags))
-> > +			goto out;
-> > +	}
-> > +
-> >   	if (dev_data) {
-> 
-> Here we do:
-> 
-> +               /*
-> +                * Since report_iommu_fault() only report DMA-remapping related fault,
-> +                * convert AMD IO_PAGE_FAULT flags to IOMMU_FAULT_xx flags.
-> +                */
-> +               if (IS_IOMMU_MEM_TRANSACTION(flags) &&
-> +                   !report_iommu_fault(&dev_data->domain->domain, &pdev->dev,
-> +                                       address,
-> +                                       (flags & EVENT_FLAG_RW) ?
-> +                                       IOMMU_FAULT_WRITE : IOMMU_FAULT_READ))
-> +                       goto out;
-> +
+Thus, Firstly, use the device link connect the consumer and the
+smi-larbs. then add device link between the smi-larb and smi-common.
 
-We have three cases to handle:
+After adding the device_link, then "mediatek,larb" property can be removed.
+the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+the power and clock of smi-larb and smi-common.
 
-- EVENT_FLAG_I set: IRQ remapping fault, don't call report_iommu_fault()
+Base on v5.14-rc1, and a jpeg[1] and mdp[2] patchset.
 
-- EVENT_FLAG_I unset, but the request was a translation request
-  (EVENT_FLAG_TR set) or the target page was not present (EVENT_FLAG_PR
-  unset): call report_iommu_fault(), but the RW bit will be invalid, so
-  don't try to map it to a IOMMU_FAULT_{READ,WRITE} code
+[1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
+[2] https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
 
-- EVENT_FLAG_I unset, the request is a transaction request (EVENT_FLAG_TR
-  unset) and the target page was present (EVENT_FLAG_PR set): call
-  report_iommu_fault(), and use the RW bit to set IOMMU_FAULT_{READ,WRITE}
+Change notes:
+v7: 1) Fix a arm32 boot fail issue. reported from Frank.
+    2) Add a return fail in the mtk drm. suggested by Dafna.
 
-So I don't think we can merge the test for EVENT_FLAG_I with the
-test for EVENT_FLAG_TR/EVENT_FLAG_PR.
+v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+    1) rebase on v5.14-rc1.
+    2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+    3) Remove the patches about using pm_runtime_resume_and_get since they have
+       already been merged by other patches.
 
-We could do something like this, if you'd prefer:
+v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+    1) Base v5.12-rc2.
+    2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+    independent patch.
 
-	#define IS_IOMMU_MEM_TRANSACTION(flags)	\
-		(((flags) & EVENT_FLAG_I) == 0)
+v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/ 
+    base on v5.7-rc1.
+  1) Move drm PM patch before smi patchs.
+  2) Change builtin_platform_driver to module_platform_driver since we may need
+     build as module.
+  3) Rebase many patchset as above.
 
-	#define IS_RW_FLAG_VALID(flags)		\
-		(((flags) & (EVENT_FLAG_TR | EVENT_FLAG_PR)) == EVENT_FLAG_PR)
+v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+    2) Use device_is_bound to check whether the driver is ready from Matthias.    
+    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+   reason in the commit message[3/14].
+    4) Add a display patch[12/14] into this series. otherwise it may affect
+   display HW fastlogo even though it don't happen in mt8183.
+   
+v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+   1) rebase on v5.2-rc1.
+   2) Move adding device_link between the consumer and smi-larb into
+iommu_add_device from Robin.
+   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+   4) Remove the shutdown callback in iommu.   
 
-	#define IS_WRITE_REQUEST(flags)		\
-		(IS_RW_FLAG_VALID(flags) && (flags & EVENT_FLAG_RW))
+v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
 
-And then do something like:
+Yong Wu (11):
+  dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+  iommu/mediatek-v1: Free the existed fwspec if the master dev already
+    has
+  iommu/mediatek: Add probe_defer for smi-larb
+  iommu/mediatek: Add device_link between the consumer and the larb
+    devices
+  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+  drm/mediatek: Get rid of mtk_smi_larb_get/put
+  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
 
-	if (dev_data && IS_IOMMU_MEM_TRANSACTION(flags)) {
-		if (!report_iommu_fault(&dev_data->domain->domain, &pdev->dev,
-					address,
-					IS_WRITE_REQUEST(flags) ?
-					IOMMU_FAULT_WRITE : IOMMU_FAULT_READ))
-			goto out;
-	}
+Yongqiang Niu (1):
+  drm/mediatek: Add pm runtime support for ovl and rdma
 
-?
+ .../display/mediatek/mediatek,disp.txt        |  9 ----
+ .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+ .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+ .../bindings/media/mediatek-mdp.txt           |  8 ----
+ .../bindings/media/mediatek-vcodec.txt        |  4 --
+ arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+ arch/arm/boot/dts/mt7623n.dtsi                |  5 --
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 +++---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +-
+ drivers/iommu/mtk_iommu.c                     | 24 +++++++++-
+ drivers/iommu/mtk_iommu_v1.c                  | 31 ++++++++++++-
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +-----------------
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 46 +------------------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 ++-------------
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 ++----------------
+ drivers/memory/mtk-smi.c                      | 14 ------
+ include/soc/mediatek/smi.h                    | 20 --------
+ 28 files changed, 92 insertions(+), 321 deletions(-)
+
+-- 
+2.18.0
 
 
-Thanks,
-Lennert
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
