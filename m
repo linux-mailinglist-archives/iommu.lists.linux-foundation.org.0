@@ -1,101 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639363DCA47
-	for <lists.iommu@lfdr.de>; Sun,  1 Aug 2021 08:19:26 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C513DC1BE
+	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 01:57:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7216F4013C;
-	Sun,  1 Aug 2021 06:19:24 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id CF70740212;
+	Fri, 30 Jul 2021 23:57:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i6klEbnRi95M; Sun,  1 Aug 2021 06:19:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9C32A415D3;
-	Sun,  1 Aug 2021 06:19:23 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eKTQq2BU-B_q; Fri, 30 Jul 2021 23:57:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id BF8D1402A8;
+	Fri, 30 Jul 2021 23:57:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6688BC0022;
-	Sun,  1 Aug 2021 06:19:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93F1FC001F;
+	Fri, 30 Jul 2021 23:57:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D259EC0010
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 22:34:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F0057C000E
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 23:57:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id ADBBA40236
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 22:34:43 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id E548D82C2E
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 23:57:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zJIyY8DWuHV2 for <iommu@lists.linux-foundation.org>;
- Fri, 30 Jul 2021 22:34:42 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A14C940228
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 22:34:42 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- ds11-20020a17090b08cbb0290172f971883bso22887796pjb.1
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 15:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2B8bmMK1MWV0IKBzZFhJ4QQnRCCDWLQwwtmcrrRzShw=;
- b=UfW+Uyhy937lSOvlfCbvzUSHfPBdVvhcTOaILHqlmzjEQeZkE7CJS1pDjY85yLeTrk
- ZUbJvCXGnG9V4YR8YvLqiCoHxoAuC0RJHo8xznM5u3dhr6dkJI9BNq9mI/HgcDxL19UV
- T0+Bsg6O2a3etVDRUOMu6je3JU33B5pFqiYpolqwzc84ASrmmPyryuwH24+FPODl2NK0
- /jswqbw3cLYGC3s8tw+3+64iNj05CofMOCHjsjPmhNsSGF6fZGX5s2X6UpkAmOT82yEf
- KD+vMh5N6wzurqnoLV7GP3bDuQRiamzrkbH5J6wxueQVfjy9YKlsV1lqKUCTBLbTMy1G
- tbIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2B8bmMK1MWV0IKBzZFhJ4QQnRCCDWLQwwtmcrrRzShw=;
- b=JIuY9I/N3p3XnNTOGvQd4MgMDlMw0rEodhYAH9Bu+uKZDNPB0VffMCbXihNueY91/k
- 9VFabS7q/kxlWbdxiEmtxJAO7wQWVTiUNbgR6KrPnSZsH6SaObFeNPLC5FiIuXaapaD4
- euXswFEj9kcVmBIdRQ8vor+JdZMOjLPSLyT7fOLJ0H+cKIq3unVFQmYamPwCFI5iO5Bl
- QA+6tBc5k9A7pXjJBFW/prXhjKqt/2ARhe+6iz86g5zdccdhcOkB3pkaYBSmEkM8pUtY
- aIR6yAuMk5UWy1mxqbfqtJTUkH6ozp9ZsEuCtXZzTqFjAHS8FUqbBhO6XHXrqd0yxB8/
- WwbA==
-X-Gm-Message-State: AOAM532qdaORahdN1+XIS1KpwP6OzCG8Vwz2/iefltcpi29KrEOP9nVd
- 4LsuMHY8/UbwbyAHvHnZWRkA2A==
-X-Google-Smtp-Source: ABdhPJzSqN3B7Go3MtNjE9VY5h0clk+hYXj3ladZ5/S+PnXE8W92M9c05HKB4nGF1ekuX4eoULgjrQ==
-X-Received: by 2002:a17:90b:1bcc:: with SMTP id
- oa12mr5239612pjb.113.1627684481796; 
- Fri, 30 Jul 2021 15:34:41 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id b184sm3525033pfg.72.2021.07.30.15.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 15:34:41 -0700 (PDT)
-Date: Fri, 30 Jul 2021 22:34:37 +0000
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH 07/11] treewide: Replace the use of mem_encrypt_active()
- with prot_guest_has()
-Message-ID: <YQR+ffO92gMfGDbs@google.com>
-References: <cover.1627424773.git.thomas.lendacky@amd.com>
- <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
-X-Mailman-Approved-At: Sun, 01 Aug 2021 06:19:22 +0000
-Cc: linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- kvm@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Will Deacon <will@kernel.org>,
- linux-s390@vger.kernel.org, Andi Kleen <ak@linux.intel.com>, x86@kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Ingo Molnar <mingo@redhat.com>, linux-graphics-maintainer@vmware.com,
- Dave Young <dyoung@redhat.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pv9lAYY_SvuQ for <iommu@lists.linux-foundation.org>;
+ Fri, 30 Jul 2021 23:57:02 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 308AB82B75
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 23:57:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10061"; a="213219735"
+X-IronPort-AV: E=Sophos;i="5.84,283,1620716400"; d="scan'208";a="213219735"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2021 16:57:00 -0700
+X-IronPort-AV: E=Sophos;i="5.84,283,1620716400"; d="scan'208";a="508505463"
+Received: from km-skylake-client-platform.sc.intel.com ([172.25.103.115])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2021 16:56:59 -0700
+Message-ID: <43dbe366ef396a81357c032ea62d8b9543678a3d.camel@intel.com>
+Subject: Re: [PATCH v2] iommu/vt-d: Dump DMAR translation structure
+From: Kyung Min Park <kyung.min.park@intel.com>
+To: Joerg Roedel <joro@8bytes.org>
+Date: Fri, 30 Jul 2021 16:51:02 -0700
+In-Reply-To: <YP6pw9j8i3bGOb13@8bytes.org>
+References: <20210722042453.10579-1-kyung.min.park@intel.com>
+ <YP6pw9j8i3bGOb13@8bytes.org>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+Cc: ravi.v.shankar@intel.com, ashok.raj@intel.com, dwmw2@infradead.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,27 +68,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Sean Christopherson via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Sean Christopherson <seanjc@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jul 27, 2021, Tom Lendacky wrote:
-> @@ -451,7 +450,7 @@ void __init mem_encrypt_free_decrypted_mem(void)
->  	 * The unused memory range was mapped decrypted, change the encryption
->  	 * attribute from decrypted to encrypted before freeing it.
->  	 */
-> -	if (mem_encrypt_active()) {
-> +	if (sme_me_mask) {
+Hi Joerg,
 
-Any reason this uses sme_me_mask?  The helper it calls, __set_memory_enc_dec(),
-uses prot_guest_has(PATTR_MEM_ENCRYPT) so I assume it's available?
+On Mon, 2021-07-26 at 14:25 +0200, Joerg Roedel wrote:
+> On Wed, Jul 21, 2021 at 09:24:53PM -0700, Kyung Min Park wrote:
+> > When the dmar translation fault happens, the kernel prints a single
+> > line
+> > fault reason with corresponding hexadecimal code defined in the
+> > Intel VT-d
+> > specification.
+> > 
+> > Currently, when user wants to debug the translation fault in
+> > detail,
+> > debugfs is used for dumping the dmar_translation_struct, which is
+> > not
+> > available when the kernel failed to boot.
+> > 
+> > Dump the DMAR translation structure, pagewalk the IO page table and
+> > print
+> > the page table entry when the fault happens.
+> > 
+> > Signed-off-by: Kyung Min Park <kyung.min.park@intel.com>
+> 
+> This is too much noise in dmesg for a single dmar fault. Please hide
+> that additional debug information behind a debug kernel option for
+> the
+> VT-d driver.
 
->  		r = set_memory_encrypted(vaddr, npages);
->  		if (r) {
->  			pr_warn("failed to free unused decrypted pages\n");
+Sure, let me change in the next version.
 
 _______________________________________________
 iommu mailing list
