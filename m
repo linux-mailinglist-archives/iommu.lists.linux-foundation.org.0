@@ -1,114 +1,107 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17023DB159
-	for <lists.iommu@lfdr.de>; Fri, 30 Jul 2021 04:53:06 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC203DB215
+	for <lists.iommu@lfdr.de>; Fri, 30 Jul 2021 06:11:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BB42C400BE;
-	Fri, 30 Jul 2021 02:53:04 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 877DF6064A;
+	Fri, 30 Jul 2021 04:11:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mmgxhcaDHIp9; Fri, 30 Jul 2021 02:53:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 621F4401F0;
-	Fri, 30 Jul 2021 02:53:03 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sY-5u4b7w5f2; Fri, 30 Jul 2021 04:11:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id A516160667;
+	Fri, 30 Jul 2021 04:11:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 12574C0022;
-	Fri, 30 Jul 2021 02:53:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D3CEC0022;
+	Fri, 30 Jul 2021 04:11:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E1FE6C000E
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:53:01 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8BFFDC000E
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 04:11:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C8702406A9
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:53:01 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 66CE883B2E
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 04:11:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X_hpA7Q1nIyB for <iommu@lists.linux-foundation.org>;
- Fri, 30 Jul 2021 02:52:59 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fLRybOKqEzxa for <iommu@lists.linux-foundation.org>;
+ Fri, 30 Jul 2021 04:11:11 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AEE1D4067B
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 02:52:59 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id ca5so12994499pjb.5
- for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 19:52:59 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3B4FB83B2A
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 04:11:11 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id a20so9586443plm.0
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Jul 2021 21:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bmL4SQ8GAZJWK3xApvq+PZaab/7COKw/aR8FnJTkZ8A=;
- b=NAhocIP4f3vAt+HHEuF7oFkro+lh/6vEAuGcefhg6XueHZFW/VgAw1rUNxuPFA9NmR
- cmXx+ceLZex9nGJ0OyzZaxsYsT8tiRb1jRyPL71vgLtSWLPo0cCqvQ2qriDvy8CpQssj
- viNqrboexe+B/LVVnnduOrHj946GTrR2N6htuF3Da/GGsbOKkj/XSoD3hUHgJvjwaB5p
- T3Mh0d9xRtStBYG2xEqHf2hhw7W3QR/YGkGCbpjg9hYVaJSISM4slgqWraPF6pZEHZNm
- jukHYbtabQpZEinKjbGFHZgXMHh/LOo9XYtuFBdeFaYM0POV1AQF6Po3lzHo4DXqdZqC
- RNSA==
+ bh=qJu6CB2LN4QTrxCEOBdOuFEubSp0osjxUw486lmLCCE=;
+ b=ZDBlqPk7rrZwfBnBjR5AX1bDAs/03F78a8y9TTalCyS6aeo4BVkIxfh1ObzxANaAgE
+ HW8wbFpOlmHwbaCPm5cRL/enrnPzB27Dnubwd4H3F+8zFrVlyM1Smb2LawbtRzGY3LRC
+ Gb93dNjedTrLXFAZ6ab+LBvUZZSxiYikb+dLVy6ty9M5d/daHgOsw8Q+y0rAzywv5rJ1
+ 9vUlTT3Rv5WnELmp/i+W4sb7zRlI3Awvh+AERZBSYUZe0JKeGzcixyqH3H8gStqkO4Ji
+ /TjYveizM/zetfPUG8Kk34aKNf2XAzZdOlHSD7bm+KS1YwZA/iLQszfwSj+JpCnElXrL
+ 5VoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bmL4SQ8GAZJWK3xApvq+PZaab/7COKw/aR8FnJTkZ8A=;
- b=nnW0Lmc1uUi76WW63PNoLBx8H6mWVHJBj+pWaj8WUhP2k2DceAjwMiAE0/OyQHVt5S
- T8xiYwXTMxhiHOUCsejl1qv7vE9fTa6cXbG2fxOoGnWz4GoMDJ1PZBrws/EykXmC1IO+
- ReKIdudcvMmBI8XFHX/eLd4JsZWq+UMHEG9etY8FmfMf5e2qinYUkQKbvyqmFrec5Wzx
- T/VWYxiklQRyXmOnWBUSYWF6b3zFz52GsyBkdcbKnKx7kzrfMq063pp8hEdVTs3ctkuq
- JgBUcidmRyvs1fUEEegVVd0+TWl58IvKQyI8mNPznDSRkP5ew/fg9sz6aTHoFGZL2WsD
- Up+g==
-X-Gm-Message-State: AOAM530/q/9+libLg4THKnMW5jlIeLhiqE2RGAQlnywR8nSJE9YwU4o8
- Q6VMkbR51/kI8vPyBNMdglc=
-X-Google-Smtp-Source: ABdhPJyyZoBDWV7ZCj8Ji9VpActKffc9EXcufc2IzXROiuNMi/ja4nm1BshkPIm0WrFthtY+V0e3wQ==
-X-Received: by 2002:a17:90a:1109:: with SMTP id
- d9mr575516pja.183.1627613579170; 
- Thu, 29 Jul 2021 19:52:59 -0700 (PDT)
+ bh=qJu6CB2LN4QTrxCEOBdOuFEubSp0osjxUw486lmLCCE=;
+ b=jvRILOoelc8kZcpvqEyUFuYR8sG3e2X13OnhOfjN6fI6jMzJiA9BT0rmzlYNRBiw+h
+ 2gefufITSywESVZ+CSHjTpLCuU58VB+d6y/9UPPK4mO0tXATwpQs8u7ZT8hJ+l2m9Ai8
+ rBL6R7XgHNjyCc7ddjNJZ0K7ftv7lop8nWRlzH84eO8MlS01e+Y4JeJxX0aR22i7S2fm
+ mGAKUbWK+pf5yL2WoUngG4Dm+96Fw4iaCeq3KGHTPSiVprAuTiOmZibTdul0oeTlAjaV
+ L+2WY2hcAoTQv8jZpJ9kSBQjN/SwqdRGeldkEpkBUydyWBzW5E32mf4kw3mAyi2a7g4h
+ zzuw==
+X-Gm-Message-State: AOAM530UVChAKLsW/MIk9IjS2tVxi6VKgIwfdXftY9zu23ClFbC8Azo0
+ ZPTtGWTx9Y+wMIfiwFbyLoM=
+X-Google-Smtp-Source: ABdhPJz3KIEE78AyymdsWAIZFHiwRfrHYC57wifeuRqjNg3M8sSkO4co7S92ZJfiJ7qm9o4/XVu3Vw==
+X-Received: by 2002:a17:90a:b795:: with SMTP id
+ m21mr872416pjr.143.1627618270672; 
+ Thu, 29 Jul 2021 21:11:10 -0700 (PDT)
 Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:18:efec::4b1])
  by smtp.gmail.com with ESMTPSA id
- l10sm154977pjg.11.2021.07.29.19.52.45
+ s7sm418969pfk.12.2021.07.29.21.10.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 19:52:58 -0700 (PDT)
-Subject: Re: [PATCH 03/13] x86/HV: Add new hvcall guest address host
- visibility support
-To: Dave Hansen <dave.hansen@intel.com>, kys@microsoft.com,
- haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- x86@kernel.org, hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
- peterz@infradead.org, konrad.wilk@oracle.com, boris.ostrovsky@oracle.com,
- jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
- davem@davemloft.net, kuba@kernel.org, jejb@linux.ibm.com,
- martin.petersen@oracle.com, arnd@arndb.de, hch@lst.de,
- m.szyprowski@samsung.com, robin.murphy@arm.com, thomas.lendacky@amd.com,
- brijesh.singh@amd.com, ardb@kernel.org, Tianyu.Lan@microsoft.com,
- rientjes@google.com, martin.b.radev@gmail.com, akpm@linux-foundation.org,
- rppt@kernel.org, kirill.shutemov@linux.intel.com,
- aneesh.kumar@linux.ibm.com, krish.sadhukhan@oracle.com, saravanand@fb.com,
- xen-devel@lists.xenproject.org, pgonda@google.com, david@redhat.com,
- keescook@chromium.org, hannes@cmpxchg.org, sfr@canb.auug.org.au,
- michael.h.kelley@microsoft.com
+ Thu, 29 Jul 2021 21:11:10 -0700 (PDT)
+Subject: Re: [PATCH 10/13] x86/Swiotlb: Add Swiotlb bounce buffer remap
+ function for HV IVM
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 References: <20210728145232.285861-1-ltykernel@gmail.com>
- <20210728145232.285861-4-ltykernel@gmail.com>
- <a2444c36-0103-8e1c-7005-d97f77f90e85@intel.com>
- <0d956a05-7d24-57a0-f4a9-dccc849b52fc@gmail.com>
- <ec1d4cfd-bbbc-e27a-7589-e85d9f0438f4@intel.com>
- <8df2845d-ee90-56d0-1228-adebb103ec37@gmail.com>
- <7a2ddcca-e249-ba63-8709-e355fcef2d41@intel.com>
+ <20210728145232.285861-11-ltykernel@gmail.com> <YQLXYVaWWdBfF7Sm@fedora>
 From: Tianyu Lan <ltykernel@gmail.com>
-Message-ID: <fa6cf8b6-7da0-dadf-b137-d90ce3513d5e@gmail.com>
-Date: Fri, 30 Jul 2021 10:52:43 +0800
+Message-ID: <7afbbc7f-8f02-ca6c-0c8c-bbf01fae70ea@gmail.com>
+Date: Fri, 30 Jul 2021 12:10:54 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <7a2ddcca-e249-ba63-8709-e355fcef2d41@intel.com>
+In-Reply-To: <YQLXYVaWWdBfF7Sm@fedora>
 Content-Language: en-US
-Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- anparri@microsoft.com, vkuznets@redhat.com
+Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, david@redhat.com,
+ peterz@infradead.org, dave.hansen@linux.intel.com, vkuznets@redhat.com,
+ hpa@zytor.com, anparri@microsoft.com, kys@microsoft.com, will@kernel.org,
+ boris.ostrovsky@oracle.com, linux-arch@vger.kernel.org, sfr@canb.auug.org.au,
+ wei.liu@kernel.org, sstabellini@kernel.org, sthemmin@microsoft.com,
+ xen-devel@lists.xenproject.org, linux-scsi@vger.kernel.org,
+ aneesh.kumar@linux.ibm.com, x86@kernel.org, decui@microsoft.com, hch@lst.de,
+ michael.h.kelley@microsoft.com, mingo@redhat.com, pgonda@google.com,
+ rientjes@google.com, kuba@kernel.org, haiyangz@microsoft.com,
+ martin.b.radev@gmail.com, thomas.lendacky@amd.com, Tianyu.Lan@microsoft.com,
+ keescook@chromium.org, arnd@arndb.de, jejb@linux.ibm.com, bp@alien8.de,
+ luto@kernel.org, krish.sadhukhan@oracle.com, tglx@linutronix.de,
+ akpm@linux-foundation.org, jgross@suse.com, martin.petersen@oracle.com,
+ saravanand@fb.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kirill.shutemov@linux.intel.com,
+ hannes@cmpxchg.org, ardb@kernel.org, robin.murphy@arm.com, davem@davemloft.net,
+ rppt@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,26 +114,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gNy8zMC8yMDIxIDEyOjA1IEFNLCBEYXZlIEhhbnNlbiB3cm90ZToKPiBPbiA3LzI5LzIxIDg6
-MDIgQU0sIFRpYW55dSBMYW4gd3JvdGU6Cj4+Pgo+Pgo+PiBUaGVyZSBpcyB4ODZfaHlwZXJfdHlw
-ZSB0byBpZGVudGlmeSBoeXBlcnZpc29yIHR5cGUgYW5kIHdlIG1heSBjaGVjawo+PiB0aGlzIHZh
-cmlhYmxlIGFmdGVyIGNoZWNraW5nIFg4Nl9GRUFUVVJFX0hZUEVSVklTT1IuCj4+Cj4+IHN0YXRp
-YyBpbmxpbmUgYm9vbCBodl9pc19pc29sYXRpb25fc3VwcG9ydGVkKHZvaWQpCj4+IHsKPj4gIMKg
-wqDCoMKgaWYgKCFjcHVfZmVhdHVyZV9lbmFibGVkKFg4Nl9GRUFUVVJFX0hZUEVSVklTT1IpKQo+
-PiAgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7Cj4+Cj4+ICDCoMKgwqDCoMKgwqDCoCBpZiAoeDg2
-X2h5cGVyX3R5cGUgIT0gWDg2X0hZUEVSX01TX0hZUEVSVikKPj4gIMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4KPj4gIMKgwqDCoMKgLy8gb3V0IG9mIGxpbmUgZnVu
-Y3Rpb24gY2FsbDoKPj4gIMKgwqDCoMKgcmV0dXJuIF9faHZfaXNfaXNvbGF0aW9uX3N1cHBvcnRl
-ZCgpOwo+PiB9Cj4gCj4gTG9va3MgZmluZS4gIFlvdSBqdXN0IG1pZ2h0IHdhbnQgdG8gdXNlIHRo
-aXMgZXhpc3RpbmcgaGVscGVyOgo+IAo+IHN0YXRpYyBpbmxpbmUgYm9vbCBoeXBlcnZpc29yX2lz
-X3R5cGUoZW51bSB4ODZfaHlwZXJ2aXNvcl90eXBlIHR5cGUpCj4gewo+ICAgICAgICAgIHJldHVy
-biB4ODZfaHlwZXJfdHlwZSA9PSB0eXBlOwo+IH0KPiAKClllcyx0aGFua3MgZm9yIHN1Z2dlc3Rp
-b24gYW5kIHdpbGwgdXBkYXRlIGluIHRoZSBuZXh0IHZlcnNpb24uCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBs
-aXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5v
-cmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+Hi Konrad:
+      Thanks for your review.
+
+On 7/30/2021 12:29 AM, Konrad Rzeszutek Wilk wrote:
+>> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+>> index 1fa81c096c1d..6866e5784b53 100644
+>> --- a/kernel/dma/swiotlb.c
+>> +++ b/kernel/dma/swiotlb.c
+>> @@ -194,8 +194,13 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+>>   		mem->slots[i].alloc_size = 0;
+>>   	}
+>>   
+>> -	set_memory_decrypted((unsigned long)vaddr, bytes >> PAGE_SHIFT);
+>> -	memset(vaddr, 0, bytes);
+>> +	mem->vaddr = dma_map_decrypted(vaddr, bytes);
+>> +	if (!mem->vaddr) {
+>> +		pr_err("Failed to decrypt memory.\n");
+> I am wondering if it would be worth returning an error code in this
+> function instead of just printing an error?
+
+Yes, this is good idea and will update in the next version.
+
+> 
+> For this patch I think it is Ok, but perhaps going forward this would be
+> better done as I am thinking - is there some global guest->hyperv
+> reporting mechanism so that if this fails - it ends up being bubbled up
+> to the HyperV console-ish?
+
+Hyper-V has such panic page report mechanism. Guest can pass one page 
+log to host during crash.
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
