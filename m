@@ -2,60 +2,70 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D21B3DC29D
-	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 04:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C411B3DC499
+	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 09:50:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0CD9783B7E;
-	Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D0A298350D;
+	Sat, 31 Jul 2021 07:50:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uWJCYXFLTurZ; Sat, 31 Jul 2021 02:22:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 00A7283B45;
-	Sat, 31 Jul 2021 02:22:00 +0000 (UTC)
+	with ESMTP id 4cPiSY9nhgUk; Sat, 31 Jul 2021 07:50:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id F234E83506;
+	Sat, 31 Jul 2021 07:50:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1DB15C0025;
-	Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CE422C0010;
+	Sat, 31 Jul 2021 07:50:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2EBC0C0010
- for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:58 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8B71CC0010
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 07:50:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1F61F83B45
- for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:58 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 793D74026D
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 07:50:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZSFFo8TTwOUS for <iommu@lists.linux-foundation.org>;
- Sat, 31 Jul 2021 02:21:56 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 82D8A83AF7
- for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:56 +0000 (UTC)
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Gc7FG395qz817h;
- Sat, 31 Jul 2021 10:17:06 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.58) by
- dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Sat, 31 Jul 2021 10:21:52 +0800
-From: chenxiang <chenxiang66@hisilicon.com>
-To: <robin.murphy@arm.com>, <will@kernel.org>, <joro@8bytes.org>
-Subject: [PATCH 2/2] iommu/arm-smmu-v3: Implement the map_pages() IOMMU driver
- callback
-Date: Sat, 31 Jul 2021 10:17:11 +0800
-Message-ID: <1627697831-158822-3-git-send-email-chenxiang66@hisilicon.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1627697831-158822-1-git-send-email-chenxiang66@hisilicon.com>
-References: <1627697831-158822-1-git-send-email-chenxiang66@hisilicon.com>
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mailerdienst.de
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id O7FSOEn-BN6T for <iommu@lists.linux-foundation.org>;
+ Sat, 31 Jul 2021 07:50:34 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mxwww.masterlogin.de (mxwww.masterlogin.de
+ [IPv6:2a03:2900:1:1::a])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7DB89400AF
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 07:50:34 +0000 (UTC)
+Received: from mxout2.routing.net (unknown [192.168.10.82])
+ by backup.mxwww.masterlogin.de (Postfix) with ESMTPS id 11E552C533
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 07:47:49 +0000 (UTC)
+Received: from mxbox4.masterlogin.de (unknown [192.168.10.79])
+ by mxout2.routing.net (Postfix) with ESMTP id 742395FC28;
+ Sat, 31 Jul 2021 07:47:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
+ s=20200217; t=1627717663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=203p5LOrdBHh+Yer5N7D3VTBaUXubh54vrXwH3UF8Lk=;
+ b=sTVl6SjEaPCkXfzHdCJW6bkXpfSshz1B+2feQ8pz2TcMhOHMuuTuMXo1LwG6wa37Ag8MiT
+ XCep1oJyXfXwIz3y9dL36QqsPVvld76XWHlp4JrjUWvZWGOHCaFfJTyi0BRFoJMkwwuGGC
+ 6Q1r5uWoWW0DatZh0p3SESLRXf5B7hE=
+Received: from localhost.localdomain (fttx-pool-80.245.79.120.bambit.de
+ [80.245.79.120])
+ by mxbox4.masterlogin.de (Postfix) with ESMTPSA id CD16280843;
+ Sat, 31 Jul 2021 07:47:42 +0000 (UTC)
+From: Frank Wunderlich <linux@fw-web.de>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH v2] iommu: Check if group is NULL before remove device
+Date: Sat, 31 Jul 2021 09:47:37 +0200
+Message-Id: <20210731074737.4573-1-linux@fw-web.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggeme756-chm.china.huawei.com (10.3.19.102)
-X-CFilter-Loop: Reflected
-Cc: iommu@lists.linux-foundation.org, linuxarm@huawei.com
+X-Mail-ID: c0f3efb9-ff49-441d-a9bc-ca8ab5fd7dbc
+Cc: Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+ Frank Wunderlich <frank-w@public-files.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,53 +83,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Xiang Chen <chenxiang66@hisilicon.com>
+From: Frank Wunderlich <frank-w@public-files.de>
 
-Implement the map_pages() callback for ARM SMMUV3 driver to allow calls
-from iommu_map to map multiple pages of the same size in one call.
-Also remove the map() callback for the ARM SMMUV3 driver as it will no
-longer be used.
+If probe_device is failing, iommu_group is not initialized because
+iommu_group_add_device is not reached, so freeing it will result
+in NULL pointer access.
 
-Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+iommu_bus_init
+  ->bus_iommu_probe
+      ->probe_iommu_group in for each:/* return -22 in fail case */
+          ->iommu_probe_device
+              ->__iommu_probe_device       /* return -22 here.*/
+                  -> ops->probe_device          /* return -22 here.*/
+                  -> iommu_group_get_for_dev
+                        -> ops->device_group
+                        -> iommu_group_add_device //good case
+  ->remove_iommu_group  //in fail case, it will remove group
+     ->iommu_release_device
+         ->iommu_group_remove_device // here we don't have group
+
+In my case ops->probe_device (mtk_iommu_probe_device from
+mtk_iommu_v1.c) is due to failing fwspec->ops mismatch.
+
+Fixes: d72e31c93746 ("iommu: IOMMU Groups")
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+v2:
+- commit-message with captial letters on beginning of sentenence
+- added more information, many thanks to Yong Wu
+---
+ drivers/iommu/iommu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 2060e6d..35d5491 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2439,15 +2439,16 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- 	return ret;
- }
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 5419c4b9f27a..63f0af10c403 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -924,6 +924,9 @@ void iommu_group_remove_device(struct device *dev)
+ 	struct iommu_group *group = dev->iommu_group;
+ 	struct group_device *tmp_device, *device = NULL;
  
--static int arm_smmu_map(struct iommu_domain *domain, unsigned long iova,
--			phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
-+static int arm_smmu_map_pages(struct iommu_domain *domain, unsigned long iova,
-+			      phys_addr_t paddr, size_t pgsize, size_t pgcount,
-+			      int prot, gfp_t gfp, size_t *mapped)
- {
- 	struct io_pgtable_ops *ops = to_smmu_domain(domain)->pgtbl_ops;
++	if (!group)
++		return;
++
+ 	dev_info(dev, "Removing from iommu group %d\n", group->id);
  
- 	if (!ops)
- 		return -ENODEV;
- 
--	return ops->map(ops, iova, paddr, size, prot, gfp);
-+	return ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot, gfp, mapped);
- }
- 
- static size_t arm_smmu_unmap_pages(struct iommu_domain *domain, unsigned long iova,
-@@ -2823,7 +2824,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.domain_alloc		= arm_smmu_domain_alloc,
- 	.domain_free		= arm_smmu_domain_free,
- 	.attach_dev		= arm_smmu_attach_dev,
--	.map			= arm_smmu_map,
-+	.map_pages		= arm_smmu_map_pages,
- 	.unmap_pages		= arm_smmu_unmap_pages,
- 	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
- 	.iotlb_sync		= arm_smmu_iotlb_sync,
+ 	/* Pre-notify listeners that a device is being removed. */
 -- 
-2.8.1
+2.25.1
 
 _______________________________________________
 iommu mailing list
