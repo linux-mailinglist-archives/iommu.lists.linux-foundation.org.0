@@ -1,52 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395B93DC29E
-	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 04:22:04 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0093DC29C
+	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 04:22:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5499D60733;
-	Sat, 31 Jul 2021 02:22:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Xu9675PaXKhG; Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 75DE46074D;
-	Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 57B5BC0010;
-	Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5697FC001B
- for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3962040562
- for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 192FB40683;
+	Sat, 31 Jul 2021 02:22:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f415OhhB4jEt for <iommu@lists.linux-foundation.org>;
- Sat, 31 Jul 2021 02:21:58 +0000 (UTC)
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Nno7PdoyWGpv; Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3D4F6404FC;
+	Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DF9C0C001F;
+	Sat, 31 Jul 2021 02:21:58 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ACFB5C0010
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 884C783B7E
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SMhUyNYr5TV3 for <iommu@lists.linux-foundation.org>;
+ Sat, 31 Jul 2021 02:21:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 02B56404FC
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 85B1F83B45
  for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:56 +0000 (UTC)
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gc7Cs1BP1zYj9N;
- Sat, 31 Jul 2021 10:15:53 +0800 (CST)
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Gc7FG1sp3z7xfT;
+ Sat, 31 Jul 2021 10:17:06 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
  15.1.2176.2; Sat, 31 Jul 2021 10:21:52 +0800
 From: chenxiang <chenxiang66@hisilicon.com>
 To: <robin.murphy@arm.com>, <will@kernel.org>, <joro@8bytes.org>
-Subject: [PATCH 0/2] Implement [map/unmap]_pages callbacks for ARM SMMUV3
-Date: Sat, 31 Jul 2021 10:17:09 +0800
-Message-ID: <1627697831-158822-1-git-send-email-chenxiang66@hisilicon.com>
+Subject: [PATCH 1/2] iommu/arm-smmu-v3: Implement the unmap_pages() IOMMU
+ driver callback
+Date: Sat, 31 Jul 2021 10:17:10 +0800
+Message-ID: <1627697831-158822-2-git-send-email-chenxiang66@hisilicon.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1627697831-158822-1-git-send-email-chenxiang66@hisilicon.com>
+References: <1627697831-158822-1-git-send-email-chenxiang66@hisilicon.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.58]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
@@ -72,46 +75,50 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Xiang Chen <chenxiang66@hisilicon.com>
 
-The series ("Optimizing iommu_[map/unmap] performance") improve the
-iommu_[map/unmap] performance. Based on the series, implement [map/unmap]_pages
-callbacks for ARM SMMUV3.
-Use tool dma_map_benchmark to test the latency of map/unmap, and it promotes
-much on it. The test result is as follows:
-t = 1(thread = 1):
-                   before opt(us)   after opt(us)
-g=1(4K size)        0.1/1.3          0.1/0.8
-g=2(8K size)        0.2/1.5          0.2/0.9
-g=4(16K size)       0.3/1.9          0.1/1.1
-g=8(32K size)       0.5/2.7          0.2/1.4
-g=16(64K size)      1.0/4.5          0.2/2.0
-g=32(128K size)     1.8/7.9          0.2/3.3
-g=64(256K size)     3.7/14.8         0.4/6.1
-g=128(512K size)    7.1/14.7         0.5/10.4
-g=256(1M size)      14.0/53.9        0.8/19.3
-g=512(2M size)      0.2/0.9          0.2/0.9
-g=1024(4M size)     0.5/1.5          0.4/1.0
+Implement the unmap_pages() callback for ARM SMMUV3 driver to allow calls
+from iommu_unmap to unmap multiple pages of the same size in one call.
+Also remove the unmap() callback for the ARM SMMUV3 driver as it will
+no longer be used.
 
-t = 10(thread = 10):
-                   before opt(us)   after opt(us)
-g=1(4K size)        0.3/7.0          0.1/5.8
-g=2(8K size)        0.4/6.7          0.3/6.0
-g=4(16K size)       0.5/6.3          0.3/5.6
-g=8(32K size)       0.5/8.3          0.2/6.3
-g=16(64K size)      1.0/17.3         0.3/12.4
-g=32(128K size)     1.8/36.0         0.2/24.2
-g=64(256K size)     4.3/67.2         1.2/46.4
-g=128(512K size)    7.8/93.7         1.3/94.2
-g=256(1M size)      14.7/280.8       1.8/191.5
-g=512(2M size)      3.6/3.2          1.5/2.5
-g=1024(4M size)     2.0/3.1          1.8/2.6 
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Xiang Chen (2):
-  iommu/arm-smmu-v3: Implement the unmap_pages() IOMMU driver callback
-  iommu/arm-smmu-v3: Implement the map_pages() IOMMU driver callback
-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 6346f21..2060e6d 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -2450,8 +2450,9 @@ static int arm_smmu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return ops->map(ops, iova, paddr, size, prot, gfp);
+ }
+ 
+-static size_t arm_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+-			     size_t size, struct iommu_iotlb_gather *gather)
++static size_t arm_smmu_unmap_pages(struct iommu_domain *domain, unsigned long iova,
++				   size_t pgsize, size_t pgcount,
++				   struct iommu_iotlb_gather *gather)
+ {
+ 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+ 	struct io_pgtable_ops *ops = smmu_domain->pgtbl_ops;
+@@ -2459,7 +2460,7 @@ static size_t arm_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 	if (!ops)
+ 		return 0;
+ 
+-	return ops->unmap(ops, iova, size, gather);
++	return ops->unmap_pages(ops, iova, pgsize, pgcount, gather);
+ }
+ 
+ static void arm_smmu_flush_iotlb_all(struct iommu_domain *domain)
+@@ -2823,7 +2824,7 @@ static struct iommu_ops arm_smmu_ops = {
+ 	.domain_free		= arm_smmu_domain_free,
+ 	.attach_dev		= arm_smmu_attach_dev,
+ 	.map			= arm_smmu_map,
+-	.unmap			= arm_smmu_unmap,
++	.unmap_pages		= arm_smmu_unmap_pages,
+ 	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
+ 	.iotlb_sync		= arm_smmu_iotlb_sync,
+ 	.iova_to_phys		= arm_smmu_iova_to_phys,
 -- 
 2.8.1
 
