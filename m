@@ -1,61 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C513DC1BE
-	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 01:57:06 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395B93DC29E
+	for <lists.iommu@lfdr.de>; Sat, 31 Jul 2021 04:22:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CF70740212;
-	Fri, 30 Jul 2021 23:57:04 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5499D60733;
+	Sat, 31 Jul 2021 02:22:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eKTQq2BU-B_q; Fri, 30 Jul 2021 23:57:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BF8D1402A8;
-	Fri, 30 Jul 2021 23:57:03 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Xu9675PaXKhG; Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 75DE46074D;
+	Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93F1FC001F;
-	Fri, 30 Jul 2021 23:57:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 57B5BC0010;
+	Sat, 31 Jul 2021 02:22:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0057C000E
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 23:57:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5697FC001B
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E548D82C2E
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 23:57:02 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3962040562
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pv9lAYY_SvuQ for <iommu@lists.linux-foundation.org>;
- Fri, 30 Jul 2021 23:57:02 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id f415OhhB4jEt for <iommu@lists.linux-foundation.org>;
+ Sat, 31 Jul 2021 02:21:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 308AB82B75
- for <iommu@lists.linux-foundation.org>; Fri, 30 Jul 2021 23:57:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10061"; a="213219735"
-X-IronPort-AV: E=Sophos;i="5.84,283,1620716400"; d="scan'208";a="213219735"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2021 16:57:00 -0700
-X-IronPort-AV: E=Sophos;i="5.84,283,1620716400"; d="scan'208";a="508505463"
-Received: from km-skylake-client-platform.sc.intel.com ([172.25.103.115])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2021 16:56:59 -0700
-Message-ID: <43dbe366ef396a81357c032ea62d8b9543678a3d.camel@intel.com>
-Subject: Re: [PATCH v2] iommu/vt-d: Dump DMAR translation structure
-From: Kyung Min Park <kyung.min.park@intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Date: Fri, 30 Jul 2021 16:51:02 -0700
-In-Reply-To: <YP6pw9j8i3bGOb13@8bytes.org>
-References: <20210722042453.10579-1-kyung.min.park@intel.com>
- <YP6pw9j8i3bGOb13@8bytes.org>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-Cc: ravi.v.shankar@intel.com, ashok.raj@intel.com, dwmw2@infradead.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- will@kernel.org
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 02B56404FC
+ for <iommu@lists.linux-foundation.org>; Sat, 31 Jul 2021 02:21:56 +0000 (UTC)
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gc7Cs1BP1zYj9N;
+ Sat, 31 Jul 2021 10:15:53 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Sat, 31 Jul 2021 10:21:52 +0800
+From: chenxiang <chenxiang66@hisilicon.com>
+To: <robin.murphy@arm.com>, <will@kernel.org>, <joro@8bytes.org>
+Subject: [PATCH 0/2] Implement [map/unmap]_pages callbacks for ARM SMMUV3
+Date: Sat, 31 Jul 2021 10:17:09 +0800
+Message-ID: <1627697831-158822-1-git-send-email-chenxiang66@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, linuxarm@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,34 +70,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-On Mon, 2021-07-26 at 14:25 +0200, Joerg Roedel wrote:
-> On Wed, Jul 21, 2021 at 09:24:53PM -0700, Kyung Min Park wrote:
-> > When the dmar translation fault happens, the kernel prints a single
-> > line
-> > fault reason with corresponding hexadecimal code defined in the
-> > Intel VT-d
-> > specification.
-> > 
-> > Currently, when user wants to debug the translation fault in
-> > detail,
-> > debugfs is used for dumping the dmar_translation_struct, which is
-> > not
-> > available when the kernel failed to boot.
-> > 
-> > Dump the DMAR translation structure, pagewalk the IO page table and
-> > print
-> > the page table entry when the fault happens.
-> > 
-> > Signed-off-by: Kyung Min Park <kyung.min.park@intel.com>
-> 
-> This is too much noise in dmesg for a single dmar fault. Please hide
-> that additional debug information behind a debug kernel option for
-> the
-> VT-d driver.
+The series ("Optimizing iommu_[map/unmap] performance") improve the
+iommu_[map/unmap] performance. Based on the series, implement [map/unmap]_pages
+callbacks for ARM SMMUV3.
+Use tool dma_map_benchmark to test the latency of map/unmap, and it promotes
+much on it. The test result is as follows:
+t = 1(thread = 1):
+                   before opt(us)   after opt(us)
+g=1(4K size)        0.1/1.3          0.1/0.8
+g=2(8K size)        0.2/1.5          0.2/0.9
+g=4(16K size)       0.3/1.9          0.1/1.1
+g=8(32K size)       0.5/2.7          0.2/1.4
+g=16(64K size)      1.0/4.5          0.2/2.0
+g=32(128K size)     1.8/7.9          0.2/3.3
+g=64(256K size)     3.7/14.8         0.4/6.1
+g=128(512K size)    7.1/14.7         0.5/10.4
+g=256(1M size)      14.0/53.9        0.8/19.3
+g=512(2M size)      0.2/0.9          0.2/0.9
+g=1024(4M size)     0.5/1.5          0.4/1.0
 
-Sure, let me change in the next version.
+t = 10(thread = 10):
+                   before opt(us)   after opt(us)
+g=1(4K size)        0.3/7.0          0.1/5.8
+g=2(8K size)        0.4/6.7          0.3/6.0
+g=4(16K size)       0.5/6.3          0.3/5.6
+g=8(32K size)       0.5/8.3          0.2/6.3
+g=16(64K size)      1.0/17.3         0.3/12.4
+g=32(128K size)     1.8/36.0         0.2/24.2
+g=64(256K size)     4.3/67.2         1.2/46.4
+g=128(512K size)    7.8/93.7         1.3/94.2
+g=256(1M size)      14.7/280.8       1.8/191.5
+g=512(2M size)      3.6/3.2          1.5/2.5
+g=1024(4M size)     2.0/3.1          1.8/2.6 
+
+Xiang Chen (2):
+  iommu/arm-smmu-v3: Implement the unmap_pages() IOMMU driver callback
+  iommu/arm-smmu-v3: Implement the map_pages() IOMMU driver callback
+
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.8.1
 
 _______________________________________________
 iommu mailing list
