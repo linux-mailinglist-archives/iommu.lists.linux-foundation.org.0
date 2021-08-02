@@ -2,52 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB203DD539
-	for <lists.iommu@lfdr.de>; Mon,  2 Aug 2021 14:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B225E3DD5A6
+	for <lists.iommu@lfdr.de>; Mon,  2 Aug 2021 14:28:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 35E94403BB;
-	Mon,  2 Aug 2021 12:08:11 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 230B3403BD;
+	Mon,  2 Aug 2021 12:28:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id egOBIvyrjM_a; Mon,  2 Aug 2021 12:08:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 773E8403AC;
-	Mon,  2 Aug 2021 12:08:09 +0000 (UTC)
+	with ESMTP id iXDYnECfxACt; Mon,  2 Aug 2021 12:28:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C5381403BB;
+	Mon,  2 Aug 2021 12:28:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 52CC2C0022;
-	Mon,  2 Aug 2021 12:08:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BF17C0022;
+	Mon,  2 Aug 2021 12:28:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59657C000E
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:08:08 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2C101C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:28:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3BA7E839BB
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:08:08 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 01C3A40338
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:28:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pX820Ss0ZgY4 for <iommu@lists.linux-foundation.org>;
- Mon,  2 Aug 2021 12:08:03 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vWhb0hhfGG0g for <iommu@lists.linux-foundation.org>;
+ Mon,  2 Aug 2021 12:28:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org
- [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 716B682E19
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:08:03 +0000 (UTC)
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id F082C40331
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:28:44 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id BBD92379; Mon,  2 Aug 2021 14:08:00 +0200 (CEST)
-Date: Mon, 2 Aug 2021 14:07:59 +0200
+ id 3FDE620C; Mon,  2 Aug 2021 14:28:42 +0200 (CEST)
+Date: Mon, 2 Aug 2021 14:28:36 +0200
 From: Joerg Roedel <joro@8bytes.org>
 To: Tianyu Lan <ltykernel@gmail.com>
-Subject: Re: [PATCH 04/13] HV: Mark vmbus ring buffer visible to host in
- Isolation VM
-Message-ID: <YQfgH04t2SqacnHn@8bytes.org>
+Subject: Re: [PATCH 05/13] HV: Add Write/Read MSR registers via ghcb page
+Message-ID: <YQfk9G+k0Tj8ihyu@8bytes.org>
 References: <20210728145232.285861-1-ltykernel@gmail.com>
- <20210728145232.285861-5-ltykernel@gmail.com>
+ <20210728145232.285861-6-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210728145232.285861-5-ltykernel@gmail.com>
+In-Reply-To: <20210728145232.285861-6-ltykernel@gmail.com>
 Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, david@redhat.com,
  peterz@infradead.org, dave.hansen@linux.intel.com, vkuznets@redhat.com,
  hpa@zytor.com, anparri@microsoft.com, kys@microsoft.com, will@kernel.org,
@@ -83,16 +81,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jul 28, 2021 at 10:52:19AM -0400, Tianyu Lan wrote:
-> +	if (type == HV_GPADL_BUFFER)
-> +		index = 0;
-> +	else
-> +		index = channel->gpadl_range[1].gpadlhandle ? 2 : 1;
+On Wed, Jul 28, 2021 at 10:52:20AM -0400, Tianyu Lan wrote:
+> +void hv_ghcb_msr_write(u64 msr, u64 value)
+> +{
+> +	union hv_ghcb *hv_ghcb;
+> +	void **ghcb_base;
+> +	unsigned long flags;
+> +
+> +	if (!ms_hyperv.ghcb_base)
+> +		return;
+> +
+> +	WARN_ON(in_nmi());
+> +
+> +	local_irq_save(flags);
+> +	ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
+> +	hv_ghcb = (union hv_ghcb *)*ghcb_base;
+> +	if (!hv_ghcb) {
+> +		local_irq_restore(flags);
+> +		return;
+> +	}
+> +
+> +	memset(hv_ghcb, 0x00, HV_HYP_PAGE_SIZE);
 
-Hmm... This doesn't look very robust. Can you set fixed indexes for
-different buffer types? HV_GPADL_BUFFER already has fixed index 0. But
-as it is implemented here you risk that index 2 gets overwritten by
-subsequent calls.
+Do you really need to zero out the whole 4k? The validation bitmap
+should be enough, there are no secrets on the page anyway.
+Same in hv_ghcb_msr_read().
+
+> +enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
+> +				   struct es_em_ctxt *ctxt,
+> +				   u64 exit_code, u64 exit_info_1,
+> +				   u64 exit_info_2)
+>  {
+>  	enum es_result ret;
+>  
+> @@ -109,7 +109,16 @@ static enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
+>  	ghcb_set_sw_exit_info_1(ghcb, exit_info_1);
+>  	ghcb_set_sw_exit_info_2(ghcb, exit_info_2);
+>  
+> -	sev_es_wr_ghcb_msr(__pa(ghcb));
+> +	/*
+> +	 * Hyper-V runs paravisor with SEV. Ghcb page is allocated by
+> +	 * paravisor and not needs to be updated in the Linux guest.
+> +	 * Otherwise, the ghcb page's PA reported by paravisor is above
+> +	 * VTOM. Hyper-V use this function with NULL for ctxt point and
+> +	 * skip setting ghcb page in such case.
+> +	 */
+> +	if (ctxt)
+> +		sev_es_wr_ghcb_msr(__pa(ghcb));
+
+No, do not make this function work with ctxt==NULL. Instead, factor out
+a helper function which contains what Hyper-V needs and use that in
+sev_es_ghcb_hv_call() and Hyper-V code.
+
+> +union hv_ghcb {
+> +	struct ghcb ghcb;
+> +} __packed __aligned(PAGE_SIZE);
+
+I am curious what this will end up being good for.
 
 _______________________________________________
 iommu mailing list
