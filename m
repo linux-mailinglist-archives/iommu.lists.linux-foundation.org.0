@@ -1,81 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E133DDBD2
-	for <lists.iommu@lfdr.de>; Mon,  2 Aug 2021 17:04:05 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25A83DDC16
+	for <lists.iommu@lfdr.de>; Mon,  2 Aug 2021 17:14:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C22F8404FF;
-	Mon,  2 Aug 2021 15:04:00 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8392040538;
+	Mon,  2 Aug 2021 15:14:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2Lj_5dvm-YFF; Mon,  2 Aug 2021 15:04:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 030AF404F7;
-	Mon,  2 Aug 2021 15:04:00 +0000 (UTC)
+	with ESMTP id OIU0sxoIqx3M; Mon,  2 Aug 2021 15:14:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id CB71F40535;
+	Mon,  2 Aug 2021 15:14:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC2EEC0022;
-	Mon,  2 Aug 2021 15:03:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B2ABC0022;
+	Mon,  2 Aug 2021 15:14:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B1F98C000E
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 15:03:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4DE51C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 15:14:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 8FDB283A8F
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 15:03:58 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 361B88254A
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 15:14:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
+ dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id llPmwp76e3Bp for <iommu@lists.linux-foundation.org>;
- Mon,  2 Aug 2021 15:03:57 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by smtp1.osuosl.org (Postfix) with ESMTPS id F415583A87
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 15:03:56 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id n12so21860569wrr.2
- for <iommu@lists.linux-foundation.org>; Mon, 02 Aug 2021 08:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7XHOcI1iqZxijVLGLW7nItKOPrRmjBgh32wAYk4SY0A=;
- b=XHfgl+M3acCK7c0V7HKcPwXjFcClgkgpF8EEGCvsL19dxnBBG8PXPRDF0zkNLhAD8C
- eoElgSmdGbPUlGq0V/ocmmR/FLq0tG2IvgAFaeO0dAPN+lrF5Z5l68N7kuJnebiW22km
- AjHuMo7XLOekNR127PjRnsWmXdYNG5QBW93oZYKySrszC/IQ1M+p2SCvLhVmy4jGlZgi
- NV2kQ2FPtPB5CHuO16ms8wcPhglWnWHekMJQChMndk42kaSo3w+aN2L6H1UKXpq2JD57
- J/e9MuBhv8XBN+aL4sxNFY29iIIpagoCscQ9lmuvskMtv/HlEwPCDZ10W664wygmid0Z
- l6YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7XHOcI1iqZxijVLGLW7nItKOPrRmjBgh32wAYk4SY0A=;
- b=E1ol7sXqzIvt31aHtrw3P2ylE6WmB665gM8d9DNvYiY2MV0Ozn9lsGXsuX+L5qEDGA
- LuzVxTNyLdtprKufRX2aXAdGM/gMFdsOj32Bg3a/6AHrA2M9OmI96vUT/B6hZiZfwHH4
- eN4z6UpwnUaqGudYeOsK1p0yuElyDjEz62Fkr8cuy/wdlJlJe9IEeX+jJXhaPpBMzNXY
- xEYnCVzMYwD0GwM5z//SSfknktrvcUskS9hdg5ogBMGCe0GN8X8l9fQA2e13GVsMfcxg
- jgKFw0Vx/0PKDt2A+j8PFlNTNDDh0O5Z66LW1eHOPiUysa0H7/UwWcUQikkzUhyi6Q1G
- Bf3w==
-X-Gm-Message-State: AOAM532D+cH8q3C5r7I9O5jzX3sUmeei1l17cixvQroJbUrxsdMDKCQY
- puMitdExEBPo7pCe8jKACYDHQSVMq/RM8BeImcg=
-X-Google-Smtp-Source: ABdhPJwGH/Eqr7CF+Kt6gNll6QNMzEySN4X0hbpZ4Q5OsyHEbBPyczRncKgDY8mkF35HvK0Ng4dxN6be2gs74L1YFnE=
-X-Received: by 2002:a5d:4348:: with SMTP id u8mr19002665wrr.28.1627916635155; 
- Mon, 02 Aug 2021 08:03:55 -0700 (PDT)
-MIME-Version: 1.0
+ with ESMTP id mSQs_YWEKsDX for <iommu@lists.linux-foundation.org>;
+ Mon,  2 Aug 2021 15:14:16 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2B18D81C67
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 15:14:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C9C160FF2;
+ Mon,  2 Aug 2021 15:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627917255;
+ bh=UYOjm0eFhgR8EvFjQmM1ln8mHCxXRZCUDUqH/Bvbfyc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I+L+PP6a5jTfzy3P7sMw1ozlawfViMsG4K1XbMXEN7FNMylVLZukn49Or+IvXjCFf
+ vMw+jdh/BQgBnP9wNdZTsPb45W6h9jdnesphww0jMhHlT2zxHkQuOmRbK2W6OcpnrV
+ XFbMBWrApX6RisQX8Meh9WBAddgraG1S8IK5FEufYZw6Sm9zaF68fW176PXqIj266L
+ yG8Mc8wLP/Xmk2gtV9MIgbmfbXoe8E5XdKdDFIsApjuPza4bI/jK1KJXyIDyS44XJN
+ mi0nYqjnKPxx44IFD3m4coN8gQDZOhB9FLfNIfPMHSgXy3CZUFvmibAwxdcGxAAq/p
+ cLmIeXXFw8p3Q==
+Date: Mon, 2 Aug 2021 16:14:09 +0100
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent
+ masters to use system cache
+Message-ID: <20210802151409.GE28735@willie-the-truck>
 References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
  <20210728140052.GB22887@mms-0441>
  <8b2742c8891abe4fec3664730717a089@codeaurora.org>
  <20210802105544.GA27657@willie-the-truck>
-In-Reply-To: <20210802105544.GA27657@willie-the-truck>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 2 Aug 2021 08:08:07 -0700
-Message-ID: <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent masters
- to use system cache
-To: Will Deacon <will@kernel.org>
+ <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
  freedreno <freedreno@lists.freedesktop.org>,
  Jordan Crouse <jcrouse@codeaurora.org>, David Airlie <airlied@linux.ie>,
@@ -106,41 +93,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Aug 2, 2021 at 3:55 AM Will Deacon <will@kernel.org> wrote:
->
-> On Thu, Jul 29, 2021 at 10:08:22AM +0530, Sai Prakash Ranjan wrote:
-> > On 2021-07-28 19:30, Georgi Djakov wrote:
-> > > On Mon, Jan 11, 2021 at 07:45:02PM +0530, Sai Prakash Ranjan wrote:
-> > > > commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
-> > > > removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
-> > > > the memory type setting required for the non-coherent masters to use
-> > > > system cache. Now that system cache support for GPU is added, we will
-> > > > need to set the right PTE attribute for GPU buffers to be sys cached.
-> > > > Without this, the system cache lines are not allocated for GPU.
-> > > >
-> > > > So the patches in this series introduces a new prot flag IOMMU_LLC,
-> > > > renames IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to IO_PGTABLE_QUIRK_PTW_LLC
-> > > > and makes GPU the user of this protection flag.
-> > >
-> > > Thank you for the patchset! Are you planning to refresh it, as it does
-> > > not apply anymore?
-> > >
+On Mon, Aug 02, 2021 at 08:08:07AM -0700, Rob Clark wrote:
+> On Mon, Aug 2, 2021 at 3:55 AM Will Deacon <will@kernel.org> wrote:
 > >
-> > I was waiting on Will's reply [1]. If there are no changes needed, then
-> > I can repost the patch.
->
-> I still think you need to handle the mismatched alias, no? You're adding
-> a new memory type to the SMMU which doesn't exist on the CPU side. That
-> can't be right.
->
+> > On Thu, Jul 29, 2021 at 10:08:22AM +0530, Sai Prakash Ranjan wrote:
+> > > On 2021-07-28 19:30, Georgi Djakov wrote:
+> > > > On Mon, Jan 11, 2021 at 07:45:02PM +0530, Sai Prakash Ranjan wrote:
+> > > > > commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
+> > > > > removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
+> > > > > the memory type setting required for the non-coherent masters to use
+> > > > > system cache. Now that system cache support for GPU is added, we will
+> > > > > need to set the right PTE attribute for GPU buffers to be sys cached.
+> > > > > Without this, the system cache lines are not allocated for GPU.
+> > > > >
+> > > > > So the patches in this series introduces a new prot flag IOMMU_LLC,
+> > > > > renames IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to IO_PGTABLE_QUIRK_PTW_LLC
+> > > > > and makes GPU the user of this protection flag.
+> > > >
+> > > > Thank you for the patchset! Are you planning to refresh it, as it does
+> > > > not apply anymore?
+> > > >
+> > >
+> > > I was waiting on Will's reply [1]. If there are no changes needed, then
+> > > I can repost the patch.
+> >
+> > I still think you need to handle the mismatched alias, no? You're adding
+> > a new memory type to the SMMU which doesn't exist on the CPU side. That
+> > can't be right.
+> >
+> 
+> Just curious, and maybe this is a dumb question, but what is your
+> concern about mismatched aliases?  I mean the cache hierarchy on the
+> GPU device side (anything beyond the LLC) is pretty different and
+> doesn't really care about the smmu pgtable attributes..
 
-Just curious, and maybe this is a dumb question, but what is your
-concern about mismatched aliases?  I mean the cache hierarchy on the
-GPU device side (anything beyond the LLC) is pretty different and
-doesn't really care about the smmu pgtable attributes..
+If the CPU accesses a shared buffer with different attributes to those which
+the device is using then you fall into the "mismatched memory attributes"
+part of the Arm architecture. It's reasonably unforgiving (you should go and
+read it) and in some cases can apply to speculative accesses as well, but
+the end result is typically loss of coherency.
 
-BR,
--R
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
