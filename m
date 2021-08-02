@@ -1,64 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44563DD4FA
-	for <lists.iommu@lfdr.de>; Mon,  2 Aug 2021 13:53:40 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1703DD50E
+	for <lists.iommu@lfdr.de>; Mon,  2 Aug 2021 14:01:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 58F7E403A5;
-	Mon,  2 Aug 2021 11:53:39 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CB576403C6;
+	Mon,  2 Aug 2021 12:01:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h6mIS78VfO-a; Mon,  2 Aug 2021 11:53:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1E8B3403A9;
-	Mon,  2 Aug 2021 11:53:38 +0000 (UTC)
+	with ESMTP id ueOmqDfxypkZ; Mon,  2 Aug 2021 12:01:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DBB3640266;
+	Mon,  2 Aug 2021 12:01:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4345C000E;
-	Mon,  2 Aug 2021 11:53:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AD101C0022;
+	Mon,  2 Aug 2021 12:01:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1CD6CC000E
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 11:53:37 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1193C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:01:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 036E6403A6
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 11:53:37 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id AA84C40161
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:01:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jF7v4mwSpY52 for <iommu@lists.linux-foundation.org>;
- Mon,  2 Aug 2021 11:53:35 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id raaMqEnCcBvR for <iommu@lists.linux-foundation.org>;
+ Mon,  2 Aug 2021 12:01:48 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org
- [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B2C9A403A5
- for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 11:53:35 +0000 (UTC)
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id DC7FE400BD
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Aug 2021 12:01:47 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 835EB379; Mon,  2 Aug 2021 13:53:32 +0200 (CEST)
-Date: Mon, 2 Aug 2021 13:53:26 +0200
+ id 2A79D379; Mon,  2 Aug 2021 14:01:45 +0200 (CEST)
+Date: Mon, 2 Aug 2021 14:01:41 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Tianyu Lan <ltykernel@gmail.com>
-Subject: Re: [PATCH 01/13] x86/HV: Initialize GHCB page in Isolation VM
-Message-ID: <YQfctjRm16IP0qZy@8bytes.org>
+To: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 03/13] x86/HV: Add new hvcall guest address host
+ visibility support
+Message-ID: <YQfepYTC4n6agq9z@8bytes.org>
 References: <20210728145232.285861-1-ltykernel@gmail.com>
- <20210728145232.285861-2-ltykernel@gmail.com>
+ <20210728145232.285861-4-ltykernel@gmail.com>
+ <c00e269c-da4c-c703-0182-0221c73a76cc@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210728145232.285861-2-ltykernel@gmail.com>
+In-Reply-To: <c00e269c-da4c-c703-0182-0221c73a76cc@intel.com>
 Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, david@redhat.com,
  peterz@infradead.org, dave.hansen@linux.intel.com, vkuznets@redhat.com,
  hpa@zytor.com, anparri@microsoft.com, kys@microsoft.com, will@kernel.org,
  boris.ostrovsky@oracle.com, linux-arch@vger.kernel.org, sfr@canb.auug.org.au,
  wei.liu@kernel.org, sstabellini@kernel.org, sthemmin@microsoft.com,
  xen-devel@lists.xenproject.org, linux-scsi@vger.kernel.org,
- aneesh.kumar@linux.ibm.com, x86@kernel.org, decui@microsoft.com, hch@lst.de,
- michael.h.kelley@microsoft.com, mingo@redhat.com, pgonda@google.com,
- rientjes@google.com, kuba@kernel.org, jejb@linux.ibm.com,
- martin.b.radev@gmail.com, thomas.lendacky@amd.com, Tianyu.Lan@microsoft.com,
- keescook@chromium.org, arnd@arndb.de, konrad.wilk@oracle.com,
- haiyangz@microsoft.com, bp@alien8.de, luto@kernel.org,
+ aneesh.kumar@linux.ibm.com, x86@kernel.org, decui@microsoft.com,
+ Tianyu Lan <ltykernel@gmail.com>, hch@lst.de, michael.h.kelley@microsoft.com,
+ mingo@redhat.com, pgonda@google.com, rientjes@google.com, kuba@kernel.org,
+ jejb@linux.ibm.com, martin.b.radev@gmail.com, thomas.lendacky@amd.com,
+ Tianyu.Lan@microsoft.com, keescook@chromium.org, arnd@arndb.de,
+ konrad.wilk@oracle.com, haiyangz@microsoft.com, bp@alien8.de, luto@kernel.org,
  krish.sadhukhan@oracle.com, tglx@linutronix.de, akpm@linux-foundation.org,
  jgross@suse.com, martin.petersen@oracle.com, saravanand@fb.com,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -82,40 +83,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jul 28, 2021 at 10:52:16AM -0400, Tianyu Lan wrote:
-> +static int hyperv_init_ghcb(void)
-> +{
-> +	u64 ghcb_gpa;
-> +	void *ghcb_va;
-> +	void **ghcb_base;
-> +
-> +	if (!ms_hyperv.ghcb_base)
-> +		return -EINVAL;
-> +
-> +	rdmsrl(MSR_AMD64_SEV_ES_GHCB, ghcb_gpa);
-> +	ghcb_va = memremap(ghcb_gpa, HV_HYP_PAGE_SIZE, MEMREMAP_WB);
+On Wed, Jul 28, 2021 at 08:29:41AM -0700, Dave Hansen wrote:
+> __set_memory_enc_dec() is turning into a real mess.  SEV, TDX and now
+> Hyper-V are messing around in here.
 
-This deserves a comment. As I understand it, the GHCB pa is set by
-Hyper-V or the paravisor, so the page does not need to be allocated by
-Linux.
-And it is not mapped unencrypted because the GHCB page is allocated
-above the VTOM boundary?
+I was going to suggest a PV_OPS call where the fitting implementation
+for the guest environment can be plugged in at boot. There is TDX and an
+SEV(-SNP) case, a Hyper-V case, and likely more coming up from other
+cloud/hypervisor vendors. Hiding all these behind feature checks is not
+going to make things cleaner.
 
-> @@ -167,6 +190,31 @@ static int hv_cpu_die(unsigned int cpu)
->  {
->  	struct hv_reenlightenment_control re_ctrl;
->  	unsigned int new_cpu;
-> +	unsigned long flags;
-> +	void **input_arg;
-> +	void *pg;
-> +	void **ghcb_va = NULL;
-> +
-> +	local_irq_save(flags);
-> +	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
-> +	pg = *input_arg;
+Regards,
 
-Pg is never used later on, why is it set?
-
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
