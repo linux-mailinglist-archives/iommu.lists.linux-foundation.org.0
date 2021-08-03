@@ -1,95 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9070E3DE403
-	for <lists.iommu@lfdr.de>; Tue,  3 Aug 2021 03:31:59 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id E264A3DE432
+	for <lists.iommu@lfdr.de>; Tue,  3 Aug 2021 03:59:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 185E1401F2;
-	Tue,  3 Aug 2021 01:31:58 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8FF704025D;
+	Tue,  3 Aug 2021 01:59:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AXBoPjg_ufVW; Tue,  3 Aug 2021 01:31:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CCDE1401F1;
-	Tue,  3 Aug 2021 01:31:56 +0000 (UTC)
+	with ESMTP id FtjD7IaWpmB1; Tue,  3 Aug 2021 01:59:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C266F401F4;
+	Tue,  3 Aug 2021 01:59:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F1C3C001F;
-	Tue,  3 Aug 2021 01:31:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 016D0C0025;
+	Tue,  3 Aug 2021 01:59:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8B78BC000E
- for <iommu@lists.linux-foundation.org>; Tue,  3 Aug 2021 01:31:54 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A2053C0010
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Aug 2021 01:59:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 656E4401F1
- for <iommu@lists.linux-foundation.org>; Tue,  3 Aug 2021 01:31:54 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7ADEA40228
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Aug 2021 01:59:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kPCXqar4RJPO for <iommu@lists.linux-foundation.org>;
- Tue,  3 Aug 2021 01:31:53 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 4EBCE401C9
- for <iommu@lists.linux-foundation.org>; Tue,  3 Aug 2021 01:31:53 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- l11-20020a7bcf0b0000b0290253545c2997so1069462wmg.4
- for <iommu@lists.linux-foundation.org>; Mon, 02 Aug 2021 18:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xoYKeNMcKT9d+jkGEnzy+zqeIUVXh9cRA8f49lcGYC8=;
- b=K4cUt6vdJtIGAoypcfbhOnCY7xrdQNo/3h5B6VyuGQC6ZNWK/BBe++Xkxp67ld0Rn0
- Zh1pJzHrvpzYLV1x4DFyxUiEyQ46SCW4/9Oh792YF+bcXDwFnTL1anQNGnPNR12vVrKh
- WS89KEbB9yo18n717VtF6iTXDAQi6CVZ24pgQjC7Q7vZZ0qvVDrCemM4HWR4/0t6pRvb
- 0YgX1LDLC5ekVWNwayNpI0OPAKJP7zmlBTS0tXXOEjxbgVf3n0We5wttMwz2tAfm+Yoe
- EhkzubmCCp386nRqW3vNJdOhPwdOWwFQTkeZrUrwSgV/s+ewosTRt+Dpoy174Qz0n96d
- atfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xoYKeNMcKT9d+jkGEnzy+zqeIUVXh9cRA8f49lcGYC8=;
- b=iR8mLDidlZHdwVJBRNfDVxwXMx5/8lihXNzRoe+G5LuYCwT2wSdfoXWsKXrhqbCzf4
- MkFDf77oHIwBI8oUpanRkw3VjIyO0bGUOBgSl3g1b6QY3P84ErbL+L7r6K3ydzqUTsxB
- 2a21GqLKKCkJZGOnwvoB7NvZkclyhROUi0Ck8ftew0+perL8p1Fj32Lyk/KobBVxJvdu
- +NWfxCP2/MPv/gNFO8d2U92NqNkAX9EjMSYf7Q5BTi/LTjM20o50fDhOLjIVrFjM72vc
- 0gVV1VpKl/zL1zX9NCrVSJFVq460Ahe6Z8AwixT/klWyGdlOZSI/YBRx3ze5rNZl3wZp
- mcaQ==
-X-Gm-Message-State: AOAM530k9C2jqEYP6oQOCvnGJ/CuPYTYSG0ybxaYl29acNtKbnTmE+50
- UqXuprbD5COHpllqflDmkTrpZ7KsRaZjhBdoes0=
-X-Google-Smtp-Source: ABdhPJxdMWZqPHrh+Mxx9qIF7HQSUcdRyEEsbC9X4CVXONVLsF849KG7gxpA1BIWW/BxUAjLxanM9tlNbBcIasoLz7Q=
-X-Received: by 2002:a1c:4b18:: with SMTP id y24mr1613548wma.49.1627954311450; 
- Mon, 02 Aug 2021 18:31:51 -0700 (PDT)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oZXJSnNJ2wbz for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Aug 2021 01:59:45 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id BA80B4021B
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Aug 2021 01:59:44 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Gdyjn1mCCz9sWS; Tue,  3 Aug 2021 11:59:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1627955981;
+ bh=fq7sSDBueGfHLolaCZYUy66ypkaBpc90oupYp2B93Rw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iDj72gaV33fC9Nnrsg56AR8GKnL+w5o0IvkJzAo0IKwsmifbg4i7kW880Sewy+XG9
+ MY8Rz0qNd5I0iL3UNQIXFIzc+08pD5Bzih+kvvTDZwva5a54ojDPoor8Wp+tt0CBq9
+ lp8KridBkQjXWT8vOIafywN6ENb/0Saduht3FkD0=
+Date: Tue, 3 Aug 2021 11:50:36 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [RFC v2] /dev/iommu uAPI proposal
+Message-ID: <YQig7EIVMAuzSgH4@yekko>
+References: <BN9PR11MB5433B1E4AE5B0480369F97178C189@BN9PR11MB5433.namprd11.prod.outlook.com>
+ <YP4/KJoYfbaf5U94@yekko>
+ <BN9PR11MB54332594B1B4003AE4B9238C8CEA9@BN9PR11MB5433.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <20210728140052.GB22887@mms-0441>
- <8b2742c8891abe4fec3664730717a089@codeaurora.org>
- <20210802105544.GA27657@willie-the-truck>
- <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
- <20210802151409.GE28735@willie-the-truck>
-In-Reply-To: <20210802151409.GE28735@willie-the-truck>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 2 Aug 2021 18:36:04 -0700
-Message-ID: <CAF6AEGtzvyEUm0Fc8QT5t9KNK7i0FbFyi7zDM2_PMCzZBp7qbw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent masters
- to use system cache
-To: Will Deacon <will@kernel.org>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Kristian H Kristensen <hoegsberg@google.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sean Paul <sean@poorly.run>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <BN9PR11MB54332594B1B4003AE4B9238C8CEA9@BN9PR11MB5433.namprd11.prod.outlook.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
+ Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@nvidia.com>,
+ "parav@mellanox.com" <parav@mellanox.com>,
+ "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
+ "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+ Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
+ Shenming Lu <lushenming@huawei.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,64 +79,330 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8456421343214475009=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Aug 2, 2021 at 8:14 AM Will Deacon <will@kernel.org> wrote:
->
-> On Mon, Aug 02, 2021 at 08:08:07AM -0700, Rob Clark wrote:
-> > On Mon, Aug 2, 2021 at 3:55 AM Will Deacon <will@kernel.org> wrote:
-> > >
-> > > On Thu, Jul 29, 2021 at 10:08:22AM +0530, Sai Prakash Ranjan wrote:
-> > > > On 2021-07-28 19:30, Georgi Djakov wrote:
-> > > > > On Mon, Jan 11, 2021 at 07:45:02PM +0530, Sai Prakash Ranjan wrote:
-> > > > > > commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
-> > > > > > removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
-> > > > > > the memory type setting required for the non-coherent masters to use
-> > > > > > system cache. Now that system cache support for GPU is added, we will
-> > > > > > need to set the right PTE attribute for GPU buffers to be sys cached.
-> > > > > > Without this, the system cache lines are not allocated for GPU.
-> > > > > >
-> > > > > > So the patches in this series introduces a new prot flag IOMMU_LLC,
-> > > > > > renames IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to IO_PGTABLE_QUIRK_PTW_LLC
-> > > > > > and makes GPU the user of this protection flag.
-> > > > >
-> > > > > Thank you for the patchset! Are you planning to refresh it, as it does
-> > > > > not apply anymore?
-> > > > >
-> > > >
-> > > > I was waiting on Will's reply [1]. If there are no changes needed, then
-> > > > I can repost the patch.
-> > >
-> > > I still think you need to handle the mismatched alias, no? You're adding
-> > > a new memory type to the SMMU which doesn't exist on the CPU side. That
-> > > can't be right.
-> > >
-> >
-> > Just curious, and maybe this is a dumb question, but what is your
-> > concern about mismatched aliases?  I mean the cache hierarchy on the
-> > GPU device side (anything beyond the LLC) is pretty different and
-> > doesn't really care about the smmu pgtable attributes..
->
-> If the CPU accesses a shared buffer with different attributes to those which
-> the device is using then you fall into the "mismatched memory attributes"
-> part of the Arm architecture. It's reasonably unforgiving (you should go and
-> read it) and in some cases can apply to speculative accesses as well, but
-> the end result is typically loss of coherency.
 
-Ok, I might have a few other sections to read first to decipher the
-terminology..
+--===============8456421343214475009==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5IZa54qDMZ8MbAEA"
+Content-Disposition: inline
 
-But my understanding of LLC is that it looks just like system memory
-to the CPU and GPU (I think that would make it "the point of
-coherence" between the GPU and CPU?)  If that is true, shouldn't it be
-invisible from the point of view of different CPU mapping options?
 
-BR,
--R
+--5IZa54qDMZ8MbAEA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 28, 2021 at 04:04:24AM +0000, Tian, Kevin wrote:
+> Hi, David,
+>=20
+> > From: David Gibson <david@gibson.dropbear.id.au>
+> > Sent: Monday, July 26, 2021 12:51 PM
+> >=20
+> > On Fri, Jul 09, 2021 at 07:48:44AM +0000, Tian, Kevin wrote:
+> > > /dev/iommu provides an unified interface for managing I/O page tables=
+ for
+> > > devices assigned to userspace. Device passthrough frameworks (VFIO,
+> > vDPA,
+> > > etc.) are expected to use this interface instead of creating their ow=
+n logic to
+> > > isolate untrusted device DMAs initiated by userspace.
+> > >
+> > > This proposal describes the uAPI of /dev/iommu and also sample
+> > sequences
+> > > with VFIO as example in typical usages. The driver-facing kernel API
+> > provided
+> > > by the iommu layer is still TBD, which can be discussed after consens=
+us is
+> > > made on this uAPI.
+> > >
+> > > It's based on a lengthy discussion starting from here:
+> > > 	https://lore.kernel.org/linux-
+> > iommu/20210330132830.GO2356281@nvidia.com/
+> > >
+> > > v1 can be found here:
+> > > 	https://lore.kernel.org/linux-
+> > iommu/PH0PR12MB54811863B392C644E5365446DC3E9@PH0PR12MB5481.n
+> > amprd12.prod.outlook.com/T/
+> > >
+> > > This doc is also tracked on github, though it's not very useful for v=
+1->v2
+> > > given dramatic refactoring:
+> > > 	https://github.com/luxis1999/dev_iommu_uapi
+> >=20
+> > Thanks for all your work on this, Kevin.  Apart from the actual
+> > semantic improvements, I'm finding v2 significantly easier to read and
+> > understand than v1.
+> >=20
+> > [snip]
+> > > 1.2. Attach Device to I/O address space
+> > > +++++++++++++++++++++++++++++++++++++++
+> > >
+> > > Device attach/bind is initiated through passthrough framework uAPI.
+> > >
+> > > Device attaching is allowed only after a device is successfully bound=
+ to
+> > > the IOMMU fd. User should provide a device cookie when binding the
+> > > device through VFIO uAPI. This cookie is used when the user queries
+> > > device capability/format, issues per-device iotlb invalidation and
+> > > receives per-device I/O page fault data via IOMMU fd.
+> > >
+> > > Successful binding puts the device into a security context which isol=
+ates
+> > > its DMA from the rest system. VFIO should not allow user to access the
+> > > device before binding is completed. Similarly, VFIO should prevent the
+> > > user from unbinding the device before user access is withdrawn.
+> > >
+> > > When a device is in an iommu group which contains multiple devices,
+> > > all devices within the group must enter/exit the security context
+> > > together. Please check {1.3} for more info about group isolation via
+> > > this device-centric design.
+> > >
+> > > Successful attaching activates an I/O address space in the IOMMU,
+> > > if the device is not purely software mediated. VFIO must provide devi=
+ce
+> > > specific routing information for where to install the I/O page table =
+in
+> > > the IOMMU for this device. VFIO must also guarantee that the attached
+> > > device is configured to compose DMAs with the routing information that
+> > > is provided in the attaching call. When handling DMA requests, IOMMU
+> > > identifies the target I/O address space according to the routing
+> > > information carried in the request. Misconfiguration breaks DMA
+> > > isolation thus could lead to severe security vulnerability.
+> > >
+> > > Routing information is per-device and bus specific. For PCI, it is
+> > > Requester ID (RID) identifying the device plus optional Process Addre=
+ss
+> > > Space ID (PASID). For ARM, it is Stream ID (SID) plus optional Sub-St=
+ream
+> > > ID (SSID). PASID or SSID is used when multiple I/O address spaces are
+> > > enabled on a single device. For simplicity and continuity reason the
+> > > following context uses RID+PASID though SID+SSID may sound a clearer
+> > > naming from device p.o.v. We can decide the actual naming when coding.
+> > >
+> > > Because one I/O address space can be attached by multiple devices,
+> > > per-device routing information (plus device cookie) is tracked under
+> > > each IOASID and is used respectively when activating the I/O address
+> > > space in the IOMMU for each attached device.
+> > >
+> > > The device in the /dev/iommu context always refers to a physical one
+> > > (pdev) which is identifiable via RID. Physically each pdev can support
+> > > one default I/O address space (routed via RID) and optionally multiple
+> > > non-default I/O address spaces (via RID+PASID).
+> > >
+> > > The device in VFIO context is a logic concept, being either a physical
+> > > device (pdev) or mediated device (mdev or subdev). Each vfio device
+> > > is represented by RID+cookie in IOMMU fd. User is allowed to create
+> > > one default I/O address space (routed by vRID from user p.o.v) per
+> > > each vfio_device. VFIO decides the routing information for this defau=
+lt
+> > > space based on device type:
+> > >
+> > > 1)  pdev, routed via RID;
+> > >
+> > > 2)  mdev/subdev with IOMMU-enforced DMA isolation, routed via
+> > >     the parent's RID plus the PASID marking this mdev;
+> > >
+> > > 3)  a purely sw-mediated device (sw mdev), no routing required i.e. no
+> > >     need to install the I/O page table in the IOMMU. sw mdev just uses
+> > >     the metadata to assist its internal DMA isolation logic on top of
+> > >     the parent's IOMMU page table;
+> > >
+> > > In addition, VFIO may allow user to create additional I/O address spa=
+ces
+> > > on a vfio_device based on the hardware capability. In such case the u=
+ser
+> > > has its own view of the virtual routing information (vPASID) when mar=
+king
+> > > these non-default address spaces. How to virtualize vPASID is platform
+> > > specific and device specific. Some platforms allow the user to fully
+> > > manage the PASID space thus vPASIDs are directly used for routing and
+> > > even hidden from the kernel. Other platforms require the user to
+> > > explicitly register the vPASID information to the kernel when attachi=
+ng
+> > > the vfio_device. In this case VFIO must figure out whether vPASID sho=
+uld
+> > > be directly used (pdev) or converted to a kernel-allocated pPASID (md=
+ev)
+> > > for physical routing. Detail explanation about PASID virtualization c=
+an
+> > > be found in {1.4}.
+> > >
+> > > For mdev both default and non-default I/O address spaces are routed
+> > > via PASIDs. To better differentiate them we use "default PASID" (or
+> > > defPASID) when talking about the default I/O address space on mdev.
+> > When
+> > > vPASID or pPASID is referred in PASID virtualization it's all about t=
+he
+> > > non-default spaces. defPASID and pPASID are always hidden from
+> > userspace
+> > > and can only be indirectly referenced via IOASID.
+> >=20
+> > That said, I'm still finding the various ways a device can attach to
+> > an ioasid pretty confusing.  Here are some thoughts on some extra
+> > concepts that might make it easier to handle [note, I haven't thought
+> > this all the way through so far, so there might be fatal problems with
+> > this approach].
+>=20
+> Thanks for sharing your thoughts.
+>=20
+> >=20
+> >  * DMA address type
+> >=20
+> >     This represents the format of the actual "over the wire" DMA
+> >     address.  So far I only see 3 likely options for this 1) 32-bit,
+> >     2) 64-bit and 3) PASID, meaning the 84-bit PASID+address
+> >     combination.
+> >=20
+> >  * DMA identifier type
+> >=20
+> >     This represents the format of the "over the wire"
+> >     device-identifying information that the IOMMU receives.  So "RID",
+> >     "RID+PASID", "SID+SSID" would all be DMA identifier types.  We
+> >     could introduce some extra ones which might be necessary for
+> >     software mdevs.
+> >=20
+> > So, every single DMA transaction has both DMA address and DMA
+> > identifier information attached.  In some cases we get to choose how
+> > we split the availble information between identifier and address, more
+> > on that later.
+> >=20
+> >  * DMA endpoint
+> >=20
+> >     An endpoint would represent a DMA origin which is identifiable to
+> >     the IOMMU.  I'm using the new term, because while this would
+> >     sometimes correspond one to one with a device, there would be some
+> >     cases where it does not.
+> >=20
+> >     a) Multiple devices could be a single DMA endpoint - this would
+> >     be the case with non-ACS bridges or PCIe to PCI bridges where
+> >     devices behind the bridge can't be distinguished from each other.
+> >     Early versions might be able to treat all VFIO groups as single
+> >     endpoints, which might simplify transition
+> >=20
+> >     b) A single device could supply multiple DMA endpoints, this would
+> >     be the case with PASID capable devices where you want to map
+> >     different PASIDs to different IOASes.
+> >=20
+> >     **Caveat: feel free to come up with a better name than "endpoint"
+> >=20
+> >     **Caveat: I'm not immediately sure how to represent these to
+> >     userspace, and how we do that could have some important
+> >     implications for managing their lifetime
+> >=20
+> > Every endpoint would have a fixed, known DMA address type and DMA
+> > identifier type (though I'm not sure if we need/want to expose the DMA
+> > identifier type to userspace).  Every IOAS would also have a DMA
+> > address type fixed at IOAS creation.
+> >=20
+> > An endpoint can only be attached to one IOAS at a time.  It can only
+> > be attached to an IOAS whose DMA address type matches the endpoint.
+> >=20
+> > Most userspace managed IO page formats would imply a particular DMA
+> > address type, and also a particular DMA address type for their
+> > "parent" IOAS.  I'd expect kernel managed IO page tables to be able to
+> > be able to handle most combinations.
+> >=20
+> > /dev/iommu would work entirely (or nearly so) in terms of endpoint
+> > handles, not device handles.  Endpoints are what get bound to an IOAS,
+> > and endpoints are what get the user chosen endpoint cookie.
+> >=20
+> > Getting endpoint handles from devices is handled on the VFIO/device
+> > side.  The simplest transitional approach is probably for a VFIO pdev
+> > groups to expose just a single endpoint.  We can potentially make that
+> > more flexible as a later step, and other subsystems might have other
+> > needs.
+>=20
+> I wonder what is the real value of this endpoint concept. for SVA-capable=
+=20
+> pdev case, the entire pdev is fully managed by the guest thus only the=20
+> guest driver knows DMA endpoints on this pdev. vfio-pci doesn't know
+> the presence of an endpoint until Qemu requests to do ioasid attaching
+> after identifying an IOAS via vIOMMU.
+
+No.. that's not true.  vfio-pci knows it can generate a "RID"-type
+endpoint for the device, and I assume the device will have a SVA
+capability bit, which lets vfio know that the endpoint will generate
+PASID+addr addresses, rather than plain 64-bit addresses.
+
+You can't construct RID+PASID endpoints with vfio's knowledge alone,
+but that's ok - that style would be for mdevs or other cases where you
+do have more information about the specific device.
+
+> If we want to build /dev/iommu
+> uAPI around endpoint, probably vfio has to provide an uAPI for user to=20
+> request creating an endpoint in the fly before doing the attaching call.
+> but what goodness does it bring with additional complexity, given what=20
+> we require is just the RID or RID+PASID routing info which can be already=
+=20
+> dig out by vfio driver w/o knowing any endpoint concept...
+
+It more clearly delineates who's responsible for what.  The driver
+(VFIO, mdev, vDPA, whatever) supplies endpoints.  Depending on the
+type of device it could be one endpoint per device, a choice of
+several different endpoints for a device, several simultaneous
+endpoints for the device, or one endpoint for several devices.  But
+whatever it is that's all on the device side.  Once you get an
+endpoint, it's always binding exactly one endpoint to exactly one IOAS
+so the point at which the device side meets the IOMMU side becomes
+much simpler.
+
+If we find a new device type or bus with a new way of doing DMA
+addressing, it's just adding some address/id types; we don't need new
+ways of binding these devices to the IOMMU.
+
+> In concept I feel the purpose of DMA endpoint is equivalent to the routin=
+g=20
+> info in this proposal.
+
+Maybe?  I'm afraid I never quite managed to understand the role of the
+routing info in your proposal.
+
+> But making it explicitly in uAPI doesn't sound bring=20
+> more value...
+>=20
+> Thanks
+> Kevin
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--5IZa54qDMZ8MbAEA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEIoOkACgkQbDjKyiDZ
+s5IxWA/+Kt5O6syPedIi8aylqabyK/AhNnijrfEWG16a5flMqnuWqiP15lqzNqTE
+5hhx20FzYhkcFWcSc9efulHafPmmpR6zq+WysV7YjeLNamVZ44AivsmqjQUJFs1q
+Bjm0CUViD2An3dzrc31xZ8pobqw7k5PyJsgx5i+WUKXxc7ODUZvtvjhbVt4Oku8W
+BqeUz2FVtuR41L7Iuucj87oB4bTAO+Jyh10VtPigA2oHARslvK4Xch9I/0vSSSr6
+5caqMgmgqcQnRaKnzQHv5jvCpa2wr8yG84FTt6hIwqRvpOUo7E/Vux5yz9HK/dJg
+PDVjLnDn0JHmtV2ozU8lE4tBEi56CRw6NUW+5z96WA53Hkw4BxRVyPz/b2if+5SL
+zOAtKmcchs4gN6Qkuo7QeEVAAATiSq5nlQKOZiHcaBLmzsovoVQxBA4NzEogjNBe
+bgKES9p/n0tq4faHr6xXviSWv62IagIrubEJ+NROX0AKypS1hlV4hoDcp44Qtw83
+ip/TomdL8L8b5bw0LJFLGdg7onrgpn8EcdafjOzITLA7eSXTarQq9PCdx7hSwAlM
+8pW+TCBESf86qO1Qo2Z5mVz3okzXisYhwflj7p69fXo3tBAYACJ087caKopRIl7s
+k6AwbelJDAGI4AJPm8nnabKfQ61HSvEtfILn4fZpibH4Wv5meTY=
+=kt71
+-----END PGP SIGNATURE-----
+
+--5IZa54qDMZ8MbAEA--
+
+--===============8456421343214475009==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============8456421343214475009==--
