@@ -1,68 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB863E13BD
-	for <lists.iommu@lfdr.de>; Thu,  5 Aug 2021 13:21:25 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D14703E13CF
+	for <lists.iommu@lfdr.de>; Thu,  5 Aug 2021 13:24:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EE9F34028F;
-	Thu,  5 Aug 2021 11:21:23 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 52EC2837D2;
+	Thu,  5 Aug 2021 11:24:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pX4NsUtKTY2e; Thu,  5 Aug 2021 11:21:23 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KZnarmDFqyKN; Thu,  5 Aug 2021 11:24:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DD86140138;
-	Thu,  5 Aug 2021 11:21:22 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5DF098350A;
+	Thu,  5 Aug 2021 11:24:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AD835C000E;
-	Thu,  5 Aug 2021 11:21:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 329ACC001F;
+	Thu,  5 Aug 2021 11:24:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 66CF0C000E
- for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 11:21:21 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3E076C000E
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 11:24:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5E15460A8D
- for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 11:21:21 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 267A34028F
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 11:24:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GFc4oPWzfPOR for <iommu@lists.linux-foundation.org>;
- Thu,  5 Aug 2021 11:21:20 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id NVKxArySKa-X for <iommu@lists.linux-foundation.org>;
+ Thu,  5 Aug 2021 11:24:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 42CC660A8A
- for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 11:21:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 514BA60E52;
- Thu,  5 Aug 2021 11:21:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628162479;
- bh=VFjPtC9UhoM5gV86KddMtIiMoUfeT0FE4dm7xQ3W6Cc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MG0aCq2J0TAoC4bp0QExr9x8nHi3ql8ui5whAPq7792IAnLdi7gSysxE6TMaT6Vjc
- CobHs41s8ZGRZgRFlwEzqxtjqyrimdIFgde5Ir4GX/6KAgLbV1n7YCtfpBU3arbOry
- Ulq3puR70zHNAwVQXxOMuWh/SBagtDDSid7BOav1SvK54ArCtJvuG4Jx+og+oiYWxb
- 7vzVlx+cpM+VDVpLidQcgiTTj9lllSlrafW6UJMhB/iaV3il7HMO0esb3c43RLFuhv
- nIETmcSfEzAJESa4I7JAwy5pe7otuCqY4p5wZDfZ5MezC79T/QSBOOq8IAf4njOP+w
- qrfPLNDU1J26w==
-Date: Thu, 5 Aug 2021 12:21:14 +0100
-From: Will Deacon <will@kernel.org>
-To: John Garry <john.garry@huawei.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp2.osuosl.org (Postfix) with ESMTP id D160040138
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 11:24:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C67151FB;
+ Thu,  5 Aug 2021 04:24:39 -0700 (PDT)
+Received: from [10.57.36.146] (unknown [10.57.36.146])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A99A63F719;
+ Thu,  5 Aug 2021 04:24:38 -0700 (PDT)
 Subject: Re: [PATCH] iommu/arm-smmu-v3: Remove some unneeded init in
  arm_smmu_cmdq_issue_cmdlist()
-Message-ID: <20210805112114.GA1029@willie-the-truck>
+To: John Garry <john.garry@huawei.com>, will@kernel.org
 References: <1624293394-202509-1-git-send-email-john.garry@huawei.com>
- <bebc7b1b-e60c-d5e6-812a-63580d7029cc@huawei.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <ee1f3ab5-3acc-f442-f2d2-898cf88bc447@arm.com>
+Date: Thu, 5 Aug 2021 12:24:33 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bebc7b1b-e60c-d5e6-812a-63580d7029cc@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linuxarm@huawei.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <1624293394-202509-1-git-send-email-john.garry@huawei.com>
+Content-Language: en-GB
+Cc: linuxarm@huawei.com, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,37 +66,66 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Aug 05, 2021 at 11:22:15AM +0100, John Garry wrote:
-> On 21/06/2021 17:36, John Garry wrote:
-> > Members of struct "llq" will be zero-inited, apart from member max_n_shift.
-> > But we write llq.val straight after the init, so it was pointless to zero
-> > init those other members. As such, separately init member max_n_shift
-> > only.
-> > 
-> > In addition, struct "head" is initialised to "llq" only so that member
-> > max_n_shift is set. But that member is never referenced for "head", so
-> > remove any init there.
-> > 
-> > Removing these initializations is seen as a small performance optimisation,
-> > as this code is (very) hot path.
-> > 
+On 2021-06-21 17:36, John Garry wrote:
+> Members of struct "llq" will be zero-inited, apart from member max_n_shift.
+> But we write llq.val straight after the init, so it was pointless to zero
+> init those other members. As such, separately init member max_n_shift
+> only.
 > 
-> Hi Will,
+> In addition, struct "head" is initialised to "llq" only so that member
+> max_n_shift is set. But that member is never referenced for "head", so
+> remove any init there.
 > 
-> Any chance you can pick up this small optimisation?
+> Removing these initializations is seen as a small performance optimisation,
+> as this code is (very) hot path.
 
-Yup! I've actually queued it locally, but I may end up asking Joerg to take
-it directly depending on what else I queue for 5.15. So far, most of the
-SMMU stuff is all part of wider refactorings.
+I looked at this and immediately thought "surely the compiler can see 
+that all the prod/cons/val fields are written anyway and elide the 
+initialisation?", so I dumped the before and after disassembly, and... oh.
 
-Cheers,
+You should probably clarify that it's zero-initialising all the 
+cacheline padding which is both pointless and painful. With that,
 
-Will
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+
+However, having looked this closely I'm now tangentially wondering why 
+max_n_shift isn't inside the padded union? It's read at the same time as 
+both prod and cons by queue_has_space(), and never updated, so there 
+doesn't appear to be any benefit to it being in a separate cacheline all 
+by itself, and llq is already twice as big as it needs to be. Sorting 
+that would also be a good opportunity to store the value of interest in 
+its appropriate form so we're not needlessly recalculating 1 << shift 
+every flippin' time...
+
+Robin.
+
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 54b2f27b81d4..8a8ad49bb7fd 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -727,11 +727,11 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
+>   	unsigned long flags;
+>   	bool owner;
+>   	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
+> -	struct arm_smmu_ll_queue llq = {
+> -		.max_n_shift = cmdq->q.llq.max_n_shift,
+> -	}, head = llq;
+> +	struct arm_smmu_ll_queue llq, head;
+>   	int ret = 0;
+>   
+> +	llq.max_n_shift = cmdq->q.llq.max_n_shift;
+> +
+>   	/* 1. Allocate some space in the queue */
+>   	local_irq_save(flags);
+>   	llq.val = READ_ONCE(cmdq->q.llq.val);
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
