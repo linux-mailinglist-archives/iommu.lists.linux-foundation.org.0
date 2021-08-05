@@ -1,69 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358213E169F
-	for <lists.iommu@lfdr.de>; Thu,  5 Aug 2021 16:13:42 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF2E3E16DD
+	for <lists.iommu@lfdr.de>; Thu,  5 Aug 2021 16:24:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C3C0C402F0;
-	Thu,  5 Aug 2021 14:13:40 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D3E7F82538;
+	Thu,  5 Aug 2021 14:24:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ke9uGJC9Vadv; Thu,  5 Aug 2021 14:13:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 99C6F40372;
-	Thu,  5 Aug 2021 14:13:39 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SO-NmJyAwGAi; Thu,  5 Aug 2021 14:24:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D939382611;
+	Thu,  5 Aug 2021 14:24:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 71D89C001F;
-	Thu,  5 Aug 2021 14:13:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ACB86C000E;
+	Thu,  5 Aug 2021 14:24:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CEB67C000E
- for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 14:13:37 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 63B23C000E
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 14:24:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id BBC59402F0
- for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 14:13:37 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 51AAB404CB
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 14:24:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FWFjZCPlvO3z for <iommu@lists.linux-foundation.org>;
- Thu,  5 Aug 2021 14:13:36 +0000 (UTC)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=infradead.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2Yq55TR8MDaD for <iommu@lists.linux-foundation.org>;
+ Thu,  5 Aug 2021 14:24:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7FABC400F7
- for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 14:13:36 +0000 (UTC)
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 01725404BC
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Aug 2021 14:24:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
  References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=jkC5BHIA+OoNY3RA1kKnhanE39KSJUyRxPOSK5PxKJ4=; b=jS9beBRN33+YE3nLhV0+juwj2m
- M21gswRLRXlj9G7nUL9+UaYZaqldUk6dYat8MK2TEtQx98o7T9VsMJPD7iRU4uGctnpwJmiAENC0S
- d5iBGtcKE/rvu2bDPFEsbbPN5g4HEVxgwrnHKLJHDx6oq4fdfON20zC1m1PYA4MystYDRR/ijf6n+
- yKP6PzPUB8C4KKMetCzyTfsQiIZX9POLtO6DG6sM1OD0l3e9s8v/Kx4GgKgISf9CHEnHVcYWRA4+Q
- LHlKUuStVn3XhYiGoHOGpKfs5vgB5qUCyiEjS8M7ODcJbCa/Q2rQchs+BwAv5uLBsAuE3F/UYuh1M
- DgYQMj1A==;
+ bh=zMcKhJ07Z0yEyEv/MZ8pR7li72ad4G0VC4wqCeDkbDY=; b=Q8Gt1gPN7F9SkQKtk66lR0Nvuh
+ J+bQdo/XSF0T67gISx6Vc66q4fTo+FTFXUMBRhgaIYcCdf4qsGlh0/mWJ+py9vssB/RciYSkt7LqL
+ D0cqTwAYfbBkgMf2ypNTXXW2W20qbJJiGowvi4sZXl3BoY2qT/+k7Nng8ZQfv0ypsUQI4WocLRzCG
+ u80NaVh0JtgNowR5InuyXmnurSDKaZAz/gxT14CsI+ZrymZR8Osz9v++VxUgQS1ig9yJ1gWeOnHdN
+ 4FgEGzlqGLrJBOnGChRGgnAbrCvPvgpl8CZ89abXFTd7+wD4SGh2nZ+kuynsPyLw62j/Wl+j9erZJ
+ uCRxZNTA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100]
  helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBe5i-00799u-0r; Thu, 05 Aug 2021 14:11:31 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mBeHe-0064f4-Gt; Thu, 05 Aug 2021 14:23:42 +0000
 Received: from hirez.programming.kicks-ass.net
  (hirez.programming.kicks-ass.net [192.168.1.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 951B130031E;
- Thu,  5 Aug 2021 16:11:19 +0200 (CEST)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3B62C30027B;
+ Thu,  5 Aug 2021 16:23:41 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 5BFD82028D0D9; Thu,  5 Aug 2021 16:11:19 +0200 (CEST)
-Date: Thu, 5 Aug 2021 16:11:19 +0200
+ id 1E329201DCD23; Thu,  5 Aug 2021 16:23:41 +0200 (CEST)
+Date: Thu, 5 Aug 2021 16:23:41 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Tianyu Lan <ltykernel@gmail.com>
 Subject: Re: [PATCH V2 03/14] x86/set_memory: Add x86_set_memory_enc static
  call support
-Message-ID: <YQvxhyn5O1POQTF/@hirez.programming.kicks-ass.net>
+Message-ID: <YQv0bRBUq1N5+jgG@hirez.programming.kicks-ass.net>
 References: <20210804184513.512888-1-ltykernel@gmail.com>
  <20210804184513.512888-4-ltykernel@gmail.com>
  <5823af8a-7dbb-dbb0-5ea2-d9846aa2a36a@intel.com>
@@ -107,19 +109,31 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On Thu, Aug 05, 2021 at 10:05:17PM +0800, Tianyu Lan wrote:
-> +static int default_set_memory_enc(unsigned long addr, int numpages, bool
-> enc)
-> +{
-> +	return 0;
-> +}
-> +
-> +DEFINE_STATIC_CALL(x86_set_memory_enc, default_set_memory_enc);
+>  static int __set_memory_enc_dec(unsigned long addr, int numpages, bool enc)
+>  {
+> +	return static_call(x86_set_memory_enc)(addr, numpages, enc);
+>  }
 
-That's spelled:
+Hurpmh... So with a bit of 'luck' you get code-gen like:
 
-DEFINE_STATIC_CALL_RET0(x86_set_memory_enc, __set_memory_enc_dec);
+__set_memory_enc_dec:
+	jmp __SCT_x86_set_memory_enc;
 
-And then you can remove the default_set_memory_enc() thing.
+set_memory_encrypted:
+	mov $1, %rdx
+	jmp __set_memory_enc_dec
+
+set_memory_decrypted:
+	mov $0, %rdx
+	jmp __set_memory_enc_dec
+
+
+Which, to me, seems exceedingly daft. Best to make all 3 of those
+inlines and use EXPORT_STATIC_CALL_TRAMP_GPL(x86_set_memory_enc) or
+something.
+
+This is assuming any of this is actually performance critical, based off
+of this using static_call() to begin with.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
