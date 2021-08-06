@@ -2,72 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7783D3E22F0
-	for <lists.iommu@lfdr.de>; Fri,  6 Aug 2021 07:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D243D3E2704
+	for <lists.iommu@lfdr.de>; Fri,  6 Aug 2021 11:16:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9DD8E402FA;
-	Fri,  6 Aug 2021 05:33:07 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 74A6240369;
+	Fri,  6 Aug 2021 09:16:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LIApHWfMGZM5; Fri,  6 Aug 2021 05:33:06 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9F52340311;
-	Fri,  6 Aug 2021 05:33:06 +0000 (UTC)
+	with ESMTP id qj_ZCIhkGz6A; Fri,  6 Aug 2021 09:16:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 90DCF40463;
+	Fri,  6 Aug 2021 09:16:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC336C001A;
-	Fri,  6 Aug 2021 05:33:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 52A63C001F;
+	Fri,  6 Aug 2021 09:16:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20C1DC000E
- for <iommu@lists.linux-foundation.org>; Fri,  6 Aug 2021 05:33:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ECF3EC000E
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Aug 2021 09:16:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E398E82FCE
- for <iommu@lists.linux-foundation.org>; Fri,  6 Aug 2021 05:33:02 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id D8B9D402B8
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Aug 2021 09:16:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eQdkYQ_Xw5z5 for <iommu@lists.linux-foundation.org>;
- Fri,  6 Aug 2021 05:33:01 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 327GjqZ6dJwO for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Aug 2021 09:16:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by smtp1.osuosl.org (Postfix) with ESMTPS id ACEA782F03
- for <iommu@lists.linux-foundation.org>; Fri,  6 Aug 2021 05:33:01 +0000 (UTC)
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GgvJT5j2qz9sW5; Fri,  6 Aug 2021 15:32:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1628227977;
- bh=VgP74InI3Uz0qZ2/LQM1R3Ud9iWaj+wk/xGRWtN/6yY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Xi+yKoqfW0FkYj+E2G8mVLF6aPdhG3HhV0yIOwgUkVBn7p4NzF/iYNdpUE7HHitZk
- j5qfp4AdzdTAt4sE4Hivsc3v1s7U/ZIalR03kQxlOAms683p6OpZ61PFOoYxGwQzQD
- Bgsf0Sx0ROMhpcJNioWxawsw9nT/kGNH5IKSmLtk=
-Date: Fri, 6 Aug 2021 14:47:50 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC v2] /dev/iommu uAPI proposal
-Message-ID: <YQy+9mSSzban+t/X@yekko>
-References: <BN9PR11MB5433B1E4AE5B0480369F97178C189@BN9PR11MB5433.namprd11.prod.outlook.com>
- <YP4/KJoYfbaf5U94@yekko> <20210730145123.GW1721383@nvidia.com>
- <BN9PR11MB5433C34222B3E727B3D0E5638CEF9@BN9PR11MB5433.namprd11.prod.outlook.com>
- <20210804140447.GH1721383@nvidia.com>
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 49F65400C2
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Aug 2021 09:16:11 +0000 (UTC)
+Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Gh0Fd6jBTz6BCSP;
+ Fri,  6 Aug 2021 17:15:49 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 6 Aug 2021 11:16:07 +0200
+Received: from [10.47.24.8] (10.47.24.8) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2176.2; Fri, 6 Aug 2021
+ 10:16:06 +0100
+Subject: Re: [PATCH v3 23/25] iommu: Merge strictness and domain type configs
+To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
+References: <cover.1628094600.git.robin.murphy@arm.com>
+ <18f2757675b1a4d74d052b2b211e512ebf6e465e.1628094601.git.robin.murphy@arm.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <3f383bf0-621a-9e3d-3c49-3e50c498b9f8@huawei.com>
+Date: Fri, 6 Aug 2021 10:15:32 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <20210804140447.GH1721383@nvidia.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, "Tian, Kevin" <kevin.tian@intel.com>,
- "parav@mellanox.com" <parav@mellanox.com>,
- "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
- "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
- Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
- Shenming Lu <lushenming@huawei.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <18f2757675b1a4d74d052b2b211e512ebf6e465e.1628094601.git.robin.murphy@arm.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.24.8]
+X-ClientProxiedBy: lhreml706-chm.china.huawei.com (10.201.108.55) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ rajatja@google.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,80 +77,22 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2477276390049928552=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On 04/08/2021 18:15, Robin Murphy wrote:
+> To parallel the sysfs behaviour, merge the new build-time option
+> for DMA domain strictness into the default domain type choice.
+> 
+> Suggested-by: Joerg Roedel<joro@8bytes.org>
+> Reviewed-by: Lu Baolu<baolu.lu@linux.intel.com>
+> Reviewed-by: Jean-Philippe Brucker<jean-philippe@linaro.org>
+> Signed-off-by: Robin Murphy<robin.murphy@arm.com>
 
---===============2477276390049928552==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xtXF0LkKM6+DEdEM"
-Content-Disposition: inline
-
-
---xtXF0LkKM6+DEdEM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 04, 2021 at 11:04:47AM -0300, Jason Gunthorpe wrote:
-> On Mon, Aug 02, 2021 at 02:49:44AM +0000, Tian, Kevin wrote:
->=20
-> > Can you elaborate? IMO the user only cares about the label (device cook=
-ie=20
-> > plus optional vPASID) which is generated by itself when doing the attac=
-hing
-> > call, and expects this virtual label being used in various spots (inval=
-idation,
-> > page fault, etc.). How the system labels the traffic (the physical RID =
-or RID+
-> > PASID) should be completely invisible to userspace.
->=20
-> I don't think that is true if the vIOMMU driver is also emulating
-> PASID. Presumably the same is true for other PASID-like schemes.
-
-Right.  The idea for an SVA capable vIOMMU in my scheme is that the
-hypervisor would set up an IOAS of address type "PASID+address" with
-the mappings made by the guest according to its vIOMMU semantics.
-Then SVA capable devices would be plugged into that IOAS by using
-"PASID+address" type endpoints from those devices.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---xtXF0LkKM6+DEdEM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEMvvYACgkQbDjKyiDZ
-s5J7OhAAt80UyM01hO9UcB2WUWkDFXZd5ryLChQk4nBBHH6AolfinitcVmNoHb6l
-+WQQGubNPMHJa5bzSpa28cViR8hcc1frjPwqcHbUb8YS4h7ILXpk3BiEt5jIZ4Oc
-xUP6lKK8G14ZltBQvNNzjrd031aA+XHEx80bpU1q4xKMCLqJt2CFyd5bTw7aOabh
-+qGukHkhcotpFTroiAkuJrHRTOy8nvbl8nAw/ult+59c0DnTao+yfdFBjf3+h9a0
-iPcnxEWS8HJ80/Fv9KpLnQ0tNtXoTY2Q/dBfS4FolPwYg9bfNqm8Xdk8t4owCfeF
-M9m0fDBDekxaM2Lsr+fGMZ2A9CdrXs8NBAaNWvU92H3EnIZBmxb95VoaJsryN7gj
-IbZVLLz4zY7BQos7pc7EJKB3uYzAOpNpvrTZKPTOb5+oTwFrr60fFbzlIe4lyg/z
-XOZ4tHtlzsYxhaFZmVRrW0taJ30aR9vHGiJSbcQlrs1W1cK8nAjO0QRkeYmVyRqA
-o0TFw1SBNIIieNzPUxHa56cNQm0M3Hi9w+RkcSmsK2aDhaovrM7l5xgSs5/HxIqI
-qT6VBd/+bqhK+y0iA2SFd3d/521yGKu41XcEvkya0k0dv2sCUwDydNC4knVGoAUc
-nlRowbhm5r9RbcHcsCcduvboA7JAEMhU2aESrQGrHwTAXn2cS+E=
-=rCVy
------END PGP SIGNATURE-----
-
---xtXF0LkKM6+DEdEM--
-
---===============2477276390049928552==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Reviewed-by: John Garry <john.garry@huawei.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============2477276390049928552==--
