@@ -1,54 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74AB3E486C
-	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 17:15:53 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6E63E486D
+	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 17:16:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 54967401C5;
-	Mon,  9 Aug 2021 15:15:52 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id CF92B40267;
+	Mon,  9 Aug 2021 15:16:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kp_mBRab_KLW; Mon,  9 Aug 2021 15:15:51 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JvgsfrzT7oz3; Mon,  9 Aug 2021 15:16:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 78BA4401D3;
-	Mon,  9 Aug 2021 15:15:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C77EC40282;
+	Mon,  9 Aug 2021 15:16:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B9B7C000E;
-	Mon,  9 Aug 2021 15:15:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 919CEC000E;
+	Mon,  9 Aug 2021 15:16:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7387FC000E
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:15:49 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49AF3C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4F4FE8250B
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:15:49 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 30114401D9
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UFZZqFdtHXbv for <iommu@lists.linux-foundation.org>;
- Mon,  9 Aug 2021 15:15:48 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id m-xKCOnH3evK for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Aug 2021 15:16:07 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7AB98824C1
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:15:48 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 13BEB401EA
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:06 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id BB09C67357; Mon,  9 Aug 2021 17:15:43 +0200 (CEST)
-Date: Mon, 9 Aug 2021 17:15:43 +0200
+ id 8E64467357; Mon,  9 Aug 2021 17:16:03 +0200 (CEST)
+Date: Mon, 9 Aug 2021 17:16:03 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Anthony Iliopoulos <ailiop@suse.com>
-Subject: Re: [PATCH] dma-debug: fix debugfs initialization order
-Message-ID: <20210809151543.GA22395@lst.de>
-References: <20210722091818.13434-1-ailiop@suse.com>
- <1ea36b32-9bbc-a611-402d-9fa196eda166@arm.com> <YPl8b7KuoNBg52LE@technoir>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH resend] dma-debug: Use memory_intersects() directly
+Message-ID: <20210809151603.GA22445@lst.de>
+References: <20210722105512.183795-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YPl8b7KuoNBg52LE@technoir>
+In-Reply-To: <20210722105512.183795-1-wangkefeng.wang@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,7 +65,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Thanks, applied.
+Thanks,
+
+applied.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
