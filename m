@@ -2,57 +2,76 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0CC3E4D7F
-	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 21:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB12A3E4DB1
+	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 22:16:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 518B740253;
-	Mon,  9 Aug 2021 19:59:49 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 421DD4023B;
+	Mon,  9 Aug 2021 20:16:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zE0C7A6wKjmu; Mon,  9 Aug 2021 19:59:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 40F644023B;
-	Mon,  9 Aug 2021 19:59:45 +0000 (UTC)
+	with ESMTP id kR8S45GoHNQF; Mon,  9 Aug 2021 20:16:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 30353400E5;
+	Mon,  9 Aug 2021 20:16:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F0A66C001F;
-	Mon,  9 Aug 2021 19:59:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A0E7C000E;
+	Mon,  9 Aug 2021 20:16:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 776D5C000E
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 19:59:44 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99614C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 20:16:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5210E6060D
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 19:59:44 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 7379E4020E
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 20:16:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NEFpvwjXFb1y for <iommu@lists.linux-foundation.org>;
- Mon,  9 Aug 2021 19:59:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp3.osuosl.org (Postfix) with ESMTP id CD431605D4
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 19:59:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F19E66D;
- Mon,  9 Aug 2021 12:59:41 -0700 (PDT)
-Received: from [10.57.36.146] (unknown [10.57.36.146])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3261C3F40C;
- Mon,  9 Aug 2021 12:59:40 -0700 (PDT)
-Subject: Re: [PATCH v3 24/25] iommu/dma: Factor out flush queue init
-To: Rajat Jain <rajatja@google.com>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0WwUeYM2cB7s for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Aug 2021 20:16:23 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 43811400E5
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 20:16:23 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id k2so17778084plk.13
+ for <iommu@lists.linux-foundation.org>; Mon, 09 Aug 2021 13:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=44GhGqOetVs4KhXXElqDGKK3CH2oBjGziCm5x/a7ZJs=;
+ b=ppVc9A9KMhJFgV6NVDkUHp9yBZ4jvRiPZUcI20A2cQjGlIn028xMoBHpww2tDAiKFl
+ 9iPhbobR9SHL2adYikPHqF5G4SlWpowSr2j8S6b8do8TbaUnU36v1GfI26941juwBtq0
+ lg5uO8fP8v07UWSN2Md7iUeWq8bIHopmUzjvgBBzTK3O6/A+996ZEREB2/UhRgsIQp4H
+ MeNfIz09c15Sltk3GsM1Mi4vP42DP3K751s00uC2X0eFx85qHl4u6HDdfFK1q/oVXcJv
+ /ei/Pth5mKrn9l+/cEg8baudOVk+TGkbagMYGHp38fVDHIDAu3ZCTHC9yyVDLEU8ttwq
+ mKdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=44GhGqOetVs4KhXXElqDGKK3CH2oBjGziCm5x/a7ZJs=;
+ b=qKjnJAHRosU3/ZJRPBFRt4MyrHxuA20s/9cPy2KBuHLgYM+HpE+RymMGtyZ6qVZeUV
+ Z5/iyr0iduZb4yh3Tt0rjkmvpYDp/Su8byMCAUIdrsaXhHpmR3CFmfHSVKtSFnVAK1H8
+ HNgRRjzI5QwvxkOuxe1BtCfUZ5I1qQ3bzKvpkw7b2Ime17YDQf1zkdy9SMg1nK0cnBu8
+ 1fIvLQVlUbVG9z9TMNHymBx0ezTA7DLKFVdwTf7N8N1wt9ee1nyrtfHkaZzxCp39/EXw
+ W2+bLXxpknmWC2r1MgCeFVmHk3LTaJMiUT0oZNnmUNUZsesjCgkGM4hHyFoJ/1qubxAo
+ 7YqQ==
+X-Gm-Message-State: AOAM5324zG8HSZsywIo2Z5KxruxUx2SidBE6yb5KjG1U10B6FxmlAyo+
+ 9xL7EFZ8X8Lm1YgAA0S4bDyBE6x7R7PvBqw0F2KvfQ==
+X-Google-Smtp-Source: ABdhPJxHyBboh3cabRdq1cEgdkUUmLFgelCu6EWKllya4Av27+xhycvWAEKPW0Mj0+bvONvbUJBoXz9ti/IsYYB08zs=
+X-Received: by 2002:a65:50cb:: with SMTP id s11mr424292pgp.236.1628540182405; 
+ Mon, 09 Aug 2021 13:16:22 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1628094600.git.robin.murphy@arm.com>
  <3b5284ee394f267ba966839173f874fc9a996bb2.1628094601.git.robin.murphy@arm.com>
  <CACK8Z6HSM678q=BZ3FY7spN2S3ZkhdJ3ecnMCbKWrqB5dNWaMA@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <00baf83a-5eb3-4d72-309c-5adfd3242c07@arm.com>
-Date: Mon, 9 Aug 2021 20:59:35 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <CACK8Z6HSM678q=BZ3FY7spN2S3ZkhdJ3ecnMCbKWrqB5dNWaMA@mail.gmail.com>
-Content-Language: en-GB
+ <00baf83a-5eb3-4d72-309c-5adfd3242c07@arm.com>
+In-Reply-To: <00baf83a-5eb3-4d72-309c-5adfd3242c07@arm.com>
+Date: Mon, 9 Aug 2021 13:15:46 -0700
+Message-ID: <CACK8Z6Gb1O8Ok1GEy80nQJ4ZQeFJ3TOgFHRYfH3Yb=8CNT=ysw@mail.gmail.com>
+Subject: Re: [PATCH v3 24/25] iommu/dma: Factor out flush queue init
+To: Robin Murphy <robin.murphy@arm.com>
 Cc: linux-kernel@vger.kernel.org, dianders@chromium.org,
  iommu@lists.linux-foundation.org, will@kernel.org,
  linux-arm-kernel@lists.infradead.org
@@ -68,132 +87,149 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Rajat Jain via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Rajat Jain <rajatja@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-08-09 20:05, Rajat Jain wrote:
-> On Wed, Aug 4, 2021 at 10:16 AM Robin Murphy <robin.murphy@arm.com> wrote:
->>
->> Factor out flush queue setup from the initial domain init so that we
->> can potentially trigger it from sysfs later on in a domain's lifetime.
->>
->> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
->> Reviewed-by: John Garry <john.garry@huawei.com>
->> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->> ---
->>   drivers/iommu/dma-iommu.c | 30 ++++++++++++++++++++----------
->>   include/linux/dma-iommu.h |  9 ++++++---
->>   2 files changed, 26 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
->> index 2e19505dddf9..f51b8dc99ac6 100644
->> --- a/drivers/iommu/dma-iommu.c
->> +++ b/drivers/iommu/dma-iommu.c
->> @@ -310,6 +310,25 @@ static bool dev_is_untrusted(struct device *dev)
->>          return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
->>   }
->>
->> +int iommu_dma_init_fq(struct iommu_domain *domain)
->> +{
->> +       struct iommu_dma_cookie *cookie = domain->iova_cookie;
->> +
->> +       if (domain->type != IOMMU_DOMAIN_DMA_FQ)
->> +               return -EINVAL;
->> +       if (cookie->fq_domain)
->> +               return 0;
->> +
->> +       if (init_iova_flush_queue(&cookie->iovad, iommu_dma_flush_iotlb_all,
->> +                                 iommu_dma_entry_dtor)) {
->> +               pr_warn("iova flush queue initialization failed\n");
->> +               domain->type = IOMMU_DOMAIN_DMA;
->> +               return -ENODEV;
->> +       }
->> +       cookie->fq_domain = domain;
->> +       return 0;
->> +}
->> +
->>   /**
->>    * iommu_dma_init_domain - Initialise a DMA mapping domain
->>    * @domain: IOMMU domain previously prepared by iommu_get_dma_cookie()
->> @@ -362,16 +381,7 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
->>          }
->>
->>          init_iova_domain(iovad, 1UL << order, base_pfn);
->> -
->> -       if (domain->type == IOMMU_DOMAIN_DMA_FQ && !cookie->fq_domain) {
->> -               if (init_iova_flush_queue(iovad, iommu_dma_flush_iotlb_all,
->> -                                         iommu_dma_entry_dtor)) {
->> -                       pr_warn("iova flush queue initialization failed\n");
->> -                       domain->type = IOMMU_DOMAIN_DMA;
->> -               } else {
->> -                       cookie->fq_domain = domain;
->> -               }
->> -       }
->> +       iommu_dma_init_fq(domain);
->>
->>          return iova_reserve_iommu_regions(dev, domain);
->>   }
->> diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
->> index 758ca4694257..81ab647f1618 100644
->> --- a/include/linux/dma-iommu.h
->> +++ b/include/linux/dma-iommu.h
->> @@ -20,6 +20,7 @@ void iommu_put_dma_cookie(struct iommu_domain *domain);
->>
->>   /* Setup call for arch DMA mapping code */
->>   void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 dma_limit);
->> +int iommu_dma_init_fq(struct iommu_domain *domain);
->>
->>   /* The DMA API isn't _quite_ the whole story, though... */
->>   /*
->> @@ -37,9 +38,6 @@ void iommu_dma_compose_msi_msg(struct msi_desc *desc,
->>
->>   void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list);
->>
->> -void iommu_dma_free_cpu_cached_iovas(unsigned int cpu,
->> -               struct iommu_domain *domain);
->> -
-> 
-> This looks like an unrelated code cleanup. Should this be a separate patch?
+On Mon, Aug 9, 2021 at 12:59 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 2021-08-09 20:05, Rajat Jain wrote:
+> > On Wed, Aug 4, 2021 at 10:16 AM Robin Murphy <robin.murphy@arm.com> wrote:
+> >>
+> >> Factor out flush queue setup from the initial domain init so that we
+> >> can potentially trigger it from sysfs later on in a domain's lifetime.
+> >>
+> >> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> >> Reviewed-by: John Garry <john.garry@huawei.com>
+> >> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> >> ---
+> >>   drivers/iommu/dma-iommu.c | 30 ++++++++++++++++++++----------
+> >>   include/linux/dma-iommu.h |  9 ++++++---
+> >>   2 files changed, 26 insertions(+), 13 deletions(-)
+> >>
+> >> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> >> index 2e19505dddf9..f51b8dc99ac6 100644
+> >> --- a/drivers/iommu/dma-iommu.c
+> >> +++ b/drivers/iommu/dma-iommu.c
+> >> @@ -310,6 +310,25 @@ static bool dev_is_untrusted(struct device *dev)
+> >>          return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
+> >>   }
+> >>
+> >> +int iommu_dma_init_fq(struct iommu_domain *domain)
+> >> +{
+> >> +       struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> >> +
+> >> +       if (domain->type != IOMMU_DOMAIN_DMA_FQ)
+> >> +               return -EINVAL;
+> >> +       if (cookie->fq_domain)
+> >> +               return 0;
+> >> +
+> >> +       if (init_iova_flush_queue(&cookie->iovad, iommu_dma_flush_iotlb_all,
+> >> +                                 iommu_dma_entry_dtor)) {
+> >> +               pr_warn("iova flush queue initialization failed\n");
+> >> +               domain->type = IOMMU_DOMAIN_DMA;
+> >> +               return -ENODEV;
+> >> +       }
+> >> +       cookie->fq_domain = domain;
+> >> +       return 0;
+> >> +}
+> >> +
+> >>   /**
+> >>    * iommu_dma_init_domain - Initialise a DMA mapping domain
+> >>    * @domain: IOMMU domain previously prepared by iommu_get_dma_cookie()
+> >> @@ -362,16 +381,7 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
+> >>          }
+> >>
+> >>          init_iova_domain(iovad, 1UL << order, base_pfn);
+> >> -
+> >> -       if (domain->type == IOMMU_DOMAIN_DMA_FQ && !cookie->fq_domain) {
+> >> -               if (init_iova_flush_queue(iovad, iommu_dma_flush_iotlb_all,
+> >> -                                         iommu_dma_entry_dtor)) {
+> >> -                       pr_warn("iova flush queue initialization failed\n");
+> >> -                       domain->type = IOMMU_DOMAIN_DMA;
+> >> -               } else {
+> >> -                       cookie->fq_domain = domain;
+> >> -               }
+> >> -       }
+> >> +       iommu_dma_init_fq(domain);
+> >>
+> >>          return iova_reserve_iommu_regions(dev, domain);
+> >>   }
+> >> diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
+> >> index 758ca4694257..81ab647f1618 100644
+> >> --- a/include/linux/dma-iommu.h
+> >> +++ b/include/linux/dma-iommu.h
+> >> @@ -20,6 +20,7 @@ void iommu_put_dma_cookie(struct iommu_domain *domain);
+> >>
+> >>   /* Setup call for arch DMA mapping code */
+> >>   void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 dma_limit);
+> >> +int iommu_dma_init_fq(struct iommu_domain *domain);
+> >>
+> >>   /* The DMA API isn't _quite_ the whole story, though... */
+> >>   /*
+> >> @@ -37,9 +38,6 @@ void iommu_dma_compose_msi_msg(struct msi_desc *desc,
+> >>
+> >>   void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list);
+> >>
+> >> -void iommu_dma_free_cpu_cached_iovas(unsigned int cpu,
+> >> -               struct iommu_domain *domain);
+> >> -
+> >
+> > This looks like an unrelated code cleanup. Should this be a separate patch?
+>
+> Ha, busted! Much of this was done in the "stream of consciousness" style
+> where I made a big sprawling mess then split it up into patches and
+> branches afterwards. TBH it was already feeling pretty tenuous having a
+> separate patch just to move this one function, and it only gets more so
+> with the simplification Will pointed out earlier. I think I'll squash
+> iommu_dma_init_fq() into the next patch then do a thorough header sweep,
+> since I've now spotted some things in iova.h which could probably go as
+> well.
 
-Ha, busted! Much of this was done in the "stream of consciousness" style 
-where I made a big sprawling mess then split it up into patches and 
-branches afterwards. TBH it was already feeling pretty tenuous having a 
-separate patch just to move this one function, and it only gets more so 
-with the simplification Will pointed out earlier. I think I'll squash 
-iommu_dma_init_fq() into the next patch then do a thorough header sweep, 
-since I've now spotted some things in iova.h which could probably go as 
-well.
+Thank you. I chanced upon this only because I've backported your
+patchset (and some other changes that it depends on) to 5.10 which is
+the kernel we currently use for our Intel platforms, and this cleanup
+hunk was creating a problem (since 5.10 still uses the symbol you
+removed). I'll be giving your v3 patchset a spin in my setup and
+update you in case I see any issue.
 
-Thanks for the poke!
+Thanks,
 
-Robin.
+Rajat
 
-> 
-> Thanks,
-> 
-> Rajat
-> 
-> 
->>   extern bool iommu_dma_forcedac;
->>
->>   #else /* CONFIG_IOMMU_DMA */
->> @@ -54,6 +52,11 @@ static inline void iommu_setup_dma_ops(struct device *dev, u64 dma_base,
->>   {
->>   }
->>
->> +static inline int iommu_dma_init_fq(struct iommu_domain *domain)
->> +{
->> +       return -EINVAL;
->> +}
->> +
->>   static inline int iommu_get_dma_cookie(struct iommu_domain *domain)
->>   {
->>          return -ENODEV;
->> --
->> 2.25.1
->>
+
+>
+> Thanks for the poke!
+>
+> Robin.
+>
+> >
+> > Thanks,
+> >
+> > Rajat
+> >
+> >
+> >>   extern bool iommu_dma_forcedac;
+> >>
+> >>   #else /* CONFIG_IOMMU_DMA */
+> >> @@ -54,6 +52,11 @@ static inline void iommu_setup_dma_ops(struct device *dev, u64 dma_base,
+> >>   {
+> >>   }
+> >>
+> >> +static inline int iommu_dma_init_fq(struct iommu_domain *domain)
+> >> +{
+> >> +       return -EINVAL;
+> >> +}
+> >> +
+> >>   static inline int iommu_get_dma_cookie(struct iommu_domain *domain)
+> >>   {
+> >>          return -ENODEV;
+> >> --
+> >> 2.25.1
+> >>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
