@@ -2,181 +2,97 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560243E49E4
-	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 18:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FCB3E4A57
+	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 18:52:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1C5B4830CD;
-	Mon,  9 Aug 2021 16:31:36 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id EB3B482796;
+	Mon,  9 Aug 2021 16:52:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ffpY51cByVOj; Mon,  9 Aug 2021 16:31:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 046CC83133;
-	Mon,  9 Aug 2021 16:31:35 +0000 (UTC)
+	with ESMTP id IMFfHt7MHFHn; Mon,  9 Aug 2021 16:52:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D80A1828A9;
+	Mon,  9 Aug 2021 16:52:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BB74C0025;
-	Mon,  9 Aug 2021 16:31:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D88DC001F;
+	Mon,  9 Aug 2021 16:52:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 421EAC0030
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 16:31:33 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6F29C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 16:52:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2B49883065
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 16:31:33 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8E95B60632
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 16:52:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kFzBGNC3gHTY for <iommu@lists.linux-foundation.org>;
- Mon,  9 Aug 2021 16:31:32 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5FC8B830B8
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 16:31:32 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 179GCXsv017710; Mon, 9 Aug 2021 16:31:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=we5x6i6or0UtI+IFyCZJ4GEZz7awYd5LaE4KffUi3kA=;
- b=I8KrYICcLAVW1AOts1h1RtAZjWKd0VXgQfr1COhll9qxWlypC0se51u5nSTr5ZRdMHUj
- wwQ2EDhiU96PqzRkJmsIAYgefaqjfim6ygZ+fjcc5EVi+TVBQRr0JMQ7e6YV/N6yJMsX
- SG342Ey/MxOIQYg9ByzhKvoBrFEGc2WZZtRfCcT3VmAUMtssT7XsXBZsfLMrHA8XnWHL
- yVmi/wWltNZVOol08hUZW7/uyZgBN71PGL+Yum2Yc6njJWz9wvgVsWAnL18RgILZWIJb
- V0wNe4m1zUWezezXfISXBaaHowZQSmUjF5MArb8eUPmSg9Biqu+E2JIvA0DP/BUvfvvu /A== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2020-01-29;
- bh=we5x6i6or0UtI+IFyCZJ4GEZz7awYd5LaE4KffUi3kA=;
- b=Sbv6rPfl5YIXNKfjKODDdm60R50ZrTDKiID+jHmO8yE5JCOsyqNl5U2/qIX8Vfms21xn
- T6RqMTIUsH/osEn6CZrBrlzbCrA+v4uRxTbsg4hHt7xdd4dlPyP+UwZEmfpwhlBhUuF3
- +0966x/VSj8W9ArrPNdCyGn6o4VRoZgk23m1EhfNTb9q0cKGOhfPxYP/UAlMpMnqZQGb
- 5wjYCkcLGS4C756ya/BbGkah2+YJUXDADAiDskZp9ntBUj63Ib68WGf/bIeJqRLw1JPk
- 3D2Afrx1kC3n5GYlkweX4/cbQ/eOeuMwcizcy1YW5nEmAsvVZhOcJRLRP63uc52V6kMf 0A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ab01r98mg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Aug 2021 16:31:09 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 179GUeFD066407;
- Mon, 9 Aug 2021 16:31:07 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
- by aserp3020.oracle.com with ESMTP id 3a9vv3860c-7
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Aug 2021 16:31:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hl5DPUTx/fY25SATmX3w2eO7DUmQJRsmbspZfiy+xgC1zCCl/f01iUWAoY3UjUFjifO0TBF9m2ytEBhKdaTEPoKb+x6sKMD9WDXAV2/gCIZF+H3jyCVxeDcRRFIiALyJ/L9gaxJ4O5n5T7EdSGGCYkkxiKDSyLIlF+w5eTRQ2eObZ9y3xPoUVPMWHe01gbn/sg1NmablZubFlnaPwHnOf/DyqpokIrkGl2IY/hDHXMjqMKuUEdPWI/pOQVX+xntuQywPkiepCJ/bKbJgvAHJYHcHFpyVCxBGtZb6coC9MWNPpYtsamE7nVniv62c510ysAJoEa+X8yP2/Tfsbl7D2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=we5x6i6or0UtI+IFyCZJ4GEZz7awYd5LaE4KffUi3kA=;
- b=eFeOQZaqerT7bHvLvSioM1AHkA9rawrz57Ei0jZjcdsmwOXlfW8eppW+Dj0WG5Mtf7GtGF8Jz0hC1Tg5HTCt1Zr/DBmPSXCmyqciDCBqJUC+K5AG+J+q/A3KPVsS64bhKfC4fhAeZZeqm7nza8MwsQXzbrs0ynsYW6DC8ogaQX9dNpYq1v0OVxAXpND5yG4Rzw7GYZP08fKOxNm8Ph0QwuOqzRZsk6doSVnS+ADE7xPofs2ef+lARelbd2ShYSl0FFs4Ys8wq0JCX0Eh3mzTCGKtN8gljQAyimIqh4tb0GycDMxgnq9mmR0O/zl1PbqKLxsUkvSzKySDE4z++NTfdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=we5x6i6or0UtI+IFyCZJ4GEZz7awYd5LaE4KffUi3kA=;
- b=vs2uBkbsllro9i1JSnh+yECFqmouen/Zcht8tR5VJsNPXVdyDUVEiePQW4D7jQDGuijzrvPRpDQvcukKP8B5HTfyS2mZsqulAnXjMhlOxzOdSDEaNd3L3EpwFtdgQQud6x2AVA05fVKcxoQayWcIp2LFjNOonTUpArZPaFl7NkA=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none; vger.kernel.org; dmarc=none action=none header.from=oracle.com; 
-Received: from BY5PR10MB3793.namprd10.prod.outlook.com (2603:10b6:a03:1f6::14)
- by BY5PR10MB3939.namprd10.prod.outlook.com (2603:10b6:a03:1f7::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Mon, 9 Aug
- 2021 16:31:05 +0000
-Received: from BY5PR10MB3793.namprd10.prod.outlook.com
- ([fe80::e035:720f:86fd:bae3]) by BY5PR10MB3793.namprd10.prod.outlook.com
- ([fe80::e035:720f:86fd:bae3%4]) with mapi id 15.20.4394.023; Mon, 9 Aug 2021
- 16:31:05 +0000
-From: Ross Philipson <ross.philipson@oracle.com>
-To: linux-kernel@vger.kernel.org, x86@kernel.org,
- iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: [PATCH v3 14/14] tpm: Allow locality 2 to be set when initializing
- the TPM for Secure Launch
-Date: Mon,  9 Aug 2021 12:38:56 -0400
-Message-Id: <1628527136-2478-15-git-send-email-ross.philipson@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1628527136-2478-1-git-send-email-ross.philipson@oracle.com>
-References: <1628527136-2478-1-git-send-email-ross.philipson@oracle.com>
-X-ClientProxiedBy: SA9PR10CA0021.namprd10.prod.outlook.com
- (2603:10b6:806:a7::26) To BY5PR10MB3793.namprd10.prod.outlook.com
- (2603:10b6:a03:1f6::14)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id f4Hzz6mX42Dw for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Aug 2021 16:52:55 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B970F6062D
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 16:52:54 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id c9so22285224wri.8
+ for <iommu@lists.linux-foundation.org>; Mon, 09 Aug 2021 09:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2L7Xy+kSkSB8kPBmIgw8tzfzAzeFGsrynvKM4ncobGg=;
+ b=X9+0wF2GaQ7raosWSwV5iH/q+LeWIwvCWz2IaaE74LjXgHsBzH0N2oMvKWCCUPUI2v
+ QvnXtiMI/URrt6JkXvSomugHApm3fFv5CTUEO8CByeqntudTGtq6flenWU/iFH7bmslv
+ xazckccAGsQcUoD0I/hdLb0sydlhEhqBG0tVtq0UKp3as90BLY0LI4274JK2oqQ+RZns
+ oeGC3VT6ZHBMVhiifzgcIolMfka6YwlkJrKdfHyx2DtJKochxNh3Ft1l1BVcEJBufZN1
+ xGoMQYGN3wMXLJnSxYARL18Mpu4s3q+Y8ul4/fMG59sx+AlsKnc/Er1fmMwEQwGm6Qwn
+ lPwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2L7Xy+kSkSB8kPBmIgw8tzfzAzeFGsrynvKM4ncobGg=;
+ b=NIGiiMb6eIxTdbWGlFkfwkTNo8oTLAWzNy8oExX8DXB1SqpNp+V0ADG8Y2V5+nxvZo
+ 5G3T08F6bN4o/ciy1o+UHtnfXuyVsMit44woUnjpVoD1aALIit8YaCK08v2hpympQjWx
+ e4Q0EcfyDpHRINRwNrrkD9LaA+yDyFMe5wLNgeXG2hUvWj0MFhJ2UV5Ibvv8cxu5z08n
+ HdMM/QJcM0sy9TV6S79luqXrVVDIge0yJazcWuRfS+SBpOOl7yVsoa0uj5bNnIVbFiaO
+ 4v+gVcrim5n8xqHK/bHogORaqeUhKqK3CQFB+F1nSB/W5IO+InqUFYEIPbo7idBqNzFB
+ NkRw==
+X-Gm-Message-State: AOAM531nonWBsxW6bswRKXcAG5RRFEpLrwLTrFOxBjzQ6GXS7YHKW0qP
+ xR5dgCWxGvhhtxE3ONJ6OnM3mq5oGotUvgt8SPY=
+X-Google-Smtp-Source: ABdhPJy6ue4KJGDE546ehJ8INdeemYfG8Io5+/EyyprVgfEQ9kTzuxHWC5wcNwTW8rcvqKRArNanUuaOU/l04vSEgs0=
+X-Received: by 2002:a5d:504d:: with SMTP id h13mr25875481wrt.132.1628527972734; 
+ Mon, 09 Aug 2021 09:52:52 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lateralus.us.oracle.com (209.17.40.43) by
- SA9PR10CA0021.namprd10.prod.outlook.com (2603:10b6:806:a7::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Mon, 9 Aug 2021 16:31:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 15fb2233-0beb-4164-e3cc-08d95b5315a2
-X-MS-TrafficTypeDiagnostic: BY5PR10MB3939:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BY5PR10MB393904F4159855FFD6D20E48E6F69@BY5PR10MB3939.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: abIS8D69GACayTravVKA7Khf+BguIpxUMSnReELgzl6AIYM7e9xv2zKpWVfohW6dwy0zUxrzLF+lJvnb3PT5x2f1X+WG4zqpRTepgFLWhYhYv89iuYk5RbdZXcoFqtVp6lwt2XpmyYluSK33OQKp3J0EWN/lPSb9RpZ0AA9Nt6xhk/v+1IguSzf6Gf1eS73F/Io+FIo2LQkvTQPy0mFrOP1ka+9u3SyHRl/0zmdE3mtnWzeZRRihtYIFM00C0cycjqUXJ+q/vhWXRwm7ubeBEvro8jXsfhf2fCbI3emPW/rxXo7JHr+V1fhlbMVcPZkEmntp8VYcPCK++FJUnrz8kmKDoeG7NE/I85gX3FbuiGWF8WKEpolGSjDfIy6w8oqe01O4qDxxJb3GaUaEBcJ7Hjzjoo+6jqDjLj9Ew1IExcMvWznx13pmmpVotPf9eVN4WXGPLcNF5+UmmUgKxXEtqy3NC1AR/kELcF1DyihlveBRXJTs0FNSAwq6WpDw+jPR9nTJ4pTra3KnN3RHju3frbx6o3z/+iSYHpDICmeI4UZqgXtWvO1hynj0//wSzcD+tQ+9jsfOZg5J1EvMOhbx/28mS8qOKnGd9tA3ljlB/IwoQDmJQJivKesIEIpMS6qZZz9xsbraCg2WblT+x1dZBqCw85qG4j1m97ZX2IExgWv2N8tOw+BifCx6zBwH9O5rT8wZno9SoyWPxFSqHLodFw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR10MB3793.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(39860400002)(346002)(376002)(136003)(366004)(38350700002)(478600001)(86362001)(316002)(38100700002)(52116002)(4326008)(7696005)(7416002)(2906002)(6666004)(8936002)(83380400001)(6486002)(186003)(5660300002)(8676002)(26005)(44832011)(2616005)(66946007)(66476007)(66556008)(956004)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HnZgU14P1Tfsd+ILKDObz04fho56Xsopi3/mzT6qFt2blIjHtuV2T2CHJ8qm?=
- =?us-ascii?Q?sbFulBMlKvNjAlUspBLww8QFGjKNjeNAdvPjkovR3lIEsKdcSr1406jKhQ9T?=
- =?us-ascii?Q?Ay8GWlFUIuWxQOgjXboKUfCPS9x19QcCbQ8jQUDsxY8kbx+LRlMQUj/iYgQR?=
- =?us-ascii?Q?Pj1nQwADVWHbJpEMXNUJVjX/fHMewINh8JKMFUJ/gcUvVw3MFHiaF/YrUIbD?=
- =?us-ascii?Q?+k4cHSQe00BZnjmmQe3ayaPn12ZnwhsXDNXbCE/62OX/LtnFqvsC08YaKEMX?=
- =?us-ascii?Q?oKBKhhTQ0uMuEBTPqaaOvApD5SBZNgteZHTOyLqNfPEPFIDvdquOlSJ39IKm?=
- =?us-ascii?Q?nvnPjvqJz94EMmZBfLyHCQJE78W0ufGnAJ2QX+HUupM5SGzEM42Wqd3FfhrW?=
- =?us-ascii?Q?WoTMF2TNSShhzRqi23kxb6UgNO/37PqvAhvjR3Rn5NEU+WSLLmDQmPdDLoz7?=
- =?us-ascii?Q?GKFoAgpyZ0jcAJx4qSNB5kVU+U//UmZA8dh3uvXUasJS2DeVGYB5XJaZjjaI?=
- =?us-ascii?Q?GE7PKfIqM+pxnrubIAmSwDtuEQBGNJkBC9HpvLUP4ebjWZc9qb6Tgu/XbWDi?=
- =?us-ascii?Q?bHvRv7woF04sbv5U2ZAV4jqgTKyjkxbRYzVgL3NruLNQm+5gror4EDN37Hlk?=
- =?us-ascii?Q?Ea6B6JtA/Q355O7AlqtW6IlljScvdWwMSDCvgGHF/nwkE+E+megQ1k1jW8xb?=
- =?us-ascii?Q?UaexBG6WUWsqYEiK2AFQbR5SSOv/T3bPKRULHSOwLtk/doVvzgYf2lA6C6gP?=
- =?us-ascii?Q?EF7pLYc/8LyF25U/pqX5jOZlnwGAR21u1GLVL2A3ZXtgzqChLjdPcTpylbeC?=
- =?us-ascii?Q?wvZsfNJFcXudpgTeB1HPK2BN3wFneexTE4iBJArspsIUPhuob6H74iMt4EeX?=
- =?us-ascii?Q?UgwtPSAg+fH3GFGFPHz2tx3zPWqA0eSgDLU65RxBuvOHTnpM+6Crkl4FC6um?=
- =?us-ascii?Q?BNm6Zfp089tbdoybyLc55IVNpGpq9bP3ej4cYiLX8GR1yrXgLRxKtbfta9iP?=
- =?us-ascii?Q?UYP38QNDB/Esp3nEFpOkUR798JyXHKqB+3eFD/rdMn6Ygj1X9K0P8ht1d8Bd?=
- =?us-ascii?Q?8GGBO2tfG6Obw9Y2aSWJiNdOnEViPj3HxPueOd1hIXqtPEg5fK96qb2o7wUY?=
- =?us-ascii?Q?xGQXBUckOey4173mNJsoAva5Kpy/Eb7odpsZ1zEpjAyAfVUDBlbWWoTdcYBX?=
- =?us-ascii?Q?2oIGJ2xh/VganF7OMX5NMKizuFIH4X4jvtR9l2HPrk+jozYgZgB2LAwojsG2?=
- =?us-ascii?Q?I69M4Rh1u7D7rS7xP+1iBvRT1QztdQjTD/om8v3vABR2tV2sF/D40o6vRrHV?=
- =?us-ascii?Q?GtIl/F2ncemSRWk58dyBoh5/?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15fb2233-0beb-4164-e3cc-08d95b5315a2
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3793.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2021 16:31:05.4584 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pmr5Bg/PM3wsi+1yoWbN8+CDUnYYExdnLtpxDjJYsOY1KW2EBSixrm9eX0XAhzuBfgZ3q/YVCNhO7tjWMJ6EQkOaoCH5GAjyZkTC/bhYe8Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB3939
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10071
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 mlxscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108090119
-X-Proofpoint-ORIG-GUID: gY9d-duv_WGI9cVaQFbLZKxBhGrVs0QX
-X-Proofpoint-GUID: gY9d-duv_WGI9cVaQFbLZKxBhGrVs0QX
-Cc: dpsmith@apertussolutions.com, ross.philipson@oracle.com,
- luto@amacapital.net, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
- kanth.ghatraju@oracle.com, tglx@linutronix.de,
- trenchboot-devel@googlegroups.com
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210728140052.GB22887@mms-0441>
+ <8b2742c8891abe4fec3664730717a089@codeaurora.org>
+ <20210802105544.GA27657@willie-the-truck>
+ <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
+ <20210802151409.GE28735@willie-the-truck>
+ <CAF6AEGtzvyEUm0Fc8QT5t9KNK7i0FbFyi7zDM2_PMCzZBp7qbw@mail.gmail.com>
+ <20210809145651.GC1458@willie-the-truck>
+In-Reply-To: <20210809145651.GC1458@willie-the-truck>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 9 Aug 2021 09:57:08 -0700
+Message-ID: <CAF6AEGsSUojA=V0n2iRWTCn++buqN=Eoxo0r3=+=PBu1O=H-AQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent masters
+ to use system cache
+To: Will Deacon <will@kernel.org>
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Jordan Crouse <jcrouse@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Kristian H Kristensen <hoegsberg@google.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sean Paul <sean@poorly.run>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -194,54 +110,81 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The Secure Launch MLE environment uses PCRs that are only accessible from
-the DRTM locality 2. By default the TPM drivers always initialize the
-locality to 0. When a Secure Launch is in progress, initialize the
-locality to 2.
+On Mon, Aug 9, 2021 at 7:56 AM Will Deacon <will@kernel.org> wrote:
+>
+> On Mon, Aug 02, 2021 at 06:36:04PM -0700, Rob Clark wrote:
+> > On Mon, Aug 2, 2021 at 8:14 AM Will Deacon <will@kernel.org> wrote:
+> > >
+> > > On Mon, Aug 02, 2021 at 08:08:07AM -0700, Rob Clark wrote:
+> > > > On Mon, Aug 2, 2021 at 3:55 AM Will Deacon <will@kernel.org> wrote:
+> > > > >
+> > > > > On Thu, Jul 29, 2021 at 10:08:22AM +0530, Sai Prakash Ranjan wrote:
+> > > > > > On 2021-07-28 19:30, Georgi Djakov wrote:
+> > > > > > > On Mon, Jan 11, 2021 at 07:45:02PM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > > commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
+> > > > > > > > removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
+> > > > > > > > the memory type setting required for the non-coherent masters to use
+> > > > > > > > system cache. Now that system cache support for GPU is added, we will
+> > > > > > > > need to set the right PTE attribute for GPU buffers to be sys cached.
+> > > > > > > > Without this, the system cache lines are not allocated for GPU.
+> > > > > > > >
+> > > > > > > > So the patches in this series introduces a new prot flag IOMMU_LLC,
+> > > > > > > > renames IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to IO_PGTABLE_QUIRK_PTW_LLC
+> > > > > > > > and makes GPU the user of this protection flag.
+> > > > > > >
+> > > > > > > Thank you for the patchset! Are you planning to refresh it, as it does
+> > > > > > > not apply anymore?
+> > > > > > >
+> > > > > >
+> > > > > > I was waiting on Will's reply [1]. If there are no changes needed, then
+> > > > > > I can repost the patch.
+> > > > >
+> > > > > I still think you need to handle the mismatched alias, no? You're adding
+> > > > > a new memory type to the SMMU which doesn't exist on the CPU side. That
+> > > > > can't be right.
+> > > > >
+> > > >
+> > > > Just curious, and maybe this is a dumb question, but what is your
+> > > > concern about mismatched aliases?  I mean the cache hierarchy on the
+> > > > GPU device side (anything beyond the LLC) is pretty different and
+> > > > doesn't really care about the smmu pgtable attributes..
+> > >
+> > > If the CPU accesses a shared buffer with different attributes to those which
+> > > the device is using then you fall into the "mismatched memory attributes"
+> > > part of the Arm architecture. It's reasonably unforgiving (you should go and
+> > > read it) and in some cases can apply to speculative accesses as well, but
+> > > the end result is typically loss of coherency.
+> >
+> > Ok, I might have a few other sections to read first to decipher the
+> > terminology..
+> >
+> > But my understanding of LLC is that it looks just like system memory
+> > to the CPU and GPU (I think that would make it "the point of
+> > coherence" between the GPU and CPU?)  If that is true, shouldn't it be
+> > invisible from the point of view of different CPU mapping options?
+>
+> You could certainly build a system where mismatched attributes don't cause
+> loss of coherence, but as it's not guaranteed by the architecture and the
+> changes proposed here affect APIs which are exposed across SoCs, then I
+> don't think it helps much.
+>
 
-Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
----
- drivers/char/tpm/tpm-chip.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Hmm, the description of the new mapping flag is that it applies only
+to transparent outer level cache:
 
-diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
-index ddaeceb..48b9351 100644
---- a/drivers/char/tpm/tpm-chip.c
-+++ b/drivers/char/tpm/tpm-chip.c
-@@ -23,6 +23,7 @@
- #include <linux/major.h>
- #include <linux/tpm_eventlog.h>
- #include <linux/hw_random.h>
-+#include <linux/slaunch.h>
- #include "tpm.h"
- 
- DEFINE_IDR(dev_nums_idr);
-@@ -34,12 +35,20 @@
- 
- static int tpm_request_locality(struct tpm_chip *chip)
- {
--	int rc;
-+	int rc, locality;
- 
- 	if (!chip->ops->request_locality)
- 		return 0;
- 
--	rc = chip->ops->request_locality(chip, 0);
-+	if (slaunch_get_flags() & SL_FLAG_ACTIVE) {
-+		dev_dbg(&chip->dev, "setting TPM locality to 2 for MLE\n");
-+		locality = 2;
-+	} else {
-+		dev_dbg(&chip->dev, "setting TPM locality to 0\n");
-+		locality = 0;
-+	}
-+
-+	rc = chip->ops->request_locality(chip, locality);
- 	if (rc < 0)
- 		return rc;
- 
--- 
-1.8.3.1
++/*
++ * Non-coherent masters can use this page protection flag to set cacheable
++ * memory attributes for only a transparent outer level of cache, also known as
++ * the last-level or system cache.
++ */
++#define IOMMU_LLC      (1 << 6)
 
+But I suppose we could call it instead IOMMU_QCOM_LLC or something
+like that to make it more clear that it is not necessarily something
+that would work with a different outer level cache implementation?
+
+BR,
+-R
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
