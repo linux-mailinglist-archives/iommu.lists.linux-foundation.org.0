@@ -2,65 +2,64 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65D53E45E8
-	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 14:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6B13E45EE
+	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 14:52:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7AF88401F5;
-	Mon,  9 Aug 2021 12:49:40 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id F3CDA40104;
+	Mon,  9 Aug 2021 12:52:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V525zpWduWn3; Mon,  9 Aug 2021 12:49:39 +0000 (UTC)
+	with ESMTP id pE4059VrSvQX; Mon,  9 Aug 2021 12:52:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6295840104;
-	Mon,  9 Aug 2021 12:49:39 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id EC4A840206;
+	Mon,  9 Aug 2021 12:52:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3EFF9C001F;
-	Mon,  9 Aug 2021 12:49:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9D29C001F;
+	Mon,  9 Aug 2021 12:52:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91AF8C000E
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 12:49:38 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 126EBC000E
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 12:52:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 73C2A60647
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 12:49:38 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 01B6460756
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 12:52:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VWjLMRmRTbBJ for <iommu@lists.linux-foundation.org>;
- Mon,  9 Aug 2021 12:49:38 +0000 (UTC)
+ with ESMTP id RPgaYZ2wdfpF for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Aug 2021 12:52:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 0335D60598
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 12:49:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B53160FE3;
- Mon,  9 Aug 2021 12:49:35 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 862F260647
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 12:52:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D482360E78;
+ Mon,  9 Aug 2021 12:52:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628513377;
- bh=DuWuffUzHWTlh5RyIppkfZJMBWUzwes3xWNKxmTLe/0=;
+ s=k20201202; t=1628513564;
+ bh=2GdN8DXcLKY6quaCw1rtuvP0Kw0zfqRfIg+LPre32c4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jk+7pKgZ+88oYQV9NkXW4+7DYuSYjjTwrgQJpOrttxXIl5tKNVCJEgrkyQdFPhMBz
- f+hMsHunXnbXXesw+l55zR366ZFmUEFCU46XuqwsX9p51Orqm4/orNB9V6uk/Qf427
- M8lkagHV1KbxaWYI5iHUprg2PxaP5mEWPsbx4edZ51DKNkwnlvb24ksb39kRyXaIUh
- R4mSwsA0e80ppbX3SHwNrX0m85MhDas0fjY1UT3lTv39wJhvOa8g5cqTbMM2vtoEbn
- CNkDkUHMlk+b6ei3yicYLMvxr7anZ9IQoNRNMXm/AvyXMBtyTtb5tMvU3WkqdmVQv3
- Yh+XgBvSP2Q1A==
-Date: Mon, 9 Aug 2021 13:49:32 +0100
+ b=itunlC02CLGsvDphIlDR/5dpsZL296ArW0IxZolvss0dFEd7dhOrjDGQ5oL8kUi+8
+ ZSLKB6GrOeIEQnEL0YG+kij+D39yylkWqWcsQYmN31c5XX9gOpac6sJ5nQ2WJ9JndP
+ m7fh+4pnBwzVj+Lh/HWS0Tbf65NwwGNYY89zjNmxi/g37dk646P9n/qDMST1+ZkGnp
+ lwFctwo1zC2t8zfLRGCtw+1JqnX68dcCjppXGZt5+LvBO6y5oYoZGkCxMYch3B6Vo4
+ JngGmJo9wH8dZ+UsstcyL2rGsf8wL2qCBNJbZRPT1wjrdOm2T0Yia767C61TT3mFlv
+ 5ubgaHRseS4Kw==
+Date: Mon, 9 Aug 2021 13:52:39 +0100
 From: Will Deacon <will@kernel.org>
 To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v3 25/25] iommu: Allow enabling non-strict mode dynamically
-Message-ID: <20210809124931.GA1097@willie-the-truck>
+Subject: Re: [PATCH v3 24/25] iommu/dma: Factor out flush queue init
+Message-ID: <20210809125238.GB1097@willie-the-truck>
 References: <cover.1628094600.git.robin.murphy@arm.com>
- <22b044263f69e2bfe404c4379a435005ea58b3e2.1628094601.git.robin.murphy@arm.com>
+ <3b5284ee394f267ba966839173f874fc9a996bb2.1628094601.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <22b044263f69e2bfe404c4379a435005ea58b3e2.1628094601.git.robin.murphy@arm.com>
+In-Reply-To: <3b5284ee394f267ba966839173f874fc9a996bb2.1628094601.git.robin.murphy@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: linux-kernel@vger.kernel.org, dianders@chromium.org,
- Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>,
  iommu@lists.linux-foundation.org, rajatja@google.com,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -80,38 +79,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Aug 04, 2021 at 06:15:53PM +0100, Robin Murphy wrote:
-> Allocating and enabling a flush queue is in fact something we can
-> reasonably do while a DMA domain is active, without having to rebuild it
-> from scratch. Thus we can allow a strict -> non-strict transition from
-> sysfs without requiring to unbind the device's driver, which is of
-> particular interest to users who want to make selective relaxations to
-> critical devices like the one serving their root filesystem.
+On Wed, Aug 04, 2021 at 06:15:52PM +0100, Robin Murphy wrote:
+> Factor out flush queue setup from the initial domain init so that we
+> can potentially trigger it from sysfs later on in a domain's lifetime.
 > 
-> Disabling and draining a queue also seems technically possible to
-> achieve without rebuilding the whole domain, but would certainly be more
-> involved. Furthermore there's not such a clear use-case for tightening
-> up security *after* the device may already have done whatever it is that
-> you don't trust it not to do, so we only consider the relaxation case.
-> 
-> CC: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Reviewed-by: John Garry <john.garry@huawei.com>
 > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> 
 > ---
+>  drivers/iommu/dma-iommu.c | 30 ++++++++++++++++++++----------
+>  include/linux/dma-iommu.h |  9 ++++++---
+>  2 files changed, 26 insertions(+), 13 deletions(-)
 > 
-> v3: Actually think about concurrency, rework most of the fq data
->     accesses to be (hopefully) safe and comment it all
-> ---
->  drivers/iommu/dma-iommu.c | 25 ++++++++++++++++++-------
->  drivers/iommu/iommu.c     | 16 ++++++++++++----
->  drivers/iommu/iova.c      |  9 ++++++---
->  3 files changed, 36 insertions(+), 14 deletions(-)
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 2e19505dddf9..f51b8dc99ac6 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -310,6 +310,25 @@ static bool dev_is_untrusted(struct device *dev)
+>  	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
+>  }
+>  
+> +int iommu_dma_init_fq(struct iommu_domain *domain)
+> +{
+> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> +
+> +	if (domain->type != IOMMU_DOMAIN_DMA_FQ)
+> +		return -EINVAL;
+> +	if (cookie->fq_domain)
+> +		return 0;
+> +
+> +	if (init_iova_flush_queue(&cookie->iovad, iommu_dma_flush_iotlb_all,
+> +				  iommu_dma_entry_dtor)) {
+> +		pr_warn("iova flush queue initialization failed\n");
+> +		domain->type = IOMMU_DOMAIN_DMA;
+> +		return -ENODEV;
 
-I failed to break this, so hopefully you've caught everything now.
-
-Only thing I wasn't sure of is why we still need the smp_wmb() in
-init_iova_flush_queue(). Can we remove it now that we have one before
-assigning into the cookie?
+I do find this a bit odd: we assert that the caller has set domain->type
+to IOMMU_DOMAIN_DMA_FQ but then on failure we reset it to IOMMU_DOMAIN_DMA
+here. I think it would be less error-prone if the setting of domain->type
+was handled in the same function.
 
 Will
 _______________________________________________
