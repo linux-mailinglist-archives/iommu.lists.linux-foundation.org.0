@@ -1,53 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6E63E486D
-	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 17:16:13 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F0E3E4875
+	for <lists.iommu@lfdr.de>; Mon,  9 Aug 2021 17:16:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CF92B40267;
-	Mon,  9 Aug 2021 15:16:11 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0C33840167;
+	Mon,  9 Aug 2021 15:16:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JvgsfrzT7oz3; Mon,  9 Aug 2021 15:16:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C77EC40282;
-	Mon,  9 Aug 2021 15:16:10 +0000 (UTC)
+	with ESMTP id Hx9cHdGsPw-w; Mon,  9 Aug 2021 15:16:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id F00FF40221;
+	Mon,  9 Aug 2021 15:16:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 919CEC000E;
-	Mon,  9 Aug 2021 15:16:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CA7E8C000E;
+	Mon,  9 Aug 2021 15:16:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49AF3C000E
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:08 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A2869C000E
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 30114401D9
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:08 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 848436079F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m-xKCOnH3evK for <iommu@lists.linux-foundation.org>;
- Mon,  9 Aug 2021 15:16:07 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id akGHm394Vee9 for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Aug 2021 15:16:25 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 13BEB401EA
- for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:06 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 00D7F60748
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Aug 2021 15:16:24 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8E64467357; Mon,  9 Aug 2021 17:16:03 +0200 (CEST)
-Date: Mon, 9 Aug 2021 17:16:03 +0200
+ id 6D60467357; Mon,  9 Aug 2021 17:16:22 +0200 (CEST)
+Date: Mon, 9 Aug 2021 17:16:22 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH resend] dma-debug: Use memory_intersects() directly
-Message-ID: <20210809151603.GA22445@lst.de>
-References: <20210722105512.183795-1-wangkefeng.wang@huawei.com>
+To: Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH v3 00/21] .map_sg() error cleanup
+Message-ID: <20210809151622.GB22445@lst.de>
+References: <20210729201539.5602-1-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210722105512.183795-1-wangkefeng.wang@huawei.com>
+In-Reply-To: <20210729201539.5602-1-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: linux-s390@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-parisc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Stephen Bates <sbates@raithlin.com>,
+ linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,7 +73,8 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Thanks,
 
-applied.
+I've applied this to the dma-mapping tree with a few minor cosmetic
+tweaks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
