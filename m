@@ -1,75 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AE23E581F
-	for <lists.iommu@lfdr.de>; Tue, 10 Aug 2021 12:19:14 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714DD3E53DB
+	for <lists.iommu@lfdr.de>; Tue, 10 Aug 2021 08:48:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8B1DD40229;
-	Tue, 10 Aug 2021 10:19:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5B45260620;
+	Tue, 10 Aug 2021 06:48:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F_8X6UhCWETP; Tue, 10 Aug 2021 10:18:59 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XA73UmAQYvHm; Tue, 10 Aug 2021 06:48:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 69833400EC;
-	Tue, 10 Aug 2021 10:18:59 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 40792605EB;
+	Tue, 10 Aug 2021 06:48:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 358F2C001F;
-	Tue, 10 Aug 2021 10:18:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7354C001F;
+	Tue, 10 Aug 2021 06:48:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20BDDC000E
- for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:18:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7FCE0C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 06:48:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0C3B440261
- for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:18:58 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with UTF8SMTP id 5DC7F831E7
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 06:48:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k0criMaIZdEM for <iommu@lists.linux-foundation.org>;
- Tue, 10 Aug 2021 10:18:53 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2B0A34020A
- for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:18:52 +0000 (UTC)
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GkTSS0p5Qz9sRf; Tue, 10 Aug 2021 20:18:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1628590728;
- bh=sLzUle4HNjbt2dpuzLJ/SCgyEaG1KNFjSdG9/ykRLYo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bE7CtES05Gb33ZZWvfgfzvroh0FvJfb8WbKwzViGUD5LeQNvpQdpBjLHr3/24sjKE
- idwd62N3gx53z8IIFvjSpMJmdpG2PsCBaDejyPRTtyHSVN+DF6VILSwEauB+I9+dYU
- MP3gbRCUPVOCSQu2vvetmvzqO+jHEvU6RMZhlms8=
-Date: Tue, 10 Aug 2021 16:10:12 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC v2] /dev/iommu uAPI proposal
-Message-ID: <YRIYRI+2qSvX/e2d@yekko>
-References: <BN9PR11MB5433B1E4AE5B0480369F97178C189@BN9PR11MB5433.namprd11.prod.outlook.com>
- <YP4/KJoYfbaf5U94@yekko>
- <BN9PR11MB54332594B1B4003AE4B9238C8CEA9@BN9PR11MB5433.namprd11.prod.outlook.com>
- <YQig7EIVMAuzSgH4@yekko>
- <BN9PR11MB54338C2863EA94145710A1BA8CF09@BN9PR11MB5433.namprd11.prod.outlook.com>
- <YQy+ZsCab6Ni/sN7@yekko> <20210806123211.GR1721383@nvidia.com>
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=mg.codeaurora.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with UTF8SMTP id 25i1Qn9WZ1OS for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Aug 2021 06:48:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by smtp1.osuosl.org (Postfix) with UTF8SMTPS id 235F3829AF
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 06:48:45 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628578127; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=rY9lZ62jXAuPNEI3pRZHDQQkULdfwiTLhfApWfVkKvo=;
+ b=NwhMcwxbqfanO4JeYdS3Aw9uJh04f/myPPT5eMpnJgPUweiRWlY/A53T3f99sOrzP2Ya1EEM
+ RqfxLXwG2SfdNw8mq96aNCsf9mAG+WHSRO6WCPXBDzKJqHFnNdHMnTxF60F1a3JPfOH+o6ur
+ DErIRjnagfB6l1xBIKk+e9vB8GI=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 6112213a66ff1079044530ec (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 06:48:26
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 658F5C433D3; Tue, 10 Aug 2021 06:48:25 +0000 (UTC)
+Received: from blr-ubuntu-253.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 7D245C4338A;
+ Tue, 10 Aug 2021 06:48:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7D245C4338A
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
+ smtp.mailfrom=saiprakash.ranjan@codeaurora.org
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>
+Subject: [PATCHv2] iommu/arm-smmu: Add clk_bulk_{prepare/unprepare} to system
+ pm callbacks
+Date: Tue, 10 Aug 2021 12:18:08 +0530
+Message-Id: <20210810064808.32486-1-saiprakash.ranjan@codeaurora.org>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-In-Reply-To: <20210806123211.GR1721383@nvidia.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, "Tian, Kevin" <kevin.tian@intel.com>,
- "parav@mellanox.com" <parav@mellanox.com>,
- "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
- "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
- Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
- Shenming Lu <lushenming@huawei.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>
+Cc: Taniya Das <tdas@codeaurora.org>, Rajendra Nayak <rnayak@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,107 +90,90 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1431197244878920735=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Some clocks for SMMU can have parent as XO such as gpu_cc_hub_cx_int_clk
+of GPU SMMU in QTI SC7280 SoC and in order to enter deep sleep states in
+such cases, we would need to drop the XO clock vote in unprepare call and
+this unprepare callback for XO is in RPMh (Resource Power Manager-Hardened)
+clock driver which controls RPMh managed clock resources for new QTI SoCs.
 
---===============1431197244878920735==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="odEeZa7MqmWAODkt"
-Content-Disposition: inline
+Given we cannot have a sleeping calls such as clk_bulk_prepare() and
+clk_bulk_unprepare() in arm-smmu runtime pm callbacks since the iommu
+operations like map and unmap can be in atomic context and are in fast
+path, add this prepare and unprepare call to drop the XO vote only for
+system pm callbacks since it is not a fast path and we expect the system
+to enter deep sleep states with system pm as opposed to runtime pm.
 
+This is a similar sequence of clock requests (prepare,enable and
+disable,unprepare) in arm-smmu probe and remove.
 
---odEeZa7MqmWAODkt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Co-developed-by: Rajendra Nayak <rnayak@codeaurora.org>
+Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+---
 
-On Fri, Aug 06, 2021 at 09:32:11AM -0300, Jason Gunthorpe wrote:
-> On Fri, Aug 06, 2021 at 02:45:26PM +1000, David Gibson wrote:
->=20
-> > Well, that's kind of what I'm doing.  PCI currently has the notion of
-> > "default" address space for a RID, but there's no guarantee that other
-> > buses (or even future PCI extensions) will.  The idea is that
-> > "endpoint" means exactly the (RID, PASID) or (SID, SSID) or whatever
-> > future variations are on that.
->=20
-> This is already happening in this proposal, it is why I insisted that
-> the driver facing API has to be very explicit. That API specifies
-> exactly what the device silicon is doing.
->=20
-> However, that is placed at the IOASID level. There is no reason to
-> create endpoint objects that are 1:1 with IOASID objects, eg for
-> PASID.
+Changes in v2:
+ * Add clk unprepare when clk enable fails in resume (Will)
 
-They're not 1:1 though.  You can have multiple endpoints in the same
-IOAS, that's the whole point.
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-> We need to have clear software layers and responsibilities, I think
-> this is where the VFIO container design has fallen behind.
->=20
-> The device driver is responsible to delcare what TLPs the device it
-> controls will issue
-
-Right.. and I'm envisaging an endpoint as a abstraction to represent a
-single TLP.
-
-> The system layer is responsible to determine how those TLPs can be
-> matched to IO page tables, if at all
->=20
-> The IO page table layer is responsible to map the TLPs to physical
-> memory.
->=20
-> Each must stay in its box and we should not create objects that smush
-> together, say, the device and system layers because it will only make
-> a mess of the software design.
-
-I agree... and endpoints are explicitly an attempt to do that.  I
-don't see how you think they're smushing things together.
-
-> Since the system layer doesn't have any concrete objects in our
-> environment (which is based on devices and IO page tables) it has to
-> exist as metadata attached to the other two objects.
-
-Whereas I'm suggesting clarifying this by *creating* concrete objects
-to represent the concept we need.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---odEeZa7MqmWAODkt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmESGEQACgkQbDjKyiDZ
-s5Ktrg/+MU/OVbhaG0pM1dSjmK1fu9a3jQ3S7egfXHqBCHsGei0mCcWonB4WX71t
-JghxefYDxyliljq9AQuZuOG6LmHAr02cy0bPhHlZwnjXnDvHjZcOkcfBMNLdwtAQ
-uhUCXkPBq1nH9liPYMPKBsk6skgKuT5kiO4IiQgmptD3qMDUumzdFWU4FlwFtEeJ
-izG3YYaqr0v1C8I4zCT5kBibk5EFTWwE/ZvHtaYK9yDjOi4b1X79F2EBR/arNcY3
-/Vdq0sdCqKstC3g3az+K5Akdti53oNltLWTnqvFbbpZmPvIhOZ37zScMc1bmjrxf
-5icEraXNHQW0dEmi29qZLeqr0cmYXhcrfXnneRCprubUMxdfkMVRA5LxqS0vqBOU
-wSoGH1d/3D5BKm6lTpvZCc/QsAyxgwYgX0gxURGKt/CrWOkC+XXXgCO3x1j+xG3V
-04k0yMEk+9K9+YT3oxjsdOGThJW0ZNA5fhmBf4I/NxRCtPwldXdIVOC1DdB0iTW1
-0XHE3Wvp9yjMpVt6bt1NOt8lfn74aVkWqjDjpEIdyWtGqaJQVgynAozorT/SBIUI
-awVwsTosKBG9Paf3L82ZETY8rIPvqJCFu+KgFumeaS5Xyl0z4eUDrnEgNdH9B3mh
-QEEffkuuuV9L5zxyp+Ir4OWtE4lNkjkcylCpEpklCV2oVLBKVFI=
-=LOUq
------END PGP SIGNATURE-----
-
---odEeZa7MqmWAODkt--
-
---===============1431197244878920735==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index d3c6f54110a5..da8ef9d82d79 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -2277,18 +2277,38 @@ static int __maybe_unused arm_smmu_runtime_suspend(struct device *dev)
+ 
+ static int __maybe_unused arm_smmu_pm_resume(struct device *dev)
+ {
++	int ret;
++	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
++
++	ret = clk_bulk_prepare(smmu->num_clks, smmu->clks);
++	if (ret)
++		return ret;
++
+ 	if (pm_runtime_suspended(dev))
+ 		return 0;
+ 
+-	return arm_smmu_runtime_resume(dev);
++	ret = arm_smmu_runtime_resume(dev);
++	if (ret)
++		clk_bulk_unprepare(smmu->num_clks, smmu->clks);
++
++	return ret;
+ }
+ 
+ static int __maybe_unused arm_smmu_pm_suspend(struct device *dev)
+ {
++	int ret = 0;
++	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
++
+ 	if (pm_runtime_suspended(dev))
+-		return 0;
++		goto clk_unprepare;
+ 
+-	return arm_smmu_runtime_suspend(dev);
++	ret = arm_smmu_runtime_suspend(dev);
++	if (ret)
++		return ret;
++
++clk_unprepare:
++	clk_bulk_unprepare(smmu->num_clks, smmu->clks);
++	return ret;
+ }
+ 
+ static const struct dev_pm_ops arm_smmu_pm_ops = {
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============1431197244878920735==--
