@@ -1,102 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164C53E534F
-	for <lists.iommu@lfdr.de>; Tue, 10 Aug 2021 08:16:07 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AE23E581F
+	for <lists.iommu@lfdr.de>; Tue, 10 Aug 2021 12:19:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C0AED831D5;
-	Tue, 10 Aug 2021 06:16:05 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8B1DD40229;
+	Tue, 10 Aug 2021 10:19:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PgREEnpdUmSE; Tue, 10 Aug 2021 06:16:02 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id F_8X6UhCWETP; Tue, 10 Aug 2021 10:18:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 189DF8348C;
-	Tue, 10 Aug 2021 06:16:02 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 69833400EC;
+	Tue, 10 Aug 2021 10:18:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 019F2C000E;
-	Tue, 10 Aug 2021 06:16:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 358F2C001F;
+	Tue, 10 Aug 2021 10:18:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2387DC000E
- for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 06:16:00 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20BDDC000E
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:18:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 06B2B607F5
- for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 06:16:00 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0C3B440261
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:18:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=svenpeter.dev header.b="HR+BeCiI";
- dkim=pass (2048-bit key) header.d=messagingengine.com
- header.b="wwzOTzwO"
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e6jIWSP2TBzO for <iommu@lists.linux-foundation.org>;
- Tue, 10 Aug 2021 06:15:55 +0000 (UTC)
-X-Greylist: delayed 00:05:36 by SQLgrey-1.8.0
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 76AF760802
- for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 06:15:55 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 779AF3200936;
- Tue, 10 Aug 2021 02:10:15 -0400 (EDT)
-Received: from imap21 ([10.202.2.71])
- by compute1.internal (MEProxy); Tue, 10 Aug 2021 02:10:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- h=mime-version:message-id:in-reply-to:references:date:from:to
- :cc:subject:content-type; s=fm2; bh=qNvbQWvcC0Lv3u4CugSoZXlVZMPC
- ExlFhgw8eKIUSmE=; b=HR+BeCiILJ5qQ9VkGi8Xjxrs0w/38sMiKC62dBvLUClK
- W8cosNzGCj9f/MDx1jiUCdPnd5qtewv2k2awc9digTuPC9+9AQofYHfuq0hFqSq/
- lP6XK/VHiUx7N/4J+/ZA2FT0keoRFED1RP+Py4zb3EzPiFk2Mmo5neSOUuzV0th5
- 2uBi2uAwpzN7ZKPuds/vX7YSfeJ6FrFGciNKENp8S9cRaEEhOn5DYhSAq+5/wmfE
- zYGvPZCmFoYJgqOpcSTxK/KV/FcFtEAhqYIn/ceW5i//1lHfMwRL+siF/sPg/gn7
- i7j3UflNUnrNtxjVMTNKULvvTbhGgFYSovxM+eAbaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qNvbQW
- vcC0Lv3u4CugSoZXlVZMPCExlFhgw8eKIUSmE=; b=wwzOTzwOeGD/FzxCKUQpVH
- XgzgVmd6tqrfYap0kgbzzDoUp+h96VhxO8f6ss0zWfhROIvMgjpnIk6wy2/vPJa9
- aV0Jj40lNyrpIakx1GxD3HwwFAON29Kbi20LZWy9X0C0rPyFUHoL5OleBiiewe86
- E6rMtT9uT07uZQF2DRgN3kbUkF4y0x+HCPyWZQuCWTRF29ipNGR94jhWbeTcLj+N
- 5WMZT/weyBN5TsZ3mxIUPyaAVUDUhOW/UCj/pislF7du/w0yLdb0pmDFI5CQAGkC
- jCJIPQhAN4wWKF2p8X9QWwu1dvRQwSg84aGGag9axb+eXK5itVdO6cwh99HcHsbA
- ==
-X-ME-Sender: <xms:RRgSYY9C_nkDES2E-jrw53iRXaIoXNsjaRTe7Ixkf7zrx4_ZLd5zJQ>
- <xme:RRgSYQvt2Abxl3s7JjnEIK_vgMeq3WTpbQQMt0mJGitfFzYbBJr655yIuwDHz-zXP
- 99k_zRLn-FZ5C8XWhc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeekgddutdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdfuvhgv
- nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
- htthgvrhhnpeefjefggeejuedvgfeuffffhfefhfdtvdeggfdttddtuefgudevfeelhfdt
- hefgudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusghushgvrhgtoh
- hnthgvnhhtrdgtohhmpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgr
- rhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:RRgSYeAn2dYyUkR6S_6ho3dDbrhn2qO8jeiTTYMXzHG9m4j8HyqAdw>
- <xmx:RRgSYYemrNv2ONJo6MgIv-dcJk7h1F-eNzKUoJD8whDZs5SUVVJBiw>
- <xmx:RRgSYdP113h4DSwZlmLx3FNW-YlhPp8pHEnd4rqeTliUzqvRHpC-GA>
- <xmx:RxgSYb1biZKfNuzQ7RXZBt8BgCkdcly8eNcWfv8RHGdr8vpsc4xlQA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C527A51C0060; Tue, 10 Aug 2021 02:10:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-552-g2afffd2709-fm-20210805.001-g2afffd27
-Mime-Version: 1.0
-Message-Id: <0589c725-401b-482f-ba2b-0707c02ea40a@www.fastmail.com>
-In-Reply-To: <202108100801.aYU4IXvh-lkp@intel.com>
-References: <202108100801.aYU4IXvh-lkp@intel.com>
-Date: Tue, 10 Aug 2021 08:09:53 +0200
-To: "Joerg Roedel" <jroedel@suse.de>
-Subject: =?UTF-8?Q?Re:_[iommu:apple/dart_3/3]_drivers/iommu/apple-dart.c:730:17:_?=
- =?UTF-8?Q?error:_initialization_of_'size=5Ft_(*)(struct_iommu=5Fdomain_?=
- =?UTF-8?Q?*,_long_unsigned_int,__size=5Ft,__struct_iommu=5Fiotlb=5Fgath?=
- =?UTF-8?Q?er_*)'_{aka_'long_unsigned_int_(*)(struct_iommu=5Fdomain_*,_l?=
- =?UTF-8?Q?ong_unsigned_int,__long_unsigned_int,__struct_iom...?=
-Cc: iommu@lists.linux-foundation.org, kbuild-all@lists.01.org,
- kernel test robot <lkp@intel.com>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id k0criMaIZdEM for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Aug 2021 10:18:53 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2B0A34020A
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:18:52 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GkTSS0p5Qz9sRf; Tue, 10 Aug 2021 20:18:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1628590728;
+ bh=sLzUle4HNjbt2dpuzLJ/SCgyEaG1KNFjSdG9/ykRLYo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bE7CtES05Gb33ZZWvfgfzvroh0FvJfb8WbKwzViGUD5LeQNvpQdpBjLHr3/24sjKE
+ idwd62N3gx53z8IIFvjSpMJmdpG2PsCBaDejyPRTtyHSVN+DF6VILSwEauB+I9+dYU
+ MP3gbRCUPVOCSQu2vvetmvzqO+jHEvU6RMZhlms8=
+Date: Tue, 10 Aug 2021 16:10:12 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC v2] /dev/iommu uAPI proposal
+Message-ID: <YRIYRI+2qSvX/e2d@yekko>
+References: <BN9PR11MB5433B1E4AE5B0480369F97178C189@BN9PR11MB5433.namprd11.prod.outlook.com>
+ <YP4/KJoYfbaf5U94@yekko>
+ <BN9PR11MB54332594B1B4003AE4B9238C8CEA9@BN9PR11MB5433.namprd11.prod.outlook.com>
+ <YQig7EIVMAuzSgH4@yekko>
+ <BN9PR11MB54338C2863EA94145710A1BA8CF09@BN9PR11MB5433.namprd11.prod.outlook.com>
+ <YQy+ZsCab6Ni/sN7@yekko> <20210806123211.GR1721383@nvidia.com>
+MIME-Version: 1.0
+In-Reply-To: <20210806123211.GR1721383@nvidia.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
+ Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "parav@mellanox.com" <parav@mellanox.com>,
+ "Alex Williamson \(alex.williamson@redhat.com\)" <alex.williamson@redhat.com>,
+ "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+ Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
+ Shenming Lu <lushenming@huawei.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,146 +82,107 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Sven Peter via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Sven Peter <sven@svenpeter.dev>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1431197244878920735=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
 
-This happens because apple/dart is missing the "Optimizing iommu_[map/unmap] performance"
-series which is already in the core branch [1].
-The same commit works fine in iommu/next since that branch merges both iommu/core and
-apple/dart.
-
-Thanks,
-
-Sven
-
-[1] https://lore.kernel.org/lkml/1623850736-389584-1-git-send-email-quic_c_gdjako@quicinc.com/
-
-On Tue, Aug 10, 2021, at 02:12, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git 
-> apple/dart
-> head:   05ce9d20d699b093dec985192a7db63b48f26ca2
-> commit: 05ce9d20d699b093dec985192a7db63b48f26ca2 [3/3] iommu/dart: Add 
-> DART iommu driver
-> config: sparc-allyesconfig (attached as .config)
-> compiler: sparc64-linux-gcc (GCC) 10.3.0
-> reproduce (this is a W=1 build):
->         wget 
-> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # 
-> https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git/commit/?id=05ce9d20d699b093dec985192a7db63b48f26ca2
->         git remote add iommu 
-> https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
->         git fetch --no-tags iommu apple/dart
->         git checkout 05ce9d20d699b093dec985192a7db63b48f26ca2
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-10.3.0 make.cross 
-> ARCH=sparc 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/iommu/apple-dart.c: In function 'apple_dart_map_pages':
->    drivers/iommu/apple-dart.c:380:12: error: 'struct io_pgtable_ops' 
-> has no member named 'map_pages'
->      380 |  return ops->map_pages(ops, iova, paddr, pgsize, pgcount, 
-> prot, gfp,
->          |            ^~
->    drivers/iommu/apple-dart.c: In function 'apple_dart_unmap_pages':
->    drivers/iommu/apple-dart.c:392:12: error: 'struct io_pgtable_ops' 
-> has no member named 'unmap_pages'
->      392 |  return ops->unmap_pages(ops, iova, pgsize, pgcount, gather);
->          |            ^~
->    drivers/iommu/apple-dart.c: At top level:
->    drivers/iommu/apple-dart.c:729:3: error: 'const struct iommu_ops' 
-> has no member named 'map_pages'
->      729 |  .map_pages = apple_dart_map_pages,
->          |   ^~~~~~~~~
->    drivers/iommu/apple-dart.c:729:15: error: initialization of 'int 
-> (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  
-> int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  
-> long long unsigned int,  long unsigned int,  int,  unsigned int)'} from 
-> incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned 
-> int,  phys_addr_t,  size_t,  size_t,  int,  gfp_t,  size_t *)' {aka 
-> 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned 
-> int,  long unsigned int,  long unsigned int,  int,  unsigned int,  long 
-> unsigned int *)'} [-Werror=incompatible-pointer-types]
->      729 |  .map_pages = apple_dart_map_pages,
->          |               ^~~~~~~~~~~~~~~~~~~~
->    drivers/iommu/apple-dart.c:729:15: note: (near initialization for 
-> 'apple_dart_iommu_ops.map')
->    drivers/iommu/apple-dart.c:730:3: error: 'const struct iommu_ops' 
-> has no member named 'unmap_pages'
->      730 |  .unmap_pages = apple_dart_unmap_pages,
->          |   ^~~~~~~~~~~
-> >> drivers/iommu/apple-dart.c:730:17: error: initialization of 'size_t 
-> (*)(struct iommu_domain *, long unsigned int,  size_t,  struct 
-> iommu_iotlb_gather *)' {aka 'long unsigned int (*)(struct iommu_domain 
-> *, long unsigned int,  long unsigned int,  struct iommu_iotlb_gather 
-> *)'} from incompatible pointer type 'size_t (*)(struct iommu_domain *, 
-> long unsigned int,  size_t,  size_t,  struct iommu_iotlb_gather *)' 
-> {aka 'long unsigned int (*)(struct iommu_domain *, long unsigned int,  
-> long unsigned int,  long unsigned int,  struct iommu_iotlb_gather *)'} 
-> [-Werror=incompatible-pointer-types]
->      730 |  .unmap_pages = apple_dart_unmap_pages,
->          |                 ^~~~~~~~~~~~~~~~~~~~~~
->    drivers/iommu/apple-dart.c:730:17: note: (near initialization for 
-> 'apple_dart_iommu_ops.unmap')
->    drivers/iommu/apple-dart.c: In function 'apple_dart_unmap_pages':
->    drivers/iommu/apple-dart.c:393:1: error: control reaches end of 
-> non-void function [-Werror=return-type]
->      393 | }
->          | ^
->    drivers/iommu/apple-dart.c: In function 'apple_dart_map_pages':
->    drivers/iommu/apple-dart.c:382:1: error: control reaches end of 
-> non-void function [-Werror=return-type]
->      382 | }
->          | ^
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +730 drivers/iommu/apple-dart.c
-> 
->    723	
->    724	static const struct iommu_ops apple_dart_iommu_ops = {
->    725		.domain_alloc = apple_dart_domain_alloc,
->    726		.domain_free = apple_dart_domain_free,
->    727		.attach_dev = apple_dart_attach_dev,
->    728		.detach_dev = apple_dart_detach_dev,
->  > 729		.map_pages = apple_dart_map_pages,
->  > 730		.unmap_pages = apple_dart_unmap_pages,
->    731		.flush_iotlb_all = apple_dart_flush_iotlb_all,
->    732		.iotlb_sync = apple_dart_iotlb_sync,
->    733		.iotlb_sync_map = apple_dart_iotlb_sync_map,
->    734		.iova_to_phys = apple_dart_iova_to_phys,
->    735		.probe_device = apple_dart_probe_device,
->    736		.release_device = apple_dart_release_device,
->    737		.device_group = apple_dart_device_group,
->    738		.of_xlate = apple_dart_of_xlate,
->    739		.def_domain_type = apple_dart_def_domain_type,
->    740		.pgsize_bitmap = -1UL, /* Restricted during dart probe */
->    741	};
->    742	
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-> 
-> Attachments:
-> * .config.gz
+--===============1431197244878920735==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="odEeZa7MqmWAODkt"
+Content-Disposition: inline
 
 
--- 
-Sven Peter
+--odEeZa7MqmWAODkt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 06, 2021 at 09:32:11AM -0300, Jason Gunthorpe wrote:
+> On Fri, Aug 06, 2021 at 02:45:26PM +1000, David Gibson wrote:
+>=20
+> > Well, that's kind of what I'm doing.  PCI currently has the notion of
+> > "default" address space for a RID, but there's no guarantee that other
+> > buses (or even future PCI extensions) will.  The idea is that
+> > "endpoint" means exactly the (RID, PASID) or (SID, SSID) or whatever
+> > future variations are on that.
+>=20
+> This is already happening in this proposal, it is why I insisted that
+> the driver facing API has to be very explicit. That API specifies
+> exactly what the device silicon is doing.
+>=20
+> However, that is placed at the IOASID level. There is no reason to
+> create endpoint objects that are 1:1 with IOASID objects, eg for
+> PASID.
+
+They're not 1:1 though.  You can have multiple endpoints in the same
+IOAS, that's the whole point.
+
+> We need to have clear software layers and responsibilities, I think
+> this is where the VFIO container design has fallen behind.
+>=20
+> The device driver is responsible to delcare what TLPs the device it
+> controls will issue
+
+Right.. and I'm envisaging an endpoint as a abstraction to represent a
+single TLP.
+
+> The system layer is responsible to determine how those TLPs can be
+> matched to IO page tables, if at all
+>=20
+> The IO page table layer is responsible to map the TLPs to physical
+> memory.
+>=20
+> Each must stay in its box and we should not create objects that smush
+> together, say, the device and system layers because it will only make
+> a mess of the software design.
+
+I agree... and endpoints are explicitly an attempt to do that.  I
+don't see how you think they're smushing things together.
+
+> Since the system layer doesn't have any concrete objects in our
+> environment (which is based on devices and IO page tables) it has to
+> exist as metadata attached to the other two objects.
+
+Whereas I'm suggesting clarifying this by *creating* concrete objects
+to represent the concept we need.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--odEeZa7MqmWAODkt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmESGEQACgkQbDjKyiDZ
+s5Ktrg/+MU/OVbhaG0pM1dSjmK1fu9a3jQ3S7egfXHqBCHsGei0mCcWonB4WX71t
+JghxefYDxyliljq9AQuZuOG6LmHAr02cy0bPhHlZwnjXnDvHjZcOkcfBMNLdwtAQ
+uhUCXkPBq1nH9liPYMPKBsk6skgKuT5kiO4IiQgmptD3qMDUumzdFWU4FlwFtEeJ
+izG3YYaqr0v1C8I4zCT5kBibk5EFTWwE/ZvHtaYK9yDjOi4b1X79F2EBR/arNcY3
+/Vdq0sdCqKstC3g3az+K5Akdti53oNltLWTnqvFbbpZmPvIhOZ37zScMc1bmjrxf
+5icEraXNHQW0dEmi29qZLeqr0cmYXhcrfXnneRCprubUMxdfkMVRA5LxqS0vqBOU
+wSoGH1d/3D5BKm6lTpvZCc/QsAyxgwYgX0gxURGKt/CrWOkC+XXXgCO3x1j+xG3V
+04k0yMEk+9K9+YT3oxjsdOGThJW0ZNA5fhmBf4I/NxRCtPwldXdIVOC1DdB0iTW1
+0XHE3Wvp9yjMpVt6bt1NOt8lfn74aVkWqjDjpEIdyWtGqaJQVgynAozorT/SBIUI
+awVwsTosKBG9Paf3L82ZETY8rIPvqJCFu+KgFumeaS5Xyl0z4eUDrnEgNdH9B3mh
+QEEffkuuuV9L5zxyp+Ir4OWtE4lNkjkcylCpEpklCV2oVLBKVFI=
+=LOUq
+-----END PGP SIGNATURE-----
+
+--odEeZa7MqmWAODkt--
+
+--===============1431197244878920735==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1431197244878920735==--
