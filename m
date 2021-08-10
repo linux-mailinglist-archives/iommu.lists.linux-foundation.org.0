@@ -1,89 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDEB3E57EE
-	for <lists.iommu@lfdr.de>; Tue, 10 Aug 2021 12:04:33 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 240C6401B4;
-	Tue, 10 Aug 2021 10:04:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Zl6o048HOXbN; Tue, 10 Aug 2021 10:04:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 057F7401B0;
-	Tue, 10 Aug 2021 10:04:27 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC78CC001F;
-	Tue, 10 Aug 2021 10:04:26 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 153D5C000E;
- Tue, 10 Aug 2021 10:04:25 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A153E5872
+	for <lists.iommu@lfdr.de>; Tue, 10 Aug 2021 12:36:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E542681CA7;
- Tue, 10 Aug 2021 10:04:24 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2F85B833B7;
+	Tue, 10 Aug 2021 10:36:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wM6BH4kJbSSX; Tue, 10 Aug 2021 10:04:24 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2D16081B17;
- Tue, 10 Aug 2021 10:04:24 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- m36-20020a05600c3b24b02902e67543e17aso1506861wms.0; 
- Tue, 10 Aug 2021 03:04:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nNPyEQUv6Ji6aWmVMQgSNl5jQ96sNm9i4LSvAWR0eaA=;
- b=q2gbUw9U5RtXDLYisdSeQSgCrPFXvSu38/Nc8e2OtpE6cCuDTC/Rup5pd6D7I3GphR
- wr7FNqUbH0b/vddvNEjoyl/Iu1esfKxdseTtw3MrVUENz/DZBisiwI6dbSE3CSAtwEDG
- jPEyDtmp9zi0ZY38Dj+7BCNz5TAysF3z0XOnCSsIEKP73HSZq5LNvW3Ui0dyLUYYtCji
- loJD6PFV16PJdB4607ccaCuBgzDpAdxi/tlXQofuQf2CZktqhSp38YBqiOCZ/B6AjLtp
- cyczg3ABjA43CEQFbUA3Nrsh5tchELIl3wkx86Kf8Chox7fLdzZiPOjXw77Ijj1ExgVk
- nGwQ==
-X-Gm-Message-State: AOAM530qp5gTvBfBtwnflrBxxsjdgQ2YLQRR0fFcbm5DyfXfF9rBUasB
- c2+vibIoO0nqb9z6cKPNlUo=
-X-Google-Smtp-Source: ABdhPJxqwuyMnHbZRg1qBZctOdB5h6Kf4V8NZCJ8ord6bBrxy7xEi7XisJdq+Xmsrl1aGAMEv6+vWg==
-X-Received: by 2002:a05:600c:1c11:: with SMTP id
- j17mr21277438wms.35.1628589862198; 
- Tue, 10 Aug 2021 03:04:22 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
- by smtp.gmail.com with ESMTPSA id e3sm9074443wro.15.2021.08.10.03.04.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 03:04:21 -0700 (PDT)
-Date: Tue, 10 Aug 2021 10:04:19 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Praveen Kumar <kumarpraveen@linux.microsoft.com>
-Subject: Re: [RFC v1 6/8] mshv: command line option to skip devices in PV-IOMMU
-Message-ID: <20210810100419.g3rjj3xegydalyz3@liuwe-devbox-debian-v2>
-References: <20210709114339.3467637-1-wei.liu@kernel.org>
- <20210709114339.3467637-7-wei.liu@kernel.org>
- <4a6918ea-e3e5-55c9-a12d-bee7261301fd@linux.microsoft.com>
- <20210803215617.fzx2vrzhsabrrolc@liuwe-devbox-debian-v2>
- <8d9b6b9a-62b1-95ea-1bb6-258e72c1800d@linux.microsoft.com>
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Bcb4ayg39kzE; Tue, 10 Aug 2021 10:36:08 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5125C83579;
+	Tue, 10 Aug 2021 10:36:06 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C94DC000E;
+	Tue, 10 Aug 2021 10:36:06 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B739C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:36:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1B4106087E
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:36:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=redhat.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fjBuhfyHpX6Z for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Aug 2021 10:36:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 30E0760645
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Aug 2021 10:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628591761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8MKdVxhmWHkSF7Qc4zBZXEqJWUbfI37hUIq+4sHXK5w=;
+ b=e8zqrthseXpaRUVLS4s2wHOlkI0YdLsuDLzzZdnTeumgjvt1wYkrfaROcfsW4KCtC6v56Y
+ XvSZhMT2rjG6ncxWTY2/oBcWAqTb3SBPBh/eeb8gU49qrJ8Wh6Ip/SN1HtUA+mJtq+MfMH
+ JRUT6qhIT6kpJ2LUMh6AiF3g3F/B+ek=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-SLez8Vj3PA270oq6Eepj1A-1; Tue, 10 Aug 2021 06:35:58 -0400
+X-MC-Unique: SLez8Vj3PA270oq6Eepj1A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4B591008060;
+ Tue, 10 Aug 2021 10:35:56 +0000 (UTC)
+Received: from T590 (ovpn-13-190.pek2.redhat.com [10.72.13.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC8415C232;
+ Tue, 10 Aug 2021 10:35:50 +0000 (UTC)
+Date: Tue, 10 Aug 2021 18:35:45 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
+ from remote numa node
+Message-ID: <YRJWgU5VhzBe1JP4@T590>
+References: <YPlGOOMSdm6Bcyy/@T590>
+ <fc552129-e89d-74ad-9e57-30e3ffe4cf5d@huawei.com>
+ <YPmUoBk9u+tU2rbS@T590>
+ <0adbe03b-ce26-e4d3-3425-d967bc436ef5@arm.com>
+ <YPqYDY9/VAhfHNfU@T590>
+ <6ceab844-465f-3bf3-1809-5df1f1dbbc5c@huawei.com>
+ <CAFj5m9J+9vO=CK3uPP+va5EoWffZj9ruSRe2fDDLXn+AE971CQ@mail.gmail.com>
+ <ead87bf2-ddfa-eb67-db44-9619c6cdb714@huawei.com>
+ <YQF1AKS6Y14dLU/A@T590>
+ <dfdd16e8-278f-3bc9-da97-a91264aec909@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8d9b6b9a-62b1-95ea-1bb6-258e72c1800d@linux.microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, pasha.tatashin@soleen.com,
- Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
- Will Deacon <will@kernel.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- Dexuan Cui <decui@microsoft.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Michael Kelley <mikelley@microsoft.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Nuno Das Neves <nunodasneves@linux.microsoft.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- virtualization@lists.linux-foundation.org,
- Vineeth Pillai <viremana@linux.microsoft.com>
+In-Reply-To: <dfdd16e8-278f-3bc9-da97-a91264aec909@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Cc: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,107 +99,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Aug 04, 2021 at 12:33:54PM +0530, Praveen Kumar wrote:
-> On 04-08-2021 03:26, Wei Liu wrote:
-> >>>  	struct iommu_domain domain;
-> >>> @@ -774,6 +784,41 @@ static struct iommu_device *hv_iommu_probe_device(struct device *dev)
-> >>>  	if (!dev_is_pci(dev))
-> >>>  		return ERR_PTR(-ENODEV);
-> >>>  
-> >>> +	/*
-> >>> +	 * Skip the PCI device specified in `pci_devs_to_skip`. This is a
-> >>> +	 * temporary solution until we figure out a way to extract information
-> >>> +	 * from the hypervisor what devices it is already using.
-> >>> +	 */
-> >>> +	if (pci_devs_to_skip && *pci_devs_to_skip) {
-> >>> +		int pos = 0;
-> >>> +		int parsed;
-> >>> +		int segment, bus, slot, func;
-> >>> +		struct pci_dev *pdev = to_pci_dev(dev);
-> >>> +
-> >>> +		do {
-> >>> +			parsed = 0;
-> >>> +
-> >>> +			sscanf(pci_devs_to_skip + pos,
-> >>> +				" (%x:%x:%x.%x) %n",
-> >>> +				&segment, &bus, &slot, &func, &parsed);
-> >>> +
-> >>> +			if (parsed <= 0)
-> >>> +				break;
-> >>> +
-> >>> +			if (pci_domain_nr(pdev->bus) == segment &&
-> >>> +				pdev->bus->number == bus &&
-> >>> +				PCI_SLOT(pdev->devfn) == slot &&
-> >>> +				PCI_FUNC(pdev->devfn) == func)
-> >>> +			{
-> >>> +				dev_info(dev, "skipped by MSHV IOMMU\n");
-> >>> +				return ERR_PTR(-ENODEV);
-> >>> +			}
-> >>> +
-> >>> +			pos += parsed;
-> >>> +
-> >>> +		} while (pci_devs_to_skip[pos]);
+On Tue, Aug 10, 2021 at 10:36:47AM +0100, John Garry wrote:
+> On 28/07/2021 16:17, Ming Lei wrote:
+> > > > > Have you tried turning off the IOMMU to ensure that this is really just
+> > > > > an IOMMU problem?
+> > > > > 
+> > > > > You can try setting CONFIG_ARM_SMMU_V3=n in the defconfig or passing
+> > > > > cmdline param iommu.passthrough=1 to bypass the the SMMU (equivalent to
+> > > > > disabling for kernel drivers).
+> > > > Bypassing SMMU via iommu.passthrough=1 basically doesn't make a difference
+> > > > on this issue.
+> > > A ~90% throughput drop still seems to me to be too high to be a software
+> > > issue. More so since I don't see similar on my system. And that throughput
+> > > drop does not lead to a total CPU usage drop, from the fio log.
+> > > 
+> > > Do you know if anyone has run memory benchmark tests on this board to find
+> > > out NUMA effect? I think lmbench or stream could be used for this.
+> > https://lore.kernel.org/lkml/YOhbc5C47IzC893B@T590/
+> 
+> Hi Ming,
+> 
+> Out of curiosity, did you investigate this topic any further?
+
+IMO, the issue is probably in device/system side, since completion latency is
+increased a lot, meantime submission latency isn't changed.
+
+Either the submission isn't committed to hardware in time, or the
+completion status isn't updated to HW in time from viewpoint of CPU.
+
+We have tried to update to new FW, but not see difference made.
+
+> 
+> And you also asked about my results earlier:
+> 
+> On 22/07/2021 16:54, Ming Lei wrote:
+> >> [   52.035895] nvme 0000:81:00.0: Adding to iommu group 5
+> >> [   52.047732] nvme nvme0: pci function 0000:81:00.0
+> >> [   52.067216] nvme nvme0: 22/0/2 default/read/poll queues
+> >> [   52.087318]  nvme0n1: p1
 > >>
-> >> Is there a possibility of pci_devs_to_skip + pos > sizeof(pci_devs_to_skip)
-> >> and also a valid memory ?
-> > 
-> > pos should point to the last parsed position. If parsing fails pos does
-> > not get updated and the code breaks out of the loop. If parsing is
-> > success pos should point to either the start of next element of '\0'
-> > (end of string). To me this is good enough.
-> 
-> The point is, hypothetically the address to pci_devs_to_skip + pos can
-> be valid address (later to '\0'), and thus there is a possibility,
-> that parsing may not fail.
-
-Have you found an example how at any given point in time
-pci_devs_to_skip + pos can point outside of user provided string?
-
-> Another, there is also a possibility of sscanf faulting accessing the
-> illegal address, if pci_devs_to_skip[pos] turns out to be not NULL or
-> valid address.
-
-That depends on pci_devs_to_skip + pos can point to an invalid address
-in the first place, so that goes back to the question above.
-
-> 
-> > 
-> >> I would recommend to have a check of size as well before accessing the
-> >> array content, just to be safer accessing any memory.
+> >> So I get these results:
+> >> cpu0 335K
+> >> cpu32 346K
+> >> cpu64 300K
+> >> cpu96 300K
 > >>
-> > 
-> > What check do you have in mind?
+> >> So still not massive changes.
+> > In your last email, the results are the following with irq mode io_uring:
+> >
+> >   cpu0  497K
+> >   cpu4  307K
+> >   cpu32 566K
+> >   cpu64 488K
+> >   cpu96 508K
+> >
+> > So looks you get much worse result with real io_polling?
+> >
 > 
-> Something like,
-> size_t len = strlen(pci_devs_to_skip);
-> do {
-> 
-> 	len -= parsed;
-> } while (len);
-> 
-> OR
-> 
-> do {
-> ...
-> 	pos += parsed;
-> } while (pos < len);
-> 
-> Further, I'm also fine with the existing code, if you think this won't
-> break and already been taken care. Thanks.
+> Would the expectation be that at least I get the same performance with
+> io_polling here?
 
-But in the loop somewhere you will still need to parse pci_devs_to_skip
-+ some_offset. The new code structure does not remove that, right?
+io_polling is supposed to improve IO latency a lot compared with irq
+mode, and the perf data shows that clearly on x86_64.
 
-Given this is for debugging and is supposed to be temporary, I think the
-code is good enough. But I want to make sure if there is anything I
-missed.
+> Anything else to try which you can suggest to investigate
+> this lower performance?
 
-Wei.
+You may try to compare irq mode and polling and narrow down the possible
+reasons, no exact suggestion on how to investigate it, :-(
 
-> 
-> Regards,
-> 
-> ~Praveen.
+
+Thanks,
+Ming
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
