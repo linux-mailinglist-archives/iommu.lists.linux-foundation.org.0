@@ -2,76 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A593F3EC4A5
-	for <lists.iommu@lfdr.de>; Sat, 14 Aug 2021 21:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B358E3EC793
+	for <lists.iommu@lfdr.de>; Sun, 15 Aug 2021 07:00:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 30F7283A93;
-	Sat, 14 Aug 2021 19:08:33 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 46B1E80DA6;
+	Sun, 15 Aug 2021 05:00:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EDlw6u4YegEQ; Sat, 14 Aug 2021 19:08:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 95C8383AA2;
-	Sat, 14 Aug 2021 19:08:28 +0000 (UTC)
+	with ESMTP id oyFj_Rtz_2El; Sun, 15 Aug 2021 05:00:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 407F980D8E;
+	Sun, 15 Aug 2021 05:00:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 621A4C0022;
-	Sat, 14 Aug 2021 19:08:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B910C000E;
+	Sun, 15 Aug 2021 05:00:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B202EC0010
- for <iommu@lists.linux-foundation.org>; Sat, 14 Aug 2021 19:08:26 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9531C000E
+ for <iommu@lists.linux-foundation.org>; Sun, 15 Aug 2021 05:00:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id A6ECC40206
- for <iommu@lists.linux-foundation.org>; Sat, 14 Aug 2021 19:08:26 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id C471280D43
+ for <iommu@lists.linux-foundation.org>; Sun, 15 Aug 2021 05:00:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=alien8.de
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dH-p7lUqNP0p for <iommu@lists.linux-foundation.org>;
- Sat, 14 Aug 2021 19:08:22 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 64B6F400EA
- for <iommu@lists.linux-foundation.org>; Sat, 14 Aug 2021 19:08:22 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f1db90092f0c5d5424adff0.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f1d:b900:92f0:c5d5:424a:dff0])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 54E261EC03D5;
- Sat, 14 Aug 2021 21:08:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1628968096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=mDvb80MdTaf2VGaprn1/RrktzLeXuWn32fRrJqO4RnI=;
- b=n25sOE9lUdWfF/+b9LVVu/c0RTBIvawG0223WpI1YjhZEQbLgR8M8pMHyOitDdblT/KimW
- wNA1cSGSX7URig9TBS5k8aka8wDk2wkKQnurLH+/Lu/L/dwizp44Ektb+n/sT1fMvyEOwE
- k/pW/5vABtT/pfK15uGy1LwHKVyiZxY=
-Date: Sat, 14 Aug 2021 21:08:55 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH v2 03/12] x86/sev: Add an x86 version of prot_guest_has()
-Message-ID: <YRgUxyhoqVJ0Kxvt@zn.tnic>
-References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <7d55bac0cf2e73f53816bce3a3097877ed9663f3.1628873970.git.thomas.lendacky@amd.com>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dPbUxR0e-aJI for <iommu@lists.linux-foundation.org>;
+ Sun, 15 Aug 2021 05:00:19 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2E2CE80D3F
+ for <iommu@lists.linux-foundation.org>; Sun, 15 Aug 2021 05:00:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10076"; a="276746561"
+X-IronPort-AV: E=Sophos;i="5.84,322,1620716400"; d="scan'208";a="276746561"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2021 22:00:17 -0700
+X-IronPort-AV: E=Sophos;i="5.84,322,1620716400"; d="scan'208";a="518804598"
+Received: from jifangxi-mobl2.ccr.corp.intel.com (HELO [10.254.214.216])
+ ([10.254.214.216])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2021 22:00:15 -0700
+Subject: Re: [PATCH] iommu/vt-d: Fix PASID reference leak
+To: Fenghua Yu <fenghua.yu@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>, Ashok Raj <ashok.raj@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Jacob Jun Pan
+ <jacob.jun.pan@intel.com>, Ravi V Shankar <ravi.v.shankar@intel.com>
+References: <20210813181345.1870742-1-fenghua.yu@intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <51d97b07-5d72-771b-f437-c04e2596c4b0@linux.intel.com>
+Date: Sun, 15 Aug 2021 13:00:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7d55bac0cf2e73f53816bce3a3097877ed9663f3.1628873970.git.thomas.lendacky@amd.com>
-Cc: linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- kvm@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, linux-s390@vger.kernel.org,
- Andi Kleen <ak@linux.intel.com>, x86@kernel.org, amd-gfx@lists.freedesktop.org,
- Ingo Molnar <mingo@redhat.com>, linux-graphics-maintainer@vmware.com,
- Joerg Roedel <jroedel@suse.de>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+In-Reply-To: <20210813181345.1870742-1-fenghua.yu@intel.com>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,104 +71,61 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Aug 13, 2021 at 11:59:22AM -0500, Tom Lendacky wrote:
-> diff --git a/arch/x86/include/asm/protected_guest.h b/arch/x86/include/asm/protected_guest.h
-> new file mode 100644
-> index 000000000000..51e4eefd9542
-> --- /dev/null
-> +++ b/arch/x86/include/asm/protected_guest.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Protected Guest (and Host) Capability checks
-> + *
-> + * Copyright (C) 2021 Advanced Micro Devices, Inc.
-> + *
-> + * Author: Tom Lendacky <thomas.lendacky@amd.com>
-> + */
-> +
-> +#ifndef _X86_PROTECTED_GUEST_H
-> +#define _X86_PROTECTED_GUEST_H
-> +
-> +#include <linux/mem_encrypt.h>
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +static inline bool prot_guest_has(unsigned int attr)
-> +{
-> +#ifdef CONFIG_AMD_MEM_ENCRYPT
-> +	if (sme_me_mask)
-> +		return amd_prot_guest_has(attr);
-> +#endif
-> +
-> +	return false;
-> +}
-> +
-> +#endif	/* __ASSEMBLY__ */
-> +
-> +#endif	/* _X86_PROTECTED_GUEST_H */
+On 2021/8/14 2:13, Fenghua Yu wrote:
+> A PASID reference is increased whenever a device is bound to an mm (and
+> its PASID) successfully (i.e. the device's sdev user count is increased).
+> But the reference is not dropped every time the device is unbound
+> successfully from the mm (i.e. the device's sdev user count is decreased).
+> The reference is dropped only once by calling intel_svm_free_pasid() when
+> there isn't any device bound to the mm. intel_svm_free_pasid() drops the
+> reference and only frees the PASID on zero reference.
+> 
+> Fix the issue by dropping the PASID reference and freeing the PASID when
+> no reference on successful unbinding the device by calling
+> intel_svm_free_pasid() .
+> 
+> Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 
-I think this can be simplified more, diff ontop below:
+Nice catch! Thanks!
 
-- no need for the ifdeffery as amd_prot_guest_has() has versions for
-both when CONFIG_AMD_MEM_ENCRYPT is set or not.
+Fixes: 4048377414162 ("iommu/vt-d: Use iommu_sva_alloc(free)_pasid() 
+helpers")
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-- the sme_me_mask check is pushed there too.
+Best regards,
+baolu
 
-- and since this is vendor-specific, I'm checking the vendor bit. Yeah,
-yeah, cross-vendor but I don't really believe that.
-
----
-diff --git a/arch/x86/include/asm/protected_guest.h b/arch/x86/include/asm/protected_guest.h
-index 51e4eefd9542..8541c76d5da4 100644
---- a/arch/x86/include/asm/protected_guest.h
-+++ b/arch/x86/include/asm/protected_guest.h
-@@ -12,18 +12,13 @@
- 
- #include <linux/mem_encrypt.h>
- 
--#ifndef __ASSEMBLY__
--
- static inline bool prot_guest_has(unsigned int attr)
- {
--#ifdef CONFIG_AMD_MEM_ENCRYPT
--	if (sme_me_mask)
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD ||
-+	    boot_cpu_data.x86_vendor == X86_VENDOR_HYGON)
- 		return amd_prot_guest_has(attr);
--#endif
- 
- 	return false;
- }
- 
--#endif	/* __ASSEMBLY__ */
--
- #endif	/* _X86_PROTECTED_GUEST_H */
-diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
-index edc67ddf065d..5a0442a6f072 100644
---- a/arch/x86/mm/mem_encrypt.c
-+++ b/arch/x86/mm/mem_encrypt.c
-@@ -392,6 +392,9 @@ bool noinstr sev_es_active(void)
- 
- bool amd_prot_guest_has(unsigned int attr)
- {
-+	if (!sme_me_mask)
-+		return false;
-+
- 	switch (attr) {
- 	case PATTR_MEM_ENCRYPT:
- 		return sme_me_mask != 0;
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> ---
+>   drivers/iommu/intel/svm.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+> index 9b0f22bc0514..4b9b3f35ba0e 100644
+> --- a/drivers/iommu/intel/svm.c
+> +++ b/drivers/iommu/intel/svm.c
+> @@ -675,7 +675,6 @@ static int intel_svm_unbind_mm(struct device *dev, u32 pasid)
+>   			kfree_rcu(sdev, rcu);
+>   
+>   			if (list_empty(&svm->devs)) {
+> -				intel_svm_free_pasid(mm);
+>   				if (svm->notifier.ops) {
+>   					mmu_notifier_unregister(&svm->notifier, mm);
+>   					/* Clear mm's pasid. */
+> @@ -690,6 +689,8 @@ static int intel_svm_unbind_mm(struct device *dev, u32 pasid)
+>   				kfree(svm);
+>   			}
+>   		}
+> +		/* Drop a PASID reference and free it if no reference. */
+> +		intel_svm_free_pasid(mm);
+>   	}
+>   out:
+>   	return ret;
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
