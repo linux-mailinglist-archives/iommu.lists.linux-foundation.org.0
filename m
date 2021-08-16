@@ -1,59 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319523ECF61
-	for <lists.iommu@lfdr.de>; Mon, 16 Aug 2021 09:30:11 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A9A3ECF5D
+	for <lists.iommu@lfdr.de>; Mon, 16 Aug 2021 09:30:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C5F4460698;
-	Mon, 16 Aug 2021 07:30:09 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 51E99401E6;
+	Mon, 16 Aug 2021 07:30:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o8lpmrLV_VaP; Mon, 16 Aug 2021 07:30:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id DF90F606BD;
-	Mon, 16 Aug 2021 07:30:08 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id N9UHt83x6Dmz; Mon, 16 Aug 2021 07:29:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4A795400F0;
+	Mon, 16 Aug 2021 07:29:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C86ABC000E;
-	Mon, 16 Aug 2021 07:30:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 14BD0C000E;
+	Mon, 16 Aug 2021 07:29:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0B63C000E
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 07:30:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C44C1C000E
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 07:29:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A0EA4402DF
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 07:30:07 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id AE1F8605A5
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 07:29:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BC8QMO7UkQWZ for <iommu@lists.linux-foundation.org>;
- Mon, 16 Aug 2021 07:30:07 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4fkbJkRIsAdF for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Aug 2021 07:29:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp4.osuosl.org (Postfix) with ESMTPS id F357B402A9
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 07:30:06 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gp5Lk09kYzdbLh;
- Mon, 16 Aug 2021 15:26:22 +0800 (CST)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 946B460591
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 07:29:55 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gp5L64vpcz881V;
+ Mon, 16 Aug 2021 15:25:50 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.2; Mon, 16 Aug 2021 15:29:51 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.242) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 16 Aug 2021 15:29:50 +0800
+ 15.1.2176.2; Mon, 16 Aug 2021 15:29:51 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
  Roedel" <joro@8bytes.org>, linux-arm-kernel
  <linux-arm-kernel@lists.infradead.org>, iommu
  <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 1/4] iommu/arm-smmu-v3: Use command queue batching helpers
- to improve performance
-Date: Mon, 16 Aug 2021 15:29:01 +0800
-Message-ID: <20210816072904.1897-2-thunder.leizhen@huawei.com>
+Subject: [PATCH v2 2/4] iommu/arm-smmu-v3: Add and use static helper function
+ arm_smmu_cmdq_issue_cmd_with_sync()
+Date: Mon, 16 Aug 2021 15:29:02 +0800
+Message-ID: <20210816072904.1897-3-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20210816072904.1897-1-thunder.leizhen@huawei.com>
 References: <20210816072904.1897-1-thunder.leizhen@huawei.com>
@@ -89,38 +89,105 @@ number of times the mutex contention participates, thereby improving the
 overall performance. At least it reduces the number of calls to function
 arm_smmu_cmdq_issue_cmdlist().
 
-Therefore, use command queue batching helpers to insert multiple commands
-at a time.
+Therefore, function arm_smmu_cmdq_issue_cmd_with_sync() is added to insert
+the 'cmd+sync' commands at a time.
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 35 +++++++++++----------
+ 1 file changed, 19 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 235f9bdaeaf223b..5eedb46aaceece8 100644
+index 5eedb46aaceece8..9be07f6915cc3c8 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -1747,15 +1747,17 @@ static int arm_smmu_atc_inv_master(struct arm_smmu_master *master)
- {
- 	int i;
- 	struct arm_smmu_cmdq_ent cmd;
-+	struct arm_smmu_cmdq_batch cmds;
- 
- 	arm_smmu_atc_inv_to_cmd(0, 0, 0, &cmd);
- 
-+	cmds.num = 0;
- 	for (i = 0; i < master->num_streams; i++) {
- 		cmd.atc.sid = master->streams[i].id;
--		arm_smmu_cmdq_issue_cmd(master->smmu, &cmd);
-+		arm_smmu_cmdq_batch_add(master->smmu, &cmds, &cmd);
- 	}
- 
--	return arm_smmu_cmdq_issue_sync(master->smmu);
-+	return arm_smmu_cmdq_batch_submit(master->smmu, &cmds);
+@@ -845,8 +845,9 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
+ 	return ret;
  }
  
- int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain, int ssid,
+-static int arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
+-				   struct arm_smmu_cmdq_ent *ent)
++static int __arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
++				     struct arm_smmu_cmdq_ent *ent,
++				     bool sync)
+ {
+ 	u64 cmd[CMDQ_ENT_DWORDS];
+ 
+@@ -856,12 +857,19 @@ static int arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
+ 		return -EINVAL;
+ 	}
+ 
+-	return arm_smmu_cmdq_issue_cmdlist(smmu, cmd, 1, false);
++	return arm_smmu_cmdq_issue_cmdlist(smmu, cmd, 1, sync);
+ }
+ 
+-static int arm_smmu_cmdq_issue_sync(struct arm_smmu_device *smmu)
++static int arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
++				   struct arm_smmu_cmdq_ent *ent)
+ {
+-	return arm_smmu_cmdq_issue_cmdlist(smmu, NULL, 0, true);
++	return __arm_smmu_cmdq_issue_cmd(smmu, ent, false);
++}
++
++static int arm_smmu_cmdq_issue_cmd_with_sync(struct arm_smmu_device *smmu,
++					     struct arm_smmu_cmdq_ent *ent)
++{
++	return __arm_smmu_cmdq_issue_cmd(smmu, ent, true);
+ }
+ 
+ static void arm_smmu_cmdq_batch_add(struct arm_smmu_device *smmu,
+@@ -929,8 +937,7 @@ void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid)
+ 		.tlbi.asid = asid,
+ 	};
+ 
+-	arm_smmu_cmdq_issue_cmd(smmu, &cmd);
+-	arm_smmu_cmdq_issue_sync(smmu);
++	arm_smmu_cmdq_issue_cmd_with_sync(smmu, &cmd);
+ }
+ 
+ static void arm_smmu_sync_cd(struct arm_smmu_domain *smmu_domain,
+@@ -1211,8 +1218,7 @@ static void arm_smmu_sync_ste_for_sid(struct arm_smmu_device *smmu, u32 sid)
+ 		},
+ 	};
+ 
+-	arm_smmu_cmdq_issue_cmd(smmu, &cmd);
+-	arm_smmu_cmdq_issue_sync(smmu);
++	arm_smmu_cmdq_issue_cmd_with_sync(smmu, &cmd);
+ }
+ 
+ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
+@@ -1825,8 +1831,7 @@ static void arm_smmu_tlb_inv_context(void *cookie)
+ 	} else {
+ 		cmd.opcode	= CMDQ_OP_TLBI_S12_VMALL;
+ 		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
+-		arm_smmu_cmdq_issue_cmd(smmu, &cmd);
+-		arm_smmu_cmdq_issue_sync(smmu);
++		arm_smmu_cmdq_issue_cmd_with_sync(smmu, &cmd);
+ 	}
+ 	arm_smmu_atc_inv_domain(smmu_domain, 0, 0, 0);
+ }
+@@ -3340,18 +3345,16 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
+ 
+ 	/* Invalidate any cached configuration */
+ 	cmd.opcode = CMDQ_OP_CFGI_ALL;
+-	arm_smmu_cmdq_issue_cmd(smmu, &cmd);
+-	arm_smmu_cmdq_issue_sync(smmu);
++	arm_smmu_cmdq_issue_cmd_with_sync(smmu, &cmd);
+ 
+ 	/* Invalidate any stale TLB entries */
+ 	if (smmu->features & ARM_SMMU_FEAT_HYP) {
+ 		cmd.opcode = CMDQ_OP_TLBI_EL2_ALL;
+-		arm_smmu_cmdq_issue_cmd(smmu, &cmd);
++		arm_smmu_cmdq_issue_cmd_with_sync(smmu, &cmd);
+ 	}
+ 
+ 	cmd.opcode = CMDQ_OP_TLBI_NSNH_ALL;
+-	arm_smmu_cmdq_issue_cmd(smmu, &cmd);
+-	arm_smmu_cmdq_issue_sync(smmu);
++	arm_smmu_cmdq_issue_cmd_with_sync(smmu, &cmd);
+ 
+ 	/* Event queue */
+ 	writeq_relaxed(smmu->evtq.q.q_base, smmu->base + ARM_SMMU_EVTQ_BASE);
 -- 
 2.26.0.106.g9fadedd
 
