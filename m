@@ -1,51 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537793ED3A2
-	for <lists.iommu@lfdr.de>; Mon, 16 Aug 2021 14:05:19 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C979A3ED3A7
+	for <lists.iommu@lfdr.de>; Mon, 16 Aug 2021 14:05:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E9A4F403F0;
-	Mon, 16 Aug 2021 12:05:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4C905403C6;
+	Mon, 16 Aug 2021 12:05:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8z73CdzmPt0g; Mon, 16 Aug 2021 12:05:14 +0000 (UTC)
+	with ESMTP id HdkQcQI5i3yf; Mon, 16 Aug 2021 12:05:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 18E0C403C6;
-	Mon, 16 Aug 2021 12:05:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4DFE740232;
+	Mon, 16 Aug 2021 12:05:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EBCF9C0022;
-	Mon, 16 Aug 2021 12:05:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2AA39C0022;
+	Mon, 16 Aug 2021 12:05:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 16009C000E
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 12:05:12 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A00F9C000E
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 12:05:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id EC869606F0
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 12:05:11 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 828AA40294
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 12:05:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FUEdsTnY066g for <iommu@lists.linux-foundation.org>;
- Mon, 16 Aug 2021 12:05:11 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id daliTOvqW_iw for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Aug 2021 12:05:51 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 27319606C9
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 12:05:11 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 06AFB40232
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 12:05:50 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5D0FC6736F; Mon, 16 Aug 2021 14:05:05 +0200 (CEST)
-Date: Mon, 16 Aug 2021 14:05:05 +0200
+ id BA1FF6736F; Mon, 16 Aug 2021 14:05:47 +0200 (CEST)
+Date: Mon, 16 Aug 2021 14:05:47 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: David Stevens <stevensd@chromium.org>
-Subject: Re: [PATCH v5 2/7] dma-iommu: fix arch_sync_dma for map
-Message-ID: <20210816120504.GA15860@lst.de>
+Subject: Re: [PATCH v5 3/7] dma-iommu: skip extra sync during unmap w/swiotlb
+Message-ID: <20210816120547.GB15860@lst.de>
 References: <20210816025755.2906695-1-stevensd@google.com>
- <20210816025755.2906695-3-stevensd@google.com>
+ <20210816025755.2906695-4-stevensd@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210816025755.2906695-3-stevensd@google.com>
+In-Reply-To: <20210816025755.2906695-4-stevensd@google.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
  Tom Murphy <murphyt7@tcd.ie>, iommu@lists.linux-foundation.org,
