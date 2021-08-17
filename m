@@ -1,84 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B883EE3DA
-	for <lists.iommu@lfdr.de>; Tue, 17 Aug 2021 03:39:53 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1D43EE3F2
+	for <lists.iommu@lfdr.de>; Tue, 17 Aug 2021 03:48:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CD02D40459;
-	Tue, 17 Aug 2021 01:39:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5918340012;
+	Tue, 17 Aug 2021 01:48:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EatUpHquTvzB; Tue, 17 Aug 2021 01:39:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 126A740272;
-	Tue, 17 Aug 2021 01:39:48 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id c5wGzC1PJD_L; Tue, 17 Aug 2021 01:48:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 397E8402F2;
+	Tue, 17 Aug 2021 01:48:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E716FC000E;
-	Tue, 17 Aug 2021 01:39:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E9F6BC0022;
+	Tue, 17 Aug 2021 01:48:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 71F53C000E
- for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:39:46 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CDBA9C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:48:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6F49B40272
- for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:39:46 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B69A960753
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:48:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id laACxQ7xs3Dz for <iommu@lists.linux-foundation.org>;
- Tue, 17 Aug 2021 01:39:42 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 80689401C8
- for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:39:42 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id e19so22863865pla.10
- for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 18:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=q9XB86DIe6440U7Wgn53Q54Y7DGoSwATnF9snUA3Icc=;
- b=TuSFkK3uO0HniVv/r5ufTbTIiD3OJgHt1f5UO/HGLUtUckfYJ+OPELuyBrA+OqWjo5
- CyOGnh5lvCuk0t1/E7DOv3nPDLz/1cpWnAZ5EEoQTgniXPH2/FQN3LG/rjbw7JveSUv4
- hdmmaxvK2Vnh+6DRY8Q/a+PxkU2Xz2m9P4xSo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=q9XB86DIe6440U7Wgn53Q54Y7DGoSwATnF9snUA3Icc=;
- b=eEEL1Us7zjMwp0lfPkVm10Ju74NdrXYqVFNfW2HvZYXNtw/hjzqWhjmK/VmAPYPIWS
- TsexjBRpbtwvKT+LcXbz62rqkpJ5iUAt7GniJz+e9jezJjhDG2aezSleeaqRS84eHw8E
- W2t7ZPLL0dduITZURl2Zt0OnEJGdpnu4MeqZHA4AKt0738DA/kq1sc3ttGCVoqK26hQ+
- LRcgajeRGrkkQhNXyyLK40Agu+MlELdVXXWUH46Cx5QblKy1cIVyO8PklKoLND7I2Liq
- JpghgY9sLX9MtAz8SY3m+D2zIOLMUTF4+sDNurqsjjiVcfsmJfQxtafXyTVODdmuWz4U
- 4gmA==
-X-Gm-Message-State: AOAM533f9979DtQjmVXXbnFf0ZknjODws+u4VtSNQ1pIPmd+jxgR4+gn
- 1Ku6zsBAT+PE45itWBON3KhgJw==
-X-Google-Smtp-Source: ABdhPJziVMZGAz3+/7NmsxzmGWn1PVMenahFvVaOfrANZvx0kOhStJye2gVjIh1y+8PDzwytb9iAwg==
-X-Received: by 2002:a17:90a:cf8e:: with SMTP id
- i14mr870389pju.136.1629164382105; 
- Mon, 16 Aug 2021 18:39:42 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:6864:767c:2ff8:749d])
- by smtp.gmail.com with UTF8SMTPSA id l14sm331970pjq.13.2021.08.16.18.39.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 18:39:41 -0700 (PDT)
-From: David Stevens <stevensd@chromium.org>
-X-Google-Original-From: David Stevens <stevensd@google.com>
-To: Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v6 7/7] dma-iommu: account for min_align_mask
-Date: Tue, 17 Aug 2021 10:38:52 +0900
-Message-Id: <20210817013852.3222824-8-stevensd@google.com>
-X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
-In-Reply-To: <20210817013852.3222824-1-stevensd@google.com>
-References: <20210817013852.3222824-1-stevensd@google.com>
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id W5D032wSLyDv for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Aug 2021 01:48:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BC00A606C9
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:48:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 47F5060F55
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Aug 2021 01:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629164917;
+ bh=YtLnIn3se4f3RGPKKpiGfQLFG/FwYWBuHWi8tDQgZ3o=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=V5gfadSiG1OSzw5T7WhzYHrrA8M/5D5HXW8JLQnGoqgwv3aCTlLxKeIDUajjPBjaE
+ eY3Lcnq3eiSYzeDO4THtZHu12Z4VmIui59JoTN/5GWRXXRhOtkhXO7rgiYQ61F1As9
+ gK0qomF8Klvn5SMTiX0xAGqTb48KNI5REvIrFhMZ6aRHvPxqqp3JZbLKwHsDpsIsJQ
+ aThxaQXqB9Iuuz139GfgbCmq+nFTW7rx9Omcp/EOanSIu/XnHukZv8XeaJqPavv4HB
+ 6yk7YY1TV5DhGTnthEzeqsZtFYlv21+VPvbMEE7mGgTqPdxZKIEFEehikFMFIAvhiq
+ W3WvBSRkkbe8w==
+Received: by mail-lj1-f180.google.com with SMTP id d16so12144793ljq.4
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Aug 2021 18:48:37 -0700 (PDT)
+X-Gm-Message-State: AOAM53285VqhIRREaM6iZTP+SrgzzYOWJqsLsav7Hzy3lAKLQXtcQgC6
+ fWY//cGkMELJ2Nz3kj5a8MQzyij3XbWB8LK3WmE=
+X-Google-Smtp-Source: ABdhPJx9ByYxBBndLZ7kK8lmdZtqotARGfuEsaRFuPPBmrHK1JviGoCUNSBXPoFEzsSJe9ISx3HnRJSEq2QXj742mBw=
+X-Received: by 2002:a05:651c:39c:: with SMTP id
+ e28mr912783ljp.498.1629164915532; 
+ Mon, 16 Aug 2021 18:48:35 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>,
- iommu@lists.linux-foundation.org, David Stevens <stevensd@chromium.org>,
- Will Deacon <will@kernel.org>
+References: <20210723214031.3251801-1-atish.patra@wdc.com>
+ <20210723214031.3251801-2-atish.patra@wdc.com>
+In-Reply-To: <20210723214031.3251801-2-atish.patra@wdc.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Tue, 17 Aug 2021 09:48:24 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTT+zS=ySrmQUzVe7hf56E2K7XoGjzMyeaH5oFPUNwFqZA@mail.gmail.com>
+Message-ID: <CAJF2gTT+zS=ySrmQUzVe7hf56E2K7XoGjzMyeaH5oFPUNwFqZA@mail.gmail.com>
+Subject: Re: [RFC 1/5] RISC-V: Implement arch_sync_dma* functions
+To: Atish Patra <atish.patra@wdc.com>
+Cc: devicetree@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@linux.alibaba.com>, Frank Rowand <frowand.list@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Tobias Klauser <tklauser@distanz.ch>,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ Dmitry Vyukov <dvyukov@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,90 +92,150 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: David Stevens <stevensd@chromium.org>
+On Sat, Jul 24, 2021 at 5:40 AM Atish Patra <atish.patra@wdc.com> wrote:
+>
+> To facilitate streaming DMA APIs, this patch introduces a set of generic
+> cache operations related dma sync. Any platform can use the generic ops
+> to provide platform specific cache management operations. Once the
+> standard RISC-V CMO extension is available, it can be built on top of it.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> ---
+>  arch/riscv/include/asm/dma-noncoherent.h | 19 +++++++
+>  arch/riscv/mm/Makefile                   |  1 +
+>  arch/riscv/mm/dma-noncoherent.c          | 66 ++++++++++++++++++++++++
+>  3 files changed, 86 insertions(+)
+>  create mode 100644 arch/riscv/include/asm/dma-noncoherent.h
+>  create mode 100644 arch/riscv/mm/dma-noncoherent.c
+>
+> diff --git a/arch/riscv/include/asm/dma-noncoherent.h b/arch/riscv/include/asm/dma-noncoherent.h
+> new file mode 100644
+> index 000000000000..5bdb03c9c427
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/dma-noncoherent.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2021 Western Digital Corporation or its affiliates.
+> + */
+> +
+> +#ifndef __ASM_RISCV_DMA_NON_COHERENT_H
+> +#define __ASM_RISCV_DMA_NON_COHERENT_H
+> +
+> +#ifdef CONFIG_RISCV_DMA_NONCOHERENT
+> +struct riscv_dma_cache_sync {
+> +       void (*cache_invalidate)(phys_addr_t paddr, size_t size);
+> +       void (*cache_clean)(phys_addr_t paddr, size_t size);
+> +       void (*cache_flush)(phys_addr_t paddr, size_t size);
+> +};
+I like the style like this than my previous patch which using
+sbi_call. The c906 has custom instructions that could be called in
+S-mode directly.
 
-For devices which set min_align_mask, swiotlb preserves the offset of
-the original physical address within that mask. Since __iommu_dma_map
-accounts for non-aligned addresses, passing a non-aligned swiotlb
-address with the swiotlb aligned size results in the offset being
-accounted for twice in the size passed to iommu_map_atomic. The extra
-page exposed to DMA is also not cleaned up by __iommu_dma_unmap, since
-that function unmaps with the correct size. This causes mapping failures
-if the iova gets reused, due to collisions in the iommu page tables.
+Hope the patch could be soon merged, after correct the
+DMA_FROM/TO_DEVICE/BIDIRECTIONAL and alternatives ops_set.
 
-To fix this, pass the original size to __iommu_dma_map, since that
-function already handles alignment.
+> +
+> +void riscv_dma_cache_sync_set(struct riscv_dma_cache_sync *ops);
+> +#endif
+> +
+> +#endif
+> diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
+> index 7ebaef10ea1b..959bef49098b 100644
+> --- a/arch/riscv/mm/Makefile
+> +++ b/arch/riscv/mm/Makefile
+> @@ -27,3 +27,4 @@ KASAN_SANITIZE_init.o := n
+>  endif
+>
+>  obj-$(CONFIG_DEBUG_VIRTUAL) += physaddr.o
+> +obj-$(CONFIG_RISCV_DMA_NONCOHERENT) += dma-noncoherent.o
+> diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+> new file mode 100644
+> index 000000000000..2f6e9627c4aa
+> --- /dev/null
+> +++ b/arch/riscv/mm/dma-noncoherent.c
+> @@ -0,0 +1,66 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * RISC-V specific functions to support DMA for non-coherent devices
+> + *
+> + * Copyright (c) 2021 Western Digital Corporation or its affiliates.
+> + */
+> +
+> +#include <linux/dma-direct.h>
+> +#include <linux/dma-map-ops.h>
+> +#include <linux/init.h>
+> +#include <linux/io.h>
+> +#include <linux/libfdt.h>
+> +#include <linux/mm.h>
+> +#include <linux/of.h>
+> +#include <linux/of_fdt.h>
+> +#include <asm/dma-noncoherent.h>
+> +
+> +static struct riscv_dma_cache_sync *dma_cache_sync;
+> +unsigned long riscv_dma_uc_offset;
+> +
+> +static void __dma_sync(phys_addr_t paddr, size_t size, enum dma_data_direction dir)
+> +{
+> +       if ((dir == DMA_FROM_DEVICE) && (dma_cache_sync->cache_invalidate))
+> +               dma_cache_sync->cache_invalidate(paddr, size);
+> +       else if ((dir == DMA_TO_DEVICE) && (dma_cache_sync->cache_clean))
+> +               dma_cache_sync->cache_clean(paddr, size);
+> +       else if ((dir == DMA_BIDIRECTIONAL) && dma_cache_sync->cache_flush)
+> +               dma_cache_sync->cache_flush(paddr, size);
+> +}
+> +
+> +void arch_sync_dma_for_device(phys_addr_t paddr, size_t size, enum dma_data_direction dir)
+> +{
+> +       if (!dma_cache_sync)
+> +               return;
+> +
+> +       __dma_sync(paddr, size, dir);
+> +}
+> +
+> +void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size, enum dma_data_direction dir)
+> +{
+> +       if (!dma_cache_sync)
+> +               return;
+> +
+> +       __dma_sync(paddr, size, dir);
+> +}
+> +
+> +void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> +               const struct iommu_ops *iommu, bool coherent)
+> +{
+> +       /* If a specific device is dma-coherent, set it here */
+> +       dev->dma_coherent = coherent;
+> +}
+> +
+> +void arch_dma_prep_coherent(struct page *page, size_t size)
+> +{
+> +       void *flush_addr = page_address(page);
+> +
+> +       memset(flush_addr, 0, size);
+> +       if (dma_cache_sync && dma_cache_sync->cache_flush)
+> +               dma_cache_sync->cache_flush(__pa(flush_addr), size);
+> +}
+> +
+> +void riscv_dma_cache_sync_set(struct riscv_dma_cache_sync *ops)
+> +{
+> +       dma_cache_sync = ops;
+> +}
+> --
+> 2.31.1
+>
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
 
-Additionally, when swiotlb returns non-aligned addresses, there is
-padding at the start of the bounce buffer that needs to be cleared.
 
-Fixes: 1f221a0d0dbf ("swiotlb: respect min_align_mask")
-Signed-off-by: David Stevens <stevensd@chromium.org>
----
- drivers/iommu/dma-iommu.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 6738420fc081..f2fb360c2907 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -788,7 +788,6 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
--	size_t aligned_size = size;
- 	dma_addr_t iova, dma_mask = dma_get_mask(dev);
- 
- 	/*
-@@ -796,8 +795,8 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	 * page aligned, we don't need to use a bounce page.
- 	 */
- 	if (dev_use_swiotlb(dev) && iova_offset(iovad, phys | size)) {
--		void *padding_start;
--		size_t padding_size;
-+		void *tlb_start;
-+		size_t aligned_size, iova_off, mapping_end_off;
- 
- 		aligned_size = iova_align(iovad, size);
- 		phys = swiotlb_tbl_map_single(dev, phys, size, aligned_size,
-@@ -806,23 +805,26 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 		if (phys == DMA_MAPPING_ERROR)
- 			return DMA_MAPPING_ERROR;
- 
--		/* Cleanup the padding area. */
--		padding_start = phys_to_virt(phys);
--		padding_size = aligned_size;
-+		iova_off = iova_offset(iovad, phys);
-+		tlb_start = phys_to_virt(phys - iova_off);
- 
- 		if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
- 		    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL)) {
--			padding_start += size;
--			padding_size -= size;
-+			/* Cleanup the padding area. */
-+			mapping_end_off = iova_off + size;
-+			memset(tlb_start, 0, iova_off);
-+			memset(tlb_start + mapping_end_off, 0,
-+			       aligned_size - mapping_end_off);
-+		} else {
-+			/* Nothing was sync'ed, so clear the whole buffer. */
-+			memset(tlb_start, 0, aligned_size);
- 		}
--
--		memset(padding_start, 0, padding_size);
- 	}
- 
- 	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
- 		arch_sync_dma_for_device(phys, size, dir);
- 
--	iova = __iommu_dma_map(dev, phys, aligned_size, prot, dma_mask);
-+	iova = __iommu_dma_map(dev, phys, size, prot, dma_mask);
- 	if (iova == DMA_MAPPING_ERROR && is_swiotlb_buffer(phys))
- 		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
- 	return iova;
 -- 
-2.33.0.rc1.237.g0d66db33f3-goog
+Best Regards
+ Guo Ren
 
+ML: https://lore.kernel.org/linux-csky/
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
