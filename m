@@ -2,59 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26DA3EFE9C
-	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 10:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696C13EFEA2
+	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 10:06:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EB4AA40404;
-	Wed, 18 Aug 2021 08:05:58 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E2C5E40383;
+	Wed, 18 Aug 2021 08:06:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d_ABgnWtVJkr; Wed, 18 Aug 2021 08:05:55 +0000 (UTC)
+	with ESMTP id Ml6T5WCa-eKe; Wed, 18 Aug 2021 08:05:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 07D614028B;
-	Wed, 18 Aug 2021 08:05:54 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id CB01C403B4;
+	Wed, 18 Aug 2021 08:05:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ABED6C0022;
-	Wed, 18 Aug 2021 08:05:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E8C7C0025;
+	Wed, 18 Aug 2021 08:05:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4737CC000E
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D463CC000E
  for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 08:05:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 217B8401CD
+ by smtp3.osuosl.org (Postfix) with ESMTP id C338B60674
  for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 08:05:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AmrWqA9Fextt for <iommu@lists.linux-foundation.org>;
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6FkbvFq0hVFe for <iommu@lists.linux-foundation.org>;
  Wed, 18 Aug 2021 08:05:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by smtp2.osuosl.org (Postfix) with ESMTPS id C3B6D40019
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C2E90605E9
  for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 08:05:51 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GqL6r05krzYq2R;
- Wed, 18 Aug 2021 16:05:24 +0800 (CST)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GqL2d4sM0z8sZm;
+ Wed, 18 Aug 2021 16:01:45 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.2; Wed, 18 Aug 2021 16:05:48 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.242) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 18 Aug 2021 16:05:47 +0800
+ 15.1.2176.2; Wed, 18 Aug 2021 16:05:48 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
  Roedel" <joro@8bytes.org>, linux-arm-kernel
  <linux-arm-kernel@lists.infradead.org>, iommu
  <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 0/2] iommu/arm-smmu-v3: Perform some simple optimizations
- for arm_smmu_cmdq_build_cmd()
-Date: Wed, 18 Aug 2021 16:04:50 +0800
-Message-ID: <20210818080452.2079-1-thunder.leizhen@huawei.com>
+Subject: [PATCH v2 1/2] iommu/arm-smmu-v3: Properly handle the return value of
+ arm_smmu_cmdq_build_cmd()
+Date: Wed, 18 Aug 2021 16:04:51 +0800
+Message-ID: <20210818080452.2079-2-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20210818080452.2079-1-thunder.leizhen@huawei.com>
+References: <20210818080452.2079-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.174.178.242]
 X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
@@ -77,20 +79,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-v1 --> v2:
-1. Add patch 1, Properly handle the return value of arm_smmu_cmdq_build_cmd()
-2. Remove arm_smmu_cmdq_copy_cmd(). In addition, when build command fails, out_cmd is not filled.
+1. Build command CMD_SYNC cannot fail. So the return value can be ignored.
+2. The arm_smmu_cmdq_build_cmd() almost never fails, the addition of
+   "unlikely()" can optimize the instruction pipeline.
+3. Check the return value in arm_smmu_cmdq_batch_add().
 
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Zhen Lei (2):
-  iommu/arm-smmu-v3: Properly handle the return value of
-    arm_smmu_cmdq_build_cmd()
-  iommu/arm-smmu-v3: Simplify useless instructions in
-    arm_smmu_cmdq_build_cmd()
-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 29 ++++++++++++++-------
- 1 file changed, 20 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 3646bf8f021cd4c..01e95b56ffa07d1 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -409,10 +409,7 @@ static void __arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu,
+ 		dev_err(smmu->dev, "\t0x%016llx\n", (unsigned long long)cmd[i]);
+ 
+ 	/* Convert the erroneous command into a CMD_SYNC */
+-	if (arm_smmu_cmdq_build_cmd(cmd, &cmd_sync)) {
+-		dev_err(smmu->dev, "failed to convert to CMD_SYNC\n");
+-		return;
+-	}
++	arm_smmu_cmdq_build_cmd(cmd, &cmd_sync);
+ 
+ 	queue_write(Q_ENT(q, cons), cmd, q->ent_dwords);
+ }
+@@ -860,7 +857,7 @@ static int __arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
+ {
+ 	u64 cmd[CMDQ_ENT_DWORDS];
+ 
+-	if (arm_smmu_cmdq_build_cmd(cmd, ent)) {
++	if (unlikely(arm_smmu_cmdq_build_cmd(cmd, ent))) {
+ 		dev_warn(smmu->dev, "ignoring unknown CMDQ opcode 0x%x\n",
+ 			 ent->opcode);
+ 		return -EINVAL;
+@@ -885,11 +882,20 @@ static void arm_smmu_cmdq_batch_add(struct arm_smmu_device *smmu,
+ 				    struct arm_smmu_cmdq_batch *cmds,
+ 				    struct arm_smmu_cmdq_ent *cmd)
+ {
++	int index;
++
+ 	if (cmds->num == CMDQ_BATCH_ENTRIES) {
+ 		arm_smmu_cmdq_issue_cmdlist(smmu, cmds->cmds, cmds->num, false);
+ 		cmds->num = 0;
+ 	}
+-	arm_smmu_cmdq_build_cmd(&cmds->cmds[cmds->num * CMDQ_ENT_DWORDS], cmd);
++
++	index = cmds->num * CMDQ_ENT_DWORDS;
++	if (unlikely(arm_smmu_cmdq_build_cmd(&cmds->cmds[index], cmd))) {
++		dev_warn(smmu->dev, "ignoring unknown CMDQ opcode 0x%x\n",
++			 cmd->opcode);
++		return;
++	}
++
+ 	cmds->num++;
+ }
+ 
 -- 
 2.26.0.106.g9fadedd
 
