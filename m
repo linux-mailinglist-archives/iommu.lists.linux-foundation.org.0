@@ -1,61 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997B83F0552
-	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 15:52:15 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DA43F06B0
+	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 16:27:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 493E240123;
-	Wed, 18 Aug 2021 13:52:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1C17780F7E;
+	Wed, 18 Aug 2021 14:27:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cs4feqrVAXVH; Wed, 18 Aug 2021 13:52:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3B71C40481;
-	Wed, 18 Aug 2021 13:52:10 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fMukVA7C-m8e; Wed, 18 Aug 2021 14:27:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 20F6280F7C;
+	Wed, 18 Aug 2021 14:27:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A146C0022;
-	Wed, 18 Aug 2021 13:52:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4160C000E;
+	Wed, 18 Aug 2021 14:27:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D487CC000E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:52:07 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2C075C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 14:27:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D093B40527
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:52:07 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 22D604075E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 14:27:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HYtj3C3kpRfv for <iommu@lists.linux-foundation.org>;
- Wed, 18 Aug 2021 13:52:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B55AB402C8
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:52:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="214478913"
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="214478913"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 06:52:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="449729334"
-Received: from allen-box.sh.intel.com ([10.239.159.118])
- by fmsmga007.fm.intel.com with ESMTP; 18 Aug 2021 06:52:03 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 9/9] iommu/vt-d: Add present bit check in pasid entry setup
- helpers
-Date: Wed, 18 Aug 2021 21:48:52 +0800
-Message-Id: <20210818134852.1847070-10-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210818134852.1847070-1-baolu.lu@linux.intel.com>
-References: <20210818134852.1847070-1-baolu.lu@linux.intel.com>
+ with ESMTP id OGrbGoSyfWJB for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Aug 2021 14:27:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 4C9D44075D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 14:27:21 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id E380967373; Wed, 18 Aug 2021 16:27:15 +0200 (CEST)
+Date: Wed, 18 Aug 2021 16:27:15 +0200
+From: 'Christoph Hellwig' <hch@lst.de>
+To: Brian Cain <bcain@codeaurora.org>
+Subject: Re: [PATCH 7/7] hexagon: use the generic global coherent pool
+Message-ID: <20210818142715.GA10755@lst.de>
+References: <20210712061704.4162464-1-hch@lst.de>
+ <20210712061704.4162464-8-hch@lst.de>
+ <00a901d790af$b05165c0$10f43140$@codeaurora.org>
 MIME-Version: 1.0
-Cc: Kevin Tian <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>,
- Sanjay Kumar <sanjay.k.kumar@intel.com>, iommu@lists.linux-foundation.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Disposition: inline
+In-Reply-To: <00a901d790af$b05165c0$10f43140$@codeaurora.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: 'Vladimir Murzin' <vladimir.murzin@arm.com>, "'Manning,
+ Sid'" <sidneym@quicinc.com>, linux-hexagon@vger.kernel.org,
+ 'Russell King' <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, 'Dillon Min' <dillon.minfei@gmail.com>,
+ 'Christoph Hellwig' <hch@lst.de>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,69 +70,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
+Thanks,
 
-The helper functions should not modify the pasid entries which are still
-in use. Add a check against present bit.
-
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Link: https://lore.kernel.org/r/20210817042425.1784279-1-yi.l.liu@intel.com
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel/pasid.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index eda599e70a68..07c390aed1fe 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -540,6 +540,10 @@ void intel_pasid_tear_down_entry(struct intel_iommu *iommu, struct device *dev,
- 		devtlb_invalidation_with_pasid(iommu, dev, pasid);
- }
- 
-+/*
-+ * This function flushes cache for a newly setup pasid table entry.
-+ * Caller of it should not modify the in-use pasid table entries.
-+ */
- static void pasid_flush_caches(struct intel_iommu *iommu,
- 				struct pasid_entry *pte,
- 			       u32 pasid, u16 did)
-@@ -591,6 +595,10 @@ int intel_pasid_setup_first_level(struct intel_iommu *iommu,
- 	if (WARN_ON(!pte))
- 		return -EINVAL;
- 
-+	/* Caller must ensure PASID entry is not in use. */
-+	if (pasid_pte_is_present(pte))
-+		return -EBUSY;
-+
- 	pasid_clear_entry(pte);
- 
- 	/* Setup the first level page table pointer: */
-@@ -690,6 +698,10 @@ int intel_pasid_setup_second_level(struct intel_iommu *iommu,
- 		return -ENODEV;
- 	}
- 
-+	/* Caller must ensure PASID entry is not in use. */
-+	if (pasid_pte_is_present(pte))
-+		return -EBUSY;
-+
- 	pasid_clear_entry(pte);
- 	pasid_set_domain_id(pte, did);
- 	pasid_set_slptr(pte, pgd_val);
-@@ -729,6 +741,10 @@ int intel_pasid_setup_pass_through(struct intel_iommu *iommu,
- 		return -ENODEV;
- 	}
- 
-+	/* Caller must ensure PASID entry is not in use. */
-+	if (pasid_pte_is_present(pte))
-+		return -EBUSY;
-+
- 	pasid_clear_entry(pte);
- 	pasid_set_domain_id(pte, did);
- 	pasid_set_address_width(pte, iommu->agaw);
--- 
-2.25.1
-
+I've pulled the whole series into the dma-mapping for-next tree.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
