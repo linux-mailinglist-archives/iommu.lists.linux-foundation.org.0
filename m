@@ -1,67 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7AA3EFEA1
-	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 10:06:06 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 196043F027A
+	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 13:16:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0CCEB40263;
-	Wed, 18 Aug 2021 08:06:01 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8EDE240188;
+	Wed, 18 Aug 2021 11:16:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 34Yv6oRLLZBg; Wed, 18 Aug 2021 08:05:57 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VW7B6dMyTqMa; Wed, 18 Aug 2021 11:16:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 10E7840378;
-	Wed, 18 Aug 2021 08:05:57 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7A0384015D;
+	Wed, 18 Aug 2021 11:16:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D783BC000E;
-	Wed, 18 Aug 2021 08:05:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 48560C000E;
+	Wed, 18 Aug 2021 11:16:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8F62FC000E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 08:05:53 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0836BC000E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 11:16:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7E7E380D91
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 08:05:53 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id F2422402F6
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 11:16:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bGUGjbplM_7z for <iommu@lists.linux-foundation.org>;
- Wed, 18 Aug 2021 08:05:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C30D480D60
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 08:05:51 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GqL6s18Sbz1CXBn;
- Wed, 18 Aug 2021 16:05:25 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 18 Aug 2021 16:05:49 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.242) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 18 Aug 2021 16:05:48 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
- Roedel" <joro@8bytes.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, iommu
- <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 2/2] iommu/arm-smmu-v3: Simplify useless instructions in
- arm_smmu_cmdq_build_cmd()
-Date: Wed, 18 Aug 2021 16:04:52 +0800
-Message-ID: <20210818080452.2079-3-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210818080452.2079-1-thunder.leizhen@huawei.com>
-References: <20210818080452.2079-1-thunder.leizhen@huawei.com>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id W3Et08rQY5-u for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Aug 2021 11:16:37 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B68A9402C8
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 11:16:37 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id D2D9824A; Wed, 18 Aug 2021 13:16:33 +0200 (CEST)
+Date: Wed, 18 Aug 2021 13:16:26 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 0/2] [PULL REQUEST] iommu/vt-d: Fixes for v5.14-rc7
+Message-ID: <YRzsCmd+OKvjXeeM@8bytes.org>
+References: <20210817124321.1517985-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.178.242]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <20210817124321.1517985-1-baolu.lu@linux.intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Yi Sun <yi.y.sun@intel.com>,
+ Kumar Sanjay K <sanjay.k.kumar@intel.com>, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,64 +64,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Although the parameter 'cmd' is always passed by a local array variable,
-and only this function modifies it, the compiler does not know this. The
-compiler almost always reads the value of cmd[i] from memory rather than
-directly using the value cached in the register. This generates many
-useless instruction operations and affects the performance to some extent.
+On Tue, Aug 17, 2021 at 08:43:19PM +0800, Lu Baolu wrote:
+> Fenghua Yu (1):
+>   iommu/vt-d: Fix PASID reference leak
+> 
+> Liu Yi L (1):
+>   iommu/vt-d: Fix incomplete cache flush in
+>     intel_pasid_tear_down_entry()
 
-To guide the compiler for proper optimization, 'cmd' is defined as a local
-array variable, marked as register, and copied to the output parameter at
-a time when the function is returned.
-
-The optimization effect can be viewed by running the "size arm-smmu-v3.o"
-command.
-
-Before:
-   text    data     bss     dec     hex
-  26954    1348      56   28358    6ec6
-
-After:
-   text    data     bss     dec     hex
-  26762    1348      56   28166    6e06
-
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 01e95b56ffa07d1..7cec0c967f71d86 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -234,10 +234,12 @@ static int queue_remove_raw(struct arm_smmu_queue *q, u64 *ent)
- }
- 
- /* High-level queue accessors */
--static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
-+static int arm_smmu_cmdq_build_cmd(u64 *out_cmd, struct arm_smmu_cmdq_ent *ent)
- {
--	memset(cmd, 0, 1 << CMDQ_ENT_SZ_SHIFT);
--	cmd[0] |= FIELD_PREP(CMDQ_0_OP, ent->opcode);
-+	register u64 cmd[CMDQ_ENT_DWORDS];
-+
-+	cmd[0] = FIELD_PREP(CMDQ_0_OP, ent->opcode);
-+	cmd[1] = 0;
- 
- 	switch (ent->opcode) {
- 	case CMDQ_OP_TLBI_EL2_ALL:
-@@ -332,6 +334,9 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
- 		return -ENOENT;
- 	}
- 
-+	out_cmd[0] = cmd[0];
-+	out_cmd[1] = cmd[1];
-+
- 	return 0;
- }
- 
--- 
-2.26.0.106.g9fadedd
+Applied both, thanks.
 
 _______________________________________________
 iommu mailing list
