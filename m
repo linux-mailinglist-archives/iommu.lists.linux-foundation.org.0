@@ -1,58 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DA43F06B0
-	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 16:27:29 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E774F3F079A
+	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 17:13:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1C17780F7E;
-	Wed, 18 Aug 2021 14:27:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fMukVA7C-m8e; Wed, 18 Aug 2021 14:27:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 20F6280F7C;
-	Wed, 18 Aug 2021 14:27:24 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4160C000E;
-	Wed, 18 Aug 2021 14:27:23 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C075C000E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 14:27:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 22D604075E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 14:27:22 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6CAA2404E2;
+	Wed, 18 Aug 2021 15:13:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OGrbGoSyfWJB for <iommu@lists.linux-foundation.org>;
- Wed, 18 Aug 2021 14:27:21 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4C9D44075D
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 14:27:21 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id E380967373; Wed, 18 Aug 2021 16:27:15 +0200 (CEST)
-Date: Wed, 18 Aug 2021 16:27:15 +0200
-From: 'Christoph Hellwig' <hch@lst.de>
-To: Brian Cain <bcain@codeaurora.org>
-Subject: Re: [PATCH 7/7] hexagon: use the generic global coherent pool
-Message-ID: <20210818142715.GA10755@lst.de>
-References: <20210712061704.4162464-1-hch@lst.de>
- <20210712061704.4162464-8-hch@lst.de>
- <00a901d790af$b05165c0$10f43140$@codeaurora.org>
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ok9GNX7BRT_s; Wed, 18 Aug 2021 15:13:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 27060404D0;
+	Wed, 18 Aug 2021 15:13:41 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 052FBC0022;
+	Wed, 18 Aug 2021 15:13:41 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4689C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 15:13:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 56596605E9
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 15:13:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JI22MgQzI5yE for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Aug 2021 15:13:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 40872605C1
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 15:13:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3362E101E;
+ Wed, 18 Aug 2021 08:13:34 -0700 (PDT)
+Received: from [10.57.36.146] (unknown [10.57.36.146])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 518DD3F40C;
+ Wed, 18 Aug 2021 08:13:31 -0700 (PDT)
+Subject: Re: [PATCH v4 00/24] iommu: Refactor DMA domain strictness
+To: Joerg Roedel <joro@8bytes.org>, Sven Peter <sven@svenpeter.dev>
+References: <cover.1628682048.git.robin.murphy@arm.com>
+ <YRzvGxTW8m+NUcSi@8bytes.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <914d7243-7f9d-425e-1ff7-6be218e04913@arm.com>
+Date: Wed, 18 Aug 2021 16:13:24 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <00a901d790af$b05165c0$10f43140$@codeaurora.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: 'Vladimir Murzin' <vladimir.murzin@arm.com>, "'Manning,
- Sid'" <sidneym@quicinc.com>, linux-hexagon@vger.kernel.org,
- 'Russell King' <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, 'Dillon Min' <dillon.minfei@gmail.com>,
- 'Christoph Hellwig' <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <YRzvGxTW8m+NUcSi@8bytes.org>
+Content-Language: en-GB
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Heiko Stuebner <heiko@sntech.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-kernel@vger.kernel.org, Chunyan Zhang <chunyan.zhang@unisoc.com>,
+ dianders@chromium.org, iommu@lists.linux-foundation.org, rajatja@google.com,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,14 +70,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Thanks,
+On 2021-08-18 12:29, Joerg Roedel wrote:
+> On Wed, Aug 11, 2021 at 01:21:14PM +0100, Robin Murphy wrote:
+>> Robin Murphy (24):
+>>    iommu: Pull IOVA cookie management into the core
+>>    iommu/amd: Drop IOVA cookie management
+>>    iommu/arm-smmu: Drop IOVA cookie management
+>>    iommu/vt-d: Drop IOVA cookie management
+>>    iommu/exynos: Drop IOVA cookie management
+>>    iommu/ipmmu-vmsa: Drop IOVA cookie management
+>>    iommu/mtk: Drop IOVA cookie management
+>>    iommu/rockchip: Drop IOVA cookie management
+>>    iommu/sprd: Drop IOVA cookie management
+>>    iommu/sun50i: Drop IOVA cookie management
+>>    iommu/virtio: Drop IOVA cookie management
+>>    iommu/dma: Unexport IOVA cookie management
+>>    iommu/dma: Remove redundant "!dev" checks
+>>    iommu: Indicate queued flushes via gather data
+>>    iommu/io-pgtable: Remove non-strict quirk
+>>    iommu: Introduce explicit type for non-strict DMA domains
+>>    iommu/amd: Prepare for multiple DMA domain types
+>>    iommu/arm-smmu: Prepare for multiple DMA domain types
+>>    iommu/vt-d: Prepare for multiple DMA domain types
+>>    iommu: Express DMA strictness via the domain type
+>>    iommu: Expose DMA domain strictness via sysfs
+>>    iommu: Only log strictness for DMA domains
+>>    iommu: Merge strictness and domain type configs
+>>    iommu: Allow enabling non-strict mode dynamically
+> 
+> Applied all except patch 12. Please re-submit patch 12 together with the
+> APPLE DART fixups after v5.15-rc1 is out.
 
-I've pulled the whole series into the dma-mapping for-next tree.
+Brilliant, thanks for fixing that up!
+
+Sven - I've prepared the follow-up patches already[1], so consider 
+yourself off the hook (I see no point in trying to fix the nominal DART 
+cookie bugs between now and then) :)
+
+Cheers,
+Robin.
+
+[1] https://gitlab.arm.com/linux-arm/linux-rm/-/commits/iommu/fq-fixes
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
