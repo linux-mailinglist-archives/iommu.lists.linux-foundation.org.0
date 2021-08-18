@@ -1,53 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB083F0549
-	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 15:51:52 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 210F43F054B
+	for <lists.iommu@lfdr.de>; Wed, 18 Aug 2021 15:51:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8452C402BA;
-	Wed, 18 Aug 2021 13:51:51 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BF47180E06;
+	Wed, 18 Aug 2021 13:51:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YHfipj6ALS2r; Wed, 18 Aug 2021 13:51:47 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HtheLNMQGWdw; Wed, 18 Aug 2021 13:51:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8928B402C8;
-	Wed, 18 Aug 2021 13:51:47 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E15CF80DD6;
+	Wed, 18 Aug 2021 13:51:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 65C62C000E;
-	Wed, 18 Aug 2021 13:51:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CB3D8C000E;
+	Wed, 18 Aug 2021 13:51:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33C37C000E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:51:46 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16648C000E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:51:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2200A402C8
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:51:46 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id E4381402C6
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:51:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9ObZiqfrAvLm for <iommu@lists.linux-foundation.org>;
- Wed, 18 Aug 2021 13:51:44 +0000 (UTC)
+ with ESMTP id sQ1hR0EtgVkG for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Aug 2021 13:51:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 35308402BA
- for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:51:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="214478847"
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="214478847"
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C2200402BA
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Aug 2021 13:51:46 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="214478850"
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="214478850"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 06:51:43 -0700
+ 18 Aug 2021 06:51:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="449729212"
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="449729216"
 Received: from allen-box.sh.intel.com ([10.239.159.118])
- by fmsmga007.fm.intel.com with ESMTP; 18 Aug 2021 06:51:41 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 18 Aug 2021 06:51:44 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/9] iommu/vt-d: Update the virtual command related registers
-Date: Wed, 18 Aug 2021 21:48:44 +0800
-Message-Id: <20210818134852.1847070-2-baolu.lu@linux.intel.com>
+Subject: [PATCH 2/9] iommu/vt-d: Remove unnecessary oom message
+Date: Wed, 18 Aug 2021 21:48:45 +0800
+Message-Id: <20210818134852.1847070-3-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818134852.1847070-1-baolu.lu@linux.intel.com>
 References: <20210818134852.1847070-1-baolu.lu@linux.intel.com>
@@ -72,62 +72,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The VT-d spec Revision 3.3 updated the virtual command registers, virtual
-command opcode B register, virtual command response register and virtual
-command capability register (Section 10.4.43, 10.4.44, 10.4.45, 10.4.46).
-This updates the virtual command interface implementation in the Intel
-IOMMU driver accordingly.
+From: Zhen Lei <thunder.leizhen@huawei.com>
 
-Fixes: 24f27d32ab6b7 ("iommu/vt-d: Enlightened PASID allocation")
+Fixes scripts/checkpatch.pl warning:
+WARNING: Possible unnecessary 'out of memory' message
+
+Remove it can help us save a bit of memory.
+
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+Link: https://lore.kernel.org/r/20210609124937.14260-1-thunder.leizhen@huawei.com
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Sanjay Kumar <sanjay.k.kumar@intel.com>
-Cc: Kevin Tian <kevin.tian@intel.com>
-Link: https://lore.kernel.org/r/20210713042649.3547403-1-baolu.lu@linux.intel.com
 ---
- include/linux/intel-iommu.h |  6 +++---
- drivers/iommu/intel/pasid.h | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/iommu/intel/dmar.c  | 2 --
+ drivers/iommu/intel/iommu.c | 6 +-----
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index d0fa0b31994d..05a65eb155f7 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -124,9 +124,9 @@
- #define DMAR_MTRR_PHYSMASK8_REG 0x208
- #define DMAR_MTRR_PHYSBASE9_REG 0x210
- #define DMAR_MTRR_PHYSMASK9_REG 0x218
--#define DMAR_VCCAP_REG		0xe00 /* Virtual command capability register */
--#define DMAR_VCMD_REG		0xe10 /* Virtual command register */
--#define DMAR_VCRSP_REG		0xe20 /* Virtual command response register */
-+#define DMAR_VCCAP_REG		0xe30 /* Virtual command capability register */
-+#define DMAR_VCMD_REG		0xe00 /* Virtual command register */
-+#define DMAR_VCRSP_REG		0xe10 /* Virtual command response register */
+diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
+index d66f79acd14d..0ec5514c9980 100644
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -149,8 +149,6 @@ dmar_alloc_pci_notify_info(struct pci_dev *dev, unsigned long event)
+ 	} else {
+ 		info = kzalloc(size, GFP_KERNEL);
+ 		if (!info) {
+-			pr_warn("Out of memory when allocating notify_info "
+-				"for %s.\n", pci_name(dev));
+ 			if (dmar_dev_scope_status == 0)
+ 				dmar_dev_scope_status = -ENOMEM;
+ 			return NULL;
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 8fc46c9d6b96..36ce79c55766 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -1779,11 +1779,8 @@ static int iommu_init_domains(struct intel_iommu *iommu)
+ 	spin_lock_init(&iommu->lock);
  
- #define DMAR_IQER_REG_IQEI(reg)		FIELD_GET(GENMASK_ULL(3, 0), reg)
- #define DMAR_IQER_REG_ITESID(reg)	FIELD_GET(GENMASK_ULL(47, 32), reg)
-diff --git a/drivers/iommu/intel/pasid.h b/drivers/iommu/intel/pasid.h
-index c11bc8b833b8..d5552e2c160d 100644
---- a/drivers/iommu/intel/pasid.h
-+++ b/drivers/iommu/intel/pasid.h
-@@ -28,12 +28,12 @@
- #define VCMD_CMD_ALLOC			0x1
- #define VCMD_CMD_FREE			0x2
- #define VCMD_VRSP_IP			0x1
--#define VCMD_VRSP_SC(e)			(((e) >> 1) & 0x3)
-+#define VCMD_VRSP_SC(e)			(((e) & 0xff) >> 1)
- #define VCMD_VRSP_SC_SUCCESS		0
--#define VCMD_VRSP_SC_NO_PASID_AVAIL	2
--#define VCMD_VRSP_SC_INVALID_PASID	2
--#define VCMD_VRSP_RESULT_PASID(e)	(((e) >> 8) & 0xfffff)
--#define VCMD_CMD_OPERAND(e)		((e) << 8)
-+#define VCMD_VRSP_SC_NO_PASID_AVAIL	16
-+#define VCMD_VRSP_SC_INVALID_PASID	16
-+#define VCMD_VRSP_RESULT_PASID(e)	(((e) >> 16) & 0xfffff)
-+#define VCMD_CMD_OPERAND(e)		((e) << 16)
- /*
-  * Domain ID reserved for pasid entries programmed for first-level
-  * only and pass-through transfer modes.
+ 	iommu->domain_ids = kcalloc(nlongs, sizeof(unsigned long), GFP_KERNEL);
+-	if (!iommu->domain_ids) {
+-		pr_err("%s: Allocating domain id array failed\n",
+-		       iommu->name);
++	if (!iommu->domain_ids)
+ 		return -ENOMEM;
+-	}
+ 
+ 	size = (ALIGN(ndomains, 256) >> 8) * sizeof(struct dmar_domain **);
+ 	iommu->domains = kzalloc(size, GFP_KERNEL);
+@@ -3224,7 +3221,6 @@ static int __init init_dmars(void)
+ 	g_iommus = kcalloc(g_num_of_iommus, sizeof(struct intel_iommu *),
+ 			GFP_KERNEL);
+ 	if (!g_iommus) {
+-		pr_err("Allocating global iommu array failed\n");
+ 		ret = -ENOMEM;
+ 		goto error;
+ 	}
 -- 
 2.25.1
 
