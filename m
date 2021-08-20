@@ -1,75 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5183F34F9
-	for <lists.iommu@lfdr.de>; Fri, 20 Aug 2021 22:09:27 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id F29C63F3576
+	for <lists.iommu@lfdr.de>; Fri, 20 Aug 2021 22:44:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0F14080C24;
-	Fri, 20 Aug 2021 20:09:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 69A504072B;
+	Fri, 20 Aug 2021 20:44:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qh_mDtCNqy-N; Fri, 20 Aug 2021 20:09:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0CD9380B96;
-	Fri, 20 Aug 2021 20:09:22 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RdD_R-BMuHcE; Fri, 20 Aug 2021 20:44:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 68FDD40729;
+	Fri, 20 Aug 2021 20:44:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EAF4CC000E;
-	Fri, 20 Aug 2021 20:09:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31FA0C0022;
+	Fri, 20 Aug 2021 20:44:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87EDCC000E
- for <iommu@lists.linux-foundation.org>; Fri, 20 Aug 2021 20:09:20 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C68C1C000E
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Aug 2021 20:44:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6B0C66141A
- for <iommu@lists.linux-foundation.org>; Fri, 20 Aug 2021 20:09:20 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id B2A8380D1D
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Aug 2021 20:44:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ulCOwTi00-Ql for <iommu@lists.linux-foundation.org>;
- Fri, 20 Aug 2021 20:09:19 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D0A5D60712
- for <iommu@lists.linux-foundation.org>; Fri, 20 Aug 2021 20:09:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 81FAE61164;
- Fri, 20 Aug 2021 20:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629490159;
- bh=UESAVHHByRL8GRF+VuG4vfPxKkx84wJav/Z+xCf8oxM=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=bevgo92AY/xrcDMvKRXug6GrbQvrVFZhLhE6AXIIqvgfbMoKB8V+306Rwm43ObuRb
- R5GfrBsFIWkCXr2i7VARUKRXfD8O3T+hYzZ9Xw49gCvXqwObCL+8oJaxtkEbpS6LnY
- eY7KCPbdGrh9ZxkSJxlIya7qsI/Pv6V18p3bpnnbTquKlbrhrUfnNJaeNoHFSQjmDK
- V+OjDg2bDHRjDFsNIWGCXtcfaoqbuEh13KceMILF2s13E0Tnsb8sNsxVhZiI4R7Yb2
- wdFIHL5ZTHY1cd8nfTkFCeLVbZxuGpV6PWGbxFol4v0Drui4QR8autfso91qwDwrCr
- TlGJsinPDcaSg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7C3CE60A21;
- Fri, 20 Aug 2021 20:09:19 +0000 (UTC)
-Subject: Re: [git pull] IOMMU Fixes for Linux v5.14-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YR9fopoKjkg2o2V1@8bytes.org>
-References: <YR9fopoKjkg2o2V1@8bytes.org>
-X-PR-Tracked-List-Id: Development issues for Linux IOMMU support
- <iommu.lists.linux-foundation.org>
-X-PR-Tracked-Message-Id: <YR9fopoKjkg2o2V1@8bytes.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
- tags/iommu-fixes-v5.14-rc6
-X-PR-Tracked-Commit-Id: 8798d36411196da86e70b994725349c16c1119f6
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b7d184d37ecc99f87fc8e531c788f69084f8a95f
-Message-Id: <162949015950.21370.1226491799201947929.pr-tracker-bot@kernel.org>
-Date: Fri, 20 Aug 2021 20:09:19 +0000
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8Qus_q1SBcM3 for <iommu@lists.linux-foundation.org>;
+ Fri, 20 Aug 2021 20:44:40 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 8C65F80CFF
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Aug 2021 20:44:40 +0000 (UTC)
+Received: from localhost.localdomain (83.6.167.97.neoplus.adsl.tpnet.pl
+ [83.6.167.97])
+ by m-r2.th.seeweb.it (Postfix) with ESMTPA id 24CB63EB9E;
+ Fri, 20 Aug 2021 22:29:12 +0200 (CEST)
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH 1/2] dt-bindings: arm-smmu: Add compatible for SM6350 SoC
+Date: Fri, 20 Aug 2021 22:29:04 +0200
+Message-Id: <20210820202906.229292-1-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Cc: devicetree@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ jamipkettunen@somainline.org, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, martin.botka@somainline.org,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,24 +63,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The pull request you sent on Fri, 20 Aug 2021 09:54:10 +0200:
+Add the SoC specific compatible for SM6350 implementing
+arm,mmu-500.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-fixes-v5.14-rc6
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b7d184d37ecc99f87fc8e531c788f69084f8a95f
-
-Thank you!
-
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 03f2b2d4db30..87b93ab3f34e 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -37,6 +37,7 @@ properties:
+               - qcom,sc7280-smmu-500
+               - qcom,sc8180x-smmu-500
+               - qcom,sdm845-smmu-500
++              - qcom,sm6350-smmu-500
+               - qcom,sm8150-smmu-500
+               - qcom,sm8250-smmu-500
+               - qcom,sm8350-smmu-500
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.33.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
