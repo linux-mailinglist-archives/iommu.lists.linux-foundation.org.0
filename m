@@ -1,54 +1,112 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FF73F3B2D
-	for <lists.iommu@lfdr.de>; Sat, 21 Aug 2021 17:44:55 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8583F44E4
+	for <lists.iommu@lfdr.de>; Mon, 23 Aug 2021 08:25:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 553FD4022E;
-	Sat, 21 Aug 2021 15:44:49 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A587C6072A;
+	Mon, 23 Aug 2021 06:25:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xJxdK3ateZN6; Sat, 21 Aug 2021 15:44:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 596AB402B8;
-	Sat, 21 Aug 2021 15:44:45 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YhsVScaPFEF8; Mon, 23 Aug 2021 06:25:01 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B5E46606E6;
+	Mon, 23 Aug 2021 06:25:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33D69C001F;
-	Sat, 21 Aug 2021 15:44:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84770C001F;
+	Mon, 23 Aug 2021 06:25:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42AB8C000E
- for <iommu@lists.linux-foundation.org>; Sat, 21 Aug 2021 15:44:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB4A6C000E
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Aug 2021 06:25:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 228AF40288
- for <iommu@lists.linux-foundation.org>; Sat, 21 Aug 2021 15:44:43 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id AAD5680C8B
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Aug 2021 06:25:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xk8bj6LzUXto for <iommu@lists.linux-foundation.org>;
- Sat, 21 Aug 2021 15:44:42 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.wantstofly.org (hmm.wantstofly.org [213.239.204.108])
- by smtp2.osuosl.org (Postfix) with ESMTPS id DB9F8400CA
- for <iommu@lists.linux-foundation.org>; Sat, 21 Aug 2021 15:44:41 +0000 (UTC)
-Received: by mail.wantstofly.org (Postfix, from userid 1000)
- id 9061E7F54F; Sat, 21 Aug 2021 18:44:39 +0300 (EEST)
-Date: Sat, 21 Aug 2021 18:44:39 +0300
-From: Lennert Buytenhek <buytenh@wantstofly.org>
-To: "Suthikulpanit, Suravee" <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v2] iommu/amd: Use report_iommu_fault()
-Message-ID: <YSEfZyrLSWR0gFDu@wantstofly.org>
-References: <YP7jbfRFxMeFONKl@wantstofly.org>
- <8cc39d3c-6086-cfe3-9743-901c51ad4bab@amd.com>
- <YQNksD4G1SS/yGM2@wantstofly.org>
- <0d353fc0-79d0-36b7-eeee-ba27249bb258@amd.com>
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=redhat.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ak8tMP0npgSb for <iommu@lists.linux-foundation.org>;
+ Mon, 23 Aug 2021 06:25:00 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id CAEAD80C72
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Aug 2021 06:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629699898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fTBmg72UzrJzwwgyL0XX6MmGnq4XiN30FwOUg0WyeL8=;
+ b=FP2I2eF6Vxj4C/mxETXrKldB7G93JIfxP2rg+iQuY6zkP7hxPWMnt/LYHoLJPesp5185TT
+ 2M2WmoRjIDg1DTPRbPilW/A8x+plT6ZweSyMVBOdwaOXI8PutPBFnfXl31D/yohln3perb
+ 4DnkMDSyWr8ktMsfO1ZigPp2uOdA4bU=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-SVr5zJX1Nn2gD8PGmEf7wg-1; Mon, 23 Aug 2021 02:24:56 -0400
+X-MC-Unique: SVr5zJX1Nn2gD8PGmEf7wg-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ t14-20020a635f0e000000b0024e7eb20fc3so5112918pgb.13
+ for <iommu@lists.linux-foundation.org>; Sun, 22 Aug 2021 23:24:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=fTBmg72UzrJzwwgyL0XX6MmGnq4XiN30FwOUg0WyeL8=;
+ b=uFAk6yhRq7L+WxESMsOq6HuhfGIMu8k5hnjBXU4FD2kx9dz6egcPJmlg4skFhTLCDE
+ o1CPQgBYQowTA0gYXQJVF5XCy+DEUp2KQcta5GXoIkdIFeD9Vzo1GmiwxuZBFYOBULRI
+ q+wculYNmt/rd5OPpKBQEl/jfFHgZPqTC+KKwikaQsF/qME4GFGiHeusFSY1+WBza/Sw
+ twkglU8SBGbeur6dxUBnyMm0CifWKlr/DcLdEhkzGIp/A3L5vGgXbqkLLRZ6WxzGhMh8
+ 1FuDdauVFxMp3maOFebG7OFF+Bre3EXIHrbwj2tF8eA3b6kXyCuyboZ6GkKdbqvu539b
+ 3rTg==
+X-Gm-Message-State: AOAM5316XSpmf+gHZdtPF4YbII2W9SYlRL954Vvp8xrxDpI6u3j6zqB7
+ He7LVxAGhcHdJhTVxcBiTH7dHG5u1u31YfSAdubCzPvBWx50w00Z8wNxhjqYlvJWyypwIlc5JJi
+ vbLChWPeY3ORx+/hyTu4GKGSnazn0ZQ==
+X-Received: by 2002:a17:90a:b016:: with SMTP id
+ x22mr7315307pjq.205.1629699895444; 
+ Sun, 22 Aug 2021 23:24:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYnrO75usjjlrGCgZzdsLDtPE2dKORuqu4cQ6/SLHByjgTAawINCsTeerUMEDWc0TN8ooDAw==
+X-Received: by 2002:a17:90a:b016:: with SMTP id
+ x22mr7315281pjq.205.1629699895193; 
+ Sun, 22 Aug 2021 23:24:55 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id g3sm14314416pfi.197.2021.08.22.23.24.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 22 Aug 2021 23:24:54 -0700 (PDT)
+Subject: Re: [PATCH v11 01/12] iova: Export alloc_iova_fast() and
+ free_iova_fast()
+To: Xie Yongji <xieyongji@bytedance.com>, mst@redhat.com,
+ stefanha@redhat.com, sgarzare@redhat.com, parav@nvidia.com,
+ hch@infradead.org, christian.brauner@canonical.com, rdunlap@infradead.org,
+ willy@infradead.org, viro@zeniv.linux.org.uk, axboe@kernel.dk,
+ bcrl@kvack.org, corbet@lwn.net, mika.penttila@nextfour.com,
+ dan.carpenter@oracle.com, joro@8bytes.org, gregkh@linuxfoundation.org,
+ zhe.he@windriver.com, xiaodong.liu@intel.com, joe@perches.com,
+ robin.murphy@arm.com
+References: <20210818120642.165-1-xieyongji@bytedance.com>
+ <20210818120642.165-2-xieyongji@bytedance.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <3ff77bab-8bb7-ae5b-4cf1-a90ebcc00118@redhat.com>
+Date: Mon, 23 Aug 2021 14:24:42 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0d353fc0-79d0-36b7-eeee-ba27249bb258@amd.com>
-Cc: Ohad Ben-Cohen <ohad@wizery.com>, iommu@lists.linux-foundation.org
+In-Reply-To: <20210818120642.165-2-xieyongji@bytedance.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Cc: kvm@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ songmuchun@bytedance.com, linux-fsdevel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -61,99 +119,32 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="gbk"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Aug 05, 2021 at 11:26:25AM -0500, Suthikulpanit, Suravee wrote:
-
-> Lennert,
-
-Hi Suravee,
-
-
-> > - EVENT_FLAG_I unset, but the request was a translation request
-> >   (EVENT_FLAG_TR set) or the target page was not present
-> >   (EVENT_FLAG_PR unset): call report_iommu_fault(), but the RW
-> >   bit will be invalid, so don't try to map it to a
-> >   IOMMU_FAULT_{READ,WRITE} code
-> 
-> So, why do we need to call report_iommu_fault() for this case?
-> My understanding is we only have IOMMU_FAULT_[READ|WRITE].
-> So, if we can't identify whether the DMA is read / write,
-> we should not need to call report_iommu_fauilt(), is it?
-
-I don't think that we should just altogether avoid logging the subset
-of page faults for which we can't determine the read/write direction
-on AMD platforms.
-
-E.g. "access to an unmapped address" (which will have PR=0, and thus we
-won't know if it was a read or a write access) is just as much of a page
-fault as "write to a read-only page" (which will have PR=1, and thus the
-RW bit will be accurate) is, and for RAS purposes, both events are
-equally interesting, and important to know about.
-
-It's true that we currently don't have a way of signaling to
-report_iommu_fault() (and by extension, to the io_page_fault
-tracepoint) that we're not sure whether the offending access was a read
-or a write, but I think we can just add a bit to include/linux/iommu.h
-to indicate that, something along the lines of:
-
-	 /* iommu fault flags */
-	 #define IOMMU_FAULT_READ        0x0
-	 #define IOMMU_FAULT_WRITE       0x1
-	+#define IOMMU_FAULT_RW_UNKNOWN  0x2
-
-(Cc'ing Ohad Ben-Cohen, who originally added this API.)
-
-I don't think that it would be a good idea to just not signal the page
-faults for which we don't know the read/write direction.
-
-
-Thanks,
-Lennert
-
-
-
-> > - EVENT_FLAG_I unset, the request is a transaction request (EVENT_FLAG_TR
-> >    unset) and the target page was present (EVENT_FLAG_PR set): call
-> >    report_iommu_fault(), and use the RW bit to set IOMMU_FAULT_{READ,WRITE}
-> > 
-> > So I don't think we can merge the test for EVENT_FLAG_I with the
-> > test for EVENT_FLAG_TR/EVENT_FLAG_PR.
-> 
-> The only condition that we would report_iommu_fault is
-> I=0, TR=0, PR=1, isn't it. So we should be able to just check if PR=1.
-> 
-> 
-> > We could do something like this, if you'd prefer:
-> > 
-> > 	#define IS_IOMMU_MEM_TRANSACTION(flags)	\
-> > 		(((flags) & EVENT_FLAG_I) == 0)
-> > 
-> > 	#define IS_RW_FLAG_VALID(flags)		\
-> > 		(((flags) & (EVENT_FLAG_TR | EVENT_FLAG_PR)) == EVENT_FLAG_PR)
-> > 
-> > 	#define IS_WRITE_REQUEST(flags)		\
-> > 		(IS_RW_FLAG_VALID(flags) && (flags & EVENT_FLAG_RW))
-> > 
-> > And then do something like:
-> > 
-> > 	if (dev_data && IS_IOMMU_MEM_TRANSACTION(flags)) {
-> > 		if (!report_iommu_fault(&dev_data->domain->domain, &pdev->dev,
-> > 					address,
-> > 					IS_WRITE_REQUEST(flags) ?
-> > 					IOMMU_FAULT_WRITE : IOMMU_FAULT_READ))
-> 
-> Actually, IS_WRITE_REQUEST() == 0 could mean:
-> - I=0, TR=0, PR=1 and RW=0: This is fine.
-> - I=0, (TR=1 or PR=0), and we should not be calling report_iommu_fault() here
->   since we cannot specify READ/WRITE here.
-> 
-> Thanks,
-> Suravee
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+CtTaIDIwMjEvOC8xOCDPws7nODowNiwgWGllIFlvbmdqaSDQtLXAOgo+IEV4cG9ydCBhbGxvY19p
+b3ZhX2Zhc3QoKSBhbmQgZnJlZV9pb3ZhX2Zhc3QoKSBzbyB0aGF0Cj4gc29tZSBtb2R1bGVzIGNh
+biBtYWtlIHVzZSBvZiB0aGUgcGVyLUNQVSBjYWNoZSB0byBnZXQKPiByaWQgb2YgcmJ0cmVlIHNw
+aW5sb2NrIGluIGFsbG9jX2lvdmEoKSBhbmQgZnJlZV9pb3ZhKCkKPiBkdXJpbmcgSU9WQSBhbGxv
+Y2F0aW9uLgo+Cj4gU2lnbmVkLW9mZi1ieTogWGllIFlvbmdqaSA8eGlleW9uZ2ppQGJ5dGVkYW5j
+ZS5jb20+CgoKQWNrZWQtYnk6IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+CgooSWYg
+d2UgbmVlZCByZXNwaW4sIEknZCBzdWdnZXN0IHRvIHB1dCB0aGUgbnVtYmVycyB5b3UgbWVhc3Vy
+ZWQgaGVyZSkKClRoYW5rcwoKCj4gLS0tCj4gICBkcml2ZXJzL2lvbW11L2lvdmEuYyB8IDIgKysK
+PiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2lvbW11L2lvdmEuYyBiL2RyaXZlcnMvaW9tbXUvaW92YS5jCj4gaW5kZXggYjZjZjVmMTYx
+MjNiLi4zOTQxZWQ2YmI5OWIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9pb21tdS9pb3ZhLmMKPiAr
+KysgYi9kcml2ZXJzL2lvbW11L2lvdmEuYwo+IEBAIC01MjEsNiArNTIxLDcgQEAgYWxsb2NfaW92
+YV9mYXN0KHN0cnVjdCBpb3ZhX2RvbWFpbiAqaW92YWQsIHVuc2lnbmVkIGxvbmcgc2l6ZSwKPiAg
+IAo+ICAgCXJldHVybiBuZXdfaW92YS0+cGZuX2xvOwo+ICAgfQo+ICtFWFBPUlRfU1lNQk9MX0dQ
+TChhbGxvY19pb3ZhX2Zhc3QpOwo+ICAgCj4gICAvKioKPiAgICAqIGZyZWVfaW92YV9mYXN0IC0g
+ZnJlZSBpb3ZhIHBmbiByYW5nZSBpbnRvIHJjYWNoZQo+IEBAIC01MzgsNiArNTM5LDcgQEAgZnJl
+ZV9pb3ZhX2Zhc3Qoc3RydWN0IGlvdmFfZG9tYWluICppb3ZhZCwgdW5zaWduZWQgbG9uZyBwZm4s
+IHVuc2lnbmVkIGxvbmcgc2l6ZSkKPiAgIAo+ICAgCWZyZWVfaW92YShpb3ZhZCwgcGZuKTsKPiAg
+IH0KPiArRVhQT1JUX1NZTUJPTF9HUEwoZnJlZV9pb3ZhX2Zhc3QpOwo+ICAgCj4gICAjZGVmaW5l
+IGZxX3JpbmdfZm9yX2VhY2goaSwgZnEpIFwKPiAgIAlmb3IgKChpKSA9IChmcSktPmhlYWQ7IChp
+KSAhPSAoZnEpLT50YWlsOyAoaSkgPSAoKGkpICsgMSkgJSBJT1ZBX0ZRX1NJWkUpCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxp
+c3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZv
+dW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
