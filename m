@@ -1,68 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE893F4AE0
-	for <lists.iommu@lfdr.de>; Mon, 23 Aug 2021 14:40:52 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0873F58B1
+	for <lists.iommu@lfdr.de>; Tue, 24 Aug 2021 09:10:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5CF0E401BF;
-	Mon, 23 Aug 2021 12:40:50 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 36BDD6069F;
+	Tue, 24 Aug 2021 07:10:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AZ3d2_3xVGsE; Mon, 23 Aug 2021 12:40:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 41CC4401CA;
-	Mon, 23 Aug 2021 12:40:46 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JZcgtYv94706; Tue, 24 Aug 2021 07:10:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id EC68F60683;
+	Tue, 24 Aug 2021 07:10:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 133DFC001F;
-	Mon, 23 Aug 2021 12:40:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BF1C8C001F;
+	Tue, 24 Aug 2021 07:10:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8227DC000E
- for <iommu@lists.linux-foundation.org>; Mon, 23 Aug 2021 12:40:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 426EFC000E
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Aug 2021 07:10:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6C46240221
- for <iommu@lists.linux-foundation.org>; Mon, 23 Aug 2021 12:40:45 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 24255404B1
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Aug 2021 07:10:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
+ dkim=pass (1024-bit key) header.d=chromium.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WR5K4nHuLthD for <iommu@lists.linux-foundation.org>;
- Mon, 23 Aug 2021 12:40:44 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C18604021F
- for <iommu@lists.linux-foundation.org>; Mon, 23 Aug 2021 12:40:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD832613A8;
- Mon, 23 Aug 2021 12:40:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629722444;
- bh=q5U8VAdrM7JIakmwfqzISsznoFOmajlx/uTQSgI2IAM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KfeHZvw6e2t0VI38lRV+B3DMFaG9gEmazNFMlGsahf6Fa5MR1uGITagNFmX2lYjFV
- fRvAZ3zsT0XdwEA6a3Bp5wwaeoYbMhu1UqEtuQHriC3Cz+a3vMRo9vBDeDMDxwYgUo
- ZWb9w839t3KHugDNgB2ABrrhBwbU4gUHHYqk5lRuZB1bqM71nfzl6xvISCuLzRBQ8J
- SGxccuc+vhnaR5OjsxRUWghuDirvV+o42rWomvQVvII4ohw8nOASuK43ucQFXy5NZ9
- 99KKHrq7S04aa9hzS7eCbki9O02DgGMdtG1usfX9XYWmSqGtiUyqVD97IFjY544BOR
- KVkzmY29iWY+A==
-Date: Mon, 23 Aug 2021 13:40:39 +0100
-From: Will Deacon <will@kernel.org>
-To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Subject: Re: [PATCH v2 0/2] Don't fail device probing due to
- of_dma_set_restricted_buffer()
-Message-ID: <20210823124038.GA20879@willie-the-truck>
-References: <20210816132618.11707-1-will@kernel.org>
- <YSN8tz6zb65V9+an@localhost.localdomain>
+ with ESMTP id DqbVj7F5NI7D for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Aug 2021 07:10:40 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 07C5640494
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Aug 2021 07:10:39 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id a15so25091120iot.2
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Aug 2021 00:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LgRucL3K4cUFafkmcwegDWstDciTynvkAhKij7AEIBk=;
+ b=XjwCcBqTjO8zbpgRAvkXX4cEK21t+nleXjTkL4VzdxxdLsNvjwNcndFWSg6JlrSwJq
+ bpSdGFO+BrTrAT8Vmftfwj9hkT+k9VzKKyZauDR/U1vyuv5aWPiz/wR4BLCxKVgR0+Ar
+ HAtZRuWjONau0qmolRjDQ0es97dtHpDqC2jDM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LgRucL3K4cUFafkmcwegDWstDciTynvkAhKij7AEIBk=;
+ b=tTJ05nDsSrgiZxY1KtxgTNLN+cESHm3Y0tkHXlYnLJOAV9/NKgDDrfko7kP3Cduz1u
+ tlxHnSEzrOwBNl18xf3hyoJKrMbFA6n9kKatdSnjBlLKGtk2EF2NA/iA33otbw8xaorn
+ 218mEvqICMCbfh1REgvR4tgG1p9cGNrKyV19XqABNJweNOiBGlccEpd8MyHe59lvTl1a
+ 4RMEZwymarjolX7QntnF2QBa5t75VLfPWbuqh+b9v3oGtuNFoigs13+pBFwoPuc+lcdk
+ wXEdPm4nKGHcFSaYkIvCRdhAqIcKm6Ybpb9JM64vFtev3ZY5mqTxhPyMJluWMtQCbxvX
+ MWBQ==
+X-Gm-Message-State: AOAM533Btsc1kKErvLI4a2l0ZpRXnN3QLNN5w0b+xEmEDC/fXvy4wQOP
+ vgG5sWArSyZYBP2pbNENeh8hUaTlj9rOJMDhxFaDnw==
+X-Google-Smtp-Source: ABdhPJxa8cXPwlwxMitmLNqhhcUpAXaFNNqqlX3QkiCbaPVcTW2lKOWSXVoLKeh/GHZwtAyAQE/miho2FRPpMMPkaXY=
+X-Received: by 2002:a05:6602:341:: with SMTP id
+ w1mr29896459iou.40.1629789038867; 
+ Tue, 24 Aug 2021 00:10:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YSN8tz6zb65V9+an@localhost.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, Claire Chang <tientzu@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+References: <20210813065324.29220-1-yong.wu@mediatek.com>
+ <20210813065324.29220-12-yong.wu@mediatek.com>
+In-Reply-To: <20210813065324.29220-12-yong.wu@mediatek.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Tue, 24 Aug 2021 15:10:12 +0800
+Message-ID: <CAJMQK-hkufqh2vaEKcuO+k0v2SzpCHcyZuEqrvJ__rrAek2P0A@mail.gmail.com>
+Subject: Re: [PATCH v2 11/29] iommu/mediatek: Always pm_runtime_get while tlb
+ flush
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: youlin.pei@mediatek.com, Devicetree List <devicetree@vger.kernel.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Will Deacon <will@kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+ Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ chao.hao@mediatek.com, Matthias Brugger <matthias.bgg@gmail.com>,
+ anan.sun@mediatek.com, Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,26 +100,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Aug 23, 2021 at 06:47:19AM -0400, Konrad Rzeszutek Wilk wrote:
-> On Mon, Aug 16, 2021 at 02:26:15PM +0100, Will Deacon wrote:
-> > Hi all,
-> > 
-> > This is v2 of the patch I previously posted here:
-> > 
-> >   https://lore.kernel.org/r/20210805094736.902-1-will@kernel.org
-> > 
-> > Changes since v1 are:
-> > 
-> >   * Move of_dma_set_restricted_buffer() into of/device.c (Rob)
-> >   * Use IS_ENABLED() instead of 'static inline' stub (Rob)
-> > 
-> > This applies on Konrad's devel/for-linus-5.15 branch in swiotlb.git
-> 
-> It should show up later today.
+On Fri, Aug 13, 2021 at 2:57 PM Yong Wu <yong.wu@mediatek.com> wrote:
+>
+> Prepare for 2 HWs that sharing pgtable in different power-domains.
+>
+> The previous SoC don't have PM. Only mt8192 has power-domain,
+> and it is display's power-domain which nearly always is enabled.
+>
+> When there are 2 M4U HWs, it may has problem.
+> In this function, we get the pm_status via the m4u dev, but it don't
+> reflect the real power-domain status of the HW since there may be other
+> HW also use that power-domain.
+>
+> Currently we could not get the real power-domain status, thus always
+> pm_runtime_get here.
+>
+> Prepare for mt8195, thus, no need fix tags here.
+>
+> This patch may drop the performance, we expect the user could
+> pm_runtime_get_sync before dma_alloc_attrs which need tlb ops.
 
-Brill, thanks Konrad!
+Can you check if there are existing users that need to add this change?
 
-Will
+
+>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+<snip>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
