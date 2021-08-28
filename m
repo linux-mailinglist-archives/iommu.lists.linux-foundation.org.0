@@ -1,91 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9733FA67E
-	for <lists.iommu@lfdr.de>; Sat, 28 Aug 2021 17:38:44 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 613F93FA67F
+	for <lists.iommu@lfdr.de>; Sat, 28 Aug 2021 17:38:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A163D6060B;
-	Sat, 28 Aug 2021 15:38:39 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0F55340395;
+	Sat, 28 Aug 2021 15:38:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AcdsjL6UOU1C; Sat, 28 Aug 2021 15:38:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 30432606D3;
-	Sat, 28 Aug 2021 15:38:35 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yCShDMo6TfYL; Sat, 28 Aug 2021 15:38:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5416240209;
+	Sat, 28 Aug 2021 15:38:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06FFBC000E;
-	Sat, 28 Aug 2021 15:38:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32BDAC000E;
+	Sat, 28 Aug 2021 15:38:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9557EC000E
- for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 15:38:33 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 952D0C000E
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 15:38:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6BABF4022F
- for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 15:38:33 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 84504403A8
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 15:38:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=svenpeter.dev header.b="c/VwfpjR";
- dkim=pass (2048-bit key) header.d=messagingengine.com
- header.b="tAu3pq1n"
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iTuPtUci2_Hu for <iommu@lists.linux-foundation.org>;
- Sat, 28 Aug 2021 15:38:29 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OINk4lJBUl1l for <iommu@lists.linux-foundation.org>;
+ Sat, 28 Aug 2021 15:38:31 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E449B40249
- for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 15:38:28 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 31173580A70;
- Sat, 28 Aug 2021 11:38:28 -0400 (EDT)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1031240327
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 15:38:31 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 446FB580A77;
+ Sat, 28 Aug 2021 11:38:30 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sat, 28 Aug 2021 11:38:28 -0400
+ by compute5.internal (MEProxy); Sat, 28 Aug 2021 11:38:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=iBZuNFnMAvAXF
- VZFIFKfDQcXdgvOjdknTaSW4E1ZtzY=; b=c/VwfpjRKGKyjAnHha0tIGkrNmWyq
- 0g3szPYIKnzu4aAfk80wCEnn66CGQJeQsyJ5K0Jy6vTchiUFKgmSvX40FeCVkJ1Z
- Gf+IoW0tbRtXQsFnByhX2t52e2sBnB0JFHBMN7Ftwryi9bXrh0dz0eZMblKyQbjV
- uvHB9ArRdLD2w7khy7O+JhmiqPG1TSnH3al+efim+J/zNWjXuS6U+llxy2/VnLUw
- rKrtp46xJLZOzYYk+FHnXRwillocXYCR5/M5xrmv2pBQd6hXZc9ajFtWWJyQWPpC
- BcMf/jUQBDc7NGrzEFTdfVtMDxUULXkq4oyyCp5tPDJMhOFwCVRM9oeTw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=XZQg+0zFS2CpV
+ gEtfLzvy7d7UeLR2l4fefdb0n1QThA=; b=axWy0Gmip4RJeRjzrqOkd0MzACiTI
+ kZnXyK3zrM8t4vxgw3h4hsTrZXlqAUNhAJO2Hkdv9Djq6R35gUQ4m6jd5ranXhkz
+ Cuf5yPL/yOS2v3tm40xIrWckWlM7b3fn3ZurlACAx7kzSMsMKo/iF+ntbMahGL6E
+ aMGe1vVK5Ac+HDcHsrNc/bR74tMMJ5CBkRwReTtp5Ma54x8k52AEWYarQOlt1z8m
+ 0VVkJLeNY5d1VcAanrhJwp7n0Cqm0TLK/3V0YFij1TqsCh6XD/aNvb5IYWklOBma
+ OnHX68j9vrJT/PC/IGN/zdrw+GkF0J2XF9jPPKPp9WDpcULty4YuaMczg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=iBZuNFnMAvAXFVZFIFKfDQcXdgvOjdknTaSW4E1ZtzY=; b=tAu3pq1n
- ozKuH7rLXQa2DquSzgz7ffOBjSG4J8xzN1yte5s0Il7oI15Oh7vNf6BWyQtCdZUh
- r07hGHCLi9umT3pKd2003R97lkHRFRPz9NFAM1jqXdA2rknmAVWYf0NjfmSHOyxv
- qfTa3uYtLs7zwJ4p5QqOhupE9AOyYeBRk5u4K2MqhryfhT8v6htchX58y7jRqFpT
- CAT2cSYQ0BRbnslSt4AQMSMCHPee+wLDGfn2RwlzizifA3cWH5vcVAaHumEfEo+4
- VjhZMDczeIfET3ceaTNARgllIcYgtBlg/xrXaoYyrSoIwb0cc9b9h+vWr4iMzAqT
- FJNjCS1CXFfhTA==
-X-ME-Sender: <xms:dFgqYY6oxTEvTI5-lcJnP9kyW8hvF9vEt_cAZVrM_a7JRyOb6m5sfw>
- <xme:dFgqYZ50dpVDdC5bbj3w4vTGmpxloKDo3xNIeRw1gr1fIEg-dwWDZoteKT7Ij_ACy
- hlh83K873t3h7X1MMs>
-X-ME-Received: <xmr:dFgqYXfzPY0QKbktuOe26EOLihFxeB3nFNGGSlkyo-h7SVpHnGrR9FPcmI3xnYg8Ds84SIqLkOWQQxsuD6XMZ2tOu7-u1gpfpYQjHpZg7HZBJc41Gpy4OIbpGDQ-og>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduhedgleduucetufdoteggodetrfdotf
+ fm3; bh=XZQg+0zFS2CpVgEtfLzvy7d7UeLR2l4fefdb0n1QThA=; b=jTAIQyL5
+ j7pOaQ6CnELvdglo37lfTxEgP2Dal7vfoMIYZe5hmk9tHSZxevxrtdfyWGnVk2Bd
+ WGcSPKar3iBAoGcBx5wVNgOyLN7P20yqA9uLRBDhxuHnsWoU9GKxBPROIq9rhm3o
+ sSQb2bXAGlclO1FPxAspc5o+/KBQVhe9xM8nUe2+IG+LGAeMHX0ASofxsmU9oS1R
+ MI5lZq3NFakmfNc2P3A5AHCA8qbo1wFiTaAcUk2c4WvOAWucLUeXPvjLbgnTQiVD
+ OgTd/G6toYOVsKnF3Khiq23FSM/XujpttD3JE6HSbI3NVZm5bFk7RH0AJigh2eoL
+ mzhngXO3dXErTQ==
+X-ME-Sender: <xms:dVgqYYtXnAa5MrKZE5ajeEgZTM8p7VyF7PBWGMFWpngH-FeHA7NFAg>
+ <xme:dVgqYVdEUs2GN268wrNHikgXM0wd59UtgtAiorWjiRl0mGDUD_PetqZ4St3lJHlz4
+ o17Vhgk7kPsOjrY6RU>
+X-ME-Received: <xmr:dVgqYTybAb-WIWYKj4EzEWcbtLDOOxoEy_ySmRf9XpZVrsOEepDm55bKNy3SN9EAkC1c8-9dP4WKm8CkPpCTH-tcca8RrAM6l5d_nHP0535QJ6LaIDt0gHdF_Q46eQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduhedgledvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcu
  rfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvg
  hrnheptedvkeetleeuffffhfekteetffeggffgveehieelueefvddtueffveevlefhfeej
- necuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
  hnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:dFgqYdL_tLT1z-xAFc7xo1yfEzexv5NBXE6jWNp-d-pEYU7wS5D4sg>
- <xmx:dFgqYcJcw7xFOZDFBaMIpfQMNJtdGOnkyvwjtbtEbA5LnyPgYso44A>
- <xmx:dFgqYexmQyQN3QzD772rrf7f5plTPyTz9zEy7BfqhUlKzXJUBTxATQ>
- <xmx:dFgqYRW5MRT5a6MnumCSoDCD32Zh4hjCOCT10mF23qENrtzz71x13g>
+X-ME-Proxy: <xmx:dVgqYbNsWi0TMuv551B3TDTcK2GV1m34Ttk6SLvzQIzZJbb7nbQzcg>
+ <xmx:dVgqYY_ecDgryvmlAQReQ1SnoDIS-TH3_tdjQlvkg5vB5x8u8rqCMA>
+ <xmx:dVgqYTXZvR7RcD-cuMWc8b8KR1JD7-k1xbpes1kXLmhKMElMoAhtrg>
+ <xmx:dlgqYTYgALfWfnO-lJruAWoDNkJzptd79KlUH_RhkwzTv9qQTKLt1g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 28 Aug 2021 11:38:26 -0400 (EDT)
+ 28 Aug 2021 11:38:28 -0400 (EDT)
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v2 7/8] iommu: Introduce __IOMMU_DOMAIN_LP
-Date: Sat, 28 Aug 2021 17:36:41 +0200
-Message-Id: <20210828153642.19396-8-sven@svenpeter.dev>
+Subject: [PATCH v2 8/8] iommu/dart: Remove force_bypass logic
+Date: Sat, 28 Aug 2021 17:36:42 +0200
+Message-Id: <20210828153642.19396-9-sven@svenpeter.dev>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210828153642.19396-1-sven@svenpeter.dev>
 References: <20210828153642.19396-1-sven@svenpeter.dev>
@@ -114,58 +110,83 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-__IOMMU_DOMAIN_LP (large pages) indicates that a domain can handle
-conditions where PAGE_SIZE might be smaller than the IOMMU page size.
-Always allow attaching devices to such domains and set the flag for
-IOMMU_DOMAIN_DMA, which can now handle these situations.
+Now that the dma-iommu API supports IOMMU granules which are larger than
+the CPU page size and that the kernel no longer runs into a BUG_ON when
+devices are attached to a domain with such a granule there's no need to
+force bypass mode anymore.
 
 Signed-off-by: Sven Peter <sven@svenpeter.dev>
 ---
- drivers/iommu/iommu.c | 2 ++
- include/linux/iommu.h | 8 ++++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ drivers/iommu/apple-dart.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index f02b727d3054..77d1ee14c7d0 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -1980,6 +1980,8 @@ static int iommu_check_page_size(struct iommu_domain *domain)
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 559db9259e65..c37fb4790e8a 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -90,7 +90,6 @@
+  * @lock: lock for hardware operations involving this dart
+  * @pgsize: pagesize supported by this DART
+  * @supports_bypass: indicates if this DART supports bypass mode
+- * @force_bypass: force bypass mode due to pagesize mismatch?
+  * @sid2group: maps stream ids to iommu_groups
+  * @iommu: iommu core device
+  */
+@@ -107,7 +106,6 @@ struct apple_dart {
+ 
+ 	u32 pgsize;
+ 	u32 supports_bypass : 1;
+-	u32 force_bypass : 1;
+ 
+ 	struct iommu_group *sid2group[DART_MAX_STREAMS];
+ 	struct iommu_device iommu;
+@@ -506,9 +504,6 @@ static int apple_dart_attach_dev(struct iommu_domain *domain,
+ 	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+ 	struct apple_dart_domain *dart_domain = to_dart_domain(domain);
+ 
+-	if (cfg->stream_maps[0].dart->force_bypass &&
+-	    domain->type != IOMMU_DOMAIN_IDENTITY)
+-		return -EINVAL;
+ 	if (!cfg->stream_maps[0].dart->supports_bypass &&
+ 	    domain->type == IOMMU_DOMAIN_IDENTITY)
+ 		return -EINVAL;
+@@ -638,8 +633,6 @@ static int apple_dart_of_xlate(struct device *dev, struct of_phandle_args *args)
+ 	if (cfg_dart) {
+ 		if (cfg_dart->supports_bypass != dart->supports_bypass)
+ 			return -EINVAL;
+-		if (cfg_dart->force_bypass != dart->force_bypass)
+-			return -EINVAL;
+ 		if (cfg_dart->pgsize != dart->pgsize)
+ 			return -EINVAL;
+ 	}
+@@ -713,8 +706,6 @@ static int apple_dart_def_domain_type(struct device *dev)
  {
- 	if (!(domain->type & __IOMMU_DOMAIN_PAGING))
- 		return 0;
-+	if (domain->type & __IOMMU_DOMAIN_LP)
-+		return 0;
+ 	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
  
- 	if ((1 << __ffs(domain->pgsize_bitmap)) > PAGE_SIZE) {
- 		pr_warn("IOMMU page size cannot represent CPU pages.\n");
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 6633040a13f9..40c1ad6be4e7 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -62,6 +62,8 @@ struct iommu_domain_geometry {
- 					      implementation              */
- #define __IOMMU_DOMAIN_PT	(1U << 2)  /* Domain is identity mapped   */
- #define __IOMMU_DOMAIN_DMA_FQ	(1U << 3)  /* DMA-API uses flush queue    */
-+#define __IOMMU_DOMAIN_LP	(1U << 4)  /* Support for PAGE_SIZE smaller
-+					      than IOMMU page size        */
+-	if (cfg->stream_maps[0].dart->force_bypass)
+-		return IOMMU_DOMAIN_IDENTITY;
+ 	if (!cfg->stream_maps[0].dart->supports_bypass)
+ 		return IOMMU_DOMAIN_DMA;
  
- /*
-  * This are the possible domain-types
-@@ -81,10 +83,12 @@ struct iommu_domain_geometry {
- #define IOMMU_DOMAIN_IDENTITY	(__IOMMU_DOMAIN_PT)
- #define IOMMU_DOMAIN_UNMANAGED	(__IOMMU_DOMAIN_PAGING)
- #define IOMMU_DOMAIN_DMA	(__IOMMU_DOMAIN_PAGING |	\
--				 __IOMMU_DOMAIN_DMA_API)
-+				 __IOMMU_DOMAIN_DMA_API |       \
-+				 __IOMMU_DOMAIN_LP)
- #define IOMMU_DOMAIN_DMA_FQ	(__IOMMU_DOMAIN_PAGING |	\
- 				 __IOMMU_DOMAIN_DMA_API |	\
--				 __IOMMU_DOMAIN_DMA_FQ)
-+				 __IOMMU_DOMAIN_DMA_FQ |        \
-+				 __IOMMU_DOMAIN_LP)
+@@ -844,7 +835,6 @@ static int apple_dart_probe(struct platform_device *pdev)
+ 	dart_params[1] = readl(dart->regs + DART_PARAMS2);
+ 	dart->pgsize = 1 << FIELD_GET(DART_PARAMS_PAGE_SHIFT, dart_params[0]);
+ 	dart->supports_bypass = dart_params[1] & DART_PARAMS_BYPASS_SUPPORT;
+-	dart->force_bypass = dart->pgsize > PAGE_SIZE;
  
- struct iommu_domain {
- 	unsigned type;
+ 	ret = request_irq(dart->irq, apple_dart_irq, IRQF_SHARED,
+ 			  "apple-dart fault handler", dart);
+@@ -868,8 +858,8 @@ static int apple_dart_probe(struct platform_device *pdev)
+ 
+ 	dev_info(
+ 		&pdev->dev,
+-		"DART [pagesize %x, bypass support: %d, bypass forced: %d] initialized\n",
+-		dart->pgsize, dart->supports_bypass, dart->force_bypass);
++		"DART [pagesize %x, bypass support: %d] initialized\n",
++		dart->pgsize, dart->supports_bypass);
+ 	return 0;
+ 
+ err_sysfs_remove:
 -- 
 2.25.1
 
