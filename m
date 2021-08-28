@@ -1,66 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35C33FA407
-	for <lists.iommu@lfdr.de>; Sat, 28 Aug 2021 08:43:02 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C8C3FA42E
+	for <lists.iommu@lfdr.de>; Sat, 28 Aug 2021 09:09:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5C1C983F28;
-	Sat, 28 Aug 2021 06:43:01 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S74echduE8Sn; Sat, 28 Aug 2021 06:42:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6F7298378A;
-	Sat, 28 Aug 2021 06:42:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 346ECC001F;
-	Sat, 28 Aug 2021 06:42:57 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E2ACC000E
- for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 06:42:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2EC9E40165
- for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 06:42:55 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 989B94088D;
+	Sat, 28 Aug 2021 07:09:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UpgoXfzpC_eo for <iommu@lists.linux-foundation.org>;
- Sat, 28 Aug 2021 06:42:53 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UQFjU1mrz0Fs; Sat, 28 Aug 2021 07:09:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7C53D40247;
+	Sat, 28 Aug 2021 07:09:25 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 423E7C000E;
+	Sat, 28 Aug 2021 07:09:25 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3373C000E
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 07:09:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id E328983134
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 07:09:23 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id nze2Fbih5IwC for <iommu@lists.linux-foundation.org>;
+ Sat, 28 Aug 2021 07:09:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 78CFA400EF
- for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 06:42:53 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GxRkT5CJyzbd7V;
- Sat, 28 Aug 2021 14:38:57 +0800 (CST)
-Received: from dggpemm500004.china.huawei.com (7.185.36.219) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 28 Aug 2021 14:42:49 +0800
-Received: from huawei.com (10.174.28.241) by dggpemm500004.china.huawei.com
- (7.185.36.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Sat, 28 Aug
- 2021 14:42:49 +0800
-From: Bixuan Cui <cuibixuan@huawei.com>
-To: <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next v3 2/2] iommu/arm-smmu-v3: Add suspend and resume support
-Date: Sat, 28 Aug 2021 14:39:15 +0800
-Message-ID: <20210828063916.39633-2-cuibixuan@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210828063916.39633-1-cuibixuan@huawei.com>
-References: <20210828063916.39633-1-cuibixuan@huawei.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 5530E830FB
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Aug 2021 07:09:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10089"; a="216222587"
+X-IronPort-AV: E=Sophos;i="5.84,358,1620716400"; d="scan'208";a="216222587"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2021 00:09:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,358,1620716400"; d="scan'208";a="495954835"
+Received: from allen-box.sh.intel.com ([10.239.159.118])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Aug 2021 00:09:20 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 0/2] [PULL REQUEST] iommu/vt-d: Fixes for v5.15-rc1
+Date: Sat, 28 Aug 2021 15:06:20 +0800
+Message-Id: <20210828070622.2437559-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.174.28.241]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500004.china.huawei.com (7.185.36.219)
-X-CFilter-Loop: Reflected
-Cc: jean-philippe@linaro.org, maz@kernel.org, rafael@kernel.org,
- gregkh@linuxfoundation.org, robin.murphy@arm.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
+ Dave Jiang <dave.jiang@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,232 +69,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add suspend and resume support for arm-smmu-v3 by low-power mode.
+Hi Joerg,
 
-When the smmu is suspended, it is powered off and the registers are
-cleared. So saves the msi_msg context during msi interrupt initialization
-of smmu. When resume happens it calls arm_smmu_device_reset() to restore
-the registers.
+Two small fixes are queued for v5.15. They aim to fix:
 
-Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
----
-Changes in v3:
-* Move the code of save msg context into msi platform (A new patch: "platform-msi: Save the msg context to desc in platform_msi_write_msg()").
+ - PASID leakage in intel_svm_unbind_mm();
+ - Deadlock in intel_svm_drain_prq().
 
-* Add bypass member to the struct arm_smmu_device for per-SMMU bypass control(used by resume mode).
+Please consider them for the iommu/fix branch.
 
-* Separate interrupt requests and register operations in arm_smmu_device_reset(). The arm_smmu_setup_irqs() is added to request interrupts and is called before arm_smmu_device_reset(). The arm_smmu_device_reset() resets irq registers (can also be called in resume mode).
+Best regards,
+Lu Baolu
 
-Changes in v2:
-* Using get_cached_msi_msg() instead of the descriptor to resume msi_msg
-  in arm_smmu_resume_msis();
+Fenghua Yu (2):
+  iommu/vt-d: Fix PASID leak in intel_svm_unbind_mm()
+  iommu/vt-d: Fix a deadlock in intel_svm_drain_prq()
 
-* Move arm_smmu_resume_msis() from arm_smmu_setup_unique_irqs() into
-  arm_smmu_setup_irqs() and rename it to arm_smmu_resume_unique_irqs();
+ drivers/iommu/intel/svm.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-  Call arm_smmu_setup_unique_irqs() to configure the IRQ during probe and
-  call arm_smmu_resume_unique_irqs() in resume mode to restore the IRQ
-  registers to make the code more reasonable.
-
-* Call arm_smmu_device_disable() to disable smmu and clear CR0_SMMUEN on
-  suspend. Then the warning about CR0_SMMUEN being enabled can be cleared
-  on resume.
-
-* Using SET_SYSTEM_SLEEP_PM_OPS();
-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 99 +++++++++++++++++++--
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  1 +
- 2 files changed, 93 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index a388e318f86e..95a1c2689685 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -3282,6 +3282,61 @@ static int arm_smmu_setup_irqs(struct arm_smmu_device *smmu)
- 	return 0;
- }
- 
-+static void arm_smmu_reset_unique_irqs(struct arm_smmu_device *smmu)
-+{
-+	struct msi_desc *desc;
-+	struct msi_msg msg;
-+
-+	desc = irq_get_msi_desc(smmu->evtq.q.irq);
-+	if (desc) {
-+		get_cached_msi_msg(smmu->evtq.q.irq, &msg);
-+		arm_smmu_write_msi_msg(desc, &msg);
-+	}
-+
-+	desc = irq_get_msi_desc(smmu->gerr_irq);
-+	if (desc) {
-+		get_cached_msi_msg(smmu->gerr_irq, &msg);
-+		arm_smmu_write_msi_msg(desc, &msg);
-+	}
-+
-+	if (smmu->features & ARM_SMMU_FEAT_PRI) {
-+		desc = irq_get_msi_desc(smmu->priq.q.irq);
-+		if (desc) {
-+			get_cached_msi_msg(smmu->priq.q.irq, &msg);
-+			arm_smmu_write_msi_msg(desc, &msg);
-+		}
-+	}
-+}
-+
-+static int arm_smmu_reset_irqs(struct arm_smmu_device *smmu)
-+{
-+	int ret, irq;
-+	u32 irqen_flags = IRQ_CTRL_EVTQ_IRQEN | IRQ_CTRL_GERROR_IRQEN;
-+
-+	/* Disable IRQs first */
-+	ret = arm_smmu_write_reg_sync(smmu, 0, ARM_SMMU_IRQ_CTRL,
-+				      ARM_SMMU_IRQ_CTRLACK);
-+	if (ret) {
-+		dev_err(smmu->dev, "failed to disable irqs\n");
-+		return ret;
-+	}
-+
-+	irq = smmu->combined_irq;
-+	if (!irq)
-+		arm_smmu_reset_unique_irqs(smmu);
-+
-+	if (smmu->features & ARM_SMMU_FEAT_PRI)
-+		irqen_flags |= IRQ_CTRL_PRIQ_IRQEN;
-+
-+	/* Enable interrupt generation on the SMMU */
-+	ret = arm_smmu_write_reg_sync(smmu, irqen_flags,
-+				      ARM_SMMU_IRQ_CTRL, ARM_SMMU_IRQ_CTRLACK);
-+	if (ret)
-+		dev_warn(smmu->dev, "failed to reset irqs\n");
-+
-+	return 0;
-+}
-+
- static int arm_smmu_device_disable(struct arm_smmu_device *smmu)
- {
- 	int ret;
-@@ -3293,7 +3348,7 @@ static int arm_smmu_device_disable(struct arm_smmu_device *smmu)
- 	return ret;
- }
- 
--static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
-+static int arm_smmu_device_reset(struct arm_smmu_device *smmu)
- {
- 	int ret;
- 	u32 reg, enables;
-@@ -3401,9 +3456,9 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
- 		}
- 	}
- 
--	ret = arm_smmu_setup_irqs(smmu);
-+	ret = arm_smmu_reset_irqs(smmu);
- 	if (ret) {
--		dev_err(smmu->dev, "failed to setup irqs\n");
-+		dev_err(smmu->dev, "failed to reset irqs\n");
- 		return ret;
- 	}
- 
-@@ -3411,7 +3466,7 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
- 		enables &= ~(CR0_EVTQEN | CR0_PRIQEN);
- 
- 	/* Enable the SMMU interface, or ensure bypass */
--	if (!bypass || disable_bypass) {
-+	if (!smmu->bypass || disable_bypass) {
- 		enables |= CR0_SMMUEN;
- 	} else {
- 		ret = arm_smmu_update_gbpa(smmu, 0, GBPA_ABORT);
-@@ -3758,6 +3813,25 @@ static void __iomem *arm_smmu_ioremap(struct device *dev, resource_size_t start,
- 	return devm_ioremap_resource(dev, &res);
- }
- 
-+static int __maybe_unused arm_smmu_suspend(struct device *dev)
-+{
-+	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-+
-+	/* disable smmu to clear CR0 */
-+	arm_smmu_device_disable(smmu);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused arm_smmu_resume(struct device *dev)
-+{
-+	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-+
-+	arm_smmu_device_reset(smmu);
-+
-+	return 0;
-+}
-+
- static int arm_smmu_device_probe(struct platform_device *pdev)
- {
- 	int irq, ret;
-@@ -3765,7 +3839,6 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	resource_size_t ioaddr;
- 	struct arm_smmu_device *smmu;
- 	struct device *dev = &pdev->dev;
--	bool bypass;
- 
- 	smmu = devm_kzalloc(dev, sizeof(*smmu), GFP_KERNEL);
- 	if (!smmu)
-@@ -3781,7 +3854,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	}
- 
- 	/* Set bypass mode according to firmware probing result */
--	bypass = !!ret;
-+	smmu->bypass = !!ret;
- 
- 	/* Base address */
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-@@ -3839,8 +3912,15 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	/* Record our private device structure */
- 	platform_set_drvdata(pdev, smmu);
- 
-+	/* Setup irqs */
-+	ret = arm_smmu_setup_irqs(smmu);
-+	if (ret) {
-+		dev_err(smmu->dev, "failed to setup irqs\n");
-+		return ret;
-+	}
-+
- 	/* Reset the device */
--	ret = arm_smmu_device_reset(smmu, bypass);
-+	ret = arm_smmu_device_reset(smmu);
- 	if (ret)
- 		return ret;
- 
-@@ -3893,6 +3973,10 @@ static const struct of_device_id arm_smmu_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, arm_smmu_of_match);
- 
-+static const struct dev_pm_ops arm_smmu_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(arm_smmu_suspend, arm_smmu_resume)
-+};
-+
- static void arm_smmu_driver_unregister(struct platform_driver *drv)
- {
- 	arm_smmu_sva_notifier_synchronize();
-@@ -3904,6 +3988,7 @@ static struct platform_driver arm_smmu_driver = {
- 		.name			= "arm-smmu-v3",
- 		.of_match_table		= arm_smmu_of_match,
- 		.suppress_bind_attrs	= true,
-+		.pm			= &arm_smmu_pm_ops,
- 	},
- 	.probe	= arm_smmu_device_probe,
- 	.remove	= arm_smmu_device_remove,
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index 4cb136f07914..7777a7445bc2 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -675,6 +675,7 @@ struct arm_smmu_device {
- 
- 	struct rb_root			streams;
- 	struct mutex			streams_mutex;
-+	bool				bypass;
- };
- 
- struct arm_smmu_stream {
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 iommu mailing list
