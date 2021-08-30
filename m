@@ -1,75 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC473FB7E3
-	for <lists.iommu@lfdr.de>; Mon, 30 Aug 2021 16:22:36 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB8C3FB7E5
+	for <lists.iommu@lfdr.de>; Mon, 30 Aug 2021 16:22:39 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 724F2404A4;
-	Mon, 30 Aug 2021 14:22:30 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 045DE404BF;
+	Mon, 30 Aug 2021 14:22:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wLIq3K0lGogf; Mon, 30 Aug 2021 14:22:26 +0000 (UTC)
+	with ESMTP id qtbJNx06jafp; Mon, 30 Aug 2021 14:22:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 881FE403CE;
-	Mon, 30 Aug 2021 14:22:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C166F40447;
+	Mon, 30 Aug 2021 14:22:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E12CC000E;
-	Mon, 30 Aug 2021 14:22:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA56FC000E;
+	Mon, 30 Aug 2021 14:22:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54941C000E
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 14:22:24 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EBA14C000E
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 14:22:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 359AC4032B
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 14:22:24 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id E8A3260644
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 14:22:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TSxdw9tR-WyG for <iommu@lists.linux-foundation.org>;
- Mon, 30 Aug 2021 14:22:23 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bpGfB7ANWVHz for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Aug 2021 14:22:27 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7B0D340327
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 14:22:23 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id c17so13640629pgc.0
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 07:22:23 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 4BF8B6077C
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 14:22:27 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id 2so12309168pfo.8
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 07:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=diFMdOjfYo6h4zJjyD4SVBR9esxDRufQId7nejSxKj0=;
- b=hcYZ3bu/iTv3nXHzdb6IZ+Jz0ImD01FH6mxyeyemAtLnIRQzin3GmJV6HdZ5CqGj8b
- 4ztTPPs4YIdl9m8da97tlK52AFnl2gSBJFkWKuMiGMDb9p9X9NIICMr2z8HLWHNTZwqm
- 7Sjk/Z4e3tPNHZx8CQldNGPoxabjp5FtpPaBRK4tuHH9xJJptAq9jvw6+fDXsyU3bMz1
- +lqVTP48kweKiJpuJcuKuHbgk7R1dT3L1v2IWN4uG5+M62fybZ9kOE1VR93bRrxTGLG3
- QfzsnfrhuzEbcbQ87CTEozvmFm99ARCVi2kFGM87MLFVN7VD6jZ9g6ZPN9Ta2f4mVx/U
- ZVIw==
+ bh=uxUw2hcVSEAQgQhUPN5uVVCi3T7zx/tOCVC+l2FlBb0=;
+ b=loDMXCcCxRcnw1kNzf3ToVR4YmzQ3z8kOubjPnejJFIvp0DqWMrvNJ0bxIoOFBRhTF
+ BJj00W4oV8VjT+zdK2p5haq83KkbOGEKa3zIIsZm0mW21vfzOx/5I/vvR0SxjCROu3dC
+ zS2yUrgYelr2lgkxiBoF9Jj107puqJW/7R490CuH6V3uD4F0uasyZVSXF7j9w75SxmPY
+ YH71YNuXHMtRZwRcBOGpYU+hcNHhikKtP8pDjMNNrg0XT0oaMbD6wjDsAX9YjgbMDf+l
+ bGtBypPJj6FM92bjF42b4w3jO1CqUIJ2KGzFC8c1U4bJgrPbcKYs3iKXO6WveN1VjjR7
+ 3EZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=diFMdOjfYo6h4zJjyD4SVBR9esxDRufQId7nejSxKj0=;
- b=ihV3rldR54faJBpv3VeNDsrlC0glAzLODxMjUMPMT5m0V7b0AHhSEPzdYMVLWymrAO
- e4bAssNNeREqV3THiQY/OTv08A43pLLfLs8xsn2hJ7Ti3ZMDyoRURjvdkqpPnPwyitbY
- rIQpWEQdR2YYnxrkyX9u9cn9+FpzEXHVZS+iahv/+CIUUpytOkUibIUkvCkb0pJTiihL
- m8dI9+Yk5EjmUrFKsMbeyTVSklVXpJBdKXApPkd7YTdAq+QgXbyvHfjip08xs63HMQXO
- Yk/Db7Dqo2tbn0WSQ0EHbXIwB0q7pWcKcFNOC9HpmPnGD8unspGumWX1E5QyuotxCNzd
- Hqdg==
-X-Gm-Message-State: AOAM532loLbMrnjODmB6osVCPNkWB0DV2t2VTDyZ3K1VGjJMVkmg9fD4
- +BNHsCApdC8pBCNXvdKTAutc
-X-Google-Smtp-Source: ABdhPJyQB5IJXUEF93RbI9/KIBQuYghvxo2mARtY46/TkN9afeqhYJZUQ2bikAHZ0mSSu+yH91lsog==
-X-Received: by 2002:a63:5b08:: with SMTP id p8mr22233395pgb.28.1630333342976; 
- Mon, 30 Aug 2021 07:22:22 -0700 (PDT)
+ bh=uxUw2hcVSEAQgQhUPN5uVVCi3T7zx/tOCVC+l2FlBb0=;
+ b=plpKrpkw3vOQsCOL2QpWko8AX/ZtALGQnyDFG8KfbGdwKbwti952cV/icD3nq19ldJ
+ rblhY4pXx8IBCdUSmBSecUy3gYuOxbJgZpjY9tvEMbaHdyjQX1qHBL+A1NHZLjqalR2B
+ CwJGwdQUIakcHhzSwvcanDFr8Wh3i59dcLxFYQynzNbxJSnx56Fb1WcuACLpOlDy/g/0
+ bCqsQl5aUJMd6kkeqRBham3DyltogAdArB9Sh+al9zVFeg9D64487T/Hd1yR663lgrdL
+ yVIFMYG1CmKmhyb99qlO3oEn9XFYA/n9a/chIBAQ8XbC0K+zhwUf6hFNdbLQZulzFdrX
+ GGgg==
+X-Gm-Message-State: AOAM532M8DibXHhjfOPlYJO0eTjO9WLFJrH+6JHdgvZyfsG07s/iGl+v
+ C5StDZBMdFPINCx50i6DJD/T
+X-Google-Smtp-Source: ABdhPJxe3Xomk1csCGMzYRZizDDvpAAJC/1dpAufV9ppPB0TqMFmAiC+ukQKfMPe1g+0BLFsT7blqw==
+X-Received: by 2002:a62:6453:0:b0:3fa:69ac:6c88 with SMTP id
+ y80-20020a626453000000b003fa69ac6c88mr11646577pfb.24.1630333346699; 
+ Mon, 30 Aug 2021 07:22:26 -0700 (PDT)
 Received: from localhost ([139.177.225.237])
- by smtp.gmail.com with ESMTPSA id a7sm17128137pga.34.2021.08.30.07.22.21
+ by smtp.gmail.com with ESMTPSA id n14sm10474310pgd.48.2021.08.30.07.22.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 07:22:22 -0700 (PDT)
+ Mon, 30 Aug 2021 07:22:26 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, parav@nvidia.com, hch@infradead.org,
@@ -79,10 +80,10 @@ To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  dan.carpenter@oracle.com, joro@8bytes.org, gregkh@linuxfoundation.org,
  zhe.he@windriver.com, xiaodong.liu@intel.com, joe@perches.com,
  robin.murphy@arm.com, will@kernel.org, john.garry@huawei.com
-Subject: [PATCH v12 08/13] vdpa: Add an opaque pointer for
- vdpa_config_ops.dma_map()
-Date: Mon, 30 Aug 2021 22:17:32 +0800
-Message-Id: <20210830141737.181-9-xieyongji@bytedance.com>
+Subject: [PATCH v12 09/13] vdpa: factor out vhost_vdpa_pa_map() and
+ vhost_vdpa_pa_unmap()
+Date: Mon, 30 Aug 2021 22:17:33 +0800
+Message-Id: <20210830141737.181-10-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830141737.181-1-xieyongji@bytedance.com>
 References: <20210830141737.181-1-xieyongji@bytedance.com>
@@ -107,65 +108,148 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add an opaque pointer for DMA mapping.
+The upcoming patch is going to support VA mapping/unmapping.
+So let's factor out the logic of PA mapping/unmapping firstly
+to make the code more readable.
 
 Suggested-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- drivers/vdpa/vdpa_sim/vdpa_sim.c | 6 +++---
- drivers/vhost/vdpa.c             | 2 +-
- include/linux/vdpa.h             | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/vhost/vdpa.c | 55 +++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 35 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/vdpa/vdpa_sim/vdpa_sim.c b/drivers/vdpa/vdpa_sim/vdpa_sim.c
-index f292bb05d6c9..a70fd2a08ff1 100644
---- a/drivers/vdpa/vdpa_sim/vdpa_sim.c
-+++ b/drivers/vdpa/vdpa_sim/vdpa_sim.c
-@@ -555,14 +555,14 @@ static int vdpasim_set_map(struct vdpa_device *vdpa,
- }
- 
- static int vdpasim_dma_map(struct vdpa_device *vdpa, u64 iova, u64 size,
--			   u64 pa, u32 perm)
-+			   u64 pa, u32 perm, void *opaque)
- {
- 	struct vdpasim *vdpasim = vdpa_to_sim(vdpa);
- 	int ret;
- 
- 	spin_lock(&vdpasim->iommu_lock);
--	ret = vhost_iotlb_add_range(vdpasim->iommu, iova, iova + size - 1, pa,
--				    perm);
-+	ret = vhost_iotlb_add_range_ctx(vdpasim->iommu, iova, iova + size - 1,
-+					pa, perm, opaque);
- 	spin_unlock(&vdpasim->iommu_lock);
- 
- 	return ret;
 diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
-index ab39805ecff1..ba030150b4b6 100644
+index ba030150b4b6..49a1f45ccef8 100644
 --- a/drivers/vhost/vdpa.c
 +++ b/drivers/vhost/vdpa.c
-@@ -571,7 +571,7 @@ static int vhost_vdpa_map(struct vhost_vdpa *v,
- 		return r;
+@@ -504,7 +504,7 @@ static long vhost_vdpa_unlocked_ioctl(struct file *filep,
+ 	return r;
+ }
  
- 	if (ops->dma_map) {
--		r = ops->dma_map(vdpa, iova, size, pa, perm);
-+		r = ops->dma_map(vdpa, iova, size, pa, perm, NULL);
- 	} else if (ops->set_map) {
- 		if (!v->in_batch)
- 			r = ops->set_map(vdpa, dev->iotlb);
-diff --git a/include/linux/vdpa.h b/include/linux/vdpa.h
-index e1eae8c7483d..f3014aaca47e 100644
---- a/include/linux/vdpa.h
-+++ b/include/linux/vdpa.h
-@@ -270,7 +270,7 @@ struct vdpa_config_ops {
- 	/* DMA ops */
- 	int (*set_map)(struct vdpa_device *vdev, struct vhost_iotlb *iotlb);
- 	int (*dma_map)(struct vdpa_device *vdev, u64 iova, u64 size,
--		       u64 pa, u32 perm);
-+		       u64 pa, u32 perm, void *opaque);
- 	int (*dma_unmap)(struct vdpa_device *vdev, u64 iova, u64 size);
+-static void vhost_vdpa_iotlb_unmap(struct vhost_vdpa *v, u64 start, u64 last)
++static void vhost_vdpa_pa_unmap(struct vhost_vdpa *v, u64 start, u64 last)
+ {
+ 	struct vhost_dev *dev = &v->vdev;
+ 	struct vhost_iotlb *iotlb = dev->iotlb;
+@@ -526,6 +526,11 @@ static void vhost_vdpa_iotlb_unmap(struct vhost_vdpa *v, u64 start, u64 last)
+ 	}
+ }
  
- 	/* Free device resources */
++static void vhost_vdpa_iotlb_unmap(struct vhost_vdpa *v, u64 start, u64 last)
++{
++	return vhost_vdpa_pa_unmap(v, start, last);
++}
++
+ static void vhost_vdpa_iotlb_free(struct vhost_vdpa *v)
+ {
+ 	struct vhost_dev *dev = &v->vdev;
+@@ -606,38 +611,28 @@ static void vhost_vdpa_unmap(struct vhost_vdpa *v, u64 iova, u64 size)
+ 	}
+ }
+ 
+-static int vhost_vdpa_process_iotlb_update(struct vhost_vdpa *v,
+-					   struct vhost_iotlb_msg *msg)
++static int vhost_vdpa_pa_map(struct vhost_vdpa *v,
++			     u64 iova, u64 size, u64 uaddr, u32 perm)
+ {
+ 	struct vhost_dev *dev = &v->vdev;
+-	struct vhost_iotlb *iotlb = dev->iotlb;
+ 	struct page **page_list;
+ 	unsigned long list_size = PAGE_SIZE / sizeof(struct page *);
+ 	unsigned int gup_flags = FOLL_LONGTERM;
+ 	unsigned long npages, cur_base, map_pfn, last_pfn = 0;
+ 	unsigned long lock_limit, sz2pin, nchunks, i;
+-	u64 iova = msg->iova;
++	u64 start = iova;
+ 	long pinned;
+ 	int ret = 0;
+ 
+-	if (msg->iova < v->range.first || !msg->size ||
+-	    msg->iova > U64_MAX - msg->size + 1 ||
+-	    msg->iova + msg->size - 1 > v->range.last)
+-		return -EINVAL;
+-
+-	if (vhost_iotlb_itree_first(iotlb, msg->iova,
+-				    msg->iova + msg->size - 1))
+-		return -EEXIST;
+-
+ 	/* Limit the use of memory for bookkeeping */
+ 	page_list = (struct page **) __get_free_page(GFP_KERNEL);
+ 	if (!page_list)
+ 		return -ENOMEM;
+ 
+-	if (msg->perm & VHOST_ACCESS_WO)
++	if (perm & VHOST_ACCESS_WO)
+ 		gup_flags |= FOLL_WRITE;
+ 
+-	npages = PAGE_ALIGN(msg->size + (iova & ~PAGE_MASK)) >> PAGE_SHIFT;
++	npages = PAGE_ALIGN(size + (iova & ~PAGE_MASK)) >> PAGE_SHIFT;
+ 	if (!npages) {
+ 		ret = -EINVAL;
+ 		goto free;
+@@ -651,7 +646,7 @@ static int vhost_vdpa_process_iotlb_update(struct vhost_vdpa *v,
+ 		goto unlock;
+ 	}
+ 
+-	cur_base = msg->uaddr & PAGE_MASK;
++	cur_base = uaddr & PAGE_MASK;
+ 	iova &= PAGE_MASK;
+ 	nchunks = 0;
+ 
+@@ -682,7 +677,7 @@ static int vhost_vdpa_process_iotlb_update(struct vhost_vdpa *v,
+ 				csize = (last_pfn - map_pfn + 1) << PAGE_SHIFT;
+ 				ret = vhost_vdpa_map(v, iova, csize,
+ 						     map_pfn << PAGE_SHIFT,
+-						     msg->perm);
++						     perm);
+ 				if (ret) {
+ 					/*
+ 					 * Unpin the pages that are left unmapped
+@@ -711,7 +706,7 @@ static int vhost_vdpa_process_iotlb_update(struct vhost_vdpa *v,
+ 
+ 	/* Pin the rest chunk */
+ 	ret = vhost_vdpa_map(v, iova, (last_pfn - map_pfn + 1) << PAGE_SHIFT,
+-			     map_pfn << PAGE_SHIFT, msg->perm);
++			     map_pfn << PAGE_SHIFT, perm);
+ out:
+ 	if (ret) {
+ 		if (nchunks) {
+@@ -730,13 +725,33 @@ static int vhost_vdpa_process_iotlb_update(struct vhost_vdpa *v,
+ 			for (pfn = map_pfn; pfn <= last_pfn; pfn++)
+ 				unpin_user_page(pfn_to_page(pfn));
+ 		}
+-		vhost_vdpa_unmap(v, msg->iova, msg->size);
++		vhost_vdpa_unmap(v, start, size);
+ 	}
+ unlock:
+ 	mmap_read_unlock(dev->mm);
+ free:
+ 	free_page((unsigned long)page_list);
+ 	return ret;
++
++}
++
++static int vhost_vdpa_process_iotlb_update(struct vhost_vdpa *v,
++					   struct vhost_iotlb_msg *msg)
++{
++	struct vhost_dev *dev = &v->vdev;
++	struct vhost_iotlb *iotlb = dev->iotlb;
++
++	if (msg->iova < v->range.first || !msg->size ||
++	    msg->iova > U64_MAX - msg->size + 1 ||
++	    msg->iova + msg->size - 1 > v->range.last)
++		return -EINVAL;
++
++	if (vhost_iotlb_itree_first(iotlb, msg->iova,
++				    msg->iova + msg->size - 1))
++		return -EEXIST;
++
++	return vhost_vdpa_pa_map(v, msg->iova, msg->size, msg->uaddr,
++				 msg->perm);
+ }
+ 
+ static int vhost_vdpa_process_iotlb_msg(struct vhost_dev *dev,
 -- 
 2.11.0
 
