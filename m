@@ -1,84 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D1B3FB0A3
-	for <lists.iommu@lfdr.de>; Mon, 30 Aug 2021 07:00:51 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5313FB208
+	for <lists.iommu@lfdr.de>; Mon, 30 Aug 2021 09:42:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B0F5B40424;
-	Mon, 30 Aug 2021 05:00:49 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id DB58680E78;
+	Mon, 30 Aug 2021 07:42:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o6tiQQ0oVV3Q; Mon, 30 Aug 2021 05:00:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7DC7E4043E;
-	Mon, 30 Aug 2021 05:00:45 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9OW9XfA3d01Y; Mon, 30 Aug 2021 07:42:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7059680E7A;
+	Mon, 30 Aug 2021 07:42:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 59CA7C001F;
-	Mon, 30 Aug 2021 05:00:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56E62C000E;
+	Mon, 30 Aug 2021 07:42:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D044C000E
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 05:00:44 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93B67C000E
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 07:42:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id ED43E4043E
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 05:00:43 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 7F2F8401FE
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 07:42:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0iCVFJS0vYxP for <iommu@lists.linux-foundation.org>;
- Mon, 30 Aug 2021 05:00:42 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 3E86340426
- for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 05:00:42 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id j1so8631708pjv.3
- for <iommu@lists.linux-foundation.org>; Sun, 29 Aug 2021 22:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/VS4mvo3sV1dyJzQfdauWA5TTO+Tom8rl19Tszwo+xo=;
- b=anQ0zN7j+GJcEuaUBLLQmwHIVBH60mpnps17q81PSlJdxmIwWgErHTJ1KHG1dkLr45
- ANsJgtQM8xdy4QcNl4vsCcEJn8xww1p2fhaIBC73GtlX5oc2QBdSaieXOGnivPh/UOHT
- fe/f77MY9HPvk1d7O3qj8aMEXLPRkNhUOzB5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/VS4mvo3sV1dyJzQfdauWA5TTO+Tom8rl19Tszwo+xo=;
- b=CeVVWhRLjSmgflyEQR3THFealcD1zOBmgNhrknm56RjbjDPbvL15Tb0Mt1Z2xo5QaM
- f1kL9Tbzapng5jWruG2mKC1pnfNUpAYsD2+ZSt3/Eqdxkby24Lr5oH/hzHdQjKhxCKTv
- vy8OI7WF1ClJ8mrMmp17PZUzZj/VU+b9RPah0sUIK6taBhAGhEC82P55AEGfydyxyDDs
- eumMi9PrQyUISHC68wqeuhSeFNC47hUBptIqSP58p3zSbxuU31eaf/97sEnV2nh/r80v
- JUunplxtuIhtHuNUdh/UQIKGXDZ68NNf+5JdNQ/1xTbbwYeWeEHpc2/jLjcHTnjbQ2jB
- PQ1Q==
-X-Gm-Message-State: AOAM530ihmkZhW3XNGI0l5DSnM+1kLsjE0ir5DqEE0zJ3m8uDXpZvL95
- /Da47Zoayah1M7XZEX7SuAFSig==
-X-Google-Smtp-Source: ABdhPJyx1l/gwIFaNymoiKGDrYWkTaqOD9FXeIxsFCrlnVTtHCQHfOEblXAk0c12OY9B7qcrV8H9/Q==
-X-Received: by 2002:a17:90a:6b83:: with SMTP id
- w3mr24253385pjj.114.1630299638643; 
- Sun, 29 Aug 2021 22:00:38 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:28a5:1b9f:af1d:5542])
- by smtp.gmail.com with UTF8SMTPSA id d17sm13065128pfn.110.2021.08.29.22.00.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 29 Aug 2021 22:00:38 -0700 (PDT)
-From: David Stevens <stevensd@chromium.org>
-X-Google-Original-From: David Stevens <stevensd@google.com>
-To: Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v7 7/7] dma-iommu: account for min_align_mask w/swiotlb
-Date: Mon, 30 Aug 2021 13:59:25 +0900
-Message-Id: <20210830045925.4163412-8-stevensd@google.com>
-X-Mailer: git-send-email 2.33.0.259.gc128427fd7-goog
-In-Reply-To: <20210830045925.4163412-1-stevensd@google.com>
-References: <20210830045925.4163412-1-stevensd@google.com>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ETvsMitE_4ol for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Aug 2021 07:42:40 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1AC1F401E3
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Aug 2021 07:42:39 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gyhy56NSCz8sZd;
+ Mon, 30 Aug 2021 15:38:21 +0800 (CST)
+Received: from dggpemm500004.china.huawei.com (7.185.36.219) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 30 Aug 2021 15:42:34 +0800
+Received: from huawei.com (10.174.28.241) by dggpemm500004.china.huawei.com
+ (7.185.36.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Mon, 30 Aug
+ 2021 15:42:34 +0800
+From: Bixuan Cui <cuibixuan@huawei.com>
+To: <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next v4 1/2] platform-msi: Save the msg context to desc in
+ platform_msi_write_msg()
+Date: Mon, 30 Aug 2021 15:38:57 +0800
+Message-ID: <20210830073858.47084-1-cuibixuan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>,
- iommu@lists.linux-foundation.org, David Stevens <stevensd@chromium.org>,
- Rajat Jain <rajatja@google.com>, Will Deacon <will@kernel.org>
+X-Originating-IP: [10.174.28.241]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500004.china.huawei.com (7.185.36.219)
+X-CFilter-Loop: Reflected
+Cc: jean-philippe@linaro.org, maz@kernel.org, rafael@kernel.org,
+ gregkh@linuxfoundation.org, robin.murphy@arm.com, will@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,61 +77,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: David Stevens <stevensd@chromium.org>
+Save the msg context to desc when when the msi interrupt is requested.
+The drivers can use it in special scenarios(such as resume).
 
-Pass the non-aligned size to __iommu_dma_map when using swiotlb bounce
-buffers in iommu_dma_map_page, to account for min_align_mask.
-
-To deal with granule alignment, __iommu_dma_map maps iova_align(size +
-iova_off) bytes starting at phys - iova_off. If iommu_dma_map_page
-passes aligned size when using swiotlb, then this becomes
-iova_align(iova_align(orig_size) + iova_off). Normally iova_off will be
-zero when using swiotlb. However, this is not the case for devices that
-set min_align_mask. When iova_off is non-zero, __iommu_dma_map ends up
-mapping an extra page at the end of the buffer. Beyond just being a
-security issue, the extra page is not cleaned up by __iommu_dma_unmap.
-This causes problems when the IOVA is reused, due to collisions in the
-iommu driver.  Just passing the original size is sufficient, since
-__iommu_dma_map will take care of granule alignment.
-
-Fixes: 1f221a0d0dbf ("swiotlb: respect min_align_mask")
-Signed-off-by: David Stevens <stevensd@chromium.org>
+Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
 ---
- drivers/iommu/dma-iommu.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/base/platform-msi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 9b8c17c3d29b..addcaa09db12 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -805,7 +805,6 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
--	size_t aligned_size = size;
- 	dma_addr_t iova, dma_mask = dma_get_mask(dev);
+diff --git a/drivers/base/platform-msi.c b/drivers/base/platform-msi.c
+index 3d6c8f9caf43..60962a224fcc 100644
+--- a/drivers/base/platform-msi.c
++++ b/drivers/base/platform-msi.c
+@@ -90,6 +90,9 @@ static void platform_msi_write_msg(struct irq_data *data, struct msi_msg *msg)
  
- 	/*
-@@ -814,7 +813,7 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	 */
- 	if (dev_use_swiotlb(dev) && iova_offset(iovad, phys | size)) {
- 		void *padding_start;
--		size_t padding_size;
-+		size_t padding_size, aligned_size;
+ 	priv_data = desc->platform.msi_priv_data;
  
- 		aligned_size = iova_align(iovad, size);
- 		phys = swiotlb_tbl_map_single(dev, phys, size, aligned_size,
-@@ -839,7 +838,7 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
- 		arch_sync_dma_for_device(phys, size, dir);
++	desc->msg.address_lo = msg->address_lo;
++	desc->msg.address_hi = msg->address_hi;
++	desc->msg.data = msg->data;
+ 	priv_data->write_msg(desc, msg);
+ }
  
--	iova = __iommu_dma_map(dev, phys, aligned_size, prot, dma_mask);
-+	iova = __iommu_dma_map(dev, phys, size, prot, dma_mask);
- 	if (iova == DMA_MAPPING_ERROR && is_swiotlb_buffer(phys))
- 		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
- 	return iova;
 -- 
-2.33.0.259.gc128427fd7-goog
+2.17.1
 
 _______________________________________________
 iommu mailing list
