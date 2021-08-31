@@ -1,59 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA013FC5DF
-	for <lists.iommu@lfdr.de>; Tue, 31 Aug 2021 13:30:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 96E7C60BB9;
-	Tue, 31 Aug 2021 11:30:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uxuzlpYGsoGf; Tue, 31 Aug 2021 11:30:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id A1F8C60BCE;
-	Tue, 31 Aug 2021 11:30:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 707CCC0022;
-	Tue, 31 Aug 2021 11:30:03 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2A70FC000E
- for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 11:30:02 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4681E3FCAA1
+	for <lists.iommu@lfdr.de>; Tue, 31 Aug 2021 17:18:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0A0F24044E
- for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 11:30:02 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E36DB404AA;
+	Tue, 31 Aug 2021 15:17:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id B8ndlk6m9ujE for <iommu@lists.linux-foundation.org>;
- Tue, 31 Aug 2021 11:30:01 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bfpeV2WyLZP7; Tue, 31 Aug 2021 15:17:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0E1D4404A3;
+	Tue, 31 Aug 2021 15:17:54 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D4187C0022;
+	Tue, 31 Aug 2021 15:17:53 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A7C86C000E
+ for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 15:17:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9118B4037F
+ for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 15:17:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id KWGg9k6o4SWw for <iommu@lists.linux-foundation.org>;
+ Tue, 31 Aug 2021 15:17:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 51524400C6
- for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 11:30:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="218171586"
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="218171586"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 04:29:56 -0700
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="540970405"
-Received: from cfitzp2-mobl2.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.255.231])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 04:29:54 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH] iommu/vt-d: Do not falsely log intel_iommu is unsupported
- kernel option
-Date: Tue, 31 Aug 2021 12:29:47 +0100
-Message-Id: <20210831112947.310080-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2A90F4037D
+ for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 15:17:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5432360724;
+ Tue, 31 Aug 2021 15:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630423071;
+ bh=Gze4tbWximZZAQoREaDEMclW35VaWPdDTv5B4j6qHX0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OeyrkZc+CBDZ1kqmQ9WpxRHA7iBGHgRCtg6iJhsdEAhaiG4ZStFXL2Mm7pDluNsMW
+ gXi28iVYXOjEXS6s7DOi5h5kKTD/9rtqErELDvWJeFP4UPF8ork8X80pXNeYQherK0
+ fBJ4Q0fnA8wPw5gk+eSwWOzoiERQJ0ajAU2SnFwkXBUE268P0zkU0ktzj2X9dO9w2b
+ zZKGAIdeyAcEQYoua1Ivq2uteKDRRhzi8E9eou4/LhVp0G7tVUBJGr6X62tNOHv+vQ
+ gsk4f71fg6bpdbge4+rkUO5SPdD65cUbgo9yQBI6qS58/xse/Q1Huo+ts5ZUxZ6mIN
+ w6QIz/QPOaUPA==
+Date: Tue, 31 Aug 2021 16:17:47 +0100
+From: Will Deacon <will@kernel.org>
+To: Claire Chang <tientzu@chromium.org>
+Subject: Re: [PATCH] swiotlb: use depends on for DMA_RESTRICTED_POOL
+Message-ID: <20210831151746.GB32001@willie-the-truck>
+References: <20210827034802.1065294-1-tientzu@chromium.org>
 MIME-Version: 1.0
-Cc: Eero Tamminen <eero.t.tamminen@intel.com>, linux-kernel@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Content-Disposition: inline
+In-Reply-To: <20210827034802.1065294-1-tientzu@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: konrad.wilk@oracle.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de,
+ linux@roeck-us.net
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,46 +78,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Fri, Aug 27, 2021 at 11:48:02AM +0800, Claire Chang wrote:
+> Use depends on instead of select for DMA_RESTRICTED_POOL; otherwise it
+> will make SWIOTLB user configurable and cause compile errors for some
+> arch (e.g. mips).
+> 
+> Fixes: 0b84e4f8b793 ("swiotlb: Add restricted DMA pool initialization")
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Claire Chang <tientzu@chromium.org>
+> ---
+>  kernel/dma/Kconfig | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+> index fd4db714d86b..1b02179758cb 100644
+> --- a/kernel/dma/Kconfig
+> +++ b/kernel/dma/Kconfig
+> @@ -82,8 +82,7 @@ config SWIOTLB
+>  
+>  config DMA_RESTRICTED_POOL
+>  	bool "DMA Restricted Pool"
+> -	depends on OF && OF_RESERVED_MEM
+> -	select SWIOTLB
+> +	depends on OF && OF_RESERVED_MEM && SWIOTLB
+>  	help
+>  	  This enables support for restricted DMA pools which provide a level of
+>  	  DMA memory protection on systems with limited hardware protection
 
-Handling of intel_iommu kernel command line option should return "true" to
-indicate option is valid and so avoid logging it as unknown by the core
-parsing code.
+Acked-by: Will Deacon <will@kernel.org>
 
-Also log unknown sub-options at the notice level to let user know of
-potential typos or similar.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Reported-by: Eero Tamminen <eero.t.tamminen@intel.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel/iommu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 327f477a8553..41d163e275b2 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -463,13 +463,15 @@ static int __init intel_iommu_setup(char *str)
- 		} else if (!strncmp(str, "tboot_noforce", 13)) {
- 			pr_info("Intel-IOMMU: not forcing on after tboot. This could expose security risk for tboot\n");
- 			intel_iommu_tboot_noforce = 1;
-+		} else {
-+			pr_notice("Unknown option - '%s'\n", str);
- 		}
- 
- 		str += strcspn(str, ",");
- 		while (*str == ',')
- 			str++;
- 	}
--	return 0;
-+	return 1;
- }
- __setup("intel_iommu=", intel_iommu_setup);
- 
--- 
-2.30.2
-
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
