@@ -1,50 +1,49 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EC33FCFCD
-	for <lists.iommu@lfdr.de>; Wed,  1 Sep 2021 01:11:17 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id C24F23FCFCB
+	for <lists.iommu@lfdr.de>; Wed,  1 Sep 2021 01:11:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DFB2981AD7;
-	Tue, 31 Aug 2021 23:11:05 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4456240111;
+	Tue, 31 Aug 2021 23:11:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EWYQ27cx4f01; Tue, 31 Aug 2021 23:11:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DFCE081A6A;
-	Tue, 31 Aug 2021 23:11:01 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id blcsuzgvJ_pQ; Tue, 31 Aug 2021 23:11:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3C17C404A9;
+	Tue, 31 Aug 2021 23:11:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BA18C000E;
-	Tue, 31 Aug 2021 23:11:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A6E9C000E;
+	Tue, 31 Aug 2021 23:11:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DED85C000E
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E0A6BC0010
  for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 23:10:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C8BE94036E
+ by smtp1.osuosl.org (Postfix) with ESMTP id C5A9B81A6A
  for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 23:10:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QosuxxIeO1Xf for <iommu@lists.linux-foundation.org>;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kFvPsXjqFGVJ for <iommu@lists.linux-foundation.org>;
  Tue, 31 Aug 2021 23:10:57 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+X-Greylist: delayed 00:05:54 by SQLgrey-1.8.0
 Received: from rosenzweig.io (rosenzweig.io [138.197.143.207])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 385D84036C
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 241EB81A65
  for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 23:10:57 +0000 (UTC)
-Date: Tue, 31 Aug 2021 17:30:18 -0400
+Date: Tue, 31 Aug 2021 17:32:07 -0400
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To: Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v2 3/8] iommu/dma: Disable get_sgtable for granule >
- PAGE_SIZE
-Message-ID: <YS6fasuqPURbmC6X@sunset>
+Subject: Re: [PATCH v2 0/8] Support IOMMU page sizes larger than the CPU page
+ size
+Message-ID: <YS6f17iFVq9wYPFN@sunset>
 References: <20210828153642.19396-1-sven@svenpeter.dev>
- <20210828153642.19396-4-sven@svenpeter.dev>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210828153642.19396-4-sven@svenpeter.dev>
+In-Reply-To: <20210828153642.19396-1-sven@svenpeter.dev>
 Cc: Arnd Bergmann <arnd@kernel.org>, Will Deacon <will@kernel.org>,
  Hector Martin <marcan@marcan.st>, linux-kernel@vger.kernel.org,
  iommu@lists.linux-foundation.org, Alexander Graf <graf@amazon.com>,
@@ -67,43 +66,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-I use this function for cross-device sharing on the M1 display driver.
-Arguably this is unsafe but it works on 16k kernels and if you want to
-test the function on 4k, you know where my code is.
+> Some background: On the Apple M1 the IOMMUs are hardwired to only support 16 KB pages.
+> We'd still like to boot Linux with 4KB pages though because that's what most distros
+> ship these days. This patch series adds support for that setup to the IOMMU DMA API.
 
-On Sat, Aug 28, 2021 at 05:36:37PM +0200, Sven Peter wrote:
-> Pretend that iommu_dma_get_sgtable is not implemented when
-> granule > PAGE_SIZE since I can neither test this function right now
-> nor do I fully understand how it is used.
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  drivers/iommu/dma-iommu.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index d6e273ec3de6..64fbd9236820 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -1315,9 +1315,15 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
->  		void *cpu_addr, dma_addr_t dma_addr, size_t size,
->  		unsigned long attrs)
->  {
-> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> +	struct iova_domain *iovad = &cookie->iovad;
->  	struct page *page;
->  	int ret;
->  
-> +	if (iovad->granule > PAGE_SIZE)
-> +		return -ENXIO;
-> +
->  	if (IS_ENABLED(CONFIG_DMA_REMAP) && is_vmalloc_addr(cpu_addr)) {
->  		struct page **pages = dma_common_find_pages(cpu_addr);
->  
-> -- 
-> 2.25.1
-> 
+This isn't just a distro issue -- efficient x86_64 emulation will rely
+on 4KB as well (Rosetta, FEX, ...). Telling distros to use 16KB kernels
+for Apple parts is just kicking the can down the road -- we want this
+series even for kernels we build ourselves.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
