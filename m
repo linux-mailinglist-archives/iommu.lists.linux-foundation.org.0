@@ -1,118 +1,118 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C723FC131
-	for <lists.iommu@lfdr.de>; Tue, 31 Aug 2021 05:07:52 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78783FC138
+	for <lists.iommu@lfdr.de>; Tue, 31 Aug 2021 05:08:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 46C8081D34;
-	Tue, 31 Aug 2021 03:07:51 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8EEAF60BA0;
+	Tue, 31 Aug 2021 03:07:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AXFYTXX6A1Sh; Tue, 31 Aug 2021 03:07:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WqQ1LpzVwLLC; Tue, 31 Aug 2021 03:07:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5FB0381D47;
-	Tue, 31 Aug 2021 03:07:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BA5DC60BA3;
+	Tue, 31 Aug 2021 03:07:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B327C0024;
-	Tue, 31 Aug 2021 03:07:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DE111C000E;
+	Tue, 31 Aug 2021 03:07:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2EBC3C000E
- for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 03:07:42 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 41B76C0023
+ for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 03:07:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 1ED2740502
- for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 03:07:42 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2525E8183D
+ for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 03:07:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=nvidia.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KAhifNnHtifb for <iommu@lists.linux-foundation.org>;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ge3oieoKGFPn for <iommu@lists.linux-foundation.org>;
  Tue, 31 Aug 2021 03:07:36 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on20629.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eab::629])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DC429404EB
- for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 03:07:36 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E730E81CC3
+ for <iommu@lists.linux-foundation.org>; Tue, 31 Aug 2021 03:07:35 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eikqjWxYEk4pWud+eeUCbNaGi/9tKxekex/EuxIKAecTHKMQZ0U8lNbEuKx6iK+Uo0SSViGPctZCe/nTrS9mFMMdlcLMyF0e5uF5fGWt3rpJY98mm5rYW4VZDea2P9tU2gssgVbXqC5xFEI4C5lJN7ytXCWYHoWSQTJQkAJQJ2B/L6IXtd4gFIOsh0BNaStO6ra5ohji7eHjewLqtTmggFhJMs2r3q7+JQ97vhNnTDJKpXwRZWJmSW9MT7pUa/FMEm/MlmNOXo9uzDmUh7809/sbFhtBeOJsTg6LZ7ODyc0XlumRL9cH/bY/4kJk2i4QA9FhJNvVHcZ4/OHotYZWWg==
+ b=byZuiMxhePIjzqu2ZS9Jc5R60mDSc466ZcLWLhTpDDvBs8EyFlQDVDts2zdqmRlo0ZQNL8nKnrq+Gf74BmKwdYX5nRMUmQiJdBFGQxunyD7GSZidwFYvdwzEaPdeXnMjy1DhyJthr+MrZMQHCcfI4ASttWOY52a8wm+q72QGFYcH1et6Y7xiOA7aMyGdIcZeK3qCIS/G2ERm8tx/JaMFf/f4feXo/0g1+yUPUTceosINdsp6trGeRdSaOEfIuR5O519i+SuQ97mhQwNI6q/oabb/YMPk6Q+naH47kRMq7hHgSyRHDszOlFnyFsaIyBmWgbZHBFpD1kFc7gp9ptaDHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cbDG0zI6j2pw6aVQqaU7ogclbWFVfc3P5oXdSAnOhAA=;
- b=O0bpK/0NNlBgO8XlkP+Hem9LgKWfxtEsm6bJPFiU8KbyDTKOswBeHg0bgxmeXFfwHl8SrMyVqDgMMFMc8twgbERTZPzAgdlVe0fRpcqy0x5QTtVpvrLIfFsYqb0/+HhwdDwifl7sf7KpETlSSdKuAQdt5DEP7N8ChCbaFsneu2MA1+G5ZxWa9Z21LcGIYiDsnlc+rOj/3HJwScBkrR1RqfkR+zvBfTPiz8lIGG2oh3XRX/MgV1e2YQfJDZ08exJwlqJ4t8T4Tqvr/dNOwinUsgiJteI9C06NdrzhaT7R8C+KTb/w9Mx/YZBV1TlJzFQa+cSg0taG2FHHpxkWUZYeug==
+ bh=M3MA/nnJIPzUVRSO/l+hNQzhL1G87DEel6bj6v2O+WA=;
+ b=khWeHUwPclBczAtm3zLhMPeRMnqi7E+N+JCBy594s7pRR/1S0DOTQ0c1+4ewm3ZnopqcPFic8ktJstk3iJJrJZ/6iNgepZAWEFG7v2bRvaNz9gbzlfUB0Zk6RfRbjZM/gH0DNYIvM/jmhFelV6KoVRBEefOO7e4TBiS1QZngSg0YgC6fHHGHAiNmUADjJMHeTTKIqzcYyvjAf/qGyUHgUw5OXhhjXhfBtfl0nyfHaBOSHl1gYwsC5Tj0AK6nTvll4uFgBZH4fnSRt9OVGwtfOYPA3CZ8NAS1vwHR2dDYBZQ2BzJ9fGGQvIjgXSRO8Zy0nWZgnuTKfu8uypU+cQ69Uw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.32) smtp.rcpttodomain=huawei.com smtp.mailfrom=nvidia.com;
+ 216.228.112.36) smtp.rcpttodomain=huawei.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cbDG0zI6j2pw6aVQqaU7ogclbWFVfc3P5oXdSAnOhAA=;
- b=kgLOptub1TVUiXPHT4Ge+7siZlimlD0awScMvc/4XzsAMMU/6GkbtfSt+bM8uAuDl2p1jjVWIrwc0Vpj1ZSFZN+PhGXlAYJ9QlqOkXA4z92jUJkzJHUc1S0t7DrK30wVCQQe2VkgECGLg5xnWnYYiQ6FgWQ6f/ZbrZsfk9SsdxlamJYYzKniy3yiyA0TZA9pcYSl/5Mw17AIrXYW/8pZIYDlkHPpYbieARk029drpUt10sGjkZ5zJybl5NLQHIFCxiD7zyeRbGhyz5vigOoDj4typfVQipoU+/HeU/MEwwHnLOohpK3yEAY+sYNaDYtJf0tUjkH67NIMPDcVMGVrvA==
-Received: from BN6PR16CA0033.namprd16.prod.outlook.com (2603:10b6:405:14::19)
- by DM5PR1201MB0235.namprd12.prod.outlook.com (2603:10b6:4:4f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Tue, 31 Aug
- 2021 03:07:33 +0000
-Received: from BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:14:cafe::1c) by BN6PR16CA0033.outlook.office365.com
- (2603:10b6:405:14::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.19 via Frontend
- Transport; Tue, 31 Aug 2021 03:07:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
+ bh=M3MA/nnJIPzUVRSO/l+hNQzhL1G87DEel6bj6v2O+WA=;
+ b=Fm0Kg/MeCp4H059djrWX3oH5nRAbR/FH4ur8OBYASOZ2kPYqofsz0UCl/7TcwnU22FbAoRdK+lszVFv3K6nyVgCsUmxs7WmUKRUvDjhBYsmUmvPlnf82Hy6GRxayUKRWVnB6BNAusJwjBBz8J9hvfI26sPfFP1F6wgXcJ+j7hshQ+Lk/NKEmkLv0fgNWrTbm2HeR9d7a1mpKkRDawcoBldotxIwGPKhiAdUL8D0qT9ifIGeyKL+fn0hGQM5f52qvNmc3mdxOunFUiyjcmZb04FGW+wTnK8uCAbY4i6fvZzPoIml+f3CbOmuCXbIveEqYRIXgsHh8a5fqkk459w+0Pw==
+Received: from MWHPR07CA0022.namprd07.prod.outlook.com (2603:10b6:300:116::32)
+ by DM5PR12MB1595.namprd12.prod.outlook.com (2603:10b6:4:3::15) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4457.23; Tue, 31 Aug 2021 03:07:33 +0000
+Received: from CO1NAM11FT013.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:116:cafe::1f) by MWHPR07CA0022.outlook.office365.com
+ (2603:10b6:300:116::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20 via Frontend
+ Transport; Tue, 31 Aug 2021 03:07:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.36)
  smtp.mailfrom=nvidia.com; huawei.com; dkim=none (message not signed)
  header.d=none;huawei.com; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.32; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.32) by
- BN8NAM11FT026.mail.protection.outlook.com (10.13.177.51) with Microsoft SMTP
+ 216.228.112.36 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.36; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.36) by
+ CO1NAM11FT013.mail.protection.outlook.com (10.13.174.227) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4457.17 via Frontend Transport; Tue, 31 Aug 2021 03:07:32 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 30 Aug
- 2021 20:07:31 -0700
+ 15.20.4457.17 via Frontend Transport; Tue, 31 Aug 2021 03:07:33 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 31 Aug
+ 2021 03:07:31 +0000
 Received: from Asurada-Nvidia.nvidia.com (172.20.187.5) by mail.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
  Transport; Tue, 31 Aug 2021 03:07:31 +0000
 To: <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
  <alex.williamson@redhat.com>, <cohuck@redhat.com>, <corbet@lwn.net>
-Subject: [RFC][PATCH v2 08/13] iommu/arm-smmu-v3: Add VMID alloc/free helpers
-Date: Mon, 30 Aug 2021 19:59:18 -0700
-Message-ID: <20210831025923.15812-9-nicolinc@nvidia.com>
+Subject: [RFC][PATCH v2 09/13] iommu/arm-smmu-v3: Pass dev pointer to
+ arm_smmu_detach_dev
+Date: Mon, 30 Aug 2021 19:59:19 -0700
+Message-ID: <20210831025923.15812-10-nicolinc@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210831025923.15812-1-nicolinc@nvidia.com>
 References: <20210831025923.15812-1-nicolinc@nvidia.com>
 MIME-Version: 1.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5ee3b801-5141-4d08-3af7-08d96c2c79f0
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB0235:
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB0235EC8F24104CB9BB557922ABCC9@DM5PR1201MB0235.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Office365-Filtering-Correlation-Id: 1fb0a8dd-ad65-4ee9-5896-08d96c2c7a0a
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1595:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB15953EAEE85F61C07DF0A7D4ABCC9@DM5PR12MB1595.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:854;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HV9wxzwE5Y9MOelAVlk/7KpB1KkxnNllpsqTIyPnzWK4q3hVp/db0TYlyWk9d/9Pa+eGZaGwqgI+9OZaPH0erLu0X8fhVjtnRtDkgZC2iJGpBGHj6KoK8NCqVH/7zTKy4qHdZxScUf2ykAW4vf2bc39JwZJBMrdZgG+gyA6CnPBy/Dr2Q4i8JDBpmN1QyXf5OWCBDlTt7Ck4uklbaGC1ivGVhiadgxvz7hB9GyxOB3E2V8avrCQpn99gcTv7mvGVHYn+n3EfqnmPswE1OHXWptAxk8LCjFw5pbwp68YySbb8F/YwKppNrEG0CRo1bishJ1cpD7dIYk5E53xO4sIPk6VYBlwhGZsIuesRx1AI9qNkcO6mLU8j6Prx32NRarn3f21Lfd/rtEIakrbT9zGVAJhlwpZMHvBSiYqtvYA+3zpki0ZEh8QOpJKfZjFsTFMRj/wWyUbQdMg0dWsRIhKWYuyKfA+gj53gLxbeBdOezDjBFK1pWqGaUpW8UYYHtghyF15u4Xm5iFCW+YX1u2Xop5jMyYHBharOqhHD6D3/IguqUbRi0h7LD82u12eLQeACc1/pHeixcLKh2BujPXTGYxbR7Xf2tsh0TgBXMbS9IZmNAbVwLdxku3lTpyA1g+f5tGb/SB2kMnxpekeIMAB8fzCNxcsjCjPO+Uy7furdBz9UholPShKOGXC8BAUPaXWozPPXv/O29guiRF9toE7Sf59fuatMLEER7axDuQbqnus=
-X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(376002)(136003)(396003)(46966006)(36840700001)(8936002)(36860700001)(82740400003)(336012)(478600001)(82310400003)(47076005)(1076003)(26005)(7696005)(426003)(7416002)(4326008)(316002)(2616005)(5660300002)(7636003)(86362001)(8676002)(54906003)(110136005)(70206006)(2906002)(6666004)(36756003)(186003)(356005)(70586007)(2101003);
+X-Microsoft-Antispam-Message-Info: LPfNiHWT4Omk8Vh9rBMlSkgMrnl4dbUIJQWOssst0nxkQG+Hbna4yTUEfw23iPApnG2NvIDdRPT05/E2UNTh+QedHInlexzeGe0gid56FE+tw3lUzPojQc83FAV7hsYR1giRPRMHPzQzM0NCJihasxDYbERWTvy4w+VvHQCUsYXpXPO/4HzDoFkXLcZlEnuLR3vIxaLXCBwmG735D5ryp4BM7FER7lYmjpPJFkalsgHaEv/4rXKIrNgi0tx90mJNbY0/m0DimUI9U3nJAKqUFKC1Rd9xQLUXrp6zzCHv7mJz7ZxO7Vn91DsZzb31Yx8jeAksqvo8B+/+qxBhrENYcpVGRIez8PrwsGNoaE8gmJAMzGlr39pTWHgo4lWj5r/EIZgV1EsqILCOXQECO/mcPTLLup7q6+D8+USpdWqK9ggg/8fS63uirtMt9r3T+toIhbX/+xJPlvCVKxLaev6o1pVs4axT/vSeXDqq0DS8Wbn5W0yKxLWg0NcRpNaf8eSYdSuIEcrcHaAM2DSOTl+o2Dd/fzyJ5E+dv59GO9jtxsa6ov8VloJa5LNk9Vv7KTKNy46/Er/gPDJzrm/3fd9QOxGoHqMRide4LFME9Lq5yTH4ME2x11xKbzXuZsu6MpCdjwE2Nz5B7A6Ne2EHVBsP6VjBoMN1YIV2LTGKb3VklWuu01g88qzhK5qaRqzm4+MyaAtV2SIoav0HnLzj6FLqzslDlih8+63DMpE5XV0eJxk=
+X-Forefront-Antispam-Report: CIP:216.228.112.36; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid05.nvidia.com; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(39860400002)(136003)(396003)(36840700001)(46966006)(70206006)(82740400003)(47076005)(1076003)(7636003)(5660300002)(86362001)(316002)(186003)(110136005)(36906005)(70586007)(356005)(83380400001)(26005)(478600001)(36756003)(36860700001)(8676002)(6666004)(2906002)(54906003)(426003)(82310400003)(336012)(8936002)(7696005)(7416002)(4326008)(2616005)(2101003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 03:07:32.8094 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ee3b801-5141-4d08-3af7-08d96c2c79f0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 03:07:33.0345 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fb0a8dd-ad65-4ee9-5896-08d96c2c7a0a
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.36];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT013.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0235
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1595
 Cc: jean-philippe@linaro.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
  thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
@@ -136,57 +136,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-NVIDIA implementation needs to link its Virtual Interface to a
-VMID, before a device gets attached to the corresponding iommu
-domain. One way to ensure that is to allocate a VMID from impl
-side and to pass it down to virtual machine hypervisor so that
-later it can set it back to passthrough devices' iommu domains
-calling newly added arm_smmu_set/get_nesting_vmid() functions.
-
-This patch adds a pair of helpers to allocate and free VMID in
-the bitmap.
+We are adding NVIDIA implementation that will need a ->detach_dev()
+callback along with the dev pointer to grab client information.
 
 Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 10 ++++++++++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  3 +++
- 2 files changed, 13 insertions(+)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index c0ae117711fa..497d55ec659b 100644
+index 497d55ec659b..6878a83582b9 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2032,6 +2032,16 @@ static void arm_smmu_bitmap_free(unsigned long *map, int idx)
- 	clear_bit(idx, map);
+@@ -2377,7 +2377,7 @@ static void arm_smmu_disable_pasid(struct arm_smmu_master *master)
+ 	pci_disable_pasid(pdev);
  }
  
-+int arm_smmu_vmid_alloc(struct arm_smmu_device *smmu)
-+{
-+	return arm_smmu_bitmap_alloc(smmu->vmid_map, smmu->vmid_bits);
-+}
-+
-+void arm_smmu_vmid_free(struct arm_smmu_device *smmu, u16 vmid)
-+{
-+	arm_smmu_bitmap_free(smmu->vmid_map, vmid);
-+}
-+
- static void arm_smmu_domain_free(struct iommu_domain *domain)
+-static void arm_smmu_detach_dev(struct arm_smmu_master *master)
++static void arm_smmu_detach_dev(struct arm_smmu_master *master, struct device *dev)
  {
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index ea2c61d52df8..20463d17fd9f 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -749,6 +749,9 @@ bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd);
- int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain, int ssid,
- 			    unsigned long iova, size_t size);
+ 	unsigned long flags;
+ 	struct arm_smmu_domain *smmu_domain = master->domain;
+@@ -2421,7 +2421,7 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
+ 		return -EBUSY;
+ 	}
  
-+int arm_smmu_vmid_alloc(struct arm_smmu_device *smmu);
-+void arm_smmu_vmid_free(struct arm_smmu_device *smmu, u16 vmid);
-+
- #ifdef CONFIG_ARM_SMMU_V3_SVA
- bool arm_smmu_sva_supported(struct arm_smmu_device *smmu);
- bool arm_smmu_master_sva_supported(struct arm_smmu_master *master);
+-	arm_smmu_detach_dev(master);
++	arm_smmu_detach_dev(master, dev);
+ 
+ 	mutex_lock(&smmu_domain->init_mutex);
+ 
+@@ -2713,7 +2713,7 @@ static void arm_smmu_release_device(struct device *dev)
+ 	master = dev_iommu_priv_get(dev);
+ 	if (WARN_ON(arm_smmu_master_sva_enabled(master)))
+ 		iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
+-	arm_smmu_detach_dev(master);
++	arm_smmu_detach_dev(master, dev);
+ 	arm_smmu_disable_pasid(master);
+ 	arm_smmu_remove_master(master);
+ 	kfree(master);
 -- 
 2.17.1
 
