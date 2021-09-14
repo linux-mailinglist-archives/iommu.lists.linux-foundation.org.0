@@ -1,83 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0215240A2C0
-	for <lists.iommu@lfdr.de>; Tue, 14 Sep 2021 03:47:40 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D770140A2C4
+	for <lists.iommu@lfdr.de>; Tue, 14 Sep 2021 03:47:42 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 725E080C3B;
-	Tue, 14 Sep 2021 01:47:38 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6687980C5A;
+	Tue, 14 Sep 2021 01:47:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id joll2pXNBW6D; Tue, 14 Sep 2021 01:47:37 +0000 (UTC)
+	with ESMTP id I37buG1FoNEx; Tue, 14 Sep 2021 01:47:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 74B7680C49;
-	Tue, 14 Sep 2021 01:47:37 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9B0B280C53;
+	Tue, 14 Sep 2021 01:47:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E330C000D;
-	Tue, 14 Sep 2021 01:47:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 85030C001E;
+	Tue, 14 Sep 2021 01:47:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 019D1C0020
- for <iommu@lists.linux-foundation.org>; Tue, 14 Sep 2021 01:47:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35348C000D
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Sep 2021 01:47:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C8B0D60625
- for <iommu@lists.linux-foundation.org>; Tue, 14 Sep 2021 01:47:35 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 142FB60625
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Sep 2021 01:47:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XVZF85sxH2vH for <iommu@lists.linux-foundation.org>;
- Tue, 14 Sep 2021 01:47:35 +0000 (UTC)
+ with ESMTP id yUQBvPSkP6ax for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Sep 2021 01:47:36 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 3EF106060F
- for <iommu@lists.linux-foundation.org>; Tue, 14 Sep 2021 01:47:35 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id v1so7099020plo.10
- for <iommu@lists.linux-foundation.org>; Mon, 13 Sep 2021 18:47:35 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6E4DA607BC
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Sep 2021 01:47:36 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id n18so7099444plp.7
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Sep 2021 18:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xhb7cG3FXLCm4Z4ICTIF/90XZZ6Iro0K8KQdd4HxIGM=;
- b=oyvnmQsT6ijC+1swiq+sqhrVa5AexA4umH9CBR38uH4E/+jZZwyQo2toADpiASMjuu
- dhN8yI365m8nZQrWEgr4jlc710taZgYjho0HvXjQy73XjmDVNHtNNbO7SkUWHlSBUsVO
- rnmDRcBU75l2+ZhCVvceWxV39vP0vBXCiNBu4vijxZFWTUA3zHQsoGnWPh7V9xB4/BR6
- Y6b3yAEWpE/EWnRzF99ATWgPbvK3HXvzVr7CZSRiGcr9rlC/z168tqDvjlEqcs2b0wrN
- j0vYkXceL8Yp2sm0fhx22f1nml2u1oqipq69MRWGcTHjtSr0yPx5sYtmAMFy+sdxAIpQ
- +ljg==
+ bh=02zpobwAZVhWVn00LMms1NVtUxIVvNcwQuQFmSxJIqI=;
+ b=M8/sQJUs7N0OzKAY2DCxmlR3GBYs564L5za5zK+jgohVNjpkEz9fDPK98ZlYo+HNz6
+ MRFzbV6KIn/tabOHKL731eSAmF+AIfk4kDVz9a0PaNG55aoaM/uCDVrx8qur3BNHAbzZ
+ 153EIoC1tpGwBa0H/xUdaDcJfzRA3L7Z59xGcExZuvbwtPSufqn0e9JGcNWv7jCkHwjw
+ Z46rBci5kjqQWgI2zDxu5X/o43eX242FIz2McM4E1ERCWeHiFZgWOySfBZzL8LMGdXz+
+ jMomLaTp64UjH/PuxjrnfpU8xDaawmyktizjG/8BhybHRFPuWNYqwQZX6gG4EROCnsEk
+ XAEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xhb7cG3FXLCm4Z4ICTIF/90XZZ6Iro0K8KQdd4HxIGM=;
- b=ku2Zxb0on60wpL3c0w4FKd52dxcd90kr+5QscFGDv08FYTEa4SAaGHfGw9hlm7rJSn
- Un4nMgBsq0uzAcY84Ok5wjPB8+VtiywzHKJZbP5tuq3AHyuaBNtWVBXXhBB5T29m5cCh
- zCivLLfENVmRQpZpH0oy0SY9c8prQXClE6t0LGHBfhQ70F8/Wudjzo1wy7BdoGIK/b+C
- V5iYMsfu0AYxrnY+v51m3r01F7wp5mIUXElvGkPK0LI3nxNlIOW3HwE2VjZKBkz+yznK
- jN+iHIqQYdfNvLBsqhmoortuW4cvaPFVES8G1Zn58dXk49mP4tM05OKBc0bBbojb4xiU
- zqxw==
-X-Gm-Message-State: AOAM532xgXAiB50tWO8CU+5RShi8TY3ln3kx1qedyT4Ra14sgug5xIsP
- P+9EFOFcmwkUJQWHCW7QJYk=
-X-Google-Smtp-Source: ABdhPJy94W1uW8sDKMd+DL+UWEzsAJK+kPnDL/7sqvbVJu0v/fitkXT3dDLg0zdzMQXvpqOdFhB+1w==
-X-Received: by 2002:a17:90a:8817:: with SMTP id
- s23mr2663594pjn.181.1631584054659; 
- Mon, 13 Sep 2021 18:47:34 -0700 (PDT)
+ bh=02zpobwAZVhWVn00LMms1NVtUxIVvNcwQuQFmSxJIqI=;
+ b=kOqmFE61MnGkoZRSJO6t1on3HPgnpaFFD9208G7VKJKXpYyvYMO0XhFbox7bIjglDu
+ UuvNCAYoob9mk2jyr9JibDcT3YOig+a7mZImwS5AwWdEZB7Xt64a4vLRLmDSzFNtsVn7
+ 1uzUhmMf1eDAN5na9TxOBnHaeUWWdvgpT1Z1ZN1Jx1YFD9R4tw+pwnSLn1T5nvjrkP0P
+ LyZKlJAvk0RIlW6+bxrCRNtzRDlONm0+Ova5ioJTEQcK3S/PwGjzQgfQM/8VVoRFDQ4S
+ 4Rug2h/oifC62gScRACVXdLYGFlz19H6vzqRg6djLHXaM3ZzTZXn9GOBJ4jgJG/frMCc
+ 4yYQ==
+X-Gm-Message-State: AOAM533LDibB7K+aTvJWuSheL0BgTIlHjZzPBcDJVdZcU+B6UY08db1R
+ ormOAfKK5y0Y1V16Bb80kYQ=
+X-Google-Smtp-Source: ABdhPJz9jZlUnUZZrh3YG7ZA9O9HOg258enmoLZYvhKmRZNv133D2M10B9pFlaaXalDO9KLxJ8TdmQ==
+X-Received: by 2002:a17:90a:9706:: with SMTP id
+ x6mr2664790pjo.81.1631584055880; 
+ Mon, 13 Sep 2021 18:47:35 -0700 (PDT)
 Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
  [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id z11sm8270101pfr.157.2021.09.13.18.47.33
+ by smtp.gmail.com with ESMTPSA id z11sm8270101pfr.157.2021.09.13.18.47.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 18:47:34 -0700 (PDT)
+ Mon, 13 Sep 2021 18:47:35 -0700 (PDT)
 From: Nicolin Chen <nicoleotsuka@gmail.com>
 To: thierry.reding@gmail.com,
 	joro@8bytes.org,
 	will@kernel.org
-Subject: [PATCH v6 3/6] iommu/tegra-smmu: Rename struct tegra_smmu_swgroup
- *group to *swgrp
-Date: Mon, 13 Sep 2021 18:38:55 -0700
-Message-Id: <20210914013858.31192-4-nicoleotsuka@gmail.com>
+Subject: [PATCH v6 4/6] iommu/tegra-smmu: Use swgrp pointer instead of swgroup
+ id
+Date: Mon, 13 Sep 2021 18:38:56 -0700
+Message-Id: <20210914013858.31192-5-nicoleotsuka@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210914013858.31192-1-nicoleotsuka@gmail.com>
 References: <20210914013858.31192-1-nicoleotsuka@gmail.com>
@@ -101,117 +101,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There are both tegra_smmu_swgroup and tegra_smmu_group structs
-using "group" for their pointer instances. This gets confusing
-to read the driver sometimes.
-
-So this patch renames "group" of struct tegra_smmu_swgroup to
-"swgrp" as a cleanup. Also renames its "find" function.
-
-Note that we already have "swgroup" being used for an unsigned
-int type variable that is inside struct tegra_smmu_swgroup, so
-it's not able to use "swgroup" but only something like "swgrp".
+This patch changes in struct tegra_smmu_group to use swgrp
+pointer instead of swgroup, as a preparational change for
+the "mappings" debugfs feature.
 
 Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 ---
- drivers/iommu/tegra-smmu.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ drivers/iommu/tegra-smmu.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index a32ed347e25d..0f3883045ffa 100644
+index 0f3883045ffa..8fd4985ac91e 100644
 --- a/drivers/iommu/tegra-smmu.c
 +++ b/drivers/iommu/tegra-smmu.c
-@@ -334,35 +334,35 @@ static void tegra_smmu_domain_free(struct iommu_domain *domain)
- }
- 
- static const struct tegra_smmu_swgroup *
--tegra_smmu_find_swgroup(struct tegra_smmu *smmu, unsigned int swgroup)
-+tegra_smmu_find_swgrp(struct tegra_smmu *smmu, unsigned int swgroup)
- {
--	const struct tegra_smmu_swgroup *group = NULL;
-+	const struct tegra_smmu_swgroup *swgrp = NULL;
- 	unsigned int i;
- 
- 	for (i = 0; i < smmu->soc->num_swgroups; i++) {
- 		if (smmu->soc->swgroups[i].swgroup == swgroup) {
--			group = &smmu->soc->swgroups[i];
-+			swgrp = &smmu->soc->swgroups[i];
- 			break;
- 		}
- 	}
- 
--	return group;
-+	return swgrp;
- }
- 
- static void tegra_smmu_enable(struct tegra_smmu *smmu, unsigned int swgroup,
- 			      unsigned int asid)
- {
--	const struct tegra_smmu_swgroup *group;
+@@ -23,8 +23,8 @@ struct tegra_smmu_group {
+ 	struct list_head list;
+ 	struct tegra_smmu *smmu;
+ 	const struct tegra_smmu_group_soc *group_soc;
 +	const struct tegra_smmu_swgroup *swgrp;
- 	unsigned int i;
- 	u32 value;
+ 	struct iommu_group *grp;
+-	unsigned int swgroup;
+ };
  
--	group = tegra_smmu_find_swgroup(smmu, swgroup);
--	if (group) {
--		value = smmu_readl(smmu, group->reg);
-+	swgrp = tegra_smmu_find_swgrp(smmu, swgroup);
-+	if (swgrp) {
-+		value = smmu_readl(smmu, swgrp->reg);
- 		value &= ~SMMU_ASID_MASK;
- 		value |= SMMU_ASID_VALUE(asid);
- 		value |= SMMU_ASID_ENABLE;
--		smmu_writel(smmu, value, group->reg);
-+		smmu_writel(smmu, value, swgrp->reg);
- 	} else {
- 		pr_warn("%s group from swgroup %u not found\n", __func__,
- 				swgroup);
-@@ -385,17 +385,17 @@ static void tegra_smmu_enable(struct tegra_smmu *smmu, unsigned int swgroup,
- static void tegra_smmu_disable(struct tegra_smmu *smmu, unsigned int swgroup,
- 			       unsigned int asid)
- {
--	const struct tegra_smmu_swgroup *group;
+ struct tegra_smmu {
+@@ -897,18 +897,22 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	struct tegra_smmu *smmu = dev_iommu_priv_get(dev);
+ 	const struct tegra_smmu_group_soc *group_soc;
 +	const struct tegra_smmu_swgroup *swgrp;
- 	unsigned int i;
- 	u32 value;
+ 	unsigned int swgroup = fwspec->ids[0];
+ 	struct tegra_smmu_group *group;
+ 	struct iommu_group *grp;
  
--	group = tegra_smmu_find_swgroup(smmu, swgroup);
--	if (group) {
--		value = smmu_readl(smmu, group->reg);
++	/* Find swgrp according to the swgroup id */
 +	swgrp = tegra_smmu_find_swgrp(smmu, swgroup);
-+	if (swgrp) {
-+		value = smmu_readl(smmu, swgrp->reg);
- 		value &= ~SMMU_ASID_MASK;
- 		value |= SMMU_ASID_VALUE(asid);
- 		value &= ~SMMU_ASID_ENABLE;
--		smmu_writel(smmu, value, group->reg);
-+		smmu_writel(smmu, value, swgrp->reg);
- 	}
++
+ 	/* Find group_soc associating with swgroup */
+ 	group_soc = tegra_smmu_find_group_soc(smmu, swgroup);
  
- 	for (i = 0; i < smmu->soc->num_clients; i++) {
-@@ -1008,11 +1008,11 @@ static int tegra_smmu_swgroups_show(struct seq_file *s, void *data)
- 	seq_printf(s, "------------------------\n");
+ 	mutex_lock(&smmu->lock);
  
- 	for (i = 0; i < smmu->soc->num_swgroups; i++) {
--		const struct tegra_smmu_swgroup *group = &smmu->soc->swgroups[i];
-+		const struct tegra_smmu_swgroup *swgrp = &smmu->soc->swgroups[i];
- 		const char *status;
- 		unsigned int asid;
+-	/* Find existing iommu_group associating with swgroup or group_soc */
++	/* Find existing iommu_group associating with swgrp or group_soc */
+ 	list_for_each_entry(group, &smmu->groups, list)
+-		if ((group->swgroup == swgroup) ||
++		if ((swgrp && group->swgrp == swgrp) ||
+ 		    (group_soc && group->group_soc == group_soc)) {
+ 			grp = iommu_group_ref_get(group->grp);
+ 			mutex_unlock(&smmu->lock);
+@@ -923,7 +927,7 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
  
--		value = smmu_readl(smmu, group->reg);
-+		value = smmu_readl(smmu, swgrp->reg);
+ 	INIT_LIST_HEAD(&group->list);
+ 	group->group_soc = group_soc;
+-	group->swgroup = swgroup;
++	group->swgrp = swgrp;
+ 	group->smmu = smmu;
  
- 		if (value & SMMU_ASID_ENABLE)
- 			status = "yes";
-@@ -1021,7 +1021,7 @@ static int tegra_smmu_swgroups_show(struct seq_file *s, void *data)
- 
- 		asid = value & SMMU_ASID_MASK;
- 
--		seq_printf(s, "%-9s  %-7s  %#04x\n", group->name, status,
-+		seq_printf(s, "%-9s  %-7s  %#04x\n", swgrp->name, status,
- 			   asid);
- 	}
- 
+ 	if (dev_is_pci(dev))
 -- 
 2.17.1
 
