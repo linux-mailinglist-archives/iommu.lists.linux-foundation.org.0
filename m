@@ -1,135 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECD540DBE9
-	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 15:56:31 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B0640DD6F
+	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 17:00:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 378BD4148E;
-	Thu, 16 Sep 2021 13:56:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B5BAF605EF;
+	Thu, 16 Sep 2021 15:00:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1IriUYp6rheb; Thu, 16 Sep 2021 13:56:29 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gKH48cDEAxeU; Thu, 16 Sep 2021 15:00:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 486504148C;
-	Thu, 16 Sep 2021 13:56:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BF44460638;
+	Thu, 16 Sep 2021 15:00:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE64C001E;
-	Thu, 16 Sep 2021 13:56:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4A28C0025;
+	Thu, 16 Sep 2021 15:00:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 81367C000D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 13:56:27 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 98259C000F
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:00:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 63376607A9
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 13:56:27 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7644E60638
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:00:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XJs2Y_ELAHW6 for <iommu@lists.linux-foundation.org>;
- Thu, 16 Sep 2021 13:56:26 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 63A0360737
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 13:56:26 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id g184so6225079pgc.6
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 06:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VQdB0cmtRyC2OUQYF1nmKrbKRoOhkmjS2WdWxiwvfV0=;
- b=CIfTuZFoNILRqkZ8DcW/GNbMyGgDnxBr4dVf4uWbZjU8pjj4lrHMRtQVPwcdxklAuQ
- JZziDYokWmjzVIErChST09t12g0u5Q0uRpqfgz1HLLBW1rjGMPZLz0kZ+aU/1VtdGCBf
- ScvmIZdC/KAH9/s5zwFCH/t+wJJgREk4jkxOEav0yNRvD2PeR9Mt0gXD43CEjS0rWa6X
- 1ojan6I2m/RB70FhK0zBN0wx5wwjfaYXFG9iPhqmYChnfbWqL1/mqLAFucMtI4L4kMUT
- mDpT/XbuXdWRn1Ki+KD46f09IzCVvENPhyPuOqItQNeOtC2mXKgNu7d+59tp7LLGPGIj
- mQdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VQdB0cmtRyC2OUQYF1nmKrbKRoOhkmjS2WdWxiwvfV0=;
- b=kApzJ58aMC+IekEov/F4I7hHGg1c5mkFuPHP25YJkSlHg4qkurcTpDMapDT79617c7
- ptDu8k6p2blNsG/Bmw4T7GY5y60zi1GeuER8ZGHyXyQPZq7D5NoiuhcTSHTaHLlopuYb
- TFzw3ls5lUo0YvqFq7o+HpmziXrt97zS2sLuQfF3AV+2kvbCLuWadDGApf5EIOrTdQ3Z
- zhmf0o1ClWqQkj7/D7yW9khoLJs5CBGt0CqkoBNlqLYsRI9G6446dXcce+brXap527m+
- pod67IhwOIQFg5um7OKpFSew1SgOFdBynTYDf/N+GuxalLzPTeirKKfWow0+7wA9q4MR
- /j7w==
-X-Gm-Message-State: AOAM5309Dq9tIsCtED00OtNpUvuCu2SBCE0L37vS+LQTFWjUK5Qf045s
- 1WZEJNSDSwHBpUnOsjOlhSg=
-X-Google-Smtp-Source: ABdhPJwil566vQyG+FPIeqOpCAnK+VdYspH+w8JoanT8EwRLxY95XCPpJH9ls0yqVjdetF6RlrGZEg==
-X-Received: by 2002:a65:44c4:: with SMTP id g4mr5187939pgs.254.1631800585774; 
- Thu, 16 Sep 2021 06:56:25 -0700 (PDT)
-Received: from ?IPv6:2404:f801:0:5:8000::50b? ([2404:f801:9000:18:efec::50b])
- by smtp.gmail.com with ESMTPSA id
- w11sm3376724pfj.65.2021.09.16.06.56.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 06:56:25 -0700 (PDT)
-Subject: Re: [PATCH V5 12/12] net: netvsc: Add Isolation VM support for netvsc
- driver
-To: Haiyang Zhang <haiyangz@microsoft.com>,
- Michael Kelley <mikelley@microsoft.com>, KY Srinivasan <kys@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "luto@kernel.org" <luto@kernel.org>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
- "boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
- "jgross@suse.com" <jgross@suse.com>,
- "sstabellini@kernel.org" <sstabellini@kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>, "will@kernel.org" <will@kernel.org>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "kuba@kernel.org" <kuba@kernel.org>, "jejb@linux.ibm.com"
- <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "arnd@arndb.de" <arnd@arndb.de>, "hch@lst.de" <hch@lst.de>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
- "pgonda@google.com" <pgonda@google.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "rppt@kernel.org" <rppt@kernel.org>,
- "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
- "aneesh.kumar@linux.ibm.com" <aneesh.kumar@linux.ibm.com>,
- "saravanand@fb.com" <saravanand@fb.com>,
- "krish.sadhukhan@oracle.com" <krish.sadhukhan@oracle.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "tj@kernel.org" <tj@kernel.org>, "rientjes@google.com" <rientjes@google.com>
-References: <20210914133916.1440931-1-ltykernel@gmail.com>
- <20210914133916.1440931-13-ltykernel@gmail.com>
- <MWHPR21MB15939A5D74CA1DF25EE816ADD7DB9@MWHPR21MB1593.namprd21.prod.outlook.com>
- <MN2PR21MB12959F10240EC1BB2270B345CADB9@MN2PR21MB1295.namprd21.prod.outlook.com>
-From: Tianyu Lan <ltykernel@gmail.com>
-Message-ID: <31da994f-a032-dd40-a90e-bfdaf313d45d@gmail.com>
-Date: Thu, 16 Sep 2021 21:56:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ with ESMTP id 3vxQLrix9gah for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Sep 2021 15:00:09 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 4588C605EF
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=d1cgY/2N+xv4MXaoCUI+OScAKJ5zQNEwfP0dlNZNcwo=; b=hhsZ3vkUGaL+sVrLuQ7bHTvACd
+ GKfadCvDHkZVUIQsXERWMUVyQ876cWqDP+Qrdbh3W+Ll9yY2lF+PVtXE+Y5MmuLaoiJARD+S+z6HP
+ IRNxYjuB+bpCTOvUsWuBOYL25zAW60IaAyHbieK9DxnJuvPWyBm/eX02TBh2DEcnZjaxMZrNSDzYm
+ mK3iftuOJCyd/1SZ22RxpdC8Ml/46TEQFSAQ6APGwSz9eLL7dA5e9gMIaxAL5AICPOPF6yBaI8/iq
+ 7yxAIDa27IVYxyRqys7ggAPjmeQ414pBEfz5epwJxno35xq4S175vunEYc6Q/ECnujXnZ9N3MPSBK
+ WWnAUnYA==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
+ helo=toshino.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
+ id 1mQsRv-0005Xx-Mt; Thu, 16 Sep 2021 17:33:15 +0300
+To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+ will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
+Subject: [PATCH v2 0/8] Host1x context isolation support
+Date: Thu, 16 Sep 2021 17:32:54 +0300
+Message-Id: <20210916143302.2024933-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <MN2PR21MB12959F10240EC1BB2270B345CADB9@MN2PR21MB1295.namprd21.prod.outlook.com>
-Content-Language: en-US
-Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dave.hansen@intel.com" <dave.hansen@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- vkuznets <vkuznets@redhat.com>
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -142,33 +77,94 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Mikko Perttunen via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 9/16/2021 12:46 AM, Haiyang Zhang wrote:
->>> +				memset(vmap_pages, 0,
->>> +				       sizeof(*vmap_pages) * vmap_page_index);
->>> +				vmap_page_index = 0;
->>> +
->>> +				for (j = 0; j < i; j++)
->>> +					__free_pages(pages[j], alloc_unit);
->>> +
->>> +				kfree(pages);
->>> +				alloc_unit = 1;
->> This is the case where a large enough contiguous physical memory chunk
->> could not be found.  But rather than dropping all the way down to single
->> pages, would it make sense to try something smaller, but not 1?  For
->> example, cut the alloc_unit in half and try again.  But I'm not sure of
->> all the implications.
-> I had the same question. But probably gradually decrementing uses too much
-> time?
-> 
+Hi all,
 
-This version is to propose the solution. We may optimize this to try
-smaller size until to single page if this is right direction.
+***
+New in v2:
 
+Added support for Tegra194
+Use standard iommu-map property instead of custom mechanism
+***
+
+this series adds support for Host1x 'context isolation'. Since
+when programming engines through Host1x, userspace can program in
+any addresses it wants, we need some way to isolate the engines'
+memory spaces. Traditionally this has either been done imperfectly
+with a single shared IOMMU domain, or by copying and verifying the
+programming command stream at submit time (Host1x firewall).
+
+Since Tegra186 there is a privileged (only usable by kernel)
+Host1x opcode that allows setting the stream ID sent by the engine
+to the SMMU. So, by allocating a number of context banks and stream
+IDs for this purpose, and using this opcode at the beginning of
+each job, we can implement isolation. Due to the limited number of
+context banks only each process gets its own context, and not
+each channel.
+
+This feature also allows sharing engines among multiple VMs when
+used with Host1x's hardware virtualization support - up to 8 VMs
+can be configured with a subset of allowed stream IDs, enforced
+at hardware level.
+
+To implement this, this series adds a new host1x context bus, which
+will contain the 'struct device's corresponding to each context
+bank / stream ID, changes to device tree and SMMU code to allow
+registering the devices and using the bus, as well as the Host1x
+stream ID programming code and support in TegraDRM.
+
+Device tree bindings are not updated yet pending consensus that the
+proposed changes make sense.
+
+Thanks,
+Mikko
+
+Mikko Perttunen (8):
+  gpu: host1x: Add context bus
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  iommu/arm-smmu: Attach to host1x context device bus
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: falcon: Set DMACTX field on DMA transactions
+  drm/tegra: vic: Implement get_streamid_offset
+  drm/tegra: Support context isolation
+
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi  |  12 ++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi  |  12 ++
+ drivers/gpu/Makefile                      |   3 +-
+ drivers/gpu/drm/tegra/drm.h               |   2 +
+ drivers/gpu/drm/tegra/falcon.c            |   8 +
+ drivers/gpu/drm/tegra/falcon.h            |   1 +
+ drivers/gpu/drm/tegra/submit.c            |  13 ++
+ drivers/gpu/drm/tegra/uapi.c              |  34 ++++-
+ drivers/gpu/drm/tegra/vic.c               |  38 +++++
+ drivers/gpu/host1x/Kconfig                |   5 +
+ drivers/gpu/host1x/Makefile               |   2 +
+ drivers/gpu/host1x/context.c              | 174 ++++++++++++++++++++++
+ drivers/gpu/host1x/context.h              |  27 ++++
+ drivers/gpu/host1x/context_bus.c          |  31 ++++
+ drivers/gpu/host1x/dev.c                  |  12 +-
+ drivers/gpu/host1x/dev.h                  |   2 +
+ drivers/gpu/host1x/hw/channel_hw.c        |  52 ++++++-
+ drivers/gpu/host1x/hw/host1x06_hardware.h |  10 ++
+ drivers/gpu/host1x/hw/host1x07_hardware.h |  10 ++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c     |  13 ++
+ include/linux/host1x.h                    |  21 +++
+ include/linux/host1x_context_bus.h        |  15 ++
+ 22 files changed, 488 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+ create mode 100644 drivers/gpu/host1x/context_bus.c
+ create mode 100644 include/linux/host1x_context_bus.h
+
+-- 
+2.32.0
 
 _______________________________________________
 iommu mailing list
