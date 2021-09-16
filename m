@@ -1,84 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EEA40EA08
-	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 20:38:37 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5F340EDFC
+	for <lists.iommu@lfdr.de>; Fri, 17 Sep 2021 01:41:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E94B140486;
-	Thu, 16 Sep 2021 18:38:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0E850414CB;
+	Thu, 16 Sep 2021 23:41:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IVhJLoRd4CMV; Thu, 16 Sep 2021 18:38:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3FB68401C3;
-	Thu, 16 Sep 2021 18:38:34 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ECs6jaVvVNaQ; Thu, 16 Sep 2021 23:41:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 09083415B7;
+	Thu, 16 Sep 2021 23:41:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F791C001E;
-	Thu, 16 Sep 2021 18:38:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6DD0C001C;
+	Thu, 16 Sep 2021 23:41:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B2C39C000D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 18:38:31 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 26619C0021
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 23:41:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A09F04023F
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 18:38:31 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id B6ED94159E
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 23:41:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h0DzSlZRtk_k for <iommu@lists.linux-foundation.org>;
- Thu, 16 Sep 2021 18:38:31 +0000 (UTC)
+ with ESMTP id Mt69or9nsews for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Sep 2021 23:41:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by smtp4.osuosl.org (Postfix) with ESMTPS id F19DE40060
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 18:38:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="308180242"
-X-IronPort-AV: E=Sophos;i="5.85,299,1624345200"; d="scan'208";a="308180242"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 11:38:09 -0700
-X-IronPort-AV: E=Sophos;i="5.85,299,1624345200"; d="scan'208";a="516866664"
-Received: from yunyizha-mobl2.amr.corp.intel.com (HELO
- skuppusw-mobl5.amr.corp.intel.com) ([10.212.124.4])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 11:38:07 -0700
-Subject: Re: [PATCH v3 0/8] Implement generic cc_platform_has() helper function
-To: Borislav Petkov <bp@alien8.de>
-References: <cover.1631141919.git.thomas.lendacky@amd.com>
- <YUIjS6lKEY5AadZx@zn.tnic>
- <d48e6a17-d2b4-67da-56d1-fc9a61dfe2b8@linux.intel.com>
- <YUNckGH0+KXdEmqu@zn.tnic>
-From: "Kuppuswamy, Sathyanarayanan"
- <sathyanarayanan.kuppuswamy@linux.intel.com>
-Message-ID: <9fee1cec-fc91-f87d-d590-5e606211f1b7@linux.intel.com>
-Date: Thu, 16 Sep 2021 11:38:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C9DB2414CB
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 23:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+ :references:content-disposition:in-reply-to;
+ bh=2hK6AsHc/ysDKmL7f6dXUZSSeE0kBcwrFrtpZ34IiEA=; b=dv9GSoU5q89O6QAjG6UUhsk3GS
+ +j/d9pDqmJ/2DTqV135u2egzDU+xfME9bSFt0gzd/BGOfamNWms6HmQznPJrqeDeQkwpLP0E2lxY/
+ q+z7pSlUuxGCM5Os4UOSwxQR918zGb3Ztoh71qOF8KH70g93rPysvHpD0pONYPjpFBEC7iyolydT7
+ AGMIsUK+1DL/9E5LAhIWj/PESbA3EtiPPUXe4b9zkfs8xM/0rmjpvYOvU6UGLijfJZ2BeiK4SCn5e
+ Fz0SFsYdzYgf5R6I/uMXAb59wVgnOsuKJogy5Em5DV33/17yyoPYbh6HaZGTxefqWcNRE08KJMGrd
+ sBI7uRAg==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1mR107-0008Hz-JR; Thu, 16 Sep 2021 17:41:09 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
+ 4.94.2) (envelope-from <gunthorp@deltatee.com>)
+ id 1mR103-000Vqn-Ee; Thu, 16 Sep 2021 17:41:03 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Date: Thu, 16 Sep 2021 17:40:40 -0600
+Message-Id: <20210916234100.122368-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YUNckGH0+KXdEmqu@zn.tnic>
-Content-Language: en-US
-Cc: linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- linux-s390@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- linux-graphics-maintainer@vmware.com, Dave Young <dyoung@redhat.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
+ jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
+ ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
+ jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org,
+ dan.j.williams@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
+ jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
+ martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v3 00/20] Userspace P2PDMA with O_DIRECT NVMe devices
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Ira Weiny <ira.weiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Bjorn Helgaas <helgaas@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Stephen Bates <sbates@raithlin.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Xiong Jianxin <jianxin.xiong@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,33 +97,121 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Hi,
+
+This patchset continues my work to add userspace P2PDMA access using
+O_DIRECT NVMe devices. My last posting[1] just included the first 13
+patches in this series, but the early P2PDMA cleanup and map_sg error
+changes from that series have been merged into v5.15-rc1. To address
+concerns that that series did not add any new functionality, I've added
+back the userspcae functionality from the original RFC[2] (but improved
+based on the original feedback).
+
+The patchset enables userspace P2PDMA by allowing userspace to mmap()
+allocated chunks of the CMB. The resulting VMA can be passed only
+to O_DIRECT IO on NVMe backed files or block devices. A flag is added
+to GUP() in Patch 14, then Patches 15 through 17 wire this flag up based
+on whether the block queue indicates P2PDMA support. Patches 18
+through 20 enable the CMB to be mapped into userspace by mmaping
+the nvme char device.
+
+This is relatively straightforward, however the one significant
+problem is that, presently, pci_p2pdma_map_sg() requires a homogeneous
+SGL with all P2PDMA pages or all regular pages. Enhancing GUP to
+support enforcing this rule would require a huge hack that I don't
+expect would be all that pallatable. So the first 13 patches add
+support for P2PDMA pages to dma_map_sg[table]() to the dma-direct
+and dma-iommu implementations. Thus systems without an IOMMU plus
+Intel and AMD IOMMUs are supported. (Other IOMMU implementations would
+then be unsupported, notably ARM and PowerPC but support would be added
+when they convert to dma-iommu).
+
+dma_map_sgtable() is preferred when dealing with P2PDMA memory as it
+will return -EREMOTEIO when the DMA device cannot map specific P2PDMA
+pages based on the existing rules in calc_map_type_and_dist().
+
+The other issue is dma_unmap_sg() needs a flag to determine whether a
+given dma_addr_t was mapped regularly or as a PCI bus address. To allow
+this, a third flag is added to the page_link field in struct
+scatterlist. This effectively means support for P2PDMA will now depend
+on CONFIG_64BIT.
+
+Feedback welcome.
+
+This series is based on v5.15-rc1. A git branch is available here:
+
+  https://github.com/sbates130272/linux-p2pmem/  p2pdma_user_cmb_v3
+
+Thanks,
+
+Logan
+
+[1] https://lkml.kernel.org/r/20210513223203.5542-1-logang@deltatee.com
+[2] https://lkml.kernel.org/r/20201106170036.18713-1-logang@deltatee.com
+
+--
+
+Logan Gunthorpe (20):
+  lib/scatterlist: add flag for indicating P2PDMA segments in an SGL
+  PCI/P2PDMA: attempt to set map_type if it has not been set
+  PCI/P2PDMA: make pci_p2pdma_map_type() non-static
+  PCI/P2PDMA: introduce helpers for dma_map_sg implementations
+  dma-mapping: allow EREMOTEIO return code for P2PDMA transfers
+  dma-direct: support PCI P2PDMA pages in dma-direct map_sg
+  dma-mapping: add flags to dma_map_ops to indicate PCI P2PDMA support
+  iommu/dma: support PCI P2PDMA pages in dma-iommu map_sg
+  nvme-pci: check DMA ops when indicating support for PCI P2PDMA
+  nvme-pci: convert to using dma_map_sgtable()
+  RDMA/core: introduce ib_dma_pci_p2p_dma_supported()
+  RDMA/rw: use dma_map_sgtable()
+  PCI/P2PDMA: remove pci_p2pdma_[un]map_sg()
+  mm: introduce FOLL_PCI_P2PDMA to gate getting PCI P2PDMA pages
+  iov_iter: introduce iov_iter_get_pages_[alloc_]flags()
+  block: set FOLL_PCI_P2PDMA in __bio_iov_iter_get_pages()
+  block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
+  mm: use custom page_free for P2PDMA pages
+  PCI/P2PDMA: introduce pci_mmap_p2pmem()
+  nvme-pci: allow mmaping the CMB in userspace
+
+ block/bio.c                  |   8 +-
+ block/blk-map.c              |   7 +-
+ drivers/dax/super.c          |   7 +-
+ drivers/infiniband/core/rw.c |  75 +++----
+ drivers/iommu/dma-iommu.c    |  68 +++++-
+ drivers/nvme/host/core.c     |  18 +-
+ drivers/nvme/host/nvme.h     |   4 +-
+ drivers/nvme/host/pci.c      |  98 +++++----
+ drivers/nvme/target/rdma.c   |   2 +-
+ drivers/pci/Kconfig          |   3 +-
+ drivers/pci/p2pdma.c         | 402 +++++++++++++++++++++++++++++------
+ include/linux/dma-map-ops.h  |  10 +
+ include/linux/dma-mapping.h  |   5 +
+ include/linux/memremap.h     |   4 +-
+ include/linux/mm.h           |   2 +
+ include/linux/pci-p2pdma.h   |  92 ++++++--
+ include/linux/scatterlist.h  |  50 ++++-
+ include/linux/uio.h          |  21 +-
+ include/rdma/ib_verbs.h      |  30 +++
+ include/uapi/linux/magic.h   |   1 +
+ kernel/dma/direct.c          |  44 +++-
+ kernel/dma/mapping.c         |  34 ++-
+ lib/iov_iter.c               |  28 +--
+ mm/gup.c                     |  28 ++-
+ mm/huge_memory.c             |   8 +-
+ mm/memory-failure.c          |   4 +-
+ mm/memory_hotplug.c          |   2 +-
+ mm/memremap.c                |  26 ++-
+ 28 files changed, 834 insertions(+), 247 deletions(-)
 
 
-On 9/16/21 8:02 AM, Borislav Petkov wrote:
-> On Wed, Sep 15, 2021 at 10:26:06AM -0700, Kuppuswamy, Sathyanarayanan wrote:
->> I have a Intel variant patch (please check following patch). But it includes
->> TDX changes as well. Shall I move TDX changes to different patch and just
->> create a separate patch for adding intel_cc_platform_has()?
-> 
-> Yes, please, so that I can expedite that stuff separately and so that it
-> can go in early in order for future work to be based ontop.
-
-Sent it part of TDX patch series. Please check and cherry pick it.
-
-https://lore.kernel.org/lkml/20210916183550.15349-2-sathyanarayanan.kuppuswamy@linux.intel.com/
-
-> 
-> Thx.
-> 
-
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+--
+2.30.2
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
