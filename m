@@ -2,62 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0599740DDAD
-	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 17:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF15A40DDA8
+	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 17:13:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B207361400;
-	Thu, 16 Sep 2021 15:13:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 78255613F6;
+	Thu, 16 Sep 2021 15:13:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fAqD9j9HGPBL; Thu, 16 Sep 2021 15:13:35 +0000 (UTC)
+	with ESMTP id ZxFAUhD5fXj0; Thu, 16 Sep 2021 15:13:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EE2A7613FF;
-	Thu, 16 Sep 2021 15:13:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E9D78613FA;
+	Thu, 16 Sep 2021 15:13:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE81CC001E;
-	Thu, 16 Sep 2021 15:13:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D6068C001E;
+	Thu, 16 Sep 2021 15:13:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40201C000D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:13:33 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99328C000D
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:13:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2DB3683EBE
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:13:33 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7C1CE4159B
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:13:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kapsi.fi
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XwfCy2WXrMpb for <iommu@lists.linux-foundation.org>;
- Thu, 16 Sep 2021 15:13:32 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id G6S3sK5874nV for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Sep 2021 15:13:20 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 830C383EC5
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:13:32 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6867540236
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 15:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=a3a4L0LcNyFb0WDaiZP/DECRKX/+dZPtlE+JRRYd/sc=; b=lhvw4BQDLFbnvMtFtX0H1kPI0N
- SUaXvrBEUJmHO60VFUTvPdcKPvqXqZ+OQaDwXXGGHDtkERj2W6adRCdabonPWgJX+6rreR8Pqnajo
- I0a3OKFjmzTiAPgLjCx/Al7T7V6li2zqDcUPTTbhLFg+d9+FchaQZyoSbwBdGt2qRWdNYODbUuOJw
- 44HY3bQAgM/1NFti8sGJZUV3R5mvmhgZCIr4s0fHvGhVHE+QifuleS8cSOfRPzKiVhcOB1vYvU3k4
- COiXnmhQ2/N0PUoC1Hl7KFXnnEM7s3HxDJGFw6Fg7v+cz18ah1XFjqrX9KI3lxbVtGIx07TS3XyCt
- C6Ik1vrw==;
+ bh=+ThgXGeye/3cxF8A92VFU0/2uOH++TjGaY5XAwvi7Yg=; b=OSp2cKdOjZUKUt3M3aPOn32lSd
+ 6nx0TJtR7h+sJe/wo9/Jqv2X5dk3JqIMkQwMf7HGm2BjBZeQcYQnRMON0GenxLw1tiNK4maCzxQpk
+ gIWO6CQlCdLJ/5tmQLxtp9n4emCTSTr79tKbNoKFCSboc+FSbociVySkylUfjM8s6FeuWTH7Pzg7h
+ Ewn5kKQjOV3d5NQg3kSvG8WtQotVLFlbAvHhZ5wz+/8EmzJOnOM9jSTOwEbkTxH1pdCOJIXY7z6P1
+ NMux9NRQtrXhN5WKzRyJSgUwAh9icNzXUm0CqJyPCjRNPwKuYTQqfPXkGXluDi5Jpayfz/CqaD1F1
+ 6VFiSFRw==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1mQsRw-0005Xx-3z; Thu, 16 Sep 2021 17:33:16 +0300
+ id 1mQsRw-0005Xx-6G; Thu, 16 Sep 2021 17:33:16 +0300
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
-Subject: [PATCH v2 4/8] iommu/arm-smmu: Attach to host1x context device bus
-Date: Thu, 16 Sep 2021 17:32:58 +0300
-Message-Id: <20210916143302.2024933-5-mperttunen@nvidia.com>
+Subject: [PATCH v2 5/8] arm64: tegra: Add Host1x context stream IDs on
+ Tegra186+
+Date: Thu, 16 Sep 2021 17:32:59 +0300
+Message-Id: <20210916143302.2024933-6-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210916143302.2024933-1-mperttunen@nvidia.com>
 References: <20210916143302.2024933-1-mperttunen@nvidia.com>
@@ -88,47 +89,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Set itself as the IOMMU for the host1x context device bus, containing
-"dummy" devices used for Host1x context isolation.
+Add Host1x context stream IDs on systems that support Host1x context
+isolation. Host1x and attached engines can use these stream IDs to
+allow isolation between memory used by different processes.
+
+The specified stream IDs must match those configured by the hypervisor,
+if one is present.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+v2:
+* Added context devices on T194.
+* Use iommu-map instead of custom property.
+---
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 12 ++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 12 ++++++++++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index 4bc75c4ce402..23082675d542 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -39,6 +39,7 @@
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index 065185bd65ed..71571c29c7ae 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1270,6 +1270,18 @@ host1x@13e00000 {
  
- #include <linux/amba/bus.h>
- #include <linux/fsl/mc.h>
-+#include <linux/host1x_context_bus.h>
+ 		iommus = <&smmu TEGRA186_SID_HOST1X>;
  
- #include "arm-smmu.h"
- 
-@@ -2051,8 +2052,20 @@ static int arm_smmu_bus_init(struct iommu_ops *ops)
- 			goto err_reset_pci_ops;
- 	}
- #endif
-+#ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
-+	if (!iommu_present(&host1x_context_device_bus_type)) {
-+		err = bus_set_iommu(&host1x_context_device_bus_type, ops);
-+		if (err)
-+			goto err_reset_fsl_mc_ops;
-+	}
-+#endif
++		memory-contexts {
++			iommu-map = <
++				0 &smmu TEGRA186_SID_HOST1X_CTX0 1
++				1 &smmu TEGRA186_SID_HOST1X_CTX1 1
++				2 &smmu TEGRA186_SID_HOST1X_CTX2 1
++				3 &smmu TEGRA186_SID_HOST1X_CTX3 1
++				4 &smmu TEGRA186_SID_HOST1X_CTX4 1
++				5 &smmu TEGRA186_SID_HOST1X_CTX5 1
++				6 &smmu TEGRA186_SID_HOST1X_CTX6 1
++				7 &smmu TEGRA186_SID_HOST1X_CTX7 1>;
++		};
 +
- 	return 0;
+ 		dpaux1: dpaux@15040000 {
+ 			compatible = "nvidia,tegra186-dpaux";
+ 			reg = <0x15040000 0x10000>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 5788735ef968..abcdc42614a6 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1412,6 +1412,18 @@ host1x@13e00000 {
+ 			interconnect-names = "dma-mem";
+ 			iommus = <&smmu TEGRA194_SID_HOST1X>;
  
-+err_reset_fsl_mc_ops: __maybe_unused;
-+#ifdef CONFIG_FSL_MC_BUS
-+	bus_set_iommu(&fsl_mc_bus_type, NULL);
-+#endif
- err_reset_pci_ops: __maybe_unused;
- #ifdef CONFIG_PCI
- 	bus_set_iommu(&pci_bus_type, NULL);
++			memory-contexts {
++				iommu-map = <
++					0 &smmu TEGRA194_SID_HOST1X_CTX0 1
++					1 &smmu TEGRA194_SID_HOST1X_CTX1 1
++					2 &smmu TEGRA194_SID_HOST1X_CTX2 1
++					3 &smmu TEGRA194_SID_HOST1X_CTX3 1
++					4 &smmu TEGRA194_SID_HOST1X_CTX4 1
++					5 &smmu TEGRA194_SID_HOST1X_CTX5 1
++					6 &smmu TEGRA194_SID_HOST1X_CTX6 1
++					7 &smmu TEGRA194_SID_HOST1X_CTX7 1>;
++			};
++
+ 			nvdec@15140000 {
+ 				compatible = "nvidia,tegra194-nvdec";
+ 				reg = <0x15140000 0x00040000>;
 -- 
 2.32.0
 
