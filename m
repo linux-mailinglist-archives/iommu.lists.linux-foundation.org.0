@@ -1,78 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1DE40D7DD
-	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 12:52:32 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC7D40D804
+	for <lists.iommu@lfdr.de>; Thu, 16 Sep 2021 12:57:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 63B6082EAD;
-	Thu, 16 Sep 2021 10:52:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 477E4407AD;
+	Thu, 16 Sep 2021 10:57:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9fFggcIkPwo5; Thu, 16 Sep 2021 10:52:30 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xvM0_cgDuOGK; Thu, 16 Sep 2021 10:57:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8F69982D7C;
-	Thu, 16 Sep 2021 10:52:30 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 54C75407B6;
+	Thu, 16 Sep 2021 10:57:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 612E6C001E;
-	Thu, 16 Sep 2021 10:52:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BEB1C001E;
+	Thu, 16 Sep 2021 10:57:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4DB88C000D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 10:52:28 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 179E5C000D
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 10:57:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 252E4407B1
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 10:52:28 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 014A7401FA
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 10:57:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sLNueq-Mf4kQ for <iommu@lists.linux-foundation.org>;
- Thu, 16 Sep 2021 10:52:27 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0-55YJevq3t6 for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Sep 2021 10:57:35 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 9299340774
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 10:52:27 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id e16so5529846pfc.6
- for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 03:52:27 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1865C4014D
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 10:57:34 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id q22so5616284pfu.0
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Sep 2021 03:57:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VNKbu9+xQ5ZpUtGvMTcqpK8Ho+xMSyVZ8+L+t3qGVwI=;
- b=XSZj6K6WXxfevgNkMQWTVWN/pRsGZ48Hpf1aapa7yFejBTCFdA6HUCPwkA38CUvHOb
- 12EGRvxxebdCNuoE+ObAyvTNwWyxDdbNnDJYQNBCpkkMDkdT2sOdFGpKg9oYBfCBDwL0
- XflKHpxQXjZ521DE/0ZBRDz1uCKiQSaIrItzbkcc7HCVprwqAzWPmTfhfdTuxhcGIkae
- 17ws4naiLQWag9g0raMGIBW/7G/5E7reQPZwNkqgzzUPtdDb0IjYRvViaMPYRdxPUde6
- Bl5njgBd1GAcMu72JAentZ78PNGD3qywdjPZPtQPg3O6M2RygtB2NwLk/e/0AhwfWnul
- yMPg==
+ bh=zetJ5G0LMyibhhBY6/35VWLw2vAGWh3kCNdD5BxkSZI=;
+ b=Iq+3mvGj2jY0H1hK5L2+2LJkiT3nS6liFloV8Frq8+FJ3Y0LxB2A38VNCla7awjuhj
+ Q3Cl5qmmvoV1YWOZQweI486bIgofq+t3jwjAQ3GGQ1BTx00wXTwDzZt3wO26vvMZXlEU
+ Srw78VlxUG3ClRIenDB9DS9KklBz8Gy2Kt0AIAheRW83PteD9N403WMbpA39HXJuq8IF
+ JiYUmg4zDGjeRBVLjEF25+aPcjKe8oOTUL3KuuMaaLo1G4aP3SLUOfZT+6b94AvHMe5Q
+ tcf8/9xlWcz7WQzaFSNkMRaXjJszFIpx0K2ojEu+E4bzhBM/xSgQmOnlb5Oz/8Q8cN9d
+ Qp1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VNKbu9+xQ5ZpUtGvMTcqpK8Ho+xMSyVZ8+L+t3qGVwI=;
- b=pf4w5Bb4+i/hqapPSEs47yfVKbU6Ux7hLQVs4bj/KqhzZdDElK62JVRpMi2s6yyt76
- G8GX6qQWpTILE3CEYIE8HRNfI9mg1TScuTACA8p97/aQ96HxWVZ2ccgeW6qHMl1FU+tL
- afCRRlSHsQSWeeDFR816GmfiroX569BMhOnkZzI6ThebRHKEOw9XarxsNq6LAfsIfE4S
- k25RpzY1FweGbrXixZ0mwEJYDvK/C78GCcUze5CO5Wfr8hwZavLhdBngdaJ8VeBDR8MR
- FYRinB9YqU8ekxJgxQUp/Sp8uAympkpLno4GKdwfvSQsoxNBRqW97uwZ76TfxI9lIIU3
- Ziog==
-X-Gm-Message-State: AOAM533XkUcWAovtlaFY9wAaRihR9+7u96EHbXVCnnloMxYoZtz66+Jm
- R0VO3AttG0Y1OgMtJV6YIZM=
-X-Google-Smtp-Source: ABdhPJyl+TWhw4qIPd+GNTqUwBCT0hUxX1fvNVQYkrBsEjf+FvFMSf2MpaDHDZtEUEbJwfeL0pUlhg==
-X-Received: by 2002:a63:4614:: with SMTP id t20mr4441488pga.372.1631789546934; 
- Thu, 16 Sep 2021 03:52:26 -0700 (PDT)
-Received: from ?IPv6:2404:f801:0:5:8000::50b? ([2404:f801:9000:18:efec::50b])
+ bh=zetJ5G0LMyibhhBY6/35VWLw2vAGWh3kCNdD5BxkSZI=;
+ b=uT76uwtJFmOOFJ7YjvyjI2jZ6aj5lABamiid6dyyyxuPdjufKScuJ9kdSepwPnNaHf
+ 37IwnUTg8f79tWPmz3UQO3f7SxMdc1GbovGRO1fRTW32gssR2sSPOjTkPXATH3XAB6HW
+ kVfKI6sDK1ZoJnZdKLU6H0YSCWgGy8oooTZrL3TvGQ0bK/ss8Uan1NYSfJUVrQVRRiO6
+ r8/6n92bwUVqeBnkxzWPQjWs0wQPF9/5AMevh4RuesBr4sgkGO6w5P0kuU5vlonQyuyY
+ NX6JgD6H569znpC1Rccjz4DUlo860zPyGDFofDJD3XC5RnqmlBrwgOdPbfGr88ClYhsA
+ r0Hw==
+X-Gm-Message-State: AOAM533P/cdvCjYSgFVlzQ8obDU1ttjYVqhDhBKBDhzk00ZTEt/lHtGH
+ uX6JFb1KkHXzXb6C/6ii5Ww=
+X-Google-Smtp-Source: ABdhPJyJnHqPNf+opjGA7LpPgHFY6nzsERWLwilu6XCHi7kaSPNw+MpELyJKztS12zzhPWoDpdap2Q==
+X-Received: by 2002:aa7:959a:0:b0:43b:adeb:ef58 with SMTP id
+ z26-20020aa7959a000000b0043badebef58mr4426857pfj.19.1631789854486; 
+ Thu, 16 Sep 2021 03:57:34 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::50b? ([2404:f801:9000:1a:efea::50b])
  by smtp.gmail.com with ESMTPSA id
- 21sm2624212pfh.103.2021.09.16.03.52.13
+ n141sm2856237pfd.90.2021.09.16.03.57.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 03:52:26 -0700 (PDT)
-Subject: Re: [PATCH V5 07/12] Drivers: hv: vmbus: Add SNP support for VMbus
- channel initiate message
+ Thu, 16 Sep 2021 03:57:34 -0700 (PDT)
+Subject: Re: [PATCH V5 09/12] x86/Swiotlb: Add Swiotlb bounce buffer remap
+ function for HV IVM
 To: Michael Kelley <mikelley@microsoft.com>, KY Srinivasan
  <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
  Stephen Hemminger <sthemmin@microsoft.com>,
@@ -110,15 +111,15 @@ To: Michael Kelley <mikelley@microsoft.com>, KY Srinivasan
  "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
  "tj@kernel.org" <tj@kernel.org>, "rientjes@google.com" <rientjes@google.com>
 References: <20210914133916.1440931-1-ltykernel@gmail.com>
- <20210914133916.1440931-8-ltykernel@gmail.com>
- <MWHPR21MB1593D9CB27D41B128BF21DC9D7DB9@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <20210914133916.1440931-10-ltykernel@gmail.com>
+ <MWHPR21MB159349234C15D0F04F87845CD7DB9@MWHPR21MB1593.namprd21.prod.outlook.com>
 From: Tianyu Lan <ltykernel@gmail.com>
-Message-ID: <15d177f8-5e20-8630-2b2c-8a00a5309a61@gmail.com>
-Date: Thu, 16 Sep 2021 18:52:12 +0800
+Message-ID: <3f6a6407-b8fd-803b-e4fe-ea9a873a5840@gmail.com>
+Date: Thu, 16 Sep 2021 18:57:20 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <MWHPR21MB1593D9CB27D41B128BF21DC9D7DB9@MWHPR21MB1593.namprd21.prod.outlook.com>
+In-Reply-To: <MWHPR21MB159349234C15D0F04F87845CD7DB9@MWHPR21MB1593.namprd21.prod.outlook.com>
 Content-Language: en-US
 Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
  "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
@@ -146,24 +147,50 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 9/15/2021 11:41 PM, Michael Kelley wrote:
->> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
->> index 42f3d9d123a1..560cba916d1d 100644
->> --- a/drivers/hv/hyperv_vmbus.h
->> +++ b/drivers/hv/hyperv_vmbus.h
->> @@ -240,6 +240,8 @@ struct vmbus_connection {
->>   	 * is child->parent notification
->>   	 */
->>   	struct hv_monitor_page *monitor_pages[2];
->> +	void *monitor_pages_original[2];
->> +	unsigned long monitor_pages_pa[2];
-> The type of this field really should be phys_addr_t.  In addition to
-> just making semantic sense, then it will match the return type from
-> virt_to_phys() and the input arg to memremap() since resource_size_t
-> is typedef'ed as phys_addr_t.
+On 9/15/2021 11:42 PM, Michael Kelley wrote:
+>> @@ -196,13 +199,34 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+>>   		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
+>>   		mem->slots[i].alloc_size = 0;
+>>   	}
+>> +
+>> +	if (set_memory_decrypted((unsigned long)vaddr, bytes >> PAGE_SHIFT))
+>> +		return -EFAULT;
+>> +
+>> +	/*
+>> +	 * Map memory in the unencrypted physical address space when requested
+>> +	 * (e.g. for Hyper-V AMD SEV-SNP Isolation VMs).
+>> +	 */
+>> +	if (swiotlb_unencrypted_base) {
+>> +		phys_addr_t paddr = __pa(vaddr) + swiotlb_unencrypted_base;
+> Nit:  Use "start" instead of "__pa(vaddr)" since "start" is already the needed
+> physical address.
+
+
+Yes, "start" should be used here.
+
+> 
+>> @@ -304,7 +332,7 @@ int
+>>   swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
+>>   {
+>>   	struct io_tlb_mem *mem = &io_tlb_default_mem;
+>> -	unsigned long bytes = nslabs << IO_TLB_SHIFT;
+>> +	int ret;
+>>
+>>   	if (swiotlb_force == SWIOTLB_NO_FORCE)
+>>   		return 0;
+>> @@ -318,8 +346,9 @@ swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
+>>   	if (!mem->slots)
+>>   		return -ENOMEM;
+>>
+>> -	set_memory_decrypted((unsigned long)tlb, bytes >> PAGE_SHIFT);
+>> -	swiotlb_init_io_tlb_mem(mem, virt_to_phys(tlb), nslabs, true);
+>> +	ret = swiotlb_init_io_tlb_mem(mem, virt_to_phys(tlb), nslabs, true);
+>> +	if (ret)
+> Before returning the error, free the pages obtained from the earlier call
+> to __get_free_pages()?
 > 
 
-OK. Will update in the next version.
+Yes, will fix.
 
 Thanks.
 _______________________________________________
