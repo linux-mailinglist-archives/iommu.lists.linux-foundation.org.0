@@ -1,65 +1,101 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4FA41271E
-	for <lists.iommu@lfdr.de>; Mon, 20 Sep 2021 22:02:31 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DD24126D2
+	for <lists.iommu@lfdr.de>; Mon, 20 Sep 2021 21:23:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1B79A404C9;
-	Mon, 20 Sep 2021 20:02:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9ACD482A0E;
+	Mon, 20 Sep 2021 19:23:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CpiL3RYMhnBj; Mon, 20 Sep 2021 20:02:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B8C2E404D6;
-	Mon, 20 Sep 2021 20:02:23 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2ct82uVthwPX; Mon, 20 Sep 2021 19:23:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 6134682AC8;
+	Mon, 20 Sep 2021 19:23:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A59CC0011;
-	Mon, 20 Sep 2021 20:02:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33761C001E;
+	Mon, 20 Sep 2021 19:23:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1361CC0020
- for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:22 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D00BCC000D
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 19:23:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7729660AE5
- for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:16 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id CA2894029C
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 19:23:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UqxYAXgbjDUT for <iommu@lists.linux-foundation.org>;
- Mon, 20 Sep 2021 20:02:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E01E060AC6
- for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:14 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="220033628"
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="220033628"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 13:02:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="473779464"
-Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
- by fmsmga007.fm.intel.com with ESMTP; 20 Sep 2021 13:02:12 -0700
-From: Fenghua Yu <fenghua.yu@intel.com>
-To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "Peter Zijlstra" <peterz@infradead.org>,
- "Andy Lutomirski" <luto@kernel.org>, "Dave Hansen" <dave.hansen@intel.com>,
- "Tony Luck" <tony.luck@intel.com>, "Lu Baolu" <baolu.lu@linux.intel.com>,
- "Joerg Roedel" <joro@8bytes.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
- "Ashok Raj" <ashok.raj@intel.com>,
- "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH 0/8] Re-enable ENQCMD and PASID MSR
-Date: Mon, 20 Sep 2021 19:23:41 +0000
-Message-Id: <20210920192349.2602141-1-fenghua.yu@intel.com>
-X-Mailer: git-send-email 2.33.0
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=shutemov-name.20210112.gappssmtp.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MZxkovjecJOw for <iommu@lists.linux-foundation.org>;
+ Mon, 20 Sep 2021 19:23:44 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 4E8B34012E
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 19:23:44 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id e15so33165784lfr.10
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 12:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shutemov-name.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=lfxmCAIn9aHEGlNTCFP6oI4sdv4GtF/cTPp74Gw1WBM=;
+ b=51peZIPp0Z/EhYUJjOrVhklffvLaouyg2C5XP2pPvI6GKpQqRTRJNH9z0riNU6JUST
+ o0XwKLmOpbRlulubaDys5ESijC7RfZDY0btoMVLhd24Wbuq4HCPaAcFG5bL/hMGrqGtL
+ 7xl5z5ix8Uq+1/IFKbmMGW0qkcT6Kblu2SXf54ogQOpF0XmbXZnVwYt6ayxUDZ2i0zc5
+ ndwQC+lLTjKOM/5Nx96ULxzCt3Is+WBaiGfGuvvkAWuKo2L9VaqIf1rPaXJawFd0DZaR
+ UVhdwOrDahN59n5xgeFFwe62qLfoeS4Srs8f0W8HdLOxbwittlQusCzObDZLZ8VTA7Ay
+ 5WSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lfxmCAIn9aHEGlNTCFP6oI4sdv4GtF/cTPp74Gw1WBM=;
+ b=vu6yK6dQfeKdHPi1yd4N2iFQk64D9NAXEBWuyvAjdGJfd8RQID1hm2/yhpejzBaJ70
+ Qr4rzizNaIr3P8ezB7GBqEbhCHVu0Os0UTt9dUXRt5yDGOkvRfjOKuYUd4oxXZS91SHN
+ xdmth7Hsq4Ndda9vTsDC2n0WkIOpegJL4VwIsGS+XfAlkVJ/kXQmgxxXGR7Yz34J6wmN
+ hiKJyEWDZbuHDtdiaiQErPu2yZk64I/hgaY73omNGPKyzpI/JF8FvsZIUEezMPwnntB7
+ SgDADc1kdIrdq+YffeLl3t+DiBnIFcciGc5Q9kZb1h5A1B9KyA/Vaa16wNfVzd0kE0h8
+ j3Tw==
+X-Gm-Message-State: AOAM530LUfo8mut2y4GhGdjkOsoWH1yRZsGvUlvuyjtwX202wpAlbYvu
+ mjcqKmkNcfAAp5r/5PtAFX97VQ==
+X-Google-Smtp-Source: ABdhPJzBd1RwKOZT1XWwd9VMdTBk2dtlBYL+yyroRGVVu01s956l3lUsknRhzDPFsjv00pVQxtEqOw==
+X-Received: by 2002:a05:651c:83:: with SMTP id
+ 3mr23323003ljq.341.1632165822010; 
+ Mon, 20 Sep 2021 12:23:42 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+ by smtp.gmail.com with ESMTPSA id j21sm1858858ljh.87.2021.09.20.12.23.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 12:23:41 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+ id B961C103053; Mon, 20 Sep 2021 22:23:41 +0300 (+03)
+Date: Mon, 20 Sep 2021 22:23:41 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
+ cc_platform_has()
+Message-ID: <20210920192341.maue7db4lcbdn46x@box.shutemov.name>
+References: <cover.1631141919.git.thomas.lendacky@amd.com>
+ <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
-Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
- x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
+Cc: linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ kvm@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, Will Deacon <will@kernel.org>,
+ linux-s390@vger.kernel.org, Andi Kleen <ak@linux.intel.com>, x86@kernel.org,
+ amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, linux-graphics-maintainer@vmware.com,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,60 +113,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since updating PASID (Process Address Space ID) MSR through IPI has a few
-issues that are beyond repair, Thomas disables ENQCMD [1].
+On Wed, Sep 08, 2021 at 05:58:36PM -0500, Tom Lendacky wrote:
+> diff --git a/arch/x86/mm/mem_encrypt_identity.c b/arch/x86/mm/mem_encrypt_identity.c
+> index 470b20208430..eff4d19f9cb4 100644
+> --- a/arch/x86/mm/mem_encrypt_identity.c
+> +++ b/arch/x86/mm/mem_encrypt_identity.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/mm.h>
+>  #include <linux/mem_encrypt.h>
+> +#include <linux/cc_platform.h>
+>  
+>  #include <asm/setup.h>
+>  #include <asm/sections.h>
+> @@ -287,7 +288,7 @@ void __init sme_encrypt_kernel(struct boot_params *bp)
+>  	unsigned long pgtable_area_len;
+>  	unsigned long decrypted_base;
+>  
+> -	if (!sme_active())
+> +	if (!cc_platform_has(CC_ATTR_HOST_MEM_ENCRYPT))
+>  		return;
+>  
+>  	/*
 
-Please check Documentation/x86/sva.rst for various concepts and terms
-related to PASID, ENQCMD, SVM (Shared Virtual Memory), etc.
+This change break boot for me (in KVM on Intel host). It only reproduces
+with allyesconfig. More reasonable config works fine, but I didn't try to
+find exact cause in config.
 
-This series re-enables ENQCMD and IA32_PASID MSR by using a #GP fix up
-method previously published in [2]. A PASID is allocated to a mm once
-a SVM is bound to the mm via intel_svm_bind() API. The #GP fix up method
-updates the PASID MSR from the mm's PASID in #GP handler when one thread
-in a process executes ENQCMD for the first time and one reference is taken
-to the PASID. Once the MSR is uploaded, the thread keeps and can use it
-for the rest life time of the thread. In exit(2) or unbind, the PASID's
-reference is dropped and the PASID is freed if there is no reference.
+Convertion to cc_platform_has() in __startup_64() in 8/8 has the same
+effect.
 
-References:
-1. ENQCMD was disabled in upstream due to serious issues:
-https://lore.kernel.org/linux-iommu/87mtsd6gr9.ffs@nanos.tec.linutronix.de/
-
-2. #GP fix up PASID MSR:
-https://lore.kernel.org/linux-iommu/1594684087-61184-1-git-send-email-fenghua.yu@intel.com/
-
-Fenghua Yu (7):
-  iommu/vt-d: Clean up unused PASID updating functions
-  x86/process: Clear PASID state for a newly forked/cloned thread
-  x86/traps: Demand-populate PASID MSR via #GP
-  x86/mmu: Add mm-based PASID refcounting
-  x86/cpufeatures: Re-enable ENQCMD
-  tools/objtool: Check for use of the ENQCMD instruction in the kernel
-  docs: x86: Change documentation for SVA (Shared Virtual Addressing)
-
-Peter Zijlstra (1):
-  sched: Define and initialize a flag to identify valid PASID in the
-    task
-
- Documentation/x86/sva.rst                | 81 ++++++++++++++++++--
- arch/x86/include/asm/disabled-features.h |  7 +-
- arch/x86/include/asm/fpu/api.h           |  6 +-
- arch/x86/include/asm/iommu.h             |  8 ++
- arch/x86/include/asm/mmu_context.h       |  2 +
- arch/x86/kernel/fpu/xstate.c             | 59 +++++++++++++++
- arch/x86/kernel/process.c                |  8 ++
- arch/x86/kernel/traps.c                  | 12 +++
- drivers/iommu/intel/svm.c                | 95 ++++++++++++++++++------
- include/linux/sched.h                    |  4 +
- kernel/fork.c                            |  4 +
- tools/objtool/arch/x86/decode.c          | 10 ++-
- tools/objtool/check.c                    | 20 +++++
- tools/objtool/include/objtool/arch.h     |  1 +
- 14 files changed, 283 insertions(+), 34 deletions(-)
+I believe it caused by sme_me_mask access from __startup_64() without
+fixup_pointer() magic. I think __startup_64() requires special treatement
+and we should avoid cc_platform_has() there (or have a special version of
+the helper). Note that only AMD requires these cc_platform_has() to return
+true.
 
 -- 
-2.33.0
-
+ Kirill A. Shutemov
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
