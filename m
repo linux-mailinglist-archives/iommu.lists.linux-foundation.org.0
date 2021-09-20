@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4531412718
-	for <lists.iommu@lfdr.de>; Mon, 20 Sep 2021 22:02:24 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D657B41271B
+	for <lists.iommu@lfdr.de>; Mon, 20 Sep 2021 22:02:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1A5064031E;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9E61E40496;
 	Mon, 20 Sep 2021 20:02:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 63ycjSoSOe9e; Mon, 20 Sep 2021 20:02:22 +0000 (UTC)
+	with ESMTP id 1ppB1JfcNAeQ; Mon, 20 Sep 2021 20:02:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1E2BC403B9;
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A804140455;
 	Mon, 20 Sep 2021 20:02:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 36EB1C0025;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D5B95C0029;
 	Mon, 20 Sep 2021 20:02:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5052FC000D
- for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59684C000D
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 28D6960AE8
+ by smtp3.osuosl.org (Postfix) with ESMTP id 31EF360AE1
  for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jNar9Sr077rH for <iommu@lists.linux-foundation.org>;
+ with ESMTP id GysP0XXu03ec for <iommu@lists.linux-foundation.org>;
  Mon, 20 Sep 2021 20:02:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2C48D60AE1
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3C60560AE3
  for <iommu@lists.linux-foundation.org>; Mon, 20 Sep 2021 20:02:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="220033630"
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="220033630"
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="220033632"
+X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="220033632"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 13:02:13 -0700
+ 20 Sep 2021 13:02:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="473779468"
+X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="473779473"
 Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
  by fmsmga007.fm.intel.com with ESMTP; 20 Sep 2021 13:02:13 -0700
 From: Fenghua Yu <fenghua.yu@intel.com>
@@ -53,9 +53,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
  "Ashok Raj" <ashok.raj@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH 1/8] iommu/vt-d: Clean up unused PASID updating functions
-Date: Mon, 20 Sep 2021 19:23:42 +0000
-Message-Id: <20210920192349.2602141-2-fenghua.yu@intel.com>
+Subject: [PATCH 2/8] x86/process: Clear PASID state for a newly forked/cloned
+ thread
+Date: Mon, 20 Sep 2021 19:23:43 +0000
+Message-Id: <20210920192349.2602141-3-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210920192349.2602141-1-fenghua.yu@intel.com>
 References: <20210920192349.2602141-1-fenghua.yu@intel.com>
@@ -79,81 +80,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-update_pasid() and its call chain are currently unused in the tree because
-Thomas disabled the ENQCMD feature. The feature will be re-enabled shortly
-using a different approach and update_pasid() and its call chain will not
-be used in the new approach.
+The PASID state has to be cleared on forks, since the child has a
+different address space. The PASID is also cleared for thread clone. While
+it would be correct to inherit the PASID in this case, it is unknown
+whether the new task will use ENQCMD. Giving it the PASID "just in case"
+would have the downside of increased context switch overhead to setting
+the PASID MSR and losing init optimization.
 
-Remove the useless functions.
+Since #GP faults have to be handled on any threads that were created before
+the PASID was assigned to the mm of the process, newly created threads
+might as well be treated in a consistent way.
 
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
- arch/x86/include/asm/fpu/api.h |  2 --
- drivers/iommu/intel/svm.c      | 24 +-----------------------
- 2 files changed, 1 insertion(+), 25 deletions(-)
+ arch/x86/kernel/process.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/x86/include/asm/fpu/api.h b/arch/x86/include/asm/fpu/api.h
-index 23bef08a8388..ca4d0dee1ecd 100644
---- a/arch/x86/include/asm/fpu/api.h
-+++ b/arch/x86/include/asm/fpu/api.h
-@@ -106,6 +106,4 @@ extern int cpu_has_xfeatures(u64 xfeatures_mask, const char **feature_name);
-  */
- #define PASID_DISABLED	0
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 1d9463e3096b..c713986ef7d7 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -154,6 +154,14 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
+ 	frame->flags = X86_EFLAGS_FIXED;
+ #endif
  
--static inline void update_pasid(void) { }
--
- #endif /* _ASM_X86_FPU_API_H */
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 0c228787704f..5b5d69b04fcc 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -505,21 +505,6 @@ int intel_svm_unbind_gpasid(struct device *dev, u32 pasid)
- 	return ret;
- }
- 
--static void _load_pasid(void *unused)
--{
--	update_pasid();
--}
--
--static void load_pasid(struct mm_struct *mm, u32 pasid)
--{
--	mutex_lock(&mm->context.lock);
--
--	/* Update PASID MSR on all CPUs running the mm's tasks. */
--	on_each_cpu_mask(mm_cpumask(mm), _load_pasid, NULL, true);
--
--	mutex_unlock(&mm->context.lock);
--}
--
- static int intel_svm_alloc_pasid(struct device *dev, struct mm_struct *mm,
- 				 unsigned int flags)
- {
-@@ -614,10 +599,6 @@ static struct iommu_sva *intel_svm_bind_mm(struct intel_iommu *iommu,
- 	if (ret)
- 		goto free_sdev;
- 
--	/* The newly allocated pasid is loaded to the mm. */
--	if (!(flags & SVM_FLAG_SUPERVISOR_MODE) && list_empty(&svm->devs))
--		load_pasid(mm, svm->pasid);
--
- 	list_add_rcu(&sdev->list, &svm->devs);
- success:
- 	return &sdev->sva;
-@@ -670,11 +651,8 @@ static int intel_svm_unbind_mm(struct device *dev, u32 pasid)
- 			kfree_rcu(sdev, rcu);
- 
- 			if (list_empty(&svm->devs)) {
--				if (svm->notifier.ops) {
-+				if (svm->notifier.ops)
- 					mmu_notifier_unregister(&svm->notifier, mm);
--					/* Clear mm's pasid. */
--					load_pasid(mm, PASID_DISABLED);
--				}
- 				pasid_private_remove(svm->pasid);
- 				/* We mandate that no page faults may be outstanding
- 				 * for the PASID when intel_svm_unbind_mm() is called.
++	if (static_cpu_has(X86_FEATURE_ENQCMD)) {
++		/*
++		 * Clear the PASID bit in xfeatures so that the PASID MSR
++		 * will be initialized as init state (0).
++		 */
++		p->thread.fpu.state.xsave.header.xfeatures &= ~XFEATURE_MASK_PASID;
++	}
++
+ 	/* Kernel thread ? */
+ 	if (unlikely(p->flags & PF_KTHREAD)) {
+ 		p->thread.pkru = pkru_get_init_value();
 -- 
 2.33.0
 
