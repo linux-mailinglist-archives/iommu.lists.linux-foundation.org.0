@@ -1,59 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A474415D94
-	for <lists.iommu@lfdr.de>; Thu, 23 Sep 2021 14:02:27 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F0E415D96
+	for <lists.iommu@lfdr.de>; Thu, 23 Sep 2021 14:02:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D0663843C0;
-	Thu, 23 Sep 2021 12:02:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 23A66422B3;
+	Thu, 23 Sep 2021 12:02:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o-B5TY_2eSe2; Thu, 23 Sep 2021 12:02:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EA3B3843BF;
-	Thu, 23 Sep 2021 12:02:24 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id t_jn0yHbwV26; Thu, 23 Sep 2021 12:02:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 35B654162F;
+	Thu, 23 Sep 2021 12:02:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BEDCBC0022;
-	Thu, 23 Sep 2021 12:02:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0FE0AC000D;
+	Thu, 23 Sep 2021 12:02:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D406EC000D
- for <iommu@lists.linux-foundation.org>; Thu, 23 Sep 2021 12:02:23 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F01A3C000D
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Sep 2021 12:02:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id E505640192
- for <iommu@lists.linux-foundation.org>; Thu, 23 Sep 2021 12:02:22 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id D23B961403
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Sep 2021 12:02:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xNUvc-TfM1cq for <iommu@lists.linux-foundation.org>;
- Thu, 23 Sep 2021 12:02:22 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tuFGEv9GNMNg for <iommu@lists.linux-foundation.org>;
+ Thu, 23 Sep 2021 12:02:29 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E150D400C5
- for <iommu@lists.linux-foundation.org>; Thu, 23 Sep 2021 12:02:21 +0000 (UTC)
-X-UUID: a15b9c223ceb4d16ad8ac852f6d297e1-20210923
-X-UUID: a15b9c223ceb4d16ad8ac852f6d297e1-20210923
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id DE7496081C
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Sep 2021 12:02:28 +0000 (UTC)
+X-UUID: d14e2240ecf5477fa5f88ec2107b2f67-20210923
+X-UUID: d14e2240ecf5477fa5f88ec2107b2f67-20210923
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 768908821; Thu, 23 Sep 2021 20:02:15 +0800
+ with ESMTP id 589877884; Thu, 23 Sep 2021 20:02:24 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 23 Sep 2021 20:02:14 +0800
+ 15.0.1497.2; Thu, 23 Sep 2021 20:02:23 +0800
 Received: from localhost.localdomain (10.17.3.154) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 23 Sep 2021 20:02:13 +0800
+ Transport; Thu, 23 Sep 2021 20:02:22 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
  Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v3 20/33] iommu/mediatek: Allow IOMMU_DOMAIN_UNMANAGED for
- PCIe VFIO
-Date: Thu, 23 Sep 2021 19:58:27 +0800
-Message-ID: <20210923115840.17813-21-yong.wu@mediatek.com>
+Subject: [PATCH v3 21/33] iommu/mediatek: Add infra iommu support
+Date: Thu, 23 Sep 2021 19:58:28 +0800
+Message-ID: <20210923115840.17813-22-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210923115840.17813-1-yong.wu@mediatek.com>
 References: <20210923115840.17813-1-yong.wu@mediatek.com>
@@ -83,27 +82,129 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Allow the type IOMMU_DOMAIN_UNMANAGED since vfio_iommu_type1.c always call
-iommu_domain_alloc. The PCIe EP works ok when going through vfio.
+The infra iommu enable bits in mt8195 is in the pericfg register segment,
+use regmap to update it.
+
+If infra iommu master translation fault, It don't have the larbid/portid,
+thus print out the whole register value.
+
+Since regmap_update_bits may fail, add return value for mtk_iommu_config.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/mtk_iommu.c | 36 +++++++++++++++++++++++++++++-------
+ drivers/iommu/mtk_iommu.h |  2 ++
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 2818b984c905..d103e4f33078 100644
+index d103e4f33078..37d6dfb4feab 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -450,7 +450,7 @@ static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
+@@ -112,6 +112,8 @@
+ 
+ #define MTK_PROTECT_PA_ALIGN			256
+ 
++#define PERICFG_IOMMU_1				0x714
++
+ #define HAS_4GB_MODE			BIT(0)
+ /* HW will use the EMI clock if there isn't the "bclk". */
+ #define HAS_BCLK			BIT(1)
+@@ -324,8 +326,8 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
+ 			       write ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ)) {
+ 		dev_err_ratelimited(
+ 			data->dev,
+-			"fault type=0x%x iova=0x%llx pa=0x%llx larb=%d port=%d layer=%d %s\n",
+-			int_state, fault_iova, fault_pa, fault_larb, fault_port,
++			"fault type=0x%x iova=0x%llx pa=0x%llx master=0x%x(larb=%d port=%d) layer=%d %s\n",
++			int_state, fault_iova, fault_pa, regval, fault_larb, fault_port,
+ 			layer, write ? "write" : "read");
+ 	}
+ 
+@@ -369,14 +371,15 @@ static int mtk_iommu_get_domain_id(struct device *dev,
+ 	return -EINVAL;
+ }
+ 
+-static void mtk_iommu_config(struct mtk_iommu_data *data, struct device *dev,
+-			     bool enable, unsigned int domid)
++static int mtk_iommu_config(struct mtk_iommu_data *data, struct device *dev,
++			    bool enable, unsigned int domid)
  {
- 	struct mtk_iommu_domain *dom;
+ 	struct mtk_smi_larb_iommu    *larb_mmu;
+ 	unsigned int                 larbid, portid;
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	const struct mtk_iommu_iova_region *region;
+-	int i;
++	u32 peri_mmuen, peri_mmuen_msk;
++	int i, ret = 0;
  
--	if (type != IOMMU_DOMAIN_DMA)
-+	if (type != IOMMU_DOMAIN_DMA && type != IOMMU_DOMAIN_UNMANAGED)
- 		return NULL;
+ 	for (i = 0; i < fwspec->num_ids; ++i) {
+ 		larbid = MTK_M4U_TO_LARB(fwspec->ids[i]);
+@@ -396,8 +399,19 @@ static void mtk_iommu_config(struct mtk_iommu_data *data, struct device *dev,
+ 				larb_mmu->mmu |= MTK_SMI_MMU_EN(portid);
+ 			else
+ 				larb_mmu->mmu &= ~MTK_SMI_MMU_EN(portid);
++		} else if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_INFRA)) {
++			peri_mmuen_msk = BIT(portid);
++			peri_mmuen = enable ? peri_mmuen_msk : 0;
++
++			ret = regmap_update_bits(data->pericfg, PERICFG_IOMMU_1,
++						 peri_mmuen_msk, peri_mmuen);
++			if (ret)
++				dev_err(dev, "%s iommu(%s) inframaster 0x%x fail(%d).\n",
++					enable ? "enable" : "disable",
++					dev_name(data->dev), peri_mmuen_msk, ret);
+ 		}
+ 	}
++	return ret;
+ }
  
- 	dom = kzalloc(sizeof(*dom), GFP_KERNEL);
+ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom,
+@@ -504,8 +518,7 @@ static int mtk_iommu_attach_device(struct iommu_domain *domain,
+ 		pm_runtime_put(m4udev);
+ 	}
+ 
+-	mtk_iommu_config(data, dev, true, domid);
+-	return 0;
++	return mtk_iommu_config(data, dev, true, domid);
+ }
+ 
+ static void mtk_iommu_detach_device(struct iommu_domain *domain,
+@@ -921,6 +934,15 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 		ret = mtk_iommu_mm_dts_parse(dev, &match, data);
+ 		if (ret)
+ 			goto out_runtime_disable;
++	} else if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_INFRA) &&
++		   data->plat_data->pericfg_comp_str) {
++		infracfg = syscon_regmap_lookup_by_compatible(data->plat_data->pericfg_comp_str);
++		if (IS_ERR(infracfg)) {
++			ret = PTR_ERR(infracfg);
++			goto out_runtime_disable;
++		}
++
++		data->pericfg = infracfg;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, data);
+diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+index 5b32277fee99..d83c79bf800a 100644
+--- a/drivers/iommu/mtk_iommu.h
++++ b/drivers/iommu/mtk_iommu.h
+@@ -55,6 +55,7 @@ struct mtk_iommu_plat_data {
+ 	u32                 flags;
+ 	u32                 inv_sel_reg;
+ 
++	char					*pericfg_comp_str;
+ 	struct list_head			*hw_list;
+ 	unsigned int				iova_region_nr;
+ 	const struct mtk_iommu_iova_region	*iova_region;
+@@ -80,6 +81,7 @@ struct mtk_iommu_data {
+ 	struct device			*smicomm_dev;
+ 
+ 	struct dma_iommu_mapping	*mapping; /* For mtk_iommu_v1.c */
++	struct regmap			*pericfg;
+ 
+ 	/*
+ 	 * In the sharing pgtable case, list data->list to the global list like m4ulist.
 -- 
 2.18.0
 
