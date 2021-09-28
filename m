@@ -1,70 +1,124 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9BF41A787
-	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 07:56:37 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6EA41A91E
+	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 08:55:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7D0D180F39;
-	Tue, 28 Sep 2021 05:56:36 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 76DBA60799;
+	Tue, 28 Sep 2021 06:55:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SzzyDr3zaCtW; Tue, 28 Sep 2021 05:56:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 76FCD80F21;
-	Tue, 28 Sep 2021 05:56:35 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id tiIy4u8ua-OU; Tue, 28 Sep 2021 06:55:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 8573A60ACB;
+	Tue, 28 Sep 2021 06:55:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DE98C0022;
-	Tue, 28 Sep 2021 05:56:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41850C000D;
+	Tue, 28 Sep 2021 06:55:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7609FC000D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 05:56:33 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 658FFC000D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 05:50:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 50BA2401C9
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 05:56:33 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 554B880DA8
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 05:50:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sVapb64uxdRy for <iommu@lists.linux-foundation.org>;
- Tue, 28 Sep 2021 05:56:32 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=ibm.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BqM8FjY3YJBY for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Sep 2021 05:50:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5FAAC4019B
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 05:56:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD9F46124B;
- Tue, 28 Sep 2021 05:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632808591;
- bh=yF8soBrMZR/O7Es8zvvSXK1ACmyYAeIPeI9GI8SIN4E=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BR9Mz7tNJIpOMx5qLmLL20V6J+CCbJqnzz19y6p25N+bWH6doUl3rEufMzt3szdUr
- MMpPdsax7GWcFfEBdnMBV4XDW877gtglxayrFvk3zQ0Znp0y7jjIMIbg1zqCrb3iPG
- JTI0rh8X7/Ape0kSmKx0fT6brfXHpwiQ/hx8wHHcMa+yC4aabMKJLJRtWZ8fkwtE2X
- spJM3WqZzgsGzNF1F2W5g2pR6rMj0pPPhnsolXYKtitgWQaSyEfnfgP9BkdEGM5UGl
- l65tTf6tnqeBbJau43qA+ewWkEEv5+uXGFfuTrQxqipWlRFuDfkmQ8V7LxgIFUq9e8
- jLfUbw/orNoEw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 29/40] swiotlb-xen: ensure to issue well-formed
- XENMEM_exchange requests
-Date: Tue, 28 Sep 2021 01:55:13 -0400
-Message-Id: <20210928055524.172051-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210928055524.172051-1-sashal@kernel.org>
-References: <20210928055524.172051-1-sashal@kernel.org>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id BC0AD80DA2
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 05:50:47 +0000 (UTC)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18S25neO015213; 
+ Tue, 28 Sep 2021 01:50:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=u/08SgPZUwisKxBCFBopTGT1FXF/KS3DrgTJNKvfsWw=;
+ b=Su1MyId/zfXElDfwKdQFm+aBb51QNJQ0llIlvG0W9oPYZewfCBfzCqB8LF8zgaJbjzGg
+ IFmx2ZTi01oLGM1jc7Yh0pwFaOW+1S/gJPlE2rK93Ud/JEnJ0HxucSL/0Jr3K1y67go0
+ oy61Z556Buw8Yn3W6YnyhdrgKtcF0z9NAhiq3HwFska7do/b6tSi+4Cmz9wh/8yyUpWz
+ kw/L6CgGLCEJEJETCtPB11LXPWtL0F77Y4Tt7jJyNPIq7KDoBp4ETwu2sS5uI3x4VAKM
+ 2IMhPsq6auxqAG0FFP5vu+gk/kOirFim8WibJ+OF66Bbc8gcSGaWj9/4ELhYqRiZ4izv rg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bagubdr29-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Sep 2021 01:50:35 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18S5RsNX018217;
+ Tue, 28 Sep 2021 01:50:35 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bagubdr1s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Sep 2021 01:50:34 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18S5RqA7030074;
+ Tue, 28 Sep 2021 05:50:32 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04fra.de.ibm.com with ESMTP id 3b9ud9rt90-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Sep 2021 05:50:32 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18S5oTUI64356782
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Sep 2021 05:50:29 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8344152063;
+ Tue, 28 Sep 2021 05:50:29 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2A2EF52052;
+ Tue, 28 Sep 2021 05:50:29 +0000 (GMT)
+Received: from [9.81.209.82] (unknown [9.81.209.82])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by ozlabs.au.ibm.com (Postfix) with ESMTPSA id ADAB66013C;
+ Tue, 28 Sep 2021 15:50:27 +1000 (AEST)
+Subject: Re: [PATCH v2 6/9] PCI: Add pci_find_dvsec_capability to find
+ designated VSEC
+To: Ben Widawsky <ben.widawsky@intel.com>, linux-cxl@vger.kernel.org
+References: <20210923172647.72738-1-ben.widawsky@intel.com>
+ <20210923172647.72738-7-ben.widawsky@intel.com>
+From: Andrew Donnellan <ajd@linux.ibm.com>
+Message-ID: <6009c15f-af28-d7ab-4518-ae34f32626a2@linux.ibm.com>
+Date: Tue, 28 Sep 2021 15:50:27 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Cc: Juergen Gross <jgross@suse.com>, Sasha Levin <sashal@kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org,
- Jan Beulich <jbeulich@suse.com>, xen-devel@lists.xenproject.org,
- boris.ostrovsky@oracle.com
+In-Reply-To: <20210923172647.72738-7-ben.widawsky@intel.com>
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dfjx1jSiH5q1BslcZoUIy5Fe623U8B_f
+X-Proofpoint-GUID: qfYn4FdH2rSoMQJWiL29ItmLOGF8Nqca
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-28_03,2021-09-24_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 clxscore=1011 phishscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2109280033
+X-Mailman-Approved-At: Tue, 28 Sep 2021 06:55:17 +0000
+Cc: linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ "David E . Box" <david.e.box@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
+ Kan Liang <kan.liang@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,52 +131,41 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Jan Beulich <jbeulich@suse.com>
+On 24/9/21 3:26 am, Ben Widawsky wrote:
+> Add pci_find_dvsec_capability to locate a Designated Vendor-Specific
+> Extended Capability with the specified DVSEC ID.
+> 
+> The Designated Vendor-Specific Extended Capability (DVSEC) allows one or
+> more vendor specific capabilities that aren't tied to the vendor ID of
+> the PCI component.
+> 
+> DVSEC is critical for both the Compute Express Link (CXL) driver as well
+> as the driver for OpenCAPI coherent accelerator (OCXL).
+> 
+> Cc: David E. Box <david.e.box@linux.intel.com>
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: linux-pci@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: Andrew Donnellan <ajd@linux.ibm.com>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 
-[ Upstream commit 9074c79b62b6e0d91d7f716c6e4e9968eaf9e043 ]
+Looks good to me, it's essentially identical to the existing 
+implementation in ocxl.
 
-While the hypervisor hasn't been enforcing this, we would still better
-avoid issuing requests with GFNs not aligned to the requested order.
-Instead of altering the value also in the call to panic(), drop it
-there for being static and hence easy to determine without being part
-of the panic message.
+Reviewed-by: Andrew Donnellan <ajd@linux.ibm.com>
 
-Signed-off-by: Jan Beulich <jbeulich@suse.com>
-Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
-Link: https://lore.kernel.org/r/7b3998e3-1233-4e5a-89ec-d740e77eb166@suse.com
-Signed-off-by: Juergen Gross <jgross@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/xen/swiotlb-xen.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index dbb18dc956f3..de4f55154d49 100644
---- a/drivers/xen/swiotlb-xen.c
-+++ b/drivers/xen/swiotlb-xen.c
-@@ -232,10 +232,11 @@ void __init xen_swiotlb_init_early(void)
- 	/*
- 	 * Get IO TLB memory from any location.
- 	 */
--	start = memblock_alloc(PAGE_ALIGN(bytes), PAGE_SIZE);
-+	start = memblock_alloc(PAGE_ALIGN(bytes),
-+			       IO_TLB_SEGSIZE << IO_TLB_SHIFT);
- 	if (!start)
--		panic("%s: Failed to allocate %lu bytes align=0x%lx\n",
--		      __func__, PAGE_ALIGN(bytes), PAGE_SIZE);
-+		panic("%s: Failed to allocate %lu bytes\n",
-+		      __func__, PAGE_ALIGN(bytes));
- 
- 	/*
- 	 * And replace that memory with pages under 4GB.
 -- 
-2.33.0
-
+Andrew Donnellan              OzLabs, ADL Canberra
+ajd@linux.ibm.com             IBM Australia Limited
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
