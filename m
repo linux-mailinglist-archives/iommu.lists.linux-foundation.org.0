@@ -1,63 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4874841B715
-	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 21:10:36 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D3141B70E
+	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 21:10:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 75425405E9;
-	Tue, 28 Sep 2021 19:10:34 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 69DA580F48;
+	Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Pixe2f8XW1fj; Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 962D8405A9;
-	Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 05tEZTkfgbmR; Tue, 28 Sep 2021 19:10:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5EF7C80F44;
+	Tue, 28 Sep 2021 19:10:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B260C0023;
-	Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AC285C0024;
+	Tue, 28 Sep 2021 19:10:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4BEFDC000D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:28 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 25912C000D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E10E280F48
+ by smtp1.osuosl.org (Postfix) with ESMTP id 016EF80F48
  for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=alien8.de
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id D9WR7d8GxxlO for <iommu@lists.linux-foundation.org>;
- Tue, 28 Sep 2021 19:10:24 +0000 (UTC)
+ with ESMTP id JiKwDVYe5cWv for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Sep 2021 19:10:23 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7B39580F44
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 59D8580EEF
  for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:22 +0000 (UTC)
 Received: from zn.tnic (p200300ec2f13b20078349fd04295260b.dip0.t-ipconnect.de
  [IPv6:2003:ec:2f13:b200:7834:9fd0:4295:260b])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1CB931EC06D9;
- Tue, 28 Sep 2021 21:10:19 +0200 (CEST)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 03EEF1EC0731;
+ Tue, 28 Sep 2021 21:10:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1632856219;
+ t=1632856220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ezqIhy/GzEctU/BzXXa8nRx9BM/oenaY5A3bWVYyogc=;
- b=L15WdFBZiGsmF9pfPIN2c5ZAgIU4PtH28ptrgSgBhWpm+4j822yrxCFG5g1HkliRhUi5uF
- CRYVq82aPiFD57CtKa57/vA4L1iRWeGtkZ/r3TuxAhU5th8F6Q2wEbSDYpjVyB2e++vhJZ
- NSdeH98yXiBNfY80fDZLfpkLkYe+4+I=
+ bh=J+XdhoQGzIN8rz2Q4VHmTGzW5OUUAI4zbVurx/C+SFw=;
+ b=Yo909OX92n3M/cGLqS77ordtgA2tox4iPDFQFfqj90ti7VPQU2IrUuYwnMJGopwHyUg8Ex
+ 7pnCy6+oJgxD0E3vHZ0scxdMTXevKG3dVm9jvPA9z/Saeugp83kcj6Kifc6iNEhP1gH4KW
+ aK+6e6Rz0t6QBeUqkA4X9sqEff7rZcg=
 From: Borislav Petkov <bp@alien8.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/8] x86/ioremap: Selectively build arch override encryption
- functions
-Date: Tue, 28 Sep 2021 21:10:02 +0200
-Message-Id: <20210928191009.32551-2-bp@alien8.de>
+Subject: [PATCH 2/8] arch/cc: Introduce a function to check for confidential
+ computing features
+Date: Tue, 28 Sep 2021 21:10:03 +0200
+Message-Id: <20210928191009.32551-3-bp@alien8.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210928191009.32551-1-bp@alien8.de>
 References: <20210928191009.32551-1-bp@alien8.de>
@@ -100,79 +98,135 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Tom Lendacky <thomas.lendacky@amd.com>
 
-In preparation for other uses of the cc_platform_has() function
-besides AMD's memory encryption support, selectively build the
-AMD memory encryption architecture override functions only when
-CONFIG_AMD_MEM_ENCRYPT=y. These functions are:
+In preparation for other confidential computing technologies, introduce
+a generic helper function, cc_platform_has(), that can be used to
+check for specific active confidential computing attributes, like
+memory encryption. This is intended to eliminate having to add multiple
+technology-specific checks to the code (e.g. if (sev_active() ||
+tdx_active() || ... ).
 
-- early_memremap_pgprot_adjust()
-- arch_memremap_can_ram_remap()
+ [ bp: s/_CC_PLATFORM_H/_LINUX_CC_PLATFORM_H/g ]
 
-Additionally, routines that are only invoked by these architecture
-override functions can also be conditionally built. These functions are:
-
-- memremap_should_map_decrypted()
-- memremap_is_efi_data()
-- memremap_is_setup_data()
-- early_memremap_is_setup_data()
-
-And finally, phys_mem_access_encrypted() is conditionally built as well,
-but requires a static inline version of it when CONFIG_AMD_MEM_ENCRYPT is
-not set.
-
+Co-developed-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Co-developed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
 ---
- arch/x86/include/asm/io.h | 8 ++++++++
- arch/x86/mm/ioremap.c     | 2 +-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ arch/Kconfig                |  3 ++
+ include/linux/cc_platform.h | 88 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
+ create mode 100644 include/linux/cc_platform.h
 
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index 841a5d104afa..5c6a4af0b911 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -391,6 +391,7 @@ extern void arch_io_free_memtype_wc(resource_size_t start, resource_size_t size)
- #define arch_io_reserve_memtype_wc arch_io_reserve_memtype_wc
- #endif
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 8df1c7102643..d1e69d6e8498 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -1234,6 +1234,9 @@ config RELR
+ config ARCH_HAS_MEM_ENCRYPT
+ 	bool
  
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
- extern bool arch_memremap_can_ram_remap(resource_size_t offset,
- 					unsigned long size,
- 					unsigned long flags);
-@@ -398,6 +399,13 @@ extern bool arch_memremap_can_ram_remap(resource_size_t offset,
- 
- extern bool phys_mem_access_encrypted(unsigned long phys_addr,
- 				      unsigned long size);
-+#else
-+static inline bool phys_mem_access_encrypted(unsigned long phys_addr,
-+					     unsigned long size)
-+{
-+	return true;
-+}
-+#endif
- 
- /**
-  * iosubmit_cmds512 - copy data to single MMIO location, in 512-bit units
-diff --git a/arch/x86/mm/ioremap.c b/arch/x86/mm/ioremap.c
-index 60ade7dd71bd..ccff76cedd8f 100644
---- a/arch/x86/mm/ioremap.c
-+++ b/arch/x86/mm/ioremap.c
-@@ -508,6 +508,7 @@ void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr)
- 	memunmap((void *)((unsigned long)addr & PAGE_MASK));
- }
- 
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
- /*
-  * Examine the physical address to determine if it is an area of memory
-  * that should be mapped decrypted.  If the memory is not part of the
-@@ -746,7 +747,6 @@ bool phys_mem_access_encrypted(unsigned long phys_addr, unsigned long size)
- 	return arch_memremap_can_ram_remap(phys_addr, size, 0);
- }
- 
--#ifdef CONFIG_AMD_MEM_ENCRYPT
- /* Remap memory with encryption */
- void __init *early_memremap_encrypted(resource_size_t phys_addr,
- 				      unsigned long size)
++config ARCH_HAS_CC_PLATFORM
++	bool
++
+ config HAVE_SPARSE_SYSCALL_NR
+        bool
+        help
+diff --git a/include/linux/cc_platform.h b/include/linux/cc_platform.h
+new file mode 100644
+index 000000000000..a075b70b9a70
+--- /dev/null
++++ b/include/linux/cc_platform.h
+@@ -0,0 +1,88 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Confidential Computing Platform Capability checks
++ *
++ * Copyright (C) 2021 Advanced Micro Devices, Inc.
++ *
++ * Author: Tom Lendacky <thomas.lendacky@amd.com>
++ */
++
++#ifndef _LINUX_CC_PLATFORM_H
++#define _LINUX_CC_PLATFORM_H
++
++#include <linux/types.h>
++#include <linux/stddef.h>
++
++/**
++ * enum cc_attr - Confidential computing attributes
++ *
++ * These attributes represent confidential computing features that are
++ * currently active.
++ */
++enum cc_attr {
++	/**
++	 * @CC_ATTR_MEM_ENCRYPT: Memory encryption is active
++	 *
++	 * The platform/OS is running with active memory encryption. This
++	 * includes running either as a bare-metal system or a hypervisor
++	 * and actively using memory encryption or as a guest/virtual machine
++	 * and actively using memory encryption.
++	 *
++	 * Examples include SME, SEV and SEV-ES.
++	 */
++	CC_ATTR_MEM_ENCRYPT,
++
++	/**
++	 * @CC_ATTR_HOST_MEM_ENCRYPT: Host memory encryption is active
++	 *
++	 * The platform/OS is running as a bare-metal system or a hypervisor
++	 * and actively using memory encryption.
++	 *
++	 * Examples include SME.
++	 */
++	CC_ATTR_HOST_MEM_ENCRYPT,
++
++	/**
++	 * @CC_ATTR_GUEST_MEM_ENCRYPT: Guest memory encryption is active
++	 *
++	 * The platform/OS is running as a guest/virtual machine and actively
++	 * using memory encryption.
++	 *
++	 * Examples include SEV and SEV-ES.
++	 */
++	CC_ATTR_GUEST_MEM_ENCRYPT,
++
++	/**
++	 * @CC_ATTR_GUEST_STATE_ENCRYPT: Guest state encryption is active
++	 *
++	 * The platform/OS is running as a guest/virtual machine and actively
++	 * using memory encryption and register state encryption.
++	 *
++	 * Examples include SEV-ES.
++	 */
++	CC_ATTR_GUEST_STATE_ENCRYPT,
++};
++
++#ifdef CONFIG_ARCH_HAS_CC_PLATFORM
++
++/**
++ * cc_platform_has() - Checks if the specified cc_attr attribute is active
++ * @attr: Confidential computing attribute to check
++ *
++ * The cc_platform_has() function will return an indicator as to whether the
++ * specified Confidential Computing attribute is currently active.
++ *
++ * Context: Any context
++ * Return:
++ * * TRUE  - Specified Confidential Computing attribute is active
++ * * FALSE - Specified Confidential Computing attribute is not active
++ */
++bool cc_platform_has(enum cc_attr attr);
++
++#else	/* !CONFIG_ARCH_HAS_CC_PLATFORM */
++
++static inline bool cc_platform_has(enum cc_attr attr) { return false; }
++
++#endif	/* CONFIG_ARCH_HAS_CC_PLATFORM */
++
++#endif	/* _LINUX_CC_PLATFORM_H */
 -- 
 2.29.2
 
