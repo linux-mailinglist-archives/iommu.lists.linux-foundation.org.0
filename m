@@ -1,60 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5624641B708
-	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 21:10:32 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4874841B715
+	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 21:10:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8B8B441583;
-	Tue, 28 Sep 2021 19:10:30 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 75425405E9;
+	Tue, 28 Sep 2021 19:10:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BRNQogPrnR2O; Tue, 28 Sep 2021 19:10:29 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Pixe2f8XW1fj; Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8C9E74157E;
-	Tue, 28 Sep 2021 19:10:29 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 962D8405A9;
+	Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 712E0C0022;
-	Tue, 28 Sep 2021 19:10:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B260C0023;
+	Tue, 28 Sep 2021 19:10:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 04461C000D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:27 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4BEFDC000D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E73B941582
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:26 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id E10E280F48
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7hNIS2zINglH for <iommu@lists.linux-foundation.org>;
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=alien8.de
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id D9WR7d8GxxlO for <iommu@lists.linux-foundation.org>;
  Tue, 28 Sep 2021 19:10:24 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7AC2540802
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 7B39580F44
  for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 19:10:22 +0000 (UTC)
 Received: from zn.tnic (p200300ec2f13b20078349fd04295260b.dip0.t-ipconnect.de
  [IPv6:2003:ec:2f13:b200:7834:9fd0:4295:260b])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 394BC1EC067E;
- Tue, 28 Sep 2021 21:10:18 +0200 (CEST)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1CB931EC06D9;
+ Tue, 28 Sep 2021 21:10:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1632856218;
+ t=1632856219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:
- content-transfer-encoding:content-transfer-encoding:in-reply-to:
- references; bh=GCnPTyFFnPSLiurFbR8iLYuDvIM/ZylVNPX31loBg1U=;
- b=PgysYne7oRqig38Wg3EljqkqTDirqwkPAzRh5HiMtoiV+jJbJHTdrk3tVWUMlO9AliXjoI
- QYxOn8YzMjaQP86uf/uYhrT2bAzVSbUmsndVFpCY5/rue9vmSI/Ae0ek/NbRQmmnCheeB1
- XkhBbUOn81FbH/ZWzpMG01inkCayyvg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ezqIhy/GzEctU/BzXXa8nRx9BM/oenaY5A3bWVYyogc=;
+ b=L15WdFBZiGsmF9pfPIN2c5ZAgIU4PtH28ptrgSgBhWpm+4j822yrxCFG5g1HkliRhUi5uF
+ CRYVq82aPiFD57CtKa57/vA4L1iRWeGtkZ/r3TuxAhU5th8F6Q2wEbSDYpjVyB2e++vhJZ
+ NSdeH98yXiBNfY80fDZLfpkLkYe+4+I=
 From: Borislav Petkov <bp@alien8.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 0/8] Implement generic cc_platform_has() helper function
-Date: Tue, 28 Sep 2021 21:10:01 +0200
-Message-Id: <20210928191009.32551-1-bp@alien8.de>
+Subject: [PATCH 1/8] x86/ioremap: Selectively build arch override encryption
+ functions
+Date: Tue, 28 Sep 2021 21:10:02 +0200
+Message-Id: <20210928191009.32551-2-bp@alien8.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210928191009.32551-1-bp@alien8.de>
+References: <20210928191009.32551-1-bp@alien8.de>
 MIME-Version: 1.0
 Cc: linux-efi@vger.kernel.org, kvm@vger.kernel.org,
  David Airlie <airlied@linux.ie>,
@@ -92,73 +98,81 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Borislav Petkov <bp@suse.de>
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-Hi all,
+In preparation for other uses of the cc_platform_has() function
+besides AMD's memory encryption support, selectively build the
+AMD memory encryption architecture override functions only when
+CONFIG_AMD_MEM_ENCRYPT=y. These functions are:
 
-here's v4 of the cc_platform_has() patchset with feedback incorporated.
+- early_memremap_pgprot_adjust()
+- arch_memremap_can_ram_remap()
 
-I'm going to route this through tip if there are no objections.
+Additionally, routines that are only invoked by these architecture
+override functions can also be conditionally built. These functions are:
 
-Thx.
+- memremap_should_map_decrypted()
+- memremap_is_efi_data()
+- memremap_is_setup_data()
+- early_memremap_is_setup_data()
 
-Tom Lendacky (8):
-  x86/ioremap: Selectively build arch override encryption functions
-  arch/cc: Introduce a function to check for confidential computing
-    features
-  x86/sev: Add an x86 version of cc_platform_has()
-  powerpc/pseries/svm: Add a powerpc version of cc_platform_has()
-  x86/sme: Replace occurrences of sme_active() with cc_platform_has()
-  x86/sev: Replace occurrences of sev_active() with cc_platform_has()
-  x86/sev: Replace occurrences of sev_es_active() with cc_platform_has()
-  treewide: Replace the use of mem_encrypt_active() with
-    cc_platform_has()
+And finally, phys_mem_access_encrypted() is conditionally built as well,
+but requires a static inline version of it when CONFIG_AMD_MEM_ENCRYPT is
+not set.
 
- arch/Kconfig                                 |  3 +
- arch/powerpc/include/asm/mem_encrypt.h       |  5 --
- arch/powerpc/platforms/pseries/Kconfig       |  1 +
- arch/powerpc/platforms/pseries/Makefile      |  2 +
- arch/powerpc/platforms/pseries/cc_platform.c | 26 ++++++
- arch/powerpc/platforms/pseries/svm.c         |  5 +-
- arch/s390/include/asm/mem_encrypt.h          |  2 -
- arch/x86/Kconfig                             |  1 +
- arch/x86/include/asm/io.h                    |  8 ++
- arch/x86/include/asm/kexec.h                 |  2 +-
- arch/x86/include/asm/mem_encrypt.h           | 12 +--
- arch/x86/kernel/Makefile                     |  6 ++
- arch/x86/kernel/cc_platform.c                | 69 +++++++++++++++
- arch/x86/kernel/crash_dump_64.c              |  4 +-
- arch/x86/kernel/head64.c                     |  9 +-
- arch/x86/kernel/kvm.c                        |  3 +-
- arch/x86/kernel/kvmclock.c                   |  4 +-
- arch/x86/kernel/machine_kexec_64.c           | 19 +++--
- arch/x86/kernel/pci-swiotlb.c                |  9 +-
- arch/x86/kernel/relocate_kernel_64.S         |  2 +-
- arch/x86/kernel/sev.c                        |  6 +-
- arch/x86/kvm/svm/svm.c                       |  3 +-
- arch/x86/mm/ioremap.c                        | 18 ++--
- arch/x86/mm/mem_encrypt.c                    | 55 ++++--------
- arch/x86/mm/mem_encrypt_identity.c           |  9 +-
- arch/x86/mm/pat/set_memory.c                 |  3 +-
- arch/x86/platform/efi/efi_64.c               |  9 +-
- arch/x86/realmode/init.c                     |  8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |  4 +-
- drivers/gpu/drm/drm_cache.c                  |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c          |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c          |  6 +-
- drivers/iommu/amd/init.c                     |  7 +-
- drivers/iommu/amd/iommu.c                    |  3 +-
- drivers/iommu/amd/iommu_v2.c                 |  3 +-
- drivers/iommu/iommu.c                        |  3 +-
- fs/proc/vmcore.c                             |  6 +-
- include/linux/cc_platform.h                  | 88 ++++++++++++++++++++
- include/linux/mem_encrypt.h                  |  4 -
- kernel/dma/swiotlb.c                         |  4 +-
- 40 files changed, 310 insertions(+), 129 deletions(-)
- create mode 100644 arch/powerpc/platforms/pseries/cc_platform.c
- create mode 100644 arch/x86/kernel/cc_platform.c
- create mode 100644 include/linux/cc_platform.h
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+---
+ arch/x86/include/asm/io.h | 8 ++++++++
+ arch/x86/mm/ioremap.c     | 2 +-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
+diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
+index 841a5d104afa..5c6a4af0b911 100644
+--- a/arch/x86/include/asm/io.h
++++ b/arch/x86/include/asm/io.h
+@@ -391,6 +391,7 @@ extern void arch_io_free_memtype_wc(resource_size_t start, resource_size_t size)
+ #define arch_io_reserve_memtype_wc arch_io_reserve_memtype_wc
+ #endif
+ 
++#ifdef CONFIG_AMD_MEM_ENCRYPT
+ extern bool arch_memremap_can_ram_remap(resource_size_t offset,
+ 					unsigned long size,
+ 					unsigned long flags);
+@@ -398,6 +399,13 @@ extern bool arch_memremap_can_ram_remap(resource_size_t offset,
+ 
+ extern bool phys_mem_access_encrypted(unsigned long phys_addr,
+ 				      unsigned long size);
++#else
++static inline bool phys_mem_access_encrypted(unsigned long phys_addr,
++					     unsigned long size)
++{
++	return true;
++}
++#endif
+ 
+ /**
+  * iosubmit_cmds512 - copy data to single MMIO location, in 512-bit units
+diff --git a/arch/x86/mm/ioremap.c b/arch/x86/mm/ioremap.c
+index 60ade7dd71bd..ccff76cedd8f 100644
+--- a/arch/x86/mm/ioremap.c
++++ b/arch/x86/mm/ioremap.c
+@@ -508,6 +508,7 @@ void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr)
+ 	memunmap((void *)((unsigned long)addr & PAGE_MASK));
+ }
+ 
++#ifdef CONFIG_AMD_MEM_ENCRYPT
+ /*
+  * Examine the physical address to determine if it is an area of memory
+  * that should be mapped decrypted.  If the memory is not part of the
+@@ -746,7 +747,6 @@ bool phys_mem_access_encrypted(unsigned long phys_addr, unsigned long size)
+ 	return arch_memremap_can_ram_remap(phys_addr, size, 0);
+ }
+ 
+-#ifdef CONFIG_AMD_MEM_ENCRYPT
+ /* Remap memory with encryption */
+ void __init *early_memremap_encrypted(resource_size_t phys_addr,
+ 				      unsigned long size)
 -- 
 2.29.2
 
