@@ -1,157 +1,114 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F7741AE4F
-	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 13:58:00 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD27741B143
+	for <lists.iommu@lfdr.de>; Tue, 28 Sep 2021 15:54:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8A027404A9;
-	Tue, 28 Sep 2021 11:57:58 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A4F0F40374;
+	Tue, 28 Sep 2021 13:54:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 63nOckUIXHKC; Tue, 28 Sep 2021 11:57:57 +0000 (UTC)
+	with ESMTP id ihSwg76S2vWr; Tue, 28 Sep 2021 13:54:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B4A62404A2;
-	Tue, 28 Sep 2021 11:57:57 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A5F5E40372;
+	Tue, 28 Sep 2021 13:54:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 90C30C000D;
-	Tue, 28 Sep 2021 11:57:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 856ECC0022;
+	Tue, 28 Sep 2021 13:54:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 29EAAC000D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 11:57:56 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BC641C000D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 13:29:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0871980F0D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 11:57:56 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9B69E4055F
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 13:29:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=nvidia.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VyeOzAflAa2m for <iommu@lists.linux-foundation.org>;
- Tue, 28 Sep 2021 11:57:54 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ieee.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vUjgPsDEArOu for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Sep 2021 13:29:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on2044.outbound.protection.outlook.com [40.107.100.44])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C22D980F0A
- for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 11:57:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gcpz1iWRL3fEaepAAYm/tj2ewphyKqGj3ilYagebEuzFhjyiUDqZME0oEM/fL1q/ghzlo11OC5y1oSNVLjTuq5nkOVwa1slbgQY9fqOs41nvJ3VkKci2MBzbQBC0MsIo4t9JlSAgR3A3oIvJyWlMi0LRGsFxVBRIE1Phjnb1SvKOvd8vRD0fcbneElpsJ6tw35fgpFbm0XSHLBRfHq64HsU9rkmVUk88dYicEi73I8D3XTkIiYQZi+x60FK/c2i35B+hk7ma9s83EGUVZOLXQTVW9uoN379rfvxRX+MmultaNznJa5djx0EZ2DhDwK4dg8sDl4bYb7PlZ8GeLDNbMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=pzZRnPVdaF0ONfJD0FJ6HXHyt0yoWvrHBT384oR8Jns=;
- b=j8wkQuaXiL5bghQC03NxVj9buTI0joIOfehFsUQ32EdXyRmLrfOsQr/oMlP5JkbPb95Xag4cvblQ2zSt5gMK+CRBuvRlMsl+Yts33SnPnPPEYxIQN73M4fXJ1SJ0Jr0K0pePHo1odP4j+tAA0jrL2AHUY8+YXWdIp7EG37HhDrGvSRNqW+yKITjcGSk+6H/8gzyi7jnkNNgD/6wbtBU8WE01EkBfYEXrONmf2iXK+E+xaU+lM2BorwhgiqoCSbZjjDlKM4GmPGIg6y9kVfIOu430DfG1MpYgfd+76d03ow43A0cIpRjrfXdzGuL1oO2UK3R78mBEvs8LPhcqJ7WCkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pzZRnPVdaF0ONfJD0FJ6HXHyt0yoWvrHBT384oR8Jns=;
- b=kHvzgFbDRMELx9TP3+qufG5GF7UjBCfAFWQ0jHnhpUEElWB0yLWkt0oPEsOzi3q3DSklxu+8axeLd3zoYe3X0TEW8sHdPEca6wtcMAggoqfX53Dy6UmOKA6McKqSHlQvbc58GzoyDzza9OeJA9igJMn3XQn8bZVLjs7hXMzLcXEG80hqywWFhfrN3QBRuQN9sh+cIU3PWhBJqE86KpH9smOlGZlAfOMF3dRz/0lEtZnKFTf/5OwNmNiBUen1GBxWVnUYGiDLJsFki5NT3fHFgVOjTfiFDS+KXJ616Jp4bZIsNVlSZky1N+spNX72xcFkTspyMrLwZkXIO1KeCbO/zA==
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5094.namprd12.prod.outlook.com (2603:10b6:208:312::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Tue, 28 Sep
- 2021 11:57:52 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4544.022; Tue, 28 Sep 2021
- 11:57:52 +0000
-Date: Tue, 28 Sep 2021 08:57:51 -0300
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFC 06/20] iommu: Add iommu_device_init[exit]_user_dma interfaces
-Message-ID: <20210928115751.GK964074@nvidia.com>
-References: <20210919063848.1476776-1-yi.l.liu@intel.com>
- <20210919063848.1476776-7-yi.l.liu@intel.com>
- <20210921170943.GS327412@nvidia.com>
- <BN9PR11MB5433DA330D4583387B59AA7F8CA29@BN9PR11MB5433.namprd11.prod.outlook.com>
- <20210922123931.GI327412@nvidia.com>
- <BN9PR11MB5433CE19425E85E7F52093278CA79@BN9PR11MB5433.namprd11.prod.outlook.com>
- <20210927150928.GA1517957@nvidia.com>
- <BN9PR11MB54337B7F65B98C2335B806938CA89@BN9PR11MB5433.namprd11.prod.outlook.com>
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB54337B7F65B98C2335B806938CA89@BN9PR11MB5433.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BLAPR03CA0130.namprd03.prod.outlook.com
- (2603:10b6:208:32e::15) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
+ [IPv6:2607:f8b0:4864:20::130])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 5D9F040105
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 13:29:52 +0000 (UTC)
+Received: by mail-il1-x130.google.com with SMTP id b12so11523303ilf.11
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Sep 2021 06:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ieee.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KV5AEITggXzrcUqW0Pn0JDUCXvtzQQd7nfX6VcyNvh0=;
+ b=gsEil9aJ5ZOw0ASchzCW/AY/NlZwbg7FdvHHAbffANcuyVgNVj8F3r/I3y/OyqwIbk
+ QkY/gO8vfPAMQp75rG6vgEG7NkfLO4ZNSWbXrGEOjX3dKqow4MOof9p7GrAO13Ckl/VP
+ f8/C6WiPIW+rxE9R7UiZnONtD/dro2yaem2kM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KV5AEITggXzrcUqW0Pn0JDUCXvtzQQd7nfX6VcyNvh0=;
+ b=HlPWzWQYGXMJUvqeOTEla2Q1vmILkSFHie4+LAwsItP/MsLtjRkOiqvcXKEX6aqf4C
+ JnP/0xRzVAmPYdWVk/0Y61h1PNEux3330Nb8ZQ15J/OSwb8YE+vrciYe/Xrfg4dKcJ3o
+ yoFBatrCYdP5G9zEncqinfij0o4N+3k0PvlHx/x6XTZR8MO+ouhdKReiVuVcuYOA5/Dt
+ 2ph22oetlctYwYV69CIdZegf9rJsiTS4HZX7TRwolJUgFdeI2kg5/leuprDYA/IN9oqM
+ HeF1g4ozJ5MnCMNckG8hz2C2C5KNIyOpBpWlBZjj8Cr6zm6Ed/LZAxvJuKVWJ6aStKOt
+ q9ug==
+X-Gm-Message-State: AOAM532NQCI4nn/l3G7I+kN+OC3CVADGqOGaYUzPwa5e+sD6mSP6W/Jw
+ U76kXA/Ag3w4LmvEn6wvKmMfrg==
+X-Google-Smtp-Source: ABdhPJz3qmL3tZ3U3XkVDcDl9dtP+yn06EspPEdsou0GIPYBieCdKEZlaSYFieS9Yrw1uFrX87cOuw==
+X-Received: by 2002:a92:c744:: with SMTP id y4mr4108077ilp.288.1632835791399; 
+ Tue, 28 Sep 2021 06:29:51 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net.
+ [73.185.129.58])
+ by smtp.googlemail.com with ESMTPSA id m13sm11831997ilh.45.2021.09.28.06.29.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Sep 2021 06:29:50 -0700 (PDT)
+Subject: Re: [PATCH 2/2] [v2] qcom_scm: hide Kconfig symbol
+To: Arnd Bergmann <arnd@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <20210928075216.4193128-1-arnd@kernel.org>
+ <20210928075216.4193128-2-arnd@kernel.org>
+Message-ID: <19bbc40d-3f13-7e9d-72c0-5d206b016bb7@ieee.org>
+Date: Tue, 28 Sep 2021 08:29:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by
- BLAPR03CA0130.namprd03.prod.outlook.com (2603:10b6:208:32e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
- Transport; Tue, 28 Sep 2021 11:57:52 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mVBk7-006x12-Bj; Tue, 28 Sep 2021 08:57:51 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eda9f959-26ef-482a-21b9-08d982773341
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5094:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB50942F8673D33794B1161BE8C2A89@BL1PR12MB5094.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cHl/COD5haPHvcVJWyFz/oOxuc4qHz6Ev2JfScfXMVkJDJQR4cJJ2f/vWh4krl1iwDA4Mgz81JyqdBF70Tdii51qtIieJNDBqxIXLWHCwOgJr+68keIygR9h5d6Ui5C76K4WS7ZjiHhDnBsSh/Sc+/G6zwBxcQKozLO1mJoqz8ubsqnc+CKt9hdw4a7dITT5yoSuoNcRTdSE/H2IL37eZauxJOCO6rv/5n4hTShviEW0XFzw+JbU2LQ1uQbU+pPbgBG6tzTjCjtYIIS9+6AaNjk4Nx2UMzHPQS6UFsu985pREDPKtbljVIbAxafqZHFeDI+mn9m8AGzLzEKLPSyXh8z6tmGPyeRYrQFTXfcg+Y0P9xe1KumAk4LeHvJuHBRkp4s7IJH4RI0LE9RrK++DD6g+5x2hpXVQMkrY5F+wvK4buW0a2A7/Pv+l6iT6Y/bqYFxAf9b/Vj/iqFZlupKogt+KjdegCu9oTptW4btbPr/zlKsUBlOjYMejcGf6ZL9+oMDYpysYcrY/CMyoOgbgtVlP3CdhnWlLkTK2CR6WzLR1APWTSihCiwLfYyeTayYISVZ96H8SQwTGB2GM3TiSN2QAH3qj/myAyWwG0LMrJm2VxXTHd7ySwmYXAU6sXyk9VQYue3oI/toQRWR47qPX2evV4peoq2GOIUB90Fu4TEkzI3yH44tk0BEPSjNGVMGA5rhCs5wHVEMBCkrc728Dbw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(426003)(66476007)(9746002)(8676002)(38100700002)(316002)(9786002)(66556008)(8936002)(2616005)(107886003)(1076003)(54906003)(66946007)(86362001)(26005)(7416002)(4744005)(6916009)(508600001)(186003)(33656002)(5660300002)(36756003)(2906002)(4326008)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?agddrfMPxWsa3SXNME758HxHUm4BCVYfKZuxHL66Ep/RcImbNrvDYe1h2Lqx?=
- =?us-ascii?Q?t6FE/JuWhpfbSOeRJ85n6tGjL+IuM+/piM1/ZYHpKFhQXZUbYzHph3fvuUAi?=
- =?us-ascii?Q?4X7NHX8B/ZJv1Nk1xOWL49QU+K90R11ha95HzFJnLmXlXt8vSgU9RzL9+X8q?=
- =?us-ascii?Q?ZZYQ8p5jspodedKj0EKlZ0pFw2OHUlllH43RTrfr4Qo15LywMWsQ157qphY6?=
- =?us-ascii?Q?oRBiQDr11+thY9wciZbXVeKq6uQkC5AY/I42U7PBHARdRUCtxlzOOOC3EMN2?=
- =?us-ascii?Q?unjFTdldKXY8ls9YnNVTNiLFjzWgsK8nbK10i7RSqBSX9UAmhlI6RBNPkdhp?=
- =?us-ascii?Q?IyG1gGM9Gx/yowPBHuX8mCIN7kFAJPRj2xOPRIy406pz3pBzht3iXxneiP63?=
- =?us-ascii?Q?C4fuUKTrz4SvX71A5aSNGm/HHy/g4eNSp66cGyPyDcTF6FyMsrLsytlWw72F?=
- =?us-ascii?Q?3Md7JEk/A8ooodJaJ0cPyYbtX0nFsXPlPVwJ5WOCKonckPgdTIy+tX6ID7NI?=
- =?us-ascii?Q?mhb30aIZEADHTOKFgpcodJF7yoowtGpMLWjgQ738sQfxZAPtXBx9rXDDbdo0?=
- =?us-ascii?Q?2NqyDn7c8txkzjomIA6gkgFjT5vw5w487ZCiUbgH83vT2+cjrzBLeqqVxspO?=
- =?us-ascii?Q?E5/P55k1mTo7mHg8NyZnPwlp8bdIwguxgTztsGg2JjHUMys0vASkq/2Y79oS?=
- =?us-ascii?Q?EZEKUVdzU8HHzC1Uh95atZNX8aHCi2Mml18n4id8/RF0FSyHtH81SS+W5d8L?=
- =?us-ascii?Q?yFH5Xje+RTtYUN403YwFZsTV5Ra5/+uXQAKtKV3t2eoMeNS3DAmeM3rg/NUO?=
- =?us-ascii?Q?47D6QQee1rTqBLMeGxGcYPx/KIq5j7eB8TAqHbgFhVJ665wQNkipJadL1xyu?=
- =?us-ascii?Q?EJ2cP/jfom2t/OD+EYWi4tWxjG9cgx+kvDAI9U4nH+rWl5C/+5KYzRajO6X6?=
- =?us-ascii?Q?Y2LKaHIkBFpfpVk60/Bb2nwWODuwjumcfWYoyPdJxsb+rAEuWHVptOR2zc9r?=
- =?us-ascii?Q?pK9J7HrDIMG3zLKkD4yLeicPrt5WeEOlg/hnnixJceiOruKNvObdB4N3K3Ey?=
- =?us-ascii?Q?sqjt/jV+TUfp63mXU+FQcHLkah2w4GchGTiZeZxF4lzFt7EIDeSkJtsTJBmB?=
- =?us-ascii?Q?WSJApOhoFJ9e8USxKDzzU5MeYxSTOTeDU6zMvQadYUZA/XyRRTIBJPRavvBf?=
- =?us-ascii?Q?fXzRitQvuTc4QgWYWpec+M9+NINHB66KQ5QOB70t0YowJwkLxK8IWfUKb8nG?=
- =?us-ascii?Q?i4XqkVV+X/fuWr9wCNxsJ6IdgNJStASNau5gWbx/bxEpiK1oSPJTuiK0FGbp?=
- =?us-ascii?Q?+7YwfxAbfCksClAEnpkmXRh8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eda9f959-26ef-482a-21b9-08d982773341
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 11:57:52.5228 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2PeZtLW8N/aJZ68m+l01JxbNlgHxoPdgZ5kxIz/qgW+L1GDSiop8VNYAYbCCGZFy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5094
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>, "hch@lst.de" <hch@lst.de>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "parav@mellanox.com" <parav@mellanox.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "lkml@metux.net" <lkml@metux.net>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "dwmw2@infradead.org" <dwmw2@infradead.org>, "Tian,
- Jun J" <jun.j.tian@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lushenming@huawei.com" <lushenming@huawei.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>
+In-Reply-To: <20210928075216.4193128-2-arnd@kernel.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 28 Sep 2021 13:53:59 +0000
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-wireless@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, Alex Elder <elder@kernel.org>,
+ linux-ia64@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ netdev@vger.kernel.org, ath10k@lists.infradead.org,
+ "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, iommu@lists.linux-foundation.org,
+ Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
+ Jakub Kicinski <kuba@kernel.org>, linux-mips@vger.kernel.org,
+ linux-media@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-arm-msm@vger.kernel.org, Simon Trimmer <simont@opensource.cirrus.com>,
+ linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Andy Gross <agross@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sudeep Holla <sudeep.holla@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
+ freedreno@lists.freedesktop.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -164,39 +121,75 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
+From: Alex Elder via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Alex Elder <elder@ieee.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Sep 28, 2021 at 07:30:41AM +0000, Tian, Kevin wrote:
-
-> > Also, don't call it "hint", there is nothing hinty about this, it has
-> > definitive functional impacts.
+On 9/28/21 2:50 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> possibly dma_mode (too broad?) or dma_usage
+> Now that SCM can be a loadable module, we have to add another
+> dependency to avoid link failures when ipa or adreno-gpu are
+> built-in:
+> 
+> aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
+> ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
+> 
+> ld.lld: error: undefined symbol: qcom_scm_is_available
+>>>> referenced by adreno_gpu.c
+>>>>                gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load) in archive drivers/built-in.a
+> 
+> This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
+> QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
+> use a similar dependency here to what we have for QCOM_RPROC_COMMON,
+> but that causes dependency loops from other things selecting QCOM_SCM.
+> 
+> This appears to be an endless problem, so try something different this
+> time:
+> 
+>   - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
+>     but that is simply selected by all of its users
+> 
+>   - All the stubs in include/linux/qcom_scm.h can go away
+> 
+>   - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
+>     allow compile-testing QCOM_SCM on all architectures.
+> 
+>   - To avoid a circular dependency chain involving RESET_CONTROLLER
+>     and PINCTRL_SUNXI, drop the 'select RESET_CONTROLLER' statement.
+>     According to my testing this still builds fine, and the QCOM
+>     platform selects this symbol already.
+> 
+> Acked-by: Kalle Valo <kvalo@codeaurora.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> Changes in v2:
+>    - drop the 'select RESET_CONTROLLER' line, rather than adding
+>      more of the same
+> ---
+>   drivers/firmware/Kconfig                |  5 +-
+>   drivers/gpu/drm/msm/Kconfig             |  4 +-
+>   drivers/iommu/Kconfig                   |  2 +-
+>   drivers/media/platform/Kconfig          |  2 +-
+>   drivers/mmc/host/Kconfig                |  2 +-
+>   drivers/net/ipa/Kconfig                 |  1 +
 
-You just need a flag to specify if the driver manages DMA ownership
-itself, or if it requires the driver core to setup kernel ownership
+For drivers/net/ipa/Kconfig, looks good to me.
+Nice simplification.
 
-DMA_OWNER_KERNEL
-DMA_OWNER_DRIVER_CONTROLLED
+Acked-by: Alex Elder <elder@linaro.org>
 
-?
+>   drivers/net/wireless/ath/ath10k/Kconfig |  2 +-
+>   drivers/pinctrl/qcom/Kconfig            |  3 +-
+>   include/linux/arm-smccc.h               | 10 ++++
+>   include/linux/qcom_scm.h                | 71 -------------------------
+>   10 files changed, 20 insertions(+), 82 deletions(-)
+> 
 
-There is a bool 'suprress_bind_attrs' already so it could be done like
-this:
-
- bool suppress_bind_attrs:1;
-
- /* If set the driver must call iommu_XX as the first action in probe() */
- bool suppress_dma_owner:1;
-
-Which is pretty low cost.
-
-Jason
+. . .
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
