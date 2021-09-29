@@ -1,96 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E6941CF8B
-	for <lists.iommu@lfdr.de>; Thu, 30 Sep 2021 00:56:44 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB29B41CF85
+	for <lists.iommu@lfdr.de>; Thu, 30 Sep 2021 00:53:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 959B8607CE;
-	Wed, 29 Sep 2021 22:56:42 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3B37B4023C;
+	Wed, 29 Sep 2021 22:53:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q94zB7d4yFS9; Wed, 29 Sep 2021 22:56:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AF6D3607BF;
-	Wed, 29 Sep 2021 22:56:41 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0WVtBZBBWHwP; Wed, 29 Sep 2021 22:53:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 11176401F0;
+	Wed, 29 Sep 2021 22:53:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EB38C000D;
-	Wed, 29 Sep 2021 22:56:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DA1A8C000D;
+	Wed, 29 Sep 2021 22:53:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5D6DC000D
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:56:40 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27C2CC000D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:53:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8237A42527
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:56:40 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 04A8883FFF
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:53:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FvU9IhJKxu0A for <iommu@lists.linux-foundation.org>;
- Wed, 29 Sep 2021 22:56:40 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UJc_3mbaISgv for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Sep 2021 22:53:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1157240240
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=gyI1iWTgaQxXLC0uh18K74XDfJOQ35Yd/0UtBH7oL2Y=; b=VyEMo1To4bpq3hE/xr6uacN63S
- sFo8JLN2lg3Nt7NjJD/RyCHJ3xIMnFvvWyJQJDzNwEv5i2F31KL273mFPxjWpXsi8VJB7W8aU8iuX
- UhU9U05GQuc4pdzxedOdf9TAaZLqlqelpLTq2C+UtXnoObaPYB2yfaH1YLeAfoLoxcX8gTb/p0aCT
- 164B3Y/N5rl7w8PhlikTl4aQ4jNqsb1jJoT2BUjjfIZtVih+GwnXuoh5B3mbUqiLvXqgCmdNOOLxt
- Cw4AtoX4dmjtYkv8q48FbqX8M5k1KxfxuoejCgFSCUcvy99IFnZpCWPQA7rx4nIKKrpUNT13PyREe
- /6e6C7DQ==;
-Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1mViV2-0007a2-MS; Wed, 29 Sep 2021 16:56:29 -0600
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-13-logang@deltatee.com>
- <20210928194325.GS3544071@ziepe.ca>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <e7bbe021-9a0c-1999-0a2a-ba249578c9c7@deltatee.com>
-Date: Wed, 29 Sep 2021 16:56:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6029C83FFE
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:53:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="310604808"
+X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; d="scan'208";a="310604808"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2021 15:53:40 -0700
+X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; d="scan'208";a="588270949"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2021 15:53:40 -0700
+Date: Wed, 29 Sep 2021 15:57:20 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC 0/7] Support in-kernel DMA with PASID and SVA
+Message-ID: <20210929155720.794b6e65@jacob-builder>
+In-Reply-To: <20210929193953.GX964074@nvidia.com>
+References: <1632256181-36071-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20210929123437.721991dc@jacob-builder>
+ <20210929193953.GX964074@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210928194325.GS3544071@ziepe.ca>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: ckulkarnilinux@gmail.com, martin.oliveira@eideticom.com,
- robin.murphy@arm.com, ira.weiny@intel.com, helgaas@kernel.org,
- jianxin.xiong@intel.com, dave.hansen@linux.intel.com, jason@jlekstrand.net,
- dave.b.minturn@intel.com, andrzej.jakowski@intel.com, daniel.vetter@ffwll.ch,
- willy@infradead.org, ddutile@redhat.com, jhubbard@nvidia.com,
- christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 12/20] RDMA/rw: use dma_map_sgtable()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-mm@kvack.org, Jason Ekstrand <jason@jlekstrand.net>,
- Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Matthew Wilcox <willy@infradead.org>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Kumar, 
+ Sanjay K" <sanjay.k.kumar@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
+ mike.campin@intel.com, Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,33 +77,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Hi Jason,
 
+On Wed, 29 Sep 2021 16:39:53 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-
-On 2021-09-28 1:43 p.m., Jason Gunthorpe wrote:
-> On Thu, Sep 16, 2021 at 05:40:52PM -0600, Logan Gunthorpe wrote:
->> dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
->> is no longer necessary and may be dropped.
->>
->> Switch to the dma_map_sgtable() interface which will allow for better
->> error reporting if the P2PDMA pages are unsupported.
->>
->> The change to sgtable also appears to fix a couple subtle error path
->> bugs:
->>
->>   - In rdma_rw_ctx_init(), dma_unmap would be called with an sg
->>     that could have been incremented from the original call, as
->>     well as an nents that was not the original number of nents
->>     called when mapped.
->>   - Similarly in rdma_rw_ctx_signature_init, both sg and prot_sg
->>     were unmapped with the incorrect number of nents.
+> On Wed, Sep 29, 2021 at 12:37:19PM -0700, Jacob Pan wrote:
+>  
+> > For #2, it seems we can store the kernel PASID in struct device. This
+> > will preserve the DMA API interface while making it PASID capable.
+> > Essentially, each PASID capable device would have two special global
+> > PASIDs: 
+> > 	- PASID 0 for DMA request w/o PASID, aka RID2PASID
+> > 	- PASID 1 (randomly selected) for in-kernel DMA request w/
+> > PASID  
 > 
-> Those bugs should definately get fixed.. I might extract the sgtable
-> conversion into a stand alone patch to do it.
+> This seems reasonable, I had the same thought. Basically just have the
+> driver issue some trivial call:
+>   pci_enable_pasid_dma(pdev, &pasid)
+That would work, but I guess it needs to be an iommu_ call instead of pci_?
 
-Yes. I can try to split it off myself and send a patch later this week.
+Or, it can be done by the platform IOMMU code where system PASID is
+automatically enabled for PASID capable devices during boot and stored in
+struct device. Device drivers can retrieve the PASID from struct device.
 
-Logan
+I think your suggestion is more precise, in case the driver does not want
+to do DMA w/ PASID, we can do less IOTLB flush (PASID 0 only).
+
+> And then DMA tagged with the PASID will be handled equivilant to
+> untagged DMA. Basically PASID and no PASID point to the exact same IO
+> page table and the DMA API manipulates that single page table.
+> 
+> Having multiple RID's pointing at the same IO page table is something
+> we expect iommufd to require so the whole thing should ideally fall
+> out naturally.
+That would be the equivalent of attaching multiple devices to the same
+IOMMU domain. right?
+
+> Jason
+
+
+Thanks,
+
+Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
