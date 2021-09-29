@@ -1,97 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEFB41BC80
-	for <lists.iommu@lfdr.de>; Wed, 29 Sep 2021 03:56:33 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E0441BD7F
+	for <lists.iommu@lfdr.de>; Wed, 29 Sep 2021 05:34:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7CCC8400BE;
-	Wed, 29 Sep 2021 01:56:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A1FCC40418;
+	Wed, 29 Sep 2021 03:34:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id va0D2uIcieFE; Wed, 29 Sep 2021 01:56:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 55AE440258;
-	Wed, 29 Sep 2021 01:56:30 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id i-mBsL8hK6oV; Wed, 29 Sep 2021 03:33:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B273C415B6;
+	Wed, 29 Sep 2021 03:33:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F91CC000D;
-	Wed, 29 Sep 2021 01:56:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1F52C000D;
+	Wed, 29 Sep 2021 03:33:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 369D6C000D
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 01:56:28 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1F883C000D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 03:33:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 126DC80E56
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 01:56:28 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id EF8BD40249
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 03:33:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1S7exNW0Qvqe for <iommu@lists.linux-foundation.org>;
- Wed, 29 Sep 2021 01:56:26 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5A51980E52
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 01:56:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="288499707"
-X-IronPort-AV: E=Sophos;i="5.85,331,1624345200"; d="scan'208";a="288499707"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 18:56:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,331,1624345200"; d="scan'208";a="655329177"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga005.jf.intel.com with ESMTP; 28 Sep 2021 18:56:24 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 28 Sep 2021 18:56:24 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 28 Sep 2021 18:56:23 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.012;
- Tue, 28 Sep 2021 18:56:23 -0700
-From: "Yu, Fenghua" <fenghua.yu@intel.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Subject: RE: [PATCH 4/8] x86/traps: Demand-populate PASID MSR via #GP
-Thread-Topic: [PATCH 4/8] x86/traps: Demand-populate PASID MSR via #GP
-Thread-Index: AQHXrlpps8sdI0y1ikyhBinC7AfU6auyuuKAgAYjzwCAAC8cgIABPj0AgAAIFQCAABNJgIAAB6kAgAAlrYD//5XdAIAAeikA//+nYIA=
-Date: Wed, 29 Sep 2021 01:56:23 +0000
-Message-ID: <840148c7b70f4358852c4f1ccbc5d567@intel.com>
-References: <20210920192349.2602141-5-fenghua.yu@intel.com>
- <1aae375d-3cd4-4ab8-9c64-9e387916e6c0@www.fastmail.com>
- <YVIxeBh3IKYYK711@agluck-desk2.amr.corp.intel.com>
- <035290e6-d914-a113-ea6c-e845d71069cf@intel.com>
- <YVNj8sm8iectc6iU@agluck-desk2.amr.corp.intel.com>
- <3f97b77e-a609-997b-3be7-f44ff7312b0d@intel.com>
- <YVN652x14dMgyE85@agluck-desk2.amr.corp.intel.com>
- <f6014b16-7b4c-cbb6-c975-1ec34092956f@intel.com>
- <YVOg7zgpdQlc7Zjt@agluck-desk2.amr.corp.intel.com>
- <YVOp60LOL+bfh3iT@otcwcpicx3.sc.intel.com>
- <YVOuYAFaTG6Khotb@agluck-desk2.amr.corp.intel.com>
-In-Reply-To: <YVOuYAFaTG6Khotb@agluck-desk2.amr.corp.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.200.16
-x-originating-ip: [10.1.200.100]
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ngeyv5X0nizH for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Sep 2021 03:33:56 +0000 (UTC)
+X-Greylist: delayed 00:05:45 by SQLgrey-1.8.0
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D22844026B
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 03:33:55 +0000 (UTC)
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HK1zN6KgDz4xZJ; Wed, 29 Sep 2021 13:28:00 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1632886080;
+ bh=or14ij/yBL19FjOCDsq0iAERcyiiYaHgFexNi04sb48=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jK76m0XsvCYgqc5O5vt60FBITyisxy37c72l0yhrARzYXhnqOHbuEDZXS3rqSNwKa
+ LDl3EBUKF3iXf6FoCnHsokBb8jPZenL2TYKf+4WEHthw3EjMsbu+Bw17crMQDvL7fv
+ MGdaUPaeiRdaBOALa7efNweYMOueSg3zZgFhhlD0=
+Date: Wed, 29 Sep 2021 12:08:59 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Liu Yi L <yi.l.liu@intel.com>
+Subject: Re: [RFC 02/20] vfio: Add device class for /dev/vfio/devices
+Message-ID: <YVPKu/F3IpPMtGCh@yekko>
+References: <20210919063848.1476776-1-yi.l.liu@intel.com>
+ <20210919063848.1476776-3-yi.l.liu@intel.com>
 MIME-Version: 1.0
-Cc: "Shankar, Ravi V" <ravi.v.shankar@intel.com>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, 
- Ashok" <ashok.raj@intel.com>, "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- the arch/x86 maintainers <x86@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Hansen,
- Dave" <dave.hansen@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, "Pan,
- Jacob jun" <jacob.jun.pan@intel.com>, Andy Lutomirski <luto@kernel.org>,
- Josh Poimboeuf <jpoimboe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>
+In-Reply-To: <20210919063848.1476776-3-yi.l.liu@intel.com>
+Cc: kvm@vger.kernel.org, jasowang@redhat.com, kwankhede@nvidia.com, hch@lst.de,
+ jean-philippe@linaro.org, dave.jiang@intel.com, ashok.raj@intel.com,
+ corbet@lwn.net, jgg@nvidia.com, kevin.tian@intel.com, parav@mellanox.com,
+ alex.williamson@redhat.com, lkml@metux.net, dwmw2@infradead.org,
+ jun.j.tian@intel.com, linux-kernel@vger.kernel.org, lushenming@huawei.com,
+ iommu@lists.linux-foundation.org, pbonzini@redhat.com, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,64 +72,127 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============3783268896302698385=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi, Tony,
 
-> void *begin_update_one_xsave_feature(struct task_struct *tsk,
-> 				     enum xfeature xfeature, bool full) {
-> 	struct xregs_state *xsave = &tsk->thread.fpu.state.xsave;
-> 	struct xregs_state *xinit = &init_fpstate.xsave;
-> 	u64 fmask = 1ull << xfeature;
-> 	void *addr;
-> 
-> 	BUG_ON(!(xsave->header.xcomp_bv & fmask));
-> 
-> 	fpregs_lock();
-> 
-> 	addr = __raw_xsave_addr(xsave, xfeature);
-> 
-> 	if (full || tsk != current) {
-> 		memcpy(addr, __raw_xsave_addr(xinit, xfeature),
-> xstate_sizes[xfeature]);
-> 		goto out;
-> 	}
-> 
-> 	if (!(xsave->header.xfeatures & fmask)) {
-> 		xsave->header.xfeatures |= fmask;	//<<<<<
-> 		xsaves(xsave, fmask);
-> 	}
+--===============3783268896302698385==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rFAAVZBIABvNkDR9"
+Content-Disposition: inline
 
-I'm not sure why the FPU state is initialized here.
 
-For updating the PASID state, it's unnecessary to init the PASID state.
+--rFAAVZBIABvNkDR9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Maybe it is necessary in other cases?
+On Sun, Sep 19, 2021 at 02:38:30PM +0800, Liu Yi L wrote:
+> This patch introduces a new interface (/dev/vfio/devices/$DEVICE) for
+> userspace to directly open a vfio device w/o relying on container/group
+> (/dev/vfio/$GROUP). Anything related to group is now hidden behind
+> iommufd (more specifically in iommu core by this RFC) in a device-centric
+> manner.
+>=20
+> In case a device is exposed in both legacy and new interfaces (see next
+> patch for how to decide it), this patch also ensures that when the device
+> is already opened via one interface then the other one must be blocked.
+>=20
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+[snip]
 
-> 
-> out:
-> 	xsave->header.xfeatures |= fmask;
+> +static bool vfio_device_in_container(struct vfio_device *device)
+> +{
+> +	return !!(device->group && device->group->container);
 
-Setting the xfeatures bit plus updating the PASID state is enough
-to restore the PASID state to the IA32_PASID MSR.
+You don't need !! here.  && is already a logical operation, so returns
+a valid bool.
 
-> 	return addr;
-> }
-> 
-> void finish_update_one_xsave_feature(struct task_struct *tsk) {
-> 	set_ti_thread_flag(task_thread_info(tsk), TIF_NEED_FPU_LOAD);
-> 	if (tsk == current)				//<<<<<
-> 		__cpu_invalidate_fpregs_state();	//<<<<<
-> 	fpregs_unlock();
-> }
+> +}
+> +
+>  static int vfio_device_fops_release(struct inode *inode, struct file *fi=
+lep)
+>  {
+>  	struct vfio_device *device =3D filep->private_data;
+> @@ -1560,7 +1691,16 @@ static int vfio_device_fops_release(struct inode *=
+inode, struct file *filep)
+> =20
+>  	module_put(device->dev->driver->owner);
+> =20
+> -	vfio_group_try_dissolve_container(device->group);
+> +	if (vfio_device_in_container(device)) {
+> +		vfio_group_try_dissolve_container(device->group);
+> +	} else {
+> +		atomic_dec(&device->opened);
+> +		if (device->group) {
+> +			mutex_lock(&device->group->opened_lock);
+> +			device->group->opened--;
+> +			mutex_unlock(&device->group->opened_lock);
+> +		}
+> +	}
+> =20
+>  	vfio_device_put(device);
+> =20
+> @@ -1613,6 +1753,7 @@ static int vfio_device_fops_mmap(struct file *filep=
+, struct vm_area_struct *vma)
+> =20
+>  static const struct file_operations vfio_device_fops =3D {
+>  	.owner		=3D THIS_MODULE,
+> +	.open		=3D vfio_device_fops_open,
+>  	.release	=3D vfio_device_fops_release,
+>  	.read		=3D vfio_device_fops_read,
+>  	.write		=3D vfio_device_fops_write,
+> @@ -2295,6 +2436,52 @@ static struct miscdevice vfio_dev =3D {
+>  	.mode =3D S_IRUGO | S_IWUGO,
+>  };
+> =20
+> +static char *vfio_device_devnode(struct device *dev, umode_t *mode)
+> +{
+> +	return kasprintf(GFP_KERNEL, "vfio/devices/%s", dev_name(dev));
 
-Thanks.
+Others have pointed out some problems with the use of dev_name()
+here.  I'll add that I think you'll make things much easier if instead
+of using one huge "devices" subdir, you use a separate subdir for each
+vfio sub-driver (so, one for PCI, one for each type of mdev, one for
+platform, etc.).  That should make avoiding name conflicts a lot simpler.
 
--Fenghua
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--rFAAVZBIABvNkDR9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFTyrkACgkQbDjKyiDZ
+s5LDRxAA45DlpAfiA499JLduAg68fEU3Bdr3uqrAxaxXW5bnLJVw9BLOv1YV6Izb
+GffTAoUJE/gceiS+dIPmE1A8Zxsdb3vCT3Ci8gKEevQ/zMcqBdnO5KZ//nRAlrMl
+vsDahtaUQy/3uxRqSA8r2jlEujuHfdFJzi5pNosxfLQkCiSkYzAG7ePdxDOEBhJv
+bqay3ZBkns2E8RjTZ8ytDBV2zHqQW3G2/kqFAK7qx8eefGROcDAv7NoroHt8EB8+
+EYBXZgj+4nQChP+wQoEmXkRzkDocPtS4IKODB1YjTTCKW4O0YI8TfuvnCCPRLrku
+VZFk4PNw9sADsqB4plA+3/QkeDLskC23/GTZ/+djAVcsSAs+Oyiisw63I7LibeKg
+h5LKefqlBoOURSgk9f0AHIYwaxoE7qXgsf7zGKcI80waLoVWkOQXSj5/D0asFtGf
+sZrthpsKPKAl40jH+lA35r98Acb/m8uJdICPUoG/QTtc8F/0UIjWKsZxJH8Wtss8
+FaCAP1lw3gKK76Trdi2XavMZFkRmWNatPKTiCaNY8qQRyt/RvAteJjnwR1R2RKji
+fAQo8P1ZNxAhrGdYI9QzAsy0pYyO0Va/TPy0lf9KRQHIH4ff2DGHQB0azLwyJ+JF
+3x7clC6gMiPwmHmWUMwTgrenfi6br6zggTRWzC2sWbs0iJCzIRo=
+=C+J/
+-----END PGP SIGNATURE-----
+
+--rFAAVZBIABvNkDR9--
+
+--===============3783268896302698385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============3783268896302698385==--
