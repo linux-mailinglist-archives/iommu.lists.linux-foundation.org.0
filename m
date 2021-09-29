@@ -1,65 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB29B41CF85
-	for <lists.iommu@lfdr.de>; Thu, 30 Sep 2021 00:53:45 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A0341CF96
+	for <lists.iommu@lfdr.de>; Thu, 30 Sep 2021 01:01:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3B37B4023C;
-	Wed, 29 Sep 2021 22:53:44 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3DF63606D4;
+	Wed, 29 Sep 2021 23:01:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0WVtBZBBWHwP; Wed, 29 Sep 2021 22:53:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 11176401F0;
-	Wed, 29 Sep 2021 22:53:43 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AzZSV7JDcG1F; Wed, 29 Sep 2021 23:00:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5D7A561387;
+	Wed, 29 Sep 2021 23:00:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA1A8C000D;
-	Wed, 29 Sep 2021 22:53:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C0E5C000D;
+	Wed, 29 Sep 2021 23:00:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27C2CC000D
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:53:42 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 58F2EC000D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 23:00:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 04A8883FFF
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:53:42 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3338340210
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 23:00:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UJc_3mbaISgv for <iommu@lists.linux-foundation.org>;
- Wed, 29 Sep 2021 22:53:41 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bCnKFIYoxcLb for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Sep 2021 23:00:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6029C83FFE
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 22:53:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="310604808"
-X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; d="scan'208";a="310604808"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 15:53:40 -0700
-X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; d="scan'208";a="588270949"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 15:53:40 -0700
-Date: Wed, 29 Sep 2021 15:57:20 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7ACEB4074B
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 23:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=Px58k/yNGvaEATkxAQjKyG3Zpeo9iJVoUPzZvebpH+s=; b=CBRPzpf/uyhi04VMy2l9L8WMNh
+ TgzA3jF5tP3k7RIYMTsKQ+kaQuWqK+fsqMIeNHQV0H7x3YkzdYGrSqJptc4KuEy4cKPP92gGjT1QC
+ MhGeYzPuOy/x5jJvOgdL/FQhThwVb7fOG/JD9g3GdcgQgd0CmorrBCMdBGHOz5INZa7hrPQmozKSx
+ rXnVyACjxxSq1C34L7pJg0qw1RZZJkqbjDQBiWSqep8px/eapbxM6kywVM1Cr+nPk8HYxEojwAonO
+ ANp/tKEvGxxHbTYm0x8c8OvD5ce8rk+zDidcCuKPVgEcFAqftgIKvYj4u2fND0UE/JeeoO7Xu6oAL
+ veDztxbQ==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1mViZA-0007dT-Rp; Wed, 29 Sep 2021 17:00:45 -0600
 To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC 0/7] Support in-kernel DMA with PASID and SVA
-Message-ID: <20210929155720.794b6e65@jacob-builder>
-In-Reply-To: <20210929193953.GX964074@nvidia.com>
-References: <1632256181-36071-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <20210929123437.721991dc@jacob-builder>
- <20210929193953.GX964074@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+References: <20210916234100.122368-1-logang@deltatee.com>
+ <20210916234100.122368-5-logang@deltatee.com>
+ <20210928220502.GA1738588@nvidia.com>
+ <91469404-fd20-effa-2e01-aa79d9d4b9b5@deltatee.com>
+ <20210929224653.GZ964074@nvidia.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <fb678f5e-b477-0bd0-334b-a57e771eedc9@deltatee.com>
+Date: Wed, 29 Sep 2021 17:00:43 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Kumar, 
- Sanjay K" <sanjay.k.kumar@intel.com>, LKML <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- mike.campin@intel.com, Thomas Gleixner <tglx@linutronix.de>
+In-Reply-To: <20210929224653.GZ964074@nvidia.com>
+Content-Language: en-CA
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: ckulkarnilinux@gmail.com, martin.oliveira@eideticom.com,
+ robin.murphy@arm.com, ira.weiny@intel.com, helgaas@kernel.org,
+ jianxin.xiong@intel.com, dave.hansen@linux.intel.com, jason@jlekstrand.net,
+ dave.b.minturn@intel.com, andrzej.jakowski@intel.com, daniel.vetter@ffwll.ch,
+ willy@infradead.org, ddutile@redhat.com, jhubbard@nvidia.com,
+ christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
+ sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@nvidia.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v3 4/20] PCI/P2PDMA: introduce helpers for dma_map_sg
+ implementations
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ linux-mm@kvack.org, Jason Ekstrand <jason@jlekstrand.net>,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,48 +111,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
 
-On Wed, 29 Sep 2021 16:39:53 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> On Wed, Sep 29, 2021 at 12:37:19PM -0700, Jacob Pan wrote:
+
+On 2021-09-29 4:46 p.m., Jason Gunthorpe wrote:
+> On Wed, Sep 29, 2021 at 03:30:42PM -0600, Logan Gunthorpe wrote:
+>> On 2021-09-28 4:05 p.m., Jason Gunthorpe wrote:
+>> No, that's not a correct reading of the code. Every time there is a new
+>> pagemap, this code calculates the mapping type and bus offset. If a page
+>> comes along with a different page map,f it recalculates. This just
+>> reduces the overhead so that the calculation is done only every time a
+>> page with a different pgmap comes along and not doing it for every
+>> single page.
+> 
+> Each 'struct scatterlist *sg' refers to a range of contiguous pfns
+> starting at page_to_pfn(sg_page()) and going for approx sg->length/PAGE_SIZE
+> pfns long.
+> 
+
+Ugh, right. A bit contrived for consecutive pages to have different
+pgmaps and still be next to each other in a DMA transaction. But I guess
+it is technically possible and should be protected against.
+
+> sg_page() returns the first page, but nothing says that sg_page()+1
+> has the same pgmap.
+> 
+> The code in this patch does check the first page of each sg in a
+> larger sgl.
+> 
+>>> At least sg_alloc_append_table_from_pages() and probably something in
+>>> the block world should be updated to not combine struct pages with
+>>> different pgmaps, and this should be documented in scatterlist.*
+>>> someplace.
+>>
+>> There's no sane place to do this check. The code is designed to support
+>> mappings with different pgmaps.
+> 
+> All places that generate compound sg's by aggregating multiple pages
+> need to include this check along side the check for physical
+> contiguity. There are not that many places but
+> sg_alloc_append_table_from_pages() is one of them:
+
+Yes. The block layer also does this. I believe a check in
+page_is_mergable() will be sufficient there.
+
+> @@ -470,7 +470,8 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
 >  
-> > For #2, it seems we can store the kernel PASID in struct device. This
-> > will preserve the DMA API interface while making it PASID capable.
-> > Essentially, each PASID capable device would have two special global
-> > PASIDs: 
-> > 	- PASID 0 for DMA request w/o PASID, aka RID2PASID
-> > 	- PASID 1 (randomly selected) for in-kernel DMA request w/
-> > PASID  
-> 
-> This seems reasonable, I had the same thought. Basically just have the
-> driver issue some trivial call:
->   pci_enable_pasid_dma(pdev, &pasid)
-That would work, but I guess it needs to be an iommu_ call instead of pci_?
+>                 /* Merge contiguous pages into the last SG */
+>                 prv_len = sgt_append->prv->length;
+> -               while (n_pages && page_to_pfn(pages[0]) == paddr) {
+> +               while (n_pages && page_to_pfn(pages[0]) == paddr &&
+> +                      sg_page(sgt_append->prv)->pgmap == pages[0]->pgmap) {
 
-Or, it can be done by the platform IOMMU code where system PASID is
-automatically enabled for PASID capable devices during boot and stored in
-struct device. Device drivers can retrieve the PASID from struct device.
+I don't think it's correct to use pgmap without first checking if it is
+a zone device page. But your point is taken. I'll try to address this.
 
-I think your suggestion is more precise, in case the driver does not want
-to do DMA w/ PASID, we can do less IOTLB flush (PASID 0 only).
-
-> And then DMA tagged with the PASID will be handled equivilant to
-> untagged DMA. Basically PASID and no PASID point to the exact same IO
-> page table and the DMA API manipulates that single page table.
-> 
-> Having multiple RID's pointing at the same IO page table is something
-> we expect iommufd to require so the whole thing should ideally fall
-> out naturally.
-That would be the equivalent of attaching multiple devices to the same
-IOMMU domain. right?
-
-> Jason
-
-
-Thanks,
-
-Jacob
+Logan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
