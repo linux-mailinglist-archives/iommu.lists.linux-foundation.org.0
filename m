@@ -1,93 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4468941BF91
-	for <lists.iommu@lfdr.de>; Wed, 29 Sep 2021 09:09:19 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5517941BFD1
+	for <lists.iommu@lfdr.de>; Wed, 29 Sep 2021 09:24:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AE85081004;
-	Wed, 29 Sep 2021 07:09:17 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BF5F9403A8;
+	Wed, 29 Sep 2021 07:24:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SEMa6JApLifs; Wed, 29 Sep 2021 07:09:16 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8fxQBxinAcym; Wed, 29 Sep 2021 07:24:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B7BC880CE2;
-	Wed, 29 Sep 2021 07:09:16 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 97BCC40323;
+	Wed, 29 Sep 2021 07:24:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97698C0022;
-	Wed, 29 Sep 2021 07:09:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C10BC0022;
+	Wed, 29 Sep 2021 07:24:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 39B67C000D
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 07:09:15 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 36CCFC000D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 07:24:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1569560656
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 07:09:15 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1319460663
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 07:24:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id p46Jw1l5-3Al for <iommu@lists.linux-foundation.org>;
- Wed, 29 Sep 2021 07:09:14 +0000 (UTC)
+ with ESMTP id s6XbE5N_uxO7 for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Sep 2021 07:24:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E259C6065F
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 07:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632899352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HT5SZ0TnRfXLHpISWqHTNLhMm8Om7aNvjCr5xAmuCp4=;
- b=KCvBUCaXs24OgpuGQ5yyTZWnjI6DchCQ/XirRrje5B2OjDG55f7P8cHgn8+NpIQVCbSSZJ
- 2cg+na98PaVAoXYL+Vk7kIuDhUkXb0mcFioZU04SEIqAylttLQU3icmAouD+BMZE97V3To
- hD+mfspCLMa/zYv5LJ5z4JhtRw5Z7lo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-t-ZNd9F0MOCWSQSe2aDP4w-1; Wed, 29 Sep 2021 03:09:11 -0400
-X-MC-Unique: t-ZNd9F0MOCWSQSe2aDP4w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3109F100C661;
- Wed, 29 Sep 2021 07:09:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFDBD6B55A;
- Wed, 29 Sep 2021 07:08:26 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>, David Gibson
- <david@gibson.dropbear.id.au>, "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: RE: [RFC 03/20] vfio: Add vfio_[un]register_device()
-In-Reply-To: <BN9PR11MB543356CD7AD9F45793D1ED118CA99@BN9PR11MB5433.namprd11.prod.outlook.com>
-Organization: Red Hat GmbH
-References: <20210919063848.1476776-1-yi.l.liu@intel.com>
- <20210919063848.1476776-4-yi.l.liu@intel.com> <YVPS43bNjvzdxdiM@yekko>
- <BN9PR11MB543356CD7AD9F45793D1ED118CA99@BN9PR11MB5433.namprd11.prod.outlook.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Wed, 29 Sep 2021 09:08:25 +0200
-Message-ID: <871r576eqe.fsf@redhat.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2058C60656
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 07:24:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="285894381"
+X-IronPort-AV: E=Sophos;i="5.85,331,1624345200"; d="scan'208";a="285894381"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2021 00:24:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,331,1624345200"; d="scan'208";a="476553453"
+Received: from allen-box.sh.intel.com ([10.239.159.118])
+ by orsmga007.jf.intel.com with ESMTP; 29 Sep 2021 00:24:07 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 1/1] iommu/vt-d: Delete dev_has_feat callback
+Date: Wed, 29 Sep 2021 15:20:30 +0800
+Message-Id: <20210929072030.1330225-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>, "hch@lst.de" <hch@lst.de>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "jgg@nvidia.com" <jgg@nvidia.com>,
- "parav@mellanox.com" <parav@mellanox.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "lkml@metux.net" <lkml@metux.net>, "dwmw2@infradead.org" <dwmw2@infradead.org>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lushenming@huawei.com" <lushenming@huawei.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>
+Cc: iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,52 +69,105 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Sep 29 2021, "Tian, Kevin" <kevin.tian@intel.com> wrote:
+The commit 262948f8ba573 ("iommu: Delete iommu_dev_has_feature()") has
+deleted the iommu_dev_has_feature() interface. Remove the dev_has_feat
+callback to avoid dead code.
 
->> From: David Gibson <david@gibson.dropbear.id.au>
->> Sent: Wednesday, September 29, 2021 10:44 AM
->> 
->> > One alternative option is to arrange device nodes in sub-directories based
->> > on the device type. But doing so also adds one trouble to userspace. The
->> > current vfio uAPI is designed to have the user query device type via
->> > VFIO_DEVICE_GET_INFO after opening the device. With this option the user
->> > instead needs to figure out the device type before opening the device, to
->> > identify the sub-directory.
->> 
->> Wouldn't this be up to the operator / configuration, rather than the
->> actual software though?  I would assume that typically the VFIO
->> program would be pointed at a specific vfio device node file to use,
->> e.g.
->> 	my-vfio-prog -d /dev/vfio/pci/0000:0a:03.1
->> 
->> Or more generally, if you're expecting userspace to know a name in a
->> uniqu pattern, they can equally well know a "type/name" pair.
->> 
->
-> You are correct. Currently:
->
-> -device, vfio-pci,host=DDDD:BB:DD.F
-> -device, vfio-pci,sysfdev=/sys/bus/pci/devices/ DDDD:BB:DD.F
-> -device, vfio-platform,sysdev=/sys/bus/platform/devices/PNP0103:00
->
-> above is definitely type/name information to find the related node. 
->
-> Actually even for Jason's proposal we still need such information to
-> identify the sysfs path.
->
-> Then I feel type-based sub-directory does work. Adding another link
-> to sysfs sounds unnecessary now. But I'm not sure whether we still
-> want to create /dev/vfio/devices/vfio0 thing and related udev rule
-> thing that you pointed out in another mail.
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/iommu/intel/iommu.c | 59 ++++---------------------------------
+ 1 file changed, 5 insertions(+), 54 deletions(-)
 
-Still reading through this whole thread, but type-based subdirectories
-also make the most sense to me. I don't really see userspace wanting to
-grab just any device and then figure out whether it is the device it was
-looking for, but rather immediately go to a specific device or at least
-a device of a specific type.
-
-Sequentially-numbered devices tend to become really unwieldy in my
-experience if you are working on a system with loads of devices.
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 01162b0b9712..dc733de9eea5 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -5516,62 +5516,14 @@ static int intel_iommu_disable_sva(struct device *dev)
+ 	return ret;
+ }
+ 
+-/*
+- * A PCI express designated vendor specific extended capability is defined
+- * in the section 3.7 of Intel scalable I/O virtualization technical spec
+- * for system software and tools to detect endpoint devices supporting the
+- * Intel scalable IO virtualization without host driver dependency.
+- *
+- * Returns the address of the matching extended capability structure within
+- * the device's PCI configuration space or 0 if the device does not support
+- * it.
+- */
+-static int siov_find_pci_dvsec(struct pci_dev *pdev)
+-{
+-	int pos;
+-	u16 vendor, id;
+-
+-	pos = pci_find_next_ext_capability(pdev, 0, 0x23);
+-	while (pos) {
+-		pci_read_config_word(pdev, pos + 4, &vendor);
+-		pci_read_config_word(pdev, pos + 8, &id);
+-		if (vendor == PCI_VENDOR_ID_INTEL && id == 5)
+-			return pos;
+-
+-		pos = pci_find_next_ext_capability(pdev, pos, 0x23);
+-	}
+-
+-	return 0;
+-}
+-
+-static bool
+-intel_iommu_dev_has_feat(struct device *dev, enum iommu_dev_features feat)
++static int intel_iommu_enable_iopf(struct device *dev)
+ {
+ 	struct device_domain_info *info = get_domain_info(dev);
+ 
+-	if (feat == IOMMU_DEV_FEAT_AUX) {
+-		int ret;
+-
+-		if (!dev_is_pci(dev) || dmar_disabled ||
+-		    !scalable_mode_support() || !pasid_mode_support())
+-			return false;
+-
+-		ret = pci_pasid_features(to_pci_dev(dev));
+-		if (ret < 0)
+-			return false;
+-
+-		return !!siov_find_pci_dvsec(to_pci_dev(dev));
+-	}
+-
+-	if (feat == IOMMU_DEV_FEAT_IOPF)
+-		return info && info->pri_supported;
+-
+-	if (feat == IOMMU_DEV_FEAT_SVA)
+-		return info && (info->iommu->flags & VTD_FLAG_SVM_CAPABLE) &&
+-			info->pasid_supported && info->pri_supported &&
+-			info->ats_supported;
++	if (info && info->pri_supported)
++		return 0;
+ 
+-	return false;
++	return -ENODEV;
+ }
+ 
+ static int
+@@ -5582,7 +5534,7 @@ intel_iommu_dev_enable_feat(struct device *dev, enum iommu_dev_features feat)
+ 		return intel_iommu_enable_auxd(dev);
+ 
+ 	case IOMMU_DEV_FEAT_IOPF:
+-		return intel_iommu_dev_has_feat(dev, feat) ? 0 : -ENODEV;
++		return intel_iommu_enable_iopf(dev);
+ 
+ 	case IOMMU_DEV_FEAT_SVA:
+ 		return intel_iommu_enable_sva(dev);
+@@ -5708,7 +5660,6 @@ const struct iommu_ops intel_iommu_ops = {
+ 	.get_resv_regions	= intel_iommu_get_resv_regions,
+ 	.put_resv_regions	= generic_iommu_put_resv_regions,
+ 	.device_group		= intel_iommu_device_group,
+-	.dev_has_feat		= intel_iommu_dev_has_feat,
+ 	.dev_feat_enabled	= intel_iommu_dev_feat_enabled,
+ 	.dev_enable_feat	= intel_iommu_dev_enable_feat,
+ 	.dev_disable_feat	= intel_iommu_dev_disable_feat,
+-- 
+2.25.1
 
 _______________________________________________
 iommu mailing list
