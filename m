@@ -1,76 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E83441CADF
-	for <lists.iommu@lfdr.de>; Wed, 29 Sep 2021 19:08:47 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A4E41CAF3
+	for <lists.iommu@lfdr.de>; Wed, 29 Sep 2021 19:16:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C616340724;
-	Wed, 29 Sep 2021 17:08:45 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CAD51403B8;
+	Wed, 29 Sep 2021 17:16:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZLVAHz0N-UCS; Wed, 29 Sep 2021 17:08:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 747F540729;
-	Wed, 29 Sep 2021 17:08:43 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2gbP7IwEaHSA; Wed, 29 Sep 2021 17:16:01 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0515E4158A;
+	Wed, 29 Sep 2021 17:16:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 45856C000D;
-	Wed, 29 Sep 2021 17:08:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CB647C0022;
+	Wed, 29 Sep 2021 17:16:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6046AC000D
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 17:08:42 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A44B6C000D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 17:15:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3C0E282897
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 17:08:42 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7A516406A6
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 17:15:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ywtVxkimhyu3 for <iommu@lists.linux-foundation.org>;
- Wed, 29 Sep 2021 17:08:41 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZjNRfDo4qICN for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Sep 2021 17:15:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8B7B580D0A
- for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 17:08:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="247522720"
-X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="247522720"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 10:07:55 -0700
-X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="538924770"
-Received: from agluck-desk2.sc.intel.com (HELO
- agluck-desk2.amr.corp.intel.com) ([10.3.52.146])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 10:07:55 -0700
-Date: Wed, 29 Sep 2021 10:07:54 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH 4/8] x86/traps: Demand-populate PASID MSR via #GP
-Message-ID: <YVSdauvwzs1HJlLz@agluck-desk2.amr.corp.intel.com>
-References: <20210920192349.2602141-5-fenghua.yu@intel.com>
- <1aae375d-3cd4-4ab8-9c64-9e387916e6c0@www.fastmail.com>
- <YVIxeBh3IKYYK711@agluck-desk2.amr.corp.intel.com>
- <035290e6-d914-a113-ea6c-e845d71069cf@intel.com>
- <YVNj8sm8iectc6iU@agluck-desk2.amr.corp.intel.com>
- <3f97b77e-a609-997b-3be7-f44ff7312b0d@intel.com>
- <YVN652x14dMgyE85@agluck-desk2.amr.corp.intel.com>
- <f6014b16-7b4c-cbb6-c975-1ec34092956f@intel.com>
- <YVOg7zgpdQlc7Zjt@agluck-desk2.amr.corp.intel.com>
- <308a72e4-6aa9-0c84-21e6-ee613eea35a8@kernel.org>
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B183F414B9
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Sep 2021 17:15:57 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1632935754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sWWcnqFRj6zAdMYEtH1XJ/oTMuUhVW1AUdTmaVur7iM=;
+ b=I+VUN/NO1vuxg+Pjaj8NRFrhYq8XGcu1jaIKvk85LuwNRoAx/Coz54CjHgN3arWWAj3bNg
+ +GjgtYsxpX+j8gP3aNjsx16XhaDNcCEdikGgs87YD4sMWRm4V/mjNkOZry8//CVn1gp2zJ
+ wEbK1WfQmideZAl0wwjvCcf/JMa1dtnF+TJc/mWR7+u8mDadL9shQ8EfosbIMFv5J+Tuye
+ rmn5G44VX+ujVE7tjF5yY3PkKVBFpK2sBdh1NEMDZEuClioQsr0xtrXRExLZRN13IDWN4D
+ nrpi/DSXSNZEI0nUQcARd1/FnAz+ZbmpTbmhEu+0Xmu3oZTxrLHC2bn/gNhjaQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1632935754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sWWcnqFRj6zAdMYEtH1XJ/oTMuUhVW1AUdTmaVur7iM=;
+ b=bQbMHfGUYpufXmcUgOg7LH/S9ywiZ5cAMhdRpm4DuazNhhpeW0HP/J4ta6RZJtsEj/+oHg
+ PICI3Mv2scapi+CQ==
+To: Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 5/8] x86/mmu: Add mm-based PASID refcounting
+In-Reply-To: <75e95acc-6730-ddcf-d722-66e575076256@kernel.org>
+References: <20210920192349.2602141-1-fenghua.yu@intel.com>
+ <20210920192349.2602141-6-fenghua.yu@intel.com> <87y27nfjel.ffs@tglx>
+ <YUyuEjlrcOeCp4qQ@agluck-desk2.amr.corp.intel.com> <87o88jfajo.ffs@tglx>
+ <87k0j6dsdn.ffs@tglx> <YU3414QT0J7EN4w9@agluck-desk2.amr.corp.intel.com>
+ <a77ee33c-6fa7-468c-8fc0-a0a2ce725e75@www.fastmail.com>
+ <YVQ3wc/XjeOHpGCX@hirez.programming.kicks-ass.net> <87r1d78t2e.ffs@tglx>
+ <75e95acc-6730-ddcf-d722-66e575076256@kernel.org>
+Date: Wed, 29 Sep 2021 19:15:53 +0200
+Message-ID: <877dez8fqu.ffs@tglx>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <308a72e4-6aa9-0c84-21e6-ee613eea35a8@kernel.org>
-Cc: Fenghua Yu <fenghua.yu@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Raj Ashok <ashok.raj@intel.com>, "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- the arch/x86 maintainers <x86@kernel.org>,
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Shankar,
+ Ravi V" <ravi.v.shankar@intel.com>, the arch/x86 maintainers <x86@kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Dave Hansen <dave.hansen@intel.com>, iommu@lists.linux-foundation.org,
  Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Jacob Jun Pan <jacob.jun.pan@intel.com>, Josh Poimboeuf <jpoimboe@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>
+ Jacob Jun Pan <jacob.jun.pan@intel.com>, Josh Poimboeuf <jpoimboe@redhat.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,37 +92,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Sep 29, 2021 at 09:58:22AM -0700, Andy Lutomirski wrote:
-> On 9/28/21 16:10, Luck, Tony wrote:
-> > Moving beyond pseudo-code and into compiles-but-probably-broken-code.
-> > 
-> > 
-> > The intent of the functions below is that Fenghua should be able to
-> > do:
-> > 
-> > void fpu__pasid_write(u32 pasid)
-> > {
-> > 	u64 msr_val = pasid | MSR_IA32_PASID_VALID;
-> > 	struct ia32_pasid_state *addr;
-> > 
-> > 	addr = begin_update_one_xsave_feature(current, XFEATURE_PASID, true);
-> > 	addr->pasid = msr_val;
-> > 	finish_update_one_xsave_feature(current);
-> > }
-> > 
-> 
-> This gets gnarly because we would presumably like to optimize the case where
-> we can do the update directly in registers.  I wonder if we can do it with a
-> bit of macro magic in a somewhat generic way:
+On Wed, Sep 29 2021 at 09:59, Andy Lutomirski wrote:
+> On 9/29/21 05:28, Thomas Gleixner wrote:
+>> Looking at that patch again, none of this muck in fpu__pasid_write() is
+>> required at all. The whole exception fixup is:
+>> 
+>>      if (!user_mode(regs))
+>>               return false;
+>> 
+>>      if (!current->mm->pasid)
+>>               return false;
+>> 
+>>      if (current->pasid_activated)
+>>      	     return false;
+>
+> <-- preemption or BH here: kaboom.
 
-Can we defere the optimizations until there is a use case that
-cares? The existing use case (fixing up the #GP fault by setting
-the PASID MSR) isn't performance critical.
+Sigh, this had obviously to run in the early portion of #GP, i.e. before
+enabling interrupts.
 
-Let's just have something that is clear (or as clear as any xsave
-code can be) and correct.
+For me that's more than obvious and I apologize that I failed to mention
+it.
 
--Tony
+>> 
+>>      wrmsrl(MSR_IA32_PASID, current->mm->pasid);
+>
+> This needs the actual sane fpstate writing helper -- see other email.
+
+And with that there is no fpstate write helper required at all.
+
+Stop this overengineering madness already.
+
+Thanks,
+
+        tglx
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
