@@ -2,86 +2,112 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C370341F322
-	for <lists.iommu@lfdr.de>; Fri,  1 Oct 2021 19:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AFC41F37C
+	for <lists.iommu@lfdr.de>; Fri,  1 Oct 2021 19:45:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 37B14407D4;
-	Fri,  1 Oct 2021 17:30:40 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C53F8401F3;
+	Fri,  1 Oct 2021 17:45:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sRg5TEChsAxQ; Fri,  1 Oct 2021 17:30:39 +0000 (UTC)
+	with ESMTP id OeQJaruiXYU9; Fri,  1 Oct 2021 17:45:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 185924032E;
-	Fri,  1 Oct 2021 17:30:39 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 61C63407F0;
+	Fri,  1 Oct 2021 17:45:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D30B2C000D;
-	Fri,  1 Oct 2021 17:30:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C321C0022;
+	Fri,  1 Oct 2021 17:45:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0988DC000D
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 17:30:37 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27152C000D
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 17:45:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id DF26683FFF
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 17:30:36 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 08ED04074D
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 17:45:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IUZZYMJ9sGZu for <iommu@lists.linux-foundation.org>;
- Fri,  1 Oct 2021 17:30:36 +0000 (UTC)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=ziepe.ca
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pHtO1ZnfD8t4 for <iommu@lists.linux-foundation.org>;
+ Fri,  1 Oct 2021 17:45:14 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E1A2283E6B
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 17:30:35 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id x124so12277243oix.9
- for <iommu@lists.linux-foundation.org>; Fri, 01 Oct 2021 10:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 36708406CE
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 17:45:14 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id q81so9953679qke.5
+ for <iommu@lists.linux-foundation.org>; Fri, 01 Oct 2021 10:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=IhB/01/IitH3m4NcKKW8vX/IfPHlPDQqhEV0x9b/C7E=;
- b=HlOwQHROTnWHik2T8VfIGkqf3Z67AZudlPX/31hUH96V29bu/c+NtgsWRB35Fae6S8
- LRJpMRytqwLLloUL5SVWhAn+fTyjTWi9hBOYyJPzx0jA5/2izZJvT6HHtKQId01uOYjT
- 6tER8Mwb4KIsIdjxAbVaQo4vTLNxi0Wy4/DwKtRQsmM2pNmdv6mlV3mw51tSfEOA58hV
- J4CGdHVbtwVlguR7quRULV2ud9lA60Xg7DqxM3Q4poXa7eh9/xcOOkYCBiQ7P4Ai+16D
- I6qTxZ1DNvPMcZVtnlJmJJl49Toh1yciblo1O1hBLN1UrP28icChZoiCT66oruTHh7NM
- hTKg==
+ bh=CY+QWSave8EGEaNVpceAJQ+ky5w1DWCyy9j7COQnHFM=;
+ b=askYTJzym7O5yaOqpeMzKwOj0j6Qwo04kEM179/a3sFhqrYyXzPAu1ifpOhcFl9q0Y
+ F/PLEDnH9R02hCpQbyV2Dzb5iXF38C6sxpIDCyRjVSLdg9m4x9mzmxGfikoOrIb4KO5g
+ KK7/5+UqT19eZNeA5mH/CtKtbeSKvPvg7bkvpD2k5W8s0SA56gdmbn7g92dyRjv6qzWm
+ NApTHpAV13PnJqbcQXh1/icou6aS6s4O8Q5naDdwg2J2VccmTim8IhxnqvDSONGlD1i/
+ 3CEpYbeXydKMWMWPJCbhj1ViExG40KWNfqcSecJq4GbUKkEnpgalIV0poHVYP2TUwniL
+ UMFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=IhB/01/IitH3m4NcKKW8vX/IfPHlPDQqhEV0x9b/C7E=;
- b=mN4y2aAfPHXOAuTwH0OStGKKVFnJCSNe6rDJCYKWZUFfnkGrpYvFgHQzJSS30S40oB
- 890qitr+udwuVPs52fdGjMN6i9bDY+FHOJvau/o0isTAFt3SPaziKlygalb5aNSBG7zG
- 5BGukTw2ooK2ipdNeuSWAtEIdJEJ/uXmMfbZXgqHG4DZloISDXw1T+etaXmXpAxqRKDm
- gpiapVO428TCY2oHawRHmQSXXoBUu6DZHdT110aKcXOVeJUj1JsMVvQoDj1ZvpZQbekz
- tQN99L/M0sD6jiabHs85qoA2cuo8iA2zDu4Vy/xpVBgiOH9dANzrTJHROZuQoZvD1x8j
- LUSw==
-X-Gm-Message-State: AOAM531jbkupUWZz98XID15K/KDzn2rQs58UZoh/93v7qyigDM2WK3jL
- eRHgvY1+jXV7rQbilgAxaszy2g==
-X-Google-Smtp-Source: ABdhPJxNJDogYaRDrJIGhbZoMKxXpalTJtz7iUyJqaHo5NPFVSjpShuqvB6eeQBs/lxrG2ph5cJDtw==
-X-Received: by 2002:a05:6808:11c8:: with SMTP id
- p8mr4762589oiv.72.1633109434912; 
- Fri, 01 Oct 2021 10:30:34 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id z24sm1224876oic.26.2021.10.01.10.30.34
+ bh=CY+QWSave8EGEaNVpceAJQ+ky5w1DWCyy9j7COQnHFM=;
+ b=2wdpcnCjfsboKRifAjm9jozbpuT/7B1eSlpHTRr7yj4uEXXx7dqf66uUAVQ/SlhZWp
+ hGjz+01ppny/KyTk7IocW+N5SuDOjvd6eiHbxyPb+Omz0AbaIx4hbj+kMMCG8SDEAbfa
+ 7tGIRzLstCAH4X8amvLV8YZiFEYk8ow+pfYEIRk3n4N7mIKjOjdjR0cpfqOENCTvZr1+
+ dJU8prd/TwcsaIbGBVTaqri4lhKql0946hCliRx8XQQz0qevumGx+UhODFDEVRoxyuqW
+ nzFwv8yuX6/CGANjdfd3rG3WumdNOQJWQNfKdeR9vnf4hDWiazORWxe1l4dlTO18PJxE
+ BG0A==
+X-Gm-Message-State: AOAM533pI5U8BRitkz0p5/upzaWldWRoW20ZyIoQlXBHTV5xGk1U1EgM
+ QB1N7tOFjcO+NXpw/boEH7Qz2A==
+X-Google-Smtp-Source: ABdhPJx/K6VNm0duCKrTeu/4uI4ViO+0lSC4pUeGkBrnh5E8R/aNPnPsk6AlICpx2DIIm1QpxAom9A==
+X-Received: by 2002:a37:8747:: with SMTP id j68mr10365945qkd.165.1633110313062; 
+ Fri, 01 Oct 2021 10:45:13 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129])
+ by smtp.gmail.com with ESMTPSA id w17sm3357837qkf.97.2021.10.01.10.45.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:30:34 -0700 (PDT)
-Date: Fri, 1 Oct 2021 10:32:22 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Loic Poulain <loic.poulain@linaro.org>
-Subject: Re: [PATCH 1/2] iommu: arm-smmu-qcom: Add compatible for qcm2290
-Message-ID: <YVdGJtGnH+RMilBv@ripper>
-References: <1633096832-7762-1-git-send-email-loic.poulain@linaro.org>
+ Fri, 01 Oct 2021 10:45:12 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mWMat-0097tt-HS; Fri, 01 Oct 2021 14:45:11 -0300
+Date: Fri, 1 Oct 2021 14:45:11 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
+Message-ID: <20211001174511.GQ3544071@ziepe.ca>
+References: <20210916234100.122368-20-logang@deltatee.com>
+ <20210928195518.GV3544071@ziepe.ca>
+ <8d386273-c721-c919-9749-fc0a7dc1ed8b@deltatee.com>
+ <20210929230543.GB3544071@ziepe.ca>
+ <32ce26d7-86e9-f8d5-f0cf-40497946efe9@deltatee.com>
+ <20210929233540.GF3544071@ziepe.ca>
+ <f9a83402-3d66-7437-ca47-77bac4108424@deltatee.com>
+ <20210930003652.GH3544071@ziepe.ca>
+ <20211001134856.GN3544071@ziepe.ca>
+ <4fdd337b-fa35-a909-5eee-823bfd1e9dc4@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1633096832-7762-1-git-send-email-loic.poulain@linaro.org>
-Cc: devicetree@vger.kernel.org, robin.murphy@arm.com,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org, shawn.guo@linaro.org,
- will@kernel.org
+In-Reply-To: <4fdd337b-fa35-a909-5eee-823bfd1e9dc4@deltatee.com>
+Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ linux-mm@kvack.org, Jason Ekstrand <jason@jlekstrand.net>,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,37 +125,85 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri 01 Oct 07:00 PDT 2021, Loic Poulain wrote:
+On Fri, Oct 01, 2021 at 11:01:49AM -0600, Logan Gunthorpe wrote:
 
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> ---
->  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> index 55690af..d105186 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> @@ -412,6 +412,7 @@ static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
->  	{ .compatible = "qcom,sm8150-smmu-500" },
->  	{ .compatible = "qcom,sm8250-smmu-500" },
->  	{ .compatible = "qcom,sm8350-smmu-500" },
-> +	{ .compatible = "qcom,qcm2290-smmu-500" },
+> In device-dax, the refcount is only used to prevent the device, and
+> therefore the pages, from going away on device unbind. Pages cannot be
+> recycled, as you say, as they are mapped linearly within the device. The
+> address space invalidation is done only when the device is unbound.
 
-Would be nice if we kept the alphabetical sort order on these and in the
-binding.
+By address space invalidation I mean invalidation of the VMA that is
+pointing to those pages.
 
-With that, please feel free to add my R-b
+device-dax may not have a issue with use-after-VMA-invalidation by
+it's very nature since every PFN always points to the same
+thing. fsdax and this p2p stuff are different though.
 
-Regards,
-Bjorn
+> Before the invalidation, an active flag is cleared to ensure no new
+> mappings can be created while the unmap is proceeding.
+> unmap_mapping_range() should sequence itself with the TLB flush and
 
->  	{ }
->  };
->  
-> -- 
-> 2.7.4
-> 
+AFIAK unmap_mapping_range() kicks off the TLB flush and then
+returns. It doesn't always wait for the flush to fully finish. Ie some
+cases use RCU to lock the page table against GUP fast and so the
+put_page() doesn't happen until the call_rcu completes - after a grace
+period. The unmap_mapping_range() does not wait for grace periods.
+
+This is why for normal memory the put_page is done after the TLB flush
+completes, not when unmap_mapping_range() finishes. This ensures that
+before the refcount reaches 0 no concurrent GUP fast can still observe
+the old PTEs.
+
+> GUP-fast using the same mechanism it does for regular pages. As far as I
+> can see, by the time unmap_mapping_range() returns, we should be
+> confident that there are no pages left in any mapping (seeing no new
+> pages could be added since before the call). 
+
+When viewed under the page table locks this is true, but the 'fast'
+walkers like gup_fast and hmm_range_fault can continue to be working
+on old data in the ptes because they don't take the page table locks.
+
+They interact with unmap_mapping_range() via the IPI/rcu (gup fast) or
+mmu notifier sequence count (hmm_range_fault)
+
+> P2PDMA follows this pattern, except pages are not mapped linearly and
+> are returned to the genalloc when their refcount falls to 1. This only
+> happens after a VMA is closed which should imply the PTEs have already
+> been unlinked from the pages. 
+
+And here is the problem, since the genalloc is being used we now care
+that a page should not continue to be accessed by userspace after it
+has be placed back into the genalloc. I suppose fsdax has the same
+basic issue too.
+
+> Not to say that all this couldn't use a big conceptual cleanup. A
+> similar question exists with the single find_special_page() user
+> (xen/gntdev) and it's definitely not clear what the differences are
+> between the find_special_page() and vmf_insert_mixed() techniques and
+> when one should be used over the other. Or could they both be merged to
+> use the same technique?
+
+Oh that gntdev stuff is just nonsense. IIRC is trying to delegate
+control over a PTE entry itself to the hypervisor.
+
+		/*
+		 * gntdev takes the address of the PTE in find_grant_ptes() and
+		 * passes it to the hypervisor in gntdev_map_grant_pages(). The
+		 * purpose of the notifier is to prevent the hypervisor pointer
+		 * to the PTE from going stale.
+		 *
+		 * Since this vma's mappings can't be touched without the
+		 * mmap_lock, and we are holding it now, there is no need for
+		 * the notifier_range locking pattern.
+
+I vaugely recall it stuffs in a normal page then has the hypervisor
+overwrite the PTE. When it comes time to free the PTE it recovers the
+normal page via the 'find_special_page' hack and frees it. Somehow the
+hypervisor is also using the normal page for something.
+
+It is all very strange and one shouldn't think about it :|
+
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
