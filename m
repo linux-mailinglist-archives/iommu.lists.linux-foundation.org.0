@@ -1,82 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4E741EF56
-	for <lists.iommu@lfdr.de>; Fri,  1 Oct 2021 16:20:42 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8443441EF58
+	for <lists.iommu@lfdr.de>; Fri,  1 Oct 2021 16:20:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 62D1640477;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6CB5783595;
 	Fri,  1 Oct 2021 14:20:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OK8FYJ6IXiZn; Fri,  1 Oct 2021 14:20:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 34E5D40444;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IgyheKoYaAVY; Fri,  1 Oct 2021 14:20:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8689E84436;
 	Fri,  1 Oct 2021 14:20:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 826B0C0011;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5FE6C002A;
 	Fri,  1 Oct 2021 14:20:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 23BB6C000D
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 13:49:57 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2ECF1C000D
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 13:49:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1CDFE614CA
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 13:49:57 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 11D8183542
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 13:49:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gJBryeelHeSe for <iommu@lists.linux-foundation.org>;
- Fri,  1 Oct 2021 13:49:56 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id N1g-VOp2XJ2t for <iommu@lists.linux-foundation.org>;
+ Fri,  1 Oct 2021 13:49:57 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 48EDC60604
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 13:49:56 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- a131-20020a1c7f89000000b0030d4c90fa87so1583762wmd.2
- for <iommu@lists.linux-foundation.org>; Fri, 01 Oct 2021 06:49:56 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6059A8239A
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 13:49:57 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ q127-20020a1ca785000000b0030cb71ea4d1so6812669wme.1
+ for <iommu@lists.linux-foundation.org>; Fri, 01 Oct 2021 06:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=YIf6Rv5U5rLBxZR1wkJIP6+YB2q/3igVhhZVWCzzQAI=;
- b=q4iTyIqFrBdfhb6tROekXeq3O/9j+zeQdMJ9tfF2MjhpZYcmKKfXwcP93UdnV/+kaS
- VkcX2HF5gyRhsfJLc1nAOy6Ovlp7sYcj1vYPu+YQuqa5FiiUZZ4s6SaKCCPmfqSUq1LW
- SvpPsjB8pI118oAzLmB/Y0uUJQbxCM1DpdBUzqenOEjhHoGdkDaG4yXmyuhYZpq/2ZnE
- npZRgt5M1zZVOEWGGn1OHsSqwEfLwuwtvm5lPd1iBW4Gz7DZKzrFPVRQQu1M8ymugXjc
- Hjxzg0xqDrWYdbusTqHU9wMdHWPFqCl08eAt2SiCbieqgPoGXJrF+kjjmRkLnncX8Ynp
- dv7A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=WcobWQEpWw130naSD1qRlgqF9tLl50nKK3Jb8AKHqY0=;
+ b=drKM7fR+bkOqM1CnvRn3B7zQHy2cElx4kLBMtgyBvwUjg6tbdbgQfLdHUMLDvui/UR
+ mqY8QRxauUHd+LxbNpoZsMq31xzVoS97UIbs9279YQeXjPayhm8lNJJLp0vJGdFMSSXw
+ DzUczyq0swBzmOE+vBWtIfkLhSSxBKEDkKjQEVk9R+Dfb3nuJ9znOJ2chsaJF2Hphgrb
+ FatNVY6nkmiWeKGai4Od/Zdd4CEFDazcaWQA/ShiUxjwS1RRBQfzZ2wLp6acsX+QqnpG
+ Ht3lU5hbW6GPFCbzHRvFF77PdjumyCGMUXvfy4T5sh/+2J49vBklzLF3z/v4EIM4U3Co
+ XqyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=YIf6Rv5U5rLBxZR1wkJIP6+YB2q/3igVhhZVWCzzQAI=;
- b=e/k2hqmusiujEgGbg2SVQPJZ7WEjgmkR79qMxzdGpkwViGcFbRt4OzDkOABeW9QWx2
- YSf6baJsLYFkmcVJXsNeyk0r22Uw1XM/AYkjkQXMwqYcJNkPHCGKXPi74xTEHYK0+1/n
- sOvKR8Dtt5LBVMGz9vkHcVSdsxpDvd1rFfN8JckPbDXBCg3dgzjhaEE8Bu+YvCIzfQjw
- c2R3FYZiPBfuvR9hnUhp+Fz9Fw8DmTEIbsqHD0BH7fYp6GA0bWo9hItmHTS7fEoCEtkr
- CFmoBQKD/m3X1IQmScXruv8LhL+XXt1sEVUG0SW4yDNkD5TmBQEYRpjdQyC6C6gFJVo7
- Gfkw==
-X-Gm-Message-State: AOAM530ypO97hAQ/6tuyi1kaa/X7pWN3vaPvqeZlf06s6gidyavkuB30
- j126MLEKi//gItyNG6Uxr7YCdg==
-X-Google-Smtp-Source: ABdhPJysr8rAAwvbm9P36j5GMkqhmzMtNZlkDoctNG9VDQUHLIzeDfKXIH/uVkiobQ0Q7C82vd5vOw==
-X-Received: by 2002:a05:600c:35d0:: with SMTP id
- r16mr4570013wmq.26.1633096194289; 
- Fri, 01 Oct 2021 06:49:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=WcobWQEpWw130naSD1qRlgqF9tLl50nKK3Jb8AKHqY0=;
+ b=eGyrxMvmTDgMGEHtf3BXnJFFE/CCBgQJ29+43Jewq3QPUdCGvzUMTWRsa8kejYXUDi
+ +wxmDwwjblORIux62epTXQUELO4KmoC+kQMknfXWiIQAKTEC+a5dPiLnyvVDZ31tHiLT
+ m+QQakMxsdiGYLZyV9sUkyXuKQ8uNzYPQoDUc7PGQL2BoiF6avaq5MGAuiRMZiQYVEQP
+ 8hGsHL+ipIVlF0kuQGwzCA7QRnfxORsnsBmw3VDzqO0nX9hcTus3XQX1yBuv2tl5YfIQ
+ n5dPMKsxd6znAKKnvhEsIhEJ0AGsXqD/mUhF3nufloGX+7NBQd/PdoVlF6YcEPvPNfn+
+ u2sA==
+X-Gm-Message-State: AOAM532LDSATueQHHYR2Btn/MYr/iFrEXBkAuSnkmWb89VVqT4T6J55L
+ deVFT5wRftXPzgwacslM6zJmsA==
+X-Google-Smtp-Source: ABdhPJx5H32EiW6wymhJBhzRrbFyAIP2CyBgLVm92yZyD3woYizkxL86BsGpqCkq13ic2tRj2yYhEw==
+X-Received: by 2002:a1c:457:: with SMTP id 84mr1087408wme.161.1633096195384;
+ Fri, 01 Oct 2021 06:49:55 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:82c:5f0:426:4b95:c465:7a47])
- by smtp.gmail.com with ESMTPSA id l11sm7471658wms.45.2021.10.01.06.49.53
+ by smtp.gmail.com with ESMTPSA id l11sm7471658wms.45.2021.10.01.06.49.54
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 01 Oct 2021 06:49:53 -0700 (PDT)
+ Fri, 01 Oct 2021 06:49:55 -0700 (PDT)
 From: Loic Poulain <loic.poulain@linaro.org>
 To: will@kernel.org,
 	robh+dt@kernel.org,
 	joro@8bytes.org
-Subject: [PATCH 1/2] iommu: arm-smmu-qcom: Add compatible for qcm2290
-Date: Fri,  1 Oct 2021 16:00:31 +0200
-Message-Id: <1633096832-7762-1-git-send-email-loic.poulain@linaro.org>
+Subject: [PATCH 2/2] dt-bindings: arm-smmu: Add qcm2290 compatible strings
+Date: Fri,  1 Oct 2021 16:00:32 +0200
+Message-Id: <1633096832-7762-2-git-send-email-loic.poulain@linaro.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1633096832-7762-1-git-send-email-loic.poulain@linaro.org>
+References: <1633096832-7762-1-git-send-email-loic.poulain@linaro.org>
 X-Mailman-Approved-At: Fri, 01 Oct 2021 14:20:38 +0000
 Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
  iommu@lists.linux-foundation.org, shawn.guo@linaro.org, robin.murphy@arm.com
@@ -98,23 +98,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Add compatible strings for qcm2290 iommu to documentation.
+
 Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index 55690af..d105186 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -412,6 +412,7 @@ static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
- 	{ .compatible = "qcom,sm8150-smmu-500" },
- 	{ .compatible = "qcom,sm8250-smmu-500" },
- 	{ .compatible = "qcom,sm8350-smmu-500" },
-+	{ .compatible = "qcom,qcm2290-smmu-500" },
- 	{ }
- };
- 
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 03f2b2d..e66f20d 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -40,6 +40,7 @@ properties:
+               - qcom,sm8150-smmu-500
+               - qcom,sm8250-smmu-500
+               - qcom,sm8350-smmu-500
++              - qcom,qcm2290-smmu-500
+           - const: arm,mmu-500
+       - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
+         items:
 -- 
 2.7.4
 
