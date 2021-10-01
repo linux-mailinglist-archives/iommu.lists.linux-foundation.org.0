@@ -1,49 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F93141F1B2
-	for <lists.iommu@lfdr.de>; Fri,  1 Oct 2021 18:01:50 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D97241F214
+	for <lists.iommu@lfdr.de>; Fri,  1 Oct 2021 18:22:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E7985844DF;
-	Fri,  1 Oct 2021 16:01:48 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id BA039614F8;
+	Fri,  1 Oct 2021 16:22:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S60XYldoXnS4; Fri,  1 Oct 2021 16:01:48 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cYJXcPd6FEmr; Fri,  1 Oct 2021 16:22:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0D9C0844E7;
-	Fri,  1 Oct 2021 16:01:48 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DB81F614E9;
+	Fri,  1 Oct 2021 16:22:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D520FC000D;
-	Fri,  1 Oct 2021 16:01:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B55C1C000D;
+	Fri,  1 Oct 2021 16:22:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 56DE1C000D
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 16:01:46 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 496A6C000D
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 16:22:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 41998407DA
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 16:01:46 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2686184519
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 16:22:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EFGx3NYmUMQ1 for <iommu@lists.linux-foundation.org>;
- Fri,  1 Oct 2021 16:01:45 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 65883407D8
- for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 16:01:45 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id B142C25C; Fri,  1 Oct 2021 18:01:41 +0200 (CEST)
-Date: Fri, 1 Oct 2021 18:01:38 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [git pull] IOMMU Fixes for Linux v5.15-rc3
-Message-ID: <YVcw4sXKg6alXhmx@8bytes.org>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0pEw2HLqfIdg for <iommu@lists.linux-foundation.org>;
+ Fri,  1 Oct 2021 16:22:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3EE7C84518
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Oct 2021 16:22:12 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1A4C51F45289;
+ Fri,  1 Oct 2021 17:22:10 +0100 (BST)
+Date: Fri, 1 Oct 2021 18:22:06 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v2 4/5] drm/panfrost: Add a PANFROST_BO_GPUONLY flag
+Message-ID: <20211001182206.78eb87ab@collabora.com>
+In-Reply-To: <02cb188d-e77d-3dd6-ad62-fe56d42724ae@arm.com>
+References: <20211001143427.1564786-1-boris.brezillon@collabora.com>
+ <20211001143427.1564786-5-boris.brezillon@collabora.com>
+ <02cb188d-e77d-3dd6-ad62-fe56d42724ae@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Will Deacon <will@kernel.org>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -56,94 +69,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8015842121584627855=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Fri, 1 Oct 2021 16:13:42 +0100
+Steven Price <steven.price@arm.com> wrote:
 
---===============8015842121584627855==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="BAeRcwq0YWaKgDX+"
-Content-Disposition: inline
+> On 01/10/2021 15:34, Boris Brezillon wrote:
+> > This lets the driver reduce shareability domain of the MMU mapping,
+> > which can in turn reduce access time and save power on cache-coherent
+> > systems.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
+> 
+> This seems reasonable to me - it matches the kbase
+> BASE_MEM_COHERENT_SYSTEM (only backwards obviously) and it worked
+> reasonably well for the blob.
+> 
+> But I'm wondering if we need to do anything special to deal with the
+> fact we will now have some non-coherent mappings on an otherwise
+> coherent device.
+> 
+> There are certainly some oddities around how these buffers will be
+> mapped into user space if requested, e.g. panfrost_gem_create_object()
+> sets 'map_wc' based on pfdev->coherent which is arguably wrong for
+> GPUONLY. So there are two things we could consider:
+> 
+> a) Actually prevent user space mapping GPUONLY flagged buffers. Which
+> matches the intention of the name.
 
+I intended to do that, just forgot to add wrappers around
+drm_gem_shmem_{mmap,vmap}() to forbid CPU-mappings on gpuonly buffers.
 
---BAeRcwq0YWaKgDX+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> 
+> b) Attempt to provide user space with the tools to safely interact with
+> the buffers (this is the kbase approach). This does have the benefit of
+> allowing *mostly* GPU access. An example here is the tiler heap where
+> the CPU could zero out as necessary but mostly the GPU has ownership and
+> the CPU never reads the contents. GPUONLY/DEVONLY might not be the best
+> name in that case.
 
-Hi Linus,
-
-The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
-
-  Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-fixes-v5.15-rc3
-
-for you to fetch changes up to f0b636804c7c4c564efbca5981e3c56b5c6fe0c5:
-
-  iommu/dart: Clear sid2group entry when a group is freed (2021-09-28 11:47:24 +0200)
-
-----------------------------------------------------------------
-IOMMU Fixes for Linux v5.15-rc3
-
-Including:
-
-	- Two fixes for the new Apple DART driver to fix a kernel panic
-	  and a stale data usage issue
-
-	- Intel VT-d fix for how PCI device ids are printed
-
-----------------------------------------------------------------
-Bjorn Helgaas (1):
-      iommu/vt-d: Drop "0x" prefix from PCI bus & device addresses
-
-Sven Peter (2):
-      iommu/dart: Remove iommu_flush_ops
-      iommu/dart: Clear sid2group entry when a group is freed
-
- drivers/iommu/apple-dart.c | 56 +++++++++++++++++++++++++++++-----------------
- drivers/iommu/intel/dmar.c |  6 ++---
- 2 files changed, 38 insertions(+), 24 deletions(-)
-
-Please pull.
-
-Thanks,
-
-	Joerg
-
---BAeRcwq0YWaKgDX+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEr9jSbILcajRFYWYyK/BELZcBGuMFAmFXMOIACgkQK/BELZcB
-GuNnEQ//UWvxSNWNVy7EYhUIMEMXXb8Qf+CUgNaCfQzzwLKAZv/hsQdfGJjF5NFC
-0aLw3Of0RFq04R16Vss9gFuPcpse7/GAtFxg74IZaWTCN3nAUrMXcew3nT2PVuPU
-MS21f4O854aKgq3uXn4C6wO7LgwpbZrVBrijJ+xK/URWgFuvpT8w5yhPoRiP0S5M
-XnVkJ91403W5plUvpcA84RbxGVUo75ozmAlvmPRQRf0LcacWtYyfuwSCDQepTZHr
-FUglbNip6BUDdga1gR4UegDaQISyfy6wPmAKXYOa2R9cDXqJcOcj0BY6ZucDTUAg
-T/TsZZD87T4mM4pbc/83Z8XP9/+gxmOqPgcdCqU0DtQA8bQJVENLQ88LfsulhKDA
-GbX7vN2xu2slssZelHzEn2L1FZ5bdjpXrodtJRQbCF6I7ZSp1VrsmlG36INpLFs5
-3uIphwy8him8ah9FhF+LpgAzK8qIkwWywbB+gmdjOOo+fxSTqMbsejpF8OfGwDrO
-3954YCic++oq5zt+RZix+55fcmwBfchnxumzeyYApMuoWhAxLBNXncyew9YoHlXy
-izcFNjJ9LiNm6H++EI9mjHdsd/M7S6iMC9SaRuIKsnizmq7cPRrTqn9eobUpJiX3
-IWRoGf+sU2oZczZdulSuV2qsqSqJ+jfmDlXEaLHeFCUPu44Kfp0=
-=69i1
------END PGP SIGNATURE-----
-
---BAeRcwq0YWaKgDX+--
-
---===============8015842121584627855==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Uh, right, I forgot we had to zero the tiler heap on Midgard (most of
+the time done with a WRITE_VALUE job, but there's an exception on some
+old Midgard GPUs IIRC).
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============8015842121584627855==--
