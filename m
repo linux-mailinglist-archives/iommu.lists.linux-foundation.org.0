@@ -1,69 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465CD420A9A
-	for <lists.iommu@lfdr.de>; Mon,  4 Oct 2021 14:05:58 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC052420AA0
+	for <lists.iommu@lfdr.de>; Mon,  4 Oct 2021 14:07:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CF5BD427B5;
-	Mon,  4 Oct 2021 12:05:56 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4672142747;
+	Mon,  4 Oct 2021 12:07:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pV7VeQqkirYu; Mon,  4 Oct 2021 12:05:54 +0000 (UTC)
+	with ESMTP id s2Ko7Wao496k; Mon,  4 Oct 2021 12:07:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A22DE427AA;
-	Mon,  4 Oct 2021 12:05:54 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EA00D4274A;
+	Mon,  4 Oct 2021 12:07:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FE3CC000D;
-	Mon,  4 Oct 2021 12:05:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7FE9C0022;
+	Mon,  4 Oct 2021 12:07:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7AB96C000D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Oct 2021 12:05:52 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD62AC000D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Oct 2021 12:07:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5D4EA606A2
- for <iommu@lists.linux-foundation.org>; Mon,  4 Oct 2021 12:05:52 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 9F64C6072F
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Oct 2021 12:07:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b0t0q2cZH8r1 for <iommu@lists.linux-foundation.org>;
- Mon,  4 Oct 2021 12:05:51 +0000 (UTC)
+ with ESMTP id Q8Of18yykhC9 for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Oct 2021 12:07:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A973760AEB
- for <iommu@lists.linux-foundation.org>; Mon,  4 Oct 2021 12:05:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 98F9261452;
- Mon,  4 Oct 2021 12:05:49 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9CB83606A2
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Oct 2021 12:07:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F24A960F9B;
+ Mon,  4 Oct 2021 12:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633349151;
- bh=DczapP2V5LAVbduqo9lFtPbbyPM9o8Og7N2F7J1rbPQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E1bhSjAGiVnD8Sr1dLFAeEW60oKwO02PjL0305VrZCXwBWUhmC/eo6SH/HNxrivu+
- pUxsq8TeBu1IYVi4keUKzx6ZC6VJDOza/fEfw5t1v7dvEcyE1cAI1camLiqwWD7YfR
- UV+aT7n1DGXLP3+Pyu/d3PS+p86UTJ25/SglDtVi1lSR+umo6Iv9nBHQMo5wbBpuPv
- 0ZXS2n2M4Rlo5Sf0juaUOn+WSFER4kHEdCfvq6v1c5JW8BRDkQ62J+DDPDeeraEg0D
- C95SlKbZxKt0Lapa5Z7X92ldcjQMpKgzehn3tUHzQWkbTzbhFD4O+g4OM068GdnbD5
- SZfehzTy+d0PQ==
+ s=k20201202; t=1633349239;
+ bh=rCJYdr32dOl1E74PBWpYOr8BwKcZx05HK0ZRUpipNQ4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oKQjBWAnxcd/31GhQ0+bLFhoylKcEBeS3fcT6cHbp4QqE8BZDvJ0vXfy85uElZqHk
+ mZqNoC9UaK2GU52qbBumDMWACYDr3P7VBcdV4jpnc7/ant6AZwpEWh1HE/RAmdgKHS
+ uYPA8/TvcSFKCImvCsQ61FZC1Qu2U8J3xRM/ZSmIfO+y5q/UBTEM/yD7mJ1lTSQYJb
+ FnRcNGQmg48BYP7b+1DMZdrn9Owx+r8iZ8+yaxBNpzbiBjOWrcYgTn6DYsaSX+xt5u
+ 1f5nA91t8/HLEnztt0UX7X+WzXKlQu6zi5mF8//0PAPlnw3vfWK82zU1cX4EkFxgQk
+ Kj1AklzDHqRRA==
+Date: Mon, 4 Oct 2021 13:07:15 +0100
 From: Will Deacon <will@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>, Zhen Lei <thunder.leizhen@huawei.com>,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Robin Murphy <robin.murphy@arm.com>,
- iommu <iommu@lists.linux-foundation.org>
-Subject: Re: [PATCH v2 0/2] iommu/arm-smmu-v3: Perform some simple
- optimizations for arm_smmu_cmdq_build_cmd()
-Date: Mon,  4 Oct 2021 13:05:36 +0100
-Message-Id: <163334647414.1581641.3396518420865935764.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210818080452.2079-1-thunder.leizhen@huawei.com>
+To: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: Re: [PATCH v2 2/2] iommu/arm-smmu-v3: Simplify useless instructions
+ in arm_smmu_cmdq_build_cmd()
+Message-ID: <20211004120714.GD27373@willie-the-truck>
 References: <20210818080452.2079-1-thunder.leizhen@huawei.com>
+ <20210818080452.2079-3-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Cc: catalin.marinas@arm.com, kernel-team@android.com,
- Will Deacon <will@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20210818080452.2079-3-thunder.leizhen@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-kernel@vger.kernel.org, iommu <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,32 +80,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, 18 Aug 2021 16:04:50 +0800, Zhen Lei wrote:
-> v1 --> v2:
-> 1. Add patch 1, Properly handle the return value of arm_smmu_cmdq_build_cmd()
-> 2. Remove arm_smmu_cmdq_copy_cmd(). In addition, when build command fails, out_cmd is not filled.
+On Wed, Aug 18, 2021 at 04:04:52PM +0800, Zhen Lei wrote:
+> Although the parameter 'cmd' is always passed by a local array variable,
+> and only this function modifies it, the compiler does not know this. The
+> compiler almost always reads the value of cmd[i] from memory rather than
+> directly using the value cached in the register. This generates many
+> useless instruction operations and affects the performance to some extent.
 > 
+> To guide the compiler for proper optimization, 'cmd' is defined as a local
+> array variable, marked as register, and copied to the output parameter at
+> a time when the function is returned.
 > 
-> Zhen Lei (2):
->   iommu/arm-smmu-v3: Properly handle the return value of
->     arm_smmu_cmdq_build_cmd()
->   iommu/arm-smmu-v3: Simplify useless instructions in
->     arm_smmu_cmdq_build_cmd()
+> The optimization effect can be viewed by running the "size arm-smmu-v3.o"
+> command.
 > 
-> [...]
+> Before:
+>    text    data     bss     dec     hex
+>   26954    1348      56   28358    6ec6
+> 
+> After:
+>    text    data     bss     dec     hex
+>   26762    1348      56   28166    6e06
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 01e95b56ffa07d1..7cec0c967f71d86 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -234,10 +234,12 @@ static int queue_remove_raw(struct arm_smmu_queue *q, u64 *ent)
+>  }
+>  
+>  /* High-level queue accessors */
+> -static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
+> +static int arm_smmu_cmdq_build_cmd(u64 *out_cmd, struct arm_smmu_cmdq_ent *ent)
+>  {
+> -	memset(cmd, 0, 1 << CMDQ_ENT_SZ_SHIFT);
+> -	cmd[0] |= FIELD_PREP(CMDQ_0_OP, ent->opcode);
+> +	register u64 cmd[CMDQ_ENT_DWORDS];
 
-Applied first patch only to will (for-joerg/arm-smmu/updates), thanks!
+'register' is pretty badly specified outside of a handful of limited uses in
+conjunction with inline asm, so I really don't think we should be using it
+here.
 
-[1/2] iommu/arm-smmu-v3: Properly handle the return value of arm_smmu_cmdq_build_cmd()
-      https://git.kernel.org/will/c/59d9bd727495
+> +	cmd[0] = FIELD_PREP(CMDQ_0_OP, ent->opcode);
 
-Cheers,
--- 
+This generates a compiler warning about taking the address of a 'register'
+variable.
+
 Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
