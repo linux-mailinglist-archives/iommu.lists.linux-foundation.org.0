@@ -1,72 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7504A4259B9
-	for <lists.iommu@lfdr.de>; Thu,  7 Oct 2021 19:46:33 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C2C425A43
+	for <lists.iommu@lfdr.de>; Thu,  7 Oct 2021 20:03:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EA35D409DA;
-	Thu,  7 Oct 2021 17:46:31 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B589F40489;
+	Thu,  7 Oct 2021 18:03:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cKso-fbW76dL; Thu,  7 Oct 2021 17:46:31 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7cJS4vzPCmfW; Thu,  7 Oct 2021 18:03:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 01D08409D3;
-	Thu,  7 Oct 2021 17:46:30 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B278340566;
+	Thu,  7 Oct 2021 18:03:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D31B3C000D;
-	Thu,  7 Oct 2021 17:46:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8AF5EC000D;
+	Thu,  7 Oct 2021 18:03:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8DB7AC000D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 17:46:28 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B6F94C000D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 18:03:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 624984036F
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 17:46:28 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id A458140489
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 18:03:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sN1-ty3-Za0A for <iommu@lists.linux-foundation.org>;
- Thu,  7 Oct 2021 17:46:27 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 13BAB4020A
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 17:46:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="226221530"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="226221530"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 10:46:25 -0700
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="478659965"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 10:46:25 -0700
-Date: Thu, 7 Oct 2021 10:50:10 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC 0/7] Support in-kernel DMA with PASID and SVA
-Message-ID: <20211007105010.33d706cf@jacob-builder>
-In-Reply-To: <20211007115918.GH2744544@nvidia.com>
-References: <1632256181-36071-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <CAGsJ_4z=2y2nVStXP-aAPnQrJJbMmv78mjaMwNc9P9Ec+gCtGw@mail.gmail.com>
- <20211001123623.GM964074@nvidia.com>
- <CAGsJ_4wfkrJp-eFKiXsLdiZCb3eS_zqZtJvXQTBafoTWY2yWKQ@mail.gmail.com>
- <20211004094003.527222e5@jacob-builder>
- <20211004182142.GM964074@nvidia.com>
- <CAGsJ_4w+ed78cnJusM_enEZpdGghzvjgt0aYDPpfwk4z7PQqxQ@mail.gmail.com>
- <20211007113221.GF2744544@nvidia.com>
- <CAGsJ_4x2UEmNXCVhJAVRyB8568VMrTkOLeVCNp8CyP6xZJwCig@mail.gmail.com>
- <20211007115918.GH2744544@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ with ESMTP id Tj7wzH9FKeVg for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Oct 2021 18:03:01 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id CA8F040480
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 18:03:00 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id i12so9054256wrb.7
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Oct 2021 11:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=LzYgfKlvwHIBL3wW8fhtlH1KhCgihQqD0wQewNy3gTQ=;
+ b=CnrKfrCI/7b7P9niH6/3IP1Wt0eRn43RT4hn5SxwlYELYRR0SK5WKU/Vr/4eE2NQcv
+ Yg66RubvO6t+h58bUDi2pYnddx5mcj/CSK0pfE7DHvrb7yGY7Qhv/ZfWriK3aJqLFTg3
+ tAq/5wyD2bVUOe3NJNMdEP5hqzRwlSdreV3jtphDHyFNmrZEBU+M2Nhh+qmIEU2f8UHO
+ 1VrYqfFkAbntzETc89XOlZd4C8rgPMX0beOiVqcuePDLJ2kAT5ax66nkwRbYc1Mrj1bq
+ wrfWIk9XqGS0KT08W9SaFguWb6nyttqseHLSsNtV3xtO8REQ8QIiT8KkOnOT6/8q6LhC
+ T7rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=LzYgfKlvwHIBL3wW8fhtlH1KhCgihQqD0wQewNy3gTQ=;
+ b=CRy6RWxkBaWcmgwopsDd5hEW/c0OBHitZ8XkEdgKswwlto9kANZ50N6JhBgk8c7ir+
+ jXcPEB0+/Bh40N3mBYD7+20ZWH0eekBDKq36Xt6mZKDXrmHIn3H077iwnaAkMuxAF9wb
+ +mxc/fVvGNeoUH28FmV+LMgZMtPJkw7vibxOYZdcUbEptU38Uj0GK/1d0Ro7iUQF/Go9
+ NOYn3uAdTKhqhFflVdSJdtPCVwfb92ODxfxKbAcbSzFwqW0rMT350MIhte+DuQQFG6P5
+ 9MIN/YTCfa3lhymgK2+CExsvTPmucqHGhLRCYwRzjIUflzN70cux3L/pdycJeUJUWJUY
+ z5wQ==
+X-Gm-Message-State: AOAM530jn1/S4Z6nTC4ISzaxD8jcjeXg6TzCTOWqASehOP4vPFlFgaDf
+ 90koznxnL4tlTg9siC92ypc=
+X-Google-Smtp-Source: ABdhPJzLFQShRWgexENr9TAiLhixQbONosI4QunNbNjX2FeAqLNG3BVRbZG2LBnMAFnm0kRccGzhCw==
+X-Received: by 2002:a1c:f01a:: with SMTP id a26mr6084520wmb.150.1633629778982; 
+ Thu, 07 Oct 2021 11:02:58 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id g2sm67566wrb.20.2021.10.07.11.02.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 11:02:58 -0700 (PDT)
+Date: Thu, 7 Oct 2021 20:02:57 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] iommu/tegra-smmu: Use devm_bitmap_zalloc when applicable
+Message-ID: <YV82USMgonpRzoWd@orome.fritz.box>
+References: <2c0f4da80c3b5ef83299c651f69a563034c1c6cb.1632661557.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Kumar,
- Sanjay K" <sanjay.k.kumar@intel.com>, Barry Song <21cnbao@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>,
- iommu@lists.linux-foundation.org, mike.campin@intel.com
+In-Reply-To: <2c0f4da80c3b5ef83299c651f69a563034c1c6cb.1632661557.git.christophe.jaillet@wanadoo.fr>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ iommu@lists.linux-foundation.org, jonathanh@nvidia.com,
+ linux-tegra@vger.kernel.org, will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,62 +91,64 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0003973509652963898=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
 
-On Thu, 7 Oct 2021 08:59:18 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Fri, Oct 08, 2021 at 12:54:52AM +1300, Barry Song wrote:
-> > On Fri, Oct 8, 2021 at 12:32 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >  
-> > >
-> > > On Thu, Oct 07, 2021 at 06:43:33PM +1300, Barry Song wrote:
-> > >  
-> > > > So do we have a case where devices can directly access the kernel's
-> > > > data structure such as a list/graph/tree with pointers to a kernel
-> > > > virtual address? then devices don't need to translate the address
-> > > > of pointers in a structure. I assume this is one of the most useful
-> > > > features userspace SVA can provide.  
-> > >
-> > > AFIACT that is the only good case for KVA, but it is also completely
-> > > against the endianess, word size and DMA portability design of the
-> > > kernel.
-> > >
-> > > Going there requires some new set of portable APIs for gobally
-> > > coherent KVA dma.  
-> > 
-> > yep. I agree. it would be very weird if accelerators/gpu are sharing
-> > kernel' data struct, but for each "DMA" operation - reading or writing
-> > the data struct, we have to call dma_map_single/sg or
-> > dma_sync_single_for_cpu/device etc. It seems once devices and cpus
-> > are sharing virtual address(SVA), code doesn't need to do explicit
-> > map/sync each time.  
-> 
-That is what we have today with sva_bind_device.
-> No, it still need to do something to manage visibility from the
-> current CPU to the DMA - it might not be flushing a cache, but it is
-> probably a arch specific CPU barrier instruction.
-> 
-Are you talking about iommu_dma_sync_single_for_cpu(), this is not SVA
-specific, right?
-
-On platforms that are DMA snooped, this barrier is not needed. But I think
-your point is that once we convert to DMA API, the sync/barrier is covered
-by DMA APIs if !dev_is_dma_coherent(dev). Then all archs are good.
-
-We could also add a check for dev_is_dma_coherent(dev) before using SVA.
-
-> Jason
+--===============0003973509652963898==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="YJJooXTg9A0B1Lju"
+Content-Disposition: inline
 
 
-Thanks,
+--YJJooXTg9A0B1Lju
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Jacob
+On Sun, Sep 26, 2021 at 03:07:18PM +0200, Christophe JAILLET wrote:
+> 'smmu->asids' is a bitmap. So use 'devm_kzalloc()' to simplify code,
+> improve the semantic of the code and avoid some open-coded arithmetic in
+> allocator arguments.
+>=20
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/iommu/tegra-smmu.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--YJJooXTg9A0B1Lju
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmFfNlEACgkQ3SOs138+
+s6Ex8g/9FzkP6Q72V90vFaRIUz/isfotGtkN2TgNhkMcQ1nfh8YNMPDVdFOS0tPN
+eTBbg2moh1JaDxrQ6V6SWNypCZYzoN4fzCYrLOmCa2mC7Yteq5m5zXlIqt9wMmdd
+i1UAVw0u57F/Nyw9dH0bQxDZYNAYJzrhq8FUIlZ3UroysSKF+ipjf07k8ANtovrj
+Wq0q+xm+vn6MJS5TElVeCd0fLQWJvUwq6lZ9YUtB44uszvhciCy04xeMJ4sLAvdA
+0VA3BjOHglRi4bEivpviSMMw5viABX1ZedM5lrxkAZDzcoPEu4cNuri77aaAwcge
+XSDX/jViJASF73nqt5AI3mhDa8RUbtgKBDFbWi7dgpVSF9JAPdNbeWQKR/lNWdos
+7vLch3cbR7Zc6AGerOld5s7XDLAN85ocp5CexAr1Wj3UgYGmjk5RuvXQH6aHJ5Zr
+RJ1AV5yzu8FY6CzvKGR6ywoJbmzZTAK5R+XrhyBSDO0IuIKLPByRH12vOnzS8bEX
+5aJYrih3ugVLCgOLMda/qsRiKjhHZOeZYlFMxuXKqxLXsdOXcu27VuQg2Vu9mb53
+wJdioW3oDctaL6La9upYSerpBxzOxjcP+0aSBMAu1hUqOIU5m+0ktn05xl06OyY0
+sZ22iw1pYgmE7WGTmq2rTHksIX2WP1PipyJNpuJF4Xh5df/QOVY=
+=EYc+
+-----END PGP SIGNATURE-----
+
+--YJJooXTg9A0B1Lju--
+
+--===============0003973509652963898==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============0003973509652963898==--
