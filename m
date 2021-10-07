@@ -1,67 +1,144 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D967425A84
-	for <lists.iommu@lfdr.de>; Thu,  7 Oct 2021 20:17:35 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F41C425B5A
+	for <lists.iommu@lfdr.de>; Thu,  7 Oct 2021 21:11:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D19B7843F5;
-	Thu,  7 Oct 2021 18:17:33 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 75F81607F9;
+	Thu,  7 Oct 2021 19:11:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FmbydR2XGenF; Thu,  7 Oct 2021 18:17:32 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id L7fs5KIIQo2I; Thu,  7 Oct 2021 19:11:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 49F1A843E1;
-	Thu,  7 Oct 2021 18:17:32 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B997F607CF;
+	Thu,  7 Oct 2021 19:11:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 22075C000D;
-	Thu,  7 Oct 2021 18:17:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 96AAFC001E;
+	Thu,  7 Oct 2021 19:11:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5DCCC000D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 18:17:30 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 09E0CC000D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 19:10:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B519B40A60
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 18:17:30 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id DFC2B40489
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 19:10:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zf19H5yednDV for <iommu@lists.linux-foundation.org>;
- Thu,  7 Oct 2021 18:17:28 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6055740A37
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 18:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=6Jv2xmzifsa36oHOMgZyMER+nTIuNbeQjNfVYxzzvDc=; b=cVl5fkjNUSxaShByCUmYUABwBx
- T7jRESNjc81rm4VNE+vYkF5qmRDADbgf52husr6jUEw+LmvwzD8zNOw67rVpDIIjZVhtok2THzr5U
- 2HxvbmXNgFpZE4tvav6OMeBxwohvnZRqGTqzBqSt6JTZ5oDR+yDOw7V650zaHMZGg+9y1rBnigUlc
- e0VckIO/wW8XMARUzwS5s7DkM/Cia8l9bcXHjZ+xcNUWJgoU3vXl0U+VSc3EkZEWJGFmTL+o2atIp
- UeiQ9+wD6LcfI0us07SeYMEOhcsq4aHAl5ix23QW3rANomA1sFu5ub8V077/VYHsL1JtHwN+i3boR
- F7bfJiVw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1mYXwM-0028BO-Cm; Thu, 07 Oct 2021 18:16:33 +0000
-Date: Thu, 7 Oct 2021 19:16:22 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Joerg Roedel <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Will Deacon <will@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] iommu: Use put_pages_list
-Message-ID: <YV85dvlyj5LBdsro@casper.infradead.org>
-References: <20210930162043.3111119-1-willy@infradead.org>
-MIME-Version: 1.0
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=nvidia.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 05OR7gUONRo9 for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Oct 2021 19:10:57 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 49113402B8
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 19:10:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=erqK89pqRM+4dYnM+REjjZAcguO7NoLTjflp7UxJbla7SW/hn0tOmSyiCWqG1Uq3+Skx0JR3+UkOCInNf6rR5eYJQ4H1jjQXEAtW37oSMqxx9omuZ03O8dy4gzUTfeBD6gtW/MQUFjassiVHpxLcumpD+BxuD5LQk2C6e6hGzTkkCv17jDF9ZDQzwdi3TLr9y83usUiOBUIiUI9I/MJB88WCBCifkaWYpxTnManMztXMKyyNs66Nygv5sdipDKS0UhFlWYVpSCVGU1m+kgRvCtw8FkrpQ8wuoYCgmV5EXWr2fUzyya20VXh9zV0bnQxx2w4YWJdG9KAi3yoI9+tuSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zDck53DgoKLA8ks+IP+umZuNwqeLJdE3LqK8CQJomCY=;
+ b=bmAI8ob2Slu7jOFaf9GiPWE0MIfd+PW2+vrXY1xcam0eHfHv/PL1AkMzDhe9iWdZRgflJEx+X8OaPHNjAkHzT/O/mZT0MpaUAIGhfz/y5TtNdHj6WVQtZ5TSYq1tDXbWTI1Wm/aTy3O1tD30jEknDtqh9rAOnehLGEPQmh1WFOIsLjNqq7n3SRmurD9Ws95HyPkJSBW29Il6LLsjKbLoKIMZQPY170eKY/thc/sk4NlDetgwkTuFAolpw5OpIt5YTmhvDiAiKgRUuIlqN2Ofmn2ziVuG6woeH2RIt478vqawYMTXvtzMGxUR7p09VPXxza43WVegpGoPXgffPXiH4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zDck53DgoKLA8ks+IP+umZuNwqeLJdE3LqK8CQJomCY=;
+ b=QdPoAB41oRF6z15KQ/KSs7YqJiNeflLTm4NQeuR9BOErsQDlhLnbZcb4A4fLv9lGSlkl+LC4hn1aZa0T6qoBRyFw2WcgpwxmlfGPfUCECibaA6zqs8l5OBdCblCcvQOQYiD5a87SW+dIWApbdhGsHjMA/+Jcnaf4RSyiaV1pGe5ket8qudCyiri3EiYGScKyfKx24E9GV2g5Qy1V+uhKRmdP57Etehq+lfeTkWBiyzm5dUM2K9z4sqzZmFjencIQKEdBhAgGFcYoJmMEiRIysFahLkyGa/Mqm671xHEz3sBo1HRVOZzOAf21YgvKKZY+M0SlPdzqaS4Cabb+UJbQow==
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none; linux.intel.com; dmarc=none action=none header.from=nvidia.com; 
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5125.namprd12.prod.outlook.com (2603:10b6:208:309::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Thu, 7 Oct
+ 2021 19:10:54 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%7]) with mapi id 15.20.4587.020; Thu, 7 Oct 2021
+ 19:10:54 +0000
+Date: Thu, 7 Oct 2021 16:10:53 -0300
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: Re: [RFC 0/7] Support in-kernel DMA with PASID and SVA
+Message-ID: <20211007191053.GN2744544@nvidia.com>
+References: <1632256181-36071-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <CAGsJ_4z=2y2nVStXP-aAPnQrJJbMmv78mjaMwNc9P9Ec+gCtGw@mail.gmail.com>
+ <20211001123623.GM964074@nvidia.com>
+ <CAGsJ_4wfkrJp-eFKiXsLdiZCb3eS_zqZtJvXQTBafoTWY2yWKQ@mail.gmail.com>
+ <20211004094003.527222e5@jacob-builder>
+ <20211004182142.GM964074@nvidia.com>
+ <CAGsJ_4w+ed78cnJusM_enEZpdGghzvjgt0aYDPpfwk4z7PQqxQ@mail.gmail.com>
+ <20211007121127.53956635@jacob-builder>
 Content-Disposition: inline
-In-Reply-To: <20210930162043.3111119-1-willy@infradead.org>
+In-Reply-To: <20211007121127.53956635@jacob-builder>
+X-ClientProxiedBy: BL0PR02CA0050.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::27) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ BL0PR02CA0050.namprd02.prod.outlook.com (2603:10b6:207:3d::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4566.17 via Frontend Transport; Thu, 7 Oct 2021 19:10:54 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mYYn7-00C5bk-NM; Thu, 07 Oct 2021 16:10:53 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 224e6d8f-3f28-44f9-bc16-08d989c62fac
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5125:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5125E31464052CF8AE4E2BF1C2B19@BL1PR12MB5125.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: c+b7tS54DKtOKG54gBAi/Gypnr0QNhSzMgcJWpttGfR0aLfY+E8wS5DUz3F0VHGEdMQ7k7ecqr3mBtVV1mhNStxgVnTlzkNscOn+LpY45csp0colbQISkMgFhRh/t0owlFv0sEH2UqzqVajfWJx0EHGQNDDCZ8VfmxY1VvMJGzxBhg2RUDOZJ64uZCR7lqF1dSzN1Nn+aEPZvJfeITAOmmw80iE2lRZS+hyfDNCCnFdBCzntcQ6USbWJldzlFcvftlJwaC53+uXw1o/yNmmZR6EOMGkMmE8SlbYHKKeWQYUb+q4KCoBwGVmcV3/gUAHgfxdm/vU3g6usX86BksubIIQgjfhPL31SmLBha0MDM5XK6ZUp/KGfhLe9l1l0D4CkjwgI6u22rUQ6j1u8vj/EtczpiwVxHfneWCNbXj/KcnIwY99kfHVHiordpJPDZ9ZNqX/zGPWXWIEgEqzM3rkuT/f75Z8rg6WOTVLJXHKwCp3VJCC1z5oA0gi9ePU45wPFizWQoDXx5lEKgepLCfUOFL0Q99lOZyTW5TZv7gWi9eO0EGY7wodaDB9lukXrVu5OJH4UBeRbXFYBnsDldGxW3Yar9KaZa/J0zQnpgnltqgk/8AXAFKZozpvv/rWYXrNteh8zYbx0iYEHyvHHaz0b1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(2616005)(7416002)(508600001)(5660300002)(9786002)(9746002)(1076003)(83380400001)(38100700002)(26005)(186003)(66556008)(66946007)(33656002)(86362001)(8676002)(426003)(2906002)(54906003)(66476007)(8936002)(6916009)(316002)(4326008)(36756003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gQgPbuFH0i3eBDxdu6iS3HGixpdalBoPVB25FDcIW6Vviv4Ymr7dk3ZBELfK?=
+ =?us-ascii?Q?jpYa3pyH1H0iNA8OkpxlgMCqhPc6DDGApeLj41UKmMFmHCx2hGRG+mYaKX8u?=
+ =?us-ascii?Q?uzAP92cWUSdFm91P0kl9vWU6BkRNej0GocUQ2KFIMSABHFISWfS+wviyZp/y?=
+ =?us-ascii?Q?zmTqG3baBgsxxXMBl4hyzbSXPZK97fAcjfcSHGkZxQteqcLhl7mlGvlE4FwH?=
+ =?us-ascii?Q?ubZiEAh8AfVJpJhGHa2b19nQcni1sKsU3psI5X1fRYUuQdsc/2B10aGwpEY9?=
+ =?us-ascii?Q?5NQ0gGUkckjGlIYZXeJU56SRwDtGusrgR9L7yL/OluVGQ/qAu/LjZOIVn42h?=
+ =?us-ascii?Q?/BMwBEubZA41lFVusMonMmJ2KbdS0eNSOXgMOdfTt+04H9sd/39lNJV6j7XH?=
+ =?us-ascii?Q?kiDFgFKQIMNLwPjIUbO0M/ePgMwdmoER2ce3bD2pmjjegjywonLpsPH8BpgL?=
+ =?us-ascii?Q?Q9GiQske646kRROuju/UT6D4UBQL1VA50YIagpP0NOluswGwGzX3pvPImnog?=
+ =?us-ascii?Q?0bXrRF2IbGuCtxkZrKYOtoeIFU32yC6+gHPkwUZgsnX2rTpg5JLYCDppJ46a?=
+ =?us-ascii?Q?9cEG0B9vRGL1HtZFqY6j7tjvxh11ARhO1/H/EXBNngECvC90h1V7hM+9uFzl?=
+ =?us-ascii?Q?Ii69InVTI7EcTCTPMTqmCNxx5eTIZwo6mYViLlo+SJafJDJpLFrhGp0qQDBr?=
+ =?us-ascii?Q?f0sw8+A3ULUwBel0tgjtn9+qpL9BMPQuAPROAKKQ9ouB26gZaIztSlJLE6dr?=
+ =?us-ascii?Q?ymcMBYS/bgKd6n0XVh+C+KijIXPlxWnDUFtEXonFweHaZ28VmQnR6pB3wFh0?=
+ =?us-ascii?Q?3ZvXCvBDD83asBHYx8bDH57OHSkjz9fbzZwif6mNfkr2PGruOMcfp8dDwR2a?=
+ =?us-ascii?Q?olu25XxXBz2TkVmHAyhzYT1xTnFZ/ejSEm5+kMz6DJh6U4YaPxJ8fX7rtjjN?=
+ =?us-ascii?Q?3MxD9tor6Yv57BjjcM2TV8wvBloKzOZJnfNxvEE1ebKcix61jjITH/zPAUuD?=
+ =?us-ascii?Q?/Y43KgmnXMXlRteVqkUJ1YZFqcwlIe+WGG+8/XF6/93T+ReWFYExY/FNyChp?=
+ =?us-ascii?Q?wG3GKLySNpWek0AO0Nqu79emWtxMWlSUcyNTQZJah3hCP+hjbAH1jfx6DOxr?=
+ =?us-ascii?Q?eF5iS3GJrioW/eFp431GTP/L9m9vnf7diGkBIq9d87l8AE+0SGfBMVGBDA9T?=
+ =?us-ascii?Q?u7z5vgkZMPYhUwCLqytdyAguMzkOA+fMZFJHB0Uk0wOhW9XUi3hsSKFGeJl5?=
+ =?us-ascii?Q?yCH66Vnw+tpIAkxBynfUv4T60YXluahd02keGK9u1FE7wWQ3GUxAex3pwnwC?=
+ =?us-ascii?Q?3wqzMqQqftjfC2+C8H6cLGcy4VI9WN8lpdL6bM83M/3y6w=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 224e6d8f-3f28-44f9-bc16-08d989c62fac
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 19:10:54.6861 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lR2412qrpFDKLCRLUce3o8cABNQGB3jtcHjJGrXWrpmh7Z77qwWQIFLDhkWjvJt2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5125
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Kumar,
+ Sanjay K" <sanjay.k.kumar@intel.com>, Barry Song <21cnbao@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ iommu@lists.linux-foundation.org, mike.campin@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,466 +151,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-ping?
+On Thu, Oct 07, 2021 at 12:11:27PM -0700, Jacob Pan wrote:
+> Hi Barry,
+> 
+> On Thu, 7 Oct 2021 18:43:33 +1300, Barry Song <21cnbao@gmail.com> wrote:
+> 
+> > > > Security-wise, KVA respects kernel mapping. So permissions are better
+> > > > enforced than pass-through and identity mapping.  
+> > >
+> > > Is this meaningful? Isn't the entire physical map still in the KVA and
+> > > isn't it entirely RW ?  
+> > 
+> > Some areas are RX, for example, ARCH64 supports KERNEL_TEXT_RDONLY.
+> > But the difference is really minor.
+> That brought up a good point if we were to use DMA API to give out KVA as
+> dma_addr for trusted devices. We cannot satisfy DMA direction requirements
+> since we can't change kernel mapping. It will be similar to DMA direct
+> where dir is ignored AFAICT.
 
-On Thu, Sep 30, 2021 at 05:20:42PM +0100, Matthew Wilcox (Oracle) wrote:
-> page->freelist is for the use of slab.  We already have the ability
-> to free a list of pages in the core mm, but it requires the use of a
-> list_head and for the pages to be chained together through page->lru.
-> Switch the iommu code over to using free_pages_list().
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  drivers/iommu/amd/io_pgtable.c | 99 +++++++++++++++-------------------
->  drivers/iommu/dma-iommu.c      | 11 +---
->  drivers/iommu/intel/iommu.c    | 89 +++++++++++-------------------
->  include/linux/iommu.h          |  3 +-
->  4 files changed, 77 insertions(+), 125 deletions(-)
-> 
-> diff --git a/drivers/iommu/amd/io_pgtable.c b/drivers/iommu/amd/io_pgtable.c
-> index 182c93a43efd..8dfa6ee58b76 100644
-> --- a/drivers/iommu/amd/io_pgtable.c
-> +++ b/drivers/iommu/amd/io_pgtable.c
-> @@ -74,49 +74,37 @@ static u64 *first_pte_l7(u64 *pte, unsigned long *page_size,
->   *
->   ****************************************************************************/
->  
-> -static void free_page_list(struct page *freelist)
-> -{
-> -	while (freelist != NULL) {
-> -		unsigned long p = (unsigned long)page_address(freelist);
-> -
-> -		freelist = freelist->freelist;
-> -		free_page(p);
-> -	}
-> -}
-> -
-> -static struct page *free_pt_page(unsigned long pt, struct page *freelist)
-> +static void free_pt_page(unsigned long pt, struct list_head *list)
->  {
->  	struct page *p = virt_to_page((void *)pt);
->  
-> -	p->freelist = freelist;
-> -
-> -	return p;
-> +	list_add_tail(&p->lru, list);
->  }
->  
->  #define DEFINE_FREE_PT_FN(LVL, FN)						\
-> -static struct page *free_pt_##LVL (unsigned long __pt, struct page *freelist)	\
-> -{										\
-> -	unsigned long p;							\
-> -	u64 *pt;								\
-> -	int i;									\
-> -										\
-> -	pt = (u64 *)__pt;							\
-> -										\
-> -	for (i = 0; i < 512; ++i) {						\
-> -		/* PTE present? */						\
-> -		if (!IOMMU_PTE_PRESENT(pt[i]))					\
-> -			continue;						\
-> -										\
-> -		/* Large PTE? */						\
-> -		if (PM_PTE_LEVEL(pt[i]) == 0 ||					\
-> -		    PM_PTE_LEVEL(pt[i]) == 7)					\
-> -			continue;						\
-> -										\
-> -		p = (unsigned long)IOMMU_PTE_PAGE(pt[i]);			\
-> -		freelist = FN(p, freelist);					\
-> -	}									\
-> -										\
-> -	return free_pt_page((unsigned long)pt, freelist);			\
-> +static void free_pt_##LVL (unsigned long __pt, struct list_head *list)	\
-> +{									\
-> +	unsigned long p;						\
-> +	u64 *pt;							\
-> +	int i;								\
-> +									\
-> +	pt = (u64 *)__pt;						\
-> +									\
-> +	for (i = 0; i < 512; ++i) {					\
-> +		/* PTE present? */					\
-> +		if (!IOMMU_PTE_PRESENT(pt[i]))				\
-> +			continue;					\
-> +									\
-> +		/* Large PTE? */					\
-> +		if (PM_PTE_LEVEL(pt[i]) == 0 ||				\
-> +		    PM_PTE_LEVEL(pt[i]) == 7)				\
-> +			continue;					\
-> +									\
-> +		p = (unsigned long)IOMMU_PTE_PAGE(pt[i]);		\
-> +		FN(p, list);						\
-> +	}								\
-> +									\
-> +	free_pt_page((unsigned long)pt, list);				\
->  }
->  
->  DEFINE_FREE_PT_FN(l2, free_pt_page)
-> @@ -125,36 +113,33 @@ DEFINE_FREE_PT_FN(l4, free_pt_l3)
->  DEFINE_FREE_PT_FN(l5, free_pt_l4)
->  DEFINE_FREE_PT_FN(l6, free_pt_l5)
->  
-> -static struct page *free_sub_pt(unsigned long root, int mode,
-> -				struct page *freelist)
-> +static void free_sub_pt(unsigned long root, int mode, struct list_head *list)
->  {
->  	switch (mode) {
->  	case PAGE_MODE_NONE:
->  	case PAGE_MODE_7_LEVEL:
->  		break;
->  	case PAGE_MODE_1_LEVEL:
-> -		freelist = free_pt_page(root, freelist);
-> +		free_pt_page(root, list);
->  		break;
->  	case PAGE_MODE_2_LEVEL:
-> -		freelist = free_pt_l2(root, freelist);
-> +		free_pt_l2(root, list);
->  		break;
->  	case PAGE_MODE_3_LEVEL:
-> -		freelist = free_pt_l3(root, freelist);
-> +		free_pt_l3(root, list);
->  		break;
->  	case PAGE_MODE_4_LEVEL:
-> -		freelist = free_pt_l4(root, freelist);
-> +		free_pt_l4(root, list);
->  		break;
->  	case PAGE_MODE_5_LEVEL:
-> -		freelist = free_pt_l5(root, freelist);
-> +		free_pt_l5(root, list);
->  		break;
->  	case PAGE_MODE_6_LEVEL:
-> -		freelist = free_pt_l6(root, freelist);
-> +		free_pt_l6(root, list);
->  		break;
->  	default:
->  		BUG();
->  	}
-> -
-> -	return freelist;
->  }
->  
->  void amd_iommu_domain_set_pgtable(struct protection_domain *domain,
-> @@ -362,7 +347,7 @@ static u64 *fetch_pte(struct amd_io_pgtable *pgtable,
->  	return pte;
->  }
->  
-> -static struct page *free_clear_pte(u64 *pte, u64 pteval, struct page *freelist)
-> +static void free_clear_pte(u64 *pte, u64 pteval, struct list_head *list)
->  {
->  	unsigned long pt;
->  	int mode;
-> @@ -373,12 +358,12 @@ static struct page *free_clear_pte(u64 *pte, u64 pteval, struct page *freelist)
->  	}
->  
->  	if (!IOMMU_PTE_PRESENT(pteval))
-> -		return freelist;
-> +		return;
->  
->  	pt   = (unsigned long)IOMMU_PTE_PAGE(pteval);
->  	mode = IOMMU_PTE_MODE(pteval);
->  
-> -	return free_sub_pt(pt, mode, freelist);
-> +	free_sub_pt(pt, mode, list);
->  }
->  
->  /*
-> @@ -392,7 +377,7 @@ static int iommu_v1_map_page(struct io_pgtable_ops *ops, unsigned long iova,
->  			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
->  {
->  	struct protection_domain *dom = io_pgtable_ops_to_domain(ops);
-> -	struct page *freelist = NULL;
-> +	LIST_HEAD(freelist);
->  	bool updated = false;
->  	u64 __pte, *pte;
->  	int ret, i, count;
-> @@ -412,9 +397,9 @@ static int iommu_v1_map_page(struct io_pgtable_ops *ops, unsigned long iova,
->  		goto out;
->  
->  	for (i = 0; i < count; ++i)
-> -		freelist = free_clear_pte(&pte[i], pte[i], freelist);
-> +		free_clear_pte(&pte[i], pte[i], &freelist);
->  
-> -	if (freelist != NULL)
-> +	if (!list_empty(&freelist))
->  		updated = true;
->  
->  	if (count > 1) {
-> @@ -449,7 +434,7 @@ static int iommu_v1_map_page(struct io_pgtable_ops *ops, unsigned long iova,
->  	}
->  
->  	/* Everything flushed out, free pages now */
-> -	free_page_list(freelist);
-> +	put_pages_list(&freelist);
->  
->  	return ret;
->  }
-> @@ -511,7 +496,7 @@ static void v1_free_pgtable(struct io_pgtable *iop)
->  {
->  	struct amd_io_pgtable *pgtable = container_of(iop, struct amd_io_pgtable, iop);
->  	struct protection_domain *dom;
-> -	struct page *freelist = NULL;
-> +	LIST_HEAD(freelist);
->  	unsigned long root;
->  
->  	if (pgtable->mode == PAGE_MODE_NONE)
-> @@ -530,9 +515,9 @@ static void v1_free_pgtable(struct io_pgtable *iop)
->  	       pgtable->mode > PAGE_MODE_6_LEVEL);
->  
->  	root = (unsigned long)pgtable->root;
-> -	freelist = free_sub_pt(root, pgtable->mode, freelist);
-> +	free_sub_pt(root, pgtable->mode, &freelist);
->  
-> -	free_page_list(freelist);
-> +	put_pages_list(&freelist);
->  }
->  
->  static struct io_pgtable *v1_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 896bea04c347..16742d9d8a1a 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -66,14 +66,7 @@ early_param("iommu.forcedac", iommu_dma_forcedac_setup);
->  
->  static void iommu_dma_entry_dtor(unsigned long data)
->  {
-> -	struct page *freelist = (struct page *)data;
-> -
-> -	while (freelist) {
-> -		unsigned long p = (unsigned long)page_address(freelist);
-> -
-> -		freelist = freelist->freelist;
-> -		free_page(p);
-> -	}
-> +	put_pages_list((struct list_head *)data);
->  }
->  
->  static inline size_t cookie_msi_granule(struct iommu_dma_cookie *cookie)
-> @@ -481,7 +474,7 @@ static void iommu_dma_free_iova(struct iommu_dma_cookie *cookie,
->  	else if (gather && gather->queued)
->  		queue_iova(iovad, iova_pfn(iovad, iova),
->  				size >> iova_shift(iovad),
-> -				(unsigned long)gather->freelist);
-> +				(unsigned long)&gather->freelist);
->  	else
->  		free_iova_fast(iovad, iova_pfn(iovad, iova),
->  				size >> iova_shift(iovad));
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index d75f59ae28e6..eaaff646e1b4 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -1186,35 +1186,30 @@ static void dma_pte_free_pagetable(struct dmar_domain *domain,
->     know the hardware page-walk will no longer touch them.
->     The 'pte' argument is the *parent* PTE, pointing to the page that is to
->     be freed. */
-> -static struct page *dma_pte_list_pagetables(struct dmar_domain *domain,
-> -					    int level, struct dma_pte *pte,
-> -					    struct page *freelist)
-> +static void dma_pte_list_pagetables(struct dmar_domain *domain,
-> +				    int level, struct dma_pte *pte,
-> +				    struct list_head *list)
->  {
->  	struct page *pg;
->  
->  	pg = pfn_to_page(dma_pte_addr(pte) >> PAGE_SHIFT);
-> -	pg->freelist = freelist;
-> -	freelist = pg;
-> +	list_add_tail(&pg->lru, list);
->  
->  	if (level == 1)
-> -		return freelist;
-> +		return;
->  
->  	pte = page_address(pg);
->  	do {
->  		if (dma_pte_present(pte) && !dma_pte_superpage(pte))
-> -			freelist = dma_pte_list_pagetables(domain, level - 1,
-> -							   pte, freelist);
-> +			dma_pte_list_pagetables(domain, level - 1, pte, list);
->  		pte++;
->  	} while (!first_pte_in_page(pte));
-> -
-> -	return freelist;
->  }
->  
-> -static struct page *dma_pte_clear_level(struct dmar_domain *domain, int level,
-> -					struct dma_pte *pte, unsigned long pfn,
-> -					unsigned long start_pfn,
-> -					unsigned long last_pfn,
-> -					struct page *freelist)
-> +static void dma_pte_clear_level(struct dmar_domain *domain, int level,
-> +				struct dma_pte *pte, unsigned long pfn,
-> +				unsigned long start_pfn, unsigned long last_pfn,
-> +				struct list_head *list)
->  {
->  	struct dma_pte *first_pte = NULL, *last_pte = NULL;
->  
-> @@ -1235,7 +1230,7 @@ static struct page *dma_pte_clear_level(struct dmar_domain *domain, int level,
->  			/* These suborbinate page tables are going away entirely. Don't
->  			   bother to clear them; we're just going to *free* them. */
->  			if (level > 1 && !dma_pte_superpage(pte))
-> -				freelist = dma_pte_list_pagetables(domain, level - 1, pte, freelist);
-> +				dma_pte_list_pagetables(domain, level - 1, pte, list);
->  
->  			dma_clear_pte(pte);
->  			if (!first_pte)
-> @@ -1243,10 +1238,10 @@ static struct page *dma_pte_clear_level(struct dmar_domain *domain, int level,
->  			last_pte = pte;
->  		} else if (level > 1) {
->  			/* Recurse down into a level that isn't *entirely* obsolete */
-> -			freelist = dma_pte_clear_level(domain, level - 1,
-> -						       phys_to_virt(dma_pte_addr(pte)),
-> -						       level_pfn, start_pfn, last_pfn,
-> -						       freelist);
-> +			dma_pte_clear_level(domain, level - 1,
-> +					    phys_to_virt(dma_pte_addr(pte)),
-> +					    level_pfn, start_pfn, last_pfn,
-> +					    list);
->  		}
->  next:
->  		pfn += level_size(level);
-> @@ -1255,47 +1250,28 @@ static struct page *dma_pte_clear_level(struct dmar_domain *domain, int level,
->  	if (first_pte)
->  		domain_flush_cache(domain, first_pte,
->  				   (void *)++last_pte - (void *)first_pte);
-> -
-> -	return freelist;
->  }
->  
->  /* We can't just free the pages because the IOMMU may still be walking
->     the page tables, and may have cached the intermediate levels. The
->     pages can only be freed after the IOTLB flush has been done. */
-> -static struct page *domain_unmap(struct dmar_domain *domain,
-> -				 unsigned long start_pfn,
-> -				 unsigned long last_pfn,
-> -				 struct page *freelist)
-> +static void domain_unmap(struct dmar_domain *domain, unsigned long start_pfn,
-> +			 unsigned long last_pfn, struct list_head *list)
->  {
->  	BUG_ON(!domain_pfn_supported(domain, start_pfn));
->  	BUG_ON(!domain_pfn_supported(domain, last_pfn));
->  	BUG_ON(start_pfn > last_pfn);
->  
->  	/* we don't need lock here; nobody else touches the iova range */
-> -	freelist = dma_pte_clear_level(domain, agaw_to_level(domain->agaw),
-> -				       domain->pgd, 0, start_pfn, last_pfn,
-> -				       freelist);
-> +	dma_pte_clear_level(domain, agaw_to_level(domain->agaw),
-> +			    domain->pgd, 0, start_pfn, last_pfn, list);
->  
->  	/* free pgd */
->  	if (start_pfn == 0 && last_pfn == DOMAIN_MAX_PFN(domain->gaw)) {
->  		struct page *pgd_page = virt_to_page(domain->pgd);
-> -		pgd_page->freelist = freelist;
-> -		freelist = pgd_page;
-> -
-> +		list_add_tail(&pgd_page->lru, list);
->  		domain->pgd = NULL;
->  	}
-> -
-> -	return freelist;
-> -}
-> -
-> -static void dma_free_pagelist(struct page *freelist)
-> -{
-> -	struct page *pg;
-> -
-> -	while ((pg = freelist)) {
-> -		freelist = pg->freelist;
-> -		free_pgtable_page(page_address(pg));
-> -	}
->  }
->  
->  /* iommu handling */
-> @@ -1972,11 +1948,10 @@ static void domain_exit(struct dmar_domain *domain)
->  	domain_remove_dev_info(domain);
->  
->  	if (domain->pgd) {
-> -		struct page *freelist;
-> +		LIST_HEAD(pages);
->  
-> -		freelist = domain_unmap(domain, 0,
-> -					DOMAIN_MAX_PFN(domain->gaw), NULL);
-> -		dma_free_pagelist(freelist);
-> +		domain_unmap(domain, 0, DOMAIN_MAX_PFN(domain->gaw), &pages);
-> +		put_pages_list(&pages);
->  	}
->  
->  	free_domain_mem(domain);
-> @@ -4068,19 +4043,17 @@ static int intel_iommu_memory_notifier(struct notifier_block *nb,
->  		{
->  			struct dmar_drhd_unit *drhd;
->  			struct intel_iommu *iommu;
-> -			struct page *freelist;
-> +			LIST_HEAD(pages);
->  
-> -			freelist = domain_unmap(si_domain,
-> -						start_vpfn, last_vpfn,
-> -						NULL);
-> +			domain_unmap(si_domain, start_vpfn, last_vpfn, &pages);
->  
->  			rcu_read_lock();
->  			for_each_active_iommu(iommu, drhd)
->  				iommu_flush_iotlb_psi(iommu, si_domain,
->  					start_vpfn, mhp->nr_pages,
-> -					!freelist, 0);
-> +					list_empty(&pages), 0);
->  			rcu_read_unlock();
-> -			dma_free_pagelist(freelist);
-> +			put_pages_list(&pages);
->  		}
->  		break;
->  	}
-> @@ -5087,8 +5060,7 @@ static size_t intel_iommu_unmap(struct iommu_domain *domain,
->  	start_pfn = iova >> VTD_PAGE_SHIFT;
->  	last_pfn = (iova + size - 1) >> VTD_PAGE_SHIFT;
->  
-> -	gather->freelist = domain_unmap(dmar_domain, start_pfn,
-> -					last_pfn, gather->freelist);
-> +	domain_unmap(dmar_domain, start_pfn, last_pfn, &gather->freelist);
->  
->  	if (dmar_domain->max_addr == iova + size)
->  		dmar_domain->max_addr = iova;
-> @@ -5124,9 +5096,10 @@ static void intel_iommu_tlb_sync(struct iommu_domain *domain,
->  
->  	for_each_domain_iommu(iommu_id, dmar_domain)
->  		iommu_flush_iotlb_psi(g_iommus[iommu_id], dmar_domain,
-> -				      start_pfn, nrpages, !gather->freelist, 0);
-> +				      start_pfn, nrpages,
-> +				      list_empty(&gather->freelist), 0);
->  
-> -	dma_free_pagelist(gather->freelist);
-> +	put_pages_list(&gather->freelist);
->  }
->  
->  static phys_addr_t intel_iommu_iova_to_phys(struct iommu_domain *domain,
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index d2f3435e7d17..de0c57a567c8 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -186,7 +186,7 @@ struct iommu_iotlb_gather {
->  	unsigned long		start;
->  	unsigned long		end;
->  	size_t			pgsize;
-> -	struct page		*freelist;
-> +	struct list_head	freelist;
->  	bool			queued;
->  };
->  
-> @@ -399,6 +399,7 @@ static inline void iommu_iotlb_gather_init(struct iommu_iotlb_gather *gather)
->  {
->  	*gather = (struct iommu_iotlb_gather) {
->  		.start	= ULONG_MAX,
-> +		.freelist = LIST_HEAD_INIT(gather->freelist),
->  	};
->  }
->  
-> -- 
-> 2.32.0
+Right.
+
+Using the DMA API to DMA to read only kernel memory is a bug in the
+first place.
+
+> Or we are saying if the device is trusted, using pass-through is allowed.
+> i.e. physical address.
+
+I don't see trusted being relavent here beyond the usual decision to
+use the trusted map or not.
+
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
