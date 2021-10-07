@@ -1,69 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4506425B53
-	for <lists.iommu@lfdr.de>; Thu,  7 Oct 2021 21:07:51 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA493425D28
+	for <lists.iommu@lfdr.de>; Thu,  7 Oct 2021 22:22:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4663D40A42;
-	Thu,  7 Oct 2021 19:07:50 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4EF33842D3;
+	Thu,  7 Oct 2021 20:22:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VtxAPza6C3nn; Thu,  7 Oct 2021 19:07:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3F82640A13;
-	Thu,  7 Oct 2021 19:07:49 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id D6L9WfgirD4V; Thu,  7 Oct 2021 20:22:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 73AFD842D0;
+	Thu,  7 Oct 2021 20:22:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F5C3C001E;
-	Thu,  7 Oct 2021 19:07:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 46106C001E;
+	Thu,  7 Oct 2021 20:22:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B2FAC000D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 19:07:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6835C000D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 20:22:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1C351607BD
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 19:07:48 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id C7CB160754
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 20:22:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BNGz8skdE6Gh for <iommu@lists.linux-foundation.org>;
- Thu,  7 Oct 2021 19:07:44 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 88B236071A
- for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 19:07:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="226625440"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="226625440"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 12:07:43 -0700
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="713470498"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 12:07:43 -0700
-Date: Thu, 7 Oct 2021 12:11:27 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Barry Song <21cnbao@gmail.com>
-Subject: Re: [RFC 0/7] Support in-kernel DMA with PASID and SVA
-Message-ID: <20211007121127.53956635@jacob-builder>
-In-Reply-To: <CAGsJ_4w+ed78cnJusM_enEZpdGghzvjgt0aYDPpfwk4z7PQqxQ@mail.gmail.com>
-References: <1632256181-36071-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <CAGsJ_4z=2y2nVStXP-aAPnQrJJbMmv78mjaMwNc9P9Ec+gCtGw@mail.gmail.com>
- <20211001123623.GM964074@nvidia.com>
- <CAGsJ_4wfkrJp-eFKiXsLdiZCb3eS_zqZtJvXQTBafoTWY2yWKQ@mail.gmail.com>
- <20211004094003.527222e5@jacob-builder>
- <20211004182142.GM964074@nvidia.com>
- <CAGsJ_4w+ed78cnJusM_enEZpdGghzvjgt0aYDPpfwk4z7PQqxQ@mail.gmail.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ with ESMTP id fmVDZWShMxcy for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Oct 2021 20:22:32 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 263A06071A
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Oct 2021 20:22:32 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id p1so6272905pfh.8
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Oct 2021 13:22:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=HMaYYwsvFJu5yPYeNceqJv1VciF17Wkz8xL47+/e1L8=;
+ b=J4ObbtFRwTCG0JKtwfHFlWa3eyOzbC9HVmhoQwJOBNP4h+lo96nNKpk4NwBL1oM3RX
+ qEO5ahF6tAERGlLyvxmiwnjk9qZHfIG3vbKhVHFnEWwOXFElr9eRS+VkuANLU+kDVFBa
+ o6eiWzGdpvpTONifC0Kpmxm+IpNQaqtu331D3ImpmMUfB3tqGKN+jFb8hzT9mfR/KiO4
+ 5XxWFBQzQGG94c7qaDOTHFpvjR1sj4cqtPmUK0yl5/4X91Lfkz5cw0E5rcyhx8qNUMed
+ xQ9qew0VfhNWkCmxZQDbZ/VYKajeVVaa7zhbgOWLzmUnpqa05KpT+tV87xMPtpA6dL3y
+ S4Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HMaYYwsvFJu5yPYeNceqJv1VciF17Wkz8xL47+/e1L8=;
+ b=m/hoScjcNTGLnTVk6UPVEnQsJLpOVWSTIbb2AVaXZ7n5KRnweurLQkRj7tlyCAlxjR
+ hRlwDsX9EHEKAFfQxKKIdzsPjxj69iA3ZDbHCG+KgVpOFKnhn27hIy9b7pmJA2/ai8B0
+ V6rEt0Hkz8r12lsJ1NOPxmTEM09CFlRrxZ/GCFI2nT1Zg71EJUCqXqKcrqUFSeChL/ef
+ R6wac5reB6+igrUwB3R3IJuJBeyFvzpUIBcVJmTDPij61TtBfJUoJXEJ+EriHfjz8JJw
+ YyMSs6wUJMnyCYhMHR3vAYo2M66IRXfJ2UC9vxayym/QwVl5l5Upo2dlHOmDrl2RgPn4
+ YcZw==
+X-Gm-Message-State: AOAM533TgUEDtkJDahPf32RcMwcdtMEMxUMyB3otiyoY7GckNQsoqBWP
+ usyLJNXOv+LTcOnlF9+61cE=
+X-Google-Smtp-Source: ABdhPJyWqbvttFSUpjAZX/J/4Z8uWkF6W0LrsVdB4sFKKLf9QDWamxebP3Su12mkH8ig8En3cJ8KGA==
+X-Received: by 2002:a63:101c:: with SMTP id f28mr1336126pgl.330.1633638151472; 
+ Thu, 07 Oct 2021 13:22:31 -0700 (PDT)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id d18sm188951pgk.24.2021.10.07.13.22.30
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 07 Oct 2021 13:22:31 -0700 (PDT)
+Date: Thu, 7 Oct 2021 13:14:56 -0700
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v6 2/6] iommu/tegra-smmu: Rename struct
+ tegra_smmu_group_soc *soc to *group_soc
+Message-ID: <20211007201455.GA20821@Asurada-Nvidia>
+References: <20210914013858.31192-1-nicoleotsuka@gmail.com>
+ <20210914013858.31192-3-nicoleotsuka@gmail.com>
+ <YV8lbCePQet+vICa@orome.fritz.box>
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Kumar,
- Sanjay K" <sanjay.k.kumar@intel.com>, LKML <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- Jason Gunthorpe <jgg@nvidia.com>, mike.campin@intel.com
+Content-Disposition: inline
+In-Reply-To: <YV8lbCePQet+vICa@orome.fritz.box>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ jonathanh@nvidia.com, linux-tegra@vger.kernel.org, digetx@gmail.com,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,31 +102,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Barry,
+On Thu, Oct 07, 2021 at 06:50:52PM +0200, Thierry Reding wrote:
 
-On Thu, 7 Oct 2021 18:43:33 +1300, Barry Song <21cnbao@gmail.com> wrote:
-
-> > > Security-wise, KVA respects kernel mapping. So permissions are better
-> > > enforced than pass-through and identity mapping.  
-> >
-> > Is this meaningful? Isn't the entire physical map still in the KVA and
-> > isn't it entirely RW ?  
+> >  static const struct tegra_smmu_group_soc *
+> > -tegra_smmu_find_group(struct tegra_smmu *smmu, unsigned int swgroup)
+> > +tegra_smmu_find_group_soc(struct tegra_smmu *smmu, unsigned int swgroup)
 > 
-> Some areas are RX, for example, ARCH64 supports KERNEL_TEXT_RDONLY.
-> But the difference is really minor.
-That brought up a good point if we were to use DMA API to give out KVA as
-dma_addr for trusted devices. We cannot satisfy DMA direction requirements
-since we can't change kernel mapping. It will be similar to DMA direct
-where dir is ignored AFAICT.
+> This one might be okay to disambiguate, but even here I think this isn't
+> really necessary. It's already clear from the return value what's being
+> returned.
 
-Or we are saying if the device is trusted, using pass-through is allowed.
-i.e. physical address.
+The point here is to disambiguate "group", as there are quite a few
+places using the same naming for different structures. You may argue
+that it's clear by looking at the return value/type. But it is still
+hard to tell when reading the code of its caller, right?
 
-Thoughts?
+> > @@ -921,9 +922,9 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
+> >  	}
+> >  
+> >  	INIT_LIST_HEAD(&group->list);
+> > +	group->group_soc = group_soc;
+> >  	group->swgroup = swgroup;
+> >  	group->smmu = smmu;
+> > -	group->soc = soc;
+> 
+> As another example, it's pretty evident that group->soc refers to the
+> group SoC data rather than the SMMU SoC data. The latter can be obtained
+> from group->smmu->soc, which again is enough context to make it clear
+> what this is.
+> 
+> So I don't think this makes things any clearer. It only makes the names
+> more redundant and awkward to write.
 
-Thanks,
-
-Jacob
+Okay. I will drop the part of s/soc/group_soc.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
