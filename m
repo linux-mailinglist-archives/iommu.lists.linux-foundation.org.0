@@ -1,85 +1,133 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEB542BFBE
-	for <lists.iommu@lfdr.de>; Wed, 13 Oct 2021 14:18:36 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC16542BFA7
+	for <lists.iommu@lfdr.de>; Wed, 13 Oct 2021 14:18:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C5A8282B1A;
-	Wed, 13 Oct 2021 12:18:33 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3706C608CF;
+	Wed, 13 Oct 2021 12:18:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LkehzTBM8kXZ; Wed, 13 Oct 2021 12:18:33 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id i7BYhLcaRtTy; Wed, 13 Oct 2021 12:18:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CED9682CF9;
-	Wed, 13 Oct 2021 12:18:32 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3B4E5608CC;
+	Wed, 13 Oct 2021 12:18:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 62EA9C0029;
-	Wed, 13 Oct 2021 12:18:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02620C000D;
+	Wed, 13 Oct 2021 12:18:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D81FBC000D
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 12:18:30 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71A50C000D
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 12:18:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id B89C782B34
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 12:18:30 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 44512824DC
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 12:18:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=redhat.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id An4yRbetKFyc for <iommu@lists.linux-foundation.org>;
- Wed, 13 Oct 2021 12:18:29 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3453482B69
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 12:18:29 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id r7so7668728wrc.10
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 05:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xDTnrRgnMEuuTfEvTLplaIb3+nnniqO6/rA2MJHbSrw=;
- b=rkxNKwX8eGwNx3N9Hj4qSLFIQCSnuiQRyYIKSQpGsDX9mKBCMFkExf+yENn1TgK/Zd
- xWUpxVv7d1xpfIY9TlijY3ru4meFrloXp3CMJyugemTLCQfGt0IFgdnA6GvtUK8hPaC0
- 3xm4JrNs4OTDTpC/m304sAXGM7Sbo34n4HNb+qaySQnHAKvRMepayKsPo6RFFQpOpQ1L
- UVpXy7K84LAkKjJexhq53ZwTSffopYZyD1qswfUnMAumQ8p+c+TDUTAJFepqkFAliveY
- pHWpdEDFPtmhzW61r4t+VBIapjHlc9Hy8jS9OHzMknvYZOfbP1WK+QT3H6sP5Ku6c8dA
- hqmA==
+ with ESMTP id aGBlhUF4DIJF for <iommu@lists.linux-foundation.org>;
+ Wed, 13 Oct 2021 12:18:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E4A6E82861
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 12:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634127483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8uA+gFhUzMMrb5D5fxARTwQwcT+AEfWKWkQ0ooGMKj8=;
+ b=gcZphIhv1SUibhOpSsOSgz4m0cbJvHyEtd0kwtKyNGk7PlE0SU+JPX+FUmjzkGHkvuPJuI
+ RYeShTXWeJ1jx+SFek2K1Tc6X4vwuEpu4Q3Rv6491+05hOgYMfee2etkukNn00qGLGJeMY
+ ljgHBxDZGBTUGlUD8++dZn6sdjVlaG0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-uxP0iQKBOO2tjMzc7zwhkA-1; Wed, 13 Oct 2021 08:18:02 -0400
+X-MC-Unique: uxP0iQKBOO2tjMzc7zwhkA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c2-20020adfa302000000b0015e4260febdso1785897wrb.20
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 05:18:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xDTnrRgnMEuuTfEvTLplaIb3+nnniqO6/rA2MJHbSrw=;
- b=yoFBvoEp0mc8jEbbCEzhhpDz1lqhuFxw8A4QVPLMuR8hVcBC6Yh9/FlcDEy5KTPuAq
- BE602TzfB//Ifg/E51y2TpoRYpOtJBgajgsjW9l98OFbB+2Jzxe1HbzlnCobFQ9Rjj2+
- b3M46zg25RqpgI8JlNanhOe7URxTDcEwVwn99cWwMtJsZIy6AC12P/aCiBkvVUbzhnxn
- MrnhZW7O4byG9iFV8LLAWT7w/JKDme9mT/8E2/BNtZ+CYz4MbQ8hU+l4sp0BlzpIOzNt
- mnaIwivx3TFC8F5p/dPPtIOAnV9uu3bYyn9zUvdkMLww4oZHJ/OMCFJcX0SWFZl9yID8
- jXtA==
-X-Gm-Message-State: AOAM531SD66n2lsvKmmMU4JLwQpATy0NH6aNakNNjdXUjRgZDIQPVmzp
- f5gruOHz+UrRB622JDF/ekTXbA==
-X-Google-Smtp-Source: ABdhPJyiIj7cagszl43qelX64tnsElhFAX8abGbe0Mht7HnTjVwP0mAeCWVonXD55c+1tfGFhH2Tlw==
-X-Received: by 2002:adf:8b98:: with SMTP id o24mr39770186wra.302.1634127507203; 
- Wed, 13 Oct 2021 05:18:27 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id j13sm4116091wro.97.2021.10.13.05.18.26
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8uA+gFhUzMMrb5D5fxARTwQwcT+AEfWKWkQ0ooGMKj8=;
+ b=PzSXRk7uAnKYpBcyVUb/gL5jDcBxplGmBDxcg+flWBETV89a0cMWDNUMhxAIItTmA/
+ BfpQnAc2mJJcObPOW1GKRiA6orGZzJq6H4BnEhCE2Yzuaoi50DjL7yM0ABSrtwXeQeno
+ WiH6TErX2sIN67imQulvxPLd6mH05HqEk6Uw1EgZ6uvgEnvb1cJ3wLVtymNN+4VQFqyh
+ Xlj3e4wVg/29rmDudbuYERSgj3GIsfz29iNddC5kCaOnI4nPDap2yHC98kKOGERjFMBy
+ HijMPby2E5+RQ6rkq7hU0ck/+QGTIlqW4hjaADwxcc4sFP4GDS85XTYVcxNHJuGQr0cv
+ SeTw==
+X-Gm-Message-State: AOAM5316r6JviP/roiyAV701r4XvrM6wr4JtgOWpdOCe5GLWsrxqko6o
+ KEoBk7NeKOXjvpjlGeXpTr+qe4/c3oEcA5Hc8GvseL+duH7Y7r90rQeoUZ+XQZcclEIQSPeu6zO
+ p2RqhxAVIhl1ECPBZjDGoooH89ieOXA==
+X-Received: by 2002:a7b:c30c:: with SMTP id k12mr12535241wmj.38.1634127481371; 
+ Wed, 13 Oct 2021 05:18:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwFEzPqFQ+1qHznC4euH1QtbfXrvr/+t46tCqHwjpC6aqk2B2gJ30j5Cm2I+Hz0oA4zGN44UQ==
+X-Received: by 2002:a7b:c30c:: with SMTP id k12mr12535146wmj.38.1634127481076; 
+ Wed, 13 Oct 2021 05:18:01 -0700 (PDT)
+Received: from redhat.com ([2.55.30.112])
+ by smtp.gmail.com with ESMTPSA id z1sm4104369wrt.94.2021.10.13.05.17.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 05:18:26 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org
-Subject: [PATCH 5/5] iommu/virtio: Support identity-mapped domains
-Date: Wed, 13 Oct 2021 13:10:53 +0100
-Message-Id: <20211013121052.518113-6-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211013121052.518113-1-jean-philippe@linaro.org>
-References: <20211013121052.518113-1-jean-philippe@linaro.org>
+ Wed, 13 Oct 2021 05:18:00 -0700 (PDT)
+Date: Wed, 13 Oct 2021 08:17:49 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
+Message-ID: <20211013081632-mutt-send-email-mst@kernel.org>
+References: <20211013105226.20225-1-mst@redhat.com>
+ <2060bd96-5884-a1b5-9f29-7fe670dc088d@redhat.com>
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
- mst@redhat.com, sebastien.boeuf@intel.com, will@kernel.org,
- jasowang@redhat.com
+In-Reply-To: <2060bd96-5884-a1b5-9f29-7fe670dc088d@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+Cc: Latchesar Ionkov <lucho@ionkov.net>, nvdimm@lists.linux.dev,
+ v9fs-developer@lists.sourceforge.net, Stefan Hajnoczi <stefanha@redhat.com>,
+ kvm@vger.kernel.org, Dominique Martinet <asmadeus@codewreck.org>,
+ David Airlie <airlied@linux.ie>, Viresh Kumar <vireshk@kernel.org>,
+ Jason Wang <jasowang@redhat.com>, linux-remoteproc@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
+ linux-scsi@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Dave Jiang <dave.jiang@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, linux-arm-kernel@lists.infradead.org,
+ Miklos Szeredi <miklos@szeredi.hu>, Richard Weinberger <richard@nod.at>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Takashi Iwai <tiwai@suse.com>,
+ Gonglei <arei.gonglei@huawei.com>, Kalle Valo <kvalo@codeaurora.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, virtualization@lists.linux-foundation.org,
+ Jeff Dike <jdike@addtoit.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Ohad Ben-Cohen <ohad@wizery.com>,
+ Johan Hedberg <johan.hedberg@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Amit Shah <amit@kernel.org>, Eric Van Hensbergen <ericvh@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>, linux-um@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Matt Mackall <mpm@selenic.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jaroslav Kysela <perex@perex.cz>,
+ Cristian Marussi <cristian.marussi@arm.com>, Jens Axboe <axboe@kernel.dk>,
+ Jie Deng <jie.deng@intel.com>, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ linux-gpio@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ iommu@lists.linux-foundation.org,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, "Enrico Weigelt,
+ metux IT consult" <info@metux.net>, "David S. Miller" <davem@davemloft.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,110 +145,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Support identity domains for devices that do not offer the
-VIRTIO_IOMMU_F_BYPASS_CONFIG feature, by creating 1:1 mappings between
-the virtual and physical address space. Identity domains created this
-way still perform noticeably better than DMA domains, because they don't
-have the overhead of setting up and tearing down mappings at runtime.
-The performance difference between this and bypass is minimal in
-comparison.
+On Wed, Oct 13, 2021 at 01:03:46PM +0200, David Hildenbrand wrote:
+> On 13.10.21 12:55, Michael S. Tsirkin wrote:
+> > This will enable cleanups down the road.
+> > The idea is to disable cbs, then add "flush_queued_cbs" callback
+> > as a parameter, this way drivers can flush any work
+> > queued after callbacks have been disabled.
+> > 
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >   arch/um/drivers/virt-pci.c                 | 2 +-
+> >   drivers/block/virtio_blk.c                 | 4 ++--
+> >   drivers/bluetooth/virtio_bt.c              | 2 +-
+> >   drivers/char/hw_random/virtio-rng.c        | 2 +-
+> >   drivers/char/virtio_console.c              | 4 ++--
+> >   drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
+> >   drivers/firmware/arm_scmi/virtio.c         | 2 +-
+> >   drivers/gpio/gpio-virtio.c                 | 2 +-
+> >   drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
+> >   drivers/i2c/busses/i2c-virtio.c            | 2 +-
+> >   drivers/iommu/virtio-iommu.c               | 2 +-
+> >   drivers/net/caif/caif_virtio.c             | 2 +-
+> >   drivers/net/virtio_net.c                   | 4 ++--
+> >   drivers/net/wireless/mac80211_hwsim.c      | 2 +-
+> >   drivers/nvdimm/virtio_pmem.c               | 2 +-
+> >   drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
+> >   drivers/scsi/virtio_scsi.c                 | 2 +-
+> >   drivers/virtio/virtio.c                    | 5 +++++
+> >   drivers/virtio/virtio_balloon.c            | 2 +-
+> >   drivers/virtio/virtio_input.c              | 2 +-
+> >   drivers/virtio/virtio_mem.c                | 2 +-
+> >   fs/fuse/virtio_fs.c                        | 4 ++--
+> >   include/linux/virtio.h                     | 1 +
+> >   net/9p/trans_virtio.c                      | 2 +-
+> >   net/vmw_vsock/virtio_transport.c           | 4 ++--
+> >   sound/virtio/virtio_card.c                 | 4 ++--
+> >   26 files changed, 39 insertions(+), 33 deletions(-)
+> > 
+> > diff --git a/arch/um/drivers/virt-pci.c b/arch/um/drivers/virt-pci.c
+> > index c08066633023..22c4d87c9c15 100644
+> > --- a/arch/um/drivers/virt-pci.c
+> > +++ b/arch/um/drivers/virt-pci.c
+> > @@ -616,7 +616,7 @@ static void um_pci_virtio_remove(struct virtio_device *vdev)
+> >   	int i;
+> >           /* Stop all virtqueues */
+> > -        vdev->config->reset(vdev);
+> > +        virtio_reset_device(vdev);
+> >           vdev->config->del_vqs(vdev);
+> 
+> Nit: virtio_device_reset()?
+> 
+> Because I see:
+> 
+> int virtio_device_freeze(struct virtio_device *dev);
+> int virtio_device_restore(struct virtio_device *dev);
+> void virtio_device_ready(struct virtio_device *dev)
+> 
+> But well, there is:
+> void virtio_break_device(struct virtio_device *dev);
 
-It does not matter that the physical addresses in the identity mappings
-do not all correspond to memory. By enabling passthrough we are trusting
-the device driver and the device itself to only perform DMA to suitable
-locations. In some cases it may even be desirable to perform DMA to MMIO
-regions.
+Exactly. I don't know what's best, so I opted for plain english :)
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- drivers/iommu/virtio-iommu.c | 61 +++++++++++++++++++++++++++++++++---
- 1 file changed, 57 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index eceb9281c8c1..c9e8367d2962 100644
---- a/drivers/iommu/virtio-iommu.c
-+++ b/drivers/iommu/virtio-iommu.c
-@@ -375,6 +375,55 @@ static size_t viommu_del_mappings(struct viommu_domain *vdomain,
- 	return unmapped;
- }
- 
-+/*
-+ * Fill the domain with identity mappings, skipping the device's reserved
-+ * regions.
-+ */
-+static int viommu_domain_map_identity(struct viommu_endpoint *vdev,
-+				      struct viommu_domain *vdomain)
-+{
-+	int ret;
-+	struct iommu_resv_region *resv;
-+	u64 iova = vdomain->domain.geometry.aperture_start;
-+	u64 limit = vdomain->domain.geometry.aperture_end;
-+	u32 flags = VIRTIO_IOMMU_MAP_F_READ | VIRTIO_IOMMU_MAP_F_WRITE;
-+	unsigned long granule = 1UL << __ffs(vdomain->domain.pgsize_bitmap);
-+
-+	iova = ALIGN(iova, granule);
-+	limit = ALIGN_DOWN(limit + 1, granule) - 1;
-+
-+	list_for_each_entry(resv, &vdev->resv_regions, list) {
-+		u64 resv_start = ALIGN_DOWN(resv->start, granule);
-+		u64 resv_end = ALIGN(resv->start + resv->length, granule) - 1;
-+
-+		if (resv_end < iova || resv_start > limit)
-+			/* No overlap */
-+			continue;
-+
-+		if (resv_start > iova) {
-+			ret = viommu_add_mapping(vdomain, iova, resv_start - 1,
-+						 (phys_addr_t)iova, flags);
-+			if (ret)
-+				goto err_unmap;
-+		}
-+
-+		if (resv_end >= limit)
-+			return 0;
-+
-+		iova = resv_end + 1;
-+	}
-+
-+	ret = viommu_add_mapping(vdomain, iova, limit, (phys_addr_t)iova,
-+				 flags);
-+	if (ret)
-+		goto err_unmap;
-+	return 0;
-+
-+err_unmap:
-+	viommu_del_mappings(vdomain, 0, iova);
-+	return ret;
-+}
-+
- /*
-  * viommu_replay_mappings - re-send MAP requests
-  *
-@@ -637,14 +686,18 @@ static int viommu_domain_finalise(struct viommu_endpoint *vdev,
- 	vdomain->viommu		= viommu;
- 
- 	if (domain->type == IOMMU_DOMAIN_IDENTITY) {
--		if (!virtio_has_feature(viommu->vdev,
--					VIRTIO_IOMMU_F_BYPASS_CONFIG)) {
-+		if (virtio_has_feature(viommu->vdev,
-+				       VIRTIO_IOMMU_F_BYPASS_CONFIG)) {
-+			vdomain->bypass = true;
-+			return 0;
-+		}
-+
-+		ret = viommu_domain_map_identity(vdev, vdomain);
-+		if (ret) {
- 			ida_free(&viommu->domain_ids, vdomain->id);
- 			vdomain->viommu = 0;
- 			return -EOPNOTSUPP;
- 		}
--
--		vdomain->bypass = true;
- 	}
- 
- 	return 0;
--- 
-2.33.0
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
 _______________________________________________
 iommu mailing list
