@@ -1,88 +1,91 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5B542C133
-	for <lists.iommu@lfdr.de>; Wed, 13 Oct 2021 15:16:39 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC4F42C518
+	for <lists.iommu@lfdr.de>; Wed, 13 Oct 2021 17:46:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C784E6080F;
-	Wed, 13 Oct 2021 13:16:37 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 580EB40529;
+	Wed, 13 Oct 2021 15:46:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lOUE_VRQrK4E; Wed, 13 Oct 2021 13:16:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id CFF33607E5;
-	Wed, 13 Oct 2021 13:16:36 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id f8kaCk5A6138; Wed, 13 Oct 2021 15:46:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1F7C1400BF;
+	Wed, 13 Oct 2021 15:46:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2AE5C000D;
-	Wed, 13 Oct 2021 13:16:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EDF2BC0022;
+	Wed, 13 Oct 2021 15:46:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3E544C000D
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 13:16:35 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2AF06C000D
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 15:46:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 12A2A40657
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 13:16:35 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0A24F40206
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 15:46:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CNZkXumsfd9U for <iommu@lists.linux-foundation.org>;
- Wed, 13 Oct 2021 13:16:34 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4741640456
- for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 13:16:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634130993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3UweUBspHinuJSQhguEdx6WU40R4nh4wg670z3EQDCs=;
- b=N9DOpLi6ciGUwBrxKQ9ffOhc5mGMwOI3tkVi5n7Wnt101pu2mf6nRDse+lTnviWvJ77Gtm
- BUkSyFQdDSFqg6EKfj+ifNOS4dVdzHFtQJNBN2kv/ZipH9hhhvNvJTcYyXsAyHLhwLnd2u
- 0BwmIpNaoMZu6+GATu1hON/hRB1f9CA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-lYDb9o67Mf-rDMq57zxd3g-1; Wed, 13 Oct 2021 09:16:31 -0400
-X-MC-Unique: lYDb9o67Mf-rDMq57zxd3g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41EC3100CCC0;
- Wed, 13 Oct 2021 13:16:24 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.33.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9599DADD0;
- Wed, 13 Oct 2021 13:16:20 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id DEFAB22023A; Wed, 13 Oct 2021 09:16:19 -0400 (EDT)
-Date: Wed, 13 Oct 2021 09:16:19 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9Y8Q1ILs3Hg9 for <iommu@lists.linux-foundation.org>;
+ Wed, 13 Oct 2021 15:46:10 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id B9DE4400BF
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 15:46:10 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id e7so2719796pgk.2
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Oct 2021 08:46:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5P0ocxXM0vPODGkh8na4Mfy39/EYyFv4GMRrvhNNOUo=;
+ b=gfAizaxTiwRe31oPHuSEfCuoU3UyNzjvSGFjRtR0+20ybGnOJHR2SNvIUYXuMY2xpD
+ gjbOwicFvptk+HxbA9gztDS/NFb/B9PCmms4ywTb+W6ZfybGlSGnqIF9BrEyW3lnzugF
+ 1xOsRizGgXSxqW3rE2o7H3pOyE6LnVUrXJS6JM8CS2LKu70yomZ+jIXvV9GC/9hEoAdh
+ pZgLdZj46NdkkNldf1y6Zal4VF0OHZO5HByoWBC8S5+MsG5/UJx0h6V+EfRdjNyAV2md
+ QHEhpyLmWUQN/xdLKYedMbdiT11toyum2MbaAnr8R6GfEwVc/Pi4akUF4ElQql0esd+K
+ tzhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5P0ocxXM0vPODGkh8na4Mfy39/EYyFv4GMRrvhNNOUo=;
+ b=6m1I8GFRf0byqfvMduBvMqCHc+2dJDpwX1Hx4LNXGORpgN8WPAUBwwIPck7fr8BDmW
+ S+60SzZmyN98T0p4k3zpMgMYXOD4B/Zlm6l2+0LQ+A0K+QC5quPoGlc5T9D80JqHEdEr
+ fwXCuJDIzHS1hRbdmDWs6i7jY4rcVkdAuI0X0lkHHs13U6SJTxiuehETag2t6SbJRxmf
+ V3S/R382GO66Kp0qxfPMz9XlnKkYTLfeeYhh/vCBAsquw4Kjw3M2Te+eoLUZdGpFh94A
+ b5l6eNvnjypWt1oP4VOEu8GE4dmmU/RiwJWGgLy9r0C4ybkwfnDtK5vd+l94jboQba0j
+ WURA==
+X-Gm-Message-State: AOAM533k4BUGVQo12qN7LPGCkPpG1fMlXUu5G2UimnWIs1L+Ur4o8MRy
+ 1li69Yog11b8Yik0dro4xhILGg==
+X-Google-Smtp-Source: ABdhPJxOS97EPwZsGm56NgXmycC48sC/ZWo8Q8DTT9IZBXIVEcdfskLSNijWrQkjT1bVWFJiZLyKew==
+X-Received: by 2002:aa7:949c:0:b0:44c:a0df:2c7f with SMTP id
+ z28-20020aa7949c000000b0044ca0df2c7fmr128668pfk.34.1634139970091; 
+ Wed, 13 Oct 2021 08:46:10 -0700 (PDT)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+ by smtp.gmail.com with ESMTPSA id x27sm2452841pfo.90.2021.10.13.08.46.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 08:46:09 -0700 (PDT)
+Date: Wed, 13 Oct 2021 09:46:04 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
-Message-ID: <YWbcI15YOkhnPh5x@redhat.com>
+Message-ID: <20211013154604.GB4135908@p14s>
 References: <20211013105226.20225-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
+In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
 Cc: Latchesar Ionkov <lucho@ionkov.net>, nvdimm@lists.linux.dev,
- v9fs-developer@lists.sourceforge.net, Stefan Hajnoczi <stefanha@redhat.com>,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- David Airlie <airlied@linux.ie>, Viresh Kumar <vireshk@kernel.org>,
- Jason Wang <jasowang@redhat.com>, linux-remoteproc@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
- linux-scsi@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <vireshk@kernel.org>, Jason Wang <jasowang@redhat.com>,
+ linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ Gerd Hoffmann <kraxel@redhat.com>, linux-scsi@vger.kernel.org,
+ Will Deacon <will@kernel.org>, v9fs-developer@lists.sourceforge.net,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
  Linus Walleij <linus.walleij@linaro.org>, Dave Jiang <dave.jiang@intel.com>,
@@ -90,10 +93,9 @@ Cc: Latchesar Ionkov <lucho@ionkov.net>, nvdimm@lists.linux.dev,
  Miklos Szeredi <miklos@szeredi.hu>, Richard Weinberger <richard@nod.at>,
  Bartosz Golaszewski <brgl@bgdev.pl>, Takashi Iwai <tiwai@suse.com>,
  Gonglei <arei.gonglei@huawei.com>, Kalle Valo <kvalo@codeaurora.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
  Ira Weiny <ira.weiny@intel.com>, virtualization@lists.linux-foundation.org,
- Jeff Dike <jdike@addtoit.com>, Dominique Martinet <asmadeus@codewreck.org>,
+ Jeff Dike <jdike@addtoit.com>, Vivek Goyal <vgoyal@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>, Ohad Ben-Cohen <ohad@wizery.com>,
  Johan Hedberg <johan.hedberg@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
  Amit Shah <amit@kernel.org>, Eric Van Hensbergen <ericvh@gmail.com>,
@@ -103,8 +105,9 @@ Cc: Latchesar Ionkov <lucho@ionkov.net>, nvdimm@lists.linux.dev,
  Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Matt Mackall <mpm@selenic.com>,
  Dan Williams <dan.j.williams@intel.com>, Jaroslav Kysela <perex@perex.cz>,
  Cristian Marussi <cristian.marussi@arm.com>, Jens Axboe <axboe@kernel.dk>,
- Jie Deng <jie.deng@intel.com>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- linux-gpio@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jie Deng <jie.deng@intel.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, linux-gpio@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-i2c@vger.kernel.org, linux-bluetooth@vger.kernel.org,
  iommu@lists.linux-foundation.org,
@@ -160,41 +163,29 @@ On Wed, Oct 13, 2021 at 06:55:31AM -0400, Michael S. Tsirkin wrote:
 >  drivers/virtio/virtio_input.c              | 2 +-
 >  drivers/virtio/virtio_mem.c                | 2 +-
 >  fs/fuse/virtio_fs.c                        | 4 ++--
-
-fs/fuse/virtio_fs.c changes look good to me.
-
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-
-Vivek
-
-[..]
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index 0ad89c6629d7..27c3b74070a2 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -895,7 +895,7 @@ static int virtio_fs_probe(struct virtio_device *vdev)
->  	return 0;
+>  include/linux/virtio.h                     | 1 +
+>  net/9p/trans_virtio.c                      | 2 +-
+>  net/vmw_vsock/virtio_transport.c           | 4 ++--
+>  sound/virtio/virtio_card.c                 | 4 ++--
+>  26 files changed, 39 insertions(+), 33 deletions(-)
+> 
+>  static struct virtio_driver virtio_pmem_driver = {
+> diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
+> index 8e49a3bacfc7..6a11952822df 100644
+> --- a/drivers/rpmsg/virtio_rpmsg_bus.c
+> +++ b/drivers/rpmsg/virtio_rpmsg_bus.c
+> @@ -1015,7 +1015,7 @@ static void rpmsg_remove(struct virtio_device *vdev)
+>  	size_t total_buf_space = vrp->num_bufs * vrp->buf_size;
+>  	int ret;
 >  
->  out_vqs:
 > -	vdev->config->reset(vdev);
 > +	virtio_reset_device(vdev);
->  	virtio_fs_cleanup_vqs(vdev, fs);
->  	kfree(fs->vqs);
->  
-> @@ -927,7 +927,7 @@ static void virtio_fs_remove(struct virtio_device *vdev)
->  	list_del_init(&fs->list);
->  	virtio_fs_stop_all_queues(fs);
->  	virtio_fs_drain_all_queues_locked(fs);
-> -	vdev->config->reset(vdev);
-> +	virtio_reset_device(vdev);
->  	virtio_fs_cleanup_vqs(vdev, fs);
->  
->  	vdev->priv = NULL;
+> 
 
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-Thanks
-Vivek
-
+>  	ret = device_for_each_child(&vdev->dev, NULL, rpmsg_remove_device);
+>  	if (ret)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
