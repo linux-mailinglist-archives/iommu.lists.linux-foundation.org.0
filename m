@@ -2,60 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC8042D1FD
-	for <lists.iommu@lfdr.de>; Thu, 14 Oct 2021 07:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E134742D245
+	for <lists.iommu@lfdr.de>; Thu, 14 Oct 2021 08:22:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3FDBD835CF;
-	Thu, 14 Oct 2021 05:43:06 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7B00183227;
+	Thu, 14 Oct 2021 06:22:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lFEH8q2PMogq; Thu, 14 Oct 2021 05:43:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4A019835C8;
-	Thu, 14 Oct 2021 05:43:05 +0000 (UTC)
+	with ESMTP id Lr9o2z1TkeXV; Thu, 14 Oct 2021 06:22:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 6C885831F2;
+	Thu, 14 Oct 2021 06:22:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 26519C000D;
-	Thu, 14 Oct 2021 05:43:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4223BC0022;
+	Thu, 14 Oct 2021 06:22:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3BFCEC000D
- for <iommu@lists.linux-foundation.org>; Thu, 14 Oct 2021 05:43:03 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27511C000D
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Oct 2021 06:22:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 398BC60B11
- for <iommu@lists.linux-foundation.org>; Thu, 14 Oct 2021 05:43:03 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 140044071A
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Oct 2021 06:22:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i3qXwiCMQ37B for <iommu@lists.linux-foundation.org>;
- Thu, 14 Oct 2021 05:43:02 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 67F2260B10
- for <iommu@lists.linux-foundation.org>; Thu, 14 Oct 2021 05:43:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214544039"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214544039"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 22:43:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="626685279"
-Received: from allen-box.sh.intel.com ([10.239.159.118])
- by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2021 22:42:59 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 9/9] iommu/vt-d: Avoid duplicate removing in __domain_mapping()
-Date: Thu, 14 Oct 2021 13:38:39 +0800
-Message-Id: <20211014053839.727419-10-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211014053839.727419-1-baolu.lu@linux.intel.com>
-References: <20211014053839.727419-1-baolu.lu@linux.intel.com>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=gibson.dropbear.id.au
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id aRKC7YLd1Mf3 for <iommu@lists.linux-foundation.org>;
+ Thu, 14 Oct 2021 06:22:38 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 059FD405DA
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Oct 2021 06:22:37 +0000 (UTC)
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HVK7r1x5mz4xbY; Thu, 14 Oct 2021 17:22:32 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1634192552;
+ bh=0uuzJ2RbbBNLtnJGxkiiKbw1slhnlGlCFfoDr9/tkG8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ajOeafBBMsDsL8D38GZaOWZA1yfZvnBkUfC8QlOIfR/6BjvGh+7Mp2Zx+FhLuI3Xs
+ 1Gq0RGkpfsfxNa3dhwc7gkM2sIjZJnKQ0KVupY2z6tdoBcXbpyzPah4RJ0ehuIKoJn
+ +EWXGJP23F7UEogrsymqzG4hF8yQs38UooYaMgSw=
+Date: Thu, 14 Oct 2021 15:33:21 +1100
+From: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC 11/20] iommu/iommufd: Add IOMMU_IOASID_ALLOC/FREE
+Message-ID: <YWezEY+CJBRY7uLj@yekko>
+References: <20210919063848.1476776-12-yi.l.liu@intel.com>
+ <20210921174438.GW327412@nvidia.com>
+ <BN9PR11MB543362CEBDAD02DA9F06D8ED8CA29@BN9PR11MB5433.namprd11.prod.outlook.com>
+ <20210922140911.GT327412@nvidia.com> <YVaoamAaqayk1Hja@yekko>
+ <20211001122505.GL964074@nvidia.com> <YVfeUkW7PWQeYFJQ@yekko>
+ <20211002122542.GW964074@nvidia.com> <YWPNoknkNW55KQM4@yekko>
+ <20211011171748.GA92207@nvidia.com>
 MIME-Version: 1.0
-Cc: Fenghua Yu <fenghua.yu@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Liujunjie <liujunjie23@huawei.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Kyung Min Park <kyung.min.park@intel.com>, iommu@lists.linux-foundation.org,
- Longpeng <longpeng2@huawei.com>
+In-Reply-To: <20211011171748.GA92207@nvidia.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "kwankhede@nvidia.com" <kwankhede@nvidia.com>, "hch@lst.de" <hch@lst.de>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Jiang,
+ Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "parav@mellanox.com" <parav@mellanox.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "lkml@metux.net" <lkml@metux.net>, "dwmw2@infradead.org" <dwmw2@infradead.org>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lushenming@huawei.com" <lushenming@huawei.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,107 +87,131 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1420541423424410752=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: "Longpeng(Mike)" <longpeng2@huawei.com>
 
-The __domain_mapping() always removes the pages in the range from
-'iov_pfn' to 'end_pfn', but the 'end_pfn' is always the last pfn
-of the range that the caller wants to map.
+--===============1420541423424410752==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fwwIMpD4bMVv6jlq"
+Content-Disposition: inline
 
-This would introduce too many duplicated removing and leads the
-map operation take too long, for example:
 
-  Map iova=0x100000,nr_pages=0x7d61800
-    iov_pfn: 0x100000, end_pfn: 0x7e617ff
-    iov_pfn: 0x140000, end_pfn: 0x7e617ff
-    iov_pfn: 0x180000, end_pfn: 0x7e617ff
-    iov_pfn: 0x1c0000, end_pfn: 0x7e617ff
-    iov_pfn: 0x200000, end_pfn: 0x7e617ff
-    ...
-  it takes about 50ms in total.
+--fwwIMpD4bMVv6jlq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We can reduce the cost by recalculate the 'end_pfn' and limit it
-to the boundary of the end of this pte page.
+On Mon, Oct 11, 2021 at 02:17:48PM -0300, Jason Gunthorpe wrote:
+> On Mon, Oct 11, 2021 at 04:37:38PM +1100, david@gibson.dropbear.id.au wro=
+te:
+> > > PASID support will already require that a device can be multi-bound to
+> > > many IOAS's, couldn't PPC do the same with the windows?
+> >=20
+> > I don't see how that would make sense.  The device has no awareness of
+> > multiple windows the way it does of PASIDs.  It just sends
+> > transactions over the bus with the IOVAs it's told.  If those IOVAs
+> > lie within one of the windows, the IOMMU picks them up and translates
+> > them.  If they don't, it doesn't.
+>=20
+> To my mind that address centric routing is awareness.
 
-  Map iova=0x100000,nr_pages=0x7d61800
-    iov_pfn: 0x100000, end_pfn: 0x13ffff
-    iov_pfn: 0x140000, end_pfn: 0x17ffff
-    iov_pfn: 0x180000, end_pfn: 0x1bffff
-    iov_pfn: 0x1c0000, end_pfn: 0x1fffff
-    iov_pfn: 0x200000, end_pfn: 0x23ffff
-    ...
-  it only need 9ms now.
+I don't really understand that position.  A PASID capable device has
+to be built to be PASID capable, and will generally have registers
+into which you store PASIDs to use.
 
-This also removes a meaningless BUG_ON() in __domain_mapping().
+Any 64-bit DMA capable device can use the POWER IOMMU just fine - it's
+up to the driver to program it with addresses that will be translated
+(and in Linux the driver will get those from the DMA subsystem).
 
-Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
-Tested-by: Liujunjie <liujunjie23@huawei.com>
-Link: https://lore.kernel.org/r/20211008000433.1115-1-longpeng2@huawei.com
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- include/linux/intel-iommu.h |  6 ++++++
- drivers/iommu/intel/iommu.c | 11 ++++++-----
- 2 files changed, 12 insertions(+), 5 deletions(-)
+> If the HW can attach multiple non-overlapping IOAS's to the same
+> device then the HW is routing to the correct IOAS by using the address
+> bits. This is not much different from the prior discussion we had
+> where we were thinking of the PASID as an 80 bit address
 
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 52481625838c..69230fd695ea 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -710,6 +710,12 @@ static inline bool first_pte_in_page(struct dma_pte *pte)
- 	return IS_ALIGNED((unsigned long)pte, VTD_PAGE_SIZE);
- }
- 
-+static inline int nr_pte_to_next_page(struct dma_pte *pte)
-+{
-+	return first_pte_in_page(pte) ? BIT_ULL(VTD_STRIDE_SHIFT) :
-+		(struct dma_pte *)ALIGN((unsigned long)pte, VTD_PAGE_SIZE) - pte;
-+}
-+
- extern struct dmar_drhd_unit * dmar_find_matched_drhd_unit(struct pci_dev *dev);
- extern int dmar_find_matched_atsr_unit(struct pci_dev *dev);
- 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 16a35669a9d0..0bde0c8b4126 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -2479,12 +2479,17 @@ __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
- 				return -ENOMEM;
- 			first_pte = pte;
- 
-+			lvl_pages = lvl_to_nr_pages(largepage_lvl);
-+
- 			/* It is large page*/
- 			if (largepage_lvl > 1) {
- 				unsigned long end_pfn;
-+				unsigned long pages_to_remove;
- 
- 				pteval |= DMA_PTE_LARGE_PAGE;
--				end_pfn = ((iov_pfn + nr_pages) & level_mask(largepage_lvl)) - 1;
-+				pages_to_remove = min_t(unsigned long, nr_pages,
-+							nr_pte_to_next_page(pte) * lvl_pages);
-+				end_pfn = iov_pfn + pages_to_remove - 1;
- 				switch_to_super_page(domain, iov_pfn, end_pfn, largepage_lvl);
- 			} else {
- 				pteval &= ~(uint64_t)DMA_PTE_LARGE_PAGE;
-@@ -2506,10 +2511,6 @@ __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
- 			WARN_ON(1);
- 		}
- 
--		lvl_pages = lvl_to_nr_pages(largepage_lvl);
--
--		BUG_ON(nr_pages < lvl_pages);
--
- 		nr_pages -= lvl_pages;
- 		iov_pfn += lvl_pages;
- 		phys_pfn += lvl_pages;
--- 
-2.25.1
+Ah... that might be a workable approach.  And it even helps me get my
+head around multiple attachment which I was struggling with before.
+
+So, the rule would be that you can attach multiple IOASes to a device,
+as long as none of them overlap.  The non-overlapping could be because
+each IOAS covers a disjoint address range, or it could be because
+there's some attached information - such as a PASID - to disambiguate.
+
+What remains a question is where the disambiguating information comes
+=66rom in each case: does it come from properties of the IOAS,
+propertues of the device, or from extra parameters supplied at attach
+time.  IIUC, the current draft suggests it always comes at attach time
+for the PASID information.  Obviously the more consistency we can have
+here the better.
+
+
+I can also see an additional problem in implementation, once we start
+looking at hot-adding devices to existing address spaces.  Suppose our
+software (maybe qemu) wants to set up a single DMA view for a bunch of
+devices, that has such a split window.  It can set up IOASes easily
+enough for the two windows, then it needs to attach them.  Presumbly,
+it attaches them one at a time, which means that each device (or
+group) goes through an interim state where it's attached to one, but
+not the other.  That can probably be achieved by using an extra IOMMU
+domain (or the local equivalent) in the hardware for that interim
+state.  However it means we have to repeatedly create and destroy that
+extra domain for each device after the first we add, rather than
+simply adding each device to the domain which has both windows.
+
+[I think this doesn't arise on POWER when running under PowerVM.  That
+ has no concept like IOMMU domains, and instead the mapping is always
+ done per "partitionable endpoint" (PE), essentially a group.  That
+ means it's just a question of whether we mirror mappings on both
+ windows into a given PE or just those from one IOAS.  It's not an
+ unreasonable extension/combination of existing hardware quirks to
+ consider, though]
+
+> The fact the PPC HW actually has multiple page table roots and those
+> roots even have different page tables layouts while still connected to
+> the same device suggests this is not even an unnatural modelling
+> approach...
+>=20
+> Jason =20
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--fwwIMpD4bMVv6jlq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFnsw8ACgkQbDjKyiDZ
+s5LGWA//UT6CCRBCEjcWZoC6JNlcnPfdnmk/n0SO78Xp3HNDFlS8Tw+wFLyNACbS
+qZKqLiD0g5PjKhwN3QYknqaYzo9dX4yy6VYWyMpcBwz3djrbRoBE7DSX3/u5mt0x
+GVMkXmKpQijPoVWJIX4ggS5ID6UHfeYFThZxHpYFCu0AykTMAVH/cJPRsxBHIkAx
+1cPDVvS+fmd7H5DJ7D0nYlihlsf2xTg+rWhP9U5EXwlEpr1bncYBa1kvKk6FEQH6
+QkTRLPZj5+OdTd8leASuOmBRopk6a11jRiM3CCe5ctOWd2ojYUqt4n707KEoTYA9
+bPck1CQPb+tpnQaSLz6nR+EG4E4si0r+VPdvsVpGEb0kXeDdSYIfoLQRtasa5LIn
+vLcJTjW+dUXXcJOAZ8Wz1sHvXh8YCPYT6NEpbJunjVTqSyUb1MzBd4uHbF4w2r9E
+6ED8DzbuLR/cewlLwfNggIoQxQNtvRCrOSvzvAm8l/CED3T8UfsXhCGzgOVO+Y2y
+PxcT4YqDi5OMHbMyAtEx6hN5qpUtXAz1ld3UcBXKQY5lcoq14SqyWGyKthRwYzuP
+5A5Ip7at8lsj6jw+u7bNTLBfUBdaT4EvkDxWEaXX+aMvTMJ/57gsqgnTG5YGAbCJ
+e4J+N/hNXUourFkWsOfjZlGcNobH0Jo8SpXCE5/EMhkpAvJrQu0=
+=vnWt
+-----END PGP SIGNATURE-----
+
+--fwwIMpD4bMVv6jlq--
+
+--===============1420541423424410752==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1420541423424410752==--
