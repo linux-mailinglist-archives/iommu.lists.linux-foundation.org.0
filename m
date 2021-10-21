@@ -1,67 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07C34356AD
-	for <lists.iommu@lfdr.de>; Thu, 21 Oct 2021 02:08:43 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F5443589F
+	for <lists.iommu@lfdr.de>; Thu, 21 Oct 2021 04:26:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 4072560C1F;
-	Thu, 21 Oct 2021 00:08:42 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id EACF260B71;
+	Thu, 21 Oct 2021 02:26:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2U_y7D84x-ub; Thu, 21 Oct 2021 00:08:41 +0000 (UTC)
+	with ESMTP id JVp2B1H0VhTM; Thu, 21 Oct 2021 02:26:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3778360BFE;
-	Thu, 21 Oct 2021 00:08:41 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1783360BBB;
+	Thu, 21 Oct 2021 02:26:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B974C0022;
-	Thu, 21 Oct 2021 00:08:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7A82C0022;
+	Thu, 21 Oct 2021 02:26:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15789C000D
- for <iommu@lists.linux-foundation.org>; Wed, 20 Oct 2021 23:25:12 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E12AAC000D
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Oct 2021 02:26:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id F29B560BC4
- for <iommu@lists.linux-foundation.org>; Wed, 20 Oct 2021 23:25:11 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id DC17C401F8
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Oct 2021 02:26:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0D-PUzMKsngd for <iommu@lists.linux-foundation.org>;
- Wed, 20 Oct 2021 23:25:10 +0000 (UTC)
-X-Greylist: delayed 00:07:58 by SQLgrey-1.8.0
-Received: from ixit.cz (ixit.cz [94.230.151.217])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9669560BC3
- for <iommu@lists.linux-foundation.org>; Wed, 20 Oct 2021 23:25:10 +0000 (UTC)
-Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz
- [89.176.96.70])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 94411236BE;
- Thu, 21 Oct 2021 01:17:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1634771826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=997v4bghoI2OwZJOdMtQH10QCmvL+vjH9bUCFTSkQXU=;
- b=vrtBpxB8fdof2H90vp1/UQ3IHSJ2NehNBvsM4Szb8jiBPXEwJN0am0ZaMwHqX43I41IEJs
- dFqovI5BC0J4f/IS3tDMR/5b+4l+nqFdhQMnlh3QHpICdGGP8A0Ha/E3LrJ9t6uSTRT449
- 64L2RkiuJSnF3qwcN3tcLMA/fzCw894=
-From: David Heidelberg <david@ixit.cz>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH] dt-bindings: arm-smmu: Add compatible for the SDX55 SoC
-Date: Thu, 21 Oct 2021 01:17:00 +0200
-Message-Id: <20211020231701.278846-1-david@ixit.cz>
-X-Mailer: git-send-email 2.33.0
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AxGx4pOBSP8P for <iommu@lists.linux-foundation.org>;
+ Thu, 21 Oct 2021 02:26:42 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id EB0254012E
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Oct 2021 02:26:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="315132600"
+X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="315132600"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 19:26:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="483985485"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
+ ([10.239.159.118])
+ by orsmga007.jf.intel.com with ESMTP; 20 Oct 2021 19:26:37 -0700
+Subject: Re: [PATCH v3 4/6] iommu: Move IOMMU pagesize check to attach_device
+To: Marc Zyngier <maz@kernel.org>
+References: <20211019163737.46269-1-sven@svenpeter.dev>
+ <20211019163737.46269-5-sven@svenpeter.dev>
+ <9e25f2c0-d9d3-475d-e973-63be1891f9a5@linux.intel.com>
+ <8735ovdbcv.wl-maz@kernel.org>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <6a886030-cbc6-9e92-bf79-77b659da2915@linux.intel.com>
+Date: Thu, 21 Oct 2021 10:22:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 21 Oct 2021 00:08:39 +0000
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- David Heidelberg <david@ixit.cz>, iommu@lists.linux-foundation.org,
- ~okias/devicetree@lists.sr.ht, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <8735ovdbcv.wl-maz@kernel.org>
+Content-Language: en-US
+Cc: Arnd Bergmann <arnd@kernel.org>, Will Deacon <will@kernel.org>,
+ Hector Martin <marcan@marcan.st>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Alexander Graf <graf@amazon.com>,
+ Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,33 +75,96 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add missing compatible for the SDX55 SoC.
+On 10/20/21 10:22 PM, Marc Zyngier wrote:
+> On Wed, 20 Oct 2021 06:21:44 +0100,
+> Lu Baolu <baolu.lu@linux.intel.com> wrote:
+>>
+>> On 2021/10/20 0:37, Sven Peter via iommu wrote:
+>>> The iova allocator is capable of handling any granularity which is a power
+>>> of two. Remove the much stronger condition that the granularity must be
+>>> smaller or equal to the CPU page size from a BUG_ON there.
+>>> Instead, check this condition during __iommu_attach_device and fail
+>>> gracefully.
+>>>
+>>> Signed-off-by: Sven Peter<sven@svenpeter.dev>
+>>> ---
+>>>    drivers/iommu/iommu.c | 35 ++++++++++++++++++++++++++++++++---
+>>>    drivers/iommu/iova.c  |  7 ++++---
+>>>    include/linux/iommu.h |  5 +++++
+>>>    3 files changed, 41 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>>> index dd7863e453a5..28896739964b 100644
+>>> --- a/drivers/iommu/iommu.c
+>>> +++ b/drivers/iommu/iommu.c
+>>> @@ -80,6 +80,8 @@ static struct iommu_domain *__iommu_domain_alloc(struct bus_type *bus,
+>>>    						 unsigned type);
+>>>    static int __iommu_attach_device(struct iommu_domain *domain,
+>>>    				 struct device *dev);
+>>> +static void __iommu_detach_device(struct iommu_domain *domain,
+>>> +				  struct device *dev);
+>>>    static int __iommu_attach_group(struct iommu_domain *domain,
+>>>    				struct iommu_group *group);
+>>>    static void __iommu_detach_group(struct iommu_domain *domain,
+>>> @@ -1974,6 +1976,19 @@ void iommu_domain_free(struct iommu_domain *domain)
+>>>    }
+>>>    EXPORT_SYMBOL_GPL(iommu_domain_free);
+>>>    +static int iommu_check_page_size(struct iommu_domain *domain)
+>>> +{
+>>> +	if (!iommu_is_paging_domain(domain))
+>>> +		return 0;
+>>> +
+>>> +	if (!(domain->pgsize_bitmap & (PAGE_SIZE | (PAGE_SIZE - 1)))) {
+>>> +		pr_warn("IOMMU pages cannot exactly represent CPU pages.\n");
+>>> +		return -EFAULT;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>>    static int __iommu_attach_device(struct iommu_domain *domain,
+>>>    				 struct device *dev)
+>>>    {
+>>> @@ -1983,9 +1998,23 @@ static int __iommu_attach_device(struct iommu_domain *domain,
+>>>    		return -ENODEV;
+>>>      	ret = domain->ops->attach_dev(domain, dev);
+>>> -	if (!ret)
+>>> -		trace_attach_device_to_domain(dev);
+>>> -	return ret;
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	/*
+>>> +	 * Check that CPU pages can be represented by the IOVA granularity.
+>>> +	 * This has to be done after ops->attach_dev since many IOMMU drivers
+>>> +	 * only limit domain->pgsize_bitmap after having attached the first
+>>> +	 * device.
+>>> +	 */
+>>> +	ret = iommu_check_page_size(domain);
+>>> +	if (ret) {
+>>> +		__iommu_detach_device(domain, dev);
+>>> +		return ret;
+>>> +	}
+>>
+>> It looks odd. __iommu_attach_device() attaches an I/O page table for a
+>> device. How does it relate to CPU pages? Why is it a failure case if CPU
+>> page size is not covered?
+> 
+> If you allocate a CPU PAGE_SIZE'd region, and point it at a device
+> that now can DMA to more than what you have allocated because the
+> IOMMU's own page size is larger, the device has now access to data it
+> shouldn't see. In my book, that's a pretty bad thing.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
- 1 file changed, 1 insertion(+)
+But even you enforce the CPU page size check here, this problem still
+exists unless all DMA buffers are PAGE_SIZE aligned and sized, right?
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index 03f2b2d4db30..5ccf0025ffa9 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -37,6 +37,7 @@ properties:
-               - qcom,sc7280-smmu-500
-               - qcom,sc8180x-smmu-500
-               - qcom,sdm845-smmu-500
-+              - qcom,sdx55-smmu-500
-               - qcom,sm8150-smmu-500
-               - qcom,sm8250-smmu-500
-               - qcom,sm8350-smmu-500
--- 
-2.33.0
-
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
