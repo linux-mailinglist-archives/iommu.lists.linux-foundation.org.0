@@ -1,66 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECF2438B2F
-	for <lists.iommu@lfdr.de>; Sun, 24 Oct 2021 20:01:19 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4AA438B5D
+	for <lists.iommu@lfdr.de>; Sun, 24 Oct 2021 20:19:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5DA0880EE2;
-	Sun, 24 Oct 2021 18:01:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BFD2540247;
+	Sun, 24 Oct 2021 18:19:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HDJL4O8wWwFw; Sun, 24 Oct 2021 18:01:17 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3PdF13PM9NvK; Sun, 24 Oct 2021 18:19:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8135380EDD;
-	Sun, 24 Oct 2021 18:01:17 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A7487401FD;
+	Sun, 24 Oct 2021 18:19:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50091C0036;
-	Sun, 24 Oct 2021 18:01:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D1F3C0036;
+	Sun, 24 Oct 2021 18:19:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 166DFC000E
- for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 18:01:16 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 47C38C000E
+ for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 18:18:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id EAB80605DD
- for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 18:01:15 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 2E67B401E1
+ for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 18:18:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aAUvD7ii_7K6 for <iommu@lists.linux-foundation.org>;
- Sun, 24 Oct 2021 18:01:14 +0000 (UTC)
-X-Greylist: delayed 00:06:22 by SQLgrey-1.8.0
-Received: from smtprelay.hostedemail.com (smtprelay0206.hostedemail.com
- [216.40.44.206])
- by smtp3.osuosl.org (Postfix) with ESMTPS id BF50E605CF
- for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 18:01:14 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave04.hostedemail.com (Postfix) with ESMTP id D02FF18020D8B
- for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 17:54:52 +0000 (UTC)
-Received: from omf02.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id 38F50837F24A;
- Sun, 24 Oct 2021 17:54:50 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf02.hostedemail.com (Postfix) with ESMTPA id 045191D42FE; 
- Sun, 24 Oct 2021 17:54:48 +0000 (UTC)
-Message-ID: <c8cd95bc81173fdbdff4f2b504db3ce89119fa0d.camel@perches.com>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AMtqRwgcSxU9 for <iommu@lists.linux-foundation.org>;
+ Sun, 24 Oct 2021 18:18:57 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr
+ [80.12.242.123])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id B79E8400DD
+ for <iommu@lists.linux-foundation.org>; Sun, 24 Oct 2021 18:18:56 +0000 (UTC)
+Received: from [192.168.1.18] ([92.140.161.106]) by smtp.orange.fr with ESMTPA
+ id ei57mb2SudmYbei57mLejJ; Sun, 24 Oct 2021 20:18:54 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sun, 24 Oct 2021 20:18:54 +0200
+X-ME-IP: 92.140.161.106
 Subject: Re: [PATCH] dma-mapping: Use 'bitmap_zalloc()' when applicable
-From: Joe Perches <joe@perches.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, hch@lst.de, 
- m.szyprowski@samsung.com, robin.murphy@arm.com
-Date: Sun, 24 Oct 2021 10:54:47 -0700
-In-Reply-To: <20976d6fd4af266dec589b40929b53dfddd64b75.1635097161.git.christophe.jaillet@wanadoo.fr>
+To: Joe Perches <joe@perches.com>, hch@lst.de, m.szyprowski@samsung.com,
+ robin.murphy@arm.com
 References: <20976d6fd4af266dec589b40929b53dfddd64b75.1635097161.git.christophe.jaillet@wanadoo.fr>
-User-Agent: Evolution 3.40.4-1 
+ <c8cd95bc81173fdbdff4f2b504db3ce89119fa0d.camel@perches.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <994b268f-ea33-bf82-96ab-c20057ba4930@wanadoo.fr>
+Date: Sun, 24 Oct 2021 20:18:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 045191D42FE
-X-Stat-Signature: dotqdwh1id9s5bqhiu7qf5wdox53djwc
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19VkHMpeC0Rf7DNqfV3OOTzbF+2tEL3N9E=
-X-HE-Tag: 1635098088-252882
+In-Reply-To: <c8cd95bc81173fdbdff4f2b504db3ce89119fa0d.camel@perches.com>
+Content-Language: en-US
 Cc: iommu@lists.linux-foundation.org, kernel-janitors@vger.kernel.org,
  linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -75,22 +68,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, 2021-10-24 at 19:40 +0200, Christophe JAILLET wrote:
-> 'dma_mem->bitmap' is a bitmap. So use 'bitmap_zalloc()' to simplify code,
-> improve the semantic and avoid some open-coded arithmetic in allocator
-> arguments.
-
-There is a cocci script for some of these.
-
-https://lore.kernel.org/all/08b89608cfb1280624d1a89ead6547069f9a4c31.camel@perches.com/
-
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+TGUgMjQvMTAvMjAyMSDDoCAxOTo1NCwgSm9lIFBlcmNoZXMgYSDDqWNyaXTCoDoKPiBPbiBTdW4s
+IDIwMjEtMTAtMjQgYXQgMTk6NDAgKzAyMDAsIENocmlzdG9waGUgSkFJTExFVCB3cm90ZToKPj4g
+J2RtYV9tZW0tPmJpdG1hcCcgaXMgYSBiaXRtYXAuIFNvIHVzZSAnYml0bWFwX3phbGxvYygpJyB0
+byBzaW1wbGlmeSBjb2RlLAo+PiBpbXByb3ZlIHRoZSBzZW1hbnRpYyBhbmQgYXZvaWQgc29tZSBv
+cGVuLWNvZGVkIGFyaXRobWV0aWMgaW4gYWxsb2NhdG9yCj4+IGFyZ3VtZW50cy4KPiAKPiBUaGVy
+ZSBpcyBhIGNvY2NpIHNjcmlwdCBmb3Igc29tZSBvZiB0aGVzZS4KPiAKPiBodHRwczovL2xvcmUu
+a2VybmVsLm9yZy9hbGwvMDhiODk2MDhjZmIxMjgwNjI0ZDFhODllYWQ2NTQ3MDY5ZjlhNGMzMS5j
+YW1lbEBwZXJjaGVzLmNvbS8KPiAKCkhpIEpvZSwKCnllcyBJIGtub3cuCkFzIGl0IGlzIHB1Ymxp
+YywgSSBndWVzcyB0aGF0IG5ldyBjb21lcnMgbWF5IGhhdmUgc2VlbiBpdCBhbmQgd2FudCB0byAK
+cHJvcG9zZSBwYXRjaGVzIGJhc2VkIG9uIHlvdXIgY29jY2kgc2NyaXB0LgoKU28sIGZvciBub3cs
+IEknbSBtb3JlIGZvY3VzZWQgb24gdGhpbmdzIHRoYXQgYXJlIG5vdCBzcG90dGVkIGJ5IHlvdXIg
+CnNjcmlwdC4gSSBsb29rIGZvciBwbGFjZXMgd2hlcmUgdGhlIHNpemUgY29tcHV0YXRpb24gaXMg
+bm90IGRvbmUgd2l0aGluIAp0aGUga21hbGxvYygpIG9yIGVxLiBmdW5jdGlvbi4KCkNKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcg
+bGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
+Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
