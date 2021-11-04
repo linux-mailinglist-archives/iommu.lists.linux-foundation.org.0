@@ -1,52 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B70444F90
-	for <lists.iommu@lfdr.de>; Thu,  4 Nov 2021 08:16:46 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1611A4450A1
+	for <lists.iommu@lfdr.de>; Thu,  4 Nov 2021 09:53:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6C80881076;
-	Thu,  4 Nov 2021 07:16:43 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A82B340133;
+	Thu,  4 Nov 2021 08:53:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rYvYvoShImoe; Thu,  4 Nov 2021 07:16:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7F95881027;
-	Thu,  4 Nov 2021 07:16:42 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id e5DOhj9KbFH2; Thu,  4 Nov 2021 08:53:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9395040110;
+	Thu,  4 Nov 2021 08:53:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4F0ADC000E;
-	Thu,  4 Nov 2021 07:16:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 64AC4C0036;
+	Thu,  4 Nov 2021 08:53:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20085C000E
- for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 07:16:41 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 074BFC0012
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 08:53:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 00CBB80F34
- for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 07:16:41 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id E9E29403C5
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 08:53:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hqqCnxCbop6z for <iommu@lists.linux-foundation.org>;
- Thu,  4 Nov 2021 07:16:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2BE9580F33
- for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 07:16:39 +0000 (UTC)
-Received: from guri.lan (unknown
- [IPv6:2a0d:6fc0:11c8:f600:2430:3a4b:db98:84e5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C2C9A1F45DE0;
- Thu,  4 Nov 2021 07:16:36 +0000 (GMT)
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH] iommu: log iova range in map/unmap trace events
-Date: Thu,  4 Nov 2021 09:16:20 +0200
-Message-Id: <20211104071620.27290-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-Cc: kernel@collabora.com, will@kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id m9jBtLwHPpxZ for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Nov 2021 08:53:41 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5C2974022B
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 08:53:41 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 89EB968AA6; Thu,  4 Nov 2021 09:53:36 +0100 (CET)
+Date: Thu, 4 Nov 2021 09:53:36 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Walter Wu <walter-zh.wu@mediatek.com>
+Subject: Re: [PATCH v2] dma-direct: improve DMA_ATTR_NO_KERNEL_MAPPING
+Message-ID: <20211104085336.GA24260@lst.de>
+References: <20211104023221.16391-1-walter-zh.wu@mediatek.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20211104023221.16391-1-walter-zh.wu@mediatek.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: wsd_upstream <wsd_upstream@mediatek.com>, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -59,54 +63,47 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In case of an iommu page fault, the faulting iova is logged in
-trace_io_page_fault. It is therefore convenient to log the
-iova range in mapping/unmapping trace events so that it is
-easier to see if the faulting iova was recently in any of
-those ranges.
+On Thu, Nov 04, 2021 at 10:32:21AM +0800, Walter Wu wrote:
+> diff --git a/include/linux/set_memory.h b/include/linux/set_memory.h
+> index f36be5166c19..6c7d1683339c 100644
+> --- a/include/linux/set_memory.h
+> +++ b/include/linux/set_memory.h
+> @@ -7,11 +7,16 @@
+>  
+>  #ifdef CONFIG_ARCH_HAS_SET_MEMORY
+>  #include <asm/set_memory.h>
+> +
+> +#ifndef CONFIG_RODATA_FULL_DEFAULT_ENABLED
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- include/trace/events/iommu.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+This is an arm64-specific symbol, and one that only controls a
+default.  I don't think it is suitable to key off stubs in common
+code.
 
-diff --git a/include/trace/events/iommu.h b/include/trace/events/iommu.h
-index 72b4582322ff..29096fe12623 100644
---- a/include/trace/events/iommu.h
-+++ b/include/trace/events/iommu.h
-@@ -101,8 +101,9 @@ TRACE_EVENT(map,
- 		__entry->size = size;
- 	),
- 
--	TP_printk("IOMMU: iova=0x%016llx paddr=0x%016llx size=%zu",
--			__entry->iova, __entry->paddr, __entry->size
-+	TP_printk("IOMMU: iova=0x%016llx - 0x%016llx paddr=0x%016llx size=%zu",
-+		  __entry->iova, __entry->iova + __entry->size, __entry->paddr,
-+		  __entry->size
- 	)
- );
- 
-@@ -124,8 +125,9 @@ TRACE_EVENT(unmap,
- 		__entry->unmapped_size = unmapped_size;
- 	),
- 
--	TP_printk("IOMMU: iova=0x%016llx size=%zu unmapped_size=%zu",
--			__entry->iova, __entry->size, __entry->unmapped_size
-+	TP_printk("IOMMU: iova=0x%016llx - 0x%016llx size=%zu unmapped_size=%zu",
-+		  __entry->iova, __entry->iova + __entry->size,
-+		  __entry->size, __entry->unmapped_size
- 	)
- );
- 
--- 
-2.17.1
+> +static inline int set_memory_valid(unsigned long addr, int numpages, int enable) { return 0; }
 
+Pleae avoid overly long lines.
+
+> +		if (IS_ENABLED(CONFIG_RODATA_FULL_DEFAULT_ENABLED)) {
+> +			kaddr = (unsigned long)phys_to_virt(dma_to_phys(dev, *dma_handle));
+
+This can just use page_address.
+
+> +			/* page remove kernel mapping for arm64 */
+> +			set_memory_valid(kaddr, size >> PAGE_SHIFT, 0);
+> +		}
+
+But more importantly:  set_memory_valid only exists on arm64, this
+will break compile everywhere else.  And this API is complete crap.
+Passing kernel virtual addresses as unsigned long just sucks, and
+passing an integer argument for valid/non-valid also is a horrible
+API.
+
+Not to mention the overly long line.  Same on the free side.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
