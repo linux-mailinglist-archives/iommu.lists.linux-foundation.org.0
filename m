@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6076B445329
-	for <lists.iommu@lfdr.de>; Thu,  4 Nov 2021 13:36:19 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 910FB44532A
+	for <lists.iommu@lfdr.de>; Thu,  4 Nov 2021 13:36:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0489960876;
-	Thu,  4 Nov 2021 12:36:18 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 327A6817F5;
+	Thu,  4 Nov 2021 12:36:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N2Fp2WUzLtt2; Thu,  4 Nov 2021 12:36:16 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FYbwd4-qpvJM; Thu,  4 Nov 2021 12:36:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EFBDE6086E;
-	Thu,  4 Nov 2021 12:36:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 38595817C3;
+	Thu,  4 Nov 2021 12:36:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CED56C000E;
-	Thu,  4 Nov 2021 12:36:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 15986C0021;
+	Thu,  4 Nov 2021 12:36:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EB1B5C000E
- for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 12:36:13 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B75B9C000E
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 12:36:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D9C684058D
- for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 12:36:13 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9982E404C3
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 12:36:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0cQ4Lc7mNdff for <iommu@lists.linux-foundation.org>;
- Thu,  4 Nov 2021 12:36:13 +0000 (UTC)
+ with ESMTP id VbWdbOIm-aZj for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Nov 2021 12:36:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 139F740571
- for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 12:36:13 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id DB78E40245
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Nov 2021 12:36:50 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C593113E;
- Thu,  4 Nov 2021 05:36:12 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B8521063;
+ Thu,  4 Nov 2021 05:36:50 -0700 (PDT)
 Received: from [10.57.80.217] (unknown [10.57.80.217])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFF5F3F7D7;
- Thu,  4 Nov 2021 05:36:11 -0700 (PDT)
-Message-ID: <1732d247-e82a-2250-d12e-0d5988d670a9@arm.com>
-Date: Thu, 4 Nov 2021 12:36:08 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3F3D3F7D7;
+ Thu,  4 Nov 2021 05:36:49 -0700 (PDT)
+Message-ID: <b0c11b91-36d6-e794-9efa-46cdf7a741b1@arm.com>
+Date: Thu, 4 Nov 2021 12:36:16 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
  Thunderbird/91.2.1
-Subject: Re: [PATCH 06/10] dma-direct: refactor the !coherent checks in
- dma_direct_alloc
+Subject: Re: [PATCH 05/10] dma-direct: factor out a helper for
+ DMA_ATTR_NO_KERNEL_MAPPING allocations
 Content-Language: en-GB
 To: Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org
 References: <20211021090611.488281-1-hch@lst.de>
- <20211021090611.488281-7-hch@lst.de>
+ <20211021090611.488281-6-hch@lst.de>
 From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20211021090611.488281-7-hch@lst.de>
+In-Reply-To: <20211021090611.488281-6-hch@lst.de>
 Cc: David Rientjes <rientjes@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -72,107 +72,71 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On 2021-10-21 10:06, Christoph Hellwig wrote:
-> Add a big central !dev_is_dma_coherent(dev) block to deal with as much
-> as of the uncached allocation schemes and document the schemes a bit
-> better.
+> Split the code for DMA_ATTR_NO_KERNEL_MAPPING allocations into a separate
+> helper to make dma_direct_alloc a little more readable.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Acked-by: David Rientjes <rientjes@google.com>
 > ---
->   kernel/dma/direct.c | 58 ++++++++++++++++++++++++++++-----------------
->   1 file changed, 36 insertions(+), 22 deletions(-)
+>   kernel/dma/direct.c | 31 ++++++++++++++++++++-----------
+>   1 file changed, 20 insertions(+), 11 deletions(-)
 > 
 > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 4ffdb524942a1..d66f37f34ba71 100644
+> index a6b6fe72af4d1..4ffdb524942a1 100644
 > --- a/kernel/dma/direct.c
 > +++ b/kernel/dma/direct.c
-> @@ -196,29 +196,46 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   	    !force_dma_unencrypted(dev) && !is_swiotlb_for_alloc(dev))
->   		return dma_direct_alloc_no_mapping(dev, size, dma_handle, gfp);
+> @@ -163,6 +163,24 @@ static void *dma_direct_alloc_from_pool(struct device *dev, size_t size,
+>   	return ret;
+>   }
 >   
-> -	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
-> -	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-> -	    !IS_ENABLED(CONFIG_DMA_GLOBAL_POOL) &&
-> -	    !dev_is_dma_coherent(dev) &&
-> -	    !is_swiotlb_for_alloc(dev))
-> -		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
-> +	if (!dev_is_dma_coherent(dev)) {
-> +		/*
-> +		 * Fallback to the arch handler if it exists.  This should
-> +		 * eventually go away.
-> +		 */
-> +		if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
-> +		    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-> +		    !IS_ENABLED(CONFIG_DMA_GLOBAL_POOL) &&
-> +		    !is_swiotlb_for_alloc(dev))
-> +			return arch_dma_alloc(dev, size, dma_handle, gfp,
-> +					      attrs);
->   
-> -	if (IS_ENABLED(CONFIG_DMA_GLOBAL_POOL) &&
-> -	    !dev_is_dma_coherent(dev))
-> -		return dma_alloc_from_global_coherent(dev, size, dma_handle);
-> +		/*
-> +		 * If there is a global pool, always allocate from it for
-> +		 * non-coherent devices.
-> +		 */
-> +		if (IS_ENABLED(CONFIG_DMA_GLOBAL_POOL))
-> +			return dma_alloc_from_global_coherent(dev, size,
-> +					dma_handle);
+> +static void *dma_direct_alloc_no_mapping(struct device *dev, size_t size,
+> +		dma_addr_t *dma_handle, gfp_t gfp)
+> +{
+> +	struct page *page;
 > +
-> +		/*
-> +		 * Otherwise remap if the architecture is asking for it.  But
-> +		 * given that remapping memory is a blocking operation we'll
-> +		 * instead have to dip into the atomic pools.
-> +		 */
-> +		if (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP)) {
-> +			if (!gfpflags_allow_blocking(gfp) &&
-> +			    !is_swiotlb_for_alloc(dev))
-> +				return dma_direct_alloc_from_pool(dev, size,
-> +						dma_handle, gfp);
-> +			remap = true;
+> +	page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
+> +	if (!page)
+> +		return NULL;
+> +
+> +	/* remove any dirty cache lines on the kernel alias */
+> +	if (!PageHighMem(page))
+> +		arch_dma_prep_coherent(page, size);
+> +
+> +	/* return the page pointer as the opaque cookie */
+> +	*dma_handle = phys_to_dma_direct(dev, page_to_phys(page));
+> +	return page;
+> +}
+> +
+>   void *dma_direct_alloc(struct device *dev, size_t size,
+>   		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+>   {
+> @@ -175,17 +193,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   		gfp |= __GFP_NOWARN;
+>   
+>   	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
+> -	    !force_dma_unencrypted(dev) && !is_swiotlb_for_alloc(dev)) {
+> -		page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
+> -		if (!page)
+> -			return NULL;
+> -		/* remove any dirty cache lines on the kernel alias */
+> -		if (!PageHighMem(page))
+> -			arch_dma_prep_coherent(page, size);
+> -		*dma_handle = phys_to_dma_direct(dev, page_to_phys(page));
+> -		/* return the page pointer as the opaque cookie */
+> -		return page;
+> -	}
+> +	    !force_dma_unencrypted(dev) && !is_swiotlb_for_alloc(dev))
 
-How about:
-		remap = IS_ENABLED(CONFIG_DMA_DIRECT_REMAP);
-
-		if (remap && ...)
-
-for a bit less indentation? FWIW I reckon it's slightly more obvious 
-that way round.
+Hmm, does force_dma_unencrypted() actually matter if the caller doesn't 
+want to access the buffer itself? Presumably any subsequent mmap() to 
+userspace would still do the right thing?
 
 Robin.
 
-> +		}
-> +	}
+> +		return dma_direct_alloc_no_mapping(dev, size, dma_handle, gfp);
 >   
->   	/*
-> -	 * Remapping or decrypting memory may block. If either is required and
-> -	 * we can't block, allocate the memory from the atomic pools.
-> -	 * If restricted DMA (i.e., is_swiotlb_for_alloc) is required, one must
-> -	 * set up another device coherent pool by shared-dma-pool and use
-> -	 * dma_alloc_from_dev_coherent instead.
-> +	 * Decrypting memory may block, so allocate the memory from the atomic
-> +	 * pools if we can't block.
->   	 */
->   	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
-> -	    !gfpflags_allow_blocking(gfp) &&
-> -	    (force_dma_unencrypted(dev) ||
-> -	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-> -	      !dev_is_dma_coherent(dev))) &&
-> +	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp) &&
->   	    !is_swiotlb_for_alloc(dev))
->   		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
->   
-> @@ -226,10 +243,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   	page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
->   	if (!page)
->   		return NULL;
-> -
-> -	if (!dev_is_dma_coherent(dev) && IS_ENABLED(CONFIG_DMA_DIRECT_REMAP)) {
-> -		remap = true;
-> -	} else if (PageHighMem(page)) {
-> +	if (PageHighMem(page)) {
->   		/*
->   		 * Depending on the cma= arguments and per-arch setup,
->   		 * dma_alloc_contiguous could return highmem pages.
+>   	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+>   	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
 > 
 _______________________________________________
 iommu mailing list
