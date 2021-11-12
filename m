@@ -1,81 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8AD44E723
-	for <lists.iommu@lfdr.de>; Fri, 12 Nov 2021 14:12:50 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B25B144E724
+	for <lists.iommu@lfdr.de>; Fri, 12 Nov 2021 14:12:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 402B660682;
-	Fri, 12 Nov 2021 13:12:49 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3581B81B98;
+	Fri, 12 Nov 2021 13:12:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0jpCznCtnkAR; Fri, 12 Nov 2021 13:12:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 45F8C60631;
-	Fri, 12 Nov 2021 13:12:45 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id R2-o3zpjtEtY; Fri, 12 Nov 2021 13:12:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5587481C20;
+	Fri, 12 Nov 2021 13:12:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FA28C0012;
-	Fri, 12 Nov 2021 13:12:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A800C0039;
+	Fri, 12 Nov 2021 13:12:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0D82C0012
- for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 13:12:43 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 704D4C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 13:12:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 83F2D81BF5
- for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 13:12:43 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 63F186060D
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 13:12:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aQklaRR1pv2s for <iommu@lists.linux-foundation.org>;
- Fri, 12 Nov 2021 13:12:39 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id a_Lfz6wzgk_j for <iommu@lists.linux-foundation.org>;
+ Fri, 12 Nov 2021 13:12:42 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 012AE81765
- for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 13:12:38 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u18so15441208wrg.5
- for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 05:12:38 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CA2736063F
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 13:12:41 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id d24so15520400wra.0
+ for <iommu@lists.linux-foundation.org>; Fri, 12 Nov 2021 05:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5BQCyeoftBnqluexlQFqNbj0sfJJp2rC7QMu3C6I4Zg=;
- b=O1/AgrCk+PAkiYDIhOZArF//i2H+vPoki07JngSt9fvDUEs8ThN9b9qg/7Tn9d21dp
- 9T7CTcxvuVB8YVg9P7bQa1/+jHwvPVcOyYEL4KXMtDgc98P+ZAlfQRJAwI/kvPOumtvs
- OBRRHT1MO3elSIcyIsr+iW7Ze44hLyWydY1Z6lyshshP7yqm3GI1qUMMvNkzNDbFUP31
- cWTjO83fzF/AG82eUIVVziB/FF/cQQCjTHn2mcm8WspkPZV0agOM8E6UlP9x4WqqXygA
- QnE+6aMrDASh2FMthqYYZ1tbJu0nXW+OObKhqqvUQMpI99+W7DlKZ23EwIpmV4+WOeCZ
- 8Xrw==
+ bh=30OwVGxUy40t+1ZulyfICuuL3SNGXPyxdBoyAE95czg=;
+ b=YSl3Vw5r2ILfv9Lot0EbCgdgIT+huk0RU+o8Oa9IK+u6PKR2Lyp73TbIR2pE6QJyDB
+ hSKBfsO0nfDyMNwQZbl5AcI3qpJ6Jn086dxGqZL1ccKMXZUlI+hditFp11VfRq5Y/Cps
+ mB7STmUiTskjXiCaMkvRZjQs5a9PzChrsK568cq/um+YEy1DAO4pb6iKajtxg1wMdzBn
+ eaHHHPBPy4e3XncPYw8ivtkb5Xk+TcEkiGJ3hTq0dgoMmDtwhmRzgWT5OhJnqlbnGRaU
+ ID/j3QjumPGu7YvlBq1geGcQ4WzVeqhZyCLMMW24lbhlDWhLNxuC9pPPAhsHizic6xI0
+ 04vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5BQCyeoftBnqluexlQFqNbj0sfJJp2rC7QMu3C6I4Zg=;
- b=lVL38rF/VKmYzWF+/y/5xI3Zhg4A5mA3SIAvAgdbOidKf/pgFHWKu6DMAajIIdyKyt
- tzHKFrLhF7ZcqNVgZ6Mefev0FOmPQE6rpOOBiCLy3EXXQgtePo7jBY1KoHDJHIzQDFW8
- IWdJi0bHksbLRZhurg22zYU+UD0zcp7E0yhbwmtyTyG+Mf3I02uQMUUGIilthER0YFaF
- nNHA0VW89xuMvkm0dnw3IIGmsFzi+D4PkAH2KAKOTlMr91MMzpK1M6coewkTAgjSn5ra
- n5P52Ct2oqen7SMpEVDYQi5Newb2XJOJmQl0XWZK+UaEPTym9CnHRHQWg4GMnrJmsjxI
- cLgA==
-X-Gm-Message-State: AOAM530WoFbwpzz93oTcHfGOlL0StRZXBIc0BoouvXWUroIe1WzFesfy
- mZhXpbPLGH+JgnfyIPJa/LY=
-X-Google-Smtp-Source: ABdhPJzXGvINEjdyWWMM4YRPaSpE8bNuSD+Uq5vsHP8/CjX9uKFv1EsCovA9Wf4X2IHkhGEaYgKzeg==
-X-Received: by 2002:a5d:4b41:: with SMTP id w1mr17906538wrs.437.1636722757281; 
- Fri, 12 Nov 2021 05:12:37 -0800 (PST)
+ bh=30OwVGxUy40t+1ZulyfICuuL3SNGXPyxdBoyAE95czg=;
+ b=lguELNro3vkPH/vptjJH2FpgcILyyaR0FnvTSL7fBl+HVtaxNrpKrKen6k77W/Vphn
+ m2YVdI8doJK/QjtfbfqAFu67dFXDFUcu0/qHULn/dH8p3g8U77ZjkzXpvfBNhRsED4+r
+ KUXi4h31kIrQB1RstIfjQ4L4sZILmjKwrk9IuWOrTyfXfROIx4q8Nv+JOHibhHJ/xKHk
+ 9r9Fo14dWyhwoFVfo+6LKjc93NOFaCTHsEIkrvb5Ks1antgoq+wZgSF4tx9LVQaIsn5H
+ EVsm8hZvJxb/LTZP7YQD39CBiSWGFHYgcVeYB+QrsccOCs01zrbDyufTzX3XmijeOGrX
+ Oehg==
+X-Gm-Message-State: AOAM533qCj2wpRdnINCbAkRwicVGC59d+inOrnj1wmgdfxYjIN46adcA
+ /BsQuhcxx3eQVdX9ezlwobc=
+X-Google-Smtp-Source: ABdhPJywqmqY0nIe7O7aYkY30dDm1/rkkFXIkJBhzsUDjoLWFwd8Ga9BDfrqfLD2rCzfrK8nQkVVrw==
+X-Received: by 2002:a5d:6d0b:: with SMTP id e11mr18874906wrq.16.1636722760058; 
+ Fri, 12 Nov 2021 05:12:40 -0800 (PST)
 Received: from localhost ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id h18sm6276740wre.46.2021.11.12.05.12.35
+ by smtp.gmail.com with ESMTPSA id o2sm5931682wrg.1.2021.11.12.05.12.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 05:12:36 -0800 (PST)
+ Fri, 12 Nov 2021 05:12:39 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 1/4] dt-bindings: arm-smmu: Document nvidia,
- memory-controller property
-Date: Fri, 12 Nov 2021 14:12:28 +0100
-Message-Id: <20211112131231.3683098-2-thierry.reding@gmail.com>
+Subject: [PATCH 2/4] dt-bindings: arm-smmu: Add compatible for Tegra234 SOC
+Date: Fri, 12 Nov 2021 14:12:29 +0100
+Message-Id: <20211112131231.3683098-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211112131231.3683098-1-thierry.reding@gmail.com>
 References: <20211112131231.3683098-1-thierry.reding@gmail.com>
@@ -102,41 +101,36 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-On NVIDIA SoC's the ARM SMMU needs to interact with the memory
-controller in order to map memory clients to the corresponding stream
-IDs. Document how the nvidia,memory-controller property can be used to
-achieve this.
+The NVIDIA Tegra234 SoC comes with one single-instance ARM SMMU used by
+isochronous memory clients and two dual-instance ARM SMMUs used by non-
+isochronous memory clients.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index f66a3effba73..cf32a7955475 100644
+index cf32a7955475..21d293a2dadd 100644
 --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
 +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -155,6 +155,12 @@ properties:
-   power-domains:
-     maxItems: 1
- 
-+  nvidia,memory-controller:
-+    description: A phandle to the memory controller on NVIDIA Tegra186
-+      and later SoCs. The memory controller needs to be programmed with
-+      a mapping of memory client IDs to ARM SMMU stream IDs.
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
- required:
-   - compatible
-   - reg
-@@ -177,6 +183,9 @@ allOf:
-         reg:
-           minItems: 1
-           maxItems: 2
-+
-+      required:
-+        - nvidia,memory-controller
-     else:
+@@ -60,6 +60,7 @@ properties:
+           for improved performance.
+         items:
+           - enum:
++              - nvidia,tegra234-smmu
+               - nvidia,tegra194-smmu
+               - nvidia,tegra186-smmu
+           - const: nvidia,smmu-500
+@@ -176,8 +177,9 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - nvidia,tegra194-smmu
+               - nvidia,tegra186-smmu
++              - nvidia,tegra194-smmu
++              - nvidia,tegra234-smmu
+     then:
        properties:
          reg:
 -- 
