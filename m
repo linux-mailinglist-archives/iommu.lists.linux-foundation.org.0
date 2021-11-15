@@ -1,94 +1,94 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225284513CD
-	for <lists.iommu@lfdr.de>; Mon, 15 Nov 2021 20:55:34 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 560074513CE
+	for <lists.iommu@lfdr.de>; Mon, 15 Nov 2021 20:55:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8A98840278;
-	Mon, 15 Nov 2021 19:55:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A317480D61;
+	Mon, 15 Nov 2021 19:55:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NPBKCiyuVJfU; Mon, 15 Nov 2021 19:55:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id AEC8440263;
-	Mon, 15 Nov 2021 19:55:31 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id g8b7vLkkumZf; Mon, 15 Nov 2021 19:55:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id BCC5880D77;
+	Mon, 15 Nov 2021 19:55:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B888C0032;
-	Mon, 15 Nov 2021 19:55:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E872C0012;
+	Mon, 15 Nov 2021 19:55:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64D69C0012;
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82397C0031;
  Mon, 15 Nov 2021 19:46:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 445DD6079D;
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5626540278;
  Mon, 15 Nov 2021 19:46:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=sent.com header.b="xB60fto7";
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=sent.com header.b="0KSmGcem";
  dkim=pass (2048-bit key) header.d=messagingengine.com
- header.b="ARzj9GHt"
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Um0zGOVranj0; Mon, 15 Nov 2021 19:46:00 +0000 (UTC)
+ header.b="AG6W7724"
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6zep9wp4efIe; Mon, 15 Nov 2021 19:46:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 81D61607A7;
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 824294026F;
  Mon, 15 Nov 2021 19:46:00 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 49F79580604;
- Mon, 15 Nov 2021 14:37:51 -0500 (EST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 490E5580631;
+ Mon, 15 Nov 2021 14:37:52 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 15 Nov 2021 14:37:51 -0500
+ by compute6.internal (MEProxy); Mon, 15 Nov 2021 14:37:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sent.com; h=from
  :to:cc:subject:date:message-id:in-reply-to:references:reply-to
- :mime-version:content-transfer-encoding; s=fm2; bh=AnymEuCYCocHA
- Ds+cC0A+imh3dmQP2pOP/ONvg/OKOg=; b=xB60fto7b9p9zKYRdTNdwVmSChO8D
- SsoFs9Iaft6I6qyt8nf1cWMRPpERDLgYtJOY0e4P4TglBSN2AD5X5hepF72gu8A9
- 3bvt5vdgmvsE1/Rmxdq98v6ijYxlrVXB08X4oJCo6XWKh+j/x3mT3xJBTVhK9UTt
- gwPKsITbiYfpYQR72+sVMrihaWedOfxpwppqGJoxAVxys5BWkP3r8uWtHMgsBZEP
- L8ilWVDaa5mKsOtUesoBnZRwPXg4inqJjIUHFvHiZH7aFIfqcT+9zn68o17HRl4t
- cso1oqksai7tfAsNxYbjKiE9enRRMgsV4ASU/j9Z362aYKw93iODw8t0w==
+ :mime-version:content-transfer-encoding; s=fm2; bh=YFFMYVihWiPWk
+ tyuxrOQDQ9eoOlotAMNNpVZGNCElO4=; b=0KSmGcem0XSmBLi02KfOtT89MOTZm
+ Z4IwFx+QEXZqMm9++dx+bVPqeYflclLgTijihCkbG3s6+Eky5F2lf6aFaXEqLRHD
+ QXWVVps72mZG/SDaBR48uA/py4FZ/lrH/C8H4IYNePPY1SMkE7zG7RLQBeJ6iOgb
+ NWmjiIROVXymlsb3OlpA9NcHUZYGin1/sGkSx5cV33lSBFFerYaA4a042ztvizP9
+ lYIZ/7miQQEPhi3OzlywV4dxvBWTb/4LVxVzhZqHze5C2nL8kZ0+Szraiw+sWqSL
+ YhaD1bH8jWoPpwRqkwRJkpLfmSo75LU4pv8XDfIkpXx9LtFqufoufdDtA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:reply-to:subject
  :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=AnymEuCYCocHADs+cC0A+imh3dmQP2pOP/ONvg/OKOg=; b=ARzj9GHt
- 89g8ElhfXy2AeWhnjWydjJMa7fp8+4jCzsf+jp8rv0KH7rW7KKKl40wkQOQP06K3
- sop3YEKBNBAa2jUfpJo9pZ5EXaNJDa8zswYcftk3XMqBYiSXrHSa066NfWqNn1Zw
- 96W9bSlWUscrUpyoAwaJMRaf23fi7ZvWYnEN9xPvIO48sq/n6KAOCEpZN2Rd3MeP
- 9YghOUKXbxaU+2GuzQ/JKc6O2blT1W9oJ5qdLMt1YGGj6temHwPaGPTJ0jVGypV3
- djHnqcVbuQ/oN//2e48ZaqMMYe18Fm+pc0vyoOAp66vhtkFhOqx5WInoUtNJLyTX
- Vb0drxpdVv3WIg==
-X-ME-Sender: <xms:D7eSYepi9_Z8uf-YaHwqRwLRPKfy8_CJW2g9ecIlmuCKhdZavlICEg>
- <xme:D7eSYcp14c186VrFe3DZgntVxmtYeZCcVNEh5-NBfBfe2e5nELed8sVqHe72rpUXU
- XvaoGjEFFbgF0eo_Q>
-X-ME-Received: <xmr:D7eSYTP7avKM76qeEnjbyf3F9-6N7NXUyyLCQRFSS4ZKQoxTp6EMnMvUHusYBIy8Gnf1HltY>
+ fm1; bh=YFFMYVihWiPWktyuxrOQDQ9eoOlotAMNNpVZGNCElO4=; b=AG6W7724
+ w7Vhj06SHRZjFE5aU+pnidCinTGfjv2nhxJZ6TS6uRSphj9r4DRwfRzwtAlwiyIu
+ bfcqb9UuKAeHnI7c65ujBBKh4zFj/kh8Lv5pexFDa4EtIURbKPur0FTkBPl2Qzag
+ dfp0NU1PZ+tTPSTFvTb40cpl9zNtKGA4Vv5Mtqxs4NqEQE7zaPJsCcFtjyYVOnMJ
+ CM4rCwlCYtDhE/5L2eyV2fVmI2iPcdD994UiDrGP05p3G3gzrFnzL74Bm7/4In48
+ NG1l/W0XuYMPkAR0fI4Haw8j13qj2IUs7iW/Dp20cmR+VZ7XEeUkvCxrdv08tiJU
+ JTsrAy3/AJdG6A==
+X-ME-Sender: <xms:D7eSYR6F2OCY0aXFjolRkyiLBwUm32hkrpDW71yH2l3z9yq8yQcirQ>
+ <xme:D7eSYe69Z0e0J9imxreIuQ7ljrcXkMShhzOi7Hiyiin8CWsdHLManl2sSfm1bZoL7
+ 353LyVjCu3k_AXYlw>
+X-ME-Received: <xmr:D7eSYYcKmA6JuI4rVsFCUxaAaWia70Hkyp3ZR9MO9sMh6Mmwt0A2cv0pf2oFWt0QncpB6bI9>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfedtgddutddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfrhgggfestdhqredtredttdenucfhrhhomhepkghiucgj
  rghnuceoiihirdihrghnsehsvghnthdrtghomheqnecuggftrfgrthhtvghrnhepieejue
  dvueduuefhgefhheeiuedvtedvuefgieegveetueeiueehtdegudehfeelnecuvehluhhs
- thgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepiihirdihrghnsehsvg
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepiihirdihrghnsehsvg
  hnthdrtghomh
-X-ME-Proxy: <xmx:D7eSYd4yJGehSQMDMdWB_xRmvIPDOk3IdN66w9wppYPuVduHoVtIyw>
- <xmx:D7eSYd7gCBUQmT2CMLvfkRawMDbo81AJQ-SFsg-Cja9aKjU1iUGJ9g>
- <xmx:D7eSYdjOXUCZtIHGbIbHMr9SQgmvy-WOZndHNEJ1sY9TXOEVGqurhQ>
- <xmx:D7eSYSHHQ-Is8qJNgu2aA7Y43q2g-vUX36d-mkxiqCvX19_ozECB1g>
+X-ME-Proxy: <xmx:D7eSYaIxidt93JQnvs-8VA9VlQE9H9wWsjtj_jteON4m098vlZF6Fw>
+ <xmx:D7eSYVJynTUv1E1Gn2kLXcxam7_4OfTH85AuqAk3OrDZU0k1gkO-rQ>
+ <xmx:D7eSYTz1PUmixsZoMw4rWRLueT399yXJBV5agTa10jzreI5ii-_DkA>
+ <xmx:ELeSYeX-tSoOAwwfRfuGF2owt7JF4z9ZpWx6we5_tg1jp0WhR_Q9Jg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Nov 2021 14:37:50 -0500 (EST)
+ 15 Nov 2021 14:37:51 -0500 (EST)
 From: Zi Yan <zi.yan@sent.com>
 To: David Hildenbrand <david@redhat.com>,
 	linux-mm@kvack.org
-Subject: [RFC PATCH 3/3] arch: powerpc: adjust fadump alignment to be
- pageblock aligned.
-Date: Mon, 15 Nov 2021 14:37:24 -0500
-Message-Id: <20211115193725.737539-4-zi.yan@sent.com>
+Subject: [RFC PATCH 3/3] arch: powerpc: adjust fadump alignment to pageblock
+ aligned.
+Date: Mon, 15 Nov 2021 14:37:25 -0500
+Message-Id: <20211115193725.737539-5-zi.yan@sent.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211115193725.737539-1-zi.yan@sent.com>
 References: <20211115193725.737539-1-zi.yan@sent.com>
@@ -118,8 +118,7 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Zi Yan <ziy@nvidia.com>
 
-CMA only requires pageblock alignment now. Change CMA alignment in
-fadump too.
+CMA only requires pageblock alignment. Change fadump too.
 
 Signed-off-by: Zi Yan <ziy@nvidia.com>
 ---
