@@ -1,147 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFAF453B34
-	for <lists.iommu@lfdr.de>; Tue, 16 Nov 2021 21:48:43 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BB8453C9F
+	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 00:16:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6D2D6600CD;
-	Tue, 16 Nov 2021 20:48:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0B9784022C;
+	Tue, 16 Nov 2021 23:16:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ULcisgrKCU8q; Tue, 16 Nov 2021 20:48:40 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id waadzksIo7dO; Tue, 16 Nov 2021 23:16:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6245060800;
-	Tue, 16 Nov 2021 20:48:40 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0F18A404C9;
+	Tue, 16 Nov 2021 23:16:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33ECFC0032;
-	Tue, 16 Nov 2021 20:48:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1315C0012;
+	Tue, 16 Nov 2021 23:16:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA8DAC0012
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 20:48:38 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2818EC0012
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 23:16:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 94DB2605A5
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 20:48:38 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 089C1404B0
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 23:16:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GeqQeJLM8lqB for <iommu@lists.linux-foundation.org>;
- Tue, 16 Nov 2021 20:48:37 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on20615.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8b::615])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 15BCD600CD
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 20:48:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R8l1AHEHaY4aVI16dAQI75juD9XudwRzP+Zq708JVc1BGUWZ5d6dYUidfeHePxw07tuzispmqtkvF/w7vllDUFuGZQUjy+708KlxnP3NkGZ3oGzrjVxKvZV4vwMnl52+9xe2udnigcA7smI7vHfeioTxmref9bTbAv7pfAJa4IUpz530n32e112m/hg/dBOVCYok4QPjS31DzEexSGP0EuIXif4oxoTXRbju8/7vg3c3I+aauVE207McJd/+yald2UeuWQNRBPoRGql+u++uA8WcBebCpl/VPgAzgSbTOOb99EvXnOcKYlWY3ebCxIypeQgfDaY+JeacWnimBR38Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=txWjKYCTVc7iVTNkGHghOHNGQpil12vVO1xLbMyH4ow=;
- b=nqYJH8kO2dJM+1VMtp7oXaGVrR8u41mkxCNGAimzFS7ThPyy9SczabFNlC/uzftTEH91yKmRsBHULoSzTlfV9WCmH0uqZQ0t/SAQBHMG2AEBCUIh13KpfO9QfcU5zpkM0Qmw8XG/hEg+gfkTY7xLdR6A83pDc3b8vnqpbYn7k8cOLnXmkXOvPbJk2QPFzNKjg9rb2hLaXOHIFuOMRvnYXSZr+sJPzc723x9YuGCONqdaInxmWdaPgNprxON5xHYsS9aP4zjjd8fuYnJRswKTzjRFk18bXsPn8JHNkwDjS/UeB9v79SDpJzIPPkp5lZBhKh53D2Qe/T3eFx55JBOyvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=txWjKYCTVc7iVTNkGHghOHNGQpil12vVO1xLbMyH4ow=;
- b=PkU/8lkF5LDE8YjBkR+c2jH7EA4zMZ/mPsubgFDSL/x04/zBL9o6oEoUScOAhDwsgHnHnEOtb16E9+6r2gkSc9kO4QrbBxEWMIz6bVeTilHAEKbj/KbrWTNfBNh9poesxblO/ylWFbVbm7qtQ9LsLktO/CyDqQMOqAJajrbo3OiBh+z8US5pWyzE5szUsWMNXs0aWczrlyUMQL7xGb7EQtc+64hGSv8n1o5Rb+kRfqgVzTavAS0jbidGlfRRbhq1hhqZYdDnLsQ7VztPOwpTgHDyQoUYiqyi8Z20FE8V5KuLcSBFHJ2RdnQGkphF+ebInXw1mw6qmNmYS5v/sgctKg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5127.namprd12.prod.outlook.com (2603:10b6:208:31b::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Tue, 16 Nov
- 2021 20:48:34 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909%7]) with mapi id 15.20.4690.027; Tue, 16 Nov 2021
- 20:48:34 +0000
-Date: Tue, 16 Nov 2021 16:48:33 -0400
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 04/11] PCI: portdrv: Suppress kernel DMA ownership
- auto-claiming
-Message-ID: <20211116204833.GG2105516@nvidia.com>
-References: <4f95bea7-3c1c-4f12-aed5-a3fcdcd3fee3@linux.intel.com>
- <20211116202201.GA1676368@bhelgaas>
-Content-Disposition: inline
-In-Reply-To: <20211116202201.GA1676368@bhelgaas>
-X-ClientProxiedBy: BL1PR13CA0268.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::33) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lcwgePXFvr7a for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Nov 2021 23:16:14 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1CCFD401E0
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 23:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1637104574; x=1668640574;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=d1o1kmUayTCh9YPbMfls/1kauYNh2nzD2RfQOEq2JzI=;
+ b=MjFGpPgIVoNOiyq4/K4v2A1uiJ6l6EOiQt/lvjHtAAamYXwfnWBHIPic
+ FMlo0S6MMkIbxSuCs2krOMKi69M/CVlU0otS8UfWEB6APU9uf7O7OtNGU
+ jrHfYvD8NX+ZdN78VHya5qO6GaCUfFrCnnH9tTmSzs6oVq36yzy18t6f3 k=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Nov 2021 15:16:08 -0800
+X-QCInternal: smtphost
+Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 15:16:08 -0800
+Received: from th-lint-040.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 16 Nov 2021 15:16:08 -0800
+From: Georgi Djakov <quic_c_gdjako@quicinc.com>
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <robdclark@gmail.com>
+Subject: [RFC 1/2] arm64: Add support for system cache memory type
+Date: Tue, 16 Nov 2021 15:15:59 -0800
+Message-ID: <1637104560-37432-1-git-send-email-quic_c_gdjako@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by
- BL1PR13CA0268.namprd13.prod.outlook.com (2603:10b6:208:2ba::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.18 via Frontend
- Transport; Tue, 16 Nov 2021 20:48:34 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mn5NZ-00BDol-Er; Tue, 16 Nov 2021 16:48:33 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 41d51caf-1263-4824-31b6-08d9a94274e6
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5127:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5127A2DAD56D63381BDEEF51C2999@BL1PR12MB5127.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 32wI808t9Tvt8CPp5Aub3OUUM5r1/mrmY1d9Uf814pasUwf414AoltTGheNxFc7AttHy5WTY893Jz7JxX8YntAmwUcGpN4giuoeprYdSB5p6a2gX9ZYYHEV1COfRd2gcguHVufsXmjCTLDblavy7VEM5HebBiEMZLhEyOxawgBSI0WxoLjYOY09whb6Otrva4cDGSEFLO3bps5p/CIh7/s0GdXICmJewqDWLLWvtt1JIRKlyYxW0/eLyjagDjIcYrApy9Wedb8FcZzAiOBJyKzhgQr/4l5hQlwaFgrnkJ/IKugMBwS7Eglx/PjyMI8g4WKWyQg18UL8Ase/vc7Jx4kvaPJmGOAaf92C8yLO/E0gAh0xASAY1SSM6HMiKc88vnAVw1W5vKHn9L1C4ia9R8lHD9xF5C6iVZmcn3lAG5l14r+1ohy+sQSWFAzNnONvAwasxJaAL57flARRbHqfH6xXggJPfE4SiiA+iyNnM6ifLqiIjf2xXefPhrKusMRCJRfGCAgH1KnxH7PBix0yUYP4ME/h4Rp0yA5ZHRh+R7mHvi5bnhtjMWAuQjIS6NspSXV5aoMn7uCnRV3pjbaQl8lbSVPGViAc1xmTHRLIjE6vodQhi8fGnNGT0oYfBncjd83T+yi1vHXWrE9QNAd5aSA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(8676002)(66946007)(5660300002)(1076003)(6916009)(86362001)(8936002)(186003)(26005)(53546011)(66556008)(66476007)(38100700002)(83380400001)(33656002)(508600001)(7416002)(54906003)(9786002)(9746002)(2906002)(316002)(426003)(36756003)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?15JsD4JKbApvTI0F/PzrOVhhmUeyw5W2/Lr2Q+XT5zGZ/G8Xob5a4pcyJjd5?=
- =?us-ascii?Q?Mv5h6/wo9Kq/G6MNzUmRmDQiS/LkZe2gu8QSFK++J5G3PD8+v+iAADTKH3NI?=
- =?us-ascii?Q?4P+42xfLK3FcNRJHt+kT9Q0rjvUEV3s5OXC2s/xG6FY/SBBweHj5M4CTOP91?=
- =?us-ascii?Q?krUvxGjQmK0tlGxwr9KGzboRtzLt08Ssq1yuZ14w0wRCJmQeM9eAW1L/8IPh?=
- =?us-ascii?Q?yGVIQsRuC5XJ3BfZqjU9b/ohsFE5K0z+EJesB2xn1VJFHuJRMDJ2Fl3swU9y?=
- =?us-ascii?Q?drZASO3m5MX3oc3G2L2dxvsYNXl/G2aB+kBKbCULPWtYzd3EJad4VYGjsOtw?=
- =?us-ascii?Q?Drbaft9Zqm0RsWegqV0hQ8k0s4FonL3EpDaq76njWVR8FdZcQO7GTOu1gjac?=
- =?us-ascii?Q?Lgu2sWHTR8kdKLg7l38Zr7wvgG7Crm96oDyCGXeW7bndimr3nvuyl22Uc3L5?=
- =?us-ascii?Q?KJSuobQu5utdC6hryI6ONXYEeHuNd4Kxi0yOoKAMdpye27qZBYyeSj+W55fc?=
- =?us-ascii?Q?VnqrRNnSh9KtnurvqDtdrDMqRB7veZHguIEFGJhKGrP4dxrthurxtfV4GoFs?=
- =?us-ascii?Q?4uH7cp/Tppl95g1AKQaQWP3WP8s3n3ioPoSOlvszBoZtsKQy1pxzw3uD9S1E?=
- =?us-ascii?Q?Va2XCYmEQXMB6SbCFGJS7hpMuK7lohJEyAJ+4uOrTrKkMRWW4bnwd/2+LczL?=
- =?us-ascii?Q?1rGh5ZdiRao7nnarnJNSF26kJC9P6xLptY0fWoLVdPSO/U4qd1jJ0Iu+X/l2?=
- =?us-ascii?Q?KVopPinzxGau1gNJIS53kDWyYEvXQcXJ4pw3y2IcBAd2gOIXv8CtDNzns9X5?=
- =?us-ascii?Q?s2zZHx8Ql/6xwii13WdriAs9k3b3mZ3FqJVUDSTGSvKMKrm1WZ4gjBv9d6zd?=
- =?us-ascii?Q?G6mYxo1NY+gouKxtMoqPeaza6713wD9ciG2HoULYQ7V4oAzjXgziN+qnQ4dM?=
- =?us-ascii?Q?tluHuOjVze65C+dWzjmHUHloKwXVz4pap1GYuYpirz994u+hut2KznLHB6QX?=
- =?us-ascii?Q?Nm1Dv/lxrWttKJyk32ulycUq5PZ8Pcoh8mMY3bgwKQduuSieiWkN4GuJrcXP?=
- =?us-ascii?Q?OeggjbgMasygu2EaOSIZqft6mLhrb1VfFQWwe8SdtXT4egkwmQpPxaVOuS1n?=
- =?us-ascii?Q?r/kOtRISnUxkqYPuXiZbKkArrGx3v5AJDbVnw5wf4UBVuI2v6X0iyEJi1424?=
- =?us-ascii?Q?bF/a309d1TOJOm19tCGd54V77aF9MWYEvjZx0OXZxrRI9yLmIa9oxRlfMsIm?=
- =?us-ascii?Q?mUlZ5AxLF/rPPZF0jD1EOS0+mYqBGuh3bFhlELA9GsTp8AmWcbJC08FOuKrG?=
- =?us-ascii?Q?eDqfnOADjiT8/NdKWf7wZ1q+oJCXNvXHlkb36KFwqIultl5HS3fmC1WP/W0R?=
- =?us-ascii?Q?14sc+iQy1cOwmUEUxr63uXi82+gpqK3iAJFUgK4XurUtYfF/mpZZh7ljP3ah?=
- =?us-ascii?Q?yXnBeZfUWDkOmBIE/t42xyjZV1HpEFhQ2aoeSN0MOMF8u4ioTNWpCt7hD0HT?=
- =?us-ascii?Q?HedJWGaDcADS7+a4x2m8I4Cwe3ewZ1td2fCDHI7huP752a/XH+Krk6xaJdOG?=
- =?us-ascii?Q?QTRoPbKPE0FxZeYXR+M=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41d51caf-1263-4824-31b6-08d9a94274e6
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 20:48:34.5855 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H1FwJhB6pq4ubbvEuuZhQLxq17VsnOOC6zAloJdA0VxEbe1xmdcMye5J0h2jnwjn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5127
-Cc: Kevin Tian <kevin.tian@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Ashok Raj <ashok.raj@intel.com>, kvm@vger.kernel.org, rafael@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Cornelia Huck <cohuck@redhat.com>, linux-pci@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Jacob jun Pan <jacob.jun.pan@intel.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Will Deacon <will@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+Cc: arnd@arndb.de, sean@poorly.run, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, maz@kernel.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -154,86 +78,116 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Nov 16, 2021 at 02:22:01PM -0600, Bjorn Helgaas wrote:
-> On Tue, Nov 16, 2021 at 03:24:29PM +0800, Lu Baolu wrote:
-> > On 2021/11/16 4:44, Bjorn Helgaas wrote:
-> > > On Mon, Nov 15, 2021 at 10:05:45AM +0800, Lu Baolu wrote:
-> > > > IOMMU grouping on PCI necessitates that if we lack isolation on a bridge
-> > > > then all of the downstream devices will be part of the same IOMMU group
-> > > > as the bridge.
-> > > 
-> > > I think this means something like: "If a PCIe Switch Downstream Port
-> > > lacks <a specific set of ACS capabilities>, all downstream devices
-> > > will be part of the same IOMMU group as the switch," right?
-> > 
-> > For this patch, yes.
-> > 
-> > > If so, can you fill in the details to make it specific and concrete?
-> > 
-> > The existing vfio implementation allows a kernel driver to bind with a
-> > PCI bridge while its downstream devices are assigned to the user space
-> > though there lacks ACS-like isolation in bridge.
-> > 
-> > drivers/vfio/vfio.c:
-> >  540 static bool vfio_dev_driver_allowed(struct device *dev,
-> >  541                                     struct device_driver *drv)
-> >  542 {
-> >  543         if (dev_is_pci(dev)) {
-> >  544                 struct pci_dev *pdev = to_pci_dev(dev);
-> >  545
-> >  546                 if (pdev->hdr_type != PCI_HEADER_TYPE_NORMAL)
-> >  547                         return true;
-> >  548         }
-> > 
-> > We are moving the group viability check to IOMMU core, and trying to
-> > make it compatible with the current vfio policy. We saw three types of
-> > bridges:
-> > 
-> > #1) PCIe/PCI-to-PCI bridges
-> >     These bridges are configured in the PCI framework, there's no
-> >     dedicated driver for such devices.
-> > 
-> > #2) Generic PCIe switch downstream port
-> >     The port driver doesn't map and access any MMIO in the PCI BAR.
-> >     The iommu group is viable to user even this driver is bound.
-> > 
-> > #3) Hot Plug Controller
-> >     The controller driver maps and access the device MMIO. The iommu
-> >     group is not viable to user with this driver bound to its device.
-> 
-> I *guess* the question here is whether the bridge can or will do DMA?
-> I think that's orthogonal to the question of whether it implements
-> BARs, so I'm not sure why the MMIO BARs are part of this discussion.
-> I assume it's theoretically possible for a driver to use registers in
-> config space to program a device to do DMA, even if the device has no
-> BARs.
+From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 
-There are two questions Lu is trying to get at:
+Non-coherent devices on systems that support a system or
+last level cache may want to request that allocations be
+cached in the system cache. For memory that is allocated
+by the kernel, and used for DMA with devices, the memory
+attributes used for CPU access should match the memory
+attributes that will be used for device access.
 
- 1) Does the bridge driver use DMA? Calling pci_set_master() or
-    a dma_map_* API is a sure indicate the driver is doing DMA
+The memory attributes that need to be programmed into
+the MAIR for system cache usage are:
 
-    Kernel DMA doesn't work if the PCI device is attached to
-    non-default iommu domain.
+0xf4 - Normal memory, outer write back read/write allocate,
+inner non-cacheable.
 
- 2) If the bridge driver uses MMIO, is it tolerant to hostile
-    userspace also touching the same MMIO registers via P2P DMA
-    attacks?
+There is currently no support for this memory attribute for
+CPU mappings, so add it.
 
-    Conservatively if the driver maps a MMIO region at all
-    we can say it fails this test.
+Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+Signed-off-by: Georgi Djakov <quic_c_gdjako@quicinc.com>
+---
+ arch/arm64/include/asm/memory.h  | 1 +
+ arch/arm64/include/asm/pgtable.h | 9 +++++++++
+ arch/arm64/include/asm/sysreg.h  | 1 +
+ arch/arm64/mm/proc.S             | 3 ++-
+ include/linux/dma-map-ops.h      | 8 ++++++++
+ 5 files changed, 21 insertions(+), 1 deletion(-)
 
-Unless someone want to do the audit work, identifying MMIO usage alone
-is sufficient to disqualify a driver.
-
-Jason
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index 0af70d9abede..22553aab67a4 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -134,6 +134,7 @@
+ #define MT_NORMAL_NC		2
+ #define MT_DEVICE_nGnRnE	3
+ #define MT_DEVICE_nGnRE		4
++#define MT_NORMAL_iNC_oWB	5
+ 
+ /*
+  * Memory types for Stage-2 translation
+diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+index c4ba047a82d2..681c294c364e 100644
+--- a/arch/arm64/include/asm/pgtable.h
++++ b/arch/arm64/include/asm/pgtable.h
+@@ -524,6 +524,15 @@ static inline pmd_t pmd_mkdevmap(pmd_t pmd)
+ 	__pgprot_modify(prot, PTE_ATTRINDX_MASK, \
+ 			PTE_ATTRINDX(MT_NORMAL_NC) | PTE_PXN | PTE_UXN)
+ 
++/*
++ * Mark the prot value as outer cacheable and inner non-cacheable. Non-coherent
++ * devices on a system with support for a system or last level cache use these
++ * attributes to cache allocations in the system cache.
++ */
++#define pgprot_syscached(prot) \
++	__pgprot_modify(prot, PTE_ATTRINDX_MASK, \
++			PTE_ATTRINDX(MT_NORMAL_iNC_oWB) | PTE_PXN | PTE_UXN)
++
+ #define __HAVE_PHYS_MEM_ACCESS_PROT
+ struct file;
+ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
+diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+index 16b3f1a1d468..7c50b1840532 100644
+--- a/arch/arm64/include/asm/sysreg.h
++++ b/arch/arm64/include/asm/sysreg.h
+@@ -715,6 +715,7 @@
+ #define MAIR_ATTR_NORMAL_TAGGED		UL(0xf0)
+ #define MAIR_ATTR_NORMAL		UL(0xff)
+ #define MAIR_ATTR_MASK			UL(0xff)
++#define MAIR_ATTR_NORMAL_iNC_oWB	UL(0xf4)
+ 
+ /* Position the attr at the correct index */
+ #define MAIR_ATTRIDX(attr, idx)		((attr) << ((idx) * 8))
+diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
+index d35c90d2e47a..8a75973e5148 100644
+--- a/arch/arm64/mm/proc.S
++++ b/arch/arm64/mm/proc.S
+@@ -64,7 +64,8 @@
+ 	 MAIR_ATTRIDX(MAIR_ATTR_DEVICE_nGnRE, MT_DEVICE_nGnRE) |	\
+ 	 MAIR_ATTRIDX(MAIR_ATTR_NORMAL_NC, MT_NORMAL_NC) |		\
+ 	 MAIR_ATTRIDX(MAIR_ATTR_NORMAL, MT_NORMAL) |			\
+-	 MAIR_ATTRIDX(MAIR_ATTR_NORMAL, MT_NORMAL_TAGGED))
++	 MAIR_ATTRIDX(MAIR_ATTR_NORMAL, MT_NORMAL_TAGGED) |		\
++	 MAIR_ATTRIDX(MAIR_ATTR_NORMAL_iNC_oWB, MT_NORMAL_iNC_oWB))
+ 
+ #ifdef CONFIG_CPU_PM
+ /**
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 0d5b06b3a4a6..1f7d75201577 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -277,6 +277,14 @@ void arch_dma_free(struct device *dev, size_t size, void *cpu_addr,
+ #define pgprot_dmacoherent(prot)	pgprot_noncached(prot)
+ #endif
+ 
++/*
++ * If there is no system cache pgprot, then fallback to dmacoherent
++ * pgprot, as the expectation is that the device is not coherent.
++ */
++#ifndef pgprot_syscached
++#define pgprot_syscached(prot)		pgprot_dmacoherent(prot)
++#endif
++
+ pgprot_t dma_pgprot(struct device *dev, pgprot_t prot, unsigned long attrs);
+ #else
+ static inline pgprot_t dma_pgprot(struct device *dev, pgprot_t prot,
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
