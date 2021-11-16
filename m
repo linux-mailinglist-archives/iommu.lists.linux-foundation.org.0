@@ -1,86 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FFC453171
-	for <lists.iommu@lfdr.de>; Tue, 16 Nov 2021 12:52:23 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F08A4530F2
+	for <lists.iommu@lfdr.de>; Tue, 16 Nov 2021 12:37:39 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 091B94021C;
-	Tue, 16 Nov 2021 11:52:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1731A4041C;
+	Tue, 16 Nov 2021 11:37:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j1_ZM6INedDQ; Tue, 16 Nov 2021 11:52:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DF324403F2;
-	Tue, 16 Nov 2021 11:52:20 +0000 (UTC)
+	with ESMTP id 7ReU_fJwtMKH; Tue, 16 Nov 2021 11:37:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 560174041A;
+	Tue, 16 Nov 2021 11:37:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2EB50C0039;
-	Tue, 16 Nov 2021 11:52:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02249C0032;
+	Tue, 16 Nov 2021 11:37:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 736AEC001E
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:52:18 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB0FEC0012
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:37:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 53A7E401B1
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:52:18 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 99A1340415
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:37:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8GTg9ARZvkxq for <iommu@lists.linux-foundation.org>;
- Tue, 16 Nov 2021 11:52:17 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 0B46F40185
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:52:16 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id n29so36958261wra.11
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 03:52:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=v+QJmLY5BpY25I0rmG78uwWISNO+pZrvFRBP61oe3sw=;
- b=uTPfcujUExOV/32d5d9pSrPEzKYFf5z6TJEcXUumrFiczlKJgsd5gWhYVXEnWbQWkD
- Nt8svDH+tR6/Vny21lKjS0WIx/B3VDusxxiqOwiReFz5tj8CI0gJGH4B1wVSW8X+g8PM
- LrpWCwYB7cy7ZvlA/Oy5DVIJ5pmrFgnSaYs5lEvGgpy6K/WSaCNB1fOS+hcUuy+xGy2K
- 9hSjun1Z8ndBPzf47bchnYkViBnhdaF18oPx6QW1W3GVVLvDo6Pu2B30vwJHIyC8NV2k
- 4lbU7RZ1iuDMosa0hk6fCqaaGQoB2RYQzt5k6nBmJnsoYT6SFi03SX2y+zb5JKdW/7dq
- /erw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=v+QJmLY5BpY25I0rmG78uwWISNO+pZrvFRBP61oe3sw=;
- b=1CC+GeYz4stjCkybqkG7eRdQXfDjs6pjsHNzkeJ43WSqkDT6nNyip+aY+0W4jkCe5v
- hJxDJEGI7pZ/htPmeTw/5t6MAQVcnG6vhDFqfZZejsdg/k041Bx4uCg52ldG8aSKXfLF
- oEJeH0Y1yc28bQuol9jVN6HG6xdr6IfOM7A6YjzZH0k0tU9seJg1pH5qEAt8X4bmfD+y
- Fof1RaZz9bw1rhig8UUPKAEl9FyIqShbh31d4L8675A0tu/Bppcw36Teb4jiYwrB2x+I
- i0KC6P0FXhMP0mP8iyVWGpq3gzyyPsKRi9bWN9gHqAIp8YVzXuk16GZ6uPq9oDynFCI4
- XGcw==
-X-Gm-Message-State: AOAM530/F7fING9t1CZjqaskorOiTm1g+AiR2dDqPBNkc8k3bu3h6olo
- QR3c6QZApeLBV2NHmSRHTY1IBA==
-X-Google-Smtp-Source: ABdhPJw0qnoPTZDC82Hez68IY85kWriu4gxeza20OUJa40OGiN4vAnqPql5KOwe325d01vJPGd55+g==
-X-Received: by 2002:a5d:64ea:: with SMTP id g10mr8938553wri.242.1637063535219; 
- Tue, 16 Nov 2021 03:52:15 -0800 (PST)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id b6sm2232846wmq.45.2021.11.16.03.52.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 03:52:14 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: robh+dt@kernel.org
-Subject: [PATCH 2/2] perf/smmuv3: Add devicetree support
-Date: Tue, 16 Nov 2021 11:35:37 +0000
-Message-Id: <20211116113536.69758-3-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211116113536.69758-1-jean-philippe@linaro.org>
-References: <20211116113536.69758-1-jean-philippe@linaro.org>
+ with ESMTP id sLUY6xnkxvSw for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Nov 2021 11:37:26 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 3F81140004
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:37:25 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HtkW73C6CzZd79;
+ Tue, 16 Nov 2021 19:34:59 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 16 Nov 2021 19:37:21 +0800
+Received: from [10.67.102.169] (10.67.102.169) by
+ dggema772-chm.china.huawei.com (10.1.198.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Tue, 16 Nov 2021 19:37:20 +0800
+Subject: Re: [PATCH v2 2/6] hwtracing: Add trace function support for
+ HiSilicon PCIe Tune and Trace device
+To: Robin Murphy <robin.murphy@arm.com>, <gregkh@linuxfoundation.org>,
+ <helgaas@kernel.org>, <alexander.shishkin@linux.intel.com>,
+ <lorenzo.pieralisi@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
+ <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+ <mike.leach@linaro.org>, <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>, 
+ <daniel.thompson@linaro.org>, <joro@8bytes.org>, <john.garry@huawei.com>,
+ <shameerali.kolothum.thodi@huawei.com>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
+ <linux-pci@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+ <iommu@lists.linux-foundation.org>
+References: <20211116090625.53702-1-yangyicong@hisilicon.com>
+ <20211116090625.53702-3-yangyicong@hisilicon.com>
+ <0b67745c-13dd-1fea-1b8b-d55212bad232@arm.com>
+Message-ID: <3644ad6e-d800-c84b-9d62-6dda8462450f@hisilicon.com>
+Date: Tue, 16 Nov 2021 19:37:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, robin.murphy@arm.com,
- iommu@lists.linux-foundation.org, uchida.jun@socionext.com, leo.yan@linaro.org,
- will@kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <0b67745c-13dd-1fea-1b8b-d55212bad232@arm.com>
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
+Cc: zhangshaokun@hisilicon.com, liuqi115@huawei.com, linuxarm@huawei.com,
+ prime.zeng@huawei.com, yangyicong@hisilicon.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,87 +84,54 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Yicong Yang <yangyicong@hisilicon.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add device-tree support to the SMMUv3 PMCG.  One small cosmetic change
-while factoring the option mask printout: don't display it when zero, it
-only contains one erratum at the moment.
-
-Signed-off-by: Jay Chen <jkchen@linux.alibaba.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- drivers/perf/arm_smmuv3_pmu.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-index 226348822ab3..958325ac103a 100644
---- a/drivers/perf/arm_smmuv3_pmu.c
-+++ b/drivers/perf/arm_smmuv3_pmu.c
-@@ -47,6 +47,7 @@
- #include <linux/kernel.h>
- #include <linux/list.h>
- #include <linux/msi.h>
-+#include <linux/of.h>
- #include <linux/perf_event.h>
- #include <linux/platform_device.h>
- #include <linux/smp.h>
-@@ -750,8 +751,15 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
- 		smmu_pmu->options |= SMMU_PMCG_EVCNTR_RDONLY;
- 		break;
- 	}
-+}
-+
-+static void smmu_pmu_get_of_options(struct smmu_pmu *smmu_pmu)
-+{
-+	struct device_node *node = smmu_pmu->dev->of_node;
- 
--	dev_notice(smmu_pmu->dev, "option mask 0x%x\n", smmu_pmu->options);
-+	if (of_device_is_compatible(node, "hisilicon,smmu-v3-pmcg-hip08"))
-+		/* HiSilicon Erratum 162001800 */
-+		smmu_pmu->options |= SMMU_PMCG_EVCNTR_RDONLY;
- }
- 
- static int smmu_pmu_probe(struct platform_device *pdev)
-@@ -834,7 +842,13 @@ static int smmu_pmu_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
--	smmu_pmu_get_acpi_options(smmu_pmu);
-+	if (dev->of_node)
-+		smmu_pmu_get_of_options(smmu_pmu);
-+	else
-+		smmu_pmu_get_acpi_options(smmu_pmu);
-+
-+	if (smmu_pmu->options)
-+		dev_notice(dev, "option mask 0x%x\n", smmu_pmu->options);
- 
- 	/* Pick one CPU to be the preferred one to use */
- 	smmu_pmu->on_cpu = raw_smp_processor_id();
-@@ -884,10 +898,17 @@ static void smmu_pmu_shutdown(struct platform_device *pdev)
- 	smmu_pmu_disable(&smmu_pmu->pmu);
- }
- 
-+static const struct of_device_id arm_smmu_pmu_match[] = {
-+	{ .compatible = "arm,smmu-v3-pmcg" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, arm_smmu_pmu_match);
-+
- static struct platform_driver smmu_pmu_driver = {
- 	.driver = {
- 		.name = "arm-smmu-v3-pmcg",
- 		.suppress_bind_attrs = true,
-+		.of_match_table = of_match_ptr(arm_smmu_pmu_match),
- 	},
- 	.probe = smmu_pmu_probe,
- 	.remove = smmu_pmu_remove,
--- 
-2.33.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAyMS8xMS8xNiAxODo1NiwgUm9iaW4gTXVycGh5IHdyb3RlOgo+IE9uIDIwMjEtMTEtMTYg
+MDk6MDYsIFlpY29uZyBZYW5nIHZpYSBpb21tdSB3cm90ZToKPiBbLi4uXQo+PiArLyoKPj4gKyAq
+IEdldCBSTVIgYWRkcmVzcyBpZiBwcm92aWRlZCBieSB0aGUgZmlybXdhcmUuCj4+ICsgKiBSZXR1
+cm4gMCBpZiB0aGUgSU9NTVUgZG9lc24ndCBwcmVzZW50IG9yIHRoZSBwb2xpY3kgb2YgdGhlCj4+
+ICsgKiBJT01NVSBkb21haW4gaXMgcGFzc3Rocm91Z2ggb3Igd2UgZ2V0IGEgdXNhYmxlIFJNUiBy
+ZWdpb24uCj4+ICsgKiBPdGhlcndpc2UgYSBuZWdhdGl2ZSB2YWx1ZSBpcyByZXR1cm5lZC4KPj4g
+KyAqLwo+PiArc3RhdGljIGludCBoaXNpX3B0dF9nZXRfcm1yKHN0cnVjdCBoaXNpX3B0dCAqaGlz
+aV9wdHQpCj4+ICt7Cj4+ICvCoMKgwqAgc3RydWN0IHBjaV9kZXYgKnBkZXYgPSBoaXNpX3B0dC0+
+cGRldjsKPj4gK8KgwqDCoCBzdHJ1Y3QgaW9tbXVfZG9tYWluICppb21tdV9kb21haW47Cj4+ICvC
+oMKgwqAgc3RydWN0IGlvbW11X3Jlc3ZfcmVnaW9uICpyZWdpb247Cj4+ICvCoMKgwqAgTElTVF9I
+RUFEKGxpc3QpOwo+PiArCj4+ICvCoMKgwqAgLyoKPj4gK8KgwqDCoMKgICogVXNlIGRpcmVjdCBE
+TUEgaWYgSU9NTVUgZG9lcyBub3QgcHJlc2VudCBvciB0aGUgcG9saWN5IG9mIHRoZQo+PiArwqDC
+oMKgwqAgKiBJT01NVSBkb21haW4gaXMgcGFzc3Rocm91Z2guCj4+ICvCoMKgwqDCoCAqLwo+PiAr
+wqDCoMKgIGlvbW11X2RvbWFpbiA9IGlvbW11X2dldF9kb21haW5fZm9yX2RldigmcGRldi0+ZGV2
+KTsKPj4gK8KgwqDCoCBpZiAoIWlvbW11X2RvbWFpbiB8fCBpb21tdV9kb21haW4tPnR5cGUgPT0g
+SU9NTVVfRE9NQUlOX0lERU5USVRZKQo+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7Cj4+ICsK
+Pj4gK8KgwqDCoCBpb21tdV9nZXRfcmVzdl9yZWdpb25zKCZwZGV2LT5kZXYsICZsaXN0KTsKPj4g
+K8KgwqDCoCBsaXN0X2Zvcl9lYWNoX2VudHJ5KHJlZ2lvbiwgJmxpc3QsIGxpc3QpCj4+ICvCoMKg
+wqDCoMKgwqDCoCBpZiAocmVnaW9uLT50eXBlID09IElPTU1VX1JFU1ZfRElSRUNUICYmCj4+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlZ2lvbi0+bGVuZ3RoID49IEhJU0lfUFRUX1RSQUNFX0JV
+RkZFUl9TSVpFKSB7Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhpc2lfcHR0LT50cmFjZV9j
+dHJsLmhhc19ybXIgPSB0cnVlOwo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBoaXNpX3B0dC0+
+dHJhY2VfY3RybC5ybXJfYWRkciA9IHJlZ2lvbi0+c3RhcnQ7Cj4+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGhpc2lfcHR0LT50cmFjZV9jdHJsLnJtcl9sZW5ndGggPSByZWdpb24tPmxlbmd0aDsK
+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7Cj4+ICvCoMKgwqDCoMKgwqDCoCB9Cj4+
+ICsKPj4gK8KgwqDCoCBpb21tdV9wdXRfcmVzdl9yZWdpb25zKCZwZGV2LT5kZXYsICZsaXN0KTsK
+Pj4gK8KgwqDCoCByZXR1cm4gaGlzaV9wdHQtPnRyYWNlX2N0cmwuaGFzX3JtciA/IDAgOiAtRU5P
+TUVNOwo+PiArfQo+IAo+IE5vLgo+IAo+IFRoZSB3aG9sZSBwb2ludCBvZiBSTVJzIGlzIGZvciBk
+ZXZpY2VzIHRoYXQgYXJlIGFscmVhZHkgY29uZmlndXJlZCB0byBhY2Nlc3MgdGhlIGdpdmVuIGFk
+ZHJlc3MgcmFuZ2UgaW4gYSBtYW5uZXIgYmV5b25kIHRoZSBrZXJuZWwncyBjb250cm9sLiBJZiB5
+b3UgY2FuIGRvIHRoaXMsIGl0IHByb3ZlcyB0aGF0IHlvdSBzaG91bGQgbm90IGhhdmUgYW4gUk1S
+IGluIHRoZSBmaXJzdCBwbGFjZS4KPiAKPiBUaGUgbm90aW9uIG9mIGEga2VybmVsIGRyaXZlciBl
+eHBsaWNpdGx5IGNvbmZpZ3VyaW5nIGl0cyBkZXZpY2UgdG8gRE1BIGludG8gYW55IHJhbmRvbSBS
+TVIgdGhhdCBsb29rcyBiaWcgZW5vdWdoIGlzIHNvIGVncmVnaW91c2x5IHdyb25nIHRoYXQgSSdt
+IGFsbW9zdCBsb3N0IGZvciB3b3Jkcy4uLgo+IAoKb3VyIGJpb3Mgd2lsbCByZXNlcnZlIHN1Y2gg
+YSByZWdpb24gYW5kIHJlcG9ydGVkIGl0IHRocm91Z2ggaW9ydC4gdGhlIGRldmljZSB3aWxsIHdy
+aXRlIHRvIHRoZSByZWdpb24gYW5kIGluIHRoZSBkcml2ZXIgd2UgbmVlZCB0byBhY2Nlc3MgdGhl
+IHJlZ2lvbgp0byBnZXQgdGhlIHRyYWNlZCBkYXRhLiB0aGUgcmVnaW9uIGlzIHJlc2VydmVkIGV4
+Y2x1c2l2ZWx5IGFuZCB3aWxsIG5vdCBiZSBhY2Nlc3NlZCBieSBrZXJuZWwgb3Igb3RoZXIgZGV2
+aWNlcy4KCmlzIGl0IG9rIHRvIGxldCBiaW9zIGNvbmZpZ3VyZSB0aGUgYWRkcmVzcyB0byB0aGUg
+ZGV2aWNlIGFuZCBmcm9tIENQVSBzaWRlIHdlIGp1c3QgcmVhZCBpdD8KClRoYW5rcywKWWljb25n
+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUg
+bWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
+dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
