@@ -1,57 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1238F4530B8
-	for <lists.iommu@lfdr.de>; Tue, 16 Nov 2021 12:32:01 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB5453170
+	for <lists.iommu@lfdr.de>; Tue, 16 Nov 2021 12:52:22 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 754D2403F2;
-	Tue, 16 Nov 2021 11:31:59 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2787A40467;
+	Tue, 16 Nov 2021 11:52:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LjsG6vJ-J5-V; Tue, 16 Nov 2021 11:31:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 55965403F1;
-	Tue, 16 Nov 2021 11:31:58 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aOV3NTCw0Xm4; Tue, 16 Nov 2021 11:52:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 23F9040237;
+	Tue, 16 Nov 2021 11:52:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C081C0032;
-	Tue, 16 Nov 2021 11:31:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E032FC0032;
+	Tue, 16 Nov 2021 11:52:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 712EEC0012
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:31:56 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 583B2C0012
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:52:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 58BE3607D7
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:31:56 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4DD5C40457
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:52:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WLWRkkalXCD1 for <iommu@lists.linux-foundation.org>;
- Tue, 16 Nov 2021 11:31:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp3.osuosl.org (Postfix) with ESMTP id 95C6360766
- for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:31:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E535B1FB;
- Tue, 16 Nov 2021 03:31:54 -0800 (PST)
-Received: from [10.57.82.45] (unknown [10.57.82.45])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 584EE3F766;
- Tue, 16 Nov 2021 03:31:54 -0800 (PST)
-Message-ID: <73f5c70b-033c-f676-8ae9-4e89d5b043f1@arm.com>
-Date: Tue, 16 Nov 2021 11:31:49 +0000
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id behRz7yQkea7 for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Nov 2021 11:52:15 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5912F40237
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 11:52:15 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id s13so37064020wrb.3
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Nov 2021 03:52:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7+tviJRIIqKFH/joMd9Q2VuwL2kp++/vcVTuNBiLmTY=;
+ b=HuQiMtiZzY3tdoruvkLz+dFNF4HPYoYbLJTFSRlg4HRZnlHKcnqq1IoO4ZwobFLcRC
+ BQZ6XgkY4SsDEhJKABgXqn/SfHerqbyeRYxCM0hy3QXPz3W6CFGZdEbDHxlmtyQ+BKgp
+ VW9hUr6mhhmm2e4Y20CvwcO/knaFw/blt4cbVZHY6YcS0BlYchEgzdel/4n5GYIl1M1k
+ a01lUXY5YzDpacvANaEX2KcmlG5rrkTYYLlbv1TQJjULgaC00SfTJOL0s7SMq9TKFYSE
+ 4WRItc2FbEBFER611wRJJ/I1iKKcxSapImMYriUx2q0dowq8HHTxXFHAyolm2jnb6EDK
+ 5dpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7+tviJRIIqKFH/joMd9Q2VuwL2kp++/vcVTuNBiLmTY=;
+ b=asC46clg7possmj+VNVtuhClTlQIMcd7rijHAGnNqId3HGSKYaT6whLIJMZzdr2jMq
+ cVhVjQZPVQsBoxrXooYIDQTUFh3zVT/g4zToFspqQ2f6TiqxvQnQVy1iN3ucX0lb5wgi
+ S8Var/KjOjne+Z6+6o7ijj5QwUJWlaDjg+9asM8jBiIr/z6KMy44b20Pk2vRri3daWjR
+ iAVYPikmqstIu0ZYxosKjNdGjXRMfZjPAE6fBXY2C78ZK0lMWU87/cjEiMqCOa+yntQB
+ pJpVIkcxa07HqVnXrwyjuPydXB8DbB8oTGs2lSmRA0lukj7BkDlcoQlkvnlUlxSxcvBD
+ WRCw==
+X-Gm-Message-State: AOAM533rIvg7E9kBHyrj/VfRzzU537P1vJVO0WEj7ugNCiPfQUNcrxVZ
+ XH6QunhokJNaMmTMXKDgduUkGA==
+X-Google-Smtp-Source: ABdhPJzoIAXoYG38x1WM1fYsQvGCoCy5YoncrC23En2Ic65ARoZ2im8YfvNnsAezImOGHOPPsguxAA==
+X-Received: by 2002:a05:6000:144a:: with SMTP id
+ v10mr8881733wrx.315.1637063533400; 
+ Tue, 16 Nov 2021 03:52:13 -0800 (PST)
+Received: from localhost.localdomain
+ (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id b6sm2232846wmq.45.2021.11.16.03.52.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Nov 2021 03:52:12 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: robh+dt@kernel.org
+Subject: [PATCH 0/2] perf/smmuv3: Support devicetree
+Date: Tue, 16 Nov 2021 11:35:35 +0000
+Message-Id: <20211116113536.69758-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: dma-direct fixes and cleanups v3
-Content-Language: en-GB
-To: Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org
-References: <20211111065028.32761-1-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20211111065028.32761-1-hch@lst.de>
-Cc: David Rientjes <rientjes@google.com>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, robin.murphy@arm.com,
+ iommu@lists.linux-foundation.org, uchida.jun@socionext.com, leo.yan@linaro.org,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -64,41 +92,51 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-11-11 06:50, Christoph Hellwig wrote:
-> Hi all,
-> 
-> Linus complained about the complex flow in dma_direct_alloc, so this
-> tries to simplify it a bit, and while I was at it I also made sure that
-> unencrypted pages never leak back into the page allocator.
+Add devicetree binding for the SMMUv3 PMU, called Performance Monitoring
+Counter Group (PMCG) in the spec. Each SMMUv3 implementation can have
+multiple independent PMCGs, for example one for the Translation Control
+Unit (TCU) and one per Translation Buffer Unit (TBU).
 
-Before I forget, I've had a quick skim of the remaining patches and 
-nothing more stands out. Let me know if you'd like me to find time to 
-check everything over in detail again for a proper review, but otherwise 
-I reckon we may as well get this baking in -next sooner rather than later.
+I previously sent the binding as reply to Jay Chen's thread implementing
+device tree support [1]. This posting addresses the comments from that
+thread.
 
-Cheers,
-Robin.
+Patch 1 adds two compatible strings. "arm,smmu-v3-pmcg" is common to all
+PMCGs. "hisilicon,smmu-v3-pmcg-hip08" allows to support the same quirk
+as IORT for that implementation (see patch 2). We'll probably want to
+also introduce compatible strings for each implementation that has
+additional perf events. For example the MMU-600 implementation has
+different events for TCU and TBU PMCGs [2], but both components have the
+same device IDs. So the driver could differentiate them if they had two
+distinct compatible strings such as "arm,mmu-600-pmcg-tbu" and
+"arm,mmu-600-pmcg-tcu".
 
-> Changes since v2:
->   - don't call dma_set_decrypted on remapped memory
->   - move the leak printk into dma_set_encrypted
->   - add another local variable to clean up dma_direct_alloc
->   - return NULL when the is no way to make the memory coherent
-> 
-> Changes since v1:
->   - fix a missing return
->   - add a new patch to fix a pre-existing missing unmap
->   - various additional cleanups
->   
-> Diffstat:
->   direct.c |  234 +++++++++++++++++++++++++++++++++++++--------------------------
->   1 file changed, 138 insertions(+), 96 deletions(-)
-> 
+The series doesn't deal with this because for testing I use a software
+model which only implements architected events. I do not include DTS
+change for that platform because enabling PMCGs requires an additional
+model option. See my branch smmu/pmu-dt [3] for details.
+
+[1] https://lore.kernel.org/all/20200707150114.GC159413@myrica/
+[2] https://developer.arm.com/documentation/100310/0202/Functional-description/Operation/Performance-Monitoring-Unit
+[3] https://jpbrucker.net/git/linux/log/?h=smmu/pmu-dt
+
+Jean-Philippe Brucker (2):
+  dt-bindings: Add Arm SMMUv3 PMCG binding
+  perf/smmuv3: Add devicetree support
+
+ .../bindings/iommu/arm,smmu-v3-pmcg.yaml      | 67 +++++++++++++++++++
+ drivers/perf/arm_smmuv3_pmu.c                 | 25 ++++++-
+ 2 files changed, 90 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iommu/arm,smmu-v3-pmcg.yaml
+
+-- 
+2.33.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
