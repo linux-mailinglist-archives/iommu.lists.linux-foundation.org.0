@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3659945447F
-	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 11:00:07 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7415B454488
+	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 11:01:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BE31B40526;
-	Wed, 17 Nov 2021 10:00:05 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id miZLfaiSqdeH; Wed, 17 Nov 2021 10:00:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A8D1F4044B;
-	Wed, 17 Nov 2021 10:00:04 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E6CAC0036;
-	Wed, 17 Nov 2021 10:00:04 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9F029C0012
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 10:00:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 78E874092F
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 10:00:02 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DA2844090A;
+	Wed, 17 Nov 2021 10:01:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RIdjIJ8EzBwF for <iommu@lists.linux-foundation.org>;
- Wed, 17 Nov 2021 10:00:01 +0000 (UTC)
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NNYjlxyea_ER; Wed, 17 Nov 2021 10:01:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 061A740930;
+	Wed, 17 Nov 2021 10:01:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7658C0036;
+	Wed, 17 Nov 2021 10:01:49 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2F9CBC0012
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 10:01:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1DD8960A5D
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 10:01:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IxXdG6YOxtQu for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Nov 2021 10:01:47 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6F8B64054B
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 10:00:01 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8C03660A52
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 10:01:47 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 863B668AFE; Wed, 17 Nov 2021 10:59:53 +0100 (CET)
-Date: Wed, 17 Nov 2021 10:59:53 +0100
+ id C89DA68B05; Wed, 17 Nov 2021 11:01:42 +0100 (CET)
+Date: Wed, 17 Nov 2021 11:01:42 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Tianyu Lan <ltykernel@gmail.com>
-Subject: Re: [PATCH 1/5] x86/Swiotlb: Add Swiotlb bounce buffer remap
- function for HV IVM
-Message-ID: <20211117095953.GA10330@lst.de>
+Subject: Re: [PATCH 3/5] hyperv/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+Message-ID: <20211117100142.GB10330@lst.de>
 References: <20211116153923.196763-1-ltykernel@gmail.com>
- <20211116153923.196763-2-ltykernel@gmail.com>
+ <20211116153923.196763-4-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211116153923.196763-2-ltykernel@gmail.com>
+In-Reply-To: <20211116153923.196763-4-ltykernel@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, peterz@infradead.org,
  dave.hansen@linux.intel.com, dave.hansen@intel.com, hpa@zytor.com,
@@ -78,34 +78,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The subject is wrong, nothing x86-specific here.  Please use
-"swiotlb: " as the prefix
-
-> + * @vaddr:	The vaddr of the swiotlb memory pool. The swiotlb
-> + *		memory pool may be remapped in the memory encrypted case and store
-
-Please avoid the overly long line.
-
-> +	/*
-> +	 * With swiotlb_unencrypted_base setting, swiotlb bounce buffer will
-> +	 * be remapped in the swiotlb_update_mem_attributes() and return here
-> +	 * directly.
-> +	 */
-
-I'd word this as:
-
-	/*
-	 * If swiotlb_unencrypted_base is set, the bounce buffer memory will
-	 * be remapped and cleared in swiotlb_update_mem_attributes.
-	 */
-> +	ret = swiotlb_init_io_tlb_mem(mem, __pa(tlb), nslabs, false);
-> +	if (ret) {
-> +		memblock_free(mem->slots, alloc_size);
-> +		return ret;
-> +	}
-
-With the latest update swiotlb_init_io_tlb_mem will always return 0,
-so no need for the return value change or error handling here.
+This doesn't really have much to do with normal DMA mapping,
+so why does this direct through the dma ops?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
