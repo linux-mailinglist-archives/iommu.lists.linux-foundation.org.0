@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BBF454FAA
-	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 22:54:39 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B467454FB4
+	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 22:54:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2362C60A8A;
-	Wed, 17 Nov 2021 21:54:37 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8A07D40944;
+	Wed, 17 Nov 2021 21:54:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pTbzDOMfEuZT; Wed, 17 Nov 2021 21:54:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2724560A98;
-	Wed, 17 Nov 2021 21:54:36 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 98KkCPMcHiGC; Wed, 17 Nov 2021 21:54:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 818F74093B;
+	Wed, 17 Nov 2021 21:54:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E611C0036;
-	Wed, 17 Nov 2021 21:54:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 89648C0041;
+	Wed, 17 Nov 2021 21:54:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 602D4C0036
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:32 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BFFB6C003E
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 44C8A400EB
+ by smtp1.osuosl.org (Postfix) with ESMTP id C3F3980C63
  for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WOIPMlC8WCHJ for <iommu@lists.linux-foundation.org>;
- Wed, 17 Nov 2021 21:54:30 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SkzD-g0soBvR for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Nov 2021 21:54:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D08F5400D0
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:30 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1C13080CB0
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=eTDwkIdh5VVB1A6kvJWI8S8U3pygCOVAXIxj1iLgIvE=; b=SQppbxuiwygLRJ7DQxog7ZaSod
- 0RRBTWAKJOw8Ex6wR262KavH+Sz3+W3gwMLbzGhuJjKb8TIX9XyAV4Siaq0AqFBEH7RrGWVJ4GXcA
- 5TuBux3E/JXhT4m1N/mC0TpVjFCtMbYExyKx3R2mzgxOJkGEosdVBf7WtrBrwqvzW+aVsftmuewbY
- I30+UP5IXAJSIsF8Oflm3I1t0acYWm9XvXJMljxucAU6vqDU6fDZy8hF/jA0Cp4c5pSQ9UGRsOObi
- GxifhDD07oL9ZxpIfJsKPpDcPZlLr9bcRh8gHUbqdjhDZ9b/b54L5oLjNfC8cK/lpvWdoZliu63np
- 7oERExbQ==;
+ bh=E9tQWtvaLICmPSoEVBJb4KTrJ+PSjHquPVLYmy++lAQ=; b=mxEXmW4OZEo8i67U5DMx5HrPbS
+ AK51pgfhmTpE6vjIujjmCpY6A999ck0das6Npk9wDVBcYvnl0gbK1ZiUDlXCosy+XmIlbhUrVTAPZ
+ 91/bA6ba3/Cvv04qAIODBzWTtAiiSx+V26PZJhQnAs12eMgjW7W09G8nDZ3Grj/zcNnkBFe16y2/x
+ 3EeSCU5zQmKpyIBKL3ExEDIK8vyuN11OYMSzAtVXOmO6g9WGvL2RbrJQUL8n8Bi1fVrHh4w1bx0ZC
+ jvYm0EPPRg8+gcnpY5++dLLNcWVdibi79wrXO38JGd6xsQRZfLh0GmriWFh1BXBlkfAKoiPIIxUux
+ I8dRAKeA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsi-000Zo4-TD; Wed, 17 Nov 2021 14:54:18 -0700
+ id 1mnSsi-000Zo5-TA; Wed, 17 Nov 2021 14:54:17 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsd-0000yo-Oo; Wed, 17 Nov 2021 14:54:11 -0700
+ id 1mnSse-0000yr-90; Wed, 17 Nov 2021 14:54:12 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Wed, 17 Nov 2021 14:53:48 -0700
-Message-Id: <20211117215410.3695-2-logang@deltatee.com>
+Date: Wed, 17 Nov 2021 14:53:49 -0700
+Message-Id: <20211117215410.3695-3-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117215410.3695-1-logang@deltatee.com>
 References: <20211117215410.3695-1-logang@deltatee.com>
@@ -67,23 +67,22 @@ X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com,
- willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
- dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
- andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
- ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
- ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
- jgg@nvidia.com
+ jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
+ ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
+ jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org,
+ dan.j.williams@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
+ jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
+ martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v4 01/23] lib/scatterlist: cleanup macros into static inline
- functions
+Subject: [PATCH v4 02/23] lib/scatterlist: add flag for indicating P2PDMA
+ segments in an SGL
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Ira Weiny <ira.weiny@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Robin Murphy <robin.murphy@arm.com>, Matthew Wilcox <willy@infradead.org>,
+ Ira Weiny <ira.weiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Matthew Wilcox <willy@infradead.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
@@ -104,82 +103,87 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Convert the sg_is_chain(), sg_is_last() and sg_chain_ptr() macros
-into static inline functions. There's no reason for these to be macros
-and static inline are generally preferred these days.
-
-Also introduce the SG_PAGE_LINK_MASK define so the P2PDMA work, which is
-adding another bit to this mask, can do so more easily.
-
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- include/linux/scatterlist.h | 29 +++++++++++++++++++++++------
- 1 file changed, 23 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index 266754a55327..7ff9d6386c12 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -69,10 +69,27 @@ struct sg_append_table {
-  * a valid sg entry, or whether it points to the start of a new scatterlist.
-  * Those low bits are there for everyone! (thanks mason :-)
-  */
--#define sg_is_chain(sg)		((sg)->page_link & SG_CHAIN)
--#define sg_is_last(sg)		((sg)->page_link & SG_END)
--#define sg_chain_ptr(sg)	\
--	((struct scatterlist *) ((sg)->page_link & ~(SG_CHAIN | SG_END)))
-+#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END)
-+
-+static inline unsigned int __sg_flags(struct scatterlist *sg)
-+{
-+	return sg->page_link & SG_PAGE_LINK_MASK;
-+}
-+
-+static inline struct scatterlist *sg_chain_ptr(struct scatterlist *sg)
-+{
-+	return (struct scatterlist *)(sg->page_link & ~SG_PAGE_LINK_MASK);
-+}
-+
-+static inline bool sg_is_chain(struct scatterlist *sg)
-+{
-+	return __sg_flags(sg) & SG_CHAIN;
-+}
-+
-+static inline bool sg_is_last(struct scatterlist *sg)
-+{
-+	return __sg_flags(sg) & SG_END;
-+}
- 
- /**
-  * sg_assign_page - Assign a given page to an SG entry
-@@ -92,7 +109,7 @@ static inline void sg_assign_page(struct scatterlist *sg, struct page *page)
- 	 * In order for the low bit stealing approach to work, pages
- 	 * must be aligned at a 32-bit boundary as a minimum.
- 	 */
--	BUG_ON((unsigned long) page & (SG_CHAIN | SG_END));
-+	BUG_ON((unsigned long)page & SG_PAGE_LINK_MASK);
- #ifdef CONFIG_DEBUG_SG
- 	BUG_ON(sg_is_chain(sg));
- #endif
-@@ -126,7 +143,7 @@ static inline struct page *sg_page(struct scatterlist *sg)
- #ifdef CONFIG_DEBUG_SG
- 	BUG_ON(sg_is_chain(sg));
- #endif
--	return (struct page *)((sg)->page_link & ~(SG_CHAIN | SG_END));
-+	return (struct page *)((sg)->page_link & ~SG_PAGE_LINK_MASK);
- }
- 
- /**
--- 
-2.30.2
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+TWFrZSB1c2Ugb2YgdGhlIHRoaXJkIGZyZWUgTFNCIGluIHNjYXR0ZXJsaXN0J3MgcGFnZV9saW5r
+IG9uIDY0Yml0IHN5c3RlbXMuCgpUaGUgZXh0cmEgYml0IHdpbGwgYmUgdXNlZCBieSBkbWFfW3Vu
+XW1hcF9zZ19wMnBkbWEoKSB0byBkZXRlcm1pbmUgd2hlbiBhCmdpdmVuIFNHTCBzZWdtZW50cyBk
+bWFfYWRkcmVzcyBwb2ludHMgdG8gYSBQQ0kgYnVzIGFkZHJlc3MuCmRtYV91bm1hcF9zZ19wMnBk
+bWEoKSB3aWxsIG5lZWQgdG8gcGVyZm9ybSBkaWZmZXJlbnQgY2xlYW51cCB3aGVuIGEKc2VnbWVu
+dCBpcyBtYXJrZWQgYXMgYSBidXMgYWRkcmVzcy4KCkNyZWF0ZSBhIENPTkZJR19ORUVEX1NHX0RN
+QV9CVVNfQUREUl9GTEFHIGJvb2wgd2hpY2ggZGVwZW5kcyBvbgpDT05GSUdfNjRCSVQgKHNvIHRo
+ZXJlIGlzIHNwYWNlIGluIHRoZSBwYWdlIGxpbmsgZm9yIHRoZSBuZXcgZmxhZykuCkNPTkZJR19Q
+Q0lfUDJQRE1BIHdpbGwgdGhlbiBkZXBlbmQgb24gdGhpcyBzbyB0aGlzIG1lYW5zIFBDSSBQMlBE
+TUEgd2lsbApyZXF1aXJlIENPTkZJR182NEJJVC4gVGhpcyBzaG91bGQgYmUgYWNjZXB0YWJsZSBh
+cyB0aGUgbWFqb3JpdHkgb2YgUDJQRE1BCnVzZSBjYXNlcyBhcmUgcmVzdHJpY3RlZCB0byBuZXdl
+ciByb290IGNvbXBsZXhlcyBhbmQgcm91Z2hseSByZXF1aXJlIHRoZQpleHRyYSBhZGRyZXNzIHNw
+YWNlIGZvciBtZW1vcnkgQkFScyB1c2VkIGluIHRoZSB0cmFuc2FjdGlvbnMuCgpTaWduZWQtb2Zm
+LWJ5OiBMb2dhbiBHdW50aG9ycGUgPGxvZ2FuZ0BkZWx0YXRlZS5jb20+Ci0tLQogZHJpdmVycy9w
+Y2kvS2NvbmZpZyAgICAgICAgIHwgIDUgKysrKysKIGluY2x1ZGUvbGludXgvc2NhdHRlcmxpc3Qu
+aCB8IDQ0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KIGtlcm5lbC9kbWEv
+S2NvbmZpZyAgICAgICAgICB8IDEwICsrKysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA1OCBpbnNl
+cnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvS2NvbmZp
+ZyBiL2RyaXZlcnMvcGNpL0tjb25maWcKaW5kZXggNDNlNjE1YWExMmZmLi45NWYyOTYwMWE0ZGYg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL0tjb25maWcKKysrIGIvZHJpdmVycy9wY2kvS2NvbmZp
+ZwpAQCAtMTY0LDYgKzE2NCwxMSBAQCBjb25maWcgUENJX1BBU0lECiBjb25maWcgUENJX1AyUERN
+QQogCWJvb2wgIlBDSSBwZWVyLXRvLXBlZXIgdHJhbnNmZXIgc3VwcG9ydCIKIAlkZXBlbmRzIG9u
+IFpPTkVfREVWSUNFCisJIworCSMgVGhlIG5lZWQgZm9yIHRoZSBzY2F0dGVybGlzdCBETUEgYnVz
+IGFkZHJlc3MgZmxhZyBtZWFucyBQQ0kgUDJQRE1BCisJIyByZXF1aXJlcyA2NGJpdAorCSMKKwlz
+ZWxlY3QgTkVFRF9TR19ETUFfQlVTX0FERFJfRkxBRwogCXNlbGVjdCBHRU5FUklDX0FMTE9DQVRP
+UgogCWhlbHAKIAkgIEVuYWJsZdGVIGRyaXZlcnMgdG8gZG8gUENJIHBlZXItdG8tcGVlciB0cmFu
+c2FjdGlvbnMgdG8gYW5kIGZyb20KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvc2NhdHRlcmxp
+c3QuaCBiL2luY2x1ZGUvbGludXgvc2NhdHRlcmxpc3QuaAppbmRleCA3ZmY5ZDYzODZjMTIuLjkx
+N2MwOWRjYzU2NiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9saW51eC9zY2F0dGVybGlzdC5oCisrKyBi
+L2luY2x1ZGUvbGludXgvc2NhdHRlcmxpc3QuaApAQCAtNjQsMTIgKzY0LDI0IEBAIHN0cnVjdCBz
+Z19hcHBlbmRfdGFibGUgewogI2RlZmluZSBTR19DSEFJTgkweDAxVUwKICNkZWZpbmUgU0dfRU5E
+CQkweDAyVUwKIAorLyoKKyAqIGJpdCAyIGlzIHRoZSB0aGlyZCBmcmVlIGJpdCBpbiB0aGUgcGFn
+ZV9saW5rIG9uIDY0Yml0IHN5c3RlbXMgd2hpY2gKKyAqIGlzIHVzZWQgYnkgZG1hX3VubWFwX3Nn
+KCkgdG8gZGV0ZXJtaW5lIGlmIHRoZSBkbWFfYWRkcmVzcyBpcyBhCisgKiBidXMgYWRkcmVzcyB3
+aGVuIGRvaW5nIFAyUERNQS4KKyAqLworI2lmZGVmIENPTkZJR19ORUVEX1NHX0RNQV9CVVNfQURE
+Ul9GTEFHCisjZGVmaW5lIFNHX0RNQV9CVVNfQUREUkVTUwkweDA0VUwKK3N0YXRpY19hc3NlcnQo
+X19hbGlnbm9mX18oc3RydWN0IHBhZ2UpID49IDgpOworI2Vsc2UKKyNkZWZpbmUgU0dfRE1BX0JV
+U19BRERSRVNTCTB4MDBVTAorI2VuZGlmCisKIC8qCiAgKiBXZSBvdmVybG9hZCB0aGUgTFNCIG9m
+IHRoZSBwYWdlIHBvaW50ZXIgdG8gaW5kaWNhdGUgd2hldGhlciBpdCdzCiAgKiBhIHZhbGlkIHNn
+IGVudHJ5LCBvciB3aGV0aGVyIGl0IHBvaW50cyB0byB0aGUgc3RhcnQgb2YgYSBuZXcgc2NhdHRl
+cmxpc3QuCiAgKiBUaG9zZSBsb3cgYml0cyBhcmUgdGhlcmUgZm9yIGV2ZXJ5b25lISAodGhhbmtz
+IG1hc29uIDotKQogICovCi0jZGVmaW5lIFNHX1BBR0VfTElOS19NQVNLIChTR19DSEFJTiB8IFNH
+X0VORCkKKyNkZWZpbmUgU0dfUEFHRV9MSU5LX01BU0sgKFNHX0NIQUlOIHwgU0dfRU5EIHwgU0df
+RE1BX0JVU19BRERSRVNTKQogCiBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCBfX3NnX2ZsYWdz
+KHN0cnVjdCBzY2F0dGVybGlzdCAqc2cpCiB7CkBAIC05MSw2ICsxMDMsMTEgQEAgc3RhdGljIGlu
+bGluZSBib29sIHNnX2lzX2xhc3Qoc3RydWN0IHNjYXR0ZXJsaXN0ICpzZykKIAlyZXR1cm4gX19z
+Z19mbGFncyhzZykgJiBTR19FTkQ7CiB9CiAKK3N0YXRpYyBpbmxpbmUgYm9vbCBzZ19pc19kbWFf
+YnVzX2FkZHJlc3Moc3RydWN0IHNjYXR0ZXJsaXN0ICpzZykKK3sKKwlyZXR1cm4gX19zZ19mbGFn
+cyhzZykgJiBTR19ETUFfQlVTX0FERFJFU1M7Cit9CisKIC8qKgogICogc2dfYXNzaWduX3BhZ2Ug
+LSBBc3NpZ24gYSBnaXZlbiBwYWdlIHRvIGFuIFNHIGVudHJ5CiAgKiBAc2c6CQkgICAgU0cgZW50
+cnkKQEAgLTI0NSw2ICsyNjIsMzEgQEAgc3RhdGljIGlubGluZSB2b2lkIHNnX3VubWFya19lbmQo
+c3RydWN0IHNjYXR0ZXJsaXN0ICpzZykKIAlzZy0+cGFnZV9saW5rICY9IH5TR19FTkQ7CiB9CiAK
+Ky8qKgorICogc2dfZG1hX21hcmtfYnVzIGFkZHJlc3MgLSBNYXJrIHRoZSBzY2F0dGVybGlzdCBl
+bnRyeSBhcyBhIGJ1cyBhZGRyZXNzCisgKiBAc2c6CQkgU0cgZW50cnlTY2F0dGVybGlzdAorICoK
+KyAqIERlc2NyaXB0aW9uOgorICogICBNYXJrcyB0aGUgcGFzc2VkIGluIHNnIGVudHJ5IHRvIGlu
+ZGljYXRlIHRoYXQgdGhlIGRtYV9hZGRyZXNzIGlzCisgKiAgIGEgYnVzIGFkZHJlc3MgYW5kIGRv
+ZXNuJ3QgbmVlZCB0byBiZSB1bm1hcHBlZC4KKyAqKi8KK3N0YXRpYyBpbmxpbmUgdm9pZCBzZ19k
+bWFfbWFya19idXNfYWRkcmVzcyhzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnKQoreworCXNnLT5wYWdl
+X2xpbmsgfD0gU0dfRE1BX0JVU19BRERSRVNTOworfQorCisvKioKKyAqIHNnX3VubWFya19wY2lf
+cDJwZG1hIC0gVW5tYXJrIHRoZSBzY2F0dGVybGlzdCBlbnRyeSBhcyBhIGJ1cyBhZGRyZXNzCisg
+KiBAc2c6CQkgU0cgZW50cnlTY2F0dGVybGlzdAorICoKKyAqIERlc2NyaXB0aW9uOgorICogICBD
+bGVhcnMgdGhlIGJ1cyBhZGRyZXNzIG1hcmsuCisgKiovCitzdGF0aWMgaW5saW5lIHZvaWQgc2df
+ZG1hX3VubWFya19idXNfYWRkcmVzcyhzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnKQoreworCXNnLT5w
+YWdlX2xpbmsgJj0gflNHX0RNQV9CVVNfQUREUkVTUzsKK30KKwogLyoqCiAgKiBzZ19waHlzIC0g
+UmV0dXJuIHBoeXNpY2FsIGFkZHJlc3Mgb2YgYW4gc2cgZW50cnkKICAqIEBzZzoJICAgICBTRyBl
+bnRyeQpkaWZmIC0tZ2l0IGEva2VybmVsL2RtYS9LY29uZmlnIGIva2VybmVsL2RtYS9LY29uZmln
+CmluZGV4IDFiMDIxNzk3NThjYi4uNmU1ZTFkOGUxMzI5IDEwMDY0NAotLS0gYS9rZXJuZWwvZG1h
+L0tjb25maWcKKysrIGIva2VybmVsL2RtYS9LY29uZmlnCkBAIC0yNyw2ICsyNywxNiBAQCBjb25m
+aWcgQVJDSF9IQVNfRE1BX01BUF9ESVJFQ1QKIGNvbmZpZyBORUVEX1NHX0RNQV9MRU5HVEgKIAli
+b29sCiAKKyMKKyMgUENJIFAyUERNQSBuZWVkcyB0byBzdG9yZSBidXMgYWRkcmVzc2VzIGluIHRo
+ZSBTR0wncyBkbWFfYWRkcmVzcyBzbyB0aGF0IHRoZQorIyBkbWFfdW5tYXBfc2coKSBpbXBsZW1l
+bnRhdGlvbnMgY2FuIGtub3cgbm90IHRvIHVubWFwIHRob3NlIHNlZ21lbnRzLgorIyBUaGUgZmxh
+ZyBpcyBzdG9yZWQgaW4gdGhlIDNyZCBiaXQgaW4gdGhlIHBhZ2VfbGluayBmaWVsZCBpbiB0aGUg
+U0dMCisjIHdoaWNoIG1lYW5zIHRoaXMgY2FuIG9ubHkgYmUgZG9uZSBvbiA2NGJpdCBzeXN0ZW1z
+LgorIworY29uZmlnIE5FRURfU0dfRE1BX0JVU19BRERSX0ZMQUcKKwlkZXBlbmRzIG9uIDY0QklU
+CisJYm9vbAorCiBjb25maWcgTkVFRF9ETUFfTUFQX1NUQVRFCiAJYm9vbAogCi0tIAoyLjMwLjIK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1h
+aWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3Rz
+LmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
