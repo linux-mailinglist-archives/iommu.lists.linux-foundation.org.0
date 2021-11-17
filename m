@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB74454FBB
-	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 22:54:47 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5256454FB1
+	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 22:54:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D1F1D60AAA;
-	Wed, 17 Nov 2021 21:54:45 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7A3A9405EF;
+	Wed, 17 Nov 2021 21:54:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LhVAmGbm9Fv5; Wed, 17 Nov 2021 21:54:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C72AC60A87;
-	Wed, 17 Nov 2021 21:54:44 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AUhp_pewfk8H; Wed, 17 Nov 2021 21:54:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 458E3405CB;
+	Wed, 17 Nov 2021 21:54:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B1305C0041;
-	Wed, 17 Nov 2021 21:54:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E066FC0049;
+	Wed, 17 Nov 2021 21:54:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1D390C0039
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:39 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5CBA0C0037
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B66DC40581
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:36 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id F1AF54053D
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0ZDIW4oE5xU4 for <iommu@lists.linux-foundation.org>;
- Wed, 17 Nov 2021 21:54:34 +0000 (UTC)
+ with ESMTP id oXh82WpYa-20 for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Nov 2021 21:54:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A36E240600
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:34 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 02C1240536
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=kbxRRD/WjYOKmNXeZ54PsZJVBl6dgAV7EkPJgY+ogAQ=; b=EPbsJ0cS3BwETRTubjgeZLim87
- zU5lc+qxf57+emnTUgK+eNKrmk1W+kPbvSmXPLbL8Ep6my1GDulQucIIB/Krph/GG8cIvXY54LK14
- iw4hlm9xWIrpDp4tzPnxsQK/nWidaK5Ii/qxmteMNi/mJWZxD5IwcEDGD1hCZlD8v45s9eHFmyG65
- KtM+K23QE0wdLymKxRG2knTdmJsOEAz6kdNtsEn0qur5ftHxpmdgUR/6vO56uN0J+QYdgOe0Z1ERO
- U8C9vLvE1p1QKukPgaifYHNMBbC0KbLy7/meTyserJO0EeE/HgVz6MAqeXsZyYOg7G/Gr/zDayvRy
- EKfx1x8g==;
+ bh=xiTnRa40PxVW2xYFwty+1ROynMbM/20t5FtBj/VIMUY=; b=gUavlYmd2035GplIeh96dUp5EG
+ fKcPHIz3P1bHvFTbVdpY0Lu72Br7YZauwgOKjcD+poScyGk3+NpimS3Z9Y35Ov3s1SDQCy07Czik8
+ ac59cf/dBlUDC8i1p8zdNmIbQjBK1mkzdNAucMYhy3BisRqZaAD8lgD7Aey9Ljw+E2NkDYzpHSfsV
+ ukL9E0Lt/8SRt94B5DYraz+LY/MpTg/kr3vTv1tWZnIzYHsDtJMneliTIIaatR+Mn+PUYqmarpSjv
+ //lQU20Q29pOPOkOJDfxgG3ZIjnugv8EVPhMaE6oT/acEoBPToZ2SMU+wmOFc2fcO5dM3cuJckvgd
+ JH+w36Zg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsn-000Zo3-Eq; Wed, 17 Nov 2021 14:54:22 -0700
+ id 1mnSsn-000Zo4-ET; Wed, 17 Nov 2021 14:54:23 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsl-00010I-MH; Wed, 17 Nov 2021 14:54:19 -0700
+ id 1mnSsl-00010M-SL; Wed, 17 Nov 2021 14:54:19 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Wed, 17 Nov 2021 14:54:08 -0700
-Message-Id: <20211117215410.3695-22-logang@deltatee.com>
+Date: Wed, 17 Nov 2021 14:54:09 -0700
+Message-Id: <20211117215410.3695-23-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117215410.3695-1-logang@deltatee.com>
 References: <20211117215410.3695-1-logang@deltatee.com>
@@ -72,9 +72,10 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org,
  dan.j.williams@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
- martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com
+ martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com,
+ bhelgaas@google.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v4 21/23] mm: use custom page_free for P2PDMA pages
+Subject: [PATCH v4 22/23] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
@@ -86,8 +87,8 @@ Cc: Minturn Dave B <dave.b.minturn@intel.com>,
  Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bjorn Helgaas <helgaas@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Stephen Bates <sbates@raithlin.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, Stephen Bates <sbates@raithlin.com>,
  Jakowski Andrzej <andrzej.jakowski@intel.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -102,79 +103,469 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-V2hlbiBQMlBETUEgcGFnZXMgYXJlIHBhc3NlZCB0byB1c2Vyc3BhY2UsIHRoZXkgd2lsbCBuZWVk
-IHRvIGJlCnJlZmVyZW5jZSBjb3VudGVkIHByb3Blcmx5IGFuZCByZXR1cm5lZCB0byB0aGVpciBn
-ZW5hbGxvYyBhZnRlciB0aGVpcgpyZWZlcmVuY2UgY291bnQgcmV0dXJucyB0byAxLiBUaGlzIGlz
-IGFjY29tcGxpc2hlZCB3aXRoIHRoZSBleGlzdGluZwpERVZfUEFHRU1BUF9PUFMgYW5kIHRoZSAu
-cGFnZV9mcmVlKCkgb3BlcmF0aW9uLgoKQ2hhbmdlIENPTkZJR19QMlBETUEgdG8gc2VsZWN0IENP
-TkZJR19ERVZfUEFHRU1BUF9PUFMgYW5kIGFkZApNRU1PUllfREVWSUNFX1BDSV9QMlBETUEgdG8g
-cGFnZV9pc19kZXZtYXBfbWFuYWdlZCgpLApkZXZtYXBfbWFuYWdlZF9lbmFibGVfW3B1dHxnZXRd
-KCkgYW5kIGZyZWVfZGV2bWFwX21hbmFnZWRfcGFnZSgpLgoKU2lnbmVkLW9mZi1ieTogTG9nYW4g
-R3VudGhvcnBlIDxsb2dhbmdAZGVsdGF0ZWUuY29tPgotLS0KIGRyaXZlcnMvcGNpL0tjb25maWcg
-IHwgIDEgKwogZHJpdmVycy9wY2kvcDJwZG1hLmMgfCAxMyArKysrKysrKysrKysrCiBpbmNsdWRl
-L2xpbnV4L21tLmggICB8ICAxICsKIG1tL21lbXJlbWFwLmMgICAgICAgIHwgMTIgKysrKysrKysr
-LS0tCiA0IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvS2NvbmZpZyBiL2RyaXZlcnMvcGNpL0tjb25maWcKaW5k
-ZXggOTVmMjk2MDFhNGRmLi5kYTUzNzk5Y2RkYWIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL0tj
-b25maWcKKysrIGIvZHJpdmVycy9wY2kvS2NvbmZpZwpAQCAtMTcwLDYgKzE3MCw3IEBAIGNvbmZp
-ZyBQQ0lfUDJQRE1BCiAJIwogCXNlbGVjdCBORUVEX1NHX0RNQV9CVVNfQUREUl9GTEFHCiAJc2Vs
-ZWN0IEdFTkVSSUNfQUxMT0NBVE9SCisJc2VsZWN0IERFVl9QQUdFTUFQX09QUwogCWhlbHAKIAkg
-IEVuYWJsZdGVIGRyaXZlcnMgdG8gZG8gUENJIHBlZXItdG8tcGVlciB0cmFuc2FjdGlvbnMgdG8g
-YW5kIGZyb20KIAkgIEJBUnMgdGhhdCBhcmUgZXhwb3NlZCBpbiBvdGhlciBkZXZpY2VzIHRoYXQg
-YXJlIHRoZSBwYXJ0IG9mCmRpZmYgLS1naXQgYS9kcml2ZXJzL3BjaS9wMnBkbWEuYyBiL2RyaXZl
-cnMvcGNpL3AycGRtYS5jCmluZGV4IDU2M2U5YmU5NTk5ZS4uMTY5OTJiMGYwYzM2IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL3BjaS9wMnBkbWEuYworKysgYi9kcml2ZXJzL3BjaS9wMnBkbWEuYwpAQCAt
-MTAxLDYgKzEwMSwxOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCBwMnBt
-ZW1fZ3JvdXAgPSB7CiAJLm5hbWUgPSAicDJwbWVtIiwKIH07CiAKK3N0YXRpYyB2b2lkIHAycGRt
-YV9wYWdlX2ZyZWUoc3RydWN0IHBhZ2UgKnBhZ2UpCit7CisJc3RydWN0IHBjaV9wMnBkbWFfcGFn
-ZW1hcCAqcGdtYXAgPSB0b19wMnBfcGdtYXAocGFnZS0+cGdtYXApOworCisJZ2VuX3Bvb2xfZnJl
-ZShwZ21hcC0+cHJvdmlkZXItPnAycGRtYS0+cG9vbCwKKwkJICAgICAgKHVpbnRwdHJfdClwYWdl
-X3RvX3ZpcnQocGFnZSksIFBBR0VfU0laRSk7Cit9CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZGV2
-X3BhZ2VtYXBfb3BzIHAycGRtYV9wZ21hcF9vcHMgPSB7CisJLnBhZ2VfZnJlZSA9IHAycGRtYV9w
-YWdlX2ZyZWUsCit9OworCiBzdGF0aWMgdm9pZCBwY2lfcDJwZG1hX3JlbGVhc2Uodm9pZCAqZGF0
-YSkKIHsKIAlzdHJ1Y3QgcGNpX2RldiAqcGRldiA9IGRhdGE7CkBAIC0xOTgsNiArMjEwLDcgQEAg
-aW50IHBjaV9wMnBkbWFfYWRkX3Jlc291cmNlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBpbnQgYmFy
-LCBzaXplX3Qgc2l6ZSwKIAlwZ21hcC0+cmFuZ2UuZW5kID0gcGdtYXAtPnJhbmdlLnN0YXJ0ICsg
-c2l6ZSAtIDE7CiAJcGdtYXAtPm5yX3JhbmdlID0gMTsKIAlwZ21hcC0+dHlwZSA9IE1FTU9SWV9E
-RVZJQ0VfUENJX1AyUERNQTsKKwlwZ21hcC0+b3BzID0gJnAycGRtYV9wZ21hcF9vcHM7CiAKIAlw
-MnBfcGdtYXAtPnByb3ZpZGVyID0gcGRldjsKIAlwMnBfcGdtYXAtPmJ1c19vZmZzZXQgPSBwY2lf
-YnVzX2FkZHJlc3MocGRldiwgYmFyKSAtCmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L21tLmgg
-Yi9pbmNsdWRlL2xpbnV4L21tLmgKaW5kZXggMzM2N2Q5MzZiMjU2Li5mMjZlYTdlMWZjNzQgMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvbW0uaAorKysgYi9pbmNsdWRlL2xpbnV4L21tLmgKQEAg
-LTExNjgsNiArMTE2OCw3IEBAIHN0YXRpYyBpbmxpbmUgYm9vbCBwYWdlX2lzX2Rldm1hcF9tYW5h
-Z2VkKHN0cnVjdCBwYWdlICpwYWdlKQogCXN3aXRjaCAocGFnZS0+cGdtYXAtPnR5cGUpIHsKIAlj
-YXNlIE1FTU9SWV9ERVZJQ0VfUFJJVkFURToKIAljYXNlIE1FTU9SWV9ERVZJQ0VfRlNfREFYOgor
-CWNhc2UgTUVNT1JZX0RFVklDRV9QQ0lfUDJQRE1BOgogCQlyZXR1cm4gdHJ1ZTsKIAlkZWZhdWx0
-OgogCQlicmVhazsKZGlmZiAtLWdpdCBhL21tL21lbXJlbWFwLmMgYi9tbS9tZW1yZW1hcC5jCmlu
-ZGV4IDVhNjZhNzFhYjU5MS4uZWMzMTQzZmZkZWVlIDEwMDY0NAotLS0gYS9tbS9tZW1yZW1hcC5j
-CisrKyBiL21tL21lbXJlbWFwLmMKQEAgLTQ0LDE0ICs0NCwxNiBAQCBFWFBPUlRfU1lNQk9MKGRl
-dm1hcF9tYW5hZ2VkX2tleSk7CiBzdGF0aWMgdm9pZCBkZXZtYXBfbWFuYWdlZF9lbmFibGVfcHV0
-KHN0cnVjdCBkZXZfcGFnZW1hcCAqcGdtYXApCiB7CiAJaWYgKHBnbWFwLT50eXBlID09IE1FTU9S
-WV9ERVZJQ0VfUFJJVkFURSB8fAotCSAgICBwZ21hcC0+dHlwZSA9PSBNRU1PUllfREVWSUNFX0ZT
-X0RBWCkKKwkgICAgcGdtYXAtPnR5cGUgPT0gTUVNT1JZX0RFVklDRV9GU19EQVggfHwKKwkgICAg
-cGdtYXAtPnR5cGUgPT0gTUVNT1JZX0RFVklDRV9QQ0lfUDJQRE1BKQogCQlzdGF0aWNfYnJhbmNo
-X2RlYygmZGV2bWFwX21hbmFnZWRfa2V5KTsKIH0KIAogc3RhdGljIHZvaWQgZGV2bWFwX21hbmFn
-ZWRfZW5hYmxlX2dldChzdHJ1Y3QgZGV2X3BhZ2VtYXAgKnBnbWFwKQogewogCWlmIChwZ21hcC0+
-dHlwZSA9PSBNRU1PUllfREVWSUNFX1BSSVZBVEUgfHwKLQkgICAgcGdtYXAtPnR5cGUgPT0gTUVN
-T1JZX0RFVklDRV9GU19EQVgpCisJICAgIHBnbWFwLT50eXBlID09IE1FTU9SWV9ERVZJQ0VfRlNf
-REFYIHx8CisJICAgIHBnbWFwLT50eXBlID09IE1FTU9SWV9ERVZJQ0VfUENJX1AyUERNQSkKIAkJ
-c3RhdGljX2JyYW5jaF9pbmMoJmRldm1hcF9tYW5hZ2VkX2tleSk7CiB9CiAjZWxzZQpAQCAtMzU1
-LDYgKzM1NywxMCBAQCB2b2lkICptZW1yZW1hcF9wYWdlcyhzdHJ1Y3QgZGV2X3BhZ2VtYXAgKnBn
-bWFwLCBpbnQgbmlkKQogCWNhc2UgTUVNT1JZX0RFVklDRV9HRU5FUklDOgogCQlicmVhazsKIAlj
-YXNlIE1FTU9SWV9ERVZJQ0VfUENJX1AyUERNQToKKwkJaWYgKCFwZ21hcC0+b3BzLT5wYWdlX2Zy
-ZWUpIHsKKwkJCVdBUk4oMSwgIk1pc3NpbmcgcGFnZV9mcmVlIG1ldGhvZFxuIik7CisJCQlyZXR1
-cm4gRVJSX1BUUigtRUlOVkFMKTsKKwkJfQogCQlwYXJhbXMucGdwcm90ID0gcGdwcm90X25vbmNh
-Y2hlZChwYXJhbXMucGdwcm90KTsKIAkJYnJlYWs7CiAJZGVmYXVsdDoKQEAgLTQ5OCw3ICs1MDQs
-NyBAQCBFWFBPUlRfU1lNQk9MX0dQTChnZXRfZGV2X3BhZ2VtYXApOwogdm9pZCBmcmVlX2Rldm1h
-cF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpCiB7CiAJLyogbm90aWZ5IHBhZ2UgaWRs
-ZSBmb3IgZGF4ICovCi0JaWYgKCFpc19kZXZpY2VfcHJpdmF0ZV9wYWdlKHBhZ2UpKSB7CisJaWYg
-KCFpc19kZXZpY2VfcHJpdmF0ZV9wYWdlKHBhZ2UpICYmICFpc19wY2lfcDJwZG1hX3BhZ2UocGFn
-ZSkpIHsKIAkJd2FrZV91cF92YXIoJnBhZ2UtPl9yZWZjb3VudCk7CiAJCXJldHVybjsKIAl9Ci0t
-IAoyLjMwLjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRw
-czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+Introduce pci_mmap_p2pmem() which is a helper to allocate and mmap
+a hunk of p2pmem into userspace.
+
+Pages are allocated from the genalloc in bulk and their reference count
+incremented. They are returned to the genalloc when the page is put.
+
+The VMA does not take a reference to the pages when they are inserted
+with vmf_insert_mixed() (which is necessary for zone device pages) so
+the backing P2P memory is stored in a structures in vm_private_data.
+
+A pseudo mount is used to allocate an inode for each PCI device. The
+inode's address_space is used in the file doing the mmap so that all
+VMAs are collected and can be unmapped if the PCI device is unbound.
+After unmapping, the VMAs are iterated through and their pages are
+put so the device can continue to be unbound. An active flag is used
+to signal to VMAs not to allocate any further P2P memory once the
+removal process starts. The flag is synchronized with concurrent
+access with an RCU lock.
+
+The VMAs and inode will survive after the unbind of the device, but no
+pages will be present in the VMA and a subsequent access will result
+in a SIGBUS error.
+
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+---
+ drivers/pci/p2pdma.c       | 301 ++++++++++++++++++++++++++++++++++++-
+ include/linux/pci-p2pdma.h |  11 ++
+ include/uapi/linux/magic.h |   1 +
+ 3 files changed, 311 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 16992b0f0c36..641a7808a527 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -17,14 +17,19 @@
+ #include <linux/genalloc.h>
+ #include <linux/memremap.h>
+ #include <linux/percpu-refcount.h>
++#include <linux/pfn_t.h>
++#include <linux/pseudo_fs.h>
+ #include <linux/random.h>
+ #include <linux/seq_buf.h>
+ #include <linux/xarray.h>
++#include <uapi/linux/magic.h>
+ 
+ struct pci_p2pdma {
+ 	struct gen_pool *pool;
+ 	bool p2pmem_published;
+ 	struct xarray map_types;
++	struct inode *inode;
++	bool active;
+ };
+ 
+ struct pci_p2pdma_pagemap {
+@@ -33,6 +38,15 @@ struct pci_p2pdma_pagemap {
+ 	u64 bus_offset;
+ };
+ 
++struct pci_p2pdma_map {
++	struct kref ref;
++	struct rcu_head rcu;
++	struct pci_dev *pdev;
++	struct inode *inode;
++	void *kaddr;
++	size_t len;
++};
++
+ static struct pci_p2pdma_pagemap *to_p2p_pgmap(struct dev_pagemap *pgmap)
+ {
+ 	return container_of(pgmap, struct pci_p2pdma_pagemap, pgmap);
+@@ -101,6 +115,26 @@ static const struct attribute_group p2pmem_group = {
+ 	.name = "p2pmem",
+ };
+ 
++/*
++ * P2PDMA internal mount
++ * Fake an internal VFS mount-point in order to allocate struct address_space
++ * mappings to remove VMAs on unbind events.
++ */
++static int pci_p2pdma_fs_cnt;
++static struct vfsmount *pci_p2pdma_fs_mnt;
++
++static int pci_p2pdma_fs_init_fs_context(struct fs_context *fc)
++{
++	return init_pseudo(fc, P2PDMA_MAGIC) ? 0 : -ENOMEM;
++}
++
++static struct file_system_type pci_p2pdma_fs_type = {
++	.name = "p2dma",
++	.owner = THIS_MODULE,
++	.init_fs_context = pci_p2pdma_fs_init_fs_context,
++	.kill_sb = kill_anon_super,
++};
++
+ static void p2pdma_page_free(struct page *page)
+ {
+ 	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page->pgmap);
+@@ -129,6 +163,9 @@ static void pci_p2pdma_release(void *data)
+ 	gen_pool_destroy(p2pdma->pool);
+ 	sysfs_remove_group(&pdev->dev.kobj, &p2pmem_group);
+ 	xa_destroy(&p2pdma->map_types);
++
++	iput(p2pdma->inode);
++	simple_release_fs(&pci_p2pdma_fs_mnt, &pci_p2pdma_fs_cnt);
+ }
+ 
+ static int pci_p2pdma_setup(struct pci_dev *pdev)
+@@ -146,17 +183,32 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ 	if (!p2p->pool)
+ 		goto out;
+ 
+-	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_release, pdev);
++	error = simple_pin_fs(&pci_p2pdma_fs_type, &pci_p2pdma_fs_mnt,
++			      &pci_p2pdma_fs_cnt);
+ 	if (error)
+ 		goto out_pool_destroy;
+ 
++	p2p->inode = alloc_anon_inode(pci_p2pdma_fs_mnt->mnt_sb);
++	if (IS_ERR(p2p->inode)) {
++		error = -ENOMEM;
++		goto out_unpin_fs;
++	}
++
++	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_release, pdev);
++	if (error)
++		goto out_put_inode;
++
+ 	error = sysfs_create_group(&pdev->dev.kobj, &p2pmem_group);
+ 	if (error)
+-		goto out_pool_destroy;
++		goto out_put_inode;
+ 
+ 	rcu_assign_pointer(pdev->p2pdma, p2p);
+ 	return 0;
+ 
++out_put_inode:
++	iput(p2p->inode);
++out_unpin_fs:
++	simple_release_fs(&pci_p2pdma_fs_mnt, &pci_p2pdma_fs_cnt);
+ out_pool_destroy:
+ 	gen_pool_destroy(p2p->pool);
+ out:
+@@ -164,6 +216,54 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ 	return error;
+ }
+ 
++static void pci_p2pdma_map_free_pages(struct pci_p2pdma_map *pmap)
++{
++	int i;
++
++	if (!pmap->kaddr)
++		return;
++
++	for (i = 0; i < pmap->len; i += PAGE_SIZE)
++		put_page(virt_to_page(pmap->kaddr + i));
++
++	pmap->kaddr = NULL;
++}
++
++static void pci_p2pdma_free_mappings(struct address_space *mapping)
++{
++	struct vm_area_struct *vma;
++
++	i_mmap_lock_write(mapping);
++	if (RB_EMPTY_ROOT(&mapping->i_mmap.rb_root))
++		goto out;
++
++	vma_interval_tree_foreach(vma, &mapping->i_mmap, 0, -1)
++		pci_p2pdma_map_free_pages(vma->vm_private_data);
++
++out:
++	i_mmap_unlock_write(mapping);
++}
++
++static void pci_p2pdma_unmap_mappings(void *data)
++{
++	struct pci_dev *pdev = data;
++	struct pci_p2pdma *p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
++
++	/* Ensure no new pages can be allocated in mappings */
++	p2pdma->active = false;
++	synchronize_rcu();
++
++	unmap_mapping_range(p2pdma->inode->i_mapping, 0, 0, 1);
++
++	/*
++	 * On some architectures, TLB flushes are done with call_rcu()
++	 * so to ensure GUP fast is done with the pages, call synchronize_rcu()
++	 * before freeing them.
++	 */
++	synchronize_rcu();
++	pci_p2pdma_free_mappings(p2pdma->inode->i_mapping);
++}
++
+ /**
+  * pci_p2pdma_add_resource - add memory for use as p2p memory
+  * @pdev: the device to add the memory to
+@@ -222,6 +322,11 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 		goto pgmap_free;
+ 	}
+ 
++	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
++					 pdev);
++	if (error)
++		goto pages_free;
++
+ 	p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
+ 	error = gen_pool_add_owner(p2pdma->pool, (unsigned long)addr,
+ 			pci_bus_address(pdev, bar) + offset,
+@@ -230,6 +335,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 	if (error)
+ 		goto pages_free;
+ 
++	p2pdma->active = true;
+ 	pci_info(pdev, "added peer-to-peer DMA memory %#llx-%#llx\n",
+ 		 pgmap->range.start, pgmap->range.end);
+ 
+@@ -1030,3 +1136,194 @@ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
+ 	return sprintf(page, "%s\n", pci_name(p2p_dev));
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pdma_enable_show);
++
++static struct pci_p2pdma_map *pci_p2pdma_map_alloc(struct pci_dev *pdev,
++						   size_t len)
++{
++	struct pci_p2pdma_map *pmap;
++
++	pmap = kzalloc(sizeof(*pmap), GFP_KERNEL);
++	if (!pmap)
++		return NULL;
++
++	kref_init(&pmap->ref);
++	pmap->pdev = pci_dev_get(pdev);
++	pmap->len = len;
++
++	return pmap;
++}
++
++static void pci_p2pdma_map_free(struct rcu_head *rcu)
++{
++	struct pci_p2pdma_map *pmap =
++		container_of(rcu, struct pci_p2pdma_map, rcu);
++
++	pci_p2pdma_map_free_pages(pmap);
++	kfree(pmap);
++}
++
++static void pci_p2pdma_map_release(struct kref *ref)
++{
++	struct pci_p2pdma_map *pmap =
++		container_of(ref, struct pci_p2pdma_map, ref);
++
++	iput(pmap->inode);
++	simple_release_fs(&pci_p2pdma_fs_mnt, &pci_p2pdma_fs_cnt);
++	pci_dev_put(pmap->pdev);
++
++	if (pmap->kaddr) {
++		/*
++		 * Make sure to wait for the TLB flush (which some
++		 * architectures do using call_rcu()) before returning the
++		 * pages to the genalloc. This ensures the pages are not reused
++		 * before GUP-fast is finished with them. So the mapping is
++		 * freed using call_rcu() seeing adding synchronize_rcu() to
++		 * the munmap path can cause long delays on large systems
++		 * during process cleanup.
++		 */
++		call_rcu(&pmap->rcu, pci_p2pdma_map_free);
++		return;
++	}
++
++	/*
++	 * If there are no pages, just free the object immediately. There
++	 * are no more references to it so there is nothing that can race
++	 * with adding the pages.
++	 */
++	pci_p2pdma_map_free(&pmap->rcu);
++}
++
++static void pci_p2pdma_vma_open(struct vm_area_struct *vma)
++{
++	struct pci_p2pdma_map *pmap = vma->vm_private_data;
++
++	kref_get(&pmap->ref);
++}
++
++static void pci_p2pdma_vma_close(struct vm_area_struct *vma)
++{
++	struct pci_p2pdma_map *pmap = vma->vm_private_data;
++
++	kref_put(&pmap->ref, pci_p2pdma_map_release);
++}
++
++static vm_fault_t pci_p2pdma_vma_fault(struct vm_fault *vmf)
++{
++	struct pci_p2pdma_map *pmap = vmf->vma->vm_private_data;
++	struct pci_p2pdma *p2pdma;
++	void *vaddr;
++	pfn_t pfn;
++	int i;
++
++	if (!pmap->kaddr) {
++		rcu_read_lock();
++		p2pdma = rcu_dereference(pmap->pdev->p2pdma);
++		if (!p2pdma)
++			goto err_out;
++
++		if (!p2pdma->active)
++			goto err_out;
++
++		pmap->kaddr = (void *)gen_pool_alloc(p2pdma->pool, pmap->len);
++		if (!pmap->kaddr)
++			goto err_out;
++
++		for (i = 0; i < pmap->len; i += PAGE_SIZE)
++			get_page(virt_to_page(pmap->kaddr + i));
++
++		rcu_read_unlock();
++	}
++
++	vaddr = pmap->kaddr + (vmf->pgoff << PAGE_SHIFT);
++	pfn = phys_to_pfn_t(virt_to_phys(vaddr), PFN_DEV | PFN_MAP);
++
++	return vmf_insert_mixed(vmf->vma, vmf->address, pfn);
++
++err_out:
++	rcu_read_unlock();
++	return VM_FAULT_SIGBUS;
++}
++static const struct vm_operations_struct pci_p2pdma_vmops = {
++	.open = pci_p2pdma_vma_open,
++	.close = pci_p2pdma_vma_close,
++	.fault = pci_p2pdma_vma_fault,
++};
++
++/**
++ * pci_p2pdma_mmap_file_open - setup file mapping to store P2PMEM VMAs
++ * @pdev: the device to allocate memory from
++ * @vma: the userspace vma to map the memory to
++ *
++ * Set f_mapping of the file to the p2pdma inode so that mappings
++ * are can be torn down on device unbind.
++ *
++ * Returns 0 on success, or a negative error code on failure
++ */
++void pci_p2pdma_mmap_file_open(struct pci_dev *pdev, struct file *file)
++{
++	struct pci_p2pdma *p2pdma;
++
++	rcu_read_lock();
++	p2pdma = rcu_dereference(pdev->p2pdma);
++	if (p2pdma)
++		file->f_mapping = p2pdma->inode->i_mapping;
++	rcu_read_unlock();
++}
++EXPORT_SYMBOL_GPL(pci_p2pdma_mmap_file_open);
++
++/**
++ * pci_mmap_p2pmem - setup an mmap region to be backed with P2PDMA memory
++ *	that was registered with pci_p2pdma_add_resource()
++ * @pdev: the device to allocate memory from
++ * @vma: the userspace vma to map the memory to
++ *
++ * The file must call pci_p2pdma_mmap_file_open() in its open() operation.
++ *
++ * Returns 0 on success, or a negative error code on failure
++ */
++int pci_mmap_p2pmem(struct pci_dev *pdev, struct vm_area_struct *vma)
++{
++	struct pci_p2pdma_map *pmap;
++	struct pci_p2pdma *p2pdma;
++	int ret;
++
++	/* prevent private mappings from being established */
++	if ((vma->vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
++		pci_info_ratelimited(pdev,
++				     "%s: fail, attempted private mapping\n",
++				     current->comm);
++		return -EINVAL;
++	}
++
++	pmap = pci_p2pdma_map_alloc(pdev, vma->vm_end - vma->vm_start);
++	if (!pmap)
++		return -ENOMEM;
++
++	rcu_read_lock();
++	p2pdma = rcu_dereference(pdev->p2pdma);
++	if (!p2pdma) {
++		ret = -ENODEV;
++		goto out;
++	}
++
++	ret = simple_pin_fs(&pci_p2pdma_fs_type, &pci_p2pdma_fs_mnt,
++			    &pci_p2pdma_fs_cnt);
++	if (ret)
++		goto out;
++
++	ihold(p2pdma->inode);
++	pmap->inode = p2pdma->inode;
++	rcu_read_unlock();
++
++	vma->vm_flags |= VM_MIXEDMAP;
++	vma->vm_private_data = pmap;
++	vma->vm_ops = &pci_p2pdma_vmops;
++
++	return 0;
++
++out:
++	rcu_read_unlock();
++	kfree(pmap);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(pci_mmap_p2pmem);
+diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+index 2c07aa6b7665..7122050ee660 100644
+--- a/include/linux/pci-p2pdma.h
++++ b/include/linux/pci-p2pdma.h
+@@ -34,6 +34,8 @@ int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
+ 			    bool *use_p2pdma);
+ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
+ 			       bool use_p2pdma);
++void pci_p2pdma_mmap_file_open(struct pci_dev *pdev, struct file *file);
++int pci_mmap_p2pmem(struct pci_dev *pdev, struct vm_area_struct *vma);
+ #else /* CONFIG_PCI_P2PDMA */
+ static inline int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar,
+ 		size_t size, u64 offset)
+@@ -90,6 +92,15 @@ static inline ssize_t pci_p2pdma_enable_show(char *page,
+ {
+ 	return sprintf(page, "none\n");
+ }
++static inline void pci_p2pdma_mmap_file_open(struct pci_dev *pdev,
++					     struct file *file)
++{
++}
++static inline int pci_mmap_p2pmem(struct pci_dev *pdev,
++				  struct vm_area_struct *vma)
++{
++	return -EOPNOTSUPP;
++}
+ #endif /* CONFIG_PCI_P2PDMA */
+ 
+ 
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 35687dcb1a42..af737842c56f 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -88,6 +88,7 @@
+ #define BPF_FS_MAGIC		0xcafe4a11
+ #define AAFS_MAGIC		0x5a3c69f0
+ #define ZONEFS_MAGIC		0x5a4f4653
++#define P2PDMA_MAGIC		0x70327064
+ 
+ /* Since UDF 2.01 is ISO 13346 based... */
+ #define UDF_SUPER_MAGIC		0x15013346
+-- 
+2.30.2
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
