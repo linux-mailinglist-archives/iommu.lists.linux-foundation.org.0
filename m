@@ -1,93 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AF7454FAB
-	for <lists.iommu@lfdr.de>; Wed, 17 Nov 2021 22:54:41 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D63455108
+	for <lists.iommu@lfdr.de>; Thu, 18 Nov 2021 00:20:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0E1E180C89;
-	Wed, 17 Nov 2021 21:54:38 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7BD6D404CC;
+	Wed, 17 Nov 2021 23:20:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p4WCNKq5JhwE; Wed, 17 Nov 2021 21:54:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EE8B481AD1;
-	Wed, 17 Nov 2021 21:54:36 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JUgGq60f4tnS; Wed, 17 Nov 2021 23:20:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 392EA4024F;
+	Wed, 17 Nov 2021 23:20:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BBAF4C0012;
-	Wed, 17 Nov 2021 21:54:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 06FFFC0012;
+	Wed, 17 Nov 2021 23:20:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A494C0012
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:33 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 664F7C0012
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 23:20:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 61A9C80C54
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:32 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 413AC82477
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 23:20:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9QKPoJPyQr5u for <iommu@lists.linux-foundation.org>;
- Wed, 17 Nov 2021 21:54:31 +0000 (UTC)
+ with ESMTP id jDp0JycyOOIe for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Nov 2021 23:20:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp1.osuosl.org (Postfix) with ESMTPS id AA19380C63
- for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 21:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=tg4MegziDOSUr28d0QYX7YlGwKcxOm361uD6F0v6Nwc=; b=Pb03cCUZARE127q4WVQ0eWvolp
- Mb1diotmJvqpeDeBK8Nzlb75G1AR4AD6o7+xcf8NlVFo0jWRBZKQZkwe1gCSszhKpi/1O1OhwbgYK
- 3ckD0YQ/amhEZITCdX7U5pN8qEyXkXJK86WnazusJs2E9tZHFN6lAJRmCFPJB4mJo/axNYMIAJnYT
- XG6WVzpkeomCYr0DkreuBgTRZn5mjna/lx9MQP/UhKznpV/ZTDtPuX5oXoDZWif6Ga9ZylOR5RxwG
- cG0sbb8nVRTh9h/CVz7CxWFITPcV8QEmMsfO/UY/U6GoVRU4UNqFUMYB+Vhw1lVpP1RT4efZSt718
- xk864lBQ==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsn-000Zo7-24; Wed, 17 Nov 2021 14:54:21 -0700
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
- 4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsm-00010Q-22; Wed, 17 Nov 2021 14:54:20 -0700
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Date: Wed, 17 Nov 2021 14:54:10 -0700
-Message-Id: <20211117215410.3695-24-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211117215410.3695-1-logang@deltatee.com>
-References: <20211117215410.3695-1-logang@deltatee.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 240198246D
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 23:20:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B1CF761BD3
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 23:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637191203;
+ bh=ljTiLvzG7o9miaf+PiBSRpKybCCJX219LlLPvIIbSRk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=RHRfyZMKroozcJehDE7vGjJEy5SiGQ7hpHla3uoiKAtnc71hBaHIxTBQrVWQBHD7U
+ DTyJzu/tAVgFlPbQ+OMb68sz50/mhnsVKi+bnts86Hzk6lDJYmZ9ZRhoPhgBtdRhkc
+ 7HTbyws/dqmUI6DJxw1f4HFYySATti/yMt9vQxYZaHndmOiVdYC8w4kPMP+GKI4lmL
+ uGuSGlgx8zg4TGyRZfUg6DXEdLP43MQ8Z1gDhbyxzyUeUdIQLB1nkKpD+It8FrA0/r
+ rYLphcaUrMVNFdOP0cKl5RqjAs65QG8BjTHffseODOqtfTKtxGA1eoveATnOE7VEhv
+ nE0T4al5bRGcA==
+Received: by mail-qv1-f46.google.com with SMTP id jo22so3182268qvb.13
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Nov 2021 15:20:03 -0800 (PST)
+X-Gm-Message-State: AOAM532FRO/fUrUOEOQgeYJnVXAEY1Us3gmAjSy3iNtgxlK76ojyDR+6
+ VNu/7SGgQPRT70j0uz/MutBJgMNQHBHOF7RolQ==
+X-Google-Smtp-Source: ABdhPJyl4UtXwfvOz/nvoaclbR+2WYqHAJ7Xq6Wh5OV9pYS9fvtIjN2HCdJ+OgdYl6Z3NYwl5T/xYfAWmTWXKdFYjdY=
+X-Received: by 2002:a05:6214:27ee:: with SMTP id
+ jt14mr59508225qvb.5.1637191202788; 
+ Wed, 17 Nov 2021 15:20:02 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
- ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
- jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org,
- dan.j.williams@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
- jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
- martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v4 23/23] nvme-pci: allow mmaping the CMB in userspace
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Minturn Dave B <dave.b.minturn@intel.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Ira Weiny <ira.weiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>,
- Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bjorn Helgaas <helgaas@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Stephen Bates <sbates@raithlin.com>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>, Christoph Hellwig <hch@lst.de>,
- Xiong Jianxin <jianxin.xiong@intel.com>
+References: <20211116113536.69758-1-jean-philippe@linaro.org>
+ <20211116113536.69758-2-jean-philippe@linaro.org>
+In-Reply-To: <20211116113536.69758-2-jean-philippe@linaro.org>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 17 Nov 2021 17:19:51 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ6v6HKA3ifQoeVh+2iABL7fBPCS0ntTXb0BA8LO0vi8g@mail.gmail.com>
+Message-ID: <CAL_JsqJ6v6HKA3ifQoeVh+2iABL7fBPCS0ntTXb0BA8LO0vi8g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: Add Arm SMMUv3 PMCG binding
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>, uchida.jun@socionext.com,
+ Leo Yan <leo.yan@linaro.org>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,116 +88,118 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Allow userspace to obtain CMB memory by mmaping the controller's
-char device. The mmap call allocates and returns a hunk of CMB memory,
-(the offset is ignored) so userspace does not have control over the
-address within the CMB.
+On Tue, Nov 16, 2021 at 5:52 AM Jean-Philippe Brucker
+<jean-philippe@linaro.org> wrote:
+>
+> Add binding for the Arm SMMUv3 PMU. Each node represents a PMCG, and is
+> placed as a sibling node of the SMMU. Although the PMCGs registers may
+> be within the SMMU MMIO region, they are separate devices, and there can
+> be multiple PMCG devices for each SMMU (for example one for the TCU and
+> one for each TBU).
+>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  .../bindings/iommu/arm,smmu-v3-pmcg.yaml      | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iommu/arm,smmu-v3-pmcg.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu-v3-pmcg.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu-v3-pmcg.yaml
+> new file mode 100644
+> index 000000000000..a893e071fdb4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu-v3-pmcg.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iommu/arm,smmu-v3-pmcg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Arm SMMUv3 Performance Monitor Counter Group
+> +
+> +maintainers:
+> +  - Will Deacon <will@kernel.org>
+> +  - Robin Murphy <Robin.Murphy@arm.com>
+> +
+> +description: |+
 
-A VMA allocated in this way will only be usable by drivers that set
-FOLL_PCI_P2PDMA when calling GUP. And inter-device support will be
-checked the first time the pages are mapped for DMA.
+Don't need '|+' if no formatting to preserve.
 
-Currently this is only supported by O_DIRECT to an PCI NVMe device
-or through the NVMe passthrough IOCTL.
+> +  An SMMUv3 may have several Performance Monitor Counter Group (PMCG).
+> +  They are standalone performance monitoring units that support both
+> +  architected and IMPLEMENTATION DEFINED event counters.
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- drivers/nvme/host/core.c | 15 +++++++++++++++
- drivers/nvme/host/nvme.h |  2 ++
- drivers/nvme/host/pci.c  | 18 ++++++++++++++++++
- 3 files changed, 35 insertions(+)
+Humm, I don't know that I agree they are standalone. They could be I
+guess, but looking at the MMU-600 spec the PMCG looks like it's just a
+subset of registers in a larger block. This seems similar to MPAM
+(which I'm working on a binding for) where it's just a register map
+and interrupts, but every other possible resource is unspecified by
+the architecture.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 344414351314..39ad592cacdc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3111,6 +3111,10 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
- 	}
- 
- 	file->private_data = ctrl;
-+
-+	if (ctrl->ops->mmap_file_open)
-+		ctrl->ops->mmap_file_open(ctrl, file);
-+
- 	return 0;
- }
- 
-@@ -3124,12 +3128,23 @@ static int nvme_dev_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+static int nvme_dev_mmap(struct file *file, struct vm_area_struct *vma)
-+{
-+	struct nvme_ctrl *ctrl = file->private_data;
-+
-+	if (!ctrl->ops->mmap_cmb)
-+		return -ENODEV;
-+
-+	return ctrl->ops->mmap_cmb(ctrl, vma);
-+}
-+
- static const struct file_operations nvme_dev_fops = {
- 	.owner		= THIS_MODULE,
- 	.open		= nvme_dev_open,
- 	.release	= nvme_dev_release,
- 	.unlocked_ioctl	= nvme_dev_ioctl,
- 	.compat_ioctl	= compat_ptr_ioctl,
-+	.mmap		= nvme_dev_mmap,
- };
- 
- static ssize_t nvme_sysfs_reset(struct device *dev,
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a9f60b12a32b..5fdc1a2027e9 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -494,6 +494,8 @@ struct nvme_ctrl_ops {
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
- 	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
-+	void (*mmap_file_open)(struct nvme_ctrl *ctrl, struct file *file);
-+	int (*mmap_cmb)(struct nvme_ctrl *ctrl, struct vm_area_struct *vma);
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3f2bd1efe076..05d6e7284000 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2896,6 +2896,22 @@ static bool nvme_pci_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
- 	return dma_pci_p2pdma_supported(dev->dev);
- }
- 
-+static void nvme_pci_mmap_file_open(struct nvme_ctrl *ctrl,
-+				    struct file *file)
-+{
-+	struct pci_dev *pdev = to_pci_dev(to_nvme_dev(ctrl)->dev);
-+
-+	pci_p2pdma_mmap_file_open(pdev, file);
-+}
-+
-+static int nvme_pci_mmap_cmb(struct nvme_ctrl *ctrl,
-+			     struct vm_area_struct *vma)
-+{
-+	struct pci_dev *pdev = to_pci_dev(to_nvme_dev(ctrl)->dev);
-+
-+	return pci_mmap_p2pmem(pdev, vma);
-+}
-+
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
-@@ -2907,6 +2923,8 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.submit_async_event	= nvme_pci_submit_async_event,
- 	.get_address		= nvme_pci_get_address,
- 	.supports_pci_p2pdma	= nvme_pci_supports_pci_p2pdma,
-+	.mmap_file_open		= nvme_pci_mmap_file_open,
-+	.mmap_cmb		= nvme_pci_mmap_cmb,
- };
- 
- static int nvme_dev_map(struct nvme_dev *dev)
--- 
-2.30.2
+The simplest change from this would be just specifying that the PMCG
+is child node(s) of whatever it is part of. The extreme would be this
+is all part of the SMMU binding (i.e. reg entry X is PMCG registers,
+interrupts entry Y is pmu irq).
 
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^pmu@[0-9a-f]*"
+
+s/*/+/
+
+Need at least 1 digit.
+
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +        - enum:
+> +          - hisilicon,smmu-v3-pmcg-hip08
+> +        - const: arm,smmu-v3-pmcg
+> +      - const: arm,smmu-v3-pmcg
+> +
+> +  reg:
+> +    description: |
+> +      Base addresses of the PMCG registers. Either a single address for Page 0
+> +      or an additional address for Page 1, where some registers can be
+> +      relocated with SMMU_PMCG_CFGR.RELOC_CTRS.
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  msi-parent: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |+
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    pmu@2b420000 {
+> +            compatible = "arm,smmu-v3-pmcg";
+> +            reg = <0 0x2b420000 0 0x1000>,
+> +                  <0 0x2b430000 0 0x1000>;
+> +            interrupts = <GIC_SPI 80 IRQ_TYPE_EDGE_RISING>;
+> +            msi-parent = <&its 0xff0000>;
+> +    };
+> +
+> +    pmu@2b440000 {
+> +            compatible = "arm,smmu-v3-pmcg";
+> +            reg = <0 0x2b440000 0 0x1000>,
+> +                  <0 0x2b450000 0 0x1000>;
+> +            interrupts = <GIC_SPI 81 IRQ_TYPE_EDGE_RISING>;
+> +            msi-parent = <&its 0xff0000>;
+> +    };
+> --
+> 2.33.1
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
