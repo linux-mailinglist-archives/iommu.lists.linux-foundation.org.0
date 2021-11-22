@@ -1,64 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ADD458C8D
-	for <lists.iommu@lfdr.de>; Mon, 22 Nov 2021 11:44:28 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A60F9458C8F
+	for <lists.iommu@lfdr.de>; Mon, 22 Nov 2021 11:44:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7A286401C5;
-	Mon, 22 Nov 2021 10:44:27 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 459B780DEA;
+	Mon, 22 Nov 2021 10:44:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pMTPrgYe4hDZ; Mon, 22 Nov 2021 10:44:26 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Am90n1BhbbIC; Mon, 22 Nov 2021 10:44:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3BAB740172;
-	Mon, 22 Nov 2021 10:44:26 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 520D380D35;
+	Mon, 22 Nov 2021 10:44:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B878C0012;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9765BC002E;
 	Mon, 22 Nov 2021 10:44:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD06CC0012
- for <iommu@lists.linux-foundation.org>; Mon, 22 Nov 2021 10:44:23 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1058FC0012
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Nov 2021 10:44:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C271340293
- for <iommu@lists.linux-foundation.org>; Mon, 22 Nov 2021 10:44:23 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id E4F5E40172
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Nov 2021 10:44:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=fail (2048-bit key) reason="fail (bad RSA signature)"
  header.d=collabora.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cHgfidjH5tyV for <iommu@lists.linux-foundation.org>;
- Mon, 22 Nov 2021 10:44:23 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id w6yApcCHygQM for <iommu@lists.linux-foundation.org>;
+ Mon, 22 Nov 2021 10:44:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 275394028A
- for <iommu@lists.linux-foundation.org>; Mon, 22 Nov 2021 10:44:23 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 3290640010
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Nov 2021 10:44:24 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dafna) with ESMTPSA id 4AF961F4482B
+ (Authenticated sender: dafna) with ESMTPSA id 9ACCA1F44822
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1637577861; bh=2Xsz33sJUCBtrvsBkiwQnxCnwbbplwf03p+yM44j+xY=;
+ t=1637577862; bh=BZwKyzVx4ruuAqlnDN1dIueQvzsa4RZzFJANK5WOaYE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AJA57MhNimPrOD/OHLVYM5/Xo8lNmRfBCpTzhBYY55RjyHWXovzrC3+kCz2GFFB7s
- k9JcqtSNaVUN7UPZ3qOP61314DvDmpIy1LKVtBSOMXUZnSRJZkpSHSuPs3qKn2ms6q
- wa+0qLHqFE2jQ+t6mSitG3fXQHKBvRr3Atjyc3Q/x5N8sOvxhTPiNjToDVljORECTG
- cxG4n3LSaLr5LLzahXyAL0ZziNpaXur8ahl6hQ3Udfvp5fPNyq4z2xlR2dOa2lOHEu
- 39YOqjPFb7yTbYgfLb16Ji/dc0kTGw0NF3HGEp/OIMFknQUarhrMwwdDohWVZP3G/4
- 3ieNTmbk8eNGA==
+ b=eZEc8ECeOmsw4ezw2hpNmvicqyp8cDuBNRLXFHOI2d19wIHaibjoEtA5Yv2PqKAjV
+ YKZ/CbZsVsqJ6w/5VeW06fsPymIpCst9vxkAARiQpPKdjiabtO4oR9PYSM6HoCKvJB
+ GjYyAoKdv3XDQ+B9SvA4/4JCVZfRRLgMGoJBpGB8sp0PQ1/TPM22EFIz8Qd6Cl2Icx
+ S0LxEdhn4hV2jBYPlXnYC4/Ues5/XExzqaCx8liG7pUQIvC//aonPhpuhlLwC21iaM
+ 8lZjy+3kwbNn45qUk+Rk1NJmNSWkJB5WjZjlPjNNycq/4lpHA24O65A6UBKmj5padv
+ Q9CDSLcHfaLZg==
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 1/2] iommu/mediatek: Always tlb_flush_all when each PM resume
-Date: Mon, 22 Nov 2021 12:43:59 +0200
-Message-Id: <20211122104400.4160-2-dafna.hirschfeld@collabora.com>
+Subject: [PATCH 2/2] iommu/mediatek: always check runtime PM status in tlb
+ flush range callback
+Date: Mon, 22 Nov 2021 12:44:00 +0200
+Message-Id: <20211122104400.4160-3-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211122104400.4160-1-dafna.hirschfeld@collabora.com>
 References: <20211122104400.4160-1-dafna.hirschfeld@collabora.com>
-Cc: open list <linux-kernel@vger.kernel.org>, sebastian.reichel@collabora.com,
- "moderated list:MEDIATEK IOMMU DRIVER"
- <linux-mediatek@lists.infradead.org>,
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:MEDIATEK IOMMU DRIVER" <linux-mediatek@lists.infradead.org>,
  "moderated list:ARM/Mediatek SoC support"
  <linux-arm-kernel@lists.infradead.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
@@ -81,60 +82,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yong Wu <yong.wu@mediatek.com>
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Prepare for 2 HWs that sharing pgtable in different power-domains.
+In case of v4l2_reqbufs() it is possible, that a TLB flush is done
+without runtime PM being enabled. In that case the "Partial TLB flush
+timed out, falling back to full flush" warning is printed.
 
-When there are 2 M4U HWs, it may has problem in the flush_range in which
-we get the pm_status via the m4u dev, BUT that function don't reflect the
-real power-domain status of the HW since there may be other HW also use
-that power-domain.
+Commit c0b57581b73b ("iommu/mediatek: Add power-domain operation")
+introduced has_pm as optimization to avoid checking runtime PM
+when there is no power domain attached. But without the PM domain
+there is still the device driver's runtime PM suspend handler, which
+disables the clock. Thus flushing should also be avoided when there
+is no PM domain involved.
 
-The function dma_alloc_attrs help allocate the iommu buffer which
-need the corresponding power domain since tlb flush is needed when
-preparing iova. BUT this function only is for allocating buffer,
-we have no good reason to request the user always call pm_runtime_get
-before calling dma_alloc_xxx. Therefore, we add a tlb_flush_all
-in the pm_runtime_resume to make sure the tlb always is clean.
-
-Another solution is always call pm_runtime_get in the tlb_flush_range.
-This will trigger pm runtime resume/backup so often when the iommu
-power is not active at some time(means user don't call pm_runtime_get
-before calling dma_alloc_xxx), This may cause the performance drop.
-thus we don't use this.
-
-In other case, the iommu's power should always be active via device
-link with smi.
-
-The previous SoC don't have PM except mt8192. the mt8192 IOMMU is display's
-power-domain which nearly always is enabled. thus no need fix tags here.
-Prepare for mt8195.
-
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-[imporvie inline doc]
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- drivers/iommu/mtk_iommu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/iommu/mtk_iommu.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 25b834104790..28dc4b95b6d9 100644
+index 28dc4b95b6d9..b0535fcfd1d7 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -964,6 +964,13 @@ static int __maybe_unused mtk_iommu_runtime_resume(struct device *dev)
- 		return ret;
- 	}
+@@ -227,16 +227,13 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
+ 					   size_t granule,
+ 					   struct mtk_iommu_data *data)
+ {
+-	bool has_pm = !!data->dev->pm_domain;
+ 	unsigned long flags;
+ 	int ret;
+ 	u32 tmp;
  
-+	/*
-+	 * Users may allocate dma buffer before they call pm_runtime_get,
-+	 * in which case it will lack the necessary tlb flush.
-+	 * Thus, make sure to update the tlb after each PM resume.
-+	 */
-+	mtk_iommu_tlb_flush_all(data);
-+
- 	/*
- 	 * Uppon first resume, only enable the clk and return, since the values of the
- 	 * registers are not yet set.
+ 	for_each_m4u(data) {
+-		if (has_pm) {
+-			if (pm_runtime_get_if_in_use(data->dev) <= 0)
+-				continue;
+-		}
++		if (pm_runtime_get_if_in_use(data->dev) <= 0)
++			continue;
+ 
+ 		spin_lock_irqsave(&data->tlb_lock, flags);
+ 		writel_relaxed(F_INVLD_EN1 | F_INVLD_EN0,
+@@ -261,8 +258,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
+ 		writel_relaxed(0, data->base + REG_MMU_CPE_DONE);
+ 		spin_unlock_irqrestore(&data->tlb_lock, flags);
+ 
+-		if (has_pm)
+-			pm_runtime_put(data->dev);
++		pm_runtime_put(data->dev);
+ 	}
+ }
+ 
 -- 
 2.17.1
 
