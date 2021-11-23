@@ -1,79 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5F745A741
-	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 17:11:05 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6452E45A806
+	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 17:35:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8EACF605B3;
-	Tue, 23 Nov 2021 16:11:04 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 185B180DF9;
+	Tue, 23 Nov 2021 16:35:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PeQl44ifZ4M9; Tue, 23 Nov 2021 16:11:03 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NhAMB0DEFf_B; Tue, 23 Nov 2021 16:35:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C1FB660769;
-	Tue, 23 Nov 2021 16:11:03 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7F02D80DB1;
+	Tue, 23 Nov 2021 16:35:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E59DC0012;
-	Tue, 23 Nov 2021 16:11:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E563C0036;
+	Tue, 23 Nov 2021 16:35:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 57BCEC0012
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:11:02 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 12A2DC0012
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:34:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1E2C780D80
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:11:02 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id F2E2F40219
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:34:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id D3J6KadzZ-G8 for <iommu@lists.linux-foundation.org>;
- Tue, 23 Nov 2021 16:11:01 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8117C80D35
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637683860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E71mUjFY3RjWM0HIP3/hcl3zs2J0xxW42+7wzc1Wnwo=;
- b=KBTJu/GxHHlkgF8XMSpJc87Uz8TUJXw/HQ1LM0+/KNxk76wUm0VaQOJrdPXxxjO+D3JA9F
- 58yNqxgTk6ky6ix0xJdy6gI/Qxy1eRFqIbZ3Y/TxDCUGzWvsRd4tu8hXyN4ciK8JNlsvYd
- LlVKWT7bEo4+fYQT0OWBnm/aeemqzWo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-jDM9JcWvOpS_pGRmvPtOxA-1; Tue, 23 Nov 2021 11:10:59 -0500
-X-MC-Unique: jDM9JcWvOpS_pGRmvPtOxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 081808799EB;
- Tue, 23 Nov 2021 16:10:58 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8C5560843;
- Tue, 23 Nov 2021 16:10:55 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] iommu/amd: remove useless irq affinity notifier
-Date: Tue, 23 Nov 2021 18:10:38 +0200
-Message-Id: <20211123161038.48009-6-mlevitsk@redhat.com>
-In-Reply-To: <20211123161038.48009-1-mlevitsk@redhat.com>
-References: <20211123161038.48009-1-mlevitsk@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Cc: Maxim Levitsky <mlevitsk@redhat.com>,
- "open list:AMD IOMMU AMD-VI" <iommu@lists.linux-foundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
- David Woodhouse <dwmw@amazon.co.uk>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HhGF-Shq3VNM for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Nov 2021 16:34:55 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id DD9E440140
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:34:54 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id k21so28719405ioh.4
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 08:34:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=tTDqJqEpn3lJVr9hvHIdnLnM0QZTa6cWxZTxlXqyveI=;
+ b=q939lffgSq6YlhyNOiMHsqbm8LeDkQqm/6wnzDIh8wCshamvBp8fiirDz1ReDyTsES
+ Xu5WEwFPVQIaMvlghEO/JOzKlmasVHtF/SUWl4UydZAAGoeUequcWScDxm+bennSjp08
+ mrNJe02g2+5h05v7SllJvnlDCRH7i5THTHwAIj+n9uXTGH2yxdEJSr0W1+4Aazx+CgKd
+ oaWS5RCpYiHMKwuHhu3uLs8oLFmc4hsA39bwjW64Wn9798g57vNi/99ngEs8ZEx6Nq7I
+ hUeEHJOcvlpKkcqc3j9VcwwxELH7kUA9B6DxkxlZH4MuBBFNOgfSUAAg0xRl71ODOkGK
+ BDew==
+X-Gm-Message-State: AOAM533aPuztE0s/10mnsyac0UuIBIj5AB2zsq1Xecb3lVZ5P6S/kzCe
+ lAI4imuqDaLOJGhZxt6WEQ==
+X-Google-Smtp-Source: ABdhPJzpKxUJnoCa0cAVi7P8tqEKN9cFnfuz6QPVzyOgjxBNvvRZQNUJPZWW6WEKX50SRbXuuf9lzg==
+X-Received: by 2002:a02:cc29:: with SMTP id o9mr7751315jap.116.1637685293477; 
+ Tue, 23 Nov 2021 08:34:53 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id o22sm8929890iow.52.2021.11.23.08.34.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Nov 2021 08:34:52 -0800 (PST)
+Received: (nullmailer pid 3442912 invoked by uid 1000);
+ Tue, 23 Nov 2021 16:34:29 -0000
+From: Rob Herring <robh@kernel.org>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+In-Reply-To: <20211123112104.3530135-3-hsinyi@chromium.org>
+References: <20211123112104.3530135-1-hsinyi@chromium.org>
+ <20211123112104.3530135-3-hsinyi@chromium.org>
+Subject: Re: [PATCH 2/3] dt-bindings: Add io-tlb-segsize property for
+ restricted-dma-pool
+Date: Tue, 23 Nov 2021 09:34:29 -0700
+Message-Id: <1637685269.659918.3442911.nullmailer@robh.at.kernel.org>
+Cc: devicetree@vger.kernel.org, - <devicetree-spec@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+ senozhatsky@chromium.org, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,35 +86,60 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-iommu->intcapxt_notify field is no longer used
-after a switch to a separate domain was done
+On Tue, 23 Nov 2021 19:21:03 +0800, Hsin-Yi Wang wrote:
+> Add a io-tlb-segsize property that each restricted-dma-pool can set its
+> own io_tlb_segsize since some use cases require slabs larger than default
+> value (128).
+> 
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> ---
+>  .../bindings/reserved-memory/shared-dma-pool.yaml         | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-Fixes: d1adcfbb520c ("iommu/amd: Fix IOMMU interrupt generation in X2APIC mode")
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- drivers/iommu/amd/amd_iommu_types.h | 2 --
- 1 file changed, 2 deletions(-)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 867535eb0ce97..ffc89c4fb1205 100644
---- a/drivers/iommu/amd/amd_iommu_types.h
-+++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -645,8 +645,6 @@ struct amd_iommu {
- 	/* DebugFS Info */
- 	struct dentry *debugfs;
- #endif
--	/* IRQ notifier for IntCapXT interrupt */
--	struct irq_affinity_notify intcapxt_notify;
- };
- 
- static inline struct amd_iommu *dev_to_amd_iommu(struct device *dev)
--- 
-2.26.3
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.yaml: properties:io-tlb-segsize:type: 'anyOf' conditional failed, one must be fixed:
+	'u32' is not one of ['array', 'boolean', 'integer', 'null', 'number', 'object', 'string']
+	'u32' is not of type 'array'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.yaml: properties:io-tlb-segsize:type: 'u32' is not one of ['boolean', 'object']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.yaml: ignoring, error in schema: properties: io-tlb-segsize: type
+warning: no schema found in file: ./Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.yaml
+Documentation/devicetree/bindings/display/msm/gpu.example.dt.yaml:0:0: /example-1/reserved-memory/gpu@8f200000: failed to match any schema with compatible: ['shared-dma-pool']
+Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.example.dt.yaml:0:0: /example-0/reserved-memory/linux,cma: failed to match any schema with compatible: ['shared-dma-pool']
+Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.example.dt.yaml:0:0: /example-0/reserved-memory/restricted-dma-pool@50000000: failed to match any schema with compatible: ['restricted-dma-pool']
+Documentation/devicetree/bindings/dsp/fsl,dsp.example.dt.yaml:0:0: /example-1/vdev0buffer@94300000: failed to match any schema with compatible: ['shared-dma-pool']
+Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.example.dt.yaml:0:0: /example-0/reserved-memory/dsp-memory@98000000: failed to match any schema with compatible: ['shared-dma-pool']
+Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.example.dt.yaml:0:0: /example-1/reserved-memory/ipu-memory@95800000: failed to match any schema with compatible: ['shared-dma-pool']
+Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.example.dt.yaml:0:0: /example-2/reserved-memory/dsp1-memory@99000000: failed to match any schema with compatible: ['shared-dma-pool']
+Documentation/devicetree/bindings/sound/google,cros-ec-codec.example.dt.yaml:0:0: /example-0/reserved-mem@52800000: failed to match any schema with compatible: ['shared-dma-pool']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1558503
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
 _______________________________________________
 iommu mailing list
