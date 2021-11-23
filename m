@@ -1,84 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21C945A6F8
-	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 16:56:51 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D00C45A6F2
+	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 16:56:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 59FC960857;
-	Tue, 23 Nov 2021 15:56:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 357FB4041D;
+	Tue, 23 Nov 2021 15:56:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WjV2kmBXX0it; Tue, 23 Nov 2021 15:56:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5D9CD60809;
-	Tue, 23 Nov 2021 15:56:49 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4lso1lPX9udx; Tue, 23 Nov 2021 15:56:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 01E5140222;
+	Tue, 23 Nov 2021 15:56:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 86D7DC0039;
-	Tue, 23 Nov 2021 15:56:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32CB6C0041;
+	Tue, 23 Nov 2021 15:56:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B2B8C0037
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 15:56:43 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0BBFAC0012
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 15:56:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6679B4025E
+ by smtp3.osuosl.org (Postfix) with ESMTP id EF87060723
  for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 15:56:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FXxWrAplPTxy for <iommu@lists.linux-foundation.org>;
- Tue, 23 Nov 2021 15:56:40 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id spgB7d-twYCp for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Nov 2021 15:56:41 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 0E02540222
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 15:56:39 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id d24so39846117wra.0
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 07:56:39 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2EA86606D6
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 15:56:41 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id r8so39707406wra.7
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 07:56:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rh/v7U68tKyXyQ6b3jj07z0WH7Y+IG2IvCQMWCW7whk=;
- b=OWJhcdUegx2avyXwMP3MIkRdjcVNtiP8PgBrguw2/NCr+VtjzKfv7g8GAav9ZgRhE6
- hKKpKPhMfuaY4lk61j/OGm5E5n6zlvFjdoGnSjr1CC14jxukFm3U71ud9uVSM9cdYljo
- 5mtxVVa0KxYQp4NMVLG9dq6AeM8FaNUVc/bOiPa2IXSsGLXyE7dtXdK13gUl75Y+Ojqf
- Yv21GwUjp36Ed7ZzaQySv2nBH1vBvKFJeW5+87GB4eiAneJTk4t3H9EayQ0d/ymqtC3B
- wramIJtFvEBI92p2bdZP+xXzJwh0qLSgjuWs4oJJKOu/LSGFkpyzl1eKygpkuyVY2bbw
- 2kkA==
+ bh=ugWhUFc1gcRf18XNXQ74oVCZakMGTKA95AYpxgViHMc=;
+ b=x+M+8EL5my60gL5G09sniiQ8J8uguHVYoYCOvljil6+LePL9FCGa7Igef6Qocog/H8
+ rEVgDMf7bkAXYeoisiNRVZ1mvqX9tzd9c0h6xiLIgJq+GUzO3b1kXNsKeob9laPaswPv
+ JpDOKgfBpCfNTehsQW1tS6urZx+IUPylvHdZMH+ABYcDceir8KyogKBmTvGmL57BRUn1
+ zCWjRE/co3OFF29xQQX0Lf/4j33+t0oaSJo9HXEtu7lF1WvNMHMrBLVDib6ZfIB9/TYk
+ wyt/P7EfWmf3doK4cSCMjyLJ/23K5P4U67FBDa7s2CwNCmGYFgqANTdPjccUbc2zGm2F
+ wEvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rh/v7U68tKyXyQ6b3jj07z0WH7Y+IG2IvCQMWCW7whk=;
- b=2JJrQwML796wOUmW0MdyS60RNP8J3Bbyn+wiqkEa0DqpBSZ4h8Fz4zrKO3v88L9Hz2
- PMJ+xLn16rbfU1Rum7x+xBeUCNLbMWN4ENpES6eXONTGdLDvqQ/kdocrj7aL22+xRROc
- zeNBXd6/4LvT/CROl1Bu5oDcZKiTprqD37K1kaNdF65AQmzeMOn/mZ/cGgMpF5E3Rgp0
- BT3rPhfTC2jFWO0CiTwQvWVKTs8EO2Y5wWGU32IrcI7l1aIXAIe/Puh9MSfnDHG6Umjg
- ifXVqtwBZ7iLUPrEZa3IfJtvtMmUqU7PLbjc9X8ROKcag4W5oY/PkcDD/xKmg9S8ca18
- n8hA==
-X-Gm-Message-State: AOAM5320jOTDisg9NtENLoX0hM5IjIqvCtTXf4URfSNxKGQ4IEB3zFF5
- 82x71uF9d9CKCiK++D4AQ86CFg==
-X-Google-Smtp-Source: ABdhPJyt669Qyl5fKNeC+DkjJd6fHbpPgxmbo2SgviMWvuorCu2JK0a7+FItJ+LvEAVdNOREgKXjZQ==
-X-Received: by 2002:adf:f990:: with SMTP id f16mr8473053wrr.128.1637682998253; 
- Tue, 23 Nov 2021 07:56:38 -0800 (PST)
+ bh=ugWhUFc1gcRf18XNXQ74oVCZakMGTKA95AYpxgViHMc=;
+ b=rAWDrmwsp+QsBvt6OcNJdMbk9104YvN9EWylNDdaEzkKpwz7VsZ/2Qwon6Fife/6Dp
+ UVcjCIIFl0LYKzLOxWgSzzOUdzHGF8lvs/LWrIAGw4TyZS8Bh6du2mVd7j3q3+r8iQgT
+ cgDSz5/32MD3z+RFtD6iZ9VBnoTst1/n6nP+n/KlqeUnsuJ6LyG+ITWhvXfeLQhmk80Y
+ o/F7ApvQ0DHukqSOb1I+O229b2FtnVaFFlErJ2Wh69Y5MTH9Y3ijs4ldpLdkHlqRs31J
+ u3IvpZHpMERj+EqGVwU6m4K09DTFkKjiXW5JyvTxlMoQ4smK38rIdR8alrfZGu7RWlSC
+ VIRQ==
+X-Gm-Message-State: AOAM530Z9bA10fRuGUMtH80a3SbwJAWFpyKaD7s6OkWdI3Diwtpm7EES
+ YDt2yfs8NL/nByLsneoOOmS5SQ==
+X-Google-Smtp-Source: ABdhPJz9diLXnunaItvUS4rIsQW2xdw0sxXrVOX+/drk2+7p/TRCGNxIosdJPSGo1HNkd+rDd/zYJg==
+X-Received: by 2002:a5d:604b:: with SMTP id j11mr8849450wrt.22.1637682999201; 
+ Tue, 23 Nov 2021 07:56:39 -0800 (PST)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id r15sm1532572wmh.13.2021.11.23.07.56.37
+ by smtp.gmail.com with ESMTPSA id r15sm1532572wmh.13.2021.11.23.07.56.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 07:56:37 -0800 (PST)
+ Tue, 23 Nov 2021 07:56:38 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: joro@8bytes.org,
 	will@kernel.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH v2 1/5] iommu/virtio: Add definitions for
- VIRTIO_IOMMU_F_BYPASS_CONFIG
-Date: Tue, 23 Nov 2021 15:52:58 +0000
-Message-Id: <20211123155301.1047943-2-jean-philippe@linaro.org>
+Subject: [PATCH v2 2/5] iommu/virtio: Support bypass domains
+Date: Tue, 23 Nov 2021 15:52:59 +0000
+Message-Id: <20211123155301.1047943-3-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211123155301.1047943-1-jean-philippe@linaro.org>
 References: <20211123155301.1047943-1-jean-philippe@linaro.org>
@@ -104,52 +103,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add definitions for the VIRTIO_IOMMU_F_BYPASS_CONFIG, which supersedes
-VIRTIO_IOMMU_F_BYPASS.
+The VIRTIO_IOMMU_F_BYPASS_CONFIG feature adds a new flag to the ATTACH
+request, that creates a bypass domain. Use it to enable identity
+domains.
+
+When VIRTIO_IOMMU_F_BYPASS_CONFIG is not supported by the device, we
+currently fail attaching to an identity domain. Future patches will
+instead create identity mappings in this case.
 
 Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- include/uapi/linux/virtio_iommu.h | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/iommu/virtio-iommu.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/virtio_iommu.h b/include/uapi/linux/virtio_iommu.h
-index 237e36a280cb..cafd8cf7febf 100644
---- a/include/uapi/linux/virtio_iommu.h
-+++ b/include/uapi/linux/virtio_iommu.h
-@@ -16,6 +16,7 @@
- #define VIRTIO_IOMMU_F_BYPASS			3
- #define VIRTIO_IOMMU_F_PROBE			4
- #define VIRTIO_IOMMU_F_MMIO			5
-+#define VIRTIO_IOMMU_F_BYPASS_CONFIG		6
+diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
+index 80930ce04a16..ee8a7afd667b 100644
+--- a/drivers/iommu/virtio-iommu.c
++++ b/drivers/iommu/virtio-iommu.c
+@@ -71,6 +71,7 @@ struct viommu_domain {
+ 	struct rb_root_cached		mappings;
  
- struct virtio_iommu_range_64 {
- 	__le64					start;
-@@ -36,6 +37,8 @@ struct virtio_iommu_config {
- 	struct virtio_iommu_range_32		domain_range;
- 	/* Probe buffer size */
- 	__le32					probe_size;
-+	__u8					bypass;
-+	__u8					reserved[7];
+ 	unsigned long			nr_endpoints;
++	bool				bypass;
  };
  
- /* Request types */
-@@ -66,11 +69,14 @@ struct virtio_iommu_req_tail {
- 	__u8					reserved[3];
- };
+ struct viommu_endpoint {
+@@ -587,7 +588,9 @@ static struct iommu_domain *viommu_domain_alloc(unsigned type)
+ {
+ 	struct viommu_domain *vdomain;
  
-+#define VIRTIO_IOMMU_ATTACH_F_BYPASS		(1 << 0)
+-	if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
++	if (type != IOMMU_DOMAIN_UNMANAGED &&
++	    type != IOMMU_DOMAIN_DMA &&
++	    type != IOMMU_DOMAIN_IDENTITY)
+ 		return NULL;
+ 
+ 	vdomain = kzalloc(sizeof(*vdomain), GFP_KERNEL);
+@@ -630,6 +633,17 @@ static int viommu_domain_finalise(struct viommu_endpoint *vdev,
+ 	vdomain->map_flags	= viommu->map_flags;
+ 	vdomain->viommu		= viommu;
+ 
++	if (domain->type == IOMMU_DOMAIN_IDENTITY) {
++		if (!virtio_has_feature(viommu->vdev,
++					VIRTIO_IOMMU_F_BYPASS_CONFIG)) {
++			ida_free(&viommu->domain_ids, vdomain->id);
++			vdomain->viommu = 0;
++			return -EOPNOTSUPP;
++		}
 +
- struct virtio_iommu_req_attach {
- 	struct virtio_iommu_req_head		head;
- 	__le32					domain;
- 	__le32					endpoint;
--	__u8					reserved[8];
-+	__le32					flags;
-+	__u8					reserved[4];
- 	struct virtio_iommu_req_tail		tail;
++		vdomain->bypass = true;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -691,6 +705,9 @@ static int viommu_attach_dev(struct iommu_domain *domain, struct device *dev)
+ 		.domain		= cpu_to_le32(vdomain->id),
+ 	};
+ 
++	if (vdomain->bypass)
++		req.flags |= cpu_to_le32(VIRTIO_IOMMU_ATTACH_F_BYPASS);
++
+ 	for (i = 0; i < fwspec->num_ids; i++) {
+ 		req.endpoint = cpu_to_le32(fwspec->ids[i]);
+ 
+@@ -1132,6 +1149,7 @@ static unsigned int features[] = {
+ 	VIRTIO_IOMMU_F_DOMAIN_RANGE,
+ 	VIRTIO_IOMMU_F_PROBE,
+ 	VIRTIO_IOMMU_F_MMIO,
++	VIRTIO_IOMMU_F_BYPASS_CONFIG,
  };
  
+ static struct virtio_device_id id_table[] = {
 -- 
 2.33.1
 
