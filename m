@@ -2,69 +2,70 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A09D45A73C
-	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 17:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5424645A73E
+	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 17:10:58 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B53CB403AC;
-	Tue, 23 Nov 2021 16:10:53 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E7F6440410;
+	Tue, 23 Nov 2021 16:10:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a3VIbrZpicDN; Tue, 23 Nov 2021 16:10:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C133740395;
-	Tue, 23 Nov 2021 16:10:52 +0000 (UTC)
+	with ESMTP id oqT-6ye5PvUu; Tue, 23 Nov 2021 16:10:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1F751403D7;
+	Tue, 23 Nov 2021 16:10:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96189C0036;
-	Tue, 23 Nov 2021 16:10:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D504FC0012;
+	Tue, 23 Nov 2021 16:10:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C23C1C0012
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:10:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B7838C0012
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:10:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A308180D35
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:10:50 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 95E8B403B5
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:10:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7tdmvh46aUIH for <iommu@lists.linux-foundation.org>;
- Tue, 23 Nov 2021 16:10:50 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id exG_Wp0rYFih for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Nov 2021 16:10:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0544B80CFC
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:10:49 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C177D403AC
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 16:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637683849;
+ s=mimecast20190719; t=1637683851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FbxeuNxQjB5QvjUW3b2rknZ2oE0ll1NcLAESvVNT8zU=;
- b=APYS+mT8lRSzyl//+hCQg1IPO8mJJneVElYnYQMxlanBy7NvfJ1/555uhzOPZC9oePlG1w
- T2qGp9gNRxNGKldcbywp6bB5weL5x2TroEHSM/x1bAMb+CHgfsTgYwoKqtmjc6B1wA6q4i
- t8ZAeNTQPQ38xR1P1EVUM/JD42yfewc=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DZeZBzk/Li0jXt7UTCUdw8YEic0QHzT9rWRLvDp1HTM=;
+ b=IwnSwHJZjduiS8PAmdlO1zkxnQNWxh+QujmM0M60azwgsUjHnC51i4LRrypapG8XW/AOjy
+ LFi649ii91/FnTmQavlGKaJ1Uhb1R+2wEWyuo72oFBsqtg9dWAk6NY8eZi0fNQj9vIXYMg
+ w5snfgBtJfnmWXkNYG1dqXNixnRfYiM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-gCOwqdwfMr-Sai7Omlkv_g-1; Tue, 23 Nov 2021 11:10:45 -0500
-X-MC-Unique: gCOwqdwfMr-Sai7Omlkv_g-1
+ us-mta-489-FLcy9yl0PJiNN-qiMS50_w-1; Tue, 23 Nov 2021 11:10:48 -0500
+X-MC-Unique: FLcy9yl0PJiNN-qiMS50_w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52A98801B26;
- Tue, 23 Nov 2021 16:10:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2644E8799EC;
+ Tue, 23 Nov 2021 16:10:47 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC76260843;
- Tue, 23 Nov 2021 16:10:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD86460843;
+ Tue, 23 Nov 2021 16:10:44 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] iommu/amd: fixes for suspend/resume
-Date: Tue, 23 Nov 2021 18:10:33 +0200
-Message-Id: <20211123161038.48009-1-mlevitsk@redhat.com>
+Subject: [PATCH 1/5] iommu/amd: restore GA log/tail pointer on host resume
+Date: Tue, 23 Nov 2021 18:10:34 +0200
+Message-Id: <20211123161038.48009-2-mlevitsk@redhat.com>
+In-Reply-To: <20211123161038.48009-1-mlevitsk@redhat.com>
+References: <20211123161038.48009-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Cc: Maxim Levitsky <mlevitsk@redhat.com>,
@@ -88,70 +89,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-As I sadly found out, a s3 cycle makes the AMD's iommu stop sending interrupts
-until the system is rebooted.
+This will give IOMMU GA log a chance to work after resume
+from s3/s4.
 
-I only noticed it now because otherwise the IOMMU works, and these interrupts
-are only used for errors and for GA log which I tend not to use by
-making my VMs do mwait/pause/etc in guest (cpu-pm=on).
+Fixes: 8bda0cfbdc1a6 ("iommu/amd: Detect and initialize guest vAPIC log")
 
-There are two issues here that prevent interrupts from being generated after
-s3 cycle:
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ drivers/iommu/amd/init.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-1. GA log base address was not restored after resume, and was all zeroed
-after resume (by BIOS or such).
-
-In theory if BIOS writes some junk to it, that can even cause a memory corruption.
-Patch 2 fixes that.
-
-2. INTX (aka x2apic mode) settings were not restored after resume.
-That mode is used regardless if the host uses/supports x2apic, but rather when
-the IOMMU supports it, and mine does.
-Patches 3-4 fix that.
-
-Note that there is still one slight (userspace) bug remaining:
-During suspend all but the boot CPU are offlined and then after resume
-are onlined again.
-
-The offlining moves all non-affinity managed interrupts to CPU0, and
-later when all other CPUs are onlined, there is nothing in the kernel
-to spread back the interrupts over the cores.
-
-The userspace 'irqbalance' daemon does fix this but it seems to ignore
-the IOMMU interrupts in INTX mode since they are not attached to any
-PCI device, and thus they remain on CPU0 after a s3 cycle,
-which is suboptimal when the system has multiple IOMMUs
-(mine has 4 of them).
-
-Setting the IRQ affinity manually via /proc/irq/ does work.
-
-This was tested on my 3970X with both INTX and regular MSI mode (later was enabled
-by patching out INTX detection), by running a guest with AVIC enabled and with
-a PCI assigned device (network card), and observing interrupts from
-IOMMU while guest is mostly idle.
-
-This was also tested on my AMD laptop with 4650U (which has the same issue)
-(I tested only INTX mode)
-
-Patch 1 is a small refactoring to remove an unused struct field.
-
-Best regards,
-   Maxim Levitsky
-
-Maxim Levitsky (5):
-  iommu/amd: restore GA log/tail pointer on host resume
-  iommu/amd: x2apic mode: re-enable after resume
-  iommu/amd: x2apic mode: setup the INTX registers on mask/unmask
-  iommu/amd: x2apic mode: mask/unmask interrupts on suspend/resume
-  iommu/amd: remove useless irq affinity notifier
-
- drivers/iommu/amd/amd_iommu_types.h |   2 -
- drivers/iommu/amd/init.c            | 107 +++++++++++++++-------------
- 2 files changed, 58 insertions(+), 51 deletions(-)
-
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 1eacd43cb4368..8dae85fcfc2eb 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -806,16 +806,27 @@ static int iommu_ga_log_enable(struct amd_iommu *iommu)
+ {
+ #ifdef CONFIG_IRQ_REMAP
+ 	u32 status, i;
++	u64 entry;
+ 
+ 	if (!iommu->ga_log)
+ 		return -EINVAL;
+ 
+-	status = readl(iommu->mmio_base + MMIO_STATUS_OFFSET);
+-
+ 	/* Check if already running */
+-	if (status & (MMIO_STATUS_GALOG_RUN_MASK))
++	status = readl(iommu->mmio_base + MMIO_STATUS_OFFSET);
++	if (WARN_ON(status & (MMIO_STATUS_GALOG_RUN_MASK)))
+ 		return 0;
+ 
++	entry = iommu_virt_to_phys(iommu->ga_log) | GA_LOG_SIZE_512;
++	memcpy_toio(iommu->mmio_base + MMIO_GA_LOG_BASE_OFFSET,
++		    &entry, sizeof(entry));
++	entry = (iommu_virt_to_phys(iommu->ga_log_tail) &
++		 (BIT_ULL(52)-1)) & ~7ULL;
++	memcpy_toio(iommu->mmio_base + MMIO_GA_LOG_TAIL_OFFSET,
++		    &entry, sizeof(entry));
++	writel(0x00, iommu->mmio_base + MMIO_GA_HEAD_OFFSET);
++	writel(0x00, iommu->mmio_base + MMIO_GA_TAIL_OFFSET);
++
++
+ 	iommu_feature_enable(iommu, CONTROL_GAINT_EN);
+ 	iommu_feature_enable(iommu, CONTROL_GALOG_EN);
+ 
+@@ -825,7 +836,7 @@ static int iommu_ga_log_enable(struct amd_iommu *iommu)
+ 			break;
+ 	}
+ 
+-	if (i >= LOOP_TIMEOUT)
++	if (WARN_ON(i >= LOOP_TIMEOUT))
+ 		return -EINVAL;
+ #endif /* CONFIG_IRQ_REMAP */
+ 	return 0;
+@@ -834,8 +845,6 @@ static int iommu_ga_log_enable(struct amd_iommu *iommu)
+ static int iommu_init_ga_log(struct amd_iommu *iommu)
+ {
+ #ifdef CONFIG_IRQ_REMAP
+-	u64 entry;
+-
+ 	if (!AMD_IOMMU_GUEST_IR_VAPIC(amd_iommu_guest_ir))
+ 		return 0;
+ 
+@@ -849,16 +858,6 @@ static int iommu_init_ga_log(struct amd_iommu *iommu)
+ 	if (!iommu->ga_log_tail)
+ 		goto err_out;
+ 
+-	entry = iommu_virt_to_phys(iommu->ga_log) | GA_LOG_SIZE_512;
+-	memcpy_toio(iommu->mmio_base + MMIO_GA_LOG_BASE_OFFSET,
+-		    &entry, sizeof(entry));
+-	entry = (iommu_virt_to_phys(iommu->ga_log_tail) &
+-		 (BIT_ULL(52)-1)) & ~7ULL;
+-	memcpy_toio(iommu->mmio_base + MMIO_GA_LOG_TAIL_OFFSET,
+-		    &entry, sizeof(entry));
+-	writel(0x00, iommu->mmio_base + MMIO_GA_HEAD_OFFSET);
+-	writel(0x00, iommu->mmio_base + MMIO_GA_TAIL_OFFSET);
+-
+ 	return 0;
+ err_out:
+ 	free_ga_log(iommu);
 -- 
 2.26.3
-
 
 _______________________________________________
 iommu mailing list
