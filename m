@@ -1,76 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601B745A5CB
-	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 15:37:04 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFFF45A5CA
+	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 15:37:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 670C44047A;
+	by smtp1.osuosl.org (Postfix) with ESMTP id B015D80EEE;
 	Tue, 23 Nov 2021 14:37:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0WWqIvXaqWxe; Tue, 23 Nov 2021 14:37:00 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8BxhzZG1UkBD; Tue, 23 Nov 2021 14:37:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 791F3403D7;
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D4FE580F0A;
 	Tue, 23 Nov 2021 14:37:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53C88C0012;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FD20C0039;
 	Tue, 23 Nov 2021 14:37:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1045AC0036
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 89288C0012
  for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 14:36:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id DA31380EEE
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 14:36:58 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 7561E403F7
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 14:36:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Nb6PZ4sQoze4 for <iommu@lists.linux-foundation.org>;
- Tue, 23 Nov 2021 14:36:57 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lbrTImlZdlGr for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Nov 2021 14:36:58 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B3EA380E11
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 14:36:57 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id np3so16766079pjb.4
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 06:36:57 -0800 (PST)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id B68BD401C7
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 14:36:58 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id o14so17235073plg.5
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 06:36:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QpP/dVmOy5UI+0bbwin5PnSriAWO01VAYDyEmLKe5Fk=;
- b=Tns3ImBlGwbXQEnuXBDpy3hfX/I57KzAQqzM3rfc/vmFboVTSl/I6VWtckE0lrNt9f
- 9o0hG/IsvIqRXsVDJbm9KcQ491JrNXQNp5gLdD/ePiEHl32ytjY9MFvU/nXa0CKrfIL9
- NhvqWfjcpDbShn56ZLrJVZd0maDUipkSoZtT8lZpz0DsD5IlZB4rsMuH6DkT7kLsWa2T
- qnZHRJS1wKCoPc+cxZhcwYsqCV4QcXrRxBLsG67ibI0aEf+xl101z94jp0ZDHru7b+mC
- LjCXAjCKBarnhztxXaod+KRBPc77VtIyPBL3hDRuKpWjn9GSug0LMVfy7qo5aZN7XV/W
- bC3w==
+ bh=i+xUpMEUxrmLaLZETYGitNsZhfrMVhJB1Bk6Yp08byU=;
+ b=AlKcv7Y4VFkVezS6aJXAds/NWYnLHTHgFDawHsIGURkEQw1ZQprC+xxgttepVcIQUM
+ 5T5M0RL+DPFTteQFgNGSjajmwgRX1J2Y5QsSwTqvWdVg1A+EWhpdaWNqmbKB24YbhnwY
+ VTf6iEPD2bD9xmmRrEK7FLp6gAd4SMfhDEAaTdaySH6ygkl9daOZYS/EkqwnTKSZglAK
+ egCsNvtL8/Q16NYzGtBDx6YW50D+dp/CauiDtizCo8lfzW3y900HzjaUttJ2TmSaJV4N
+ ShJbzW4YSovU0kpEhKAaY2ps0ZKmQFzKQmxGR0raTUS1hPCogFjcj1BjeQYlXNYc4eIF
+ EFgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QpP/dVmOy5UI+0bbwin5PnSriAWO01VAYDyEmLKe5Fk=;
- b=cA6rgwoSBVKMTuaFM7I7DjVwbka5kAwHbyGoc4ERcyJPjNgRisCSLgSf+YGZ8vv6Iv
- R6xRhS2eflzM5nlRxxsOms2ZwVp7+IkY1iV5oAofY5GEALgVriZJfNWCKPbmJP5DVQk/
- UjEHIiD1lcASrHdo9hNOdRzAQT/werz44pBfshSqyWpFHGlpRjHBx2SJegGQSJGGaUhC
- kVi16t1XXqKUnEYwPxwApzdDm6uvwn+Ign03/tA8dKcgK+xc12aaTcH/6zvQiFTXPH9T
- ephDVVZvqUVEJ86s1oFLx0QJmawMyjpXKGzAJ9rMOEsg9ux315KbjsTkP3OiV44A1Gc9
- HYsA==
-X-Gm-Message-State: AOAM530zZAiXklzhiNm6rYTHmC1ARkvHI/R5shuE0sHFYgounahqc0ij
- rzYpnKfyxajAJFZUcR2x4tk=
-X-Google-Smtp-Source: ABdhPJwD/E686Op6vkRlhXfD+ipZl5W4QS/7JsYfB5j69XU4jttPeJXYmrrgxGuPk3lE+qDj7Iz0QA==
-X-Received: by 2002:a17:90a:7086:: with SMTP id
- g6mr3595594pjk.34.1637678217055; 
- Tue, 23 Nov 2021 06:36:57 -0800 (PST)
+ bh=i+xUpMEUxrmLaLZETYGitNsZhfrMVhJB1Bk6Yp08byU=;
+ b=Jouk5V5xnQqmGeZFaEUBIaXkLsUdvc3YzlVCMnSyBpnAg7HuSDI4qXYppAGuoRjIn9
+ eUkd9qZLLD5TC8q8TkxDENCY0Pd65Ygv+VK/lqabNGW6ISD2VltQChdhWiy6Larrqnf/
+ U4hD+QOdR6U7QTMseXxWwEXvfdJUnkQaLcCwV4BVE3m1b16inBnUl9vg68jcsdar5bvB
+ MVjjwSbHVY2Rs7QWOXKwM83M2E9bpIEGgeHkfoNp2/INa3dMCsUkIOZG8XwiIQARC4vZ
+ G0MLEqn7Dpj6VlapjskwuFcrhLlMjavDIqvpzX/lkfHuXXkTwO2ysH7y+WFUBVmi47f8
+ YnXA==
+X-Gm-Message-State: AOAM531R/gtwJjw9iCbDvc2nytt+wBVkLGjFLsl8oidj++iGURXkUsFi
+ SdegOzEuIPDLPsoaZA+FCmY=
+X-Google-Smtp-Source: ABdhPJwRbhdcFhTlrcl5ARyO8E5M5xT/1VQMfqX2FgiEinsxJqYW1NtlXEltffF5Oag+q0rt470N+g==
+X-Received: by 2002:a17:90b:180b:: with SMTP id
+ lw11mr3650766pjb.108.1637678218159; 
+ Tue, 23 Nov 2021 06:36:58 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com
  ([2001:4898:80e8:1:af65:c3d4:6df:5a8b])
- by smtp.gmail.com with ESMTPSA id j13sm11926127pfc.151.2021.11.23.06.36.56
+ by smtp.gmail.com with ESMTPSA id j13sm11926127pfc.151.2021.11.23.06.36.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 06:36:56 -0800 (PST)
+ Tue, 23 Nov 2021 06:36:57 -0800 (PST)
 From: Tianyu Lan <ltykernel@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
@@ -82,10 +82,10 @@ To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
  Tianyu.Lan@microsoft.com, thomas.lendacky@amd.com,
  xen-devel@lists.xenproject.org, michael.h.kelley@microsoft.com
-Subject: [PATCH V2 2/6] dma-mapping: Add vmap/vunmap_noncontiguous() callback
- in dma ops
-Date: Tue, 23 Nov 2021 09:30:33 -0500
-Message-Id: <20211123143039.331929-3-ltykernel@gmail.com>
+Subject: [PATCH V2 3/6] x86/hyper-v: Add hyperv Isolation VM check in the
+ cc_platform_has()
+Date: Tue, 23 Nov 2021 09:30:34 -0500
+Message-Id: <20211123143039.331929-4-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123143039.331929-1-ltykernel@gmail.com>
 References: <20211123143039.331929-1-ltykernel@gmail.com>
@@ -113,66 +113,50 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Hyper-V netvsc driver needs to allocate noncontiguous DMA memory and
-remap it into unencrypted address space before sharing with host. Add
-vmap/vunmap_noncontiguous() callback and handle the remap in the Hyper-V
-dma ops callback.
+Hyper-V provides Isolation VM which has memory encrypt support. Add
+hyperv_cc_platform_has() and return true for check of GUEST_MEM_ENCRYPT
+attribute.
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- include/linux/dma-map-ops.h |  3 +++
- kernel/dma/mapping.c        | 18 ++++++++++++++----
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ arch/x86/kernel/cc_platform.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 0d5b06b3a4a6..f7b9958ca20a 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -27,6 +27,9 @@ struct dma_map_ops {
- 			unsigned long attrs);
- 	void (*free_noncontiguous)(struct device *dev, size_t size,
- 			struct sg_table *sgt, enum dma_data_direction dir);
-+	void *(*vmap_noncontiguous)(struct device *dev, size_t size,
-+			struct sg_table *sgt);
-+	void (*vunmap_noncontiguous)(struct device *dev, void *addr);
- 	int (*mmap)(struct device *, struct vm_area_struct *,
- 			void *, dma_addr_t, size_t, unsigned long attrs);
+diff --git a/arch/x86/kernel/cc_platform.c b/arch/x86/kernel/cc_platform.c
+index 03bb2f343ddb..f3bb0431f5c5 100644
+--- a/arch/x86/kernel/cc_platform.c
++++ b/arch/x86/kernel/cc_platform.c
+@@ -11,6 +11,7 @@
+ #include <linux/cc_platform.h>
+ #include <linux/mem_encrypt.h>
  
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 9478eccd1c8e..7fd751d866cc 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -674,8 +674,14 @@ void *dma_vmap_noncontiguous(struct device *dev, size_t size,
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
- 	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
++#include <asm/mshyperv.h>
+ #include <asm/processor.h>
  
--	if (ops && ops->alloc_noncontiguous)
--		return vmap(sgt_handle(sgt)->pages, count, VM_MAP, PAGE_KERNEL);
-+	if (ops) {
-+		if (ops->vmap_noncontiguous)
-+			return ops->vmap_noncontiguous(dev, size, sgt);
-+		else if (ops->alloc_noncontiguous)
-+			return vmap(sgt_handle(sgt)->pages, count, VM_MAP,
-+				    PAGE_KERNEL);
-+	}
-+
- 	return page_address(sg_page(sgt->sgl));
+ static bool __maybe_unused intel_cc_platform_has(enum cc_attr attr)
+@@ -58,9 +59,23 @@ static bool amd_cc_platform_has(enum cc_attr attr)
+ #endif
  }
- EXPORT_SYMBOL_GPL(dma_vmap_noncontiguous);
-@@ -684,8 +690,12 @@ void dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
+ 
++static bool hyperv_cc_platform_has(enum cc_attr attr)
++{
++#ifdef CONFIG_HYPERV
++	if (attr == CC_ATTR_GUEST_MEM_ENCRYPT)
++		return true;
++	else
++		return false;
++#else
++	return false;
++#endif
++}
+ 
+ bool cc_platform_has(enum cc_attr attr)
  {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
- 
--	if (ops && ops->alloc_noncontiguous)
--		vunmap(vaddr);
-+	if (ops) {
-+		if (ops->vunmap_noncontiguous)
-+			ops->vunmap_noncontiguous(dev, vaddr);
-+		else if (ops->alloc_noncontiguous)
-+			vunmap(vaddr);
-+	}
- }
- EXPORT_SYMBOL_GPL(dma_vunmap_noncontiguous);
++	if (hv_is_isolation_supported())
++		return hyperv_cc_platform_has(attr);
++
+ 	if (sme_me_mask)
+ 		return amd_cc_platform_has(attr);
  
 -- 
 2.25.1
