@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CE445A0BA
-	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 11:55:48 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061F845A0B9
+	for <lists.iommu@lfdr.de>; Tue, 23 Nov 2021 11:55:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id AA6E340311;
-	Tue, 23 Nov 2021 10:55:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ouS1jSgmy7hd; Tue, 23 Nov 2021 10:55:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3B57040314;
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0FFB94025E;
 	Tue, 23 Nov 2021 10:55:45 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2426EC0012;
-	Tue, 23 Nov 2021 10:55:45 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6BEDDC0012
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 10:55:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5854F40132
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 10:55:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IIujg7m7aHm0 for <iommu@lists.linux-foundation.org>;
- Tue, 23 Nov 2021 10:55:38 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HOJbfs0bqKhe; Tue, 23 Nov 2021 10:55:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id EF2DA4018E;
+	Tue, 23 Nov 2021 10:55:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A249EC0012;
+	Tue, 23 Nov 2021 10:55:43 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C130CC0012
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 10:55:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id A9B2A80DB1
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 10:55:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zaeeYMghz7hz for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Nov 2021 10:55:40 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BB8B640019
- for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 10:55:38 +0000 (UTC)
+Received: from theia.8bytes.org (8bytes.org
+ [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0700280D83
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Nov 2021 10:55:39 +0000 (UTC)
 Received: from cap.home.8bytes.org (p549adbee.dip0.t-ipconnect.de
  [84.154.219.238])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by theia.8bytes.org (Postfix) with ESMTPSA id 4155ED7A;
+ by theia.8bytes.org (Postfix) with ESMTPSA id F1939DB4;
  Tue, 23 Nov 2021 11:55:34 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/2] iommu/vt-d: Remove unused PASID_DISABLED
-Date: Tue, 23 Nov 2021 11:55:06 +0100
-Message-Id: <20211123105507.7654-2-joro@8bytes.org>
+Subject: [PATCH 2/2] iommu/amd: Clarify AMD IOMMUv2 initialization messages
+Date: Tue, 23 Nov 2021 11:55:07 +0100
+Message-Id: <20211123105507.7654-3-joro@8bytes.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211123105507.7654-1-joro@8bytes.org>
 References: <20211123105507.7654-1-joro@8bytes.org>
 MIME-Version: 1.0
-Cc: Joerg Roedel <jroedel@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Will Deacon <will@kernel.org>
+Cc: Joerg Roedel <jroedel@suse.de>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,32 +72,41 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-The macro is unused after commit 00ecd5401349a so it can be removed.
+The messages printed on the initialization of the AMD IOMMUv2 driver
+have caused some confusion in the past. Clarify the messages to lower
+the confusion in the future.
 
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Fixes: 00ecd5401349a ("iommu/vt-d: Clean up unused PASID updating functions")
+Cc: stable@vger.kernel.org
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- arch/x86/include/asm/fpu/api.h | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/iommu/amd/iommu_v2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/fpu/api.h b/arch/x86/include/asm/fpu/api.h
-index 6053674f9132..c2767a6a387e 100644
---- a/arch/x86/include/asm/fpu/api.h
-+++ b/arch/x86/include/asm/fpu/api.h
-@@ -102,12 +102,6 @@ extern void switch_fpu_return(void);
-  */
- extern int cpu_has_xfeatures(u64 xfeatures_mask, const char **feature_name);
+diff --git a/drivers/iommu/amd/iommu_v2.c b/drivers/iommu/amd/iommu_v2.c
+index 13cbeb997cc1..58da08cc3d01 100644
+--- a/drivers/iommu/amd/iommu_v2.c
++++ b/drivers/iommu/amd/iommu_v2.c
+@@ -929,10 +929,8 @@ static int __init amd_iommu_v2_init(void)
+ {
+ 	int ret;
  
--/*
-- * Tasks that are not using SVA have mm->pasid set to zero to note that they
-- * will not have the valid bit set in MSR_IA32_PASID while they are running.
-- */
--#define PASID_DISABLED	0
+-	pr_info("AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>\n");
 -
- /* Trap handling */
- extern int  fpu__exception_code(struct fpu *fpu, int trap_nr);
- extern void fpu_sync_fpstate(struct fpu *fpu);
+ 	if (!amd_iommu_v2_supported()) {
+-		pr_info("AMD IOMMUv2 functionality not available on this system\n");
++		pr_info("AMD IOMMUv2 functionality not available on this system - This is not a bug.\n");
+ 		/*
+ 		 * Load anyway to provide the symbols to other modules
+ 		 * which may use AMD IOMMUv2 optionally.
+@@ -947,6 +945,8 @@ static int __init amd_iommu_v2_init(void)
+ 
+ 	amd_iommu_register_ppr_notifier(&ppr_nb);
+ 
++	pr_info("AMD IOMMUv2 loaded and initialized\n");
++
+ 	return 0;
+ 
+ out:
 -- 
 2.33.1
 
