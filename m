@@ -1,104 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D31845ECC7
-	for <lists.iommu@lfdr.de>; Fri, 26 Nov 2021 12:39:22 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC8645EE46
+	for <lists.iommu@lfdr.de>; Fri, 26 Nov 2021 13:47:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DFD7D6071D;
-	Fri, 26 Nov 2021 11:39:20 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 14D08826DA;
+	Fri, 26 Nov 2021 12:47:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B5FnindcVv3j; Fri, 26 Nov 2021 11:39:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EF85D60073;
-	Fri, 26 Nov 2021 11:39:19 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iFRlJLk05hvp; Fri, 26 Nov 2021 12:47:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 16389826D5;
+	Fri, 26 Nov 2021 12:47:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D8A84C000A;
-	Fri, 26 Nov 2021 11:39:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D67C1C003C;
+	Fri, 26 Nov 2021 12:47:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0AEF0C000A
- for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 11:39:18 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 331D1C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 12:47:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 071E280F44
- for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 11:39:18 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 13699826D5
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 12:47:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KIOTBDh_uVND for <iommu@lists.linux-foundation.org>;
- Fri, 26 Nov 2021 11:39:17 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4191F80F31
- for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 11:39:17 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id f65so7978350pgc.0
- for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 03:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ambWW/4YEyu662pYE46PBmuDJfo9av+csYLqJQyv9eI=;
- b=be/+Ee7qIA99Wogw9aDbu8FGuY+NkyZyPMuDQQQMyfJu74GW/p4hwR7Uk3SV8SOWot
- OTvvRslVrIRWr+jhwF4djz3GnmhzFxoTjzdSB66EYMTFp4ObhQoXBUaxMmS0E8ljOC5C
- BvMJB5gq9CLv6RX+bLXdcwcuXLE+FMY5lUFCbxIImkmK67mwpllFQSs45yZerfLFiBCR
- DbhWdfqUQ3x6YsTjsY/25enAc6WD87puZv3GLXecg2pr4iVTltkGoYwbxLChdmS97p73
- BAHuN7hbOH9DJ41QGZsyZO96dnKzD8IZFOupSItaLv9c137ht8NLB+g2Qd6+KKgLGpSA
- nk6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ambWW/4YEyu662pYE46PBmuDJfo9av+csYLqJQyv9eI=;
- b=Usp1hEsXlJy1kQlnNgDjsa+Dvzg3WpNLogAJa7pPLkMP7UsR+TKlpWveqhCgmUUb9o
- Gs273lfQGIR8o/6rK9WW8atK53M6sPLYGUDxdli3Kq0T29pP8fJxl3NwjzFnce7v7cne
- Bs9nFTHk4WA0ApExZzYZwNS2OtBT9tO4Ch7kCVPioFhQ0c2GA5erzYbaa2IcPjZ7bikn
- xlB/G2oAqWFfWy2H5abqTKP0oAdsKMIyLgdLJU+gvo8pOJjB6885VlslABb7guBkwCeO
- xK/QdVrNXjPRn82ArqSVDBHRgNu6SR1i9B4bt8Z9+jRzswfq/Jvben9o9PfIdg1odoig
- Q5/w==
-X-Gm-Message-State: AOAM531t4MjERRRrImRrG0OWLHn4xytXpEL8UpJzHRI9IT82Shnjf2hH
- BJ8PaHML9Ax7aQ6dRuhHK6U=
-X-Google-Smtp-Source: ABdhPJyqblxnRgV5wg5BPP9Vi1R0NhHs6AkjTX8lIUxkdCJzlfse/09nmYdMwJ3MumBswrLh4eDT7g==
-X-Received: by 2002:a65:5a8e:: with SMTP id c14mr20429967pgt.241.1637926756738; 
- Fri, 26 Nov 2021 03:39:16 -0800 (PST)
-Received: from ?IPV6:2404:f801:0:5:8000::50b? ([2404:f801:9000:18:efec::50b])
- by smtp.gmail.com with ESMTPSA id
- f21sm7243932pfe.69.2021.11.26.03.39.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 03:39:16 -0800 (PST)
-Message-ID: <e874b4c3-1d09-8d2a-bd59-80bae7e554d6@gmail.com>
-Date: Fri, 26 Nov 2021 19:39:03 +0800
+ with ESMTP id NpXWpQ89_DXd for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Nov 2021 12:47:26 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 352898267F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Nov 2021 12:47:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="299062970"
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; d="scan'208";a="299062970"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2021 04:47:25 -0800
+X-IronPort-AV: E=Sophos;i="5.87,266,1631602800"; d="scan'208";a="510631193"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.4])
+ ([10.254.210.4])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2021 04:47:08 -0800
+Message-ID: <79b1fe69-9672-6cb7-88b1-f4eaffa7add9@linux.intel.com>
+Date: Fri, 26 Nov 2021 20:47:05 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 3/5] hyperv/IOMMU: Enable swiotlb bounce buffer for
- Isolation VM
+ Thunderbird/91.3.2
+Subject: Re: [PATCH 2/2] iommu/vt-d: Fix unmap_pages support
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-References: <20211116153923.196763-1-ltykernel@gmail.com>
- <20211116153923.196763-4-ltykernel@gmail.com> <20211117100142.GB10330@lst.de>
- <c93bf3d4-75c1-bc3d-2789-1d65e7c19158@gmail.com>
- <20211126074022.GA23659@lst.de>
-From: Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <20211126074022.GA23659@lst.de>
-Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com, peterz@infradead.org,
- dave.hansen@linux.intel.com, dave.hansen@intel.com, hpa@zytor.com,
- kys@microsoft.com, will@kernel.org, boris.ostrovsky@oracle.com,
- wei.liu@kernel.org, sstabellini@kernel.org, sthemmin@microsoft.com,
- linux-scsi@vger.kernel.org, x86@kernel.org, decui@microsoft.com,
- michael.h.kelley@microsoft.com, mingo@redhat.com, kuba@kernel.org,
- haiyangz@microsoft.com, parri.andrea@gmail.com, thomas.lendacky@amd.com,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, konrad.wilk@oracle.com,
- jejb@linux.ibm.com, bp@alien8.de, luto@kernel.org,
- xen-devel@lists.xenproject.org, tglx@linutronix.de, jgross@suse.com,
- martin.petersen@oracle.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- vkuznets@redhat.com, robin.murphy@arm.com, davem@davemloft.net
+To: Joerg Roedel <joro@8bytes.org>
+References: <20211122032458.2549761-1-baolu.lu@linux.intel.com>
+ <20211122032458.2549761-3-baolu.lu@linux.intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+In-Reply-To: <20211122032458.2549761-3-baolu.lu@linux.intel.com>
+Cc: iommu@lists.linux-foundation.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,44 +76,62 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 11/26/2021 3:40 PM, Christoph Hellwig wrote:
-> On Wed, Nov 17, 2021 at 10:00:08PM +0800, Tianyu Lan wrote:
->> On 11/17/2021 6:01 PM, Christoph Hellwig wrote:
->>> This doesn't really have much to do with normal DMA mapping,
->>> so why does this direct through the dma ops?
->>>
->>
->> According to the previous discussion, dma_alloc_noncontigous()
->> and dma_vmap_noncontiguous() may be used to handle the noncontigous
->> memory alloc/map in the netvsc driver. So add alloc/free and vmap/vunmap
->> callbacks here to handle the case. The previous patch v4 & v5 handles
->> the allocation and map in the netvsc driver. If this should not go though
->> dma ops, We also may make it as vmbus specific function and keep
->> the function in the vmbus driver.
+On 2021/11/22 11:24, Lu Baolu wrote:
+> From: Alex Williamson<alex.williamson@redhat.com>
 > 
-> But that only makes sense if they can actually use the normal DMA ops.
-> If you implement your own incomplete ops and require to use them you
-> do nothing but adding indirect calls to your fast path and making the
-> code convoluted.
+> When supporting only the .map and .unmap callbacks of iommu_ops,
+> the IOMMU driver can make assumptions about the size and alignment
+> used for mappings based on the driver provided pgsize_bitmap.  VT-d
+> previously used essentially PAGE_MASK for this bitmap as any power
+> of two mapping was acceptably filled by native page sizes.
 > 
+> However, with the .map_pages and .unmap_pages interface we're now
+> getting page-size and count arguments.  If we simply combine these
+> as (page-size * count) and make use of the previous map/unmap
+> functions internally, any size and alignment assumptions are very
+> different.
+> 
+> As an example, a given vfio device assignment VM will often create
+> a 4MB mapping at IOVA pfn [0x3fe00 - 0x401ff].  On a system that
+> does not support IOMMU super pages, the unmap_pages interface will
+> ask to unmap 1024 4KB pages at the base IOVA.  dma_pte_clear_level()
+> will recurse down to level 2 of the page table where the first half
+> of the pfn range exactly matches the entire pte level.  We clear the
+> pte, increment the pfn by the level size, but (oops) the next pte is
+> on a new page, so we exit the loop an pop back up a level.  When we
+> then update the pfn based on that higher level, we seem to assume
+> that the previous pfn value was at the start of the level.  In this
+> case the level size is 256K pfns, which we add to the base pfn and
+> get a results of 0x7fe00, which is clearly greater than 0x401ff,
+> so we're done.  Meanwhile we never cleared the ptes for the remainder
+> of the range.  When the VM remaps this range, we're overwriting valid
+> ptes and the VT-d driver complains loudly, as reported by the user
+> report linked below.
+> 
+> The fix for this seems relatively simple, if each iteration of the
+> loop in dma_pte_clear_level() is assumed to clear to the end of the
+> level pte page, then our next pfn should be calculated from level_pfn
+> rather than our working pfn.
+> 
+> Fixes: 3f34f1259776 ("iommu/vt-d: Implement map/unmap_pages() iommu_ops callback")
+> Reported-by: Ajay Garg<ajaygargnsit@gmail.com>
+> Signed-off-by: Alex Williamson<alex.williamson@redhat.com>
+> Tested-by: Giovanni Cabiddu<giovanni.cabiddu@intel.com>
+> Link:https://lore.kernel.org/all/20211002124012.18186-1-ajaygargnsit@gmail.com/
+> Link:https://lore.kernel.org/r/163659074748.1617923.12716161410774184024.stgit@omen
+> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
 
-Because the generic part implementation can't meet the netvsc driver
-requests that allocate 16M memory and map pages via vmap_pfn(). So add 
-Hyperv alloc_noncontiguous and vmap_noncontiguous callbacks. If this is
-not a right way. we should call these hyper-V functions in the netvsc
-driver directly, right?
+0-day build robot reported an error on this patch.
 
-Could you have a look at Michael summary about this series we made and
-give some guides?
+"drivers/iommu/intel/iommu.c:1344:7: warning: variable 'level_pfn' is 
+used uninitialized whenever 'if' condition is true 
+[-Wsometimes-uninitialized]
+"
 
-https://www.mail-archive.com/xen-devel@lists.xenproject.org/msg109284.html
+I will send a v2 of this patch. Sorry for the inconvenience.
 
-Thanks.
-
-
-
-
-
+Best regards
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
