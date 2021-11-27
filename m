@@ -1,65 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9D545FE86
-	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 13:21:45 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 217FD45FE6A
+	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 13:12:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 80776605C4;
-	Sat, 27 Nov 2021 12:21:43 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 82EBB40010;
+	Sat, 27 Nov 2021 12:12:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9pLahb_G522E; Sat, 27 Nov 2021 12:21:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9750C6068B;
-	Sat, 27 Nov 2021 12:21:42 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bdIX3IH47qVC; Sat, 27 Nov 2021 12:12:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 58C8C4019D;
+	Sat, 27 Nov 2021 12:12:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C3563C0040;
-	Sat, 27 Nov 2021 12:21:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 151FDC002F;
+	Sat, 27 Nov 2021 12:12:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98205C000A
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:21:40 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CE19DC000A
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:12:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 876E1808AB
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:21:40 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id AE37E81CE3
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:12:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=linuxfoundation.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UOXHinMPYdmO for <iommu@lists.linux-foundation.org>;
- Sat, 27 Nov 2021 12:21:39 +0000 (UTC)
-X-Greylist: delayed 00:09:44 by SQLgrey-1.8.0
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 95E30801E0
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:21:39 +0000 (UTC)
+ with ESMTP id LIw9xK5Xs5Jv for <iommu@lists.linux-foundation.org>;
+ Sat, 27 Nov 2021 12:12:39 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B09B881CD0
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:12:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 54151B817B9;
- Sat, 27 Nov 2021 12:11:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DB7C53FBF;
- Sat, 27 Nov 2021 12:11:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EA58F60B12;
+ Sat, 27 Nov 2021 12:12:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CACCC53FAD;
+ Sat, 27 Nov 2021 12:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1638015110;
- bh=/XPeQ1hFhyBOZd/fOEzJpKNA/3j261q99S9wRv9Ei2c=;
+ s=korg; t=1638015158;
+ bh=Nsypz1pbkrnBiWqd93zUKpPoJWu4uG4aFKzWclKNc9A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vJEmWjyfKy/Ykqefyq5ESJyVx4tFUS8o7AaDPBdBP68fLuKNHf42fJrbUbJ4DcVWC
- wtdw1zd30d8uY3crZt8GTJbaP3VXRVKOhuJsD/BEANJ7wuZiJYWl/w2fltiVBxKcHV
- z4HAxvDW7WvmuYc8vd724ImvHTKbnxH/tRBogIHc=
-Date: Sat, 27 Nov 2021 13:11:47 +0100
+ b=zzMjx7oKYUBaSqI7Q8w0u1AgdSfR07MfyEkU7XIvbNq5Z99yeq3J4Ls/QMed/W4SP
+ Eba1zDMeN9zfI4spkq4X+daCizQux5tAT+r3n8r6Ku+d9bimqPGycb4C4JVbp6uXIm
+ qSTj78+6e5GnhJjPjP0rbDK368g5U+kzGjFnnUew=
+Date: Sat, 27 Nov 2021 13:12:35 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch 01/37] device: Move MSI related data into a struct
-Message-ID: <YaIgg0tpnuGG6oda@kroah.com>
+Subject: Re: [patch 02/37] device: Add device::msi_data pointer and struct
+ msi_device_data
+Message-ID: <YaIgsyae/J0XJbHQ@kroah.com>
 References: <20211126224100.303046749@linutronix.de>
- <20211126230523.982881381@linutronix.de>
+ <20211126230524.045836616@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211126230523.982881381@linutronix.de>
+In-Reply-To: <20211126230524.045836616@linutronix.de>
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -88,27 +90,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Nov 27, 2021 at 02:20:08AM +0100, Thomas Gleixner wrote:
-> The only unconditional part of MSI data in struct device is the irqdomain
-> pointer. Everything else can be allocated on demand. Create a data
-> structure and move the irqdomain pointer into it. The other MSI specific
-> parts are going to be removed from struct device in later steps.
+On Sat, Nov 27, 2021 at 02:20:09AM +0100, Thomas Gleixner wrote:
+> Create struct msi_device_data and add a pointer of that type to struct
+> dev_msi_info, which is part of struct device. Provide an allocator function
+> which can be invoked from the MSI interrupt allocation code pathes.
 > 
 > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Santosh Shilimkar <ssantosh@kernel.org>
-> Cc: iommu@lists.linux-foundation.org
-> Cc: dmaengine@vger.kernel.org
 > ---
->  drivers/base/platform-msi.c                 |   12 ++++++------
->  drivers/dma/ti/k3-udma.c                    |    4 ++--
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |    2 +-
->  drivers/irqchip/irq-mvebu-icu.c             |    6 +++---
->  drivers/soc/ti/k3-ringacc.c                 |    4 ++--
->  drivers/soc/ti/ti_sci_inta_msi.c            |    2 +-
->  include/linux/device.h                      |   19 +++++++++++++------
->  7 files changed, 28 insertions(+), 21 deletions(-)
+>  include/linux/device.h |    5 +++++
+>  include/linux/msi.h    |   12 +++++++++++-
+>  kernel/irq/msi.c       |   33 +++++++++++++++++++++++++++++++++
+>  3 files changed, 49 insertions(+), 1 deletion(-)
 
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
