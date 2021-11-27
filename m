@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0300445FE85
-	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 13:21:44 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 158CF45FE78
+	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 13:17:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B00C1403F4;
-	Sat, 27 Nov 2021 12:21:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A279981D19;
+	Sat, 27 Nov 2021 12:17:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8G_etKwCtZNa; Sat, 27 Nov 2021 12:21:42 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gJETr86LmRWS; Sat, 27 Nov 2021 12:17:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CD7E8403D4;
-	Sat, 27 Nov 2021 12:21:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C828281D5A;
+	Sat, 27 Nov 2021 12:17:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A1ECC002F;
-	Sat, 27 Nov 2021 12:21:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A366CC002F;
+	Sat, 27 Nov 2021 12:17:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69D19C000A
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:21:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62C4AC000A
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:17:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 585EE403DD
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:21:40 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 58DC260736
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:17:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zxYJ9oiznsql for <iommu@lists.linux-foundation.org>;
- Sat, 27 Nov 2021 12:21:39 +0000 (UTC)
-X-Greylist: delayed 00:09:45 by SQLgrey-1.8.0
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id ACD56403D4
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:21:39 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dg9yj9PRkbKV for <iommu@lists.linux-foundation.org>;
+ Sat, 27 Nov 2021 12:17:07 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8A91F606F9
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 12:17:07 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A76BDB817AA;
- Sat, 27 Nov 2021 12:13:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEFA7C53FC7;
- Sat, 27 Nov 2021 12:13:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CDDB760AB1;
+ Sat, 27 Nov 2021 12:17:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACEB7C53FAD;
+ Sat, 27 Nov 2021 12:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1638015214;
- bh=XtSbO4k+vMobFsdi5tmd+EqIlOAeUB4z3bp8mHbf/Es=;
+ s=korg; t=1638015426;
+ bh=M6KvGcYrDtqG4OBO1gHapd1tDJsuhzzacZxeaaXXH6w=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t371DqErpIj7MtVmLv6hkkc1ialioBukKn0NsTCIZvvbmQoMJHLuODLDpIb5vXZu/
- bR3Fqokrv02lGje8m9hgtgstjTFUYIQvPjFIeMO5jprV1dHL8zpm5NwOaxX/lnXLrt
- 1VmQt29aoMVKH1F9fURiIpv172oLWcmf/hiPLSL0=
-Date: Sat, 27 Nov 2021 13:13:32 +0100
+ b=doyQfESCcBzpnRFpLoKwXz+i4FTuaUYgFKnb7y/BPmpr5XafmAT6LvSwSB1VQqFTV
+ jQ1NPvskhZ74XU97cJlDOyNb/rTXfh5nE5F2zaiQ90FTxBTrQfn5W/LTsdTMn0Wq0q
+ NaCTokaE44OOwbXoUtzd8OESp8iL9ekPzopagvxM=
+Date: Sat, 27 Nov 2021 13:17:03 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch 04/37] PCI/MSI: Use lock from msi_device_data
-Message-ID: <YaIg7LRGAJl3+OO8@kroah.com>
+Subject: Re: [patch 00/37] genirq/msi, PCI/MSI: Spring cleaning - Part 2
+Message-ID: <YaIhv0Cparn92Lz3@kroah.com>
 References: <20211126224100.303046749@linutronix.de>
- <20211126230524.173951799@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211126230524.173951799@linutronix.de>
+In-Reply-To: <20211126224100.303046749@linutronix.de>
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -87,16 +87,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Nov 27, 2021 at 02:20:13AM +0100, Thomas Gleixner wrote:
-> Remove the register lock from struct device and use the one in
-> struct msi_device_data.
+On Sat, Nov 27, 2021 at 02:20:06AM +0100, Thomas Gleixner wrote:
+> This is the second part of [PCI]MSI refactoring which aims to provide the
+> ability of expanding MSI-X vectors after enabling MSI-X.
 > 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> ---
->  drivers/base/core.c    |    1 -
->  drivers/pci/msi/msi.c  |    2 +-
->  include/linux/device.h |    2 --
->  3 files changed, 1 insertion(+), 4 deletions(-)
+> The first part of this work can be found here:
+> 
+>     https://lore.kernel.org/r/20211126222700.862407977@linutronix.de
+> 
+> This second part has the following important changes:
+> 
+>    1) Cleanup of the MSI related data in struct device
+> 
+>       struct device contains at the moment various MSI related parts. Some
+>       of them (the irq domain pointer) cannot be moved out, but the rest
+>       can be allocated on first use. This is in preparation of adding more
+>       per device MSI data later on.
+> 
+>    2) Consolidation of sysfs handling
+> 
+>       As a first step this moves the sysfs pointer from struct msi_desc
+>       into the new per device MSI data structure where it belongs.
+> 
+>       Later changes will cleanup this code further, but that's not possible
+>       at this point.
+> 
+>    3) Store per device properties in the per device MSI data to avoid
+>       looking up MSI descriptors and analysing their data. Cleanup all
+>       related use cases.
+> 
+>    4) Provide a function to retrieve the Linux interrupt number for a given
+>       MSI index similar to pci_irq_vector() and cleanup all open coded
+>       variants.
+> 
+> This second series is based on:
+> 
+>      git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git msi-v1-part-1
+> 
+> and also available from git:
+> 
+>      git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git msi-v1-part-2
+> 
+
+Instead of responding to each individual patch, I've read them all,
+thanks for the cleanups, look good to me:
 
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
