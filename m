@@ -1,67 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2633645F815
-	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 02:20:44 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A882445F819
+	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 02:20:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D17E161BFA;
-	Sat, 27 Nov 2021 01:20:42 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 51EF7403B7;
+	Sat, 27 Nov 2021 01:20:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X-ISwSzV_YSo; Sat, 27 Nov 2021 01:20:42 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NtUmmrAGiKFa; Sat, 27 Nov 2021 01:20:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EE25561C04;
-	Sat, 27 Nov 2021 01:20:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2B46A4040B;
+	Sat, 27 Nov 2021 01:20:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8969C0039;
-	Sat, 27 Nov 2021 01:20:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BED3C000A;
+	Sat, 27 Nov 2021 01:20:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F07BC000A
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:41 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1289FC000A
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 66F0582B94
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:40 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0AEA140576
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="haWzMt4K";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="pmIRurkt"
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IMC8CsfsAPYL for <iommu@lists.linux-foundation.org>;
- Sat, 27 Nov 2021 01:20:39 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DoHNib4nu5oq for <iommu@lists.linux-foundation.org>;
+ Sat, 27 Nov 2021 01:20:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B23DE82BF5
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:39 +0000 (UTC)
-Message-ID: <20211126230525.076279841@linutronix.de>
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 3C5AF40574
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:41 +0000 (UTC)
+Message-ID: <20211126230525.137299282@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1637976037;
+ s=2020; t=1637976039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=gZLgk03W9BPqX4Y47drAtN3rUO/Oc3l0uTHU4EywtJI=;
- b=haWzMt4KR9DWFpGWdGE1l1s2+vs+6A08HfUC3wCsW3ct8bY8hzzw5Zksb1QAtSqqKXiTLV
- 90HL8F+IY3f388igePB9oG82ZtrhY+pUqOOsbCmR2UT/4VVzeLQMGXQ7XBpjTJVwJYV4gI
- WYrto37nJcH9GJjyMqoKYfnwaCKd3a9/AJtrxjeb2TiAS5tmTf34lQJzwzHb8XlIXVJWOr
- i65Z3V0NA6W4UMX3WRllvGzZNGYs2fwg6buB6N3fX2WBKGLJIFIaq0bn5EZ88rtrKujv++
- Pb6chN5PsN34skBdrvROx5hCigMHTKQgd0gRtXaVoWnySgsBCrEuicXBelakSw==
+ references:references; bh=ZWaHMo5/cxTSb8aCm3CN77ES3jPYHd9BeCyQKbhAf1Q=;
+ b=UggVVv3f7QCjME5pjLx9J0hsxvfwEK88RAs5+In+TDQQ49/kKJE/4UBeSm9ZmjOA3ObLqP
+ RsQuoCiENoW9YWD6uVKBIaFEfiXZtiUA08HDqEG1GpZjdIXrtx2v7bjgs5y6sTpxr2DQVA
+ /dKkq3qcWWn1VZjG9liURMDeIHNbl/xUG3O/brsKYly5bzbVoe+4DfLAT2w+cOXQs188b9
+ U3cNtwx6+wWxxHiA4/bh4AnrsFJmkU3lZlUxoJ+pijTSavjP+DhwwYBqOLB/XscIqzEUw0
+ Ovy3cNm8ATuXUVs96hhg2BgomxXlWEh+swP3glYt48WR6vFYpyUno12lQdyhAw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1637976038;
+ s=2020e; t=1637976039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=gZLgk03W9BPqX4Y47drAtN3rUO/Oc3l0uTHU4EywtJI=;
- b=pmIRurktZCqaSiTjEwau1BH/cen1Z4IWsZYOdf1qJ4Pt16qpjmgbTpo368LzRvhdZG1dgu
- sjE9naEhMlft7uAw==
+ references:references; bh=ZWaHMo5/cxTSb8aCm3CN77ES3jPYHd9BeCyQKbhAf1Q=;
+ b=KjHrEnrG0fpDzTmWoCzq7Si7jPR+/lr5hq4rxoNYcQ2Ul/fX9e3zQDEhrh98Csz5sTQmgO
+ gbeMniPwqgDOT0Dg==
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 19/37] genirq/msi: Add msi_device_data::properties
+Subject: [patch 20/37] PCI/MSI: Store properties in device::msi::data
 References: <20211126224100.303046749@linutronix.de>
 MIME-Version: 1.0
-Date: Sat, 27 Nov 2021 02:20:37 +0100 (CET)
+Date: Sat, 27 Nov 2021 02:20:39 +0100 (CET)
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -91,80 +87,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add a properties field which allows core code to store information for easy
-retrieval in order to replace MSI descriptor fiddling.
+Store the properties which are interesting for various places so the MSI
+descriptor fiddling can be removed.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- include/linux/msi.h |   17 +++++++++++++++++
- kernel/irq/msi.c    |   12 ++++++++++++
- 2 files changed, 29 insertions(+)
+ drivers/pci/msi/msi.c |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/spinlock.h>
- #include <linux/list.h>
-+#include <linux/bits.h>
- #include <asm/msi.h>
- 
- /* Dummy shadow structures if an architecture does not define them */
-@@ -141,17 +142,33 @@ struct msi_desc {
- /**
-  * msi_device_data - MSI per device data
-  * @lock:		Spinlock to protect register access
-+ * @properties:		MSI properties which are interesting to drivers
-  * @attrs:		Pointer to the sysfs attribute group
-  * @platform_data:	Platform-MSI specific data
-  */
- struct msi_device_data {
- 	raw_spinlock_t			lock;
-+	unsigned long			properties;
- 	const struct attribute_group    **attrs;
- 	struct platform_msi_priv_data	*platform_data;
- };
- 
- int msi_setup_device_data(struct device *dev);
- 
-+/* MSI device properties */
-+#define MSI_PROP_PCI_MSI		BIT(0)
-+#define MSI_PROP_PCI_MSIX		BIT(1)
-+#define MSI_PROP_64BIT			BIT(2)
+--- a/drivers/pci/msi/msi.c
++++ b/drivers/pci/msi/msi.c
+@@ -244,6 +244,8 @@ static void free_msi_irqs(struct pci_dev
+ 		iounmap(dev->msix_base);
+ 		dev->msix_base = NULL;
+ 	}
 +
-+#ifdef CONFIG_GENERIC_MSI_IRQ
-+bool msi_device_has_property(struct device *dev, unsigned long prop);
-+#else
-+static inline bool msi_device_has_property(struct device *dev, unsigned long prop)
-+{
-+	return false;
-+}
-+#endif
-+
- /* Helpers to hide struct msi_desc implementation details */
- #define msi_desc_to_dev(desc)		((desc)->dev)
- #define dev_to_msi_list(dev)		(&(dev)->msi_list)
---- a/kernel/irq/msi.c
-+++ b/kernel/irq/msi.c
-@@ -60,6 +60,18 @@ void free_msi_entry(struct msi_desc *ent
- 	kfree(entry);
++	dev->dev.msi.data->properties = 0;
  }
  
-+/**
-+ * msi_device_has_property - Check whether a device has a specific MSI property
-+ * @dev:	Pointer to the device which is queried
-+ * @prop:	Property to check for
-+ */
-+bool msi_device_has_property(struct device *dev, unsigned long prop)
-+{
-+	if (!dev->msi.data)
-+		return false;
-+	return !!(dev->msi.data->properties & prop);
-+}
-+
- void __get_cached_msi_msg(struct msi_desc *entry, struct msi_msg *msg)
- {
- 	*msg = entry->msg;
+ static void pci_intx_for_msi(struct pci_dev *dev, int enable)
+@@ -372,6 +374,9 @@ msi_setup_entry(struct pci_dev *dev, int
+ 	if (entry->pci.msi_attrib.can_mask)
+ 		pci_read_config_dword(dev, entry->pci.mask_pos, &entry->pci.msi_mask);
+ 
++	dev->dev.msi.data->properties = MSI_PROP_PCI_MSI;
++	if (entry->pci.msi_attrib.is_64)
++		dev->dev.msi.data->properties |= MSI_PROP_64BIT;
+ out:
+ 	kfree(masks);
+ 	return entry;
+@@ -514,6 +519,7 @@ static int msix_setup_entries(struct pci
+ 		if (masks)
+ 			curmsk++;
+ 	}
++	dev->dev.msi.data->properties = MSI_PROP_PCI_MSIX | MSI_PROP_64BIT;
+ 	ret = 0;
+ out:
+ 	kfree(masks);
 
 _______________________________________________
 iommu mailing list
