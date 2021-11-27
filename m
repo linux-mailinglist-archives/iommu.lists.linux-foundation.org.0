@@ -1,67 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A2B45F7F8
-	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 02:20:24 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id E20B245F7F9
+	for <lists.iommu@lfdr.de>; Sat, 27 Nov 2021 02:20:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D370F8100D;
-	Sat, 27 Nov 2021 01:20:19 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6D5274040B;
+	Sat, 27 Nov 2021 01:20:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rjXqqbZPArwj; Sat, 27 Nov 2021 01:20:19 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id W7A0tuJGwYv8; Sat, 27 Nov 2021 01:20:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E406D82656;
-	Sat, 27 Nov 2021 01:20:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 584A7403F1;
+	Sat, 27 Nov 2021 01:20:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B6278C001C;
-	Sat, 27 Nov 2021 01:20:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FA2EC003E;
+	Sat, 27 Nov 2021 01:20:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BF07CC000A
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:17 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD35DC000A
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 9D1C7403BA
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:17 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 70B4F40287
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="v+0MDRnH";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="xNoV+WZ/"
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0Alj24wzBUD3 for <iommu@lists.linux-foundation.org>;
- Sat, 27 Nov 2021 01:20:17 +0000 (UTC)
+ with ESMTP id gWxzsj5mpSqm for <iommu@lists.linux-foundation.org>;
+ Sat, 27 Nov 2021 01:20:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D09A040287
- for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:16 +0000 (UTC)
-Message-ID: <20211126230524.236729743@linutronix.de>
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9A129403B7
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Nov 2021 01:20:18 +0000 (UTC)
+Message-ID: <20211126230524.295122054@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1637976015;
+ s=2020; t=1637976016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=MsQMrlpTATaTMzIfF99P8uE12mWb1u9o9W8ziR/qOrU=;
- b=v+0MDRnHIZmUYh9muIDezvCL+GrBrMKFHLXhnXDbx/aIi2Wrrx2btpQc2pbAq708vAOooJ
- ObadXZFbvQQRZhMeKea1bFWMBR++d2Kee/VhqKH4WHWiniGjoIj/ZOXWd4n8EoZVQ82t2C
- nko5LxZWgMMymJUvjSUGyQm0rfeRyd5sFUXOKIVxxVcL0iLy3n3tVNdEZtgRf1hC78nAr2
- bk9apjv2EpkYiMxr4EuHqAXH2Mf4K0ob8IkVlrkTIbQ+lNr0Z/0RN+LJkfsjRRlVaQBn7P
- Qr3lelca0UZiVpBnbQsaRtzf/2roo+7eVAdf5rYtyNBt7Xe9zdOlWr5n2eHbow==
+ references:references; bh=Oh8EM+g3S/QfSPoDjrJmTy+Z80Zsw+m+X3NUsXacOTE=;
+ b=qVZGDbNZ2EPWgWKeie9Lsg8SlBXlB0cdjwpWi66yeNG4DYIWMBeGOpSML8TzTYX+IBXTLC
+ MytS9/7pPDvx+5uOdmMK7tsJf7Ty5rDTRSyLyz3rUILaGDpD78K/KinpA9spc//yXsu3gN
+ es43eYzq8WxrwsxRBJzulVPjdWWxECSfHrNvVbIpbHXTO4du8HBL66WTL0tQYDkuwnrV1V
+ PPHrx45+4UKv8DU+YAJ7euQ68e3XyTtqHvf2s+uztrRavCQ0DyLPUn8PCzZD6IvxFPHea8
+ bXkbZI3WH5L+7y2A9eEGs9xy4p0pSnnPxY75sPwFeTWsH96Mo6TP/W1vzRoDBw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1637976015;
+ s=2020e; t=1637976016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=MsQMrlpTATaTMzIfF99P8uE12mWb1u9o9W8ziR/qOrU=;
- b=xNoV+WZ/LZHW9aCCjR5qeNdZLfCaDUJ0rJxOsmXMnhAv7pGi4kmklBVoXkagTGMlO0Ex2g
- B8JBNqCfSLc9oTCw==
+ references:references; bh=Oh8EM+g3S/QfSPoDjrJmTy+Z80Zsw+m+X3NUsXacOTE=;
+ b=xOkGJjLxWWpLTjyaY3a3wt1jNJ6brnrPkO+LEWpUUYBkEz0HM87BkrlRzK6xnt7ICAcZBo
+ 9lh6ntzQZMTtE/BA==
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 05/37] platform-msi: Allocate MSI device data on first use
+Subject: [patch 06/37] bus: fsl-mc-msi: Allocate MSI device data on first use
 References: <20211126224100.303046749@linutronix.de>
 MIME-Version: 1.0
-Date: Sat, 27 Nov 2021 02:20:14 +0100 (CET)
+Date: Sat, 27 Nov 2021 02:20:16 +0100 (CET)
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -91,45 +87,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Allocate the MSI device data on first invocation of the allocation function
-for platform MSI private data.
+Allocate the MSI device data on first invocation of the allocation function.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Stuart Yoder <stuyoder@gmail.com>
+Cc: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 ---
- drivers/base/platform-msi.c |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/bus/fsl-mc/fsl-mc-msi.c |   14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
---- a/drivers/base/platform-msi.c
-+++ b/drivers/base/platform-msi.c
-@@ -204,6 +204,8 @@ platform_msi_alloc_priv_data(struct devi
- 			     irq_write_msi_msg_t write_msi_msg)
- {
- 	struct platform_msi_priv_data *datap;
-+	int err;
-+
- 	/*
- 	 * Limit the number of interrupts to 2048 per device. Should we
- 	 * need to bump this up, DEV_ID_SHIFT should be adjusted
-@@ -218,6 +220,10 @@ platform_msi_alloc_priv_data(struct devi
- 		return ERR_PTR(-EINVAL);
- 	}
+--- a/drivers/bus/fsl-mc/fsl-mc-msi.c
++++ b/drivers/bus/fsl-mc/fsl-mc-msi.c
+@@ -253,6 +253,14 @@ int fsl_mc_msi_domain_alloc_irqs(struct
+ 	struct irq_domain *msi_domain;
+ 	int error;
  
-+	err = msi_setup_device_data(dev);
-+	if (err)
-+		return ERR_PTR(err);
++	msi_domain = dev_get_msi_domain(dev);
++	if (!msi_domain)
++		return -EINVAL;
 +
- 	/* Already had a helping of MSI? Greed... */
++	error = msi_setup_device_data(dev);
++	if (error)
++		return error;
++
  	if (!list_empty(dev_to_msi_list(dev)))
- 		return ERR_PTR(-EBUSY);
-@@ -229,7 +235,7 @@ platform_msi_alloc_priv_data(struct devi
- 	datap->devid = ida_simple_get(&platform_msi_devid_ida,
- 				      0, 1 << DEV_ID_SHIFT, GFP_KERNEL);
- 	if (datap->devid < 0) {
--		int err = datap->devid;
-+		err = datap->devid;
- 		kfree(datap);
- 		return ERR_PTR(err);
- 	}
+ 		return -EINVAL;
+ 
+@@ -260,12 +268,6 @@ int fsl_mc_msi_domain_alloc_irqs(struct
+ 	if (error < 0)
+ 		return error;
+ 
+-	msi_domain = dev_get_msi_domain(dev);
+-	if (!msi_domain) {
+-		error = -EINVAL;
+-		goto cleanup_msi_descs;
+-	}
+-
+ 	/*
+ 	 * NOTE: Calling this function will trigger the invocation of the
+ 	 * its_fsl_mc_msi_prepare() callback
 
 _______________________________________________
 iommu mailing list
