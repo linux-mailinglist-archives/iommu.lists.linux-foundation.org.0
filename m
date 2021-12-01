@@ -1,83 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DEF465418
-	for <lists.iommu@lfdr.de>; Wed,  1 Dec 2021 18:34:49 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542B7465413
+	for <lists.iommu@lfdr.de>; Wed,  1 Dec 2021 18:34:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BD24341CBA;
-	Wed,  1 Dec 2021 17:34:44 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 066448308B;
+	Wed,  1 Dec 2021 17:34:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FgTZ-SoMiONk; Wed,  1 Dec 2021 17:34:44 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XXGwmc_JjwZf; Wed,  1 Dec 2021 17:34:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C9F9D41CB6;
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0A65B82CE5;
 	Wed,  1 Dec 2021 17:34:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A31CCC003E;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D19D4C0041;
 	Wed,  1 Dec 2021 17:34:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5177C003F
- for <iommu@lists.linux-foundation.org>; Wed,  1 Dec 2021 17:34:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CB42AC0012
+ for <iommu@lists.linux-foundation.org>; Wed,  1 Dec 2021 17:34:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9538281CE7
- for <iommu@lists.linux-foundation.org>; Wed,  1 Dec 2021 17:34:40 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id A64D941CAC
+ for <iommu@lists.linux-foundation.org>; Wed,  1 Dec 2021 17:34:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3ca8pqfqIfHG for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Kjo91LREf-X6 for <iommu@lists.linux-foundation.org>;
  Wed,  1 Dec 2021 17:34:40 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C3A8F81BC2
- for <iommu@lists.linux-foundation.org>; Wed,  1 Dec 2021 17:34:39 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id p18so21034904wmq.5
- for <iommu@lists.linux-foundation.org>; Wed, 01 Dec 2021 09:34:39 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B1BCC41C5F
+ for <iommu@lists.linux-foundation.org>; Wed,  1 Dec 2021 17:34:40 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 77-20020a1c0450000000b0033123de3425so377103wme.0
+ for <iommu@lists.linux-foundation.org>; Wed, 01 Dec 2021 09:34:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4wUTd96eZB11jR8FhOdA8c/6TyDHIYU4luFJMM8Zorc=;
- b=k5I/sAiM7hayNpy0ivvbeZBOIoWPQJJ+Ue5btogoCttQ7Sla6pblXrzkiXmhMRBIP2
- JZSjVxOjzeA/zbdsJ4Mld00sYUoKq53/neBZMvhXeMfpdgkYwPcGEwrwEar0YyaILCBf
- Ltw/HLn8SKbuU2UTK2Uv8tk8FO/vuactFzdubW7ito3CWaCV9OJeyhL7O5KcQBqu0LCw
- LHBrlbFzkAguOkgSThig2ppqRbfPlmwTXhkNQs9YpL9UjZ5jPtY9ObABZKFakCbAYUcX
- r5ckH0WI9lxIS9DokJrA/4lI2oDdrmRNKwXdoQWkNn7ltwWZinyjzeiEH6JoNsjkGDTA
- i/fg==
+ bh=VGZjSTZN525q3rqWpMgRlQQk2cIWs1KD7fKMvPoSwC8=;
+ b=K70ST+5ecDC2AksgI+RoMDjbuEgGNmAEKB0RiOi/MGNAvK52JKxXiqnh2+LADP79Eg
+ nL7fsykgDUFowmjc3bPVoUM9JoLOBJPjJVJhu5Dx0HX2bQLZahOIlWk3xuuncP24ERHJ
+ z8roUN+vH5FqIABoCAnvSH1Co/IcIohwN51HtUlUNM8weKkArLSZFZ6WiK2dqref1e60
+ 9maB2WylkMVZ3ZMSAuz9DB3IGleoPSQ5NFL7lZ1MUXh975U7fJHjN4kJzCnGJr7udi8X
+ q8AWKZBqZLjWpIIRT4hdGNEv0s5Lsgp+ZVgtk9ifuv7BNdvpOQFkq347Cg+SJdGxE8lj
+ yFcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4wUTd96eZB11jR8FhOdA8c/6TyDHIYU4luFJMM8Zorc=;
- b=ASD/CETwPDNlqlpNSY3YllUBOTatrPaKeDKS1WhoCYP0KSXT+jt4UdnDPaljgLBqHP
- O291TI0j2szoN657mlA1NReDT2wSSL2dXXKqdkRPsKr8tgxNQvcKjY77N+6Qqw4R5uMz
- jNrliGKjHgwoicB2Y5wv3Ktjz5daYVI3iF+IuLnvgx3Hl7dTrLpzJIuFme2DNzpDuiGR
- MwEhXV2DhYJrQR43Ou7PvKfUW/dyw+6AIYBGsT3TJ0xNm1p0KFjEXMFW/EMjpO5f+fQL
- 8q3eFiYeqEiWUO5sIxdxI9k9wYf+VVNzpMC6mzXr6i0q+GuK1ZZVCAnsxdV+mEeevMOA
- wIWg==
-X-Gm-Message-State: AOAM533xnJx8GSKbMVakiarbpiiev3f3aRvdq7HG7jNXgLn0XfJL6Ojt
- Ngwcq2jmFmu7KF0eWW4lcB6CfQ==
-X-Google-Smtp-Source: ABdhPJxUPAiNHfZ32Dke/Q9eAsDiXSQWBejQMoi62H4eAO5Rf0AgfmVqvVuVxsb1CMVx7s6ZIW+yHA==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr9033654wmi.61.1638380077860; 
- Wed, 01 Dec 2021 09:34:37 -0800 (PST)
+ bh=VGZjSTZN525q3rqWpMgRlQQk2cIWs1KD7fKMvPoSwC8=;
+ b=LJJvgn6BbQ2bzDygyz9O8MRCg7QMmLUveO9vlBEDy4vuROzckoEksrlOdBGeMKLwDx
+ 2MRdcs5cMa6OVFG3l/JplHf3R5/qCGDnpIVP1V2Sz2rt5lJ9hiehqg3RTdYv9kg4EA06
+ 0EYoCGlgFQEjeJZwx6FYdsVSkVpDdf+8rSjHxPaFjYoG7xgUjI1kct1rrQdsoAnbINfk
+ hJqc1kpwNIwR76VoGJUZ846DRGQmHOX+x6mOLTN8o2hdXlqh5NWZTFChEq6gq8zlDSZ9
+ LcxUf3VAqzdrpRtKVCCRlPWH1TOVPdNd8CrhJ5nJDlqRQGfVkZoVRrXeGSXH+ZQjiujJ
+ lA8w==
+X-Gm-Message-State: AOAM532bj164cmdR4r7kcMuDXa57PW6WRGretG2nGYmqwFYPth8/raf0
+ BINa/wg/F7AvbXDnaqYZ9aKjn6RxWUPblA==
+X-Google-Smtp-Source: ABdhPJxVqGIvJlYfbpH1rB11Lh+wBtxpRPW3nrXgkr2ATJ9igyrj/amNIf7bgfZOJhb0MMtIdAuWtg==
+X-Received: by 2002:a05:600c:1d01:: with SMTP id
+ l1mr8967936wms.44.1638380078933; 
+ Wed, 01 Dec 2021 09:34:38 -0800 (PST)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id q8sm360023wrx.71.2021.12.01.09.34.36
+ by smtp.gmail.com with ESMTPSA id q8sm360023wrx.71.2021.12.01.09.34.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 09:34:37 -0800 (PST)
+ Wed, 01 Dec 2021 09:34:38 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: joro@8bytes.org,
 	will@kernel.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH v3 3/5] iommu/virtio: Sort reserved regions
-Date: Wed,  1 Dec 2021 17:33:23 +0000
-Message-Id: <20211201173323.1045819-4-jean-philippe@linaro.org>
+Subject: [PATCH v3 4/5] iommu/virtio: Pass end address to viommu_add_mapping()
+Date: Wed,  1 Dec 2021 17:33:24 +0000
+Message-Id: <20211201173323.1045819-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211201173323.1045819-1-jean-philippe@linaro.org>
 References: <20211201173323.1045819-1-jean-philippe@linaro.org>
@@ -102,42 +104,131 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-To ease identity mapping support, keep the list of reserved regions
-sorted.
+To support identity mappings, the virtio-iommu driver must be able to
+represent full 64-bit ranges internally. Pass (start, end) instead of
+(start, size) to viommu_add/del_mapping().
+
+Clean comments. The one about the returned size was never true: when
+sweeping the whole address space the returned size will most certainly
+be smaller than 2^64.
 
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/virtio-iommu.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/iommu/virtio-iommu.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index 14dfee76fd19..1b3c1f2741c6 100644
+index 1b3c1f2741c6..2fa370c2659c 100644
 --- a/drivers/iommu/virtio-iommu.c
 +++ b/drivers/iommu/virtio-iommu.c
-@@ -423,7 +423,7 @@ static int viommu_add_resv_mem(struct viommu_endpoint *vdev,
- 	size_t size;
- 	u64 start64, end64;
- 	phys_addr_t start, end;
--	struct iommu_resv_region *region = NULL;
-+	struct iommu_resv_region *region = NULL, *next;
- 	unsigned long prot = IOMMU_WRITE | IOMMU_NOEXEC | IOMMU_MMIO;
+@@ -311,8 +311,8 @@ static int viommu_send_req_sync(struct viommu_dev *viommu, void *buf,
+  *
+  * On success, return the new mapping. Otherwise return NULL.
+  */
+-static int viommu_add_mapping(struct viommu_domain *vdomain, unsigned long iova,
+-			      phys_addr_t paddr, size_t size, u32 flags)
++static int viommu_add_mapping(struct viommu_domain *vdomain, u64 iova, u64 end,
++			      phys_addr_t paddr, u32 flags)
+ {
+ 	unsigned long irqflags;
+ 	struct viommu_mapping *mapping;
+@@ -323,7 +323,7 @@ static int viommu_add_mapping(struct viommu_domain *vdomain, unsigned long iova,
  
- 	start = start64 = le64_to_cpu(mem->start);
-@@ -454,7 +454,12 @@ static int viommu_add_resv_mem(struct viommu_endpoint *vdev,
- 	if (!region)
- 		return -ENOMEM;
+ 	mapping->paddr		= paddr;
+ 	mapping->iova.start	= iova;
+-	mapping->iova.last	= iova + size - 1;
++	mapping->iova.last	= end;
+ 	mapping->flags		= flags;
  
--	list_add(&region->list, &vdev->resv_regions);
-+	/* Keep the list sorted */
-+	list_for_each_entry(next, &vdev->resv_regions, list) {
-+		if (next->start > region->start)
-+			break;
-+	}
-+	list_add_tail(&region->list, &next->list);
- 	return 0;
+ 	spin_lock_irqsave(&vdomain->mappings_lock, irqflags);
+@@ -338,26 +338,24 @@ static int viommu_add_mapping(struct viommu_domain *vdomain, unsigned long iova,
+  *
+  * @vdomain: the domain
+  * @iova: start of the range
+- * @size: size of the range. A size of 0 corresponds to the entire address
+- *	space.
++ * @end: end of the range
+  *
+- * On success, returns the number of unmapped bytes (>= size)
++ * On success, returns the number of unmapped bytes
+  */
+ static size_t viommu_del_mappings(struct viommu_domain *vdomain,
+-				  unsigned long iova, size_t size)
++				  u64 iova, u64 end)
+ {
+ 	size_t unmapped = 0;
+ 	unsigned long flags;
+-	unsigned long last = iova + size - 1;
+ 	struct viommu_mapping *mapping = NULL;
+ 	struct interval_tree_node *node, *next;
+ 
+ 	spin_lock_irqsave(&vdomain->mappings_lock, flags);
+-	next = interval_tree_iter_first(&vdomain->mappings, iova, last);
++	next = interval_tree_iter_first(&vdomain->mappings, iova, end);
+ 	while (next) {
+ 		node = next;
+ 		mapping = container_of(node, struct viommu_mapping, iova);
+-		next = interval_tree_iter_next(node, iova, last);
++		next = interval_tree_iter_next(node, iova, end);
+ 
+ 		/* Trying to split a mapping? */
+ 		if (mapping->iova.start < iova)
+@@ -656,8 +654,8 @@ static void viommu_domain_free(struct iommu_domain *domain)
+ {
+ 	struct viommu_domain *vdomain = to_viommu_domain(domain);
+ 
+-	/* Free all remaining mappings (size 2^64) */
+-	viommu_del_mappings(vdomain, 0, 0);
++	/* Free all remaining mappings */
++	viommu_del_mappings(vdomain, 0, ULLONG_MAX);
+ 
+ 	if (vdomain->viommu)
+ 		ida_free(&vdomain->viommu->domain_ids, vdomain->id);
+@@ -742,6 +740,7 @@ static int viommu_map(struct iommu_domain *domain, unsigned long iova,
+ {
+ 	int ret;
+ 	u32 flags;
++	u64 end = iova + size - 1;
+ 	struct virtio_iommu_req_map map;
+ 	struct viommu_domain *vdomain = to_viommu_domain(domain);
+ 
+@@ -752,7 +751,7 @@ static int viommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	if (flags & ~vdomain->map_flags)
+ 		return -EINVAL;
+ 
+-	ret = viommu_add_mapping(vdomain, iova, paddr, size, flags);
++	ret = viommu_add_mapping(vdomain, iova, end, paddr, flags);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -761,7 +760,7 @@ static int viommu_map(struct iommu_domain *domain, unsigned long iova,
+ 		.domain		= cpu_to_le32(vdomain->id),
+ 		.virt_start	= cpu_to_le64(iova),
+ 		.phys_start	= cpu_to_le64(paddr),
+-		.virt_end	= cpu_to_le64(iova + size - 1),
++		.virt_end	= cpu_to_le64(end),
+ 		.flags		= cpu_to_le32(flags),
+ 	};
+ 
+@@ -770,7 +769,7 @@ static int viommu_map(struct iommu_domain *domain, unsigned long iova,
+ 
+ 	ret = viommu_send_req_sync(vdomain->viommu, &map, sizeof(map));
+ 	if (ret)
+-		viommu_del_mappings(vdomain, iova, size);
++		viommu_del_mappings(vdomain, iova, end);
+ 
+ 	return ret;
  }
+@@ -783,7 +782,7 @@ static size_t viommu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 	struct virtio_iommu_req_unmap unmap;
+ 	struct viommu_domain *vdomain = to_viommu_domain(domain);
+ 
+-	unmapped = viommu_del_mappings(vdomain, iova, size);
++	unmapped = viommu_del_mappings(vdomain, iova, iova + size - 1);
+ 	if (unmapped < size)
+ 		return 0;
  
 -- 
 2.34.0
