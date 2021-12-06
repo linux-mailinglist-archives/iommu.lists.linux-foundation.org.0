@@ -1,67 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6424D46AC5D
-	for <lists.iommu@lfdr.de>; Mon,  6 Dec 2021 23:39:11 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5110446AC61
+	for <lists.iommu@lfdr.de>; Mon,  6 Dec 2021 23:39:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 75D1340524;
+	by smtp2.osuosl.org (Postfix) with ESMTP id D86D540528;
 	Mon,  6 Dec 2021 22:39:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8qpPWxboVgrs; Mon,  6 Dec 2021 22:39:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 81D3B4052D;
-	Mon,  6 Dec 2021 22:39:06 +0000 (UTC)
+	with ESMTP id hBFHv14GqGiW; Mon,  6 Dec 2021 22:39:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 931D6404CC;
+	Mon,  6 Dec 2021 22:39:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 422ACC0012;
-	Mon,  6 Dec 2021 22:39:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D76EC0071;
+	Mon,  6 Dec 2021 22:39:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68154C0012
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:04 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0D6BDC0012
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4A09480E12
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:04 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id EDDA7404CF
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="gtLyx1uI";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="PDX2NcH6"
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id A94b3-0mSV_o for <iommu@lists.linux-foundation.org>;
- Mon,  6 Dec 2021 22:39:03 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 85rkgQ9UNtvW for <iommu@lists.linux-foundation.org>;
+ Mon,  6 Dec 2021 22:39:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7898F83295
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:03 +0000 (UTC)
-Message-ID: <20211206210437.821900680@linutronix.de>
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 055C04015F
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:04 +0000 (UTC)
+Message-ID: <20211206210437.875316747@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1638830341;
+ s=2020; t=1638830343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=0YY6FKU+qkJtNIjBHFuT3gGg88xsiW4iB6UKl0AmwtI=;
- b=gtLyx1uI4U5VlfG4MyQBVx6ekZVpiz/hJtSDGpgc8fcJ7gILFMYCCiR3EJjX0IZuhmYVAb
- BmqVgvOEI/y3Ed/3/UBUV5K5RTOB3ECpcaneiJcP0rxT9MeNN5rIyUEo1Pv3PtSgLgUYNU
- dnq47rZGpN2i2WVB6wI9J/C4sxH5DafOFwNhkSyVSLCKzFcjVLCFGVYCd9f3Fs7jeRn/uZ
- aVr2TQH5m9zO7I0AdAJWxXmpqPbrRxHd0TfUKtx3xuAHbr+qFO44ASkG7T7Sr3YEDi7Tfx
- kuTvLv6LTfhAjG2IhnSIRqieTkKEzepT2+1+TsS9Tt+jmrn09EVsc/uIx7spEA==
+ references:references; bh=hFdKqxRH3cfzgioYGe6Wt7w61YxBjqbdkXo6merCrrA=;
+ b=OMnExLFiyr2l3DaeHBZpbFl2M24cvNzxDNL/9aYSNE94q++59kEmfVGKa5ZlhAe07Fl3uU
+ Za2x9mlRaEoMlFL5FR1Yt9/sqLPoYXCMPjqQw4WwMtRTKofDpynBiY6Jl0rxHJOkcMX9dw
+ AKh+hNeiRoS63cA7VuiUq+1N62xSAWLbXP1hCjtAIoq1LsEYItH7wAY5tc4nfMbGGtYDuF
+ fJU/wntmrOV0pnsKdqs0t3j9Fcc8XuBSCnFkFMGRffuHbe8KbWxBhE+GGbocWvfNjKYz6q
+ jHzrIsyfG/fs3wIXw7Tss35KZPRoYyc8DlL6z8BcWhdY+ZDIBEv4mQdQig+Tog==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1638830341;
+ s=2020e; t=1638830343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=0YY6FKU+qkJtNIjBHFuT3gGg88xsiW4iB6UKl0AmwtI=;
- b=PDX2NcH6oMutIhm4blppHnJIu3p645PCE5S/fYPtzhtyjwQnto1muPhBbSVhrwl/rgluuU
- I6amPjh+RiNE+XDw==
+ references:references; bh=hFdKqxRH3cfzgioYGe6Wt7w61YxBjqbdkXo6merCrrA=;
+ b=Wmw1TW9VtGF7GmA2M1BkXP4IXVGQeS/AtXBgcY5867Qr3359clTNz15RIffmYLeD26efTT
+ Tn7VoBQPW9R2PTDw==
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V2 03/36] PCI/MSI: Allocate MSI device data on first use
+Subject: [patch V2 04/36] platform-msi: Allocate MSI device data on first use
 References: <20211206210307.625116253@linutronix.de>
 MIME-Version: 1.0
-Date: Mon,  6 Dec 2021 23:39:00 +0100 (CET)
+Date: Mon,  6 Dec 2021 23:39:02 +0100 (CET)
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -91,61 +87,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Allocate MSI device data on first use, i.e. when a PCI driver invokes one
-of the PCI/MSI enablement functions.
+Allocate the MSI device data on first invocation of the allocation function
+for platform MSI private data.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/pci/msi/msi.c |   20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/base/platform-msi.c |    8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
---- a/drivers/pci/msi/msi.c
-+++ b/drivers/pci/msi/msi.c
-@@ -889,10 +889,12 @@ static int __pci_enable_msi_range(struct
- /* deprecated, don't use */
- int pci_enable_msi(struct pci_dev *dev)
+--- a/drivers/base/platform-msi.c
++++ b/drivers/base/platform-msi.c
+@@ -204,6 +204,8 @@ platform_msi_alloc_priv_data(struct devi
+ 			     irq_write_msi_msg_t write_msi_msg)
  {
--	int rc = __pci_enable_msi_range(dev, 1, 1, NULL);
--	if (rc < 0)
--		return rc;
--	return 0;
-+	int rc = msi_setup_device_data(&dev->dev);
+ 	struct platform_msi_priv_data *datap;
++	int err;
 +
-+	if (!rc)
-+		rc = __pci_enable_msi_range(dev, 1, 1, NULL);
-+
-+	return rc < 0 ? rc : 0;
- }
- EXPORT_SYMBOL(pci_enable_msi);
+ 	/*
+ 	 * Limit the number of interrupts to 2048 per device. Should we
+ 	 * need to bump this up, DEV_ID_SHIFT should be adjusted
+@@ -218,6 +220,10 @@ platform_msi_alloc_priv_data(struct devi
+ 		return ERR_PTR(-EINVAL);
+ 	}
  
-@@ -947,7 +949,11 @@ static int __pci_enable_msix_range(struc
- int pci_enable_msix_range(struct pci_dev *dev, struct msix_entry *entries,
- 		int minvec, int maxvec)
- {
--	return __pci_enable_msix_range(dev, entries, minvec, maxvec, NULL, 0);
-+	int ret = msi_setup_device_data(&dev->dev);
++	err = msi_setup_device_data(dev);
++	if (err)
++		return ERR_PTR(err);
 +
-+	if (!ret)
-+		ret = __pci_enable_msix_range(dev, entries, minvec, maxvec, NULL, 0);
-+	return ret;
- }
- EXPORT_SYMBOL(pci_enable_msix_range);
- 
-@@ -974,8 +980,12 @@ int pci_alloc_irq_vectors_affinity(struc
- 				   struct irq_affinity *affd)
- {
- 	struct irq_affinity msi_default_affd = {0};
-+	int ret = msi_setup_device_data(&dev->dev);
- 	int nvecs = -ENOSPC;
- 
-+	if (ret)
-+		return ret;
-+
- 	if (flags & PCI_IRQ_AFFINITY) {
- 		if (!affd)
- 			affd = &msi_default_affd;
+ 	/* Already had a helping of MSI? Greed... */
+ 	if (!list_empty(dev_to_msi_list(dev)))
+ 		return ERR_PTR(-EBUSY);
+@@ -229,7 +235,7 @@ platform_msi_alloc_priv_data(struct devi
+ 	datap->devid = ida_simple_get(&platform_msi_devid_ida,
+ 				      0, 1 << DEV_ID_SHIFT, GFP_KERNEL);
+ 	if (datap->devid < 0) {
+-		int err = datap->devid;
++		err = datap->devid;
+ 		kfree(datap);
+ 		return ERR_PTR(err);
+ 	}
 
 _______________________________________________
 iommu mailing list
