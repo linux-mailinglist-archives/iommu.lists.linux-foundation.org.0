@@ -1,68 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32AA46AC85
-	for <lists.iommu@lfdr.de>; Mon,  6 Dec 2021 23:39:46 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 492FC46AC88
+	for <lists.iommu@lfdr.de>; Mon,  6 Dec 2021 23:39:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 67A394053C;
+	by smtp4.osuosl.org (Postfix) with ESMTP id CB88441C5E;
 	Mon,  6 Dec 2021 22:39:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4txoUCud2E5H; Mon,  6 Dec 2021 22:39:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3FC0640523;
-	Mon,  6 Dec 2021 22:39:44 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gxNaQqEChnCP; Mon,  6 Dec 2021 22:39:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 05BE841C62;
+	Mon,  6 Dec 2021 22:39:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1390DC0012;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47AD6C0075;
 	Mon,  6 Dec 2021 22:39:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1DA08C0012
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 07892C0071
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 498D640469
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:39 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0122941C63
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="qT4xZpBB";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="pP/dPC6P"
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0M2xix2eb0_k for <iommu@lists.linux-foundation.org>;
- Mon,  6 Dec 2021 22:39:38 +0000 (UTC)
+ with ESMTP id yXcJjVisIbiw for <iommu@lists.linux-foundation.org>;
+ Mon,  6 Dec 2021 22:39:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A942541C57
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:38 +0000 (UTC)
-Message-ID: <20211206210439.021277807@linutronix.de>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 466F340469
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 22:39:40 +0000 (UTC)
+Message-ID: <20211206210439.074795958@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1638830376;
+ s=2020; t=1638830378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=OQ0f5KjFgbSgmAVP4hnPtoqFO6q3+Ey9wT8c/Y+fgX8=;
- b=qT4xZpBBQ0W0WAPiWf1zJJDYqrWw+ae2Lg455lzO/6P3dumvTkmmO4OyNNpV7Ehjg/w2fl
- manHJleIsU6+wlUO34qbZ1k6P6+fjxe8BUkOz6OIEK3o0dKzrtvUgPypQwoUUUNIuZDXWM
- jnT7oY4poA/FbJovF4S/oz4eehalct4S0HCuDJJLpJBmvaR5HibVjBTc7GIHDoqZivOfX3
- iNd/9PdHT8ILfKUVyXiifKPtOz1VtZWGnO4Nr1SM+0tOgRkRXdJgokjEVSeB/BR9gvjNQB
- gsA5BgMNnlWPVbKtzFcSx9515yBP8sGdsrFziNqK9jyPrTDomPQd0ggxKPGeng==
+ references:references; bh=cOZ0U3ouey82JJdJiPY/OdjPVZlxKAZBH84jVxEoqTU=;
+ b=wz3TzWYBvl04aCerKYeWR58lfzMKGU0iQIuBeqOL+QMp3fzox5TmpoLeGGdAyjIdRF9we0
+ u9yR0O7Qw/bXjizcycQ1gt+G/WeBK/oTI1LUwf2kX7mBg7E4BLQU+LhtJn98G1rHyhAeXN
+ uZibzflizAgUufHizJH6rsQmehdTaX7twbvYr5V+KethG1Scbt8X2tNbTw+IA0tYplWXos
+ ZwOGv2nZnU5zW+yHNbttX2IEcKFWRwLT0XfzLzZMFn7NfGrUzA3FstQug2ylwpcRUwc/5i
+ kvFiRVvXUUkrTAhTuq9cCrdEEKtF1I+UAps11N3QhGaOgS9dJJn2kcoxCDkHWQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1638830376;
+ s=2020e; t=1638830378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=OQ0f5KjFgbSgmAVP4hnPtoqFO6q3+Ey9wT8c/Y+fgX8=;
- b=pP/dPC6PWwsNwzwAXjslgxnuRXxlApMSk05YyUr2uPuStX/4iB4GmcP+0fnXmnf907i7Do
- 3vW65Ey/2ZjD8lDQ==
+ references:references; bh=cOZ0U3ouey82JJdJiPY/OdjPVZlxKAZBH84jVxEoqTU=;
+ b=hWRF+jAuLUmdTtCJbsFelzhT8GqoJCFIgM9B0HzB2yZ+yr1G/1kR55tWj9RhnBzNSOA67w
+ E7/UVXYkvpVaIZCQ==
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V2 25/36] PCI/MSI: Provide MSI_FLAG_MSIX_CONTIGUOUS
+Subject: [patch V2 26/36] powerpc/pseries/msi: Let core code check for
+ contiguous entries
 References: <20211206210307.625116253@linutronix.de>
 MIME-Version: 1.0
-Date: Mon,  6 Dec 2021 23:39:36 +0100 (CET)
+Date: Mon,  6 Dec 2021 23:39:37 +0100 (CET)
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -92,55 +88,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Provide a domain info flag which makes the core code check for a contiguous
-MSI-X index on allocation. That's simpler than checking it at some other
-domain callback in architecture code.
+Set the domain info flag and remove the check.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/pci/msi/irqdomain.c |   16 ++++++++++++++--
- include/linux/msi.h         |    2 ++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+V2: Remove it completely - Cedric
+---
+ arch/powerpc/platforms/pseries/msi.c |   33 ++++++++-------------------------
+ 1 file changed, 8 insertions(+), 25 deletions(-)
 
---- a/drivers/pci/msi/irqdomain.c
-+++ b/drivers/pci/msi/irqdomain.c
-@@ -89,9 +89,21 @@ static int pci_msi_domain_check_cap(stru
- 	if (pci_msi_desc_is_multi_msi(desc) &&
- 	    !(info->flags & MSI_FLAG_MULTI_PCI_MSI))
- 		return 1;
--	else if (desc->pci.msi_attrib.is_msix && !(info->flags & MSI_FLAG_PCI_MSIX))
--		return -ENOTSUPP;
- 
-+	if (desc->pci.msi_attrib.is_msix) {
-+		if (!(info->flags & MSI_FLAG_PCI_MSIX))
-+			return -ENOTSUPP;
-+
-+		if (info->flags & MSI_FLAG_MSIX_CONTIGUOUS) {
-+			unsigned int idx = 0;
-+
-+			/* Check for gaps in the entry indices */
-+			for_each_msi_entry(desc, dev) {
-+				if (desc->msi_index != idx++)
-+					return -ENOTSUPP;
-+			}
-+		}
-+	}
- 	return 0;
+--- a/arch/powerpc/platforms/pseries/msi.c
++++ b/arch/powerpc/platforms/pseries/msi.c
+@@ -321,27 +321,6 @@ static int msi_quota_for_device(struct p
+ 	return request;
  }
  
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -376,6 +376,8 @@ enum {
- 	MSI_FLAG_LEVEL_CAPABLE		= (1 << 6),
- 	/* Populate sysfs on alloc() and destroy it on free() */
- 	MSI_FLAG_DEV_SYSFS		= (1 << 7),
-+	/* MSI-X entries must be contiguous */
-+	MSI_FLAG_MSIX_CONTIGUOUS	= (1 << 8),
+-static int check_msix_entries(struct pci_dev *pdev)
+-{
+-	struct msi_desc *entry;
+-	int expected;
+-
+-	/* There's no way for us to express to firmware that we want
+-	 * a discontiguous, or non-zero based, range of MSI-X entries.
+-	 * So we must reject such requests. */
+-
+-	expected = 0;
+-	for_each_pci_msi_entry(entry, pdev) {
+-		if (entry->msi_index != expected) {
+-			pr_debug("rtas_msi: bad MSI-X entries.\n");
+-			return -EINVAL;
+-		}
+-		expected++;
+-	}
+-
+-	return 0;
+-}
+-
+ static void rtas_hack_32bit_msi_gen2(struct pci_dev *pdev)
+ {
+ 	u32 addr_hi, addr_lo;
+@@ -380,9 +359,6 @@ static int rtas_prepare_msi_irqs(struct
+ 	if (quota && quota < nvec)
+ 		return quota;
+ 
+-	if (type == PCI_CAP_ID_MSIX && check_msix_entries(pdev))
+-		return -EINVAL;
+-
+ 	/*
+ 	 * Firmware currently refuse any non power of two allocation
+ 	 * so we round up if the quota will allow it.
+@@ -530,9 +506,16 @@ static struct irq_chip pseries_pci_msi_i
+ 	.irq_write_msi_msg	= pseries_msi_write_msg,
  };
  
- int msi_domain_set_affinity(struct irq_data *data, const struct cpumask *mask,
++
++/*
++ * Set MSI_FLAG_MSIX_CONTIGUOUS as there is no way to express to
++ * firmware to request a discontiguous or non-zero based range of
++ * MSI-X entries. Core code will reject such setup attempts.
++ */
+ static struct msi_domain_info pseries_msi_domain_info = {
+ 	.flags = (MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
+-		  MSI_FLAG_MULTI_PCI_MSI  | MSI_FLAG_PCI_MSIX),
++		  MSI_FLAG_MULTI_PCI_MSI  | MSI_FLAG_PCI_MSIX |
++		  MSI_FLAG_MSIX_CONTIGUOUS),
+ 	.ops   = &pseries_pci_msi_domain_ops,
+ 	.chip  = &pseries_pci_msi_irq_chip,
+ };
 
 _______________________________________________
 iommu mailing list
