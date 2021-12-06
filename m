@@ -1,48 +1,48 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBEA468EB4
-	for <lists.iommu@lfdr.de>; Mon,  6 Dec 2021 02:59:42 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8340F468EBB
+	for <lists.iommu@lfdr.de>; Mon,  6 Dec 2021 02:59:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0D39C814B5;
-	Mon,  6 Dec 2021 01:59:41 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 76CA860737;
+	Mon,  6 Dec 2021 01:59:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TCkSI4BLaISf; Mon,  6 Dec 2021 01:59:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1448D80F73;
-	Mon,  6 Dec 2021 01:59:40 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jmQTQ3aT9R3D; Mon,  6 Dec 2021 01:59:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 84F0460788;
+	Mon,  6 Dec 2021 01:59:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E563FC0012;
-	Mon,  6 Dec 2021 01:59:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 63FA5C0012;
+	Mon,  6 Dec 2021 01:59:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C75CCC0012
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 01:59:38 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 57193C0071
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 01:59:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B287F400EF
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 01:59:38 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 39A7280F8B
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 01:59:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OG7hQqRVaYWO for <iommu@lists.linux-foundation.org>;
- Mon,  6 Dec 2021 01:59:37 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1A7rxMrVM9WY for <iommu@lists.linux-foundation.org>;
+ Mon,  6 Dec 2021 01:59:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9DC6C401DC
- for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 01:59:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10189"; a="237170402"
-X-IronPort-AV: E=Sophos;i="5.87,290,1631602800"; d="scan'208";a="237170402"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9B47E80EF2
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Dec 2021 01:59:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10189"; a="224482779"
+X-IronPort-AV: E=Sophos;i="5.87,290,1631602800"; d="scan'208";a="224482779"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2021 17:59:37 -0800
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2021 17:59:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,290,1631602800"; d="scan'208";a="514541949"
+X-IronPort-AV: E=Sophos;i="5.87,290,1631602800"; d="scan'208";a="514541979"
 Received: from allen-box.sh.intel.com ([10.239.159.118])
- by orsmga008.jf.intel.com with ESMTP; 05 Dec 2021 17:59:26 -0800
+ by orsmga008.jf.intel.com with ESMTP; 05 Dec 2021 17:59:37 -0800
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Joerg Roedel <joro@8bytes.org>,
@@ -50,9 +50,10 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Bjorn Helgaas <bhelgaas@google.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Christoph Hellwig <hch@infradead.org>, Kevin Tian <kevin.tian@intel.com>,
  Ashok Raj <ashok.raj@intel.com>
-Subject: [PATCH v3 02/18] driver core: Add dma_cleanup callback in bus_type
-Date: Mon,  6 Dec 2021 09:58:47 +0800
-Message-Id: <20211206015903.88687-3-baolu.lu@linux.intel.com>
+Subject: [PATCH v3 03/18] driver core: platform: Rename
+ platform_dma_configure()
+Date: Mon,  6 Dec 2021 09:58:48 +0800
+Message-Id: <20211206015903.88687-4-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211206015903.88687-1-baolu.lu@linux.intel.com>
 References: <20211206015903.88687-1-baolu.lu@linux.intel.com>
@@ -83,89 +84,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The bus_type structure defines dma_configure() callback for bus drivers
-to configure DMA on the devices. This adds the paired dma_cleanup()
-callback and calls it during driver unbinding so that bus drivers can do
-some cleanup work.
+The platform_dma_configure() is shared between platform and amba bus
+drivers. Rename the common helper to firmware_dma_configure() so that
+both platform and amba bus drivers could customize their dma_configure
+callbacks.
 
-One use case for this paired DMA callbacks is for the bus driver to check
-for DMA ownership conflicts during driver binding, where multiple devices
-belonging to a same IOMMU group (the minimum granularity of isolation and
-protection) may be assigned to kernel drivers or user space respectively.
-
-Without this change, for example, the vfio driver has to listen to a bus
-BOUND_DRIVER event and then BUG_ON() in case of dma ownership conflict.
-This leads to bad user experience since careless driver binding operation
-may crash the system if the admin overlooks the group restriction. Aside
-from bad design, this leads to a security problem as a root user, even with
-lockdown=integrity, can force the kernel to BUG.
-
-With this change, the bus driver could check and set the DMA ownership in
-driver binding process and fail on ownership conflicts. The DMA ownership
-should be released during driver unbinding.
-
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Link: https://lore.kernel.org/linux-iommu/20210922123931.GI327412@nvidia.com/
-Link: https://lore.kernel.org/linux-iommu/20210928115751.GK964074@nvidia.com/
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- include/linux/device/bus.h | 3 +++
- drivers/base/dd.c          | 7 ++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ include/linux/platform_device.h | 2 +-
+ drivers/amba/bus.c              | 2 +-
+ drivers/base/platform.c         | 5 ++---
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-index a039ab809753..d8b29ccd07e5 100644
---- a/include/linux/device/bus.h
-+++ b/include/linux/device/bus.h
-@@ -59,6 +59,8 @@ struct fwnode_handle;
-  *		bus supports.
-  * @dma_configure:	Called to setup DMA configuration on a device on
-  *			this bus.
-+ * @dma_cleanup:	Called to cleanup DMA configuration on a device on
-+ *			this bus.
-  * @pm:		Power management operations of this bus, callback the specific
-  *		device driver's pm-ops.
-  * @iommu_ops:  IOMMU specific operations for this bus, used to attach IOMMU
-@@ -103,6 +105,7 @@ struct bus_type {
- 	int (*num_vf)(struct device *dev);
+diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+index 7c96f169d274..4381c34af7e0 100644
+--- a/include/linux/platform_device.h
++++ b/include/linux/platform_device.h
+@@ -328,7 +328,7 @@ extern int platform_pm_restore(struct device *dev);
+ #define platform_pm_restore		NULL
+ #endif
  
- 	int (*dma_configure)(struct device *dev);
-+	void (*dma_cleanup)(struct device *dev);
+-extern int platform_dma_configure(struct device *dev);
++extern int firmware_dma_configure(struct device *dev);
  
- 	const struct dev_pm_ops *pm;
+ #ifdef CONFIG_PM_SLEEP
+ #define USE_PLATFORM_PM_SLEEP_OPS \
+diff --git a/drivers/amba/bus.c b/drivers/amba/bus.c
+index 720aa6cdd402..08c094124c0e 100644
+--- a/drivers/amba/bus.c
++++ b/drivers/amba/bus.c
+@@ -319,7 +319,7 @@ struct bus_type amba_bustype = {
+ 	.probe		= amba_probe,
+ 	.remove		= amba_remove,
+ 	.shutdown	= amba_shutdown,
+-	.dma_configure	= platform_dma_configure,
++	.dma_configure	= firmware_dma_configure,
+ 	.pm		= &amba_pm,
+ };
+ EXPORT_SYMBOL_GPL(amba_bustype);
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 598acf93a360..125d708c0eb3 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -1449,8 +1449,7 @@ static void platform_shutdown(struct device *_dev)
+ 		drv->shutdown(dev);
+ }
  
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 68ea1f949daa..ae457fa2bca6 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -577,7 +577,7 @@ static int really_probe(struct device *dev, struct device_driver *drv)
- 	if (dev->bus->dma_configure) {
- 		ret = dev->bus->dma_configure(dev);
- 		if (ret)
--			goto probe_failed;
-+			goto pinctrl_bind_failed;
- 	}
- 
- 	ret = driver_sysfs_add(dev);
-@@ -660,6 +660,8 @@ static int really_probe(struct device *dev, struct device_driver *drv)
- 	if (dev->bus)
- 		blocking_notifier_call_chain(&dev->bus->p->bus_notifier,
- 					     BUS_NOTIFY_DRIVER_NOT_BOUND, dev);
-+	if (dev->bus->dma_cleanup)
-+		dev->bus->dma_cleanup(dev);
- pinctrl_bind_failed:
- 	device_links_no_driver(dev);
- 	devres_release_all(dev);
-@@ -1204,6 +1206,9 @@ static void __device_release_driver(struct device *dev, struct device *parent)
- 		else if (drv->remove)
- 			drv->remove(dev);
- 
-+		if (dev->bus->dma_cleanup)
-+			dev->bus->dma_cleanup(dev);
-+
- 		device_links_driver_cleanup(dev);
- 
- 		devres_release_all(dev);
+-
+-int platform_dma_configure(struct device *dev)
++int firmware_dma_configure(struct device *dev)
+ {
+ 	enum dev_dma_attr attr;
+ 	int ret = 0;
+@@ -1478,7 +1477,7 @@ struct bus_type platform_bus_type = {
+ 	.probe		= platform_probe,
+ 	.remove		= platform_remove,
+ 	.shutdown	= platform_shutdown,
+-	.dma_configure	= platform_dma_configure,
++	.dma_configure	= firmware_dma_configure,
+ 	.pm		= &platform_dev_pm_ops,
+ };
+ EXPORT_SYMBOL_GPL(platform_bus_type);
 -- 
 2.25.1
 
