@@ -1,77 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2905946B121
-	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 03:57:47 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8580441C6C;
-	Tue,  7 Dec 2021 02:57:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xiZ_r5soqpP2; Tue,  7 Dec 2021 02:57:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id AEB9F40951;
-	Tue,  7 Dec 2021 02:57:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DC5AC0071;
-	Tue,  7 Dec 2021 02:57:44 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8A21CC0012
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:57:42 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA1346B1B7
+	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 05:05:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6507D40153
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:57:42 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4113340284;
+	Tue,  7 Dec 2021 04:05:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zJRcl3pVoSDd for <iommu@lists.linux-foundation.org>;
- Tue,  7 Dec 2021 02:57:41 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id R6309Hs13aAY; Tue,  7 Dec 2021 04:05:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 11E90404CF;
+	Tue,  7 Dec 2021 04:05:02 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D0C9EC0071;
+	Tue,  7 Dec 2021 04:05:02 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0B92AC0012
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:52:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 05AF860E4A
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:52:40 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yGjRyOAWG10S for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Dec 2021 02:52:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 4097D400BA
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:57:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="237708088"
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="237708088"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2021 18:57:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="515065510"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
- ([10.239.159.118])
- by orsmga008.jf.intel.com with ESMTP; 06 Dec 2021 18:57:32 -0800
-Subject: Re: [PATCH v3 04/18] driver core: platform: Add driver dma ownership
- management
-To: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@infradead.org>
-References: <20211206015903.88687-1-baolu.lu@linux.intel.com>
- <20211206015903.88687-5-baolu.lu@linux.intel.com>
- <Ya4f662Af+8kE2F/@infradead.org> <20211206150647.GE4670@nvidia.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <56a63776-48ca-0d6e-c25c-016dc016e0d5@linux.intel.com>
-Date: Tue, 7 Dec 2021 10:57:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C5E0D60799
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:52:38 +0000 (UTC)
+X-UUID: 104e544aab1f490e92bf1caecb5089d5-20211207
+X-UUID: 104e544aab1f490e92bf1caecb5089d5-20211207
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <yf.wang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1479917465; Tue, 07 Dec 2021 10:52:32 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 7 Dec 2021 10:52:31 +0800
+Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 7 Dec 2021 10:52:30 +0800
+From: <yf.wang@mediatek.com>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
+ Roedel" <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>, open list
+ <linux-kernel@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] iommu/io-pgtable-arm-v7s: Add error handle for page table
+ allocation failure
+Date: Tue, 7 Dec 2021 10:47:22 +0800
+Message-ID: <20211207024723.25751-1-yf.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20211206150647.GE4670@nvidia.com>
-Content-Language: en-US
-Cc: Stuart Yoder <stuyoder@gmail.com>, rafael@kernel.org,
- David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
- Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
- Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
- Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Robin Murphy <robin.murphy@arm.com>
+X-Mailman-Approved-At: Tue, 07 Dec 2021 04:05:01 +0000
+Cc: Yunfei Wang <yf.wang@mediatek.com>, Libo Kang <Libo.Kang@mediatek.com>,
+ wsd_upstream@mediatek.com, Guangming Cao <Guangming.Cao@mediatek.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,84 +75,99 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============3297426762876162488=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 12/6/21 11:06 PM, Jason Gunthorpe wrote:
-> On Mon, Dec 06, 2021 at 06:36:27AM -0800, Christoph Hellwig wrote:
->> I really hate the amount of boilerplate code that having this in each
->> bus type causes.
-> +1
-> 
-> I liked the first version of this series better with the code near
-> really_probe().
-> 
-> Can we go back to that with some device_configure_dma() wrapper
-> condtionally called by really_probe as we discussed?
-> 
+--===============3297426762876162488==
+Content-Type: multipart/alternative;
+	boundary="__=_Part_Boundary_001_557018625.2012304799"
 
-Are you talking about below change?
+--__=_Part_Boundary_001_557018625.2012304799
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 68ea1f949daa..368f9e530515 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -577,7 +577,13 @@ static int really_probe(struct device *dev, struct 
-device_driver *drv)
-  	if (dev->bus->dma_configure) {
-  		ret = dev->bus->dma_configure(dev);
-  		if (ret)
--			goto probe_failed;
-+			goto pinctrl_bind_failed;
-+
-+		if (!drv->no_kernel_dma) {
-+			ret = iommu_device_set_dma_owner(dev, DMA_OWNER_DMA_API, NULL);
-+			if (ret)
-+				goto pinctrl_bind_failed;
-+                }
-  	}
+PHByZT4NCkZyb206IFl1bmZlaSBXYW5nICZsdDt5Zi53YW5nQG1lZGlhdGVrLmNvbSZndDsNCg0K
+SW4gX19hcm1fdjdzX2FsbG9jX3RhYmxlIGZ1bmN0aW9uOg0KaW9tbXUgY2FsbCBrbWVtX2NhY2hl
+X2FsbG9jIHRvIGFsbG9jYXRlIHBhZ2UgdGFibGUsIHRoaXMgZnVuY3Rpb24NCmFsbG9jYXRlIG1l
+bW9yeSBtYXkgZmFpbCwgd2hlbiBrbWVtX2NhY2hlX2FsbG9jIGZhaWxzIHRvIGFsbG9jYXRlDQp0
+YWJsZSwgY2FsbCB2aXJ0X3RvX3BoeXMgd2lsbCBiZSBhYm5vbWFsIGFuZCByZXR1cm4gdW5leHBl
+Y3RlZCBwaHlzDQphbmQgZ290byBvdXRfZnJlZSwgdGhlbiBjYWxsIGttZW1fY2FjaGVfZnJlZSB0
+byByZWxlYXNlIHRhYmxlIHdpbGwNCnRyaWdnZXIgS0UsIF9fZ2V0X2ZyZWVfcGFnZXMgYW5kIGZy
+ZWVfcGFnZXMgaGF2ZSBzaW1pbGFyIHByb2JsZW0sDQpzbyBhZGQgZXJyb3IgaGFuZGxlIGZvciBw
+YWdlIHRhYmxlIGFsbG9jYXRpb24gZmFpbHVyZS4NCg0KU2lnbmVkLW9mZi1ieTogWXVuZmVpIFdh
+bmcgJmx0O3lmLndhbmdAbWVkaWF0ZWsuY29tJmd0Ow0KLS0tDQogZHJpdmVycy9pb21tdS9pby1w
+Z3RhYmxlLWFybS12N3MuYyB8IDYgKysrKysrDQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9u
+cygrKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS12N3MuYyBi
+L2RyaXZlcnMvaW9tbXUvaW8tcGd0YWJsZS1hcm0tdjdzLmMNCmluZGV4IGJmYjZhY2I2NTFlNS4u
+ZDg0MjQwMzA4ZjRiIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS12
+N3MuYw0KKysrIGIvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS12N3MuYw0KQEAgLTI0Niw2
+ICsyNDYsMTIgQEAgc3RhdGljIHZvaWQgKl9fYXJtX3Y3c19hbGxvY190YWJsZShpbnQgbHZsLCBn
+ZnBfdCBnZnAsDQogCQkJX19HRlBfWkVSTyB8IEFSTV9WN1NfVEFCTEVfR0ZQX0RNQSwgZ2V0X29y
+ZGVyKHNpemUpKTsNCiAJZWxzZSBpZiAobHZsID09IDIpDQogCQl0YWJsZSA9IGttZW1fY2FjaGVf
+emFsbG9jKGRhdGEtJmd0O2wyX3RhYmxlcywgZ2ZwKTsNCisNCisJaWYgKCF0YWJsZSkgew0KKwkJ
+ZGV2X2VycihkZXYsICZxdW90O1BhZ2UgdGFibGUgYWxsb2NhdGlvbiBmYWlsdXJlIGx2bDolZFxu
+JnF1b3Q7LCBsdmwpOw0KKwkJcmV0dXJuIE5VTEw7DQorCX0NCisNCiAJcGh5cyA9IHZpcnRfdG9f
+cGh5cyh0YWJsZSk7DQogCWlmIChwaHlzICE9IChhcm1fdjdzX2lvcHRlKXBoeXMpIHsNCiAJCS8q
+IERvZXNuJiMzOTt0IGZpdCBpbiBQVEUgKi8NCi0tIA0KMi4xOC4wDQoNCjwvcHJlPjwhLS10eXBl
+OnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxp
+dHkgTm90aWNlDQogKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWlu
+ZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBt
+YXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNl
+DQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50
+ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChz
+KS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRh
+aW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1l
+bnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFu
+ZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50
+IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRo
+aXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVs
+eSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVz
+IG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBz
+eXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRv
+IGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
-  	ret = driver_sysfs_add(dev);
-@@ -660,6 +666,9 @@ static int really_probe(struct device *dev, struct 
-device_driver *drv)
-  	if (dev->bus)
-  		blocking_notifier_call_chain(&dev->bus->p->bus_notifier,
-  					     BUS_NOTIFY_DRIVER_NOT_BOUND, dev);
-+
-+	if (dev->bus->dma_configure && !drv->no_kernel_dma)
-+		iommu_device_release_dma_owner(dev, DMA_OWNER_DMA_API);
-  pinctrl_bind_failed:
-  	device_links_no_driver(dev);
-  	devres_release_all(dev);
-@@ -1204,6 +1213,9 @@ static void __device_release_driver(struct device 
-*dev, struct device *parent)
-  		else if (drv->remove)
-  			drv->remove(dev);
+--__=_Part_Boundary_001_557018625.2012304799
+Content-Type: text/plain
+Content-Transfer-Encoding: base64
 
-+		if (dev->bus->dma_configure && !drv->no_kernel_dma)
-+			iommu_device_release_dma_owner(dev, DMA_OWNER_DMA_API);
-+
-  		device_links_driver_cleanup(dev);
+RnJvbTogWXVuZmVpIFdhbmcgPHlmLndhbmdAbWVkaWF0ZWsuY29tPg0KDQpJbiBfX2FybV92N3Nf
+YWxsb2NfdGFibGUgZnVuY3Rpb246DQppb21tdSBjYWxsIGttZW1fY2FjaGVfYWxsb2MgdG8gYWxs
+b2NhdGUgcGFnZSB0YWJsZSwgdGhpcyBmdW5jdGlvbg0KYWxsb2NhdGUgbWVtb3J5IG1heSBmYWls
+LCB3aGVuIGttZW1fY2FjaGVfYWxsb2MgZmFpbHMgdG8gYWxsb2NhdGUNCnRhYmxlLCBjYWxsIHZp
+cnRfdG9fcGh5cyB3aWxsIGJlIGFibm9tYWwgYW5kIHJldHVybiB1bmV4cGVjdGVkIHBoeXMNCmFu
+ZCBnb3RvIG91dF9mcmVlLCB0aGVuIGNhbGwga21lbV9jYWNoZV9mcmVlIHRvIHJlbGVhc2UgdGFi
+bGUgd2lsbA0KdHJpZ2dlciBLRSwgX19nZXRfZnJlZV9wYWdlcyBhbmQgZnJlZV9wYWdlcyBoYXZl
+IHNpbWlsYXIgcHJvYmxlbSwNCnNvIGFkZCBlcnJvciBoYW5kbGUgZm9yIHBhZ2UgdGFibGUgYWxs
+b2NhdGlvbiBmYWlsdXJlLg0KDQpTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgV2FuZyA8eWYud2FuZ0Bt
+ZWRpYXRlay5jb20+DQotLS0NCiBkcml2ZXJzL2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jIHwg
+NiArKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jIGIvZHJpdmVycy9pb21tdS9pby1w
+Z3RhYmxlLWFybS12N3MuYw0KaW5kZXggYmZiNmFjYjY1MWU1Li5kODQyNDAzMDhmNGIgMTAwNjQ0
+DQotLS0gYS9kcml2ZXJzL2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jDQorKysgYi9kcml2ZXJz
+L2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jDQpAQCAtMjQ2LDYgKzI0NiwxMiBAQCBzdGF0aWMg
+dm9pZCAqX19hcm1fdjdzX2FsbG9jX3RhYmxlKGludCBsdmwsIGdmcF90IGdmcCwNCiAJCQlfX0dG
+UF9aRVJPIHwgQVJNX1Y3U19UQUJMRV9HRlBfRE1BLCBnZXRfb3JkZXIoc2l6ZSkpOw0KIAllbHNl
+IGlmIChsdmwgPT0gMikNCiAJCXRhYmxlID0ga21lbV9jYWNoZV96YWxsb2MoZGF0YS0+bDJfdGFi
+bGVzLCBnZnApOw0KKw0KKwlpZiAoIXRhYmxlKSB7DQorCQlkZXZfZXJyKGRldiwgIlBhZ2UgdGFi
+bGUgYWxsb2NhdGlvbiBmYWlsdXJlIGx2bDolZFxuIiwgbHZsKTsNCisJCXJldHVybiBOVUxMOw0K
+Kwl9DQorDQogCXBoeXMgPSB2aXJ0X3RvX3BoeXModGFibGUpOw0KIAlpZiAocGh5cyAhPSAoYXJt
+X3Y3c19pb3B0ZSlwaHlzKSB7DQogCQkvKiBEb2Vzbid0IGZpdCBpbiBQVEUgKi8NCi0tIA0KMi4x
+OC4wDQo=
 
-  		devres_release_all(dev);
-diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-index a498ebcf4993..2cf7b757b28e 100644
---- a/include/linux/device/driver.h
-+++ b/include/linux/device/driver.h
-@@ -100,6 +100,7 @@ struct device_driver {
-  	const char		*mod_name;	/* used for built-in modules */
+--__=_Part_Boundary_001_557018625.2012304799--
 
-  	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
-+	bool no_kernel_dma;
-  	enum probe_type probe_type;
 
-  	const struct of_device_id	*of_match_table;
+--===============3297426762876162488==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============3297426762876162488==--
+
