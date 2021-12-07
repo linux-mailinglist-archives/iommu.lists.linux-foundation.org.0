@@ -1,89 +1,98 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7943446C695
-	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 22:19:10 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E22B046C804
+	for <lists.iommu@lfdr.de>; Wed,  8 Dec 2021 00:09:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 262454094D;
-	Tue,  7 Dec 2021 21:19:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 46D908250B;
+	Tue,  7 Dec 2021 23:09:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rrfuCI5mS4pQ; Tue,  7 Dec 2021 21:19:08 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vJtywym__LOn; Tue,  7 Dec 2021 23:09:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id ECDEC4094C;
-	Tue,  7 Dec 2021 21:19:07 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 57251824DF;
+	Tue,  7 Dec 2021 23:09:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B5FCCC0012;
-	Tue,  7 Dec 2021 21:19:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1757CC006E;
+	Tue,  7 Dec 2021 23:09:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6BAA2C0012
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 21:19:06 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ED195C0012
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 23:09:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4598760EDB
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 21:19:06 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id D5E6582457
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 23:09:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="VC5Rvg7j";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="tpxYQz93"
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X2BNRsAoGW9j for <iommu@lists.linux-foundation.org>;
- Tue,  7 Dec 2021 21:19:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DF0DD60E90
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 21:19:04 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1638911940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fejqz/bIS5UVVez3Xtjq2jInYaufJY/nLKnDbenyBtw=;
- b=VC5Rvg7jiq8Ikfw+JFC2if6V+C51JARVBdC0uW9vUW0CHLXLMJTCVCws2bKyhUrgzzbYBD
- TspgTWIoCN3z1mpSmBTfGbx4XIbh9GbNDRxSmFXBfJwIBX3j0sw+jnfm/oYCbc43OrEUpM
- SS9tX2diiZM5lYRGla6ljcr7iPYUAT/RJ9qMdqhJZgpVF0sfTve/39i5qs1L2SbKmA26Kk
- RuYaS8IxyMjfJtp5yErMcFm+uepejATF2VudC9wKWykGQzcm11Soqa0vOKrqlwq9Qy2ES/
- hIUI+MznVV8wAM/ESPIdQN7tFRoLJxRc700tRc0QEredDULx8y3xvMEgR1lqVw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1638911940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fejqz/bIS5UVVez3Xtjq2jInYaufJY/nLKnDbenyBtw=;
- b=tpxYQz931aJ9NXdPSYYAooQnjmQcVTU6ncg1A9XfE7ZYmworf/GnMN1rkeaSCd4LIsHO3E
- LsosR2mIUwj5rrDw==
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, LKML
- <linux-kernel@vger.kernel.org>
-Subject: Re: [patch V2 29/36] PCI/MSI: Simplify pci_irq_get_affinity()
-In-Reply-To: <e32237f3-0ff2-cf80-cd99-0b4813d1ed21@kaod.org>
-References: <20211206210307.625116253@linutronix.de>
- <20211206210439.235197701@linutronix.de>
- <e32237f3-0ff2-cf80-cd99-0b4813d1ed21@kaod.org>
-Date: Tue, 07 Dec 2021 22:19:00 +0100
-Message-ID: <87zgpc15bv.ffs@tglx>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id W5J7CdfTFWug for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Dec 2021 23:09:39 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B776E80CD5
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 23:09:39 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ j5-20020a17090a318500b001a6c749e697so2885212pjb.1
+ for <iommu@lists.linux-foundation.org>; Tue, 07 Dec 2021 15:09:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qKDd1VX3hBC89im9d4I56OuLVc25eiwTlx+sbQdp+Sw=;
+ b=vnRocbhNrruqT81hYa0+LL1YmTd03xre0R39dPhTL0Iz+ndRyi8Kk2j4vncEtIedml
+ 5RWbyz49x2iypSewBHEWmhUYR0VuL5cEhUkN98ZUxvT6HS/VyG0I0qMdRscK/WNR2DzI
+ dB92AVMKkDTkNdE63WRtE0QzmrymcC1lL2mSUXhMPJ7x/2TV60k32n1ycoojIp/UExzR
+ fc6k80Qup2+U+AI6C7WOejJzHM7rcFKuzGjy1pgiKFxywby8bw80rj64B0R02Fi6e6vv
+ fL+92ombKOd2u0jrHgMNUN/EW+PdkCFpJ2gNZo1sByZ9x4wqg7GRifEO4/ue6Cqc/Sfp
+ 0iYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qKDd1VX3hBC89im9d4I56OuLVc25eiwTlx+sbQdp+Sw=;
+ b=m0l/flnz8J0GuEiAYnfaTyCqyJOs/oPQY+K9t7Pnn6oO9uyM7BIC991wjlEuVNvkDg
+ kyeVy/LSDPRtko0btOCbP24c/ZMDVYzZQxEVBixeN+ttQzAosVTWQM5NS2zufvhSNX2U
+ kbHprqy4GJzWT7CkhK3WmYUDNwyZ/n64WvdNCaaxMORQPKW1BLRnjy33YI2LD9W14eZD
+ 56RfFwis+rm/8ZeS1uzlSWoEGc0Bh+8QjzM8bzcJ0KlVzQAnvLCUOWM0hMMGAYEvYoaA
+ UvKcjCR5gK4pV2fukCYQKgJY1dDI6+ZHIs5DnOPzYQbY2VNbIMqufzKZuz7XmZ2Bc8qq
+ HMUQ==
+X-Gm-Message-State: AOAM5327bi83W6ieUWfzxR7w0Ll3OUtqLdzKF9f4o95Hpkgum5caKj97
+ Y5CJSapsmvdVL2itddEm1/gVK+4k/IVPZ1OLDW4OsA==
+X-Google-Smtp-Source: ABdhPJzZdj71AnZbqQAjVBfM6MMhRIMl5UOIfQgG74lXBky1qWNCtCR6rgJiwzjurPqRAgI5uDkweOykjFQBpapU+Vk=
+X-Received: by 2002:a17:902:7fcd:b0:142:8ab3:ec0e with SMTP id
+ t13-20020a1709027fcd00b001428ab3ec0emr54368732plb.4.1638918579107; Tue, 07
+ Dec 2021 15:09:39 -0800 (PST)
 MIME-Version: 1.0
-Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
- Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
+References: <20211206015903.88687-1-baolu.lu@linux.intel.com>
+ <20211206015903.88687-4-baolu.lu@linux.intel.com> <Ya3BYxrgkNK3kbGI@kroah.com>
+ <Ya4abbx5M31LYd3N@infradead.org> <20211206144535.GB4670@nvidia.com>
+ <Ya4ikRpenoQPXfML@infradead.org> <20211206150415.GD4670@nvidia.com>
+In-Reply-To: <20211206150415.GD4670@nvidia.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Tue, 7 Dec 2021 15:09:28 -0800
+Message-ID: <CAPcyv4gS8fxx_QP43ShhLysRgy0XH-4KS_e3WO56k6gNMQqaJA@mail.gmail.com>
+Subject: Re: [PATCH v3 03/18] driver core: platform: Rename
+ platform_dma_configure()
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Stuart Yoder <stuyoder@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@linux.ie>, Linux PCI <linux-pci@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Marc Zygnier <maz@kernel.org>, Sinan Kaya <okaya@kernel.org>,
- iommu@lists.linux-foundation.org, Christoph Hellwig <hch@infradead.org>,
- Bjorn Helgaas <helgaas@kernel.org>, Megha Dey <megha.dey@intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>, xen-devel@lists.xenproject.org,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Santosh Shilimkar <ssantosh@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
- Juergen Gross <jgross@suse.com>, Tero Kristo <kristo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>,
- dmaengine@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
+ Jonathan Hunter <jonathanh@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ Kevin Tian <kevin.tian@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>, KVM list <kvm@vger.kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Li Yang <leoyang.li@nxp.com>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux-foundation.org>,
+ Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,44 +105,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Q2VkcmljLAoKT24gVHVlLCBEZWMgMDcgMjAyMSBhdCAxODo0MiwgQ8OpZHJpYyBMZSBHb2F0ZXIg
-d3JvdGU6Cj4KPiBUaGlzIGlzIGJyZWFraW5nIG52bWUgb24gcHNlcmllcyBidXQgaXQncyBwcm9i
-YWJseSBvbmUgb2YgdGhlIHByZXZpb3VzCj4gcGF0Y2hlcy4gSSBoYXZlbid0IGZpZ3VyZWQgb3V0
-IHdoYXQncyB3cm9uZyB5ZXQuIEhlcmUgaXMgdGhlIG9vcHMgRllJLgoKSHJtLgoKPiBbICAgMzIu
-NDk0NTYyXSBXQVJOSU5HOiBDUFU6IDI2IFBJRDogNjU4IGF0IGtlcm5lbC9pcnEvY2hpcC5jOjIx
-MCBpcnFfc3RhcnR1cCsweDFjMC8weDFlMAoKVGhpcyBjb21wbGFpbnMgYWJvdXQgYSBtYW51YWwg
-ZW5hYmxlX2lycSgpIG9uIGEgbWFuYWdlZCBpbnRlcnJ1cHQuCgo+IFsgICAzMi40OTQ1NzVdIE1v
-ZHVsZXMgbGlua2VkIGluOiBpYm12c2NzaSBpYm12ZXRoIHNjc2lfdHJhbnNwb3J0X3NycCBibngy
-eCBpcHIgbGliYXRhIHhoY2lfcGNpIHhoY2lfaGNkIG52bWUgeHRzIHZteF9jcnlwdG8gbnZtZV9j
-b3JlIG1kaW8gdDEwX3BpIGxpYmNyYzMyYyBkbV9taXJyb3IgZG1fcmVnaW9uX2hhc2ggZG1fbG9n
-IGRtX21vZAo+IFsgICAzMi40OTQ2MDFdIENQVTogMjYgUElEOiA2NTggQ29tbToga3dvcmtlci8y
-NjoxSCBOb3QgdGFpbnRlZCA1LjE2LjAtcmM0LWNsZysgIzU0Cj4gWyAgIDMyLjQ5NDYwN10gV29y
-a3F1ZXVlOiBrYmxvY2tkIGJsa19tcV90aW1lb3V0X3dvcmsKPiBbICAgMzIuNDk0NjgxXSBOSVAg
-W2MwMDAwMDAwMDAyMDZmMDBdIGlycV9zdGFydHVwKzB4MWMwLzB4MWUwCj4gWyAgIDMyLjQ5NDY4
-Nl0gTFIgW2MwMDAwMDAwMDAyMDZkZjBdIGlycV9zdGFydHVwKzB4YjAvMHgxZTAKPiBbICAgMzIu
-NDk0NjkwXSBDYWxsIFRyYWNlOgo+IFsgICAzMi40OTQ2OTJdIFtjMDAwMDAxODA1MGYzOGIwXSBb
-YzAwMDAwMDAwMDIwNmRmMF0gaXJxX3N0YXJ0dXArMHhiMC8weDFlMCAodW5yZWxpYWJsZSkKPiBb
-ICAgMzIuNDk0Njk5XSBbYzAwMDAwMTgwNTBmMzhmMF0gW2MwMDAwMDAwMDAyMDE1NWNdIF9fZW5h
-YmxlX2lycSsweDljLzB4YjAKPiBbICAgMzIuNDk0NzA1XSBbYzAwMDAwMTgwNTBmMzk1MF0gW2Mw
-MDAwMDAwMDAyMDE1ZDBdIGVuYWJsZV9pcnErMHg2MC8weGMwCj4gWyAgIDMyLjQ5NDcxMF0gW2Mw
-MDAwMDE4MDUwZjM5ZDBdIFtjMDA4MDAwMDE0YTU0YWU4XSBudm1lX3BvbGxfaXJxZGlzYWJsZSsw
-eDgwLzB4YzAgW252bWVdCj4gWyAgIDMyLjQ5NDcxOV0gW2MwMDAwMDE4MDUwZjNhMDBdIFtjMDA4
-MDAwMDE0YTU1ODI0XSBudm1lX3RpbWVvdXQrMHgxOGMvMHg0MjAgW252bWVdCj4gWyAgIDMyLjQ5
-NDcyNl0gW2MwMDAwMDE4MDUwZjNhZTBdIFtjMDAwMDAwMDAwNzZlMWI4XSBibGtfbXFfY2hlY2tf
-ZXhwaXJlZCsweGE4LzB4MTMwCj4gWyAgIDMyLjQ5NDczMl0gW2MwMDAwMDE4MDUwZjNiMTBdIFtj
-MDAwMDAwMDAwNzc5M2U4XSBidF9pdGVyKzB4ZDgvMHgxMjAKPiBbICAgMzIuNDk0NzM3XSBbYzAw
-MDAwMTgwNTBmM2I2MF0gW2MwMDAwMDAwMDA3N2EzNGNdIGJsa19tcV9xdWV1ZV90YWdfYnVzeV9p
-dGVyKzB4MjVjLzB4M2YwCj4gWyAgIDMyLjQ5NDc0Ml0gW2MwMDAwMDE4MDUwZjNjMjBdIFtjMDAw
-MDAwMDAwNzZmZmE0XSBibGtfbXFfdGltZW91dF93b3JrKzB4ODQvMHgxYTAKPiBbICAgMzIuNDk0
-NzQ3XSBbYzAwMDAwMTgwNTBmM2M3MF0gW2MwMDAwMDAwMDAxODJhNzhdIHByb2Nlc3Nfb25lX3dv
-cmsrMHgyYTgvMHg1YTAKCkNvbmZ1c2VkLiBJIGRpZmZlZCBhZ2FpbnN0IHYxLCBidXQgY291bGQg
-bm90IHNwb3QgYW55dGhpbmcgZXhjZXB0IHRoYXQKcHJvcGVydGllcyBpc3N1ZSB3aGljaCB5b3Ug
-Zm91bmQgdG9vLgoKVGhhbmtzLAoKICAgICAgICB0Z2x4CgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMu
-bGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21h
-aWxtYW4vbGlzdGluZm8vaW9tbXU=
+On Mon, Dec 6, 2021 at 7:04 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
+>
+> On Mon, Dec 06, 2021 at 06:47:45AM -0800, Christoph Hellwig wrote:
+> > On Mon, Dec 06, 2021 at 10:45:35AM -0400, Jason Gunthorpe via iommu wrote:
+> > > IIRC the only thing this function does is touch ACPI and OF stuff?
+> > > Isn't that firmware?
+> > >
+> > > AFAICT amba uses this because AMBA devices might be linked to DT
+> > > descriptions?
+> >
+> > But DT descriptions aren't firmware.  They are usually either passed onb
+> > the bootloader or in some deeply embedded setups embedded into the
+> > kernel image.
+>
+> Pedenatically yes, but do you know of a common word to refer to both
+> OF and ACPI that is better than firmware? :)
+>
+> AFAICT we already use firwmare for this in a few places, eg
+> fwnode_handle and so on.
+
+I've always thought 'platform' was the generic name for otherwise
+non-enumerable platform-firmware/data things enumerated by ACPI / OF.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
