@@ -1,68 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA1346B1B7
-	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 05:05:05 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F6446B140
+	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 04:08:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4113340284;
-	Tue,  7 Dec 2021 04:05:04 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6E04E80D38;
+	Tue,  7 Dec 2021 03:08:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R6309Hs13aAY; Tue,  7 Dec 2021 04:05:03 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iQZxq_fUt8oT; Tue,  7 Dec 2021 03:08:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 11E90404CF;
-	Tue,  7 Dec 2021 04:05:02 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8322C80D35;
+	Tue,  7 Dec 2021 03:08:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D0C9EC0071;
-	Tue,  7 Dec 2021 04:05:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47897C0071;
+	Tue,  7 Dec 2021 03:08:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B92AC0012
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:52:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C0A6C0012
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 03:08:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 05AF860E4A
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:52:40 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2726360595
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 03:08:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=redhat.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yGjRyOAWG10S for <iommu@lists.linux-foundation.org>;
- Tue,  7 Dec 2021 02:52:39 +0000 (UTC)
+ with ESMTP id HKjqln8CTdwK for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Dec 2021 03:08:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C5E0D60799
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 02:52:38 +0000 (UTC)
-X-UUID: 104e544aab1f490e92bf1caecb5089d5-20211207
-X-UUID: 104e544aab1f490e92bf1caecb5089d5-20211207
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <yf.wang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1479917465; Tue, 07 Dec 2021 10:52:32 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 7 Dec 2021 10:52:31 +0800
-Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 7 Dec 2021 10:52:30 +0800
-From: <yf.wang@mediatek.com>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
- Roedel" <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>, open list
- <linux-kernel@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>
-Subject: [PATCH] iommu/io-pgtable-arm-v7s: Add error handle for page table
- allocation failure
-Date: Tue, 7 Dec 2021 10:47:22 +0800
-Message-ID: <20211207024723.25751-1-yf.wang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 07 Dec 2021 04:05:01 +0000
-Cc: Yunfei Wang <yf.wang@mediatek.com>, Libo Kang <Libo.Kang@mediatek.com>,
- wsd_upstream@mediatek.com, Guangming Cao <Guangming.Cao@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 13DCC600CB
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 03:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638846515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:in-reply-to:in-reply-to:references:references;
+ bh=uYJk8sZNBvqI2TY4p7XM11abhtDaYRbwAT1TVDU3vqk=;
+ b=MltMNBP8MaWcqsD8VMwgZf4ZaDjV/dblP3/LY34Ef4vpDPFCVbvSg+/Hd7DNH+ncIs+maW
+ LqqXhecsjmbCvTZ51FRsJazok5Ufi6zffKP3oGZWLu4XNKRIrR6a39N4c94T59YQXL5Shu
+ zsGz0c9n5RCfdCg4cFNrzNIKuyIkMSk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-473-e7M3Njl3PLOnd8yyWBWbnQ-1; Mon, 06 Dec 2021 22:08:31 -0500
+X-MC-Unique: e7M3Njl3PLOnd8yyWBWbnQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72E471006AA0;
+ Tue,  7 Dec 2021 03:08:29 +0000 (UTC)
+Received: from MiWiFi-R3L-srv.redhat.com (ovpn-12-87.pek2.redhat.com
+ [10.72.12.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0F7419C59;
+ Tue,  7 Dec 2021 03:08:21 +0000 (UTC)
+From: Baoquan He <bhe@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND v2 4/5] dma/pool: create dma atomic pool only if dma
+ zone has managed pages
+Date: Tue,  7 Dec 2021 11:07:49 +0800
+Message-Id: <20211207030750.30824-5-bhe@redhat.com>
+In-Reply-To: <20211207030750.30824-1-bhe@redhat.com>
+References: <20211207030750.30824-1-bhe@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Cc: John.p.donnelly@oracle.com, kexec@lists.infradead.org, hch@lst.de,
+ penberg@kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ rientjes@google.com, iamjoonsoo.kim@lge.com, cl@linux.com,
+ robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,99 +85,89 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3297426762876162488=="
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
---===============3297426762876162488==
-Content-Type: multipart/alternative;
-	boundary="__=_Part_Boundary_001_557018625.2012304799"
+Currently three dma atomic pools are initialized as long as the relevant
+kernel codes are built in. While in kdump kernel of x86_64, this is not
+right when trying to create atomic_pool_dma, because there's no managed
+pages in DMA zone. In the case, DMA zone only has low 1M memory presented
+and locked down by memblock allocator. So no pages are added into buddy
+of DMA zone. Please check commit f1d4d47c5851 ("x86/setup: Always reserve
+the first 1M of RAM").
 
---__=_Part_Boundary_001_557018625.2012304799
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Then in kdump kernel of x86_64, it always prints below failure message:
 
-PHByZT4NCkZyb206IFl1bmZlaSBXYW5nICZsdDt5Zi53YW5nQG1lZGlhdGVrLmNvbSZndDsNCg0K
-SW4gX19hcm1fdjdzX2FsbG9jX3RhYmxlIGZ1bmN0aW9uOg0KaW9tbXUgY2FsbCBrbWVtX2NhY2hl
-X2FsbG9jIHRvIGFsbG9jYXRlIHBhZ2UgdGFibGUsIHRoaXMgZnVuY3Rpb24NCmFsbG9jYXRlIG1l
-bW9yeSBtYXkgZmFpbCwgd2hlbiBrbWVtX2NhY2hlX2FsbG9jIGZhaWxzIHRvIGFsbG9jYXRlDQp0
-YWJsZSwgY2FsbCB2aXJ0X3RvX3BoeXMgd2lsbCBiZSBhYm5vbWFsIGFuZCByZXR1cm4gdW5leHBl
-Y3RlZCBwaHlzDQphbmQgZ290byBvdXRfZnJlZSwgdGhlbiBjYWxsIGttZW1fY2FjaGVfZnJlZSB0
-byByZWxlYXNlIHRhYmxlIHdpbGwNCnRyaWdnZXIgS0UsIF9fZ2V0X2ZyZWVfcGFnZXMgYW5kIGZy
-ZWVfcGFnZXMgaGF2ZSBzaW1pbGFyIHByb2JsZW0sDQpzbyBhZGQgZXJyb3IgaGFuZGxlIGZvciBw
-YWdlIHRhYmxlIGFsbG9jYXRpb24gZmFpbHVyZS4NCg0KU2lnbmVkLW9mZi1ieTogWXVuZmVpIFdh
-bmcgJmx0O3lmLndhbmdAbWVkaWF0ZWsuY29tJmd0Ow0KLS0tDQogZHJpdmVycy9pb21tdS9pby1w
-Z3RhYmxlLWFybS12N3MuYyB8IDYgKysrKysrDQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9u
-cygrKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS12N3MuYyBi
-L2RyaXZlcnMvaW9tbXUvaW8tcGd0YWJsZS1hcm0tdjdzLmMNCmluZGV4IGJmYjZhY2I2NTFlNS4u
-ZDg0MjQwMzA4ZjRiIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS12
-N3MuYw0KKysrIGIvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS12N3MuYw0KQEAgLTI0Niw2
-ICsyNDYsMTIgQEAgc3RhdGljIHZvaWQgKl9fYXJtX3Y3c19hbGxvY190YWJsZShpbnQgbHZsLCBn
-ZnBfdCBnZnAsDQogCQkJX19HRlBfWkVSTyB8IEFSTV9WN1NfVEFCTEVfR0ZQX0RNQSwgZ2V0X29y
-ZGVyKHNpemUpKTsNCiAJZWxzZSBpZiAobHZsID09IDIpDQogCQl0YWJsZSA9IGttZW1fY2FjaGVf
-emFsbG9jKGRhdGEtJmd0O2wyX3RhYmxlcywgZ2ZwKTsNCisNCisJaWYgKCF0YWJsZSkgew0KKwkJ
-ZGV2X2VycihkZXYsICZxdW90O1BhZ2UgdGFibGUgYWxsb2NhdGlvbiBmYWlsdXJlIGx2bDolZFxu
-JnF1b3Q7LCBsdmwpOw0KKwkJcmV0dXJuIE5VTEw7DQorCX0NCisNCiAJcGh5cyA9IHZpcnRfdG9f
-cGh5cyh0YWJsZSk7DQogCWlmIChwaHlzICE9IChhcm1fdjdzX2lvcHRlKXBoeXMpIHsNCiAJCS8q
-IERvZXNuJiMzOTt0IGZpdCBpbiBQVEUgKi8NCi0tIA0KMi4xOC4wDQoNCjwvcHJlPjwhLS10eXBl
-OnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxp
-dHkgTm90aWNlDQogKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWlu
-ZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBt
-YXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNl
-DQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50
-ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChz
-KS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRh
-aW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1l
-bnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFu
-ZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50
-IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRo
-aXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVs
-eSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVz
-IG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBz
-eXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRv
-IGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+ DMA: preallocated 128 KiB GFP_KERNEL pool for atomic allocations
+ swapper/0: page allocation failure: order:5, mode:0xcc1(GFP_KERNEL|GFP_DMA), nodemask=(null),cpuset=/,mems_allowed=0
+ CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.16.0-rc3+ #1
+ Call Trace:
+  dump_stack+0x7f/0xa1
+  warn_alloc.cold+0x72/0xd6
+  ? _raw_spin_unlock_irq+0x24/0x40
+  ? __alloc_pages_direct_compact+0x90/0x1b0
+  __alloc_pages_slowpath.constprop.0+0xf29/0xf50
+  ? __cond_resched+0x16/0x50
+  ? prepare_alloc_pages.constprop.0+0x19d/0x1b0
+  __alloc_pages+0x24d/0x2c0
+  ? __dma_atomic_pool_init+0x93/0x93
+  alloc_page_interleave+0x13/0xb0
+  atomic_pool_expand+0x118/0x210
+  ? __dma_atomic_pool_init+0x93/0x93
+  __dma_atomic_pool_init+0x45/0x93
+  dma_atomic_pool_init+0xdb/0x176
+  do_one_initcall+0x67/0x320
+  ? rcu_read_lock_sched_held+0x3f/0x80
+  kernel_init_freeable+0x290/0x2dc
+  ? rest_init+0x24f/0x24f
+  kernel_init+0xa/0x111
+  ret_from_fork+0x22/0x30
+ Mem-Info:
+ ......
+ DMA: failed to allocate 128 KiB GFP_KERNEL|GFP_DMA pool for atomic allocation
+ DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
 
---__=_Part_Boundary_001_557018625.2012304799
-Content-Type: text/plain
-Content-Transfer-Encoding: base64
+Here, let's check if DMA zone has managed pages, then create atomic_pool_dma
+if yes. Otherwise just skip it.
 
-RnJvbTogWXVuZmVpIFdhbmcgPHlmLndhbmdAbWVkaWF0ZWsuY29tPg0KDQpJbiBfX2FybV92N3Nf
-YWxsb2NfdGFibGUgZnVuY3Rpb246DQppb21tdSBjYWxsIGttZW1fY2FjaGVfYWxsb2MgdG8gYWxs
-b2NhdGUgcGFnZSB0YWJsZSwgdGhpcyBmdW5jdGlvbg0KYWxsb2NhdGUgbWVtb3J5IG1heSBmYWls
-LCB3aGVuIGttZW1fY2FjaGVfYWxsb2MgZmFpbHMgdG8gYWxsb2NhdGUNCnRhYmxlLCBjYWxsIHZp
-cnRfdG9fcGh5cyB3aWxsIGJlIGFibm9tYWwgYW5kIHJldHVybiB1bmV4cGVjdGVkIHBoeXMNCmFu
-ZCBnb3RvIG91dF9mcmVlLCB0aGVuIGNhbGwga21lbV9jYWNoZV9mcmVlIHRvIHJlbGVhc2UgdGFi
-bGUgd2lsbA0KdHJpZ2dlciBLRSwgX19nZXRfZnJlZV9wYWdlcyBhbmQgZnJlZV9wYWdlcyBoYXZl
-IHNpbWlsYXIgcHJvYmxlbSwNCnNvIGFkZCBlcnJvciBoYW5kbGUgZm9yIHBhZ2UgdGFibGUgYWxs
-b2NhdGlvbiBmYWlsdXJlLg0KDQpTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgV2FuZyA8eWYud2FuZ0Bt
-ZWRpYXRlay5jb20+DQotLS0NCiBkcml2ZXJzL2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jIHwg
-NiArKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jIGIvZHJpdmVycy9pb21tdS9pby1w
-Z3RhYmxlLWFybS12N3MuYw0KaW5kZXggYmZiNmFjYjY1MWU1Li5kODQyNDAzMDhmNGIgMTAwNjQ0
-DQotLS0gYS9kcml2ZXJzL2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jDQorKysgYi9kcml2ZXJz
-L2lvbW11L2lvLXBndGFibGUtYXJtLXY3cy5jDQpAQCAtMjQ2LDYgKzI0NiwxMiBAQCBzdGF0aWMg
-dm9pZCAqX19hcm1fdjdzX2FsbG9jX3RhYmxlKGludCBsdmwsIGdmcF90IGdmcCwNCiAJCQlfX0dG
-UF9aRVJPIHwgQVJNX1Y3U19UQUJMRV9HRlBfRE1BLCBnZXRfb3JkZXIoc2l6ZSkpOw0KIAllbHNl
-IGlmIChsdmwgPT0gMikNCiAJCXRhYmxlID0ga21lbV9jYWNoZV96YWxsb2MoZGF0YS0+bDJfdGFi
-bGVzLCBnZnApOw0KKw0KKwlpZiAoIXRhYmxlKSB7DQorCQlkZXZfZXJyKGRldiwgIlBhZ2UgdGFi
-bGUgYWxsb2NhdGlvbiBmYWlsdXJlIGx2bDolZFxuIiwgbHZsKTsNCisJCXJldHVybiBOVUxMOw0K
-Kwl9DQorDQogCXBoeXMgPSB2aXJ0X3RvX3BoeXModGFibGUpOw0KIAlpZiAocGh5cyAhPSAoYXJt
-X3Y3c19pb3B0ZSlwaHlzKSB7DQogCQkvKiBEb2Vzbid0IGZpdCBpbiBQVEUgKi8NCi0tIA0KMi4x
-OC4wDQo=
+Signed-off-by: Baoquan He <bhe@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: iommu@lists.linux-foundation.org
+---
+ kernel/dma/pool.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---__=_Part_Boundary_001_557018625.2012304799--
-
-
---===============3297426762876162488==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
+index 5a85804b5beb..00df3edd6c5d 100644
+--- a/kernel/dma/pool.c
++++ b/kernel/dma/pool.c
+@@ -206,7 +206,7 @@ static int __init dma_atomic_pool_init(void)
+ 						    GFP_KERNEL);
+ 	if (!atomic_pool_kernel)
+ 		ret = -ENOMEM;
+-	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
++	if (has_managed_dma()) {
+ 		atomic_pool_dma = __dma_atomic_pool_init(atomic_pool_size,
+ 						GFP_KERNEL | GFP_DMA);
+ 		if (!atomic_pool_dma)
+@@ -229,7 +229,7 @@ static inline struct gen_pool *dma_guess_pool(struct gen_pool *prev, gfp_t gfp)
+ 	if (prev == NULL) {
+ 		if (IS_ENABLED(CONFIG_ZONE_DMA32) && (gfp & GFP_DMA32))
+ 			return atomic_pool_dma32;
+-		if (IS_ENABLED(CONFIG_ZONE_DMA) && (gfp & GFP_DMA))
++		if (atomic_pool_dma && (gfp & GFP_DMA))
+ 			return atomic_pool_dma;
+ 		return atomic_pool_kernel;
+ 	}
+-- 
+2.17.2
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============3297426762876162488==--
-
