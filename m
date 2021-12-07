@@ -1,66 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389ED46B50A
-	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 09:02:37 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA0546B4AC
+	for <lists.iommu@lfdr.de>; Tue,  7 Dec 2021 08:52:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D0D0582B34;
-	Tue,  7 Dec 2021 08:02:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id EBFC3607C8;
+	Tue,  7 Dec 2021 07:52:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5cKTHR9zQSGx; Tue,  7 Dec 2021 08:02:35 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Og49DUAxhUuG; Tue,  7 Dec 2021 07:52:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C023982D14;
-	Tue,  7 Dec 2021 08:02:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B9E0E607C6;
+	Tue,  7 Dec 2021 07:52:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 92C58C0071;
-	Tue,  7 Dec 2021 08:02:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97D8EC0071;
+	Tue,  7 Dec 2021 07:52:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9B06C0012
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 08:02:33 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1515FC0012
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 07:52:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D4446403DC
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 08:02:33 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 03D3F607C6
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 07:52:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gfJGn2H63fwb for <iommu@lists.linux-foundation.org>;
- Tue,  7 Dec 2021 08:02:33 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1TR4iDAftpx8 for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Dec 2021 07:52:51 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 0E40B40284
- for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 08:02:32 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D38BB607C2
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Dec 2021 07:52:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 8CED2CE19EE;
- Tue,  7 Dec 2021 07:52:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD0A3C341C3;
- Tue,  7 Dec 2021 07:52:35 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 51239B816CE;
+ Tue,  7 Dec 2021 07:52:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6456CC341C1;
+ Tue,  7 Dec 2021 07:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1638863556;
- bh=Jns8FcBxHOMLCr3GGZxSwFn/tVekTvZv+guY99+MFfA=;
+ s=korg; t=1638863568;
+ bh=vCZmCfds9fGR8KSqYGfBdedJROQkJKaIyrhFh2LFF/g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uir65K0ep5aarE9hGxWGsofseR98j+pRbK0DipCNkTuXyP22WiN5q+6IOmnGPiHqp
- 21ycEjIM7uPSj/jO0DE+Wz45fS+mqzxzyHn7SMut1l81Hg0Vgtk5/GVANay5ul6ic5
- XgEH2RJweuBoMloTOAMFAvNVuE2ntOCRjWj7j69Y=
-Date: Tue, 7 Dec 2021 08:52:33 +0100
+ b=HtoyV3RRzvoi0PrEYpfpDPeITXhIwQvbjxWqx411JpOHn7PGizTjybev6iCzICEYY
+ x7Ns6xV/QcCyjvP8JXB3nGwo7wrEGnRfcS9iW3/uqjpuUAP24nFL5MSwkRYf5HSMjP
+ n2TcEjgXaACoJgRlEa1cjKloYE1WcawlchFz/aAA=
+Date: Tue, 7 Dec 2021 08:52:45 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch V2 18/36] genirq/msi: Add msi_device_data::properties
-Message-ID: <Ya8SwexQA8AEC5XI@kroah.com>
+Subject: Re: [patch V2 28/36] PCI/MSI: Use __msi_get_virq() in pci_get_vector()
+Message-ID: <Ya8SzYpOcsbItjkU@kroah.com>
 References: <20211206210307.625116253@linutronix.de>
- <20211206210438.634566968@linutronix.de>
+ <20211206210439.181331216@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211206210438.634566968@linutronix.de>
+In-Reply-To: <20211206210439.181331216@linutronix.de>
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>, linux-pci@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -90,9 +88,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Dec 06, 2021 at 11:39:25PM +0100, Thomas Gleixner wrote:
-> Add a properties field which allows core code to store information for easy
-> retrieval in order to replace MSI descriptor fiddling.
+On Mon, Dec 06, 2021 at 11:39:41PM +0100, Thomas Gleixner wrote:
+> Use msi_get_vector() and handle the return value to be compatible.
+> 
+> No functional change intended.
 > 
 > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
