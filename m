@@ -1,78 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B546CA73
-	for <lists.iommu@lfdr.de>; Wed,  8 Dec 2021 02:55:15 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EED446CA74
+	for <lists.iommu@lfdr.de>; Wed,  8 Dec 2021 02:55:18 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8F6DD60EFC;
-	Wed,  8 Dec 2021 01:55:13 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D434184B3B;
+	Wed,  8 Dec 2021 01:55:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MIQHxoERKkcy; Wed,  8 Dec 2021 01:55:12 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UP7MQOT3qxOU; Wed,  8 Dec 2021 01:55:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B986A60F16;
-	Wed,  8 Dec 2021 01:55:12 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id F2EFD83FC3;
+	Wed,  8 Dec 2021 01:55:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93F25C0012;
-	Wed,  8 Dec 2021 01:55:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CB3C5C006E;
+	Wed,  8 Dec 2021 01:55:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74262C0075
- for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 01:55:11 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F0AEC006E
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 01:55:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5872560F12
- for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 01:55:11 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 8DE8741D8D
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 01:55:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xG0CuPR-Gbhp for <iommu@lists.linux-foundation.org>;
- Wed,  8 Dec 2021 01:55:10 +0000 (UTC)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=google.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id muJoU7VsJ9TY for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Dec 2021 01:55:12 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
 Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com
  [IPv6:2607:f8b0:4864:20::1049])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 85A7460F0C
- for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 01:55:10 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0080141D96
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 01:55:11 +0000 (UTC)
 Received: by mail-pj1-x1049.google.com with SMTP id
- bf17-20020a17090b0b1100b001a634dbd737so2710040pjb.9
- for <iommu@lists.linux-foundation.org>; Tue, 07 Dec 2021 17:55:10 -0800 (PST)
+ d7-20020a17090a7bc700b001a6ebe3f9cbso1589858pjl.0
+ for <iommu@lists.linux-foundation.org>; Tue, 07 Dec 2021 17:55:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=reply-to:date:in-reply-to:message-id:mime-version:references
  :subject:from:to:cc;
- bh=Os9t3PK/1Q6X8L88GHE3qfHjmqX2bj+Lj4P7zobea20=;
- b=GxPab2eAQ1zR+MIC7R4aaig3jil5DsGkCS9yQ8q4Z79CpuJL+SET/SFcCSTqFKGfUK
- gGth0HAhK64hi3UbzwTDtSKi+AFgbtNUffEN1ZBuN/woQ+e3eq0NNOmE2fMddj5+Uvyn
- A+fMa6DuJe95mkeMtBC1Djxf47VoYGT5YM9xlACTrUurxDi85vj+PbL3wpS8I6/hgUNP
- 720meHO9QbRwhUZavuQwNn52WMtS9s80CfHoA6jU1f4ho66MvnR/Mj0+HL5BL2QpcfrG
- BQdDB1WB7G/IyCqL+oej6dueC+ctxa3Zk2OpwuNceFfyhWzVb8GwDbKw+FK2tGjukM5P
- 0CZg==
+ bh=3aCuJMfMHs3SWtggi+I9Cs3L2a0EwivzrBeo1W7uLTQ=;
+ b=YN6ImAQZaOEXzCZQuswx/CTadBK+2y0AdGEJQtahln1tgbBs1poFnAV8djVGK5n7EO
+ jG+ufcxESTPvQb19oLKtRxWkutlq7NE8qy/jzV5RIRmrpVmm/3LHGF+2GB84EWjniv8W
+ loQOT3iiaUndNCYXWVVYlhZqgvXOIsHCYzJ+hUQxkhUaoQbtEFEpzfeSsphdLG7hg5P4
+ JMrRKbKhkgk5qttoxd1Q5137Aqwk5wAqWlPBJVS2z9279DhubHlE9fTRMqD5L79mQuMw
+ E/jv4/Tao9gXqj+e/eOzAR1YwI+J8azjwocOuUZIRvgs8/rg81R4PwkLVZh+QqEr6G2/
+ 8GQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:reply-to:date:in-reply-to:message-id
  :mime-version:references:subject:from:to:cc;
- bh=Os9t3PK/1Q6X8L88GHE3qfHjmqX2bj+Lj4P7zobea20=;
- b=B/snE+8VgdKhyOaAK3Lgo8XCRYzCbBAeL+54fqNLMAxSFfDzak4UxTKly+a6Cp7mih
- ZWF72emZDRsgpu1j7HAH17pAw45SbM/KIQM+z3x1H1zuvPk6IWXrd6QiJypgYlBmSKu9
- 3qE2QXZzmDZVTQNBfDRg0OMaQKnFXxYdMtz8nOFQFjg1LmBeTp4MHfiEzKnlEYhj8pNM
- 7POuidku43BXWb+YLkrjzzZSB5MmChkllBnDeIW+8r6+8sa7Wg/q1AHgR71aJfLSHxPK
- eIFFaAMU41xAGRMf0Y19hMWXSAh1aXKTHza0c2RWf7bqXxtk7tQwe4AkJgm8/iI9bPpK
- 4G2A==
-X-Gm-Message-State: AOAM530AU4/HuU4hgvLgMpS0djs4o2wa1mUZCTnAn9UVZKb5XmzGtbAJ
- lHXHlWiSAp4kfr2gaQrxV+X3Pt6eJPU=
-X-Google-Smtp-Source: ABdhPJxsMsSxtywu0s/1ig+ARF1hrT3HXASsf4sf2qoyLew9jB7OXnpi43IqnpO+NMpFJVnL2vJImWV0uqk=
+ bh=3aCuJMfMHs3SWtggi+I9Cs3L2a0EwivzrBeo1W7uLTQ=;
+ b=h/fKsTCZUA6Et/yb64zEynSOwg4I0Toip68LOZZKZ2hNYDs/KMDb14kx65iFJw0M9d
+ h0FiJXbqHLT82bJlZTR1IOqdM1v68Tfqpz2Amo8SXLN+cQXl9pokF+sHRktUvbdXxAYn
+ lLESoKWsQlP7gYsBw8++LUR7mcM+GbX5j8UVyol1mebgWqMco3ocUnuZeVFn+AaAmCPb
+ sbeRDUW84v047sphMfqNZVUez3X4Ye3tetyF+uHtvx/oK9yAFAKTB/7yRaX4AgOLj2vg
+ LILbeJOxUCjfswm0PJcQUN56ur8XZnn3oxLkFno5AqI+d/w9TDY5KprBFu2Hk6tmXsjd
+ lpfA==
+X-Gm-Message-State: AOAM533rQbrbmtDd0uYPa1oaRVt9r54q7UCBYs5QYLI8Mz/09Iq5YIAA
+ n6fUuzolshvSAt2z2nhhl/v1MkTaLgU=
+X-Google-Smtp-Source: ABdhPJyH9lBa9R496fB+xYtHQMbq+NgJWpFjohfcNU7q50G/OFjItH3xA5+gGAj3jNjGfNUh4zq6Jh7tlfM=
 X-Received: from seanjc.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3e5])
- (user=seanjc job=sendgmr) by 2002:a17:90b:4a4d:: with SMTP id
- lb13mr3543900pjb.97.1638928510003; Tue, 07 Dec 2021 17:55:10 -0800 (PST)
-Date: Wed,  8 Dec 2021 01:52:24 +0000
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:1946:b0:492:64f1:61b5
+ with SMTP id
+ s6-20020a056a00194600b0049264f161b5mr2932849pfk.52.1638928511449; Tue, 07 Dec
+ 2021 17:55:11 -0800 (PST)
+Date: Wed,  8 Dec 2021 01:52:25 +0000
 In-Reply-To: <20211208015236.1616697-1-seanjc@google.com>
-Message-Id: <20211208015236.1616697-15-seanjc@google.com>
+Message-Id: <20211208015236.1616697-16-seanjc@google.com>
 Mime-Version: 1.0
 References: <20211208015236.1616697-1-seanjc@google.com>
 X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
-Subject: [PATCH v3 14/26] KVM: SVM: Skip AVIC and IRTE updates when loading
- blocking vCPU
+Subject: [PATCH v3 15/26] iommu/amd: KVM: SVM: Use pCPU to infer IsRun state
+ for IRTE
 To: Paolo Bonzini <pbonzini@redhat.com>, Joerg Roedel <joro@8bytes.org>
 Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
  Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
@@ -97,87 +101,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Don't bother updating the Physical APIC table or IRTE when loading a vCPU
-that is blocking, i.e. won't be marked IsRun{ning}=1, as the pCPU is
-queried if and only if IsRunning is '1'.  If the vCPU was migrated, the
-new pCPU will be picked up when avic_vcpu_load() is called by
-svm_vcpu_unblocking().
+Now that the one and only caller of amd_iommu_update_ga() passes in
+"is_run == (cpu >= 0)" in all paths, infer IRT.vAPIC.IsRun from @cpu
+instead of having the caller pass redundant information.
+
+No functional change intended.
 
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kvm/svm/avic.c | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+ arch/x86/kvm/svm/avic.c   | 8 ++++----
+ drivers/iommu/amd/iommu.c | 6 ++++--
+ include/linux/amd-iommu.h | 6 ++----
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
-index dc0cbe500106..0c6dfd85b3bb 100644
+index 0c6dfd85b3bb..88b3c315b34f 100644
 --- a/arch/x86/kvm/svm/avic.c
 +++ b/arch/x86/kvm/svm/avic.c
-@@ -974,7 +974,6 @@ void avic_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+@@ -941,7 +941,7 @@ bool svm_check_apicv_inhibit_reasons(ulong bit)
+ 
+ 
+ static inline int
+-avic_update_iommu_vcpu_affinity(struct kvm_vcpu *vcpu, int cpu, bool r)
++avic_update_iommu_vcpu_affinity(struct kvm_vcpu *vcpu, int cpu)
  {
- 	u64 entry;
- 	/* ID = 0xff (broadcast), ID > 0xff (reserved) */
--	bool is_blocking = kvm_vcpu_is_blocking(vcpu);
- 	int h_physical_id = kvm_cpu_get_apicid(cpu);
- 	struct vcpu_svm *svm = to_svm(vcpu);
+ 	int ret = 0;
+ 	unsigned long flags;
+@@ -961,7 +961,7 @@ avic_update_iommu_vcpu_affinity(struct kvm_vcpu *vcpu, int cpu, bool r)
+ 		goto out;
  
-@@ -985,24 +984,25 @@ void avic_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
- 	if (WARN_ON(h_physical_id > AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK))
- 		return;
- 
-+	/*
-+	 * No need to update anything if the vCPU is blocking, i.e. if the vCPU
-+	 * is being scheduled in after being preempted.  The CPU entries in the
-+	 * Physical APIC table and IRTE are consumed iff IsRun{ning} is '1'.
-+	 * If the vCPU was migrated, its new CPU value will be stuffed when the
-+	 * vCPU unblocks.
-+	 */
-+	if (kvm_vcpu_is_blocking(vcpu))
-+		return;
-+
- 	entry = READ_ONCE(*(svm->avic_physical_id_cache));
- 	WARN_ON(entry & AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK);
- 
- 	entry &= ~AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK;
- 	entry |= (h_physical_id & AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK);
--
--	entry &= ~AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
--
--	/*
--	 * Don't mark the vCPU as running if its blocking, i.e. if the vCPU is
--	 * preempted after svm_vcpu_blocking() but before KVM voluntarily
--	 * schedules out the vCPU.
--	 */
--	if (!is_blocking)
--		entry |= AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
-+	entry |= AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
+ 	list_for_each_entry(ir, &svm->ir_list, node) {
+-		ret = amd_iommu_update_ga(cpu, r, ir->data);
++		ret = amd_iommu_update_ga(cpu, ir->data);
+ 		if (ret)
+ 			break;
+ 	}
+@@ -1002,7 +1002,7 @@ void avic_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+ 	entry |= AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
  
  	WRITE_ONCE(*(svm->avic_physical_id_cache), entry);
--	avic_update_iommu_vcpu_affinity(vcpu, h_physical_id, !is_blocking);
-+	avic_update_iommu_vcpu_affinity(vcpu, h_physical_id, true);
+-	avic_update_iommu_vcpu_affinity(vcpu, h_physical_id, true);
++	avic_update_iommu_vcpu_affinity(vcpu, h_physical_id);
  }
  
  void avic_vcpu_put(struct kvm_vcpu *vcpu)
-@@ -1011,8 +1011,12 @@ void avic_vcpu_put(struct kvm_vcpu *vcpu)
- 	struct vcpu_svm *svm = to_svm(vcpu);
+@@ -1016,7 +1016,7 @@ void avic_vcpu_put(struct kvm_vcpu *vcpu)
+ 	if (!(entry & AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK))
+ 		return;
  
- 	entry = READ_ONCE(*(svm->avic_physical_id_cache));
--	if (entry & AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK)
--		avic_update_iommu_vcpu_affinity(vcpu, -1, 0);
-+
-+	/* Nothing to do if IsRunning == '0' due to vCPU blocking. */
-+	if (!(entry & AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK))
-+		return;
-+
-+	avic_update_iommu_vcpu_affinity(vcpu, -1, 0);
+-	avic_update_iommu_vcpu_affinity(vcpu, -1, 0);
++	avic_update_iommu_vcpu_affinity(vcpu, -1);
  
  	entry &= ~AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
  	WRITE_ONCE(*(svm->avic_physical_id_cache), entry);
-@@ -1043,5 +1047,6 @@ void svm_vcpu_blocking(struct kvm_vcpu *vcpu)
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index 461f1844ed1f..2affb42fa319 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3522,7 +3522,7 @@ int amd_iommu_create_irq_domain(struct amd_iommu *iommu)
+ 	return 0;
+ }
  
- void svm_vcpu_unblocking(struct kvm_vcpu *vcpu)
+-int amd_iommu_update_ga(int cpu, bool is_run, void *data)
++int amd_iommu_update_ga(int cpu, void *data)
  {
-+
- 	avic_set_running(vcpu, true);
+ 	unsigned long flags;
+ 	struct amd_iommu *iommu;
+@@ -3552,8 +3552,10 @@ int amd_iommu_update_ga(int cpu, bool is_run, void *data)
+ 						APICID_TO_IRTE_DEST_LO(cpu);
+ 			ref->hi.fields.destination =
+ 						APICID_TO_IRTE_DEST_HI(cpu);
++			ref->lo.fields_vapic.is_run = true;
++		} else {
++			ref->lo.fields_vapic.is_run = false;
+ 		}
+-		ref->lo.fields_vapic.is_run = is_run;
+ 		barrier();
+ 	}
+ 
+diff --git a/include/linux/amd-iommu.h b/include/linux/amd-iommu.h
+index 58e6c3806c09..005aa3ada2e9 100644
+--- a/include/linux/amd-iommu.h
++++ b/include/linux/amd-iommu.h
+@@ -165,8 +165,7 @@ static inline int amd_iommu_detect(void) { return -ENODEV; }
+ /* IOMMU AVIC Function */
+ extern int amd_iommu_register_ga_log_notifier(int (*notifier)(u32));
+ 
+-extern int
+-amd_iommu_update_ga(int cpu, bool is_run, void *data);
++extern int amd_iommu_update_ga(int cpu, void *data);
+ 
+ extern int amd_iommu_activate_guest_mode(void *data);
+ extern int amd_iommu_deactivate_guest_mode(void *data);
+@@ -179,8 +178,7 @@ amd_iommu_register_ga_log_notifier(int (*notifier)(u32))
+ 	return 0;
+ }
+ 
+-static inline int
+-amd_iommu_update_ga(int cpu, bool is_run, void *data)
++static inline int amd_iommu_update_ga(int cpu, void *data)
+ {
+ 	return 0;
  }
 -- 
 2.34.1.400.ga245620fadb-goog
