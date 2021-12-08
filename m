@@ -1,70 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7BE46D307
-	for <lists.iommu@lfdr.de>; Wed,  8 Dec 2021 13:08:25 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 850F646D327
+	for <lists.iommu@lfdr.de>; Wed,  8 Dec 2021 13:19:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 85A7E6078F;
-	Wed,  8 Dec 2021 12:08:20 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 276C641DD4;
+	Wed,  8 Dec 2021 12:19:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CV-pSpl2Y1eW; Wed,  8 Dec 2021 12:08:19 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1e1g_9aUaC4z; Wed,  8 Dec 2021 12:19:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 21FE460F67;
-	Wed,  8 Dec 2021 12:08:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6016B41DAE;
+	Wed,  8 Dec 2021 12:19:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DF73DC0012;
-	Wed,  8 Dec 2021 12:08:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 249BEC0012;
+	Wed,  8 Dec 2021 12:19:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 86C68C002F
- for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 12:08:16 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 65D60C0012
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 12:19:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5F79460F60
- for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 12:08:16 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 54B3D41D93
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 12:19:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OCP-QZBo4CtN for <iommu@lists.linux-foundation.org>;
- Wed,  8 Dec 2021 12:08:15 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4glHvR7zoxyk for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Dec 2021 12:19:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C4C3F6077B
- for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 12:08:15 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a00:c281:1230:3700:51d0:7039:5913:64d3])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 32EAE1F45CD8;
- Wed,  8 Dec 2021 12:08:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638965294; bh=G9wyjm+JcpBuGTU5PaSnqlWsQq2znoMjrDZdkywQlnY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=kb9C2fVQI5+8rtQymm3l8HLiyN1QCH1KfHOfc2PhFGn8d4y6GjxkbBlNqwN+BWm8r
- tch0oDrm0FD0HQdryvlsVIfJJ0dusjcsu2ADofkLLCSrNiFxzl5Ay5tGUcX/vRNjtu
- XG9fcXd7SfGgSRwLqI5j9+emeLaPrb5hXG4cR/ltLxktw69haPyl5fE2wG9ubSqsZS
- /utSX3pQofgpXnRw3rJz+I1lKY5tZXhenJxqYb+3VgBZMuCiiphKm9mU2BXHI6f4dO
- JvyNF2dk2EPtspUhBswvj2ItrSCam2agdjtme10+dlxlepmxpFM6GtmItR2U+vr7Nt
- LeT/rOo5k21/w==
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To: iommu@lists.linux-foundation.org, Yong Wu <yong.wu@mediatek.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org (moderated list:MEDIATEK IOMMU DRIVER),
- linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC support),
- linux-kernel@vger.kernel.org (open list), dafna.hirschfeld@collabora.com,
- kernel@collabora.com, linux-media@vger.kernel.org,
- sebastian.reichel@collabora.com
-Subject: [PATCH v2 5/5] iommu/mediatek: Always tlb_flush_all when each PM
- resume
-Date: Wed,  8 Dec 2021 14:07:44 +0200
-Message-Id: <20211208120744.2415-6-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
-References: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 441D841CC5
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Dec 2021 12:19:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 885C81042;
+ Wed,  8 Dec 2021 04:19:02 -0800 (PST)
+Received: from e123427-lin.cambridge.arm.com (unknown [10.57.36.149])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4DB33F73B;
+ Wed,  8 Dec 2021 04:18:59 -0800 (PST)
+Date: Wed, 8 Dec 2021 12:18:54 +0000
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Jon Nettleton <jon@solid-run.com>
+Subject: Re: [PATCH v7 2/9] ACPI/IORT: Add support for RMR node parsing
+Message-ID: <20211208121854.GA7317@e123427-lin.cambridge.arm.com>
+References: <20210805080724.480-1-shameerali.kolothum.thodi@huawei.com>
+ <20210805080724.480-3-shameerali.kolothum.thodi@huawei.com>
+ <e24df2a9-1332-0eb3-b52a-230662fe46ba@arm.com>
+ <CABdtJHvY5XnQN7wgQ9D8Zcu-NgHRmaUMFPgaPGZwM+AhmVpULw@mail.gmail.com>
+ <3225875e-ebd9-6378-e92c-ed3894d8aedc@arm.com>
+ <CABdtJHsOShKrRMp33JvbVKuTMLEcHQKaDw0wtZ0igoeGeWJTQg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CABdtJHsOShKrRMp33JvbVKuTMLEcHQKaDw0wtZ0igoeGeWJTQg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: Will Deacon <will@kernel.org>, Linuxarm <linuxarm@huawei.com>,
+ Steven Price <steven.price@arm.com>,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ wanghuiqiang <wanghuiqiang@huawei.com>, Hanjun Guo <guohanjun@huawei.com>,
+ yangyicong <yangyicong@huawei.com>, Sami Mujawar <Sami.Mujawar@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,58 +75,109 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yong Wu <yong.wu@mediatek.com>
+On Tue, Oct 12, 2021 at 10:00:24AM +0200, Jon Nettleton wrote:
+> On Mon, Oct 11, 2021 at 4:04 PM Robin Murphy <robin.murphy@arm.com> wrote:
+> >
+> > On 2021-10-09 08:06, Jon Nettleton wrote:
+> > [...]
+> > >>> +             if (rmr->flags & IOMMU_RMR_REMAP_PERMITTED) {
+> > >>> +                     type = IOMMU_RESV_DIRECT_RELAXABLE;
+> > >>> +                     /*
+> > >>> +                      * Set IOMMU_CACHE as IOMMU_RESV_DIRECT_RELAXABLE is
+> > >>> +                      * normally used for allocated system memory that is
+> > >>> +                      * then used for device specific reserved regions.
+> > >>> +                      */
+> > >>> +                     prot |= IOMMU_CACHE;
+> > >>> +             } else {
+> > >>> +                     type = IOMMU_RESV_DIRECT;
+> > >>> +                     /*
+> > >>> +                      * Set IOMMU_MMIO as IOMMU_RESV_DIRECT is normally used
+> > >>> +                      * for device memory like MSI doorbell.
+> > >>> +                      */
+> > >>> +                     prot |= IOMMU_MMIO;
+> > >>> +             }
+> > >>
+> > >> I'm not sure we ever got a definitive answer to this - does DPAA2
+> > >> actually go wrong if we use IOMMU_MMIO here? I'd still much prefer to
+> > >> make the fewest possible assumptions, since at this point it's basically
+> > >> just a stop-gap until we can fix the spec. It's become clear that we
+> > >> can't reliably rely on guessing attributes, so I'm not too fussed about
+> > >> theoretical cases that currently don't work (due to complete lack of RMR
+> > >> support) continuing to not work for the moment, as long as we can make
+> > >> the real-world cases we actually have work at all. Anything which only
+> > >> affects performance I'd rather leave until firmware can tell us what to do.
+> > >
+> > > Well it isn't DPAA2, it is FSL_MC_BUS that fails with IOMMU_MMIO
+> > > mappings.  DPAA2 is just one connected device.
+> >
+> > Apologies if I'm being overly loose with terminology there - my point of
+> > reference for this hardware is documentation for the old LS2080A, where
+> > the "DPAA2 Reference Manual" gives a strong impression that the MC is a
+> > component belonging to the overall DPAA2 architecture. Either way it
+> > technically stands to reason that the other DPAA2 components would only
+> > be usable if the MC itself works (unless I've been holding a major
+> > misconception about that for years as well).
+> >
+> > In the context of this discussion, please consider any reference I may
+> > make to bits of NXP's hardware to be shorthand for "the thing for which
+> > NXP have a vested interest in IORT RMRs".
+> 
+> Ultimately the spec doesn't mention what IOMMU properties the regions
+> should have.
 
-Prepare for 2 HWs that sharing pgtable in different power-domains.
+It will have to and that's what we are working on.
 
-When there are 2 M4U HWs, it may has problem in the flush_range in which
-we get the pm_status via the m4u dev, BUT that function don't reflect the
-real power-domain status of the HW since there may be other HW also use
-that power-domain.
+> Even marking them as IOMMU_READ/WRITE is as much of an assumption as
+> using IOMMU_MMIO or IOMMU_CACHE. It just seems IOMMU_MMIO is the most
+> popular since all the examples use it for MSI doorbells in the
+> documentation.
 
-DAM allocation is often done while the allocating device is runtime
-suspended. In such a case the iommu will also be suspended and partial
-flushing of the tlb will not be executed.
-Therefore, we add a tlb_flush_all in the pm_runtime_resume to make
-sure the tlb is always clean.
+We don't merge code based on assumptions that can easily break because
+the specifications don't contemplate the details that are required.
 
-In other case, the iommu's power should be active via device
-link with smi.
+> I am interested why this concern is only being brought up at this point
+> on a patchset that has been on the mailing list for 8+ months? 
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-[move the call to mtk_iommu_tlb_flush_all to the bottom of resume cb, improve doc/log]
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/iommu/mtk_iommu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+See above. We don't merge code that we know can break and is based on
+assumptions, we need to update the IORT specifications to make them
+cover all the use cases - in a predictable way - and that's what we are
+working on.
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 195a411e3087..4799cd06511b 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -997,6 +997,13 @@ static int __maybe_unused mtk_iommu_runtime_resume(struct device *dev)
- 	writel_relaxed(reg->ivrp_paddr, base + REG_MMU_IVRP_PADDR);
- 	writel_relaxed(reg->vld_pa_rng, base + REG_MMU_VLD_PA_RNG);
- 	writel(m4u_dom->cfg.arm_v7s_cfg.ttbr & MMU_PT_ADDR_MASK, base + REG_MMU_PT_BASE_ADDR);
-+
-+	/*
-+	 * Users may allocate dma buffer before they call pm_runtime_get,
-+	 * in which case it will lack the necessary tlb flush.
-+	 * Thus, make sure to update the tlb after each PM resume.
-+	 */
-+	mtk_iommu_tlb_flush_all(data);
- 	return 0;
- }
- 
--- 
-2.17.1
+> This is based on a spec that has existed from Arm since 2020 with the
+> most recent revisions published in Feb 2021.  The lack of RMR support
+> in the kernel is affecting real world products, and the ability for
+> SystemReady ES certified systems from just fully working with recent
+> distributions.
 
+I answered above - if you have any questions please ask them, here,
+as far as Linux code is concerned.
+
+I understand this is taking a long time, it is also helping us
+understand all the possible use cases and how to cover them in
+a way that is maintainable in the long run.
+
+Thanks,
+Lorenzo
+
+> Even worse, is that without this patchset customers are forced to jump
+> through hoops to purposefully re-enable smmu bypass making their
+> systems less secure.
+> 
+> How is this a good experience for customers of SystemReady hardware
+> when for any mainline distribution to work the first thing they have
+> to do is make their system less secure?
+> 
+> -Jon
+> 
+> >
+> > Thanks,
+> > Robin.
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
