@@ -1,198 +1,141 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F3246E884
-	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 13:31:15 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDD546EA5F
+	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 15:51:34 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C67C883E6D;
-	Thu,  9 Dec 2021 12:31:13 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4BA1A61258;
+	Thu,  9 Dec 2021 14:51:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 38uUTasLWQIG; Thu,  9 Dec 2021 12:31:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9D76783E34;
-	Thu,  9 Dec 2021 12:31:12 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TEWj0_7zdHq2; Thu,  9 Dec 2021 14:51:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1546061257;
+	Thu,  9 Dec 2021 14:51:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C25BC0039;
-	Thu,  9 Dec 2021 12:31:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ADF2EC0012;
+	Thu,  9 Dec 2021 14:51:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 815FCC0012
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 12:31:10 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 984D7C0012
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 08:14:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5BD4641BE4
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 12:31:10 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8E27981D0C
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 08:14:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com header.b="BRZDT50u";
- dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com
- header.b="pSZWcSyA"
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8oNy82iqM3fd for <iommu@lists.linux-foundation.org>;
- Thu,  9 Dec 2021 12:31:09 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 8FEF341BE3
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 12:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639053069; x=1670589069;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=BfZHvelC2EcY/I8Pw4YsrpW/AoyjDziBZOjn+4Z5leU=;
- b=BRZDT50uJAne4Ehw6fmZeBNvFMcxFRazpJJe+RInTGob9PZht5Dzr6Wv
- 2RNThAigiqXkX39e0n0oI4rlnFdI7G8BlPKDjHmEzl2f/o4j9T1RUpNC9
- YGci3LeGh+QkXYGItCTol3QDjJ6DQdVzM2QnuU8vb1yj5+NExdKEaR1aK
- qu3ttYgBdvXPKLGIOrTN9qEoGwRCpadjQwfAPkuMQttUDZITrA+9/SxR7
- p0wIxq4o22l60kkYftVLd2AON+WCEN/PoIvxM/ZkmQrpqg3zUvix4wCG0
- IU0Sxgql46J6wn/UZlEewfUa6Yw2LqTzzonHj6U070JM/ic3lNxQ9+MXS A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="298877653"
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="298877653"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 04:31:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="752489893"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga005.fm.intel.com with ESMTP; 09 Dec 2021 04:31:08 -0800
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 9 Dec 2021 04:31:08 -0800
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 9 Dec 2021 04:31:07 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Thu, 9 Dec 2021 04:31:07 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Thu, 9 Dec 2021 04:31:07 -0800
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=microsoft.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id w0ekEUb0DONR for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Dec 2021 08:14:43 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-cusazlp17010001.outbound.protection.outlook.com [40.93.13.1])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 42DB281D02
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 08:14:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MbwHKE60pOvBzpKkjTu9dycdXehlaSq0sqdDEiI+youEynlfkTdQOQ9nLPus1R2NCIIo4myajY/2N+4D5yIiLRkDhFVICxYaBVTxYS3jROvJlDw0xIeIFse19rLbcIIPE26/+OBcto5sf2oxkiED2G+eBWip9RqWWgOu+kOh+UwSj+b7TZENNnJGEJXHMgw0BTA79Ow01r+h5IskJEubD4/OMpW3vRxmxMPdZeLr5uGTHz+IjCl1yCjSsNnmGqLOOvPomsRIJoGGi0/KUP5OAWAuPzOFEKYcoI84ID7+VFyDK6uHsYFY0Hv3nu+qsXRdYJ/DkdAK6YyRWM+ig1T/HQ==
+ b=Xbr6dabkWIx7fIib3/lnsHxtolFrVqZ/hrAvhQG1cEN6txZGm8eY9PDRO/Ib8YalDmaUXHX7ZOx1Mem4trr9forMu0R+vAKLDoWD2csh7u61YfISy+Dv/Vossg+guriMq/gThJvwWfP99tPU9Qj236HXlBr64ZwpXGjWApRJP6KTDsE7e6d4jji6TuHJrbWGrhTFYsMqazJ6ofjiPqytL2Sw68/6FZ8exfwZNjQDB74QjBgDlkIoqORw0fUS9jnEdJ5dLmXwAvBGl7VtEzJTJcnAh8eTzhPmFmTjVh7gGkah+lNwCjKKkV9JSmkTnE+breXP2GokIlBjMqpdsvGmdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eRJ4BjgOA2w8/QLDE0sI0cvWAu+qB6YlsXYS7r9lJw4=;
- b=Q7qgoFR3t1KroijMoyIXdRY5Oz1mWULrU+a8xmFk7RgmBhIQgnJ1p+0xfwNBs6jIympehayRBNJjt54jzH3iVqLIbRDF2evvILNJ1qTKYc5oi29r/R9PGtKulj752lXLy2WAt+EnJOmL2y/hAaolX1XEMvy8mmZzLl/ro15LtDWK0JpR0deChy3mMWe55TiAn1vLFaQheupwVATW3dtHrY8U12snsYWu3vJG9YM462Vk7wmg9PZvHeNyxdvTLNHFI8+ezw+pAWHU95Glsm7Un6bN3QqeE6vCHCPXxInCMvMFpCUliRl+vtSwZiE1e+lMdsMeFPPcqUXdJe/PqcHQ2A==
+ bh=8pYfuxx9XaLF/ir07erjUL+58rdUqyRH1Ku1mItBe+Y=;
+ b=TeUELVMizASxh8SSC3W989pEzc7TKnglRnUGDa4H1RXjWZvvVQw1xUlzPQDSwj94QHr0hQjLLMEXTXK5zu381+re2RJ/Zn9WspIw35PgzwWDEMRhGd9HYDh5SdQLWw5bKyYZ1HtqtU26VDD7zF8HekHPe3JIrVaJQRp4C5JWrdcQTWHHNsiRbr3tWTiE027Dw/TCiPaQg+nw9+vJmw+bzQlFfrcbLJMAyH6otMeWXcQS8YT/rKWKbkiltwEZ4oVn49dhaB/FV849GGV1mB3Vggy+PxfYJL9HScRaV9Vg/Che9uMSOFAb4/I9BMoj+WajbCZ9WfPfmKidWpZsGkF/kw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eRJ4BjgOA2w8/QLDE0sI0cvWAu+qB6YlsXYS7r9lJw4=;
- b=pSZWcSyA9g3QN3/SewB5YZMdBT9LW/xfjlNpSyT7a1f9d49I/utuWlVFjvuWl8YryF6YrgWPyHHo7jcneoQqvwavRTfb0wJdQuD28ybgpj/u4d7UmF/BYGH2gofMmlDlg/GSxtVxvU0LeCG91AnMmy5n4R0fyJriXXcmA/Hyc/Y=
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by BN9PR11MB5225.namprd11.prod.outlook.com (2603:10b6:408:132::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Thu, 9 Dec
- 2021 12:31:06 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04%2]) with mapi id 15.20.4755.016; Thu, 9 Dec 2021
- 12:31:05 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, "Jiang, Dave"
- <dave.jiang@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: RE: [patch 21/32] NTB/msi: Convert to msi_on_each_desc()
-Thread-Topic: [patch 21/32] NTB/msi: Convert to msi_on_each_desc()
-Thread-Index: AQHX4y1VNaiO68omHEet2J9DWrVARKwa1YEAgAAp0QCAABreAIAAIi2AgAE8MoCAAAd1gIAACyoAgAAPcQCAADDDAIAAp1uAgABn9QCAACTxgIAAAdGAgAAbd4CAAA94gIAABpSAgAt9SoCAADlJAIAAPbeA
-Date: Thu, 9 Dec 2021 12:31:05 +0000
-Message-ID: <BN9PR11MB527661C48959F977AC3594438C709@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20211126230957.239391799@linutronix.de>
- <20211126232735.547996838@linutronix.de>
- <7daba0e2-73a3-4980-c3a5-a71f6b597b22@deltatee.com> <874k7ueldt.ffs@tglx>
- <6ba084d6-2b26-7c86-4526-8fcd3d921dfd@deltatee.com> <87ilwacwp8.ffs@tglx>
- <d6f13729-1b83-fa7d-3f0d-98d4e3f7a2aa@deltatee.com> <87v909bf2k.ffs@tglx>
- <20211130202800.GE4670@nvidia.com> <87o861banv.ffs@tglx>
- <20211201001748.GF4670@nvidia.com> <87mtlkaauo.ffs@tglx>
- <8c2262ba-173e-0007-bc4c-94ec54b2847d@intel.com> <87pmqg88xq.ffs@tglx>
- <df00b87e-00dc-d998-8b64-46b16dba46eb@intel.com> <87k0go8432.ffs@tglx>
- <f4cc305b-a329-6d27-9fca-b74ebc9fa0c1@intel.com> <878rx480fk.ffs@tglx>
- <BN9PR11MB52765F2EF8420C60FD5945D18C709@BN9PR11MB5276.namprd11.prod.outlook.com>
- <87sfv2yy19.ffs@tglx>
-In-Reply-To: <87sfv2yy19.ffs@tglx>
+ bh=8pYfuxx9XaLF/ir07erjUL+58rdUqyRH1Ku1mItBe+Y=;
+ b=amvOnwCjDM57AhzF6k2EYrw0qa5H9gHP34EacgGCKZUY+Q4mxwOJEHfpOdrUCIHZjRIOp/Vj+GSgIbidtl/V8PasY8K/bd4mdoKwm8qGY7WUxCvBxeyAOKzcNnrBM/oDZWtHLs1LXpev3dfHEWfrXX6rm5Lo9rLsOeLYilpGsKw=
+Received: from BY5PR21MB1506.namprd21.prod.outlook.com (20.180.35.76) by
+ BYAPR21MB1686.namprd21.prod.outlook.com (52.135.222.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4801.7; Thu, 9 Dec 2021 08:00:26 +0000
+Received: from BY5PR21MB1506.namprd21.prod.outlook.com
+ ([fe80::1db2:a482:d774:93ea]) by BY5PR21MB1506.namprd21.prod.outlook.com
+ ([fe80::1db2:a482:d774:93ea%3]) with mapi id 15.20.4713.004; Thu, 9 Dec 2021
+ 08:00:26 +0000
+To: Tianyu Lan <ltykernel@gmail.com>, KY Srinivasan <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Stephen Hemminger
+ <sthemmin@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan
+ Cui <decui@microsoft.com>, "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+ <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "davem@davemloft.net"
+ <davem@davemloft.net>, "kuba@kernel.org" <kuba@kernel.org>,
+ "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
+ <martin.petersen@oracle.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "hch@infradead.org" <hch@infradead.org>, "m.szyprowski@samsung.com"
+ <m.szyprowski@samsung.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, "thomas.lendacky@amd.com"
+ <thomas.lendacky@amd.com>, "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Subject: RE: [PATCH V6 4/5] scsi: storvsc: Add Isolation VM support for
+ storvsc driver
+Thread-Topic: [PATCH V6 4/5] scsi: storvsc: Add Isolation VM support for
+ storvsc driver
+Thread-Index: AQHX6z/0MdbPZMb29kOxpYi7UQICZqwpzfxg
+Date: Thu, 9 Dec 2021 08:00:25 +0000
+Message-ID: <BY5PR21MB1506535EF9222ED4300C38BBCE709@BY5PR21MB1506.namprd21.prod.outlook.com>
+References: <20211207075602.2452-1-ltykernel@gmail.com>
+ <20211207075602.2452-5-ltykernel@gmail.com>
+In-Reply-To: <20211207075602.2452-5-ltykernel@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=425896c8-41fc-478c-aa48-5910dd9b0060;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-12-09T07:56:16Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9d9ee7df-7739-44f6-17d1-08d9bb0fc552
-x-ms-traffictypediagnostic: BN9PR11MB5225:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <BN9PR11MB5225CEBF159EA437CBE8077A8C709@BN9PR11MB5225.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-office365-filtering-correlation-id: d6bc52d8-8958-43d0-2845-08d9bae9f59d
+x-ms-traffictypediagnostic: BYAPR21MB1686:EE_
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <BYAPR21MB168676257E98D71DCAFF639DCE709@BYAPR21MB1686.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1388;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2f3vYV16NT+9F9FMfeY3CKcItDP1NBSrmOQHFkNrrKaFr6PWUsZZ0u41KxlQ8FImwpvLVjy441FAbaeVs3CUC/rgs9YlECBAQQHXWwaI6NAPH7/GtBTxVoSJ37tTQwrOw3cfFXGuYXusfJI5Rq2q5KJ5TRqGRMIPhfeJ3Q2t2qImUD81/4/pFH4RktiNqEweZUlIOtTYYQdohCIHC4LGkysKIuec0W8OWOG2sAkqZYwWwo838WbtsVnm1XOT8dOqOO92BPFOfPoGeOtNeapGG+QIa4qhhz+kaU7bqFm6LtWuwzMuv3m4otorFtr4QSnZRhBYqgzZpEddcSy5Z61lKk7sAc2dyu60HBNt1j3JWtNwkIabBM0Fvijll0IaSYfmsgRtj4LMCOWAjL+e8eek1Th+rO0AZZFHk1F7NxPsZgj+izKWHsDVpnBU0BhAnZlyJyVbcIeM9DWfOXiyOXjPfE5k3lIFY7pHAgx1lhh7i4hfbgZqiFumheQk4tHhj3qpcXugpvZ/Af4Xl7IjrmDjIWVUqvDVX3G8f5xme+J0GyQQyMaH1D+9odVaoU5mW+BXwLwfMEBtNmc4mXgq/arsWkWKPjXsjpucZ0apEbLlncqJCiebTHAT0IhTTQj8xkKhwWjcxWcVw5NBA/WZ/rGjWt4CmCWtx5IM1886uybp7JyaGRG8ckXzA3Nu3K+Kg2QbhGpmX7AI2RXN0bH62fq2Qw==
+x-microsoft-antispam-message-info: VqkO6j6Nlp7CadSqBY/stSqWbBjicTpnSfelqHt+KXA+RgeBiD2dTfUNCQHHXAjMQ55jMUqBu7xuDjS76OLm38gCaU18T9tJXBGV/DFXwSZqIncEtOTHQ58DdzZRWwRxZACqMSIXf3FKBpVQ7ARa6eLdY7dg1d4OONYNIRfIqU4//TdRvbixyIU2E0wlKL8Jvc5YrJOS3fqal3NtiVEDoEuVdXrYGuhcd6xxmjFUO2B77zt4+DgjWq69Tg+2S/SkzE4kkJqbbFK+Ky9GP0pRNv3P5ozHXOWEIfQI7Xsgc9tRJfnUnsXY1RK19NnY9kNp7Z2aL79YqJUcuxMK2yCDhBpZRGO5yx27RhxthPVU80oZb6eDhWu37cF2CJAN6JgTiCyt4nHtFunpdxgbezP4U+PO9PLJwwKHbyBT4k//M5O4aZuBQXAECzZriDYjMsbAfDLloJSv12g99VXadrxwPwnsJQS/fKvzpbZQfwMrr2uXWyk0+PLXQ+jBKs6BPDYTjeL2sHf0PkVwBp4LRBKB0P0Cyr7eRtXX0KPNHquyLZKV3YEgVAK5HmHzsj0HMIZAMX55KmudZSA+SK2wcOkmoCWloEW7bqq2Zi15oKVgHg4XEag5YYGsi72IbCihKV3jjA8eD/4rZ0BjOumuiWtQQacNEVywx3yCy5YqwnA08/NP2s90zyzC2qms+Qj9waAz
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(508600001)(8936002)(66556008)(86362001)(66476007)(54906003)(8676002)(2906002)(66446008)(64756008)(66946007)(71200400001)(38070700005)(7696005)(83380400001)(76116006)(7416002)(110136005)(186003)(6506007)(5660300002)(82960400001)(55016003)(26005)(52536014)(38100700002)(316002)(33656002)(9686003)(4326008)(122000001);
+ IPV:NLI; SFV:NSPM; H:BY5PR21MB1506.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(86362001)(64756008)(122000001)(66476007)(9686003)(4326008)(52536014)(38070700005)(82960400001)(2906002)(82950400001)(921005)(66446008)(8676002)(7696005)(66556008)(10290500003)(38100700002)(186003)(8936002)(5660300002)(26005)(83380400001)(76116006)(66946007)(71200400001)(508600001)(33656002)(8990500004)(6636002)(54906003)(316002)(110136005)(55016003)(6506007)(7406005)(7416002)(20210929001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kD8YDDAyEnbo1xE8TgMDgy2NNf10AQCr75wHI79Vmhft1gJM9IO5YTatQ6zx?=
- =?us-ascii?Q?Lf9HoSs1NVeA8Uon+W9CclGY84rh4a73oU0HzTnCo1RsD9j7XDMN2jcmu9+3?=
- =?us-ascii?Q?FcBcRj6BJXE5iACNlsnvFwa0Lm6dGSK/pK3n14K1FwnTG2zwTnG/1/s9uDzG?=
- =?us-ascii?Q?GM+ebwUnO6IooDZ4zVSt4w6Tu7l141WjKEnWIQKPbAYi+BDHKgB5u7gaGx8L?=
- =?us-ascii?Q?z3xEdhOvvbaa8CmD+c8mINZhAziMzDikFP82gbk6dPMT2cP+m5C4N0fR2Iwn?=
- =?us-ascii?Q?tVazETEl8bAR8fQpws5Sa1BWA7l0QGfD2W3umZbM9//ybj/fFKS3DBuGOY7s?=
- =?us-ascii?Q?/pJ2+iDaR5ulHFXqZc5D97j4+bDnkQCTBsIQKlXUNp00j0nJkRTtvbtag/M1?=
- =?us-ascii?Q?hb8wwmk330qfjnC6SFvjx92OK8mjyr/W+oZ271h0Z8wGf9+V6x1bBspfRcLK?=
- =?us-ascii?Q?+d3WEjcLYzaK59EisyllsNDHASsQBGrGhRiWMmT8Yz+fzfbFr1/SqVLyTaGO?=
- =?us-ascii?Q?m+Zr0cuJSgWx9jDZ0BcJ5pAZuboni9Tct96un4kwSizS5Vrh3v05DAPwN+gp?=
- =?us-ascii?Q?UyeCZGQ4Cpd0TJW+XDt/rQYajoxkoyk7q368lAVi5MfNGPLB9IcSvG3aJ/Gj?=
- =?us-ascii?Q?Wo3vkabH35OVrZqbvVIr+EAaqIlx2vu33MUq3tSfCx3ExoHVI6g6/2vVd1Oq?=
- =?us-ascii?Q?uWWT82jkQ9zXV6t/R56kvh38QgkZA2Jknhn5q/Yo0ZjAbIBgTVFDw47Bmbkv?=
- =?us-ascii?Q?1KPUY6lW1heaeFYVjAUS/X38snlXAaq1PY1V/FItU8ra6F2p0RqM2sEqWtWw?=
- =?us-ascii?Q?B60tVj8TRT/Mi/jq5JtKFjGRrBY6CNEXXYsHbXtOnm4E8wFFRpt5hJvuuldf?=
- =?us-ascii?Q?rxrGDaSjZlxl3eHvYuafP6frwWvW9rraVxUdUVUy+NUQvk+O4tQIE98lBxii?=
- =?us-ascii?Q?I4eNYm2t2tMtNVTVFlzOGq3T5bOT/DN0XeeXbFTWLjTMXZ3cRCxpzbWvMAve?=
- =?us-ascii?Q?NBJDdQt6evXRmJn8VVR6twr3xJwkvQa9+ae5NXxaWNUMoISHPMJW9tih1Fcu?=
- =?us-ascii?Q?HAoUoGEhPpEa9Zy9HqoZEovqHmMB2qP6FIgrHmmzgqKXlbFS8EWd0Hk8wlIQ?=
- =?us-ascii?Q?evf/NlHqKSH1BnDQ1qP0Hq49sB3SUovfB7pVlIP+ZRiS/lNMrevgqiOxszme?=
- =?us-ascii?Q?UfXhA8pmKpn6xafzPMuwqGoI/Jy4cE+KiDON0OBWgAfnxYXm2a99CtvNpawB?=
- =?us-ascii?Q?r36rk+bPTALwXd2/ClmpOU0K3+SVa88ptrlr5wUsWvFtnQYzPi+MAUGuih2x?=
- =?us-ascii?Q?ufkcCylyathIQzhZC/Ye3UBbd9WfSciEzRqGDDLFpWgULDNDTZLYWZtAAc3T?=
- =?us-ascii?Q?otVGFDh83cQ26fGHtZhnymEW99zS4x4n4ERpRuGQMsZc74r2m2SUyss8KVFH?=
- =?us-ascii?Q?p4AXtaFxR51YirkU88sa+ih86tk1l8FgYSLcfS0Hq9YWr5gm4crT9hV7CviS?=
- =?us-ascii?Q?vyZ7hAsN5IURawVz6ZkvxrbxyoPOZSIK/ihkLJWqMUkaREwcm55FTVlGJIvp?=
- =?us-ascii?Q?A0HItxy6Nrwc1Ct09j8c9jOnH+UiDsWpGCvnzIXQQ9bWlPI2cS6aUgJNjSDv?=
- =?us-ascii?Q?SmOOB7fjN207xyEKLF/0x0E=3D?=
+x-ms-exchange-antispam-messagedata-0: Lhjr5R2D8mbk2c2OmkkjVCMlNl+utiNl9e+rNDwguL21XzFeqFbGBcjZxc6O15bcvQB4T2UDeY/M6AsnqvqMSKLYAp4E8WjW3Xu0h8Oy3jFCu30pKHvimghhR5w9Ra3Jbr++RTo+/v9taNdBD2n/eg4eOtu3qOTgX3WWlUP9r0BW0nT+7/BTKCKVRaimiZS4FETigK+Dx9Dn5xCIcgVG/hZtfwsGYHxbnNszS+AXTyZFyRDvfTDoMh5o1miL7s/UqetvtfWvDakud06nl7qtjzwyRWWkMzIXCQkk4WsM/lfPIaF93MJEGUj/+YWh90gOFTcgkOhl6jZQ696lgBpUSQVUqZ2WRj8l05Cf+589tzgpZFmemJ9zFOVvFk+GJVhifapSHx9owmVNE0wpyWvMATyDKjASfF4y/PdCsK3SUmHriSOYRtstE0D/nn35ePzC
 MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d9ee7df-7739-44f6-17d1-08d9bb0fc552
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2021 12:31:05.7836 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR21MB1506.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6bc52d8-8958-43d0-2845-08d9bae9f59d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2021 08:00:25.9444 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /u+GxY5vDMTz68HmzxMEcv1CTr3jIsj8YkASHaMLY8r1oX0T14dp5og9RqphwlKwHjUQkcHpjO6GWdAVfCRzvQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5225
-X-OriginatorOrg: intel.com
-Cc: Allen Hubbe <allenbh@gmail.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "Raj, Ashok" <ashok.raj@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Marc
- Zygnier <maz@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- LKML <linux-kernel@vger.kernel.org>,
+X-MS-Exchange-CrossTenant-userprincipalname: t7aAFTXlz0zNjvj2qVhv59UfE/+fVp4swHV262b9vwMpDk+cXWj4wmrqMaqei5iXqw7vJmQqVH1vb9giytQQwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR21MB1686
+X-Mailman-Approved-At: Thu, 09 Dec 2021 14:51:30 +0000
+Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dave.hansen@intel.com" <dave.hansen@intel.com>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>, Joerg Roedel <jroedel@suse.de>,
- Bjorn Helgaas <helgaas@kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>,
- Logan Gunthorpe <logang@deltatee.com>, "Dey, Megha" <megha.dey@intel.com>
+ vkuznets <vkuznets@redhat.com>, "hch@lst.de" <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -205,85 +148,193 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Long Li via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Long Li <longli@microsoft.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Thomas Gleixner <tglx@linutronix.de>
-> Sent: Thursday, December 9, 2021 4:37 PM
+> Subject: [PATCH V6 4/5] scsi: storvsc: Add Isolation VM support for storvsc driver
 > 
-> On Thu, Dec 09 2021 at 05:23, Kevin Tian wrote:
-> >> From: Thomas Gleixner <tglx@linutronix.de>
-> >> I don't see anything wrong with that. A subdevice is it's own entity and
-> >> VFIO can chose the most conveniant representation of it to the guest
-> >> obviously.
-> >>
-> >> How that is backed on the host does not really matter. You can expose
-> >> MSI-X to the guest with a INTx backing as well.
-> >>
-> >
-> > Agree with this point. How the interrupts are represented to the guest
-> > is orthogonal to how the backend resource is allocated. Physically MSI-X
-> > and IMS can be enabled simultaneously on an IDXD device. Once
-> > dynamic allocation is allowed for both, either one can be allocated for
-> > a subdevice (with only difference on supported #subdevices).
-> >
-> > When an interrupt resource is exposed to the guest with the same type
-> > (e.g. MSI-on-MSI or IMS-on-IMS), it can be also passed through to the
-> > guest as long as a hypercall machinery is in place to get addr/data pair
-> > from the host (as you suggested earlier).
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 > 
-> As I pointed out in the conclusion of this thread, IMS is only going to
-> be supported with interrupt remapping in place on both host and guest.
+> In Isolation VM, all shared memory with host needs to mark visible to host via
+> hvcall. vmbus_establish_gpadl() has already done it for storvsc rx/tx ring buffer.
+> The page buffer used by vmbus_sendpacket_
+> mpb_desc() still needs to be handled. Use DMA API(scsi_dma_map/unmap) to
+> map these memory during sending/receiving packet and return swiotlb bounce
+> buffer dma address. In Isolation VM, swiotlb  bounce buffer is marked to be
+> visible to host and the swiotlb force mode is enabled.
+> 
+> Set device's dma min align mask to HV_HYP_PAGE_SIZE - 1 in order to keep the
+> original data offset in the bounce buffer.
+> 
+> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> ---
+>  drivers/hv/vmbus_drv.c     |  4 ++++
+>  drivers/scsi/storvsc_drv.c | 37 +++++++++++++++++++++----------------
+>  include/linux/hyperv.h     |  1 +
+>  3 files changed, 26 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c index
+> 392c1ac4f819..ae6ec503399a 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/random.h>
+>  #include <linux/kernel.h>
+>  #include <linux/syscore_ops.h>
+> +#include <linux/dma-map-ops.h>
+>  #include <clocksource/hyperv_timer.h>
+>  #include "hyperv_vmbus.h"
+> 
+> @@ -2078,6 +2079,7 @@ struct hv_device *vmbus_device_create(const guid_t
+> *type,
+>  	return child_device_obj;
+>  }
+> 
+> +static u64 vmbus_dma_mask = DMA_BIT_MASK(64);
+>  /*
+>   * vmbus_device_register - Register the child device
+>   */
+> @@ -2118,6 +2120,8 @@ int vmbus_device_register(struct hv_device
+> *child_device_obj)
+>  	}
+>  	hv_debug_add_dev_dir(child_device_obj);
+> 
+> +	child_device_obj->device.dma_mask = &vmbus_dma_mask;
+> +	child_device_obj->device.dma_parms = &child_device_obj->dma_parms;
+>  	return 0;
+> 
+>  err_kset_unregister:
+> diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c index
+> 20595c0ba0ae..ae293600d799 100644
+> --- a/drivers/scsi/storvsc_drv.c
+> +++ b/drivers/scsi/storvsc_drv.c
+> @@ -21,6 +21,8 @@
+>  #include <linux/device.h>
+>  #include <linux/hyperv.h>
+>  #include <linux/blkdev.h>
+> +#include <linux/dma-mapping.h>
+> +
+>  #include <scsi/scsi.h>
+>  #include <scsi/scsi_cmnd.h>
+>  #include <scsi/scsi_host.h>
+> @@ -1336,6 +1338,7 @@ static void storvsc_on_channel_callback(void
+> *context)
+>  					continue;
+>  				}
+>  				request = (struct storvsc_cmd_request
+> *)scsi_cmd_priv(scmnd);
+> +				scsi_dma_unmap(scmnd);
+>  			}
+> 
+>  			storvsc_on_receive(stor_device, packet, request); @@
+> -1749,7 +1752,6 @@ static int storvsc_queuecommand(struct Scsi_Host *host,
+> struct scsi_cmnd *scmnd)
+>  	struct hv_host_device *host_dev = shost_priv(host);
+>  	struct hv_device *dev = host_dev->dev;
+>  	struct storvsc_cmd_request *cmd_request = scsi_cmd_priv(scmnd);
+> -	int i;
+>  	struct scatterlist *sgl;
+>  	unsigned int sg_count;
+>  	struct vmscsi_request *vm_srb;
+> @@ -1831,10 +1833,11 @@ static int storvsc_queuecommand(struct Scsi_Host
+> *host, struct scsi_cmnd *scmnd)
+>  	payload_sz = sizeof(cmd_request->mpb);
+> 
+>  	if (sg_count) {
+> -		unsigned int hvpgoff, hvpfns_to_add;
+>  		unsigned long offset_in_hvpg = offset_in_hvpage(sgl->offset);
+>  		unsigned int hvpg_count = HVPFN_UP(offset_in_hvpg + length);
+> -		u64 hvpfn;
+> +		struct scatterlist *sg;
+> +		unsigned long hvpfn, hvpfns_to_add;
+> +		int j, i = 0;
+> 
+>  		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
+> 
+> @@ -1848,21 +1851,22 @@ static int storvsc_queuecommand(struct Scsi_Host
+> *host, struct scsi_cmnd *scmnd)
+>  		payload->range.len = length;
+>  		payload->range.offset = offset_in_hvpg;
+> 
+> +		sg_count = scsi_dma_map(scmnd);
+> +		if (sg_count < 0)
+> +			return SCSI_MLQUEUE_DEVICE_BUSY;
 
-I still need to read the last few mails but thanks for pointing it out now.
+Hi Tianyu,
+
+This patch (and this patch series) unconditionally adds code for dealing with DMA addresses for all VMs, including non-isolation VMs.
+
+Does this add performance penalty for VMs that don't require isolation?
+
+Long
 
 > 
-> As these devices are requiring a vIOMMU on the guest anyway (PASID, User
-> IO page tables), the required hypercalls are part of the vIOMMU/IR
-> implementation. If you look at it from the irqdomain hierarchy view:
+> -		for (i = 0; sgl != NULL; sgl = sg_next(sgl)) {
+> +		for_each_sg(sgl, sg, sg_count, j) {
+>  			/*
+> -			 * Init values for the current sgl entry. hvpgoff
+> -			 * and hvpfns_to_add are in units of Hyper-V size
+> -			 * pages. Handling the PAGE_SIZE !=
+> HV_HYP_PAGE_SIZE
+> -			 * case also handles values of sgl->offset that are
+> -			 * larger than PAGE_SIZE. Such offsets are handled
+> -			 * even on other than the first sgl entry, provided
+> -			 * they are a multiple of PAGE_SIZE.
+> +			 * Init values for the current sgl entry. hvpfns_to_add
+> +			 * is in units of Hyper-V size pages. Handling the
+> +			 * PAGE_SIZE != HV_HYP_PAGE_SIZE case also handles
+> +			 * values of sgl->offset that are larger than PAGE_SIZE.
+> +			 * Such offsets are handled even on other than the first
+> +			 * sgl entry, provided they are a multiple of PAGE_SIZE.
+>  			 */
+> -			hvpgoff = HVPFN_DOWN(sgl->offset);
+> -			hvpfn = page_to_hvpfn(sg_page(sgl)) + hvpgoff;
+> -			hvpfns_to_add =	HVPFN_UP(sgl->offset + sgl-
+> >length) -
+> -						hvpgoff;
+> +			hvpfn = HVPFN_DOWN(sg_dma_address(sg));
+> +			hvpfns_to_add = HVPFN_UP(sg_dma_address(sg) +
+> +						 sg_dma_len(sg)) - hvpfn;
 > 
->                          |- PCI-MSI
->   VECTOR -- [v]IOMMU/IR -|- PCI-MSI-X
->                          |- PCI-IMS
+>  			/*
+>  			 * Fill the next portion of the PFN array with @@ -
+> 1872,7 +1876,7 @@ static int storvsc_queuecommand(struct Scsi_Host *host,
+> struct scsi_cmnd *scmnd)
+>  			 * the PFN array is filled.
+>  			 */
+>  			while (hvpfns_to_add--)
+> -				payload->range.pfn_array[i++] =	hvpfn++;
+> +				payload->range.pfn_array[i++] = hvpfn++;
+>  		}
+>  	}
 > 
-> So host and guest use just the same representation which makes a ton of
-> sense.
+> @@ -2016,6 +2020,7 @@ static int storvsc_probe(struct hv_device *device,
+>  	stor_device->vmscsi_size_delta = sizeof(struct vmscsi_win8_extension);
+>  	spin_lock_init(&stor_device->lock);
+>  	hv_set_drvdata(device, stor_device);
+> +	dma_set_min_align_mask(&device->device, HV_HYP_PAGE_SIZE - 1);
 > 
-> There are two places where this matters:
+>  	stor_device->port_number = host->host_no;
+>  	ret = storvsc_connect_to_vsp(device, storvsc_ringbuffer_size, is_fc);
+> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h index
+> 1f037e114dc8..74f5e92f91a0 100644
+> --- a/include/linux/hyperv.h
+> +++ b/include/linux/hyperv.h
+> @@ -1261,6 +1261,7 @@ struct hv_device {
 > 
->   1) The activate() callback of the IR domain
+>  	struct vmbus_channel *channel;
+>  	struct kset	     *channels_kset;
+> +	struct device_dma_parameters dma_parms;
 > 
->   2) The irq_set_affinity() callback of the irqchip associated with the
->      IR domain
-> 
-> Both callbacks are allowed to fail and the error code is handed back to
-> the originating call site.
-> 
-> If you look at the above hierarchy view then MSI/MSI-X/IMS are all
-> treated in exactly the same way. It all becomes the common case.
-> 
-> No?
-> 
+>  	/* place holder to keep track of the dir for hv device in debugfs */
+>  	struct dentry *debug_dir;
+> --
+> 2.25.1
 
-Yes, I think above makes sense. 
-
-For a new guest OS which supports this enlightened hierarchy the same
-machinery works for all type of interrupt storages and we have a
-failure path from host to guest in case of host-side resource shortage.
-And no trap is required on guest access to the interrupt storage.
-
-A legacy guest OS which doesn't support the enlightened hierarchy
-can only use MSI/MSI-X which is still trapped. But with vector 
-reallocation support from your work the situation already improves 
-a lot than current awkward way in VFIO (free all previous vectors 
-and then re-allocate).
-
-Overall I think this is a good modeling.
-
-Thanks
-Kevin
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
