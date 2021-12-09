@@ -1,120 +1,120 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF4B46E358
-	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 08:38:42 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9606146E34E
+	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 08:38:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C467280B2F;
-	Thu,  9 Dec 2021 07:38:40 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0A10E408D1;
+	Thu,  9 Dec 2021 07:38:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id khmu5HIcxGH4; Thu,  9 Dec 2021 07:38:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DA13980C22;
-	Thu,  9 Dec 2021 07:38:39 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Y8xdRwpS93Na; Thu,  9 Dec 2021 07:38:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 02FA6405BF;
+	Thu,  9 Dec 2021 07:38:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B8BFDC0012;
-	Thu,  9 Dec 2021 07:38:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3E5AC0072;
+	Thu,  9 Dec 2021 07:38:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 37EBAC0074
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 07:38:38 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F16CC0012
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 07:38:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id EDB64405AE
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 07:38:37 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 93D3B605F5
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 07:38:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=nvidia.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1VWnrQbocfgH for <iommu@lists.linux-foundation.org>;
- Thu,  9 Dec 2021 07:38:36 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id naKdYEhSy7QX for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Dec 2021 07:38:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2070.outbound.protection.outlook.com [40.107.101.70])
- by smtp4.osuosl.org (Postfix) with ESMTPS id D9D8F40586
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 07:38:35 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C37A4605DA
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 07:38:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jYzKpfC8jxxgvdgKza8QJvFylvkQYOxmddUob44qPoSsZ0ijzR+fc4zovXOaCrJg6371HpaYDco/HRPe4j7S5ANFQOC4FA5V8ssqm8bgAmI0xnwVyhBY7PC7W+3oM5aJI3utL5bEbvW0pq+YXonDadGHte7akzgNRHKLYmcFj6skTc4csRiIOxvR8sDhLkFop/ndhTAYD2BE4dmwIIE4fRYoHpCeLHtRcdqxXT9YZrk+DzeQUdo0kWP6yw/2Qu4x+BmP7BWnf8RTGbtpRph0ndm6bO47UMzTu95xI0VeOy/t199zuu37G/0kwOmZo21meH1RiBXmOV6UlcYmaeAujg==
+ b=b7kpi0z/V8uKcQUKWbE+cOxri/VVYrQ2ppUj805DXRtRegv9typcKClR+plKmcLZ2mnLgZ5BCjLIH3BgFlBMtFb28l6YVjpIY1LYLk4w8wLZghRU8YRhP7NrWBdIobPy+yqKD9sg8jsiWY7Y0z/uFS6hlSBhPe/BCMVCS9wSH+15aIVOWDxvgei2PEIB1d7ue2rcYhxAXJa15nyGBsce66pkOlV7gjemitmhpSrNTOZE60sAadRxFT+/0l87XbPebk+bTSXJAomyWXcXSZJEAOHDqiNkGoiLoukAZI/pSS2j6EHzTYWW9/2I3eCO9nOFgsGcVIdMnWPseKAxy1pAgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LWJI1NWGTQab9INU/ee4SgvyVu4mwH+Z25jTeppM0E4=;
- b=PjedXKCqfpuX71xgsrpw2H33mUcyGVRrLfhTYfeXS4jUbjgMutk6Oypj07S/GJpqhDE1IJdiRPvDhV0HHSxBRt9CTol96y1JJNoPQO4qpA9row8Xt4UfE97fJKl9nZawVC1ZxPy9XnE6fkMrZVucT381TbRAGJxLB3iKYH5/FC3Xnjig4FO59R9hKjd+5CBw1Yu/4xQgzqqU4WAxL+eTbTBHU4k+FIAMCa4K2e1vneg1vp+bPyCXgbKLHCCeTwFLdMJJbfKhts4aKFJCS6wfg1jnvxhCoeH1qLVAHUx2/E80qhWjcfAeWop62SNUHrRYb/sIwSmVSXW2uSkYFWFBjw==
+ bh=pTPyWxfJJzAnO+VP3aN9w7vIUq65eWf0zIjqK0o9WCE=;
+ b=DPbsQymlZbzgpxyB0moJET72Eo4f4suc4085pxw53B81RZGlW4TcXlXCDqgaFefKIQH2YQU4PqH983PC6wMe4QJVxjOjLoPhifHoFocQdllrj02Oy625ORBlAN3g6KBCrlXB/psfOxpARRf7M+Vz0eDqBqbR2GluSnBtY2ga0qCSoX6pnqlCsRuHCBaNuQWNsPrLn5DoaY5RE/I6SsEpX511HA2nRg6tqX4frxzssXXHM9jIKKZlCax61nuDT5TdUEeyAVqJHHHHmrH8BS2xw97WGfAmYrPbnZy9E2KruFyD3uL5qPH1XUTSvbrdKPGHxUMKzo0ti7MWlmB7ZolS+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.12) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ 203.18.50.14) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=nvidia.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LWJI1NWGTQab9INU/ee4SgvyVu4mwH+Z25jTeppM0E4=;
- b=fCsf9jNnLgIc7pHF06L8B28zN0tVm++rl5rAn+16n+IXD2gAvUKJwS9EdnAnmU2/iraYQxLqCiD1x+kf39D1T9/eEBWaR5b75CwKPD371ds05O2RsH7FoSpUx7qW/Y6eHIBdhvDVpM1TtbdKQqUITFSLMu4yzT9sJtTVDYi/uNauBi1FG+6HR50+AVgnSvxU3oPxYZhw4OPU1oQ+kWQb2lQaA8M+WaGJtFLLhJCVDZZhIlDRDyqIgI7vTAW8+LdguWjrIebrPLaXizRTGpi2rFBZP8FtmCkTX/2ia/Yx4MHtX8CgYbd3cEPysmMbJDwhw9Oe0jARojRB6tO3piCiBw==
-Received: from CO1PR15CA0113.namprd15.prod.outlook.com (2603:10b6:101:21::33)
- by BN9PR12MB5066.namprd12.prod.outlook.com (2603:10b6:408:133::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.22; Thu, 9 Dec
- 2021 07:38:33 +0000
-Received: from CO1NAM11FT056.eop-nam11.prod.protection.outlook.com
- (2603:10b6:101:21:cafe::fe) by CO1PR15CA0113.outlook.office365.com
- (2603:10b6:101:21::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20 via Frontend
- Transport; Thu, 9 Dec 2021 07:38:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.12)
+ bh=pTPyWxfJJzAnO+VP3aN9w7vIUq65eWf0zIjqK0o9WCE=;
+ b=XhtuTjdehW8OLbfym5ckMgz66XTvxbiEPzKtFEt22lWfeAMgaeHmlD0dcLSWl1b8YI0DArTh0GVXINbZkMOiGTcs/B8YJveULkmWY8HX7AOhs5cHMbLKnw6TRQFXvHPH6vm9H8BffJpzmImG+cD0JDDEMXvC7viOHwdOh4ex3iz6xscmVQkNGy2kX3pdk1jgxSsNcPlfJj5nCxa2SM/RkQRVsWeMRr2aZ3PDdpVJ293gS2AyGVBNDlXbh3vtzZNX+ZhDMXBGy5oKr8fpZyJRhxJ7lUFijNuNU2134EWU4PNFBQL+68/Sdyh1HaYtP1NqnEkQkIvihnZ2BryUMTzWjw==
+Received: from MWHPR12CA0025.namprd12.prod.outlook.com (2603:10b6:301:2::11)
+ by DM6PR12MB2939.namprd12.prod.outlook.com (2603:10b6:5:18b::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Thu, 9 Dec
+ 2021 07:38:29 +0000
+Received: from CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:301:2:cafe::9) by MWHPR12CA0025.outlook.office365.com
+ (2603:10b6:301:2::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
+ Transport; Thu, 9 Dec 2021 07:38:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.14)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.12 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.12; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (203.18.50.12) by
- CO1NAM11FT056.mail.protection.outlook.com (10.13.175.107) with Microsoft SMTP
+ 203.18.50.14 as permitted sender) receiver=protection.outlook.com;
+ client-ip=203.18.50.14; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (203.18.50.14) by
+ CO1NAM11FT064.mail.protection.outlook.com (10.13.175.77) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 07:38:32 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HKMAIL101.nvidia.com
- (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 07:38:27 +0000
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 07:38:25 +0000
+ 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 07:38:29 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
+ 2021 07:38:28 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 8 Dec
+ 2021 23:38:26 -0800
 Received: from Asurada-Nvidia.nvidia.com (172.20.187.5) by mail.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
  Transport; Wed, 8 Dec 2021 23:38:25 -0800
 To: <thierry.reding@gmail.com>, <joro@8bytes.org>, <will@kernel.org>
-Subject: [PATCH v8 2/6] iommu/tegra-smmu: Rename tegra_smmu_find_group to
- tegra_smmu_find_group_soc
-Date: Wed, 8 Dec 2021 23:38:18 -0800
-Message-ID: <20211209073822.26728-3-nicolinc@nvidia.com>
+Subject: [PATCH v8 3/6] iommu/tegra-smmu: Rename struct tegra_smmu_swgroup
+ *group to *swgrp
+Date: Wed, 8 Dec 2021 23:38:19 -0800
+Message-ID: <20211209073822.26728-4-nicolinc@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211209073822.26728-1-nicolinc@nvidia.com>
 References: <20211209073822.26728-1-nicolinc@nvidia.com>
 MIME-Version: 1.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2bbf8b17-8b21-4337-cd7b-08d9bae6e6e8
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5066:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB50668CD8EF4B427BAADFDE07AB709@BN9PR12MB5066.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Office365-Filtering-Correlation-Id: 98e759fe-e4ff-4da6-f63f-08d9bae6e504
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2939:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB29399185C3B65DC9368E63D5AB709@DM6PR12MB2939.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:480;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5+kxLd74LIZ3cSDu1jmXAPrVlU4gHSH24XX9d5Dg+hzDVf0Fu3PWuQwy7XCPOxGt3IUMeL312xKU9e2dVbWdR2wbODLnAGQ8bJcL/kW1dW9i9GCytmH4jZa5lviaDKVLUAk5AVDLnxzQ6xBFH5RLgRfmC6ChXnemyc3kMfn/48VMf4TcWL+wGcGjBcxT7QindO+8IOwkfCo2A6QzanKjH9P0P2O5ZAgys6vK8fKc8S3n6dcRa0ry49YfjyNoon3qLjAV55PMR306GnpczGnQtDgP0oPGe55+Ko/7NRWwG+FHEYm0iAhbxEihXzV/UcBvCABTxx+4/OZhl3GximTy4YynakiB443IQPbpqSDCuPM4pTxWlutT8kiDLGEYW81q34GuQn82KrR7JwjWuVniBnNvJzGPZzJ35oOsS52mRCjGVIUxA4NRyKitEqMvT+E0qEYtfrzZK6gGZoMuFt3lPLw8TUalNbORA9EFGQWinqqGr35PmQWypjQEBA/+eljvO8HZSKwL4ohq+plLIufscuNZO6+OSi5j4BBc0xPqL4H5rxGuzXwCDAeeJjkKIBf1mEu1/5VHR+UCs7gg8IoSxYUWNpVCaO2/DDgyb3nhWUPvGe1f4X4bw4vpH6NCA7IHgRnH0CyI+2b0mpnBEnLcmx2HuW2ES2sVHg/2heCsQlkxXmjmmbMMa5WhoN1gaMnT9sxPyooWJd4O5GjJH1KYCIxtqa2Ot6fwZSpiXBTmxYFvCsTIgnfssRSW4Vd3KdDTlrojEXs+9mw0fxK3ECLRFkmRDCubXh79D+1sZyB1szQ=
-X-Forefront-Antispam-Report: CIP:203.18.50.12; CTRY:HK; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid01.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(336012)(426003)(4326008)(2616005)(186003)(40460700001)(36756003)(70586007)(2906002)(8936002)(26005)(316002)(8676002)(70206006)(508600001)(86362001)(83380400001)(54906003)(110136005)(1076003)(47076005)(6666004)(36860700001)(5660300002)(7696005)(34070700002)(356005)(82310400004)(7636003);
+X-Microsoft-Antispam-Message-Info: I4AMk3DTCmBsGc5jWiZvDhvd7bEKT7ak4M6jClV6T0bZrVzt/7OWckkIXwRbkC7w6GMY0TFTgqoAl9ymCEjvku5+VF8VzlMuIWOV6xP05wUK3lH6hunu69SuGG4KHXyaQ7Dwc8mJbPr9Ry0+9ksbbBWViQ6QiG0uHDpmMTLI1qes0+eQPpDUaGgj35hLaFXGK6ghsyfqlwj8A2puHQyia6T5EPt0663XHY8WCYqrLb+b189U85/lk+MGatxzTXjgqgB7HnsZ/B8eK14VAjVzaiyOP5mhAZmc97exrBr6w8e5d0o0WRubayeMjBOj9q0rDXtj7ndjfto9b59jEbCscA+r6DgXxoxua99Lo/V3gQIvJpj8oRLK7NYwXdJo5GS9BcUMv9aotoHi7zkY5gBJRj5ddoQoOZkDKBiuMtv/+jTXh3zKXAXm/D8HEPSOMrekBNeBjAAOzqDRoE2gebRBlx8a5BFVhv45hLzf+/H6JBO0+7bRjErvEBtoiMxhu2Qc+FPo+oqFSsjzr8hf+1CKdPa6CoDYSonhJLZMGOWVOpvGRfsNd/G3P2QhrCy9b0VnGqkPjYfR8Iuicd2HHinMsEv3Qy8ospwHN07xoOuvBBrWKksKoz8UsE5yiFv69IIsdgtv++2BR28PdjyV+RsZNHw590Js3StwQehg0Yzy7I0UidPDWsvvH/I3w6V4iGq4grgRSP9zGZ9HnKOR9zwxIP4ZxUCq3lj887BwF12I5AAYFNoKiLmbNxTVAqDpNioNzCj5VoOVYfI137x5ddC83nligbCjKVAPhwgxzm28m+E=
+X-Forefront-Antispam-Report: CIP:203.18.50.14; CTRY:HK; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(7696005)(356005)(47076005)(7636003)(316002)(110136005)(40460700001)(86362001)(2906002)(54906003)(83380400001)(82310400004)(70206006)(36860700001)(70586007)(5660300002)(2616005)(336012)(1076003)(8676002)(426003)(6666004)(4326008)(508600001)(26005)(34070700002)(186003)(36756003)(8936002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 07:38:32.1709 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bbf8b17-8b21-4337-cd7b-08d9bae6e6e8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 07:38:29.3055 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98e759fe-e4ff-4da6-f63f-08d9bae6e504
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.12];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.14];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT056.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5066
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2939
 Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
  jonathanh@nvidia.com, linux-tegra@vger.kernel.org, digetx@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -136,37 +136,116 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The existing function tegra_smmu_find_group really finds group->soc
-pointer, so naming it "find_group" might not be clear by looking at
-it alone. This patch renames it to tegra_smmu_group_soc in order to
-disambiguate the use of "group" in this driver.
+There are both tegra_smmu_swgroup and tegra_smmu_group structs
+using "group" for their pointer instances. This gets confusing
+to read the driver sometimes.
+
+So this patch renames "group" of struct tegra_smmu_swgroup to
+"swgrp" as a cleanup. Also renames its "find" function.
+
+Note that we already have "swgroup" being used for an unsigned
+int type variable that is inside struct tegra_smmu_swgroup, so
+it's not able to use "swgroup" but only something like "swgrp".
 
 Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
 ---
- drivers/iommu/tegra-smmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/iommu/tegra-smmu.c | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index fd9ef08cb7d9..5628865c04b0 100644
+index 5628865c04b0..05a386036fce 100644
 --- a/drivers/iommu/tegra-smmu.c
 +++ b/drivers/iommu/tegra-smmu.c
-@@ -872,7 +872,7 @@ static struct iommu_device *tegra_smmu_probe_device(struct device *dev)
- static void tegra_smmu_release_device(struct device *dev) {}
+@@ -336,35 +336,35 @@ static void tegra_smmu_domain_free(struct iommu_domain *domain)
+ }
  
- static const struct tegra_smmu_group_soc *
--tegra_smmu_find_group(struct tegra_smmu *smmu, unsigned int swgroup)
-+tegra_smmu_find_group_soc(struct tegra_smmu *smmu, unsigned int swgroup)
+ static const struct tegra_smmu_swgroup *
+-tegra_smmu_find_swgroup(struct tegra_smmu *smmu, unsigned int swgroup)
++tegra_smmu_find_swgrp(struct tegra_smmu *smmu, unsigned int swgroup)
  {
- 	unsigned int i, j;
+-	const struct tegra_smmu_swgroup *group = NULL;
++	const struct tegra_smmu_swgroup *swgrp = NULL;
+ 	unsigned int i;
  
-@@ -904,7 +904,7 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	struct iommu_group *grp;
+ 	for (i = 0; i < smmu->soc->num_swgroups; i++) {
+ 		if (smmu->soc->swgroups[i].swgroup == swgroup) {
+-			group = &smmu->soc->swgroups[i];
++			swgrp = &smmu->soc->swgroups[i];
+ 			break;
+ 		}
+ 	}
  
- 	/* Find group_soc associating with swgroup */
--	soc = tegra_smmu_find_group(smmu, swgroup);
-+	soc = tegra_smmu_find_group_soc(smmu, swgroup);
+-	return group;
++	return swgrp;
+ }
  
- 	mutex_lock(&smmu->lock);
+ static void tegra_smmu_enable(struct tegra_smmu *smmu, unsigned int swgroup,
+ 			      unsigned int asid)
+ {
+-	const struct tegra_smmu_swgroup *group;
++	const struct tegra_smmu_swgroup *swgrp;
+ 	unsigned int i;
+ 	u32 value;
+ 
+-	group = tegra_smmu_find_swgroup(smmu, swgroup);
+-	if (group) {
+-		value = smmu_readl(smmu, group->reg);
++	swgrp = tegra_smmu_find_swgrp(smmu, swgroup);
++	if (swgrp) {
++		value = smmu_readl(smmu, swgrp->reg);
+ 		value &= ~SMMU_ASID_MASK;
+ 		value |= SMMU_ASID_VALUE(asid);
+ 		value |= SMMU_ASID_ENABLE;
+-		smmu_writel(smmu, value, group->reg);
++		smmu_writel(smmu, value, swgrp->reg);
+ 	} else {
+ 		pr_warn("%s group from swgroup %u not found\n", __func__,
+ 				swgroup);
+@@ -387,17 +387,17 @@ static void tegra_smmu_enable(struct tegra_smmu *smmu, unsigned int swgroup,
+ static void tegra_smmu_disable(struct tegra_smmu *smmu, unsigned int swgroup,
+ 			       unsigned int asid)
+ {
+-	const struct tegra_smmu_swgroup *group;
++	const struct tegra_smmu_swgroup *swgrp;
+ 	unsigned int i;
+ 	u32 value;
+ 
+-	group = tegra_smmu_find_swgroup(smmu, swgroup);
+-	if (group) {
+-		value = smmu_readl(smmu, group->reg);
++	swgrp = tegra_smmu_find_swgrp(smmu, swgroup);
++	if (swgrp) {
++		value = smmu_readl(smmu, swgrp->reg);
+ 		value &= ~SMMU_ASID_MASK;
+ 		value |= SMMU_ASID_VALUE(asid);
+ 		value &= ~SMMU_ASID_ENABLE;
+-		smmu_writel(smmu, value, group->reg);
++		smmu_writel(smmu, value, swgrp->reg);
+ 	}
+ 
+ 	for (i = 0; i < smmu->soc->num_clients; i++) {
+@@ -1009,11 +1009,11 @@ static int tegra_smmu_swgroups_show(struct seq_file *s, void *data)
+ 	seq_printf(s, "------------------------\n");
+ 
+ 	for (i = 0; i < smmu->soc->num_swgroups; i++) {
+-		const struct tegra_smmu_swgroup *group = &smmu->soc->swgroups[i];
++		const struct tegra_smmu_swgroup *swgrp = &smmu->soc->swgroups[i];
+ 		const char *status;
+ 		unsigned int asid;
+ 
+-		value = smmu_readl(smmu, group->reg);
++		value = smmu_readl(smmu, swgrp->reg);
+ 
+ 		if (value & SMMU_ASID_ENABLE)
+ 			status = "yes";
+@@ -1022,7 +1022,7 @@ static int tegra_smmu_swgroups_show(struct seq_file *s, void *data)
+ 
+ 		asid = value & SMMU_ASID_MASK;
+ 
+-		seq_printf(s, "%-9s  %-7s  %#04x\n", group->name, status,
++		seq_printf(s, "%-9s  %-7s  %#04x\n", swgrp->name, status,
+ 			   asid);
+ 	}
  
 -- 
 2.17.1
