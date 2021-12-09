@@ -1,91 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C81A46EA50
-	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 15:49:16 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 091DD46EAF5
+	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 16:18:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0D2596123D;
-	Thu,  9 Dec 2021 14:49:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 680FF8532C;
+	Thu,  9 Dec 2021 15:18:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K6mMUR7TTZHu; Thu,  9 Dec 2021 14:49:14 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1m7pC8LTTBaB; Thu,  9 Dec 2021 15:18:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3F1C661190;
-	Thu,  9 Dec 2021 14:49:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 017CB85329;
+	Thu,  9 Dec 2021 15:18:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 296E5C006E;
-	Thu,  9 Dec 2021 14:49:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4EE69C006E;
+	Thu,  9 Dec 2021 15:18:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8CD74C0012
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 14:49:13 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1320EC0012
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 15:18:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6D39884CB8
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 14:49:13 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0112C85329
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 15:18:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ou7NZ_5psVH9 for <iommu@lists.linux-foundation.org>;
- Thu,  9 Dec 2021 14:49:12 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8DCCF84C89
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 14:49:12 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id m6so615963lfu.1
- for <iommu@lists.linux-foundation.org>; Thu, 09 Dec 2021 06:49:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iZsjpEQisLwXWoTUZrMGpEP/rg7ykKTtHEohB5VlKjo=;
- b=N5KjOh0h/gLmW6AEoNGbcGu0XY6tfmxd2fVt19IudyLQZCPO23kvIhHZjj9RgVCzyK
- PFGRZ85o8bF7psna2RyZOBS2hzIbsJYXHYD8AH6ZNCGCEa5mYwmN9FWKuMDxJQqrHXQM
- 743HfXGZ9R/aAXXd9IW+jzuB/Jlcmu4Iqe1S3OG+vG1ha27rCfLQJR7BYPCwGaPlg09+
- wuLAjWxSuPZTlb5vZtDbCv2ZCLHgI4mxCRsMsMI11tzS88TP6qnRdT5dtbYtbMW4ff/H
- eZe17X/svYezyTqC/NlXCrsyNNjQynURycwCmoL0GZhAksKqbIxdnr1B9O61yUsShwNU
- rbXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iZsjpEQisLwXWoTUZrMGpEP/rg7ykKTtHEohB5VlKjo=;
- b=7imJXRNwLoI+KUHrotywvwre/d3UYj9kW7y0trRCgr4oOvmIrDmRmcR8Box2oXbUrb
- yTQVGSz18KPWl++4uzZU9rBRvN502ERjkfQ9xkhcAsHEEw1vNqPQgIVdr9qcUrk7D4iC
- R4CRDq3DHhjCHsq5sINs2zE+KZAqCjQVEmtOFVXFmxr/4v17dKdPCsoSoLFowgjSX+YA
- m36USCxQgPMDakGHUROs6pooSFFeSJp4PBm+3zr5P1UzcsjXYDvb8SRoBPHmsZ/MIGoU
- 8TF1IZfy/9tR5rkys4+i40Tf0xk0iun4TIKzDzF+Tf02wN1qH56wjNxobRQYMZTWRqsA
- ZF2Q==
-X-Gm-Message-State: AOAM533Iu6OY1ehxRSyQ4ThPVfNp8T1y61wtf9+7pq9NeCDuRVaujCiY
- MKEiESc/bGk/vWFwyVEZcGw=
-X-Google-Smtp-Source: ABdhPJypck+AA6tuc9nKMOs2vH1DUNXy2B1oE3nA2AC6Mpu9/HK1zrngQhEiSxB38uM0iykfpGgPAA==
-X-Received: by 2002:ac2:52b5:: with SMTP id r21mr6236723lfm.127.1639061350601; 
- Thu, 09 Dec 2021 06:49:10 -0800 (PST)
-Received: from [192.168.2.145] (94-29-46-111.dynamic.spd-mgts.ru.
- [94.29.46.111])
- by smtp.googlemail.com with ESMTPSA id b6sm1834ljr.103.2021.12.09.06.49.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Dec 2021 06:49:10 -0800 (PST)
-Subject: Re: [PATCH v8 6/6] iommu/tegra-smmu: Add pagetable mappings to debugfs
-To: Nicolin Chen <nicolinc@nvidia.com>, thierry.reding@gmail.com,
- joro@8bytes.org, will@kernel.org
-References: <20211209073822.26728-1-nicolinc@nvidia.com>
- <20211209073822.26728-7-nicolinc@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <63b4c2e2-0e55-5701-4c45-70684c7e058e@gmail.com>
-Date: Thu, 9 Dec 2021 17:49:09 +0300
+ with ESMTP id rbGZnHV0lGXN for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Dec 2021 15:18:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6139785327
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 15:18:08 +0000 (UTC)
+Received: from [IPv6:2a00:c281:116d:6e00:fc62:11d2:8888:d1c2] (unknown
+ [IPv6:2a00:c281:116d:6e00:fc62:11d2:8888:d1c2])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: dafna)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 519131F46AE0;
+ Thu,  9 Dec 2021 15:18:05 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1639063086; bh=PvBermt9OIB2MrzZGzf2i2aw653bppK0Ghohxx6azxg=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=kWL3dv6I0rmt0Rz1gl/BpvxuAWxzotGnhsv5K7sPHz63MN2edoTBsOEuF3sQRUso5
+ vA6OkJgZ7BVpSTx98N2WzFTdA3GrtDcLyZsF/N4q/rDwou+l5vcWrzy3W8JPcAZgak
+ gnc51YAXwvVUKx4Mj3IvF/cvGD8jzyz7Z2pDmvm52K7tPaDsNEzxEu+KoUO3R2FrrH
+ xpd54zRL49UeceZokXoiQPthNt+zDXXjgMbnBShW6X+IO6ClNDZAwfW7khIxBJt4Xb
+ WzxBnnzDFLjQUEBuFqO3lvy+QLXcCdFCPZwjagmlk5o8PXaoxFxzy6GXsMBdcU1G1A
+ 5S0mg89Z4TdFQ==
+Subject: Re: [PATCH] CHROMIUM: iommu: rockchip: Make sure that page table
+ state is coherent
+To: Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>
+References: <1423480761-33453-1-git-send-email-tfiga@chromium.org>
+ <20150303133659.GD10502@8bytes.org>
+ <CAAFQd5Abk6X7AVTFaNuUSiShn31pzwwTE3VjfLnE4kyziAjy2A@mail.gmail.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <21bb5af8-1d59-9369-6008-2fd7e88007eb@collabora.com>
+Date: Thu, 9 Dec 2021 17:18:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211209073822.26728-7-nicolinc@nvidia.com>
+In-Reply-To: <CAAFQd5Abk6X7AVTFaNuUSiShn31pzwwTE3VjfLnE4kyziAjy2A@mail.gmail.com>
 Content-Language: en-US
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, jonathanh@nvidia.com
+Cc: Heiko Stuebner <heiko@sntech.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Daniel Kurtz <djkurtz@chromium.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ iommu@lists.linux-foundation.org, Collabora Kernel ML <kernel@collabora.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,17 +81,233 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-MDkuMTIuMjAyMSAxMDozOCwgTmljb2xpbiBDaGVuINC/0LjRiNC10YI6Cj4gK3N0YXRpYyB1bnNp
-Z25lZCBsb25nIHBkX3B0X2luZGV4X2lvdmEodW5zaWduZWQgaW50IHBkX2luZGV4LCB1bnNpZ25l
-ZCBpbnQgcHRfaW5kZXgpCj4gK3sKPiArCXJldHVybiAocGRfaW5kZXggJiAoU01NVV9OVU1fUERF
-IC0gMSkpIDw8IFNNTVVfUERFX1NISUZUIHwKPiArCSAgICAgICAocHRfaW5kZXggJiAoU01NVV9O
-VU1fUFRFIC0gMSkpIDw8IFNNTVVfUFRFX1NISUZUOwo+ICt9CgpJJ2QgY2hhbmdlIHRoZSByZXR1
-cm4gdHlwZSB0byB1MzIgaGVyZSwgZm9yIGNvbnNpc3RlbmN5LgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlz
-dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+
+
+On 23.03.15 10:38, Tomasz Figa wrote:
+> Sorry, I had to dig my way out through my backlog.
+> 
+> On Tue, Mar 3, 2015 at 10:36 PM, Joerg Roedel <joro@8bytes.org> wrote:
+>> On Mon, Feb 09, 2015 at 08:19:21PM +0900, Tomasz Figa wrote:
+>>> Even though the code uses the dt_lock spin lock to serialize mapping
+>>> operation from different threads, it does not protect from IOMMU
+>>> accesses that might be already taking place and thus altering state
+>>> of the IOTLB. This means that current mapping code which first zaps
+>>> the page table and only then updates it with new mapping which is
+>>> prone to mentioned race.
+>>
+>> Could you elabortate a bit on the race and why it is sufficient to zap
+>> only the first and the last iova? From the description and the comments
+>> in the patch this is not clear to me.
+> 
+> Let's start with why it's sufficient to zap only first and last iova.
+> 
+> While unmapping, the driver zaps all iovas belonging to the mapping,
+> so the page tables not used by any mapping won't be cached. Now when
+> the driver creates a mapping it might end up occupying several page
+> tables. However, since the mapping area is virtually contiguous, only
+> the first and last page table can be shared with different mappings.
+> This means that only first and last iovas can be already cached. In
+> fact, we could detect if first and last page tables are shared and do
+> not zap at all, but this wouldn't really optimize too much. Why
+> invalidating one iova is enough to invalidate the whole page table is
+> unclear to me as well, but it seems to be the correct way on this
+> hardware.
+
+Hi,
+It seems to me that actually each mapping needs exactly one page.
+Since (as the inline doc in rk_iommu_map states) the pgsize_bitmap
+makes sure that iova mappings fits exactly into one page table
+since the mapping size is maximum 4M.
+
+This actually means that if rk_dte_get_page_table does not allocate a
+new page table but returns one that is already partially used from previous
+mappings then two page tables might be required, but I think the iova
+allocation somehow make sure that this will not be the case.
+
+If it was the case then the code would be buggy because it means
+that the loop in rk_iommu_map_iova will write behind the page table
+given in rk_dte_get_page_table (which we didn't allocate)
+
+So I it seems to me that calling 'rk_iommu_zap_iova(rk_domain, iova, SPAGE_SIZE);'
+as done before this patch should be used, but be moved from
+rk_dte_get_page_table to where rk_iommu_zap_iova_first_last is now
+
+Thanks,
+Dafna
+
+> 
+> As for the race, it's also kind of explained by the above. The already
+> running hardware can trigger page table look-ups in the IOMMU and so
+> caching of the page table between our zapping and updating its
+> contents. With this patch zapping is performed after updating the page
+> table so the race is gone.
+> 
+> Best regards,
+> Tomasz
+> 
+>  From mboxrd@z Thu Jan  1 00:00:00 1970
+> Return-Path: <linux-kernel-owner@vger.kernel.org>
+> Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+> 	id S1753210AbbCWM3R (ORCPT <rfc822;w@1wt.eu>);
+> 	Mon, 23 Mar 2015 08:29:17 -0400
+> Received: from 8bytes.org ([81.169.241.247]:33957 "EHLO theia.8bytes.org"
+> 	rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+> 	id S1752552AbbCWM3M (ORCPT <rfc822;linux-kernel@vger.kernel.org>);
+> 	Mon, 23 Mar 2015 08:29:12 -0400
+> Date: Mon, 23 Mar 2015 13:29:10 +0100
+> From: Joerg Roedel <joro@8bytes.org>
+> To: Tomasz Figa <tfiga@chromium.org>
+> Cc: iommu@lists.linux-foundation.org,
+>          "linux-arm-kernel@lists.infradead.org"
+> 	<linux-arm-kernel@lists.infradead.org>,
+>          "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+>          "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+>          Heiko Stuebner <heiko@sntech.de>, Daniel Kurtz <djkurtz@chromium.org>
+> Subject: Re: [PATCH] CHROMIUM: iommu: rockchip: Make sure that page table
+>   state is coherent
+> Message-ID: <20150323122910.GO4441@8bytes.org>
+> References: <1423480761-33453-1-git-send-email-tfiga@chromium.org>
+>   <20150303133659.GD10502@8bytes.org>
+>   <CAAFQd5Abk6X7AVTFaNuUSiShn31pzwwTE3VjfLnE4kyziAjy2A@mail.gmail.com>
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=us-ascii
+> Content-Disposition: inline
+> In-Reply-To: <CAAFQd5Abk6X7AVTFaNuUSiShn31pzwwTE3VjfLnE4kyziAjy2A@mail.gmail.com>
+> User-Agent: Mutt/1.5.21 (2010-09-15)
+> Sender: linux-kernel-owner@vger.kernel.org
+> List-ID: <linux-kernel.vger.kernel.org>
+> X-Mailing-List: linux-kernel@vger.kernel.org
+> 
+> Hi Tomasz,
+> 
+> On Mon, Mar 23, 2015 at 05:38:45PM +0900, Tomasz Figa wrote:
+>> While unmapping, the driver zaps all iovas belonging to the mapping,
+>> so the page tables not used by any mapping won't be cached. Now when
+>> the driver creates a mapping it might end up occupying several page
+>> tables. However, since the mapping area is virtually contiguous, only
+>> the first and last page table can be shared with different mappings.
+>> This means that only first and last iovas can be already cached. In
+>> fact, we could detect if first and last page tables are shared and do
+>> not zap at all, but this wouldn't really optimize too much. Why
+>> invalidating one iova is enough to invalidate the whole page table is
+>> unclear to me as well, but it seems to be the correct way on this
+>> hardware.
+>>
+>> As for the race, it's also kind of explained by the above. The already
+>> running hardware can trigger page table look-ups in the IOMMU and so
+>> caching of the page table between our zapping and updating its
+>> contents. With this patch zapping is performed after updating the page
+>> table so the race is gone.
+> 
+> Okay, this makes sense. Can you add this information to the patch
+> changelog and resend please?
+> 
+> Thanks,
+> 
+> 	Joerg
+> 
+> 
+>  From mboxrd@z Thu Jan  1 00:00:00 1970
+> From: Tomasz Figa <tfiga-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> Subject: [PATCH] CHROMIUM: iommu: rockchip: Make sure that page table state is
+> 	coherent
+> Date: Mon,  9 Feb 2015 20:19:21 +0900
+> Message-ID: <1423480761-33453-1-git-send-email-tfiga@chromium.org>
+> Mime-Version: 1.0
+> Content-Type: text/plain; charset="us-ascii"
+> Content-Transfer-Encoding: 7bit
+> Return-path: <iommu-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+> List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/iommu>,
+> 	<mailto:iommu-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+> List-Archive: <http://lists.linuxfoundation.org/pipermail/iommu/>
+> List-Post: <mailto:iommu-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+> List-Help: <mailto:iommu-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+> List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
+> 	<mailto:iommu-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+> Sender: iommu-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+> Errors-To: iommu-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+> To: iommu-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+> Cc: Heiko Stuebner <heiko-4mtYJXux2i+zQB+pC5nmwQ@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Daniel Kurtz <djkurtz-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Tomasz Figa <tfiga-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-rockchip-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+> List-Id: iommu@lists.linux-foundation.org
+> 
+> Even though the code uses the dt_lock spin lock to serialize mapping
+> operation from different threads, it does not protect from IOMMU
+> accesses that might be already taking place and thus altering state
+> of the IOTLB. This means that current mapping code which first zaps
+> the page table and only then updates it with new mapping which is
+> prone to mentioned race.
+> 
+> In addition, current code assumes that mappings are always > 4 MiB
+> (which translates to 1024 PTEs) and so they would always occupy
+> entire page tables. This is not true for mappings created by V4L2
+> Videobuf2 DMA contig allocator.
+> 
+> This patch changes the mapping code to always zap the page table
+> after it is updated, which avoids the aforementioned race and also
+> zap the last page of the mapping to make sure that stale data is
+> not cached from an already existing mapping.
+> 
+> Signed-off-by: Tomasz Figa <tfiga-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> Reviewed-by: Daniel Kurtz <djkurtz-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> ---
+>   drivers/iommu/rockchip-iommu.c | 23 +++++++++++++++++------
+>   1 file changed, 17 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
+> index 6a8b1ec..b06fe76 100644
+> --- a/drivers/iommu/rockchip-iommu.c
+> +++ b/drivers/iommu/rockchip-iommu.c
+> @@ -544,6 +544,15 @@ static void rk_iommu_zap_iova(struct rk_iommu_domain *rk_domain,
+>   	spin_unlock_irqrestore(&rk_domain->iommus_lock, flags);
+>   }
+>   
+> +static void rk_iommu_zap_iova_first_last(struct rk_iommu_domain *rk_domain,
+> +					 dma_addr_t iova, size_t size)
+> +{
+> +	rk_iommu_zap_iova(rk_domain, iova, SPAGE_SIZE);
+> +	if (size > SPAGE_SIZE)
+> +		rk_iommu_zap_iova(rk_domain, iova + size - SPAGE_SIZE,
+> +					SPAGE_SIZE);
+> +}
+> +
+>   static u32 *rk_dte_get_page_table(struct rk_iommu_domain *rk_domain,
+>   				  dma_addr_t iova)
+>   {
+> @@ -568,12 +577,6 @@ static u32 *rk_dte_get_page_table(struct rk_iommu_domain *rk_domain,
+>   	rk_table_flush(page_table, NUM_PT_ENTRIES);
+>   	rk_table_flush(dte_addr, 1);
+>   
+> -	/*
+> -	 * Zap the first iova of newly allocated page table so iommu evicts
+> -	 * old cached value of new dte from the iotlb.
+> -	 */
+> -	rk_iommu_zap_iova(rk_domain, iova, SPAGE_SIZE);
+> -
+>   done:
+>   	pt_phys = rk_dte_pt_address(dte);
+>   	return (u32 *)phys_to_virt(pt_phys);
+> @@ -623,6 +626,14 @@ static int rk_iommu_map_iova(struct rk_iommu_domain *rk_domain, u32 *pte_addr,
+>   
+>   	rk_table_flush(pte_addr, pte_count);
+>   
+> +	/*
+> +	 * Zap the first and last iova to evict from iotlb any previously
+> +	 * mapped cachelines holding stale values for its dte and pte.
+> +	 * We only zap the first and last iova, since only they could have
+> +	 * dte or pte shared with an existing mapping.
+> +	 */
+> +	rk_iommu_zap_iova_first_last(rk_domain, iova, size);
+> +
+>   	return 0;
+>   unwind:
+>   	/* Unmap the range of iovas that we just mapped */
+> 
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
