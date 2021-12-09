@@ -1,85 +1,103 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA71046F686
-	for <lists.iommu@lfdr.de>; Thu,  9 Dec 2021 23:10:01 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A5946F790
+	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 00:36:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8AFFA85B8D;
-	Thu,  9 Dec 2021 22:10:00 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A420E80C65;
+	Thu,  9 Dec 2021 23:36:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PnvoMOMGT-sK; Thu,  9 Dec 2021 22:09:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9624A85B4D;
-	Thu,  9 Dec 2021 22:09:59 +0000 (UTC)
+	with ESMTP id d6OdT63lnVVc; Thu,  9 Dec 2021 23:36:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4EABF80C70;
+	Thu,  9 Dec 2021 23:36:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EA01EC0038;
-	Thu,  9 Dec 2021 22:09:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BA1CC0038;
+	Thu,  9 Dec 2021 23:36:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 238EAC0012
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 22:09:58 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7D76BC001E;
+ Thu,  9 Dec 2021 23:04:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 11BE585B46
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 22:09:58 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5A6886F9DB;
+ Thu,  9 Dec 2021 23:04:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UFVz7DSj5QPa for <iommu@lists.linux-foundation.org>;
- Thu,  9 Dec 2021 22:09:57 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0551385B36
- for <iommu@lists.linux-foundation.org>; Thu,  9 Dec 2021 22:09:56 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1639087793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B+lqUDLWtnvLeY/KahuIZ2Xvfr4Bwoi1ABSMRvnITCk=;
- b=WW18ExaRnpYiWwbxv1Oo+xyj2rfXtsbPW+X7DVsTiaqB6wgXzATusvwhCl2GaS0rdR+WnS
- tJqrFACnb/P7aMyauV0Fi+Y2Ij1B/GX/eVn6EGdEM6K0YI6JQPA4aM+WtDI3/kaLnHJ2QX
- nipiipByknmKWpGePlYzrzCt1B7GA4MVVwpoZbz8+GW4x4UCOWa7s+e/WbNp3weWyzEOkB
- ChXF2+m0tC/eW9+h/iL1fdpba0kWZqBeWFWjFofAKXGAntdvIInQwwsjY75CFMBPXGsfyC
- 5gDlVAIJET2FXFHnFwbuWUKB2ii1p17poTV9Hn4kr4bxvGjeaFlv5zW+2fiLpg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1639087793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B+lqUDLWtnvLeY/KahuIZ2Xvfr4Bwoi1ABSMRvnITCk=;
- b=qVn3U9HWxK+h6v6N25iCCmQPsywBb9D/DewlfObPZ14vxsbLUpThsREQ0c1etj4ttkaC80
- m8v8EwcoDdMel9DA==
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [patch 21/32] NTB/msi: Convert to msi_on_each_desc()
-In-Reply-To: <20211209205835.GZ6385@nvidia.com>
-References: <8c2262ba-173e-0007-bc4c-94ec54b2847d@intel.com>
- <87pmqg88xq.ffs@tglx> <df00b87e-00dc-d998-8b64-46b16dba46eb@intel.com>
- <87k0go8432.ffs@tglx> <f4cc305b-a329-6d27-9fca-b74ebc9fa0c1@intel.com>
- <878rx480fk.ffs@tglx>
- <BN9PR11MB52765F2EF8420C60FD5945D18C709@BN9PR11MB5276.namprd11.prod.outlook.com>
- <87sfv2yy19.ffs@tglx> <20211209162129.GS6385@nvidia.com>
- <878rwtzfh1.ffs@tglx> <20211209205835.GZ6385@nvidia.com>
-Date: Thu, 09 Dec 2021 23:09:52 +0100
-Message-ID: <8735n1zaz3.ffs@tglx>
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=sent.com header.b="Kc7pBU31";
+ dkim=pass (2048-bit key) header.d=messagingengine.com
+ header.b="iKm2mq+z"
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FtzUysVuol3D; Thu,  9 Dec 2021 23:04:40 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6B43B6F9EE;
+ Thu,  9 Dec 2021 23:04:40 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id EE8A6580231;
+ Thu,  9 Dec 2021 18:04:36 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 09 Dec 2021 18:04:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sent.com; h=from
+ :to:cc:subject:date:message-id:reply-to:mime-version
+ :content-transfer-encoding; s=fm2; bh=NSbPeTFmC3VX/ha0W/GXZKCwx7
+ d2S9q3uKceYNqXMuU=; b=Kc7pBU31o8EbMxFXphV9zG6IiT+0lU3sHlVTVDJUhN
+ 838c2vFfjgqO41QJ4mrUwBwF0dYW1pR04fr+sFab8ANkVOEBeq2FrG+3B/SpYjXc
+ vrs1yru1XjUF9VtzoCsmTc3YlMaOwP8pd7F8iFWHglZ7uZxIjm7q8dj6KDtaBgYF
+ 6MYK/MJS8gRNHY8rDq07wKmdQMAP/SRTwYMb2LI5hOCLQZ9iOWw6Or4uXI6recCV
+ LkphAh+xx7La0uSVlm03JtVOBKs7YjYo19BDsSEWLLr97ZA3YjXYQYYqGlFRfxcb
+ MEKRwha4KpDNRD/fP1U8WBn2UybgF6xuBrCIkCPankfA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:reply-to:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=NSbPeT
+ FmC3VX/ha0W/GXZKCwx7d2S9q3uKceYNqXMuU=; b=iKm2mq+zRARqu6Az24pOud
+ 6cYie2iC8A2n77TsKaeKbYjyVdUFbvHGVRB/sy5b38R1fHtkxGTXQ58tgWsW2eOV
+ NBnoRR1sxESACauibFV6K5D7ass+nLZGPdOpPXsoQ5h9kTesYKp94ZOCLsUC0mmK
+ d08HILFUYVE/ExBdrNYAMmNBMN0Mgxvrq0XNr0POOzMZWS0Ht8TDrsw+yMCLqzUK
+ daaeGy+yClJcboe60hfEOdDkm8gZ5lxHRVomoOXs7SbGtQx3cP6sqGc+wXFXjv/z
+ dv064kjkv+5kpRPO4hqP9Yu+SKqDSwKQaPKzrvNeGJo1qFCu2hv91xKoxEirtbLw
+ ==
+X-ME-Sender: <xms:hIuyYW7KJ2VGvmwWyftbYGKwWK5HJvCSFmJcGjK5tF1EAOU1NiOcxw>
+ <xme:hIuyYf4gLhuzV8STMC4PJkvPi2eNA8vecJ4xHCQIisM3hcF3m2zeF1UyvMQdYjLBg
+ Z0szHSqPdFTpxRSUQ>
+X-ME-Received: <xmr:hIuyYVeY0KnyI8D_rgHPH8k1jJQ-_Cj2aDK-HWDCitfV9QvSilgzQcaWfMxPKP3kae2Tu-lh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrkedugddtfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofhrggfgsedtqhertdertddtnecuhfhrohhmpegkihcujggrnhcu
+ oeiiihdrhigrnhesshgvnhhtrdgtohhmqeenucggtffrrghtthgvrhhnpeetieeitdejgf
+ fhfeeukeejvdeufedtvddulefhteduffeigfefteehgefhvdegudenucffohhmrghinhep
+ khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+ hilhhfrhhomhepiihirdihrghnsehsvghnthdrtghomh
+X-ME-Proxy: <xmx:hIuyYTJzxt05EzsOOhpkGX-Qdg3ntRF66l4AebHbDrJ0S27qmDccxQ>
+ <xmx:hIuyYaK8WYPLDvA2xw1NU47aotgeBqzt0NNUNsSTBpe9FRmeXlZTSw>
+ <xmx:hIuyYUx57W7-ctHGwgaG8T3SVd_sb9nShRzXsMRaaOGHnxLfxB8kmA>
+ <xmx:hIuyYcD79eHf97d9tBbwlV2NsHtpEe_KPv6XHDW2Z65FuIIXa_dDcg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Dec 2021 18:04:35 -0500 (EST)
+From: Zi Yan <zi.yan@sent.com>
+To: David Hildenbrand <david@redhat.com>,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 0/7] Use pageblock_order for cma and alloc_contig_range
+ alignment.
+Date: Thu,  9 Dec 2021 18:04:07 -0500
+Message-Id: <20211209230414.2766515-1-zi.yan@sent.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Cc: Allen Hubbe <allenbh@gmail.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, "x86@kernel.org" <x86@kernel.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Marc Zygnier <maz@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, LKML <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>, Joerg Roedel <jroedel@suse.de>,
- Bjorn Helgaas <helgaas@kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>,
- Logan Gunthorpe <logang@deltatee.com>, "Dey, Megha" <megha.dey@intel.com>
+X-Mailman-Approved-At: Thu, 09 Dec 2021 23:36:06 +0000
+Cc: Mel Gorman <mgorman@techsingularity.net>, Zi Yan <ziy@nvidia.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Eric Ren <renzhengeek@gmail.com>, virtualization@lists.linux-foundation.org,
+ linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>,
+ Vlastimil Babka <vbabka@suse.cz>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,46 +110,81 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Reply-To: Zi Yan <ziy@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Dec 09 2021 at 16:58, Jason Gunthorpe wrote:
-> On Thu, Dec 09, 2021 at 09:32:42PM +0100, Thomas Gleixner wrote:
->> That was my thought to avoid having different mechanisms.
->> 
->> The address/data pair is computed in two places:
->> 
->>   1) Activation of an interrupt
->>   2) Affinity setting on an interrupt
->> 
->> Both configure the IRTE when interrupt remapping is in place.
->> 
->> In both cases a vector is allocated in the vector domain and based on
->> the resulting target APIC / vector number pair the IRTE is
->> (re)configured.
->> 
->> So putting the hypercall into the vIRTE update is the obvious
->> place. Both activation and affinity setting can fail and propagate an
->> error code down to the originating caller.
->> 
->> Hmm?
->
-> Okay, I think I get it. Would be nice to have someone from intel
-> familiar with the vIOMMU protocols and qemu code remark what the
-> hypervisor side can look like.
->
-> There is a bit more work here, we'd have to change VFIO to somehow
-> entirely disconnect the kernel IRQ logic from the MSI table and
-> directly pass control of it to the guest after the hypervisor IOMMU IR
-> secures it. ie directly mmap the msi-x table into the guest
+From: Zi Yan <ziy@nvidia.com>
 
-That makes everything consistent and a clear cut on all levels, right?
+Hi all,
 
-Thanks,
+This patchset tries to remove the MAX_ORDER - 1 alignment requirement for CMA
+and alloc_contig_range(). It prepares for my upcoming changes to make MAX_ORDER
+adjustable at boot time[1].
 
-        tglx
+The MAX_ORDER - 1 alignment requirement comes from that alloc_contig_range()
+isolates pageblocks to remove free memory from buddy allocator but isolating
+only a subset of pageblocks within a page spanning across multiple pageblocks
+causes free page accounting issues. Isolated page might not be put into the
+right free list, since the code assumes the migratetype of the first pageblock
+as the whole free page migratetype. This is based on the discussion at [2].
+
+To remove the requirement, this patchset:
+1. still isolates pageblocks at MAX_ORDER - 1 granularity;
+2. but saves the pageblock migratetypes outside the specified range of
+   alloc_contig_range() and restores them after all pages within the range
+   become free after __alloc_contig_migrate_range();
+3. splits free pages spanning multiple pageblocks at the beginning and the end
+   of the range and puts the split pages to the right migratetype free lists
+   based on the pageblock migratetypes;
+4. returns pages not in the range as it did before this patch.
+
+Isolation needs to happen at MAX_ORDER - 1 granularity, because otherwise
+1) extra code is needed to detect pages (free, PageHuge, THP, or PageCompound)
+to make sure all pageblocks belonging to a single page are isolated together 
+and later pageblocks outside the range need to have their migratetypes restored;
+or 2) extra logic will need to be added during page free time to split a free
+page with multi-migratetype pageblocks.
+
+Two optimizations might come later:
+1. only check unmovable pages within the range instead of MAX_ORDER - 1 aligned
+   range during isolation to increase successful rate of alloc_contig_range().
+2. make MIGRATE_ISOLATE a separate bit to avoid saving and restoring existing
+   migratetypes before and after isolation respectively.
+
+Feel free to give comments and suggestions. Thanks.
+
+
+[1] https://lore.kernel.org/linux-mm/20210805190253.2795604-1-zi.yan@sent.com/
+[2] https://lore.kernel.org/linux-mm/d19fb078-cb9b-f60f-e310-fdeea1b947d2@redhat.com/
+
+
+Zi Yan (7):
+  mm: page_alloc: avoid merging non-fallbackable pageblocks with others.
+  mm: compaction: handle non-lru compound pages properly in
+    isolate_migratepages_block().
+  mm: migrate: allocate the right size of non hugetlb or THP compound
+    pages.
+  mm: make alloc_contig_range work at pageblock granularity
+  mm: cma: use pageblock_order as the single alignment
+  drivers: virtio_mem: use pageblock size as the minimum virtio_mem
+    size.
+  arch: powerpc: adjust fadump alignment to be pageblock aligned.
+
+ arch/powerpc/include/asm/fadump-internal.h |   4 +-
+ drivers/virtio/virtio_mem.c                |   6 +-
+ include/linux/mmzone.h                     |  11 +-
+ kernel/dma/contiguous.c                    |   2 +-
+ mm/cma.c                                   |   6 +-
+ mm/compaction.c                            |  10 +-
+ mm/migrate.c                               |   8 +-
+ mm/page_alloc.c                            | 203 +++++++++++++++++----
+ 8 files changed, 196 insertions(+), 54 deletions(-)
+
+-- 
+2.33.0
 
 _______________________________________________
 iommu mailing list
