@@ -1,150 +1,144 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCBB4704DE
-	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 16:48:48 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id F26C74707A4
+	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 18:48:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 4C0F66105C;
-	Fri, 10 Dec 2021 15:48:47 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 927554127F;
+	Fri, 10 Dec 2021 17:48:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PjjhQ9emZjca; Fri, 10 Dec 2021 15:48:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 65E0A60F80;
-	Fri, 10 Dec 2021 15:48:46 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gpc-RVLrDtlC; Fri, 10 Dec 2021 17:48:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 627CA41279;
+	Fri, 10 Dec 2021 17:48:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 28BFFC006E;
-	Fri, 10 Dec 2021 15:48:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 27A07C006E;
+	Fri, 10 Dec 2021 17:48:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC4CFC0012;
- Fri, 10 Dec 2021 15:48:43 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 656E2C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 17:48:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id CB81C60F6B;
- Fri, 10 Dec 2021 15:48:43 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3D25A41279
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 17:48:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id imZg9mplo492; Fri, 10 Dec 2021 15:48:41 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JSQgXncsHkPw for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Dec 2021 17:48:53 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D27DE60F12;
- Fri, 10 Dec 2021 15:48:40 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2050.outbound.protection.outlook.com [40.107.96.50])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7BD1E4126F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 17:48:53 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hf/Y6W+eLe/KfhlEKIazHRFCJ8V8/UBihZOZNjXNETfULOlevroSSFLP/7LMlcgwQfnkE6LXSdaM10P6V295G8IUCgeXjVPvbcK6yiuhttHDKo0DiDoC+PmmjUWqAvaEqwf4VEVCvxqe71Ze5OpDaUF667wNnnVhmKdSB0W3Zhy2ZyVoMyyqPux3llRw8xnH2iYcEkG41lzTEqan4/eHqWRobUOJjc99XoRwvr/ZkFSjIqC9zur5sxB52n7lpEZ/bql1wlqNJUPIBMP7MLzhF2+DhcLoTlZF8QGu/MUbCTtniG6QMHPj0wqLe+dunQdNCJL9CkL0x1CAVu38XuFjAg==
+ b=dsQSzqYJt2cIK56FU9YJfJ6Vso7WfL/a987HtzizJbXl2iBEIyaYsUbTRFSjXZNKzx/yXu1L0f6w7heXgRHPhVOdD5ocMD5AIqOOL0n5nzzlJTwYG1YKee1mvzWg3qwzAvlpSW3ZRZmVal1LkoECL0onJzrJaVracYH9loeVIXi0DcqSlgXv7HWctFMK2EU6H5WMqtKg/C9h3iuKGtQpcqGqWJzB48mc3adc9jv8OAtMy4o5h/rD7XSv8aVz8XdRC3tHus2068N2tkNnmDSCMGy5T8QxkasjhLyLSWeYrlGKmXAJ71HmssRmBa9mVSy1grDodwxn8afRgplHB8BAIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=98oitruaBplIIVyYIjlSgufwgNMByXS6Xqu/76OfvTA=;
- b=Zx8MkXpyUEWD6QZ4ghHnq65IS6u+S5OG/SX6VwGEJ4W6DaAjV1q3oMboIIylDPcfpvlee+GQU62C31Wn982BrvZdcMUwxIXU0W2bLSH+mMn0a/ErxnkuLRL7Dkn4kX/HEKkYHJugpkbdYVz4TvGLJvXeqJDtWTYFyVtovQi2Tkc1UYjwbhZ0uLu3clLpeqrWGToQN6OBtfkW7XvugvAQbMnxE6RpgaDm0uICrai9dR8eHUmeAUnBfaR4wPNJvahXnGHEoT/BUfW0MCETzvfECG49hrWoelpIqvGL4WRyAXNSWMPaGBweJ3NIR8j1cQYYR22nGghd+4y0EXgPJH2FIA==
+ bh=8/0ZXjwj1NIv3U2OVT4Ql+ROMFrTe5ImH+dhb7aszs0=;
+ b=H5ywAXc4KGMdlK0OTrtFVGHNxZrKeGX7lABj6PxLOChyQdSti1tubCsJSOJ91YGtMGfn1vqweya3Z1eCa71QuvdTujLVqpmQwcktMi5LkUuHX6nIZLnfcrXg8rr167SpicEBBQMiIqgPmEZOVm31pRwzo0uEIyukKKiXqzInaYuNci+mQCJkxsxKd+unDi7grYJnAf7MSGDUb/3pGjDhj6Ijs0E3gfkQ+iyAOmd/a870R0/tl1qoBB9RtAAjaMp4TUlUjWuAxd4bP/uFC5uoLaGRiTPkAfzSILCOv9HNuse5bcL8OiorLucJbg8egwaQMAJ0Fei4sVFf982MOO+elw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=98oitruaBplIIVyYIjlSgufwgNMByXS6Xqu/76OfvTA=;
- b=ldHTNeWK5avieqAy5ISEJZBnJWTcqUdStoxkwrGLmE3DkohaqPbwEHZ90QS4/IIO4qa3Hm9qi+UjQHmuYmeBVC+GsxzzbarMX80IXdOl3hBHm7/f0QntonZqDBwPAyPGxXnkA6Wvm5Rxo2J2W6QLmlwOG1csIuLLTNxm8+NMeUhvB5DIrPX+0dVpx5I4dyXsBMrcJWhjKqAhyTWLj4vNUY7QJulrrTaNpE303Un/Cu02snLXLZBFRrX/7QIFiHjFUH3AWIfoicdf00I6YMurxNEYD8J4E+5BngUA/gcTtcM+CA2rpWQskeEyImqZkfRLkpqk8LoCT26TnT4gx9ez0w==
+ bh=8/0ZXjwj1NIv3U2OVT4Ql+ROMFrTe5ImH+dhb7aszs0=;
+ b=L92iLo5zJombS2rBzRm1cdkNOT64CX9J2eDJ/wSpUM3lC4xb7N7Bh0QxdHRow6rMNIpUMgHGArfCj7kNNQjZz1xRI720MqOLQ57FG6tSSc674ZqLUWhtwBXOA9xcCYDjVRwBH71OfjzmQLJTiU4PXfG14kyHOBoRoxHcXgYobMV+/gKwOJwaF0GrwOv9U2ao783VkuN/D+bUDOVOiO5VK6tS0Sen+FpLqoyC0zhqgHPlC9CQcRUHwTNW1hnYTYTJPpoe3Lt2B1rMYI0tkHaRg3qJ7AsjUN+5U2O2YPwpJUT8fvwzyPGdjUL3CTrFS4oo7Noz+r0ISKQxapRaSsrbhQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3823.namprd12.prod.outlook.com (2603:10b6:208:168::26)
- by MN2PR12MB4272.namprd12.prod.outlook.com (2603:10b6:208:1de::14)
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL0PR12MB5539.namprd12.prod.outlook.com (2603:10b6:208:1c3::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.25; Fri, 10 Dec
- 2021 15:48:37 +0000
-Received: from MN2PR12MB3823.namprd12.prod.outlook.com
- ([fe80::a9db:9c46:183e:c213]) by MN2PR12MB3823.namprd12.prod.outlook.com
- ([fe80::a9db:9c46:183e:c213%3]) with mapi id 15.20.4755.026; Fri, 10 Dec 2021
- 15:48:37 +0000
-To: Eric Ren <renzhengeek@gmail.com>
-Subject: Re: [RFC PATCH v2 3/7] mm: migrate: allocate the right size of non
- hugetlb or THP compound pages.
-Date: Fri, 10 Dec 2021 10:48:36 -0500
-X-Mailer: MailMate (1.14r5852)
-Message-ID: <971750C3-DAEC-4EE8-B838-2DD3CBC29781@nvidia.com>
-In-Reply-To: <84807a03-f7d1-83cb-16df-bacc58de4529@gmail.com>
-References: <20211209230414.2766515-1-zi.yan@sent.com>
- <20211209230414.2766515-4-zi.yan@sent.com>
- <84807a03-f7d1-83cb-16df-bacc58de4529@gmail.com>
-X-ClientProxiedBy: MN2PR02CA0009.namprd02.prod.outlook.com
- (2603:10b6:208:fc::22) To MN2PR12MB3823.namprd12.prod.outlook.com
- (2603:10b6:208:168::26)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.11; Fri, 10 Dec
+ 2021 17:48:50 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d8be:e4e4:ce53:6d11]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d8be:e4e4:ce53:6d11%7]) with mapi id 15.20.4778.015; Fri, 10 Dec 2021
+ 17:48:50 +0000
+Date: Fri, 10 Dec 2021 13:48:48 -0400
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: Re: [PATCH 3/4] iommu/vt-d: Support PASID DMA for in-kernel usage
+Message-ID: <20211210174848.GH6385@nvidia.com>
+References: <1638884834-83028-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1638884834-83028-4-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20211208132255.GS6385@nvidia.com>
+ <20211208111659.6de22e52@jacob-builder>
+ <9f724b3a-6028-43d7-b4fc-d8a939e7b2cf@linux.intel.com>
+ <20211209152113.64b817b9@jacob-builder>
+ <921a766f-d826-2ca4-f739-4d196b32a681@linux.intel.com>
+ <20211210095025.38af67ce@jacob-builder>
+Content-Disposition: inline
+In-Reply-To: <20211210095025.38af67ce@jacob-builder>
+X-ClientProxiedBy: YT3PR01CA0058.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::7) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Received: from [10.2.53.3] (130.44.175.231) by
- MN2PR02CA0009.namprd02.prod.outlook.com (2603:10b6:208:fc::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
- Fri, 10 Dec 2021 15:48:37 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34be2c4d-9bbd-4806-f254-08d9bbf487e5
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4272:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB427285BA9C2E536B5A77CB17C2719@MN2PR12MB4272.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 369a3467-fe5f-43ba-35cc-08d9bc05532b
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5539:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB553994595CE8CE9FC6E1E40DC2719@BL0PR12MB5539.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Aq61mUsVCJkw5IJBZUoPh4FWXMVC3kQUv1GLfZOZ+fh342MOOmTeSxnMVVLSaoVJmMB3m3tomyvw2PZ7Esf0wphybWfR0Y9tV+gnJM843/piND1v8ArjWudpqE2sgD0A8lEjwaOexm9SoL4jsaaC5mQtlZeO6PWxwbgc0OlC0RfkgRSItEAh/D5tG25LBprMYip9nzp0S/5LXZULKxvZzpVQvKZH85wUFoe/MQiFQUA3uRdO3fkUSMd3wuSm/f5YnFt2hgPW2g0g2YaEM50xHZin9/rLVB0Eew0r5ScVB3w1vKaZJlCPnuPU0M/fLEPpbQgleVAaEe7mzw6XIPyBIu5OMsGMz6DIfkOo6aRHkXEwg9hOKCogCjW3NnxBQeBgo/Nm4Zfw/VZn8auDefhsOI5Rk5GE1T+ZxXKjGxs7Vh8O3ax0GEnMJqwWsMD+JB/G0kyhB1RJWmuXYaND1GY/jhXSaKMD3lTlC9rIqve8uPbFeJH0+8gfb1be2DDFMGTQc3nslNaYqb343euF+14iGhWZd8LNbj26s6hVJZQB9CLg8zFmihliKAJjDpvxLUQT2FuQQsPw5/VMxo24NTAKQrXGQ1AyBx/RbtzP11+tr0I9GdIFRPNjapLcPZtGgb7sZtQbV7HNDFKsPzFWto2S97AYIRFHnirGW1mdrovdgyz1x6JTOzAqGfeJCiTPqF0fMov4KvuoAtKJVoASPt8PbA9Ya56uT8rynv6cnTzLSq8I8pw3TZEgquQTmD90ebRk
+X-Microsoft-Antispam-Message-Info: eqJELN2Y/G9j+WvgnNXFrSieowtsUidt8krTOegLmd96Axx9cIh+st8lIZAOqdGDImshwtkUdHU4HaJDPZrPWlrsz/vrjtw7RNcXY6UUrykZtXWd2si5KTmD1u+fJrvmSDF5InFn7Fxp4vBRu6Wngd37HGH4hlH8+cu6J0q3H5Kr1eOUzKFsL4q+3NBufs3fI1YaU6KzzVCR24fDNtrZrCdf602dyKtS+AXj5rDUxN6qE5RXDF8zdS3aCF8v0+sQsYNTuZ3m8zNeI56KD80ygLZ6ovY9ze3OvnUBDRfs7bTdLApINUB33smXS4AAeYa02Cg5P32LJTV2fx6OQ49lkONhPhPQBbbYvr7cH3ZKBuKwXz89a/yH2oMubWsSCpFpRMyT99QgylFas9ICoVNYX1ZEohFBMs9TJxgRHfaasAPwlibDn7Ezx09iHnN20xnJvci4ZeQgzLegDDM55P3xwJcIU7Wm64tLTUELcSSLuYsDrot3sB00DhxrWfFbHS0tPISpec7MG6QmrJdf3k6Zs2PyS5BGOtuamzGdnGcZgeo1UALcuoxCjvq7D/iUa9hS2ZXMnn0shB+UXCxroaMcFnMnN01xrWwyZ52B3X0rKLvGhbmJM/EgTuXtZiFOCK9Z6Zo4FQr6z8etVGklolulnw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3823.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8936002)(8676002)(54906003)(235185007)(6486002)(38100700002)(316002)(16576012)(7416002)(83380400001)(5660300002)(66556008)(66476007)(66946007)(86362001)(6916009)(53546011)(2906002)(33656002)(956004)(21480400003)(2616005)(4326008)(186003)(508600001)(33964004)(36756003)(26005)(185883001)(45980500001)(72826004);
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(6486002)(2616005)(54906003)(66946007)(6512007)(86362001)(66476007)(66556008)(508600001)(2906002)(38100700002)(7416002)(26005)(6506007)(8676002)(33656002)(1076003)(36756003)(5660300002)(186003)(6916009)(316002)(4744005)(8936002)(4326008);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWJnRjU2alRvTFhZb1ZUOFVqaDFRdVE3dFRRTm1FQTE3bm00Yy9nd3NQbktY?=
- =?utf-8?B?bGptMGRlUDBFQ3NLVWluZDdkWVdRVkhoK0NpL3MzbG1ySzIvY1JCbjlBQXph?=
- =?utf-8?B?VEU0UEpLRVlyRmkyc21TZEJxZ0crRnNSckpsUjI3bXN5ZTZrdFVESm5CaHU4?=
- =?utf-8?B?L3kzMTdmaStmVGc0Z1V0RGtGY3krUkVWT29yZTdtTTB0MTRMem1BdC9xK3VG?=
- =?utf-8?B?Q1JXaC9WSndGdkdmWVZCdDF3NktubjRtaEwrOFQ3aVo1R0hNYXdVbm9aU2E5?=
- =?utf-8?B?T1NZSHp4c3Y0WWVOaitvZGRnMjZhKzU1eU1hdy96NVNhemhXOXd6OE9vSi8y?=
- =?utf-8?B?ckk1TjFLbFRkVm5TbkdKcHhQajFmaVJ5U0hBTzZaMFY3NnZWcmdKVnhmdEFB?=
- =?utf-8?B?bG5USS8xMWUvbkVJSFNHeDJhVllLck5haC8wSndWZE1nMkpQQ2pIOHprSm8y?=
- =?utf-8?B?K1lOZmczNm9HOTlLd0JmMENmRGpWYjRIaXdVeGlRSXVKMlNmRFhJc3Izb0k2?=
- =?utf-8?B?Zm00dm1XTHNNZmlhRkxTSWRhMjJUdEZNN1c3aTBYRjNuQy9qYmpiZWcxdDdG?=
- =?utf-8?B?eGs3OWpSMWpwRW1iRHBic2dPL3FDUk85Rjl5S0R6andGVlhRaU4ySHlvODFO?=
- =?utf-8?B?d0oxVVMzK2o1eS9TaFpPNjlKYXVBVWJ0OU16Slh1cCtWcnprVHRpUEFGa3hM?=
- =?utf-8?B?U3FYc0oxUFNYVGZramVFSXc2ZDN5UHZMbGN0aTNNczhzZ0wrMEgwamNCV2Qy?=
- =?utf-8?B?V2M0ZFI4bHBvVlRybkxVb1ZlTitrM3QyQTIzR0hzdFRDR0xabDB0OGRhdlRF?=
- =?utf-8?B?MVoxOTdJZnJzR0V3eDVVMy9XWWRseFlOQWVTakxyUXR5bXFvVWlwREplcysx?=
- =?utf-8?B?aGI3NFhnNk56T1NCSFJWcmdCblJDY0FMVWcxWVZPd1dlbXVDdWFKWUh5c2lK?=
- =?utf-8?B?QVQ0MWlrVDhSZHJzalpBWjB4eHN3UGFJOHdSYWlhU1RFM1FSbUcwR0hVdHJP?=
- =?utf-8?B?ZWZZOWJxaUVRMEdTd2V0RjZFd1FMaDYrSU5mRmhyZmgzaUpIYlNiOWZzRkVu?=
- =?utf-8?B?ZDd1QThlZkEyYTZpZ25hbk5SMFJXTkFXdkljNzFWVm9JVGk5WEwzTmtyRUN1?=
- =?utf-8?B?bTI5ZEd3Nnp1RHRmVmpLNk5VYytSSGNLSDBpcjJaY05pZnFGK2tvMThrT000?=
- =?utf-8?B?czJYSDk4QjZZY0dNTWtKSk4wbjk4a1FlRXlJa1FyY3Z3YjhORG9HdUpIYU9F?=
- =?utf-8?B?U2VaSXBvWXZhT1ZxMmJ5aVFvKzRQNVdsckg4M21VdDU3NnRiQmhCK2EwM0th?=
- =?utf-8?B?WTNFSCtBcEhGWTV5TFZ0T0kvVU5RbVgySGh1RTFKU0hNMG5EVyt2SWJLYzBT?=
- =?utf-8?B?QUV5OFMyU0hsOC9DWXZXbTA3cWV1OUdsblgvRG5JREtyM3VycDBkdnkzMVZF?=
- =?utf-8?B?S0tlSkJyR3UyWmhvaVg3Z0tCb1AzNEhyd2p6NGtwMDdpb1l6WlFHL21VQWgz?=
- =?utf-8?B?VHZrSzlEQnBseFA5azVka2Q2RmdxU2hMdDF6NnpiN01TU1hLQ0VLbWZMNTFV?=
- =?utf-8?B?Wmg2Z3BmRGNIYjZFc2VxUGhtM2VHNFE4UmFzR3NSaFVoakFRUTFSRUlDNE9l?=
- =?utf-8?B?WGlqK1c4aER5Q1NFdU1UbXdEWGFQUFF6LzZJem5BSDVBZGo4Slk4ODNtTGdU?=
- =?utf-8?B?dSt1MzVWRmxqQWlJN1kwQVFLdENaaUpCV2NEWFR2WHF4TUgyZmN4NFpnNlBh?=
- =?utf-8?B?REpzdGxOdjN5Y3ZwcWFRbG5LUk01dlVUL2lOTXRFOUd4UmFySHU1d0hvOGpZ?=
- =?utf-8?B?ZW1Sa3lBTU1QV1E5VnNxTGdVUHJ3cTRJbTNVZ0RDbHFUYnFBZVlpQW4wQ1Ns?=
- =?utf-8?B?NUNzMVpIQmd5YittL0dJcTZzUlZ2TmxiRTBYSkNDMW80UWVNN2wyMTNQNUJQ?=
- =?utf-8?B?dm55VHZPRUxsV3FVZStTb2xhd0xvTXJnS0RWNCtobUYrRkJLUUxCS21uUy91?=
- =?utf-8?B?b2V4ZTdWUHl6c0FKWGMvNUp0dEpyb0MyZnFGMnFGU0Q3djNJNlBHbWVhU0hh?=
- =?utf-8?B?YTNCaGFkaG90WkJjZ3lJRjVrTzl1a3RtbVExb3E5ZUUreTVMK3RHa2NrV3Bj?=
- =?utf-8?Q?zUUw=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0TWRHduN/3HmuS9VtjNsJY9NIbwSFb1RovjUmPY5dLEwHXQp5lrz/GkpmsG3?=
+ =?us-ascii?Q?+87TD7DiBuapd8ms+H13VoqAUyH4SzK34oINJT0qjRzJGmVMJQCIewqNt6ZF?=
+ =?us-ascii?Q?QNFHH0roEkQeO5evIGLLOY2iBElmF3JGx4UFNJAqSm3q0XXAZNzlW/7AUiZy?=
+ =?us-ascii?Q?Wdfyoe+68V8v111O2DDpoDgmTfhqMCWLWKwk40i8TxwW63jklKM9nSWeSSdD?=
+ =?us-ascii?Q?HB/qaoUNrjdKT+/dPBYHF5TNcJz7w4i2UPyadlDW0bd5WYy5kNAduN5odGYu?=
+ =?us-ascii?Q?BfFOCAQl+kJqFF97h+cqLYx+ATnFkZ/6nPWHBy0XHD+2e+Lzgh/xRPkrhVwu?=
+ =?us-ascii?Q?qWzKIYozGI+qupbUQ5tDvgsFcUZbEy23DDUryva9FbjBM35cZoiX4X3+O+yG?=
+ =?us-ascii?Q?hFc5j7kAxgSo8EheC74gBKTcGQX+ReXGWYfWiTJPgBaz/Ou6WfFvC48wXMWL?=
+ =?us-ascii?Q?GzIOikByAav/RJ7jydQJahhQT288vfKdBeRudh47BKkTPUSgXtDYBzzsfpLt?=
+ =?us-ascii?Q?fm8TMvhQbysRZzrQTYbUdTAqdk9ihuxmp4M/WTMShX6rSU07YUb2g6ATNW+d?=
+ =?us-ascii?Q?YwKrthvZK+2kJraZgMsaEde0ieoPKqJ/c3ywCBlmDSp/5vGDZNfWmCLs/OmR?=
+ =?us-ascii?Q?+aTgWivicYtgO2AbUW422hDq7gKJRhgHJ4/vZb38lDxoPWOACF7dKsol6gO+?=
+ =?us-ascii?Q?kc/swoao+HuG1Wlo5VLkL9arq063JJjWqDgfyVjlr4dKyMS0tIOrS6a1fVL2?=
+ =?us-ascii?Q?/PMFxtXMJevHNg4QAxXJivlJoWSG5pLp8k63d5AGoeHr+gyMK+/aoE3uVrae?=
+ =?us-ascii?Q?fxwWOmzkIKIbNghM8hCWIDtm2FQPfvWO9v2u8Iqyj3pOTJMrP6gxew3n8DIQ?=
+ =?us-ascii?Q?4bLLgg9YYEqPBCrxozF0CTKwwOHnwBio2bFyLmhSNTikZDgpK5Yg07Ovea/G?=
+ =?us-ascii?Q?t/hvpUVKhZNxLe99oEFmxpBLOMygQ5BaDO0u3OZe2Khw7OIKhUWQL2rh/I9y?=
+ =?us-ascii?Q?LyQ4M8Zca6+WcM3ape2/hd12d9VHj1QxbokTaKeJVBF93P/O+1A5Z/nodCiK?=
+ =?us-ascii?Q?IPtNcU0ZZ/FV9Oe9R63JXM5WcaBJVzWBhaa30kixgJSBwfKiULfI6Fgw7lrq?=
+ =?us-ascii?Q?re5YrheXP2vLNh7UIqn2XB7z5J1mDf1VQxcaoyWHIwKjXFJDop1JI+F0dnN4?=
+ =?us-ascii?Q?HhZt1oAndsAq+PNuJNjB6NZ/s6OArckJPZO2evUepZDdWROYlK37Ll0v7Yg3?=
+ =?us-ascii?Q?uv/Y18Qb2wt12ZbINjETtA3Pm22vIprhHvWdpshy5FP02b9mHxvaT3zMa9kH?=
+ =?us-ascii?Q?LUy92FvAu01QBmDSznzlnlHIaZU/jyg6/9bZn749nP5ETcxCJb15yycjP4+f?=
+ =?us-ascii?Q?etFIkFpfTICGutwRYxv3FDE+1fyGR6PUg77RMwrV9Y44xPagEdBlUahAPArP?=
+ =?us-ascii?Q?HBTTYCW+LUD4oN4KKc4txM2naRsWtgL+jlxGC3qFb6dfxmTyIaCq94FESitN?=
+ =?us-ascii?Q?iKJK4QzDrP7ljostaoEUrhQGMbbwQMwChjMZjmz2abfPvRN5wQonc1Wp+C/D?=
+ =?us-ascii?Q?22/YM2ynVmEbZP7eC7A=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34be2c4d-9bbd-4806-f254-08d9bbf487e5
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3823.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 369a3467-fe5f-43ba-35cc-08d9bc05532b
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 15:48:37.7762 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 17:48:50.6772 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AWMkjnyq1BG5WEPhoUnhP7fimMQY31VWwIzqVeX1v7K4xrMbWFixGc+TBR8UrAlV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4272
-Cc: Mel Gorman <mgorman@techsingularity.net>,
- David Hildenbrand <david@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, Vlastimil Babka <vbabka@suse.cz>
+X-MS-Exchange-CrossTenant-UserPrincipalName: oaHMsTEHespnlgPCfH1qFnh7G7/GD9d+n53TGVEAUMrwq7QcaavBR3gkcTDusEl1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5539
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Kumar,
+ Sanjay K" <sanjay.k.kumar@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
+ Jacob Pan <jacob.jun.pan@intel.com>, Barry Song <21cnbao@gmail.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>, "Zanussi,
+ Tom" <tom.zanussi@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -157,139 +151,35 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Zi Yan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Zi Yan <ziy@nvidia.com>
-Content-Type: multipart/mixed; boundary="===============6250344978992593399=="
+From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Jason Gunthorpe <jgg@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
---===============6250344978992593399==
-Content-Type: multipart/signed;
- boundary="=_MailMate_BA365FBB-6E3D-4C74-AD07-06D52C16CD4C_=";
- micalg=pgp-sha512; protocol="application/pgp-signature"
+On Fri, Dec 10, 2021 at 09:50:25AM -0800, Jacob Pan wrote:
 
---=_MailMate_BA365FBB-6E3D-4C74-AD07-06D52C16CD4C_=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> > Tying pasid to an iommu_domain is not a good idea. An iommu_domain
+> > represents an I/O address translation table. It could be attached to a
+> > device or a PASID on the device.
+> 
+> I don;t think we can avoid storing PASID at domain level or the group's
+> default domain. IOTLB flush is per domain. Default domain of DMA type
+> is already tying to PASID0, right?
 
-On 10 Dec 2021, at 2:53, Eric Ren wrote:
+No, it is just wrong.
 
-> Hi,
->
-> On 2021/12/10 07:04, Zi Yan wrote:
->> From: Zi Yan <ziy@nvidia.com>
->>
->> alloc_migration_target() is used by alloc_contig_range() and non-LRU
->> movable compound pages can be migrated. Current code does not allocate=
- the
->> right page size for such pages. Check THP precisely using
->> is_transparent_huge() and add allocation support for non-LRU compound
->> pages.
-> Could you elaborate on why the current code doesn't get the right size?=
-=C2=A0 how this patch fixes it.
+If the HW requires a list of everything that is connected to the
+iommu_domain then it's private iommu_domain should have that list.
 
-The current code only check PageHuge() and PageTransHuge(). Non-LRU compo=
-und
-pages will be regarded as PageTransHuge() and an order-9 page is always a=
-llocated
-regardless of the actual page order. This patch makes the exact check for=
+But it is a *list* not a single PASID.
 
-THPs using is_transparent_huge() instead of PageTransHuge() and checks Pa=
-geCompound()
-after PageHuge() and is_transparent_huge() for non-LRU compound pages.
+If one device has 10 PASID's pointing to this domain you must flush
+them all if that is what the HW requires.
 
->
-> The description sounds like it's an existing bug, if so, the patch subj=
-ect should be changed to
-> "Fixes ..."?
-
-I have not seen any related bug report.
-
->
->>
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->> ---
->>   mm/migrate.c | 8 ++++++--
->>   1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/mm/migrate.c b/mm/migrate.c
->> index d487a399253b..2ce3c771b1de 100644
->> --- a/mm/migrate.c
->> +++ b/mm/migrate.c
->> @@ -1563,7 +1563,7 @@ struct page *alloc_migration_target(struct page =
-*page, unsigned long private)
->>   		return alloc_huge_page_nodemask(h, nid, mtc->nmask, gfp_mask);
->>   	}
->>  -	if (PageTransHuge(page)) {
->> +	if (is_transparent_hugepage(page)) {
->>   		/*
->>   		 * clear __GFP_RECLAIM to make the migration callback
->>   		 * consistent with regular THP allocations.
->> @@ -1572,13 +1572,17 @@ struct page *alloc_migration_target(struct pag=
-e *page, unsigned long private)
-> if (PageTransHuge(page)) {=C2=A0 // just give more code context
-> ...
->>   		gfp_mask |=3D GFP_TRANSHUGE;
->>   		order =3D HPAGE_PMD_ORDER;
-> order assigned here
->>   	}
->> +	if (PageCompound(page)) {
->> +		gfp_mask |=3D __GFP_COMP;
->> +		order =3D compound_order(page);
-> re-assinged again as THP is a compound page?
-
-Ah, you are right. Will use else if instead. Thanks.
-
-> Thanks,
-> Eric
->> +	}
->>   	zidx =3D zone_idx(page_zone(page));
->>   	if (is_highmem_idx(zidx) || zidx =3D=3D ZONE_MOVABLE)
->>   		gfp_mask |=3D __GFP_HIGHMEM;
->>    	new_page =3D __alloc_pages(gfp_mask, order, nid, mtc->nmask);
->>  -	if (new_page && PageTransHuge(new_page))
->> +	if (new_page && is_transparent_hugepage(page))
->>   		prep_transhuge_page(new_page);
->>    	return new_page;
-
-
---
-Best Regards,
-Yan, Zi
-
---=_MailMate_BA365FBB-6E3D-4C74-AD07-06D52C16CD4C_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJDBAEBCgAtFiEEh7yFAW3gwjwQ4C9anbJR82th+ooFAmGzdtQPHHppeUBudmlk
-aWEuY29tAAoJEJ2yUfNrYfqK0G8QAI7CY6NLXAee8CtKYL7dPjE77HLRaD9uQJL+
-4dgP4xOrredgYJixZOKx7XzZTHMoonzVTFF7px+w8zRClPASuOg5GGSVzuZ9M3ns
-MLfyqjF4TCpJO/P2L28raGfxzsBcfnMEbEA54G7i6Axysjhy8UU6SLEipPGRc4xz
-jG8P+YM6ZS9guoz6vwLsT3jxZ7JKb0D1B7uWP+PSfR06wMrb8/xXGlhkazCqohLy
-/whb2RAxh8wLnX1Ks4iidKrrSerxBgXvna/MjicD96TV56x5UlwQwTCWfqFzqiXx
-Ynz3l2iM4ogwdC6uGyqhNSEk0PEo371F6ZZi02xg6gRFkpJvFeY6n+/K/1hAv6ch
-DF/E3kbl59akOUd4O4wdJVp6NWfSa19nTKnvMSqtkQiscf+ehdMMD4tn0EeTHPK9
-YJijB4HVMSJdh7KWNwKNvFxORIMLl72IyJ473fHlWl0ibBtfimi4O3dHYmNrgc5Y
-pscA4twxZ/FeIJPQlMfrEGC3hCfDxwYNqSKoI3L1+CZRF390uiK06lZG23gVAKtm
-hf2oX8Wf/j4IbXtZC4J4hnY2y76QLG5dbhUsFM8XsQaKOcuq1UGcfoYXfPZ8AYvP
-eQHluN+7TIsNDRAihyzwiiMtZiaB7s6t+QTh8olEm5ussvAxDiMSun598Po23Ub4
-gHCyxr/d
-=S+9o
------END PGP SIGNATURE-----
-
---=_MailMate_BA365FBB-6E3D-4C74-AD07-06D52C16CD4C_=--
-
---===============6250344978992593399==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============6250344978992593399==--
