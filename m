@@ -2,85 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9A1470D5A
-	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 23:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC0C470EAF
+	for <lists.iommu@lfdr.de>; Sat, 11 Dec 2021 00:30:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5DD1961B56;
-	Fri, 10 Dec 2021 22:19:43 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id F01BB61527;
+	Fri, 10 Dec 2021 23:30:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UVzxMiFHW0he; Fri, 10 Dec 2021 22:19:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6A83F61B4E;
-	Fri, 10 Dec 2021 22:19:42 +0000 (UTC)
+	with ESMTP id FYR_s0qk3TU3; Fri, 10 Dec 2021 23:30:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7E02361B43;
+	Fri, 10 Dec 2021 23:30:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F4B7C0012;
-	Fri, 10 Dec 2021 22:19:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 48094C0012;
+	Fri, 10 Dec 2021 23:30:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C16AC0012
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:19:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 31666C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 23:30:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 59F2F42861
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:19:40 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0A5A861B42
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 23:30:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="Uy0NC+Qn";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="rCtZG1LY"
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bu-8BQSN9Xip for <iommu@lists.linux-foundation.org>;
- Fri, 10 Dec 2021 22:19:39 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id aM0IN7Lt0NBQ for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Dec 2021 23:30:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 9F5D94285A
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:19:39 +0000 (UTC)
-Message-ID: <20211210221815.329792721@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1639174778;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=El+H3F4NXV3E+px9T1PJDDlrE0XW8D36UmPAiNafE8w=;
- b=Uy0NC+QniJEawZ4yuuEFtqIMzw9PFLBgpx0HDrRUo2md8XUl4SS73Nl7EfE819E5PtpbVc
- LAz+1cPwMJ/P73wMT+BU/i9qA4amhAWgAueMd0/fC606btT7duSv4NvM14w5Glhzh8MMt6
- Vf8SrpkxfuLKYwgK8ZgtU7FQjNQoMGjZqRjEQAW68HIHWKLNXxWyDiwhGs8MAwuo+Mw6+1
- gNzbkVQZh77bKcaEtUEDOtwWMdTwvsOeTeAuHpf0qQRNTFrf+/FLo1BbMBzYXFZsIbop/R
- ssapnQMEEzj69/QY+0rBqrGI4rNejNtgJBDAT+PK0tQBj3vgRF91DKkGdlcQHg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1639174778;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=El+H3F4NXV3E+px9T1PJDDlrE0XW8D36UmPAiNafE8w=;
- b=rCtZG1LYH0eCoa6arIPeivQCBnZ/C7/60VDfvadqZFSQ6CFg6eVTEQvW1V/zkV59EqrcH/
- ZMdJiiA2xvl8beBw==
-From: Thomas Gleixner <tglx@linutronix.de>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 35/35] dmaengine: qcom_hidma: Cleanup MSI handling
-References: <20211210221642.869015045@linutronix.de>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1FB1F61527
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 23:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639179026; x=1670715026;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=m2GhuwJ4UnyKyqy83lVmEBmiMbGKiHLXbCCHqnR/ajM=;
+ b=Lzg4HB+yXdbnhHvGmgzE/nfIaCijjppyQBRkZh6CHJoSKZduwFKcIYjx
+ xMgepYpy7xG//P7ZOG2c76TZO1ObO/99OsGcLEADFz5vTY3INiKpyvOmD
+ BoUin3MNEDTiiXqdl2JRlJo+FWR3GD7E71pPM+v9poyno4N7koIInjN9l
+ AJYnmVkfndO7kOfzGP91ceo/BC0A3N/tqM0cx5k9YZxbaKVg4Ut9t95BO
+ RMbd7zhMKNnVj3skNIKmzJTxqlbYTkKTKowlebMZYV93keB4ydCgtwkpU
+ 7fcBQk/q7ZbVrwL+jeESawIq8ll0KfyQ9BjpYDhU9OrpbganzgA7PS5QE w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="225752890"
+X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="225752890"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 15:30:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="565479477"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+ by fmsmga008.fm.intel.com with ESMTP; 10 Dec 2021 15:30:21 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mvpLI-0003nt-Si; Fri, 10 Dec 2021 23:30:20 +0000
+Date: Sat, 11 Dec 2021 07:30:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org, will@kernel.org
+Subject: Re: [PATCH v2 11/11] iommu: Move flush queue data into
+ iommu_dma_cookie
+Message-ID: <202112110753.vYbSlMnq-lkp@intel.com>
+References: <e2e24e5f4174a56c725cde3164f86a3e234f6d7f.1639157090.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-Date: Fri, 10 Dec 2021 23:19:37 +0100 (CET)
-Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
- Stuart Yoder <stuyoder@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jassi Brar <jassisinghbrar@gmail.com>,
- Sinan Kaya <okaya@kernel.org>, iommu@lists.linux-foundation.org,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Jason Gunthorpe <jgg@nvidia.com>,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Kevin Tian <kevin.tian@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>, Cedric Le Goater <clg@kaod.org>,
- Santosh Shilimkar <ssantosh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Megha Dey <megha.dey@intel.com>, Juergen Gross <jgross@suse.com>,
- Tero Kristo <kristo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>,
- Marc Zygnier <maz@kernel.org>, dmaengine@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Content-Disposition: inline
+In-Reply-To: <e2e24e5f4174a56c725cde3164f86a3e234f6d7f.1639157090.git.robin.murphy@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org, willy@infradead.org,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,99 +88,231 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thomas Gleixner <tglx@linutronix.de>
+Hi Robin,
 
-There is no reason to walk the MSI descriptors to retrieve the interrupt
-number for a device. Use msi_get_virq() instead.
+I love your patch! Yet something to improve:
 
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Acked-by: Sinan Kaya <okaya@kernel.org>
-Cc: dmaengine@vger.kernel.org
+[auto build test ERROR on joro-iommu/next]
+[also build test ERROR on tegra/for-next v5.16-rc4]
+[cannot apply to tegra-drm/drm/tegra/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Robin-Murphy/iommu-refactor-flush-queues-into-iommu-dma/20211211-015635
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
+config: arm-randconfig-r013-20211210 (https://download.01.org/0day-ci/archive/20211211/202112110753.vYbSlMnq-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/3b6adb4a8ec42d7b5c1b3b1af2c857a2375fd7e1
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Robin-Murphy/iommu-refactor-flush-queues-into-iommu-dma/20211211-015635
+        git checkout 3b6adb4a8ec42d7b5c1b3b1af2c857a2375fd7e1
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/tegra/ drivers/iommu/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/tegra/hub.c: In function 'tegra_display_hub_probe':
+>> drivers/gpu/drm/tegra/hub.c:1043:24: error: implicit declaration of function 'dma_get_mask'; did you mean 'xa_get_mark'? [-Werror=implicit-function-declaration]
+    1043 |         u64 dma_mask = dma_get_mask(pdev->dev.parent);
+         |                        ^~~~~~~~~~~~
+         |                        xa_get_mark
+>> drivers/gpu/drm/tegra/hub.c:1050:15: error: implicit declaration of function 'dma_coerce_mask_and_coherent' [-Werror=implicit-function-declaration]
+    1050 |         err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_plane_reset':
+>> drivers/gpu/drm/tegra/plane.c:46:42: error: 'DMA_MAPPING_ERROR' undeclared (first use in this function)
+      46 |                         state->iova[i] = DMA_MAPPING_ERROR;
+         |                                          ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/plane.c:46:42: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_plane_atomic_duplicate_state':
+   drivers/gpu/drm/tegra/plane.c:76:33: error: 'DMA_MAPPING_ERROR' undeclared (first use in this function)
+      76 |                 copy->iova[i] = DMA_MAPPING_ERROR;
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_dc_pin':
+>> drivers/gpu/drm/tegra/plane.c:170:31: error: implicit declaration of function 'dma_map_sgtable'; did you mean 'iommu_map_sgtable'? [-Werror=implicit-function-declaration]
+     170 |                         err = dma_map_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
+         |                               ^~~~~~~~~~~~~~~
+         |                               iommu_map_sgtable
+>> drivers/gpu/drm/tegra/plane.c:170:61: error: 'DMA_TO_DEVICE' undeclared (first use in this function); did you mean 'MT_DEVICE'?
+     170 |                         err = dma_map_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
+         |                                                             ^~~~~~~~~~~~~
+         |                                                             MT_DEVICE
+>> drivers/gpu/drm/tegra/plane.c:202:25: error: implicit declaration of function 'dma_unmap_sgtable'; did you mean 'iommu_map_sgtable'? [-Werror=implicit-function-declaration]
+     202 |                         dma_unmap_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
+         |                         ^~~~~~~~~~~~~~~~~
+         |                         iommu_map_sgtable
+   drivers/gpu/drm/tegra/plane.c:205:34: error: 'DMA_MAPPING_ERROR' undeclared (first use in this function)
+     205 |                 state->iova[i] = DMA_MAPPING_ERROR;
+         |                                  ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tegra/plane.c: In function 'tegra_dc_unpin':
+   drivers/gpu/drm/tegra/plane.c:221:57: error: 'DMA_TO_DEVICE' undeclared (first use in this function); did you mean 'MT_DEVICE'?
+     221 |                         dma_unmap_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
+         |                                                         ^~~~~~~~~~~~~
+         |                                                         MT_DEVICE
+   drivers/gpu/drm/tegra/plane.c:224:34: error: 'DMA_MAPPING_ERROR' undeclared (first use in this function)
+     224 |                 state->iova[i] = DMA_MAPPING_ERROR;
+         |                                  ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/tegra/dc.c: In function 'tegra_crtc_calculate_memory_bandwidth':
+   drivers/gpu/drm/tegra/dc.c:2225:38: warning: variable 'old_state' set but not used [-Wunused-but-set-variable]
+    2225 |         const struct drm_crtc_state *old_state;
+         |                                      ^~~~~~~~~
+   drivers/gpu/drm/tegra/dc.c: In function 'tegra_dc_probe':
+>> drivers/gpu/drm/tegra/dc.c:2978:24: error: implicit declaration of function 'dma_get_mask'; did you mean 'xa_get_mark'? [-Werror=implicit-function-declaration]
+    2978 |         u64 dma_mask = dma_get_mask(pdev->dev.parent);
+         |                        ^~~~~~~~~~~~
+         |                        xa_get_mark
+>> drivers/gpu/drm/tegra/dc.c:2982:15: error: implicit declaration of function 'dma_coerce_mask_and_coherent' [-Werror=implicit-function-declaration]
+    2982 |         err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +1043 drivers/gpu/drm/tegra/hub.c
+
+c4755fb9064f64 Thierry Reding 2017-11-13  1040  
+c4755fb9064f64 Thierry Reding 2017-11-13  1041  static int tegra_display_hub_probe(struct platform_device *pdev)
+c4755fb9064f64 Thierry Reding 2017-11-13  1042  {
+86044e749be77a Thierry Reding 2021-03-26 @1043  	u64 dma_mask = dma_get_mask(pdev->dev.parent);
+0cffbde2e318cc Thierry Reding 2018-11-29  1044  	struct device_node *child = NULL;
+c4755fb9064f64 Thierry Reding 2017-11-13  1045  	struct tegra_display_hub *hub;
+0cffbde2e318cc Thierry Reding 2018-11-29  1046  	struct clk *clk;
+c4755fb9064f64 Thierry Reding 2017-11-13  1047  	unsigned int i;
+c4755fb9064f64 Thierry Reding 2017-11-13  1048  	int err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1049  
+86044e749be77a Thierry Reding 2021-03-26 @1050  	err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
+86044e749be77a Thierry Reding 2021-03-26  1051  	if (err < 0) {
+86044e749be77a Thierry Reding 2021-03-26  1052  		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
+86044e749be77a Thierry Reding 2021-03-26  1053  		return err;
+86044e749be77a Thierry Reding 2021-03-26  1054  	}
+86044e749be77a Thierry Reding 2021-03-26  1055  
+c4755fb9064f64 Thierry Reding 2017-11-13  1056  	hub = devm_kzalloc(&pdev->dev, sizeof(*hub), GFP_KERNEL);
+c4755fb9064f64 Thierry Reding 2017-11-13  1057  	if (!hub)
+c4755fb9064f64 Thierry Reding 2017-11-13  1058  		return -ENOMEM;
+c4755fb9064f64 Thierry Reding 2017-11-13  1059  
+c4755fb9064f64 Thierry Reding 2017-11-13  1060  	hub->soc = of_device_get_match_data(&pdev->dev);
+c4755fb9064f64 Thierry Reding 2017-11-13  1061  
+c4755fb9064f64 Thierry Reding 2017-11-13  1062  	hub->clk_disp = devm_clk_get(&pdev->dev, "disp");
+c4755fb9064f64 Thierry Reding 2017-11-13  1063  	if (IS_ERR(hub->clk_disp)) {
+c4755fb9064f64 Thierry Reding 2017-11-13  1064  		err = PTR_ERR(hub->clk_disp);
+c4755fb9064f64 Thierry Reding 2017-11-13  1065  		return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1066  	}
+c4755fb9064f64 Thierry Reding 2017-11-13  1067  
+5725daaab55ca0 Thierry Reding 2018-09-21  1068  	if (hub->soc->supports_dsc) {
+c4755fb9064f64 Thierry Reding 2017-11-13  1069  		hub->clk_dsc = devm_clk_get(&pdev->dev, "dsc");
+c4755fb9064f64 Thierry Reding 2017-11-13  1070  		if (IS_ERR(hub->clk_dsc)) {
+c4755fb9064f64 Thierry Reding 2017-11-13  1071  			err = PTR_ERR(hub->clk_dsc);
+c4755fb9064f64 Thierry Reding 2017-11-13  1072  			return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1073  		}
+5725daaab55ca0 Thierry Reding 2018-09-21  1074  	}
+c4755fb9064f64 Thierry Reding 2017-11-13  1075  
+c4755fb9064f64 Thierry Reding 2017-11-13  1076  	hub->clk_hub = devm_clk_get(&pdev->dev, "hub");
+c4755fb9064f64 Thierry Reding 2017-11-13  1077  	if (IS_ERR(hub->clk_hub)) {
+c4755fb9064f64 Thierry Reding 2017-11-13  1078  		err = PTR_ERR(hub->clk_hub);
+c4755fb9064f64 Thierry Reding 2017-11-13  1079  		return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1080  	}
+c4755fb9064f64 Thierry Reding 2017-11-13  1081  
+c4755fb9064f64 Thierry Reding 2017-11-13  1082  	hub->rst = devm_reset_control_get(&pdev->dev, "misc");
+c4755fb9064f64 Thierry Reding 2017-11-13  1083  	if (IS_ERR(hub->rst)) {
+c4755fb9064f64 Thierry Reding 2017-11-13  1084  		err = PTR_ERR(hub->rst);
+c4755fb9064f64 Thierry Reding 2017-11-13  1085  		return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1086  	}
+c4755fb9064f64 Thierry Reding 2017-11-13  1087  
+c4755fb9064f64 Thierry Reding 2017-11-13  1088  	hub->wgrps = devm_kcalloc(&pdev->dev, hub->soc->num_wgrps,
+c4755fb9064f64 Thierry Reding 2017-11-13  1089  				  sizeof(*hub->wgrps), GFP_KERNEL);
+c4755fb9064f64 Thierry Reding 2017-11-13  1090  	if (!hub->wgrps)
+c4755fb9064f64 Thierry Reding 2017-11-13  1091  		return -ENOMEM;
+c4755fb9064f64 Thierry Reding 2017-11-13  1092  
+c4755fb9064f64 Thierry Reding 2017-11-13  1093  	for (i = 0; i < hub->soc->num_wgrps; i++) {
+c4755fb9064f64 Thierry Reding 2017-11-13  1094  		struct tegra_windowgroup *wgrp = &hub->wgrps[i];
+c4755fb9064f64 Thierry Reding 2017-11-13  1095  		char id[8];
+c4755fb9064f64 Thierry Reding 2017-11-13  1096  
+c4755fb9064f64 Thierry Reding 2017-11-13  1097  		snprintf(id, sizeof(id), "wgrp%u", i);
+c4755fb9064f64 Thierry Reding 2017-11-13  1098  		mutex_init(&wgrp->lock);
+c4755fb9064f64 Thierry Reding 2017-11-13  1099  		wgrp->usecount = 0;
+c4755fb9064f64 Thierry Reding 2017-11-13  1100  		wgrp->index = i;
+c4755fb9064f64 Thierry Reding 2017-11-13  1101  
+c4755fb9064f64 Thierry Reding 2017-11-13  1102  		wgrp->rst = devm_reset_control_get(&pdev->dev, id);
+c4755fb9064f64 Thierry Reding 2017-11-13  1103  		if (IS_ERR(wgrp->rst))
+c4755fb9064f64 Thierry Reding 2017-11-13  1104  			return PTR_ERR(wgrp->rst);
+c4755fb9064f64 Thierry Reding 2017-11-13  1105  
+c4755fb9064f64 Thierry Reding 2017-11-13  1106  		err = reset_control_assert(wgrp->rst);
+c4755fb9064f64 Thierry Reding 2017-11-13  1107  		if (err < 0)
+c4755fb9064f64 Thierry Reding 2017-11-13  1108  			return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1109  	}
+c4755fb9064f64 Thierry Reding 2017-11-13  1110  
+0cffbde2e318cc Thierry Reding 2018-11-29  1111  	hub->num_heads = of_get_child_count(pdev->dev.of_node);
+0cffbde2e318cc Thierry Reding 2018-11-29  1112  
+0cffbde2e318cc Thierry Reding 2018-11-29  1113  	hub->clk_heads = devm_kcalloc(&pdev->dev, hub->num_heads, sizeof(clk),
+0cffbde2e318cc Thierry Reding 2018-11-29  1114  				      GFP_KERNEL);
+0cffbde2e318cc Thierry Reding 2018-11-29  1115  	if (!hub->clk_heads)
+0cffbde2e318cc Thierry Reding 2018-11-29  1116  		return -ENOMEM;
+0cffbde2e318cc Thierry Reding 2018-11-29  1117  
+0cffbde2e318cc Thierry Reding 2018-11-29  1118  	for (i = 0; i < hub->num_heads; i++) {
+0cffbde2e318cc Thierry Reding 2018-11-29  1119  		child = of_get_next_child(pdev->dev.of_node, child);
+0cffbde2e318cc Thierry Reding 2018-11-29  1120  		if (!child) {
+0cffbde2e318cc Thierry Reding 2018-11-29  1121  			dev_err(&pdev->dev, "failed to find node for head %u\n",
+0cffbde2e318cc Thierry Reding 2018-11-29  1122  				i);
+0cffbde2e318cc Thierry Reding 2018-11-29  1123  			return -ENODEV;
+0cffbde2e318cc Thierry Reding 2018-11-29  1124  		}
+0cffbde2e318cc Thierry Reding 2018-11-29  1125  
+0cffbde2e318cc Thierry Reding 2018-11-29  1126  		clk = devm_get_clk_from_child(&pdev->dev, child, "dc");
+0cffbde2e318cc Thierry Reding 2018-11-29  1127  		if (IS_ERR(clk)) {
+0cffbde2e318cc Thierry Reding 2018-11-29  1128  			dev_err(&pdev->dev, "failed to get clock for head %u\n",
+0cffbde2e318cc Thierry Reding 2018-11-29  1129  				i);
+0cffbde2e318cc Thierry Reding 2018-11-29  1130  			of_node_put(child);
+0cffbde2e318cc Thierry Reding 2018-11-29  1131  			return PTR_ERR(clk);
+0cffbde2e318cc Thierry Reding 2018-11-29  1132  		}
+0cffbde2e318cc Thierry Reding 2018-11-29  1133  
+0cffbde2e318cc Thierry Reding 2018-11-29  1134  		hub->clk_heads[i] = clk;
+0cffbde2e318cc Thierry Reding 2018-11-29  1135  	}
+0cffbde2e318cc Thierry Reding 2018-11-29  1136  
+0cffbde2e318cc Thierry Reding 2018-11-29  1137  	of_node_put(child);
+0cffbde2e318cc Thierry Reding 2018-11-29  1138  
+c4755fb9064f64 Thierry Reding 2017-11-13  1139  	/* XXX: enable clock across reset? */
+c4755fb9064f64 Thierry Reding 2017-11-13  1140  	err = reset_control_assert(hub->rst);
+c4755fb9064f64 Thierry Reding 2017-11-13  1141  	if (err < 0)
+c4755fb9064f64 Thierry Reding 2017-11-13  1142  		return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1143  
+c4755fb9064f64 Thierry Reding 2017-11-13  1144  	platform_set_drvdata(pdev, hub);
+c4755fb9064f64 Thierry Reding 2017-11-13  1145  	pm_runtime_enable(&pdev->dev);
+c4755fb9064f64 Thierry Reding 2017-11-13  1146  
+c4755fb9064f64 Thierry Reding 2017-11-13  1147  	INIT_LIST_HEAD(&hub->client.list);
+c4755fb9064f64 Thierry Reding 2017-11-13  1148  	hub->client.ops = &tegra_display_hub_ops;
+c4755fb9064f64 Thierry Reding 2017-11-13  1149  	hub->client.dev = &pdev->dev;
+c4755fb9064f64 Thierry Reding 2017-11-13  1150  
+c4755fb9064f64 Thierry Reding 2017-11-13  1151  	err = host1x_client_register(&hub->client);
+c4755fb9064f64 Thierry Reding 2017-11-13  1152  	if (err < 0)
+c4755fb9064f64 Thierry Reding 2017-11-13  1153  		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
+c4755fb9064f64 Thierry Reding 2017-11-13  1154  			err);
+c4755fb9064f64 Thierry Reding 2017-11-13  1155  
+a101e3dad8a90a Thierry Reding 2020-06-12  1156  	err = devm_of_platform_populate(&pdev->dev);
+a101e3dad8a90a Thierry Reding 2020-06-12  1157  	if (err < 0)
+a101e3dad8a90a Thierry Reding 2020-06-12  1158  		goto unregister;
+a101e3dad8a90a Thierry Reding 2020-06-12  1159  
+a101e3dad8a90a Thierry Reding 2020-06-12  1160  	return err;
+a101e3dad8a90a Thierry Reding 2020-06-12  1161  
+a101e3dad8a90a Thierry Reding 2020-06-12  1162  unregister:
+a101e3dad8a90a Thierry Reding 2020-06-12  1163  	host1x_client_unregister(&hub->client);
+a101e3dad8a90a Thierry Reding 2020-06-12  1164  	pm_runtime_disable(&pdev->dev);
+c4755fb9064f64 Thierry Reding 2017-11-13  1165  	return err;
+c4755fb9064f64 Thierry Reding 2017-11-13  1166  }
+c4755fb9064f64 Thierry Reding 2017-11-13  1167  
+
 ---
- drivers/dma/qcom/hidma.c |   42 ++++++++++++++++++------------------------
- 1 file changed, 18 insertions(+), 24 deletions(-)
-
---- a/drivers/dma/qcom/hidma.c
-+++ b/drivers/dma/qcom/hidma.c
-@@ -678,11 +678,13 @@ static void hidma_free_msis(struct hidma
- {
- #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
- 	struct device *dev = dmadev->ddev.dev;
--	struct msi_desc *desc;
-+	int i, virq;
- 
--	/* free allocated MSI interrupts above */
--	for_each_msi_entry(desc, dev)
--		devm_free_irq(dev, desc->irq, &dmadev->lldev);
-+	for (i = 0; i < HIDMA_MSI_INTS; i++) {
-+		virq = msi_get_virq(dev, i);
-+		if (virq)
-+			devm_free_irq(dev, virq, &dmadev->lldev);
-+	}
- 
- 	platform_msi_domain_free_irqs(dev);
- #endif
-@@ -692,45 +694,37 @@ static int hidma_request_msi(struct hidm
- 			     struct platform_device *pdev)
- {
- #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
--	int rc;
--	struct msi_desc *desc;
--	struct msi_desc *failed_desc = NULL;
-+	int rc, i, virq;
- 
- 	rc = platform_msi_domain_alloc_irqs(&pdev->dev, HIDMA_MSI_INTS,
- 					    hidma_write_msi_msg);
- 	if (rc)
- 		return rc;
- 
--	for_each_msi_entry(desc, &pdev->dev) {
--		if (!desc->msi_index)
--			dmadev->msi_virqbase = desc->irq;
--
--		rc = devm_request_irq(&pdev->dev, desc->irq,
-+	for (i = 0; i < HIDMA_MSI_INTS; i++) {
-+		virq = msi_get_virq(&pdev->dev, i);
-+		rc = devm_request_irq(&pdev->dev, virq,
- 				       hidma_chirq_handler_msi,
- 				       0, "qcom-hidma-msi",
- 				       &dmadev->lldev);
--		if (rc) {
--			failed_desc = desc;
-+		if (rc)
- 			break;
--		}
-+		if (!i)
-+			dmadev->msi_virqbase = virq;
- 	}
- 
- 	if (rc) {
- 		/* free allocated MSI interrupts above */
--		for_each_msi_entry(desc, &pdev->dev) {
--			if (desc == failed_desc)
--				break;
--			devm_free_irq(&pdev->dev, desc->irq,
--				      &dmadev->lldev);
-+		for (--i; i >= 0; i--) {
-+			virq = msi_get_virq(&pdev->dev, i);
-+			devm_free_irq(&pdev->dev, virq, &dmadev->lldev);
- 		}
-+		dev_warn(&pdev->dev,
-+			 "failed to request MSI irq, falling back to wired IRQ\n");
- 	} else {
- 		/* Add callback to free MSIs on teardown */
- 		hidma_ll_setup_irq(dmadev->lldev, true);
--
- 	}
--	if (rc)
--		dev_warn(&pdev->dev,
--			 "failed to request MSI irq, falling back to wired IRQ\n");
- 	return rc;
- #else
- 	return -EINVAL;
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
