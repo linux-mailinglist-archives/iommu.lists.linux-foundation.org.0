@@ -1,64 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077D3470D02
-	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 23:18:55 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 241DC470D00
+	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 23:18:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 91AB1418C9;
-	Fri, 10 Dec 2021 22:18:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tF0b0FOQeaxy; Fri, 10 Dec 2021 22:18:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 2AD7F418DA;
-	Fri, 10 Dec 2021 22:18:52 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1DF30C0078;
+	by smtp3.osuosl.org (Postfix) with ESMTP id CA62D61B4E;
 	Fri, 10 Dec 2021 22:18:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8C--z0Dldzur; Fri, 10 Dec 2021 22:18:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id EB1D361B4A;
+	Fri, 10 Dec 2021 22:18:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A14ECC0071;
+	Fri, 10 Dec 2021 22:18:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4108BC0012
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:18:50 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F692C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:18:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 1FF00418C9
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:18:50 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5B298418D8
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:18:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linutronix.de header.b="RVFQBQqA";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=linutronix.de header.b="W5z8GHgz"
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id y4X4OBEqMRSw for <iommu@lists.linux-foundation.org>;
+ with ESMTP id I2pW6Shd3cyg for <iommu@lists.linux-foundation.org>;
  Fri, 10 Dec 2021 22:18:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D0847418D4
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:18:47 +0000 (UTC)
-Message-ID: <20211210221642.869015045@linutronix.de>
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 62657418C9
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 22:18:48 +0000 (UTC)
+Message-ID: <20211210221813.250049810@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1639174723;
+ s=2020; t=1639174725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IBbfy8DUMmeX2/DxJ4bxtqprC0vLuk1jWkG3suZ0PZw=;
- b=qC+ywncigd88uX881G7drnWnPitC8LQEDjIxWICRbmx1CnZuuhH2HOM78Mj73Xd+ZCv0Kb
- ncvkjbnzAtbd+ixrpTmp/mZ4pThJranbywfqMLopOdcOEGpsPc6uk3V8xaldwObLZfsa/F
- EQ9V2dZmFKR1bqfNssiazFt8n3Mf+7q1vPMaTRADEfAyYuxcvDch8l/qTyx/UZYaRnEdfG
- 107k2ftTZl52fiKXc5XfVwoW5s/CdJw8zCMdv0ss6LKqyYgeRXX/LiA2+XXHlrLhd7JdKS
- +inOsrufS8ZmeqDmP1k3/yTr0mCeJApmaMV52ZYaBfM4TpXhGFC+GjjHRExr/A==
+ references:references; bh=LAPO48TeSRvyraOCUaLnLGoqr3cykpYVLg5Q2NPw+tk=;
+ b=RVFQBQqAHeoiRwlZ3riRsRVnIL91ZjHAfRJRIp58J8GUnDjLQx7L9kWYIIUbdLwuKR/jwL
+ JcJBPfohipM62TDgI++91yG93z8S9yOtP19oQQE8Q8k13Dz0zt5IP/hM5mMrevOXLmlklN
+ kWOoGd3So5Fe6OgP0QbWV76D4psb9hl5USqdOyh+D6Aqhblm4cpa5e5Vf78Qu6ZYHkQHTi
+ bgYvnB6aYzx+LTLoj46c14I2SP51PPz15FBrvc8JBpekzRO6sF7T8vtiJHTJFweb24goaW
+ joW6zxk5fBYith6L0SW2dhYjEXttIyscMDGJDovBvIbb2eL2uBhx9UWrfH/KNw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1639174723;
+ s=2020e; t=1639174725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IBbfy8DUMmeX2/DxJ4bxtqprC0vLuk1jWkG3suZ0PZw=;
- b=5lxdmWfE59j3yHf4IXX2tpXuGGPaN2BKbOiQcB9ippOtvBNy75YsOs7y6x5FiIbDSi4ZaA
- +C6w+xOR5nRMXFBA==
+ references:references; bh=LAPO48TeSRvyraOCUaLnLGoqr3cykpYVLg5Q2NPw+tk=;
+ b=W5z8GHgzI4pNn8BJLekDX4e1pfDaOzUgMdqste1q3KO/3rlD+JtPo0I0BMrvt2m3/1G3Vk
+ MFABiwOkTOMR3XAQ==
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 00/35] genirq/msi, PCI/MSI: Spring cleaning - Part 2
+Subject: [patch V3 01/35] PCI/MSI: Set pci_dev::msi[x]_enabled early
+References: <20211210221642.869015045@linutronix.de>
 MIME-Version: 1.0
-Date: Fri, 10 Dec 2021 23:18:43 +0100 (CET)
+Date: Fri, 10 Dec 2021 23:18:44 +0100 (CET)
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
@@ -94,102 +98,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This is the second part of [PCI]MSI refactoring which aims to provide the
-ability of expanding MSI-X vectors after enabling MSI-X.
+There are quite some places which retrieve the first MSI descriptor to
+evaluate whether the setup is for MSI or MSI-X. That's required because
+pci_dev::msi[x]_enabled is only set when the setup completed successfully.
 
-This is based on the first part of this work which can be found here:
+There is no real reason why msi[x]_enabled can't be set at the beginning of
+the setup sequence and cleared in case of a failure.
 
-    https://lore.kernel.org/r/20211206210147.872865823@linutronix.de
+Implement that so the MSI descriptor evaluations can be converted to simple
+property queries.
 
-and has been applied to:
-
-     git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/msi
-
-
-This second part has the following important changes:
-
-   1) Cleanup of the MSI related data in struct device
-
-      struct device contains at the moment various MSI related parts. Some
-      of them (the irq domain pointer) cannot be moved out, but the rest
-      can be allocated on first use. This is in preparation of adding more
-      per device MSI data later on.
-
-   2) Consolidation of sysfs handling
-
-      As a first step this moves the sysfs pointer from struct msi_desc
-      into the new per device MSI data structure where it belongs.
-
-      Later changes will cleanup this code further, but that's not possible
-      at this point.
-
-   3) Use PCI device properties instead of looking up MSI descriptors and
-      analysing their data.
-
-   4) Provide a function to retrieve the Linux interrupt number for a given
-      MSI index similar to pci_irq_vector() and cleanup all open coded
-      variants.
-
-It's also available from git:
-
-     git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git msi-v3-part-2
-
-Part 3 of this effort is available on top
-
-     git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git msi-v3-part-3
-
-     Part 3 is not going to be reposted as there is no change vs. V2.
-
-V2 of part 2 can be found here:
-
-    https://lore.kernel.org/r/20211206210307.625116253@linutronix.de
-
-Changes versus V2:
-
-  - Use PCI device properties instead of creating a new set - Jason
-
-  - Picked up Reviewed/Tested/Acked-by tags as appropriate
-
-Thanks,
-
-	tglx
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- arch/powerpc/platforms/cell/axon_msi.c              |    5 
- arch/powerpc/platforms/pseries/msi.c                |   38 +---
- arch/x86/kernel/apic/msi.c                          |    5 
- arch/x86/pci/xen.c                                  |   11 -
- drivers/base/platform-msi.c                         |  152 ++++++++-----------
- drivers/bus/fsl-mc/dprc-driver.c                    |    8 -
- drivers/bus/fsl-mc/fsl-mc-allocator.c               |    9 -
- drivers/bus/fsl-mc/fsl-mc-msi.c                     |   26 +--
- drivers/dma/mv_xor_v2.c                             |   16 --
- drivers/dma/qcom/hidma.c                            |   44 ++---
- drivers/dma/ti/k3-udma-private.c                    |    6 
- drivers/dma/ti/k3-udma.c                            |   14 -
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c         |   23 --
- drivers/irqchip/irq-mbigen.c                        |    4 
- drivers/irqchip/irq-mvebu-icu.c                     |   12 -
- drivers/irqchip/irq-ti-sci-inta.c                   |    2 
- drivers/mailbox/bcm-flexrm-mailbox.c                |    9 -
- drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c    |    4 
- drivers/net/ethernet/freescale/dpaa2/dpaa2-ptp.c    |    4 
- drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c |    5 
- drivers/pci/msi/irqdomain.c                         |   20 ++
- drivers/pci/msi/legacy.c                            |    6 
- drivers/pci/msi/msi.c                               |  133 ++++++----------
- drivers/pci/xen-pcifront.c                          |    2 
- drivers/perf/arm_smmuv3_pmu.c                       |    5 
- drivers/soc/fsl/dpio/dpio-driver.c                  |    8 -
- drivers/soc/ti/k3-ringacc.c                         |    6 
- drivers/soc/ti/ti_sci_inta_msi.c                    |   22 --
- drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c              |    4 
- include/linux/device.h                              |   25 ++-
- include/linux/fsl/mc.h                              |    4 
- include/linux/msi.h                                 |   95 ++++--------
- include/linux/pci.h                                 |    1 
- include/linux/soc/ti/ti_sci_inta_msi.h              |    1 
- kernel/irq/msi.c                                    |  158 +++++++++++++++-----
- 35 files changed, 429 insertions(+), 458 deletions(-)
+V3: New patch
+---
+ drivers/pci/msi/msi.c |   23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
+
+--- a/drivers/pci/msi/msi.c
++++ b/drivers/pci/msi/msi.c
+@@ -421,11 +421,18 @@ static int msi_capability_init(struct pc
+ 	struct msi_desc *entry;
+ 	int ret;
+ 
+-	pci_msi_set_enable(dev, 0);	/* Disable MSI during set up */
++	/*
++	 * Disable MSI during setup in the hardware, but mark it enabled
++	 * so that setup code can evaluate it.
++	 */
++	pci_msi_set_enable(dev, 0);
++	dev->msi_enabled = 1;
+ 
+ 	entry = msi_setup_entry(dev, nvec, affd);
+-	if (!entry)
+-		return -ENOMEM;
++	if (!entry) {
++		ret = -ENOMEM;
++		goto fail;
++	}
+ 
+ 	/* All MSIs are unmasked by default; mask them all */
+ 	pci_msi_mask(entry, msi_multi_mask(entry));
+@@ -452,7 +459,6 @@ static int msi_capability_init(struct pc
+ 	/* Set MSI enabled bits	*/
+ 	pci_intx_for_msi(dev, 0);
+ 	pci_msi_set_enable(dev, 1);
+-	dev->msi_enabled = 1;
+ 
+ 	pcibios_free_irq(dev);
+ 	dev->irq = entry->irq;
+@@ -461,6 +467,8 @@ static int msi_capability_init(struct pc
+ err:
+ 	pci_msi_unmask(entry, msi_multi_mask(entry));
+ 	free_msi_irqs(dev);
++fail:
++	dev->msi_enabled = 0;
+ 	return ret;
+ }
+ 
+@@ -589,6 +597,9 @@ static int msix_capability_init(struct p
+ 	pci_msix_clear_and_set_ctrl(dev, 0, PCI_MSIX_FLAGS_MASKALL |
+ 				    PCI_MSIX_FLAGS_ENABLE);
+ 
++	/* Mark it enabled so setup functions can query it */
++	dev->msix_enabled = 1;
++
+ 	pci_read_config_word(dev, dev->msix_cap + PCI_MSIX_FLAGS, &control);
+ 	/* Request & Map MSI-X table region */
+ 	tsize = msix_table_size(control);
+@@ -626,9 +637,8 @@ static int msix_capability_init(struct p
+ 
+ 	dev->msi_irq_groups = groups;
+ 
+-	/* Set MSI-X enabled bits and unmask the function */
++	/* Disable INTX and unmask MSI-X */
+ 	pci_intx_for_msi(dev, 0);
+-	dev->msix_enabled = 1;
+ 	pci_msix_clear_and_set_ctrl(dev, PCI_MSIX_FLAGS_MASKALL, 0);
+ 
+ 	pcibios_free_irq(dev);
+@@ -638,6 +648,7 @@ static int msix_capability_init(struct p
+ 	free_msi_irqs(dev);
+ 
+ out_disable:
++	dev->msix_enabled = 0;
+ 	pci_msix_clear_and_set_ctrl(dev, PCI_MSIX_FLAGS_ENABLE, 0);
+ 
+ 	return ret;
 
 _______________________________________________
 iommu mailing list
