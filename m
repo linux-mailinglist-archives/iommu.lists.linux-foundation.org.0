@@ -2,70 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E75C470803
-	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 19:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063F447082F
+	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 19:13:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A6F4841293;
-	Fri, 10 Dec 2021 18:01:52 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6C67841279;
+	Fri, 10 Dec 2021 18:13:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AZZpi4LZuVRT; Fri, 10 Dec 2021 18:01:49 +0000 (UTC)
+	with ESMTP id NuUuqSgTETzc; Fri, 10 Dec 2021 18:13:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BE02140255;
-	Fri, 10 Dec 2021 18:01:49 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 66D6741288;
+	Fri, 10 Dec 2021 18:13:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D7C1C0012;
-	Fri, 10 Dec 2021 18:01:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FAB8C0071;
+	Fri, 10 Dec 2021 18:13:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8896C0012
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:01:47 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D076CC0012
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:13:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 95D1F614B6
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:01:47 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B79C1614B4
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:13:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Aq-TBkir3W66 for <iommu@lists.linux-foundation.org>;
- Fri, 10 Dec 2021 18:01:45 +0000 (UTC)
+ with ESMTP id w19ONdTo6Ifk for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Dec 2021 18:13:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 8188861499
- for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:01:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="301790137"
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="301790137"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 10:01:28 -0800
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="463753687"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 10:01:27 -0800
-Date: Fri, 10 Dec 2021 10:05:45 -0800
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 1/4] ioasid: Reserve a global PASID for in-kernel DMA
-Message-ID: <20211210100545.373c30d1@jacob-builder>
-In-Reply-To: <20211210123109.GE6385@nvidia.com>
-References: <1638884834-83028-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1638884834-83028-2-git-send-email-jacob.jun.pan@linux.intel.com>
- <YbHie/Z4bIXwTInx@myrica> <20211209101404.6aefbe1c@jacob-builder>
- <YbMYkKZBktlrB2CR@myrica> <20211210123109.GE6385@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1C1F16147D
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:13:15 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70F0212FC;
+ Fri, 10 Dec 2021 10:13:15 -0800 (PST)
+Received: from [10.57.34.58] (unknown [10.57.34.58])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3668E3F73D;
+ Fri, 10 Dec 2021 10:13:14 -0800 (PST)
+Message-ID: <80145652-b9ca-57b5-ad95-ca12d6a25eea@arm.com>
+Date: Fri, 10 Dec 2021 18:13:09 +0000
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Kumar, Sanjay
- K" <sanjay.k.kumar@intel.com>, LKML <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- Jacob Pan <jacob.jun.pan@intel.com>, Barry Song <21cnbao@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>, "Zanussi,
- Tom" <tom.zanussi@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 01/11] iommu/iova: Fix race between FQ timeout and
+ teardown
+Content-Language: en-GB
+To: John Garry <john.garry@huawei.com>, joro@8bytes.org, will@kernel.org
+References: <cover.1639157090.git.robin.murphy@arm.com>
+ <ecea6835baca75b945bd8ecfaa636ff01dabcc1d.1639157090.git.robin.murphy@arm.com>
+ <03cbd9c4-0f11-895b-8eb5-1b75bb74d37c@huawei.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <03cbd9c4-0f11-895b-8eb5-1b75bb74d37c@huawei.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, willy@infradead.org,
+ Xiongfeng Wang <wangxiongfeng2@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,51 +69,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
-
-On Fri, 10 Dec 2021 08:31:09 -0400, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Fri, Dec 10, 2021 at 09:06:24AM +0000, Jean-Philippe Brucker wrote:
-> > On Thu, Dec 09, 2021 at 10:14:04AM -0800, Jacob Pan wrote:  
-> > > > This looks like we're just one step away from device drivers needing
-> > > > multiple PASIDs for kernel DMA so I'm trying to figure out how to
-> > > > evolve the API towards that. It's probably as simple as keeping a
-> > > > kernel IOASID set at first, but then we'll probably want to
-> > > > optimize by having multiple overlapping sets for each device driver
-> > > > (all separate from the SVA set).  
-> > > Sounds reasonable to start with a kernel set for in-kernel DMA once
-> > > we need multiple ones. But I am not sure what *overlapping* sets mean
-> > > here, could you explain?  
-> > 
-> > Given that each device uses a separate PASID table, we could allocate
-> > the same set of PASID values for different device drivers. We just need
-> > to make sure that those values are different from PASIDs allocated for
-> > user SVA.  
-> 
-> Why does user SVA need global values anyhow?
-> 
-Currently, we have mm.pasid for user SVA. mm is global. We could have per
-device PASID for dedicated devices (not shared across mm's), but that would
-make things a lot more complex. I am thinking multiple PASIDs per mm is
-needed, right?
-
-For VT-d, the shared workqueue (SWQ) requires global PASIDs in that we
-cannot have two processes use the same PASID to submit work on a workqueue
-shared by the two processes. Each process's PASID must be unique to the
-SWQ's PASID table.
-
-> Jason
-
-
-Thanks,
-
-Jacob
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAyMS0xMi0xMCAxODowNCwgSm9obiBHYXJyeSB2aWEgaW9tbXUgd3JvdGU6Cj4gT24gMTAv
+MTIvMjAyMSAxNzo1NCwgUm9iaW4gTXVycGh5IHdyb3RlOgo+PiBGcm9tOiBYaW9uZ2ZlbmcgV2Fu
+Zzx3YW5neGlvbmdmZW5nMkBodWF3ZWkuY29tPgo+Pgo+PiBJdCB0dXJucyBvdXQgdG8gYmUgcG9z
+c2libGUgZm9yIGhvdHBsdWdnaW5nIG91dCBhIGRldmljZSB0byByZWFjaCB0aGUKPj4gc3RhZ2Ug
+b2YgdGVhcmluZyBkb3duIHRoZSBkZXZpY2UncyBncm91cCBhbmQgZGVmYXVsdCBkb21haW4gYmVm
+b3JlIHRoZQo+PiBkb21haW4ncyBmbHVzaCBxdWV1ZSBoYXMgZHJhaW5lZCBuYXR1cmFsbHkuIEF0
+IHRoaXMgcG9pbnQsIGl0IGlzIHRoZW4KPj4gcG9zc2libGUgZm9yIHRoZSB0aW1lb3V0IHRvIGV4
+cGlyZSBqdXN0KmJlZm9yZSrCoCB0aGUgZGVsX3RpbWVyKCkgY2FsbAo+IAo+IHN1cGVyIG5pdDog
+Imp1c3QqYmVmb3JlKsKgIHRoZSIgLSBuZWVkcyBhIHdoaXRlc3BhY2UgYmVmb3JlICJiZWZvcmUi
+IDopCgpXZWlyZC4uLiB0aGUgb3JpZ2luYWwgcGF0Y2ggZmlsZSBoZXJlIGFuZCB0aGUgY29weSBy
+ZWNlaXZlZCBieSBsb3JlIHZpYSAKbGludXgtaW9tbXUgbG9vayBmaW5lLCBncmVtbGlucyBpbiB5
+b3VyIE1VQSBvciBkZWxpdmVyeSBwYXRoIHBlcmhhcHM/Cgo+PiBmcm9tIGZyZWVfaW92YV9mbHVz
+aF9xdWV1ZSgpLCBzdWNoIHRoYXQgd2UgdGhlbiBwcm9jZWVkIHRvIGZyZWUgdGhlIEZRCj4+IHJl
+c291cmNlcyB3aGlsZSBmcV9mbHVzaF90aW1lb3V0KCkgaXMgc3RpbGwgYWNjZXNzaW5nIHRoZW0g
+b24gYW5vdGhlcgo+PiBDUFUuIENyYXNoZXMgZHVlIHRvIHRoaXMgaGF2ZSBiZWVuIG9ic2VydmVk
+IGluIHRoZSB3aWxkIHdoaWxlIHJlbW92aW5nCj4+IE5WTWUgZGV2aWNlcy4KPj4KPj4gQ2xvc2Ug
+dGhlIHJhY2Ugd2luZG93IGJ5IHVzaW5nIGRlbF90aW1lcl9zeW5jKCkgdG8gc2FmZWx5IHdhaXQg
+Zm9yIGFueQo+PiBhY3RpdmUgdGltZW91dCBoYW5kbGVyIHRvIGZpbmlzaCBiZWZvcmUgd2Ugc3Rh
+cnQgdG8gZnJlZSB0aGluZ3MuIFdlCj4+IGFscmVhZHkgYXZvaWQgYW55IGxvY2tpbmcgaW4gZnJl
+ZV9pb3ZhX2ZsdXNoX3F1ZXVlKCkgc2luY2UgdGhlIEZRIGlzCj4+IHN1cHBvc2VkIHRvIGJlIGlu
+YWN0aXZlIGFueXdheSwgc28gdGhlIHBvdGVudGlhbCBkZWFkbG9jayBzY2VuYXJpbyBkb2VzCj4+
+IG5vdCBhcHBseS4KPj4KPj4gRml4ZXM6IDlhMDA1YTgwMGFlOCAoImlvbW11L2lvdmE6IEFkZCBm
+bHVzaCB0aW1lciIpCj4+IFNpZ25lZC1vZmYtYnk6IFhpb25nZmVuZyBXYW5nPHdhbmd4aW9uZ2Zl
+bmcyQGh1YXdlaS5jb20+Cj4+IFsgcm06IHJld3JpdGUgY29tbWl0IG1lc3NhZ2UgXQo+PiBTaWdu
+ZWQtb2ZmLWJ5OiBSb2JpbiBNdXJwaHk8cm9iaW4ubXVycGh5QGFybS5jb20+Cj4gCj4gRldJVywK
+PiAKPiBSZXZpZXdlZC1ieTogSm9obiBHYXJyeSA8am9obi5nYXJyeUBodWF3ZWkuY29tPgoKVGhh
+bmtzIEpvaG4hCgpSb2Jpbi4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24u
+b3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lv
+bW11
