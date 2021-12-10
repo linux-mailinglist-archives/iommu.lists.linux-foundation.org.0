@@ -1,89 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DC54707F9
-	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 19:00:05 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E00470811
+	for <lists.iommu@lfdr.de>; Fri, 10 Dec 2021 19:05:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6758C84B72;
-	Fri, 10 Dec 2021 18:00:04 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8A40641272;
+	Fri, 10 Dec 2021 18:05:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5eOK04U-pWdy; Fri, 10 Dec 2021 18:00:03 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5zXRDuUYdvKh; Fri, 10 Dec 2021 18:05:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7583C84B61;
-	Fri, 10 Dec 2021 18:00:03 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6E4FB40562;
+	Fri, 10 Dec 2021 18:05:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2014AC0012;
-	Fri, 10 Dec 2021 18:00:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4606CC006E;
+	Fri, 10 Dec 2021 18:05:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E67BDC0012;
- Fri, 10 Dec 2021 18:00:01 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9FCFFC0012
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:05:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C90C441294;
- Fri, 10 Dec 2021 18:00:01 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7F4D2614B6
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:05:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vn-w4wBJhk01; Fri, 10 Dec 2021 18:00:00 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 3D3694126F;
- Fri, 10 Dec 2021 18:00:00 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id x15so33220357edv.1;
- Fri, 10 Dec 2021 10:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q4cSh71dzUGeiXZRE4QW36EmwcI8AZrCxMvROIrZS14=;
- b=hZuwqUyMx6p4vq+XxIbn+14N9qyb4VjVKFc+XlT24PuxI8wuTRByd6L5UShZbYCPn6
- hFJEMkb+ZcKlIYkUV0tDiyObLesBR7irNUCiCMAa2lVRi3CC57aTV1alPZFU5Ysazrph
- YFhWPMKpxva8rtigETs3FTPO6R5mZn5VOWtBPJXZadHgtSqBE5wuIb/YuK6Qz1CH7KoK
- hnKUK9t4YQwu/yKgZT3oT89+N75FsEO9VhEY0F2y2bLckImDe4uov8SNI0AQgrJ3ZD5d
- S7s4cNZ1Mv66posmbYafTGVHKgSQlseJKI92d9yXya7GxXHGbGAnv0tL4KEZr7IYPLWc
- FeuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q4cSh71dzUGeiXZRE4QW36EmwcI8AZrCxMvROIrZS14=;
- b=R6ahTbsUOjL9X7+XF8gQW+Jl26jGagAmbRrUG+zqrobh/GQZBLqj/Z0dP1YoTmjopu
- dRJNvDD+NZjLFS4SLuZA8JgkfQo1cGwXSQ5TpoRgPBANh2OehJNVvTVERJgEBHokpxyL
- CufcHGnWM1wkWsOF/FlWgs0gV5hL2pZLaE6ILZEiAR244/FYwNCD/zMmFBPdXXTAWU2d
- g9jeBrQZXH+WxMxf8+2Okl9V4EGx7LO9Pt+wxxuOKrXPV92J1UYdGBBfN/1AqST0n8m9
- aYy3ryAeFIEMHlz2T/u2PyfXPHKl8G3VNuOAjWhdVXHNnDu9JhKpjXOHPID+AaO793sZ
- uDfQ==
-X-Gm-Message-State: AOAM533MxVmxj6/vQ7JY9o2p+eslAj+8fcru0AxYsXKvxLUmwXFyT6dI
- Esu87iHe+jtn7/CkE9OqJNwAybNYer3tuk1hQA4=
-X-Google-Smtp-Source: ABdhPJyMR1vnybSwdT0dzOqAU1cPEp/zYKbnjixRaU/JBnWxGfH4bMnkNn+t2j/Uf7ySIMQBrI/ELelqVgOUVCZ6KxY=
-X-Received: by 2002:a50:e003:: with SMTP id e3mr40230046edl.374.1639159198508; 
- Fri, 10 Dec 2021 09:59:58 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7kfFlWOx5XsG for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Dec 2021 18:05:23 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A95686070C
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Dec 2021 18:05:23 +0000 (UTC)
+Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J9f0G3hr0z67mFG;
+ Sat, 11 Dec 2021 02:03:26 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 10 Dec 2021 19:05:20 +0100
+Received: from [10.47.93.58] (10.47.93.58) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 10 Dec
+ 2021 18:05:19 +0000
+Subject: Re: [PATCH v2 01/11] iommu/iova: Fix race between FQ timeout and
+ teardown
+To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
+References: <cover.1639157090.git.robin.murphy@arm.com>
+ <ecea6835baca75b945bd8ecfaa636ff01dabcc1d.1639157090.git.robin.murphy@arm.com>
+Message-ID: <03cbd9c4-0f11-895b-8eb5-1b75bb74d37c@huawei.com>
+Date: Fri, 10 Dec 2021 18:04:53 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20211209230414.2766515-1-zi.yan@sent.com>
- <20211209230414.2766515-4-zi.yan@sent.com>
- <84807a03-f7d1-83cb-16df-bacc58de4529@gmail.com>
- <971750C3-DAEC-4EE8-B838-2DD3CBC29781@nvidia.com>
-In-Reply-To: <971750C3-DAEC-4EE8-B838-2DD3CBC29781@nvidia.com>
-From: Yang Shi <shy828301@gmail.com>
-Date: Fri, 10 Dec 2021 09:59:46 -0800
-Message-ID: <CAHbLzkr627vwDovZ23Ofje1vfu+m6BbYWs=tvptNpQwf1ramyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 3/7] mm: migrate: allocate the right size of non
- hugetlb or THP compound pages.
-To: Zi Yan <ziy@nvidia.com>
-Cc: Mel Gorman <mgorman@techsingularity.net>,
- David Hildenbrand <david@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linuxppc-dev@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- virtualization@lists.linux-foundation.org, Linux MM <linux-mm@kvack.org>,
- iommu@lists.linux-foundation.org, Eric Ren <renzhengeek@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <ecea6835baca75b945bd8ecfaa636ff01dabcc1d.1639157090.git.robin.murphy@arm.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.93.58]
+X-ClientProxiedBy: lhreml723-chm.china.huawei.com (10.201.108.74) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: linux-kernel@vger.kernel.org, willy@infradead.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Xiongfeng Wang <wangxiongfeng2@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,102 +76,42 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+From: John Garry via iommu <iommu@lists.linux-foundation.org>
+Reply-To: John Garry <john.garry@huawei.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Dec 10, 2021 at 8:08 AM Zi Yan <ziy@nvidia.com> wrote:
->
-> On 10 Dec 2021, at 2:53, Eric Ren wrote:
->
-> > Hi,
-> >
-> > On 2021/12/10 07:04, Zi Yan wrote:
-> >> From: Zi Yan <ziy@nvidia.com>
-> >>
-> >> alloc_migration_target() is used by alloc_contig_range() and non-LRU
-> >> movable compound pages can be migrated. Current code does not allocate the
-> >> right page size for such pages. Check THP precisely using
-> >> is_transparent_huge() and add allocation support for non-LRU compound
-> >> pages.
-> > Could you elaborate on why the current code doesn't get the right size?  how this patch fixes it.
->
-> The current code only check PageHuge() and PageTransHuge(). Non-LRU compound
-> pages will be regarded as PageTransHuge() and an order-9 page is always allocated
-> regardless of the actual page order. This patch makes the exact check for
-> THPs using is_transparent_huge() instead of PageTransHuge() and checks PageCompound()
-> after PageHuge() and is_transparent_huge() for non-LRU compound pages.
->
-> >
-> > The description sounds like it's an existing bug, if so, the patch subject should be changed to
-> > "Fixes ..."?
->
-> I have not seen any related bug report.
->
-> >
-> >>
-> >> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> >> ---
-> >>   mm/migrate.c | 8 ++++++--
-> >>   1 file changed, 6 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/mm/migrate.c b/mm/migrate.c
-> >> index d487a399253b..2ce3c771b1de 100644
-> >> --- a/mm/migrate.c
-> >> +++ b/mm/migrate.c
-> >> @@ -1563,7 +1563,7 @@ struct page *alloc_migration_target(struct page *page, unsigned long private)
-> >>              return alloc_huge_page_nodemask(h, nid, mtc->nmask, gfp_mask);
-> >>      }
-> >>  -   if (PageTransHuge(page)) {
-> >> +    if (is_transparent_hugepage(page)) {
-> >>              /*
-> >>               * clear __GFP_RECLAIM to make the migration callback
-> >>               * consistent with regular THP allocations.
-> >> @@ -1572,13 +1572,17 @@ struct page *alloc_migration_target(struct page *page, unsigned long private)
-> > if (PageTransHuge(page)) {  // just give more code context
-> > ...
-> >>              gfp_mask |= GFP_TRANSHUGE;
-> >>              order = HPAGE_PMD_ORDER;
-> > order assigned here
-> >>      }
-> >> +    if (PageCompound(page)) {
-> >> +            gfp_mask |= __GFP_COMP;
-> >> +            order = compound_order(page);
-> > re-assinged again as THP is a compound page?
->
-> Ah, you are right. Will use else if instead. Thanks.
+On 10/12/2021 17:54, Robin Murphy wrote:
+> From: Xiongfeng Wang<wangxiongfeng2@huawei.com>
+> 
+> It turns out to be possible for hotplugging out a device to reach the
+> stage of tearing down the device's group and default domain before the
+> domain's flush queue has drained naturally. At this point, it is then
+> possible for the timeout to expire just*before*  the del_timer() call
 
-You don't have to use else if, you could just do:
+super nit: "just*before*  the" - needs a whitespace before "before" :)
 
-if (PageCompound(page)) {
-    gfp_mask |= __GFP_COMP;
-    order = compound_order(page);
-}
+> from free_iova_flush_queue(), such that we then proceed to free the FQ
+> resources while fq_flush_timeout() is still accessing them on another
+> CPU. Crashes due to this have been observed in the wild while removing
+> NVMe devices.
+> 
+> Close the race window by using del_timer_sync() to safely wait for any
+> active timeout handler to finish before we start to free things. We
+> already avoid any locking in free_iova_flush_queue() since the FQ is
+> supposed to be inactive anyway, so the potential deadlock scenario does
+> not apply.
+> 
+> Fixes: 9a005a800ae8 ("iommu/iova: Add flush timer")
+> Signed-off-by: Xiongfeng Wang<wangxiongfeng2@huawei.com>
+> [ rm: rewrite commit message ]
+> Signed-off-by: Robin Murphy<robin.murphy@arm.com>
 
-if (is_transparent_hugepage(page)) {
-    /* Manipulate THP specific gfp mask */
-    ....
-}
+FWIW,
 
-
->
-> > Thanks,
-> > Eric
-> >> +    }
-> >>      zidx = zone_idx(page_zone(page));
-> >>      if (is_highmem_idx(zidx) || zidx == ZONE_MOVABLE)
-> >>              gfp_mask |= __GFP_HIGHMEM;
-> >>      new_page = __alloc_pages(gfp_mask, order, nid, mtc->nmask);
-> >>  -   if (new_page && PageTransHuge(new_page))
-> >> +    if (new_page && is_transparent_hugepage(page))
-> >>              prep_transhuge_page(new_page);
-> >>      return new_page;
->
->
-> --
-> Best Regards,
-> Yan, Zi
+Reviewed-by: John Garry <john.garry@huawei.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
