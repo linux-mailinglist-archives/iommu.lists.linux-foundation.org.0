@@ -1,92 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B574713E4
-	for <lists.iommu@lfdr.de>; Sat, 11 Dec 2021 14:05:03 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0B647146E
+	for <lists.iommu@lfdr.de>; Sat, 11 Dec 2021 16:27:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2BDEF81758;
-	Sat, 11 Dec 2021 13:05:01 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5BC1840339;
+	Sat, 11 Dec 2021 15:27:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GDpcUTU2-SEH; Sat, 11 Dec 2021 13:05:00 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fV_SHR-TUCxH; Sat, 11 Dec 2021 15:27:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 12A4381749;
-	Sat, 11 Dec 2021 13:05:00 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4D7E540130;
+	Sat, 11 Dec 2021 15:27:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5848BC0039;
-	Sat, 11 Dec 2021 13:04:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 296D7C0071;
+	Sat, 11 Dec 2021 15:27:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 81827C0012
- for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 13:04:57 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE2E7C0012
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 15:27:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5FF9861CA0
- for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 13:04:57 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id AB90261BF4
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 15:27:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="w841xfDq";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="F0rZXep5"
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qcIizRSFL_Im for <iommu@lists.linux-foundation.org>;
- Sat, 11 Dec 2021 13:04:56 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B372560597
- for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 13:04:56 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1639227892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=38/Db3j/tuzM5sMDcn0hVrQ9Hr7pHpt39b3WTf8tlcA=;
- b=w841xfDqQZN7kBkSecqzjfET5cCxoIWD7sohONld+A4/fywu7mxU8knTNNpYTU3LyTeN5W
- hRtH4deK3c+Nl6TRFf1ldQT0ovJkupvJfeiLMq5eEpHFYVIlxHcmxXieqT4Q7V9M6AJtpp
- jtACmPkh4As7iKGiv/EBYxFsPKsv6DfltP4wu30n2Qs63WKtqIIyJ9Y+cuOqwUm8276eg4
- DHcUAFEiCyFxPO1tRV8LSK84iuPIt1TVLHTvA5g3sgHalhsTOehFHHumjihCQ31gZhZ/+b
- j/id5XPT9RY+Ol5wMfbOBjmT+T07o6Vcog6FXDxt9dob/IYPDHFTpWDou4an2w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1639227892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=38/Db3j/tuzM5sMDcn0hVrQ9Hr7pHpt39b3WTf8tlcA=;
- b=F0rZXep58tnqWpssbFXotjfPeO0xx74comw8vNO4zW0sw2COD634KbX4OYtb7JqA/Is+XK
- Lek77MbqCrvMUzAA==
-To: "Tian, Kevin" <kevin.tian@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: RE: [patch 21/32] NTB/msi: Convert to msi_on_each_desc()
-In-Reply-To: <BN9PR11MB527625E8A9BB854F3C0D19AE8C729@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <f4cc305b-a329-6d27-9fca-b74ebc9fa0c1@intel.com>
- <878rx480fk.ffs@tglx>
- <BN9PR11MB52765F2EF8420C60FD5945D18C709@BN9PR11MB5276.namprd11.prod.outlook.com>
- <87sfv2yy19.ffs@tglx> <20211209162129.GS6385@nvidia.com>
- <878rwtzfh1.ffs@tglx> <20211209205835.GZ6385@nvidia.com>
- <8735n1zaz3.ffs@tglx> <87sfv1xq3b.ffs@tglx>
- <BN9PR11MB527619B099061B3814EB40408C719@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20211210123938.GF6385@nvidia.com> <87fsr0xp31.ffs@tglx>
- <BN9PR11MB527625E8A9BB854F3C0D19AE8C729@BN9PR11MB5276.namprd11.prod.outlook.com>
-Date: Sat, 11 Dec 2021 14:04:52 +0100
-Message-ID: <875yrvwavf.ffs@tglx>
+ with ESMTP id x7d9eY_maFtD for <iommu@lists.linux-foundation.org>;
+ Sat, 11 Dec 2021 15:27:18 +0000 (UTC)
+X-Greylist: delayed 00:05:04 by SQLgrey-1.8.0
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8ED1861BDA
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 15:27:16 +0000 (UTC)
+Received: from mail-wr1-f43.google.com ([209.85.221.43]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MrPRB-1m9JRc05J9-00oZDz for <iommu@lists.linux-foundation.org>; Sat, 11
+ Dec 2021 16:22:11 +0100
+Received: by mail-wr1-f43.google.com with SMTP id j3so19785256wrp.1
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Dec 2021 07:22:10 -0800 (PST)
+X-Gm-Message-State: AOAM5309ukJomAeEe3GUO/eeQr40KfemFj1rQLFTP9HFNAcEXnTTjRsT
+ kyKV6M2H46NJk6Nk/QtjfJPZf/YYUiYx4FixE44=
+X-Google-Smtp-Source: ABdhPJw71fHmkJDBQfwdVvTsQemVVjs0TdIXte5O3MuH5722pvreNXPnvtVfyYQ4NEpRi0VtDUcmnQ9Z/Qh6+K4QE8c=
+X-Received: by 2002:a5d:530e:: with SMTP id e14mr21123035wrv.12.1639236119426; 
+ Sat, 11 Dec 2021 07:21:59 -0800 (PST)
 MIME-Version: 1.0
-Cc: Allen Hubbe <allenbh@gmail.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "Jiang, Dave" <dave.jiang@intel.com>, "Raj,
- Ashok" <ashok.raj@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Marc Zygnier <maz@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- LKML <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>, Joerg Roedel <jroedel@suse.de>,
- Bjorn Helgaas <helgaas@kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>,
- Logan Gunthorpe <logang@deltatee.com>, "Dey, Megha" <megha.dey@intel.com>
+References: <20211210221642.869015045@linutronix.de>
+ <20211210221813.493922179@linutronix.de>
+In-Reply-To: <20211210221813.493922179@linutronix.de>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Sat, 11 Dec 2021 16:21:43 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3U2DSm_DWS+iDkzH14hNMwyOQ77iS=W4HoAyHPh6pqUw@mail.gmail.com>
+Message-ID: <CAK8P3a3U2DSm_DWS+iDkzH14hNMwyOQ77iS=W4HoAyHPh6pqUw@mail.gmail.com>
+Subject: Re: [patch V3 05/35] powerpc/cell/axon_msi: Use PCI device property
+To: Thomas Gleixner <tglx@linutronix.de>
+X-Provags-ID: V03:K1:r4z/4igR5PJTzwD1REDDrNfpz+jFus9r/dYXb43g4sRb+eNLrRK
+ 8nbRt7QoUEWVSah1mQKYAUalUb6cEF97lUTsDVZJEQUC3D2SJzJMU9blm/foMLOp3RoPaH4
+ JAFXWSo8CfOXXoi34bvHCz2u/Rdi/4dzL2P2ZJWhUJMpwzL+hXDdkkwiVFa+1Z9v3AzrKRt
+ 4P/OD/OFWBf0EB8AJaymQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M3WjowCcRNw=:RzSbNiG63zkpBaSFMYy8wp
+ HL0i0NjBYnGx11kH/qKtQ9IheG8d/3EnbtLe3xm02v88T7c49sZUyCFQSmsiOVoVfdWFTBshT
+ EQgeIAqaJxKr+vBHgwigB5QVa78oyli6QZ1+/pP2YQdasRYi8dhXyke/5MqhKqfHXOXch4U4M
+ 2sTxRtiELeu6hjGCefJnNhNhP4FR09EUNaxscSKjEWWeotTkiN7V29qNtudk1LIfvwQLWeyND
+ MLULpS10YzIYTqHcHaSmP2qjHSeS9wU8Vf4JImOHdlEFljVFcY8w6CzIi1PmiYrctz79gq8UU
+ Z94L9P1ba3/9+zWamkz18aaO4aJWdJ3jZRlLEWJP0n/K13Zh5MamdAcdjFlID3Liup71llN8f
+ i8Kq3lzLErtgXNVCT0AiB3W2/7B556Q4oX5j56eJAYq7H0GHNQSBO1s5HogpLJcG8sl+Vhkjr
+ 3oYWLrgOPP+VUBX/hVHBqEsQ+iEfsn8JqEjB3fF50wa4A+YZRvWwWfMVoY9MlcAEKZo8Nc8wh
+ JMy5g5HOum9VclUz0LV+OpYo/cpOsYU7MsQpPaNJyGsYM6s4zav6BjIqGiMP93M3XlwCuw8Xh
+ vcjSgjC77bI6jfttMI6dHyqfF/wXxUmtJc/dtG7Ex28rLTAoO3p7eIUjqyaqtcodmH8HD44xw
+ KVzn5ingWo799a/GD5j4L4MwpHssFvd8gzNTQpCdCbmPmxcz4LNyMvE3Czvp8mqNOeZinK85T
+ hgM7DzqSbvxUgDKp8flT+imh/aC7OOOQ3pVguTBj3A5vG3WbJB4o4FRlQMDaEpdHA05WMZJ5G
+ zmxNf+nAxLuOaEfoi88F9njoXVZ5cdoN2f7BzNbIppqQgQOOFYiaSB9XQrR8qCYWux5bCtoVH
+ S2h/6R5rLUFKZFm++hA+U5LVCKD0yJoWKUasnIFEAcNsv9L621dd5iNlJCVonG38Uevr4CoFY
+ z2Am63Oa0Ig==
+Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
+ Stuart Yoder <stuyoder@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Sinan Kaya <okaya@kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, linux-pci <linux-pci@vger.kernel.org>,
+ xen-devel <xen-devel@lists.xenproject.org>, Kevin Tian <kevin.tian@intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Cedric Le Goater <clg@kaod.org>,
+ Santosh Shilimkar <ssantosh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Megha Dey <megha.dey@intel.com>, Juergen Gross <jgross@suse.com>,
+ Tero Kristo <kristo@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Marc Zygnier <maz@kernel.org>, dmaengine@vger.kernel.org,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,27 +111,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Kevin,
-
-On Sat, Dec 11 2021 at 07:44, Kevin Tian wrote:
->> From: Thomas Gleixner <tglx@linutronix.de>
->> On Fri, Dec 10 2021 at 08:39, Jason Gunthorpe wrote:
->> > It is clever, we don't have an vIOMMU that supplies vIR today, so by
->> > definition all guests are excluded and only bare metal works.
->> 
->> Dammit. Now you spilled the beans. :)
+On Fri, Dec 10, 2021 at 11:18 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> Unfortunately we do have that today. Qemu supports IR for
-> both AMD and Intel vIOMMU.
+> From: Thomas Gleixner <tglx@linutronix.de>
+>
+> instead of fiddling with MSI descriptors.
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> ---
 
-can you point me to the code?
-
-All I can find is drivers/iommu/virtio-iommu.c but I can't find anything
-vIR related there.
-
-Thanks,
-
-        tglx
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
