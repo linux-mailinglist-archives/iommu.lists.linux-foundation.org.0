@@ -1,167 +1,94 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D299473282
-	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 17:56:51 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D683473416
+	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 19:33:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D95A742363;
-	Mon, 13 Dec 2021 16:56:49 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 87EFA8137F;
+	Mon, 13 Dec 2021 18:33:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 27EXu4sQgTDk; Mon, 13 Dec 2021 16:56:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id ECCCA4232F;
-	Mon, 13 Dec 2021 16:56:48 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TeyAeJ_fArqq; Mon, 13 Dec 2021 18:33:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7FAF981380;
+	Mon, 13 Dec 2021 18:33:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CD999C0012;
-	Mon, 13 Dec 2021 16:56:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 443EEC0012;
+	Mon, 13 Dec 2021 18:33:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 92B69C0012
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 16:56:46 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6AEB0C0012
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 12:40:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 7963842351
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 16:56:46 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 483E740250
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 12:40:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XGEvsBf5cAWt for <iommu@lists.linux-foundation.org>;
- Mon, 13 Dec 2021 16:56:44 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp20209.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::209])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 3B511422EA
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 16:56:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UB+OrO2PBs9yc8JKNKwgjXfFBf7EofDbtU4bgabdcEf+wtRZMJjOWDhsAwi3j6QrMbXZsT4UEzf3dMxUMrh+YA1QbSFSeph6AfHVwsCdWD1/yuPlNXwOdPCkSomwZ70IdAgsjYPPNzDcQm99jBequrwI8/Obv/cn1K1NHNXpaKel4mYtWwM/y3PHu7QIrtWuB8uhVL+EBRy89DU9Cf/JNGzM4elE3AoRe0DT9M8ZqL7DWYrAnIT2GCbflbI5Vt3FPWWkvRU7gG+RMSnJ/2QYGuhLF+Drw9kzRd7H8fUNFGcCbs2HB8YJsQ9sspYKWZ1tC7/qxndRnN3xuw1Hkh7fHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vowl/On6xbtDSDaqK1juomqGWTRu6Mu3TLXtVf4Gvyo=;
- b=HbzNJbFBr5Q8Hra+iJRj+yDrengr/APRFaBVbXMG/CPAiNaAISPvYcWLNlKjyB/oJ8YIzRVPXyyCtzfB1MPRyMROb7ZNEfd/+GcgQmJxzGmErXmdDapNSK8E8Tu68TF5p+ZzlDtyyFSm2HjunRhSe0eLT43HYbdyNb+MoI5QBqXGNFsqUnjBiLsNMb1zWVn+i7FxMAa1yG+7HQeUnZMd6D8Gfblug3knoCbHVFyzL8gzqhnMozgqL5w1dUa6VprKwWhp8By/GIPYT0MgRw3jiwhN256NxvwgSnWEq7go0MaQTAv5SZfqYzFQmZVFvAHVmC/4eDmJfYrMQ/Io9DD6fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vowl/On6xbtDSDaqK1juomqGWTRu6Mu3TLXtVf4Gvyo=;
- b=fV34wNcOuBnlgZlE6+bnwNA8eZEfiXGRhp7J0dgbfGnWD361vPqVhkrNJ02Rl4jtksilPMSKC1wO/odxXtvU1UZu9stznKha3S8ng7yGVR6Q4s3EsO8HlHxFzzrvDkyWDMJorNh9YFhpyBtOfK/Ng6Dq+XaNK8Qk69e4CNf10CU=
-Received: from MN2PR21MB1295.namprd21.prod.outlook.com (2603:10b6:208:3e::25)
- by BN7PR21MB1732.namprd21.prod.outlook.com (2603:10b6:406:ad::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.6; Mon, 13 Dec
- 2021 16:56:30 +0000
-Received: from MN2PR21MB1295.namprd21.prod.outlook.com
- ([fe80::8c70:eedb:b406:726]) by MN2PR21MB1295.namprd21.prod.outlook.com
- ([fe80::8c70:eedb:b406:726%8]) with mapi id 15.20.4801.010; Mon, 13 Dec 2021
- 16:56:30 +0000
-To: Tianyu Lan <ltykernel@gmail.com>, KY Srinivasan <kys@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, "wei.liu@kernel.org"
- <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, "tglx@linutronix.de"
- <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
- <bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
- <kuba@kernel.org>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>, "arnd@arndb.de"
- <arnd@arndb.de>, "hch@infradead.org" <hch@infradead.org>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "robin.murphy@arm.com"
- <robin.murphy@arm.com>, "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, "Michael Kelley (LINUX)"
- <mikelley@microsoft.com>
-Subject: RE: [PATCH V7 5/5] net: netvsc: Add Isolation VM support for netvsc
- driver
-Thread-Topic: [PATCH V7 5/5] net: netvsc: Add Isolation VM support for netvsc
- driver
-Thread-Index: AQHX7/EWMl5F6LxDHkely1IHtTPBiqwwpHUA
-Date: Mon, 13 Dec 2021 16:56:30 +0000
-Message-ID: <MN2PR21MB129599B0242599704B82433CCA749@MN2PR21MB1295.namprd21.prod.outlook.com>
-References: <20211213071407.314309-1-ltykernel@gmail.com>
- <20211213071407.314309-6-ltykernel@gmail.com>
-In-Reply-To: <20211213071407.314309-6-ltykernel@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=9e602df1-03ad-49c5-a979-13134afc720b;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-12-13T16:55:02Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc92fa70-e668-4fae-a26a-08d9be598307
-x-ms-traffictypediagnostic: BN7PR21MB1732:EE_
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <BN7PR21MB17327513C01A52B61B1D0D78CA749@BN7PR21MB1732.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2733;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: k5s/T/hDITtzZI4lkN4MoVemWYBhlmTOTi9rC5TkIA37tI4klodhR6zG/k33GgD/ikHRmyHyTFoGOCwniEy55lCgC+bsEq/NC/Y+JX9bu09TKn4RDyoHTF8X/gAnmNajdm8xKs14V5yTt04uWEVmT6Y2BhUDZRiwN0K25qDiXpFfScMwqLPq6iJwaVB7atRACHxsJCC8I6/Pwyy7spWlyTqNGvs6Iz2gkS88TH7te7MGRa85hOv/Ey7KGAK7Wok16ZfcJ8puHGbKB41AEBqN/mEMv2zNchm3yDKtq/gbJM0ONSm+bqSsiC1lMRMxo8ZGEcLneHex/VzhJuPGS4dpVcn+UFyqXFQIGnopSDQ+YKyhT9P6iSfsRREOjTJFX/iU3HZ6uIUbNBve0Q/6X5rO6mDhQ/zu9u/PMGtYYVFx3qrLWNDGd84rXgQizZ4f9Izr50CJWCMI0q04Jwvd0QtQ97qK8Dvz38j48pBCeoT5Q2153vNX6NJ474lDYXLX3NepkQWK/LH+Z5aLMamx9kbNf9e7kHwzZRt9ndrGdFHWDH/2WPFlBDufqn6/CKUA/zsD6ale24AKk9MWdOv6cRMba9ulOIxGfetQVQCOf6ZThBlbkS6/HZlhaBbenmO4/lhJKmi3R2tVy0GXCJk3zLY0K2/GOoK2QVoVs5QWHOK3gko0CADbLtu2IPKrMoJJnGCFEBdg/SxjWy7CGVncAmObHuA4DU7lvxLAPqYcEolbW7LjDBRY/cLB/q5VHeShPpSNtHqFrJzP2dz2T92+/nVgCA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR21MB1295.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(316002)(38100700002)(55016003)(110136005)(8676002)(83380400001)(8936002)(5660300002)(6636002)(66446008)(64756008)(66556008)(66476007)(4326008)(52536014)(7416002)(76116006)(66946007)(54906003)(7406005)(2906002)(122000001)(9686003)(10290500003)(71200400001)(508600001)(8990500004)(26005)(186003)(921005)(38070700005)(82950400001)(53546011)(6506007)(33656002)(7696005)(86362001)(82960400001)(20210929001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TwaKfmUanuDMbus0Exj7pzUSUTcPeIWuciUoqDU+xdw4VStLBtK6oA81Cf+y?=
- =?us-ascii?Q?CCNa1nQ1DihkHk57k1EHixgUJJsbcAfFfWDU8RETtaUlr1YjZ2ZNr+sXJ3qp?=
- =?us-ascii?Q?s+1ya3Wj0CUQFOnFPEnZkbF0pqKvkCm99GeaX8RzVsQlsuzu7gvw2zUJt5om?=
- =?us-ascii?Q?yzt7gSyi4BqUvbyPfMXvGz38nGT8gLSs3H0Ae7RDGcwQfy88FZeBcHuisf66?=
- =?us-ascii?Q?zb/OyClA8hPUzDtf9fwNY+OTuWyxb6AQNMKN6ilRQjz3FcnkuuSfkFBTPke5?=
- =?us-ascii?Q?22xmq26BsOBdxrYcM4Cbz/F/dhAr9PZsvboFtsnHronWPDWv8ndS9ZABGrPy?=
- =?us-ascii?Q?mR8DXn1CXNF+AU3FzWnF+OZwfiAuyDN7uUN+GbMwQoC9hNcuB2D1SJfW7LBz?=
- =?us-ascii?Q?zriv/bHzhyRdIj0U+TIKkOKKikBFzdpLDuYCplUzP6lXxfBsQ16iKc/v90zh?=
- =?us-ascii?Q?hWg/sVTxbK55vza+MnseoHsreYpCNxnrSmsa4wXKk2fNyaAhPwzz3hUEbdis?=
- =?us-ascii?Q?+pX8XD84Ev/FjsdRGoyW622c9l56QobMN29BbJuGHCW33Lfds3rrJt0Kb2Eb?=
- =?us-ascii?Q?5owNrYp7s/sQmONqj5dzhNCjydomH397QHr6iIxvNbL8uukowLeXh71fTGEM?=
- =?us-ascii?Q?DPTYIvPsMZLc+i5itl3YWQEBY/Jtu0CluW/+ItNxcGsrOswL0Rc2YNkedjYJ?=
- =?us-ascii?Q?N67dthzXNeA/XpaZlH8wQe2ZTm+w+3mcPgInL4AuYc2CDjrrxFW6In92Hac2?=
- =?us-ascii?Q?SMA8hxSj41CN6s7G1ElrNBoYJIMUTJKvBfXFljzrXvEgnDvQkw8FHgjnm5rd?=
- =?us-ascii?Q?vtEdcjKdaO85Je/qWKKeIoAz+kC2AlB4SOakWtSa9j5mdkYVzDW8J9ri5B+5?=
- =?us-ascii?Q?SFOzSj1CKOn1TQ54Rmd2wG4y58t27QE4c/I5Xh8/+0Vzhx3xqTGo5JwHU/QZ?=
- =?us-ascii?Q?OVS0HwPwxMnnbZW8igAgeCKAxwhUkg35gLeDFFMraasSJrBd2uLrDh/oQJln?=
- =?us-ascii?Q?PSxLQEXCTM6+J9kI/qjSyXO0gGn4IwsIZz+sFczeABG9G8eu6DfjF+hHSUil?=
- =?us-ascii?Q?Yd+Y2IJa4CZR60D8KTY0qhtksO/cQ/Ms1pFpmKbvI2T1Ev/88QLHQJFOpjiQ?=
- =?us-ascii?Q?lGGG2ZqBpZkR2ckG0kWT145UspIdorHi+JERAfIfCZZved8hc3NlpAPWhlxV?=
- =?us-ascii?Q?wCKiOcDugmI2WW02Jztp3rbilTevg8DugybDY8p0NKiPHePZuDZZ0XN+9trK?=
- =?us-ascii?Q?5uOOkjwLVyzeSELbreqREc3bxlX1dwqInCsRU6inofeWtsbkESEUP4EHDtmc?=
- =?us-ascii?Q?Ps80hAFyxUvTp993WAQRO81JC+UdRf9X8OfC+bvOsRXbHHQ1UiLKKnpPL8Mn?=
- =?us-ascii?Q?F5w3nCsEw+sD8FfqOgZb5JwvKBbbLe+97ikpiLbrCIV5fCj5JLcUi05Y3mLU?=
- =?us-ascii?Q?vWAelqncvrq2efWGNyqLxREWMhuIY+QFdsCaUuAqZzwFOV5fPLSECQssT9++?=
- =?us-ascii?Q?GLZdmZ2VUHc3j19i00LcfTU7fpdcFIJcbDe9O9gipCSF7F6OiBFWZEXO1bd9?=
- =?us-ascii?Q?QtFoO2rh34/EYmQjR73yg7U/fx6j3SDuG4VoxZEvH9LvtlbEfi/hWBzkKJ/K?=
- =?us-ascii?Q?Jg=3D=3D?=
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=tq-group.com header.b="CR36BrI/";
+ dkim=pass (2048-bit key) header.d=tq-group.com header.b="aGj4l0MC"
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kUI4RFmvfQMn for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Dec 2021 12:40:38 +0000 (UTC)
+X-Greylist: delayed 00:07:12 by SQLgrey-1.8.0
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9B6A240243
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 12:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1639399237; x=1670935237;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=BDj9ra8itOriardQ6ZRvtI5csjEmV2CGanL5WbQl7dU=;
+ b=CR36BrI/3mqaBvrTcIN2Qw3otgeJ3sAJK+w81RdNIg9noIOL5qzoaWz6
+ uM0I0YxMWeCkYS4edbHE0VDcx39I63vH7s1xon0M06f4S4HVcNewHOBoL
+ /EyqSasgACZeAUjJDIMUdvqjtXEeU0KB8EZXza7/rDGl5/EXDLaQ+UrVN
+ 36+lOZRJlgxDtDLRSrHd+jSZ9Wu7OMW8ULlBvKz2Lxan58wo9XtTcBGWK
+ UFhRm94/2+YuMdIAunvsM630oMFniuEVc8nDlwgVlbYzUy7fFaRDzgsG0
+ j8Q/IBVaYe2g1YuhJPF6axaQCXc2LkGwUocQcFjBW6hCu5enOlugYZx0L w==;
+X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; d="scan'208";a="21010718"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 13 Dec 2021 13:33:21 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Mon, 13 Dec 2021 13:33:21 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Mon, 13 Dec 2021 13:33:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1639398801; x=1670934801;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=BDj9ra8itOriardQ6ZRvtI5csjEmV2CGanL5WbQl7dU=;
+ b=aGj4l0MC3mKowFrmvLlcbmhjx2jxmfEohBfTL6zHpmalJNNJfA9DcfvI
+ M2lEMp19C9+swqPGnY2klrfqFETOAccBK7egk6vElUfqO7ZsAbszk29A3
+ VmxdpxXLv8hGhkT7B7I3+WSuACT0d1j5Hpz5dKH+id+XHSJy9qRDWzoUO
+ BiLFi1n3zS3WenSJ0PP82OzdLqziRkVyOQ35aLZsBzbXUCJSHRrid0AXA
+ DSAMwp3cxvpLctvZOA/meicQ7vS4DmgGwL/B84U1qVC1weTithlgmpkWY
+ LzMynwQBJk5zm5VtbvkPpVsZ/VT83PlxctO6QJPDZbLt2pa2rmN3A0Oc6 g==;
+X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; d="scan'208";a="21010717"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 13 Dec 2021 13:33:21 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9A511280065;
+ Mon, 13 Dec 2021 13:33:20 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH 1/1] dma-direct: Fix dma_direct_use_pool helper
+Date: Mon, 13 Dec 2021 13:33:11 +0100
+Message-Id: <20211213123311.2399611-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR21MB1295.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc92fa70-e668-4fae-a26a-08d9be598307
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2021 16:56:30.7618 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B/9za8DDfD2vda/khn+g0NK/zy3hzMZ29hJwT3Z7l8EWuo76RhQ+mI6qE5hm9XbGWM3u4sCcVUizTvN/OF2k1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR21MB1732
-Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dave.hansen@intel.com" <dave.hansen@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- vkuznets <vkuznets@redhat.com>, "hch@lst.de" <hch@lst.de>
+X-Mailman-Approved-At: Mon, 13 Dec 2021 18:33:25 +0000
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -174,68 +101,82 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Haiyang Zhang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Haiyang Zhang <haiyangz@microsoft.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+During refactoring the logic around gfpflags_allow_blocking() got inverted
+due to missing '!'. Fix this by adding it back.
 
+Fixes: 8d7c141bb80f ("dma-direct: add a dma_direct_use_pool helper")
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+I bisected this to the commit in 'Fixed:' tag. Here is the splat:
+------------[ cut here ]------------                                                                                                                                                                                                                                           
+Failed to get suitable pool for 30be0000.ethernet                                                                                                                                                                                                                              
+WARNING: CPU: 0 PID: 62 at kernel/dma/pool.c:279 dma_alloc_from_pool+0x88/0x1d0                                                                                                                                                                                                
+Modules linked in:                                                                                                                                                                                                                                                             
+CPU: 0 PID: 62 Comm: kworker/u8:2 Not tainted 5.16.0-rc4-tq+ #238                                                                                                                                                                                                              
+Hardware name: TQ-Systems GmbH i.MX8MQ TQMa8MQ on MBa8Mx (DT)                                                                                                                                                                                                                  
+Workqueue: events_unbound deferred_probe_work_func                                                                                                                                                                                                                             
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)                                                                                                                                                                                                                
+pc : dma_alloc_from_pool+0x88/0x1d0                                                                                                                                                                                                                                            
+lr : dma_alloc_from_pool+0x88/0x1d0                                                                                                                                                                                                                                            
+sp : ffff8000126b3860                                                                                                                                                                                                                                                          
+x29: ffff8000126b3860 x28: ffff800012133d68 x27: 0000000000000000                                                                                                                                                                                                              
+x26: ffff0000c03e0000 x25: ffff8000126b3930 x24: ffff0000c08ee010                                                                                                                                                                                                              
+x23: ffff800012133d48 x22: ffff80001011f4b0 x21: ffff800011712820                                                                                                                                                                                                              
+x20: 0000000000018000 x19: ffff0000c0ef8000 x18: 0000000000000014                                                                                                                                                                                                              
+x17: 756420676e697375 x16: 202c646e756f6620 x15: 0000000000000000                                                                                                                                                                                                              
+x14: 0000000000000000 x13: 20726f66206c6f6f x12: 7020656c62617469                                                                                                                                                                                                              
+x11: 656820747563205b x10: 000000000000000a x9 : ffff8000126b3860                                                                                                                                                                                                              
+x8 : 000000000000000a x7 : 0000000000000011 x6 : 000000000000000a
+x5 : 0000000000000000 x4 : 0000000000000000 x3 : 00000000ffffffff
+x2 : ffff800011eb6b30 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ dma_alloc_from_pool+0x88/0x1d0
+ dma_direct_alloc+0x8c/0x39c
+ dma_alloc_attrs+0x7c/0xe4
+ dmam_alloc_attrs+0x68/0xbc
+ fec_enet_init+0xfc/0x504
+ fec_probe+0x558/0x8b0
+ platform_probe+0x64/0x100
+ call_driver_probe+0x28/0x130
+ really_probe+0xbc/0x390
+ __driver_probe_device+0xfc/0x144
+ driver_probe_device+0xcc/0x150
+ __device_attach_driver+0xd4/0x180
+ bus_for_each_drv+0x74/0xc4
+ __device_attach+0xd8/0x1e0
+ device_initial_probe+0x10/0x20
+ bus_probe_device+0x90/0xa0
+ deferred_probe_work_func+0x9c/0xf0
+ process_one_work+0x1cc/0x360
+ worker_thread+0x214/0x3b0
+ kthread+0x150/0x160
+ ret_from_fork+0x10/0x20
+---[ end trace 3934c72dbe137fa9 ]---
 
-> -----Original Message-----
-> From: Tianyu Lan <ltykernel@gmail.com>
-> Sent: Monday, December 13, 2021 2:14 AM
-> To: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>; Stephen
-> Hemminger <sthemmin@microsoft.com>; wei.liu@kernel.org; Dexuan Cui <decui@microsoft.com>;
-> tglx@linutronix.de; mingo@redhat.com; bp@alien8.de; dave.hansen@linux.intel.com;
-> x86@kernel.org; hpa@zytor.com; davem@davemloft.net; kuba@kernel.org; jejb@linux.ibm.com;
-> martin.petersen@oracle.com; arnd@arndb.de; hch@infradead.org; m.szyprowski@samsung.com;
-> robin.murphy@arm.com; thomas.lendacky@amd.com; Tianyu Lan <Tianyu.Lan@microsoft.com>;
-> Michael Kelley (LINUX) <mikelley@microsoft.com>
-> Cc: iommu@lists.linux-foundation.org; linux-arch@vger.kernel.org; linux-
-> hyperv@vger.kernel.org; linux-kernel@vger.kernel.org; linux-scsi@vger.kernel.org;
-> netdev@vger.kernel.org; vkuznets <vkuznets@redhat.com>; brijesh.singh@amd.com;
-> konrad.wilk@oracle.com; hch@lst.de; joro@8bytes.org; parri.andrea@gmail.com;
-> dave.hansen@intel.com
-> Subject: [PATCH V7 5/5] net: netvsc: Add Isolation VM support for netvsc driver
-> 
-> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> 
-> In Isolation VM, all shared memory with host needs to mark visible
-> to host via hvcall. vmbus_establish_gpadl() has already done it for
-> netvsc rx/tx ring buffer. The page buffer used by vmbus_sendpacket_
-> pagebuffer() stills need to be handled. Use DMA API to map/umap
-> these memory during sending/receiving packet and Hyper-V swiotlb
-> bounce buffer dma address will be returned. The swiotlb bounce buffer
-> has been masked to be visible to host during boot up.
-> 
-> rx/tx ring buffer is allocated via vzalloc() and they need to be
-> mapped into unencrypted address space(above vTOM) before sharing
-> with host and accessing. Add hv_map/unmap_memory() to map/umap rx
-> /tx ring buffer.
-> 
-> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> ---
-> Change since v3:
->        * Replace HV_HYP_PAGE_SIZE with PAGE_SIZE and virt_to_hvpfn()
->          with vmalloc_to_pfn() in the hv_map_memory()
-> 
-> Change since v2:
->        * Add hv_map/unmap_memory() to map/umap rx/tx ring buffer.
-> ---
->  arch/x86/hyperv/ivm.c             |  28 ++++++
->  drivers/hv/hv_common.c            |  11 +++
->  drivers/net/hyperv/hyperv_net.h   |   5 ++
->  drivers/net/hyperv/netvsc.c       | 136 +++++++++++++++++++++++++++++-
->  drivers/net/hyperv/netvsc_drv.c   |   1 +
->  drivers/net/hyperv/rndis_filter.c |   2 +
->  include/asm-generic/mshyperv.h    |   2 +
->  include/linux/hyperv.h            |   5 ++
->  8 files changed, 187 insertions(+), 3 deletions(-)
-> 
+ kernel/dma/direct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index d0a317ed8f02..50f48e9e4598 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -162,7 +162,7 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+  */
+ static bool dma_direct_use_pool(struct device *dev, gfp_t gfp)
+ {
+-	return gfpflags_allow_blocking(gfp) && !is_swiotlb_for_alloc(dev);
++	return !gfpflags_allow_blocking(gfp) && !is_swiotlb_for_alloc(dev);
+ }
+ 
+ static void *dma_direct_alloc_from_pool(struct device *dev, size_t size,
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
