@@ -1,78 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3870A47342A
-	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 19:37:12 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820B4473417
+	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 19:33:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A2437408A8;
-	Mon, 13 Dec 2021 18:37:10 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2CB2260B29;
+	Mon, 13 Dec 2021 18:33:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OM8cq2PHb_qp; Mon, 13 Dec 2021 18:37:10 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zTPrHG6oPOLk; Mon, 13 Dec 2021 18:33:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D6320408A5;
-	Mon, 13 Dec 2021 18:37:09 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5055460B2C;
+	Mon, 13 Dec 2021 18:33:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2BD1C0012;
-	Mon, 13 Dec 2021 18:37:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93965C0074;
+	Mon, 13 Dec 2021 18:33:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C4F72C0012
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:37:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 281CEC0012
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:08:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id ABB3D60B2C
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:37:07 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 06AD4605AB
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:08:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=ti.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zDE7dpUQJx6z for <iommu@lists.linux-foundation.org>;
- Mon, 13 Dec 2021 18:37:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DAA0960B2A
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:37:06 +0000 (UTC)
+ with ESMTP id 5y1RxXnadUNc for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Dec 2021 18:08:52 +0000 (UTC)
+X-Greylist: delayed 00:10:51 by SQLgrey-1.8.0
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id ABFD0605A7
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:08:52 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1BDHujtF024081;
- Mon, 13 Dec 2021 11:56:45 -0600
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1BDHvDFk057657;
+ Mon, 13 Dec 2021 11:57:13 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1639418205;
- bh=a28kR5uLU4CD//Euze4R1opzKiH1O9AJ1Fk3ypys7po=;
+ s=ti-com-17Q1; t=1639418233;
+ bh=9CyMhPc/idrcBzNkExaZ5vJ4o9phUqUECb1RhDx4I4E=;
  h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=peIGlhxdMjC3Tv7BKDuC4dnIJLJD6NNqavyceGxzcMAbairrnjR3yTGhM8fnpSB+o
- LGnxmZZ+cPdn3cdj2Vh+HIDRSsHJFI5t6VLAnJoolBDO5WfVc3E6rlks1pUGJ4Legj
- 6gdbz27M7Fz8c/olN0n/YrBf2Pb3R5c8bQO/HjxI=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1BDHujCb095191
+ b=mHuWgUI/Z9Q9zRgSgPTxkHuzsmgOInjmgLI6oNat8MEl1rVUR+hb8QQszr+XW1ErC
+ PO7AazLDEhdfY/GfqbD/O+rGEywTCE9Fp/6RkHPntLuCvdywuxKrSkNUVfJNoH2r7T
+ EZkIsfSC6RNMlmKII/6L/Xm/5irlLAudxgFQsbTY=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1BDHvDLj096173
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 13 Dec 2021 11:56:45 -0600
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 13 Dec 2021 11:57:13 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 13
- Dec 2021 11:56:45 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2021 11:57:13 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Mon, 13 Dec 2021 11:56:45 -0600
+ Frontend Transport; Mon, 13 Dec 2021 11:57:13 -0600
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1BDHuiov010619;
- Mon, 13 Dec 2021 11:56:44 -0600
-Date: Mon, 13 Dec 2021 11:56:43 -0600
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1BDHvD5s011601;
+ Mon, 13 Dec 2021 11:57:13 -0600
+Date: Mon, 13 Dec 2021 11:57:12 -0600
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch V3 12/35] soc: ti: ti_sci_inta_msi: Allocate MSI device
- data on first use
-Message-ID: <20211213175643.2gmosys3o4g4hsrb@cursor>
+Subject: Re: [patch V3 22/35] soc: ti: ti_sci_inta_msi: Use msi_desc::msi_index
+Message-ID: <20211213175712.t5xghmso6q4vpg7n@rifling>
 References: <20211210221642.869015045@linutronix.de>
- <20211210221813.928842960@linutronix.de>
+ <20211210221814.540704224@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211210221813.928842960@linutronix.de>
+In-Reply-To: <20211210221814.540704224@linutronix.de>
 User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Mon, 13 Dec 2021 18:33:25 +0000
 Cc: Mark Rutland <mark.rutland@arm.com>, Stuart Yoder <stuyoder@gmail.com>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
@@ -113,7 +111,7 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 On 23:19-20211210, Thomas Gleixner wrote:
 > From: Thomas Gleixner <tglx@linutronix.de>
 > 
-> Allocate the MSI device data on first invocation of the allocation function.
+> Use the common msi_index member and get rid of the pointless wrapper struct.
 > 
 > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -121,11 +119,10 @@ On 23:19-20211210, Thomas Gleixner wrote:
 > Cc: Nishanth Menon <nm@ti.com>
 > Cc: Tero Kristo <kristo@kernel.org>
 > Cc: Santosh Shilimkar <ssantosh@kernel.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
 > Cc: linux-arm-kernel@lists.infradead.org
 
-
 Acked-by: Nishanth Menon <nm@ti.com>
-
 -- 
 Regards,
 Nishanth Menon
