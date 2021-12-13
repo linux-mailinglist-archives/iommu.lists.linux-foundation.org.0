@@ -1,67 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72C8472045
-	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 06:14:40 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790DA472048
+	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 06:15:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 85BF281858;
-	Mon, 13 Dec 2021 05:14:39 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id EE9C6409EA;
+	Mon, 13 Dec 2021 05:14:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wKvIREbq-tjI; Mon, 13 Dec 2021 05:14:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AC8DB81842;
-	Mon, 13 Dec 2021 05:14:38 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id t0yw5GenobFC; Mon, 13 Dec 2021 05:14:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E4A0D409BC;
+	Mon, 13 Dec 2021 05:14:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A543C0039;
-	Mon, 13 Dec 2021 05:14:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BC890C0012;
+	Mon, 13 Dec 2021 05:14:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9B0A0C0012
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 05:14:36 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3175AC0012
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 05:14:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7B4EA81842
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 05:14:36 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 10D4F6071E
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 05:14:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ucn1dK_Dxk3o for <iommu@lists.linux-foundation.org>;
- Mon, 13 Dec 2021 05:14:35 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QSjCmAxiTAJY for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Dec 2021 05:14:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A501C8183D
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 05:14:35 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 65EA4606E7
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 05:14:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 3B0C9CE0DAF;
- Mon, 13 Dec 2021 05:14:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F64C00446;
- Mon, 13 Dec 2021 05:14:28 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 73F0EB80D7C;
+ Mon, 13 Dec 2021 05:14:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E36C00446;
+ Mon, 13 Dec 2021 05:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639372469;
- bh=m+MbzkCsPCJNXsBFySexaUdkbI+fIAKWZPiq+A6GBck=;
+ s=k20201202; t=1639372491;
+ bh=zuuGW5+kS2UVDTK9JZgN0rVsKZ9vO7N+ikVVGGhcFus=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pcDQjwCHOz6BSONU5joUW6e60Mu1jAbxQzts0EfFaFm5JmSfwPYHyrXe+as4aLjeM
- eFJH1OLum6J0MwbxxotL5Ynx/Wl9FSzFLuVcZ/MiaFGyolmZeXYP0aRrzCZjW5ZdJq
- Yt5fu6OtnruTRf7YSvoSO+XnwngnSyHnpkVidlaQ4C6iMZ9tlspBmToBaYm7+u5kTp
- 56ZJujbc1BVH7oROt6l/x3asZi1J9mKWjGd5xEZzFFEQ0GglJh+ze5/cFl0ltz5OnT
- HkJi0GnpAKgWw3QDQFyUKxAUiibgYJ1iBPJwPobSVKG5xk0d9X3x2zWgArHsKu4K1+
- TCjLAS6Yk203w==
-Date: Mon, 13 Dec 2021 10:44:25 +0530
+ b=RGfflIEVbOYzZ4L0+ZwdoUg9quAO5nOi9/UXP3Xmr9G9FMvVyrwT7jr3JP9IGaiFL
+ iDr3OkfoB6b8rQrplP3MBZ21trYA1fHZJ/P6K9OgJk7ys8npF3ZR421z8PmAzyK7at
+ mVJOPb6bRTPOptJL+XKRuXrxiPG2olj+FZeiYHjN4ZRoI7C3Src7FeNuQiJmp+bUMG
+ xPtHLVBnuBhLRIQdqXBDutn2NvWHHNDEQKnckdYO0OUOOTJAyaAkyCOddpx7Tk6abA
+ UbXFRd62tmtswrOO2et02MquRCBkv8NhukN03R6Wud8Ms+/tbnOLTtPGic26cUTGyv
+ Al/o3XGCyfNBQ==
+Date: Mon, 13 Dec 2021 10:44:47 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch V3 29/35] dmaengine: mv_xor_v2: Get rid of msi_desc abuse
-Message-ID: <YbbWsUO6o5ccU5ai@matsya>
+Subject: Re: [patch V3 35/35] dmaengine: qcom_hidma: Cleanup MSI handling
+Message-ID: <YbbWx1LhPEtF/9pp@matsya>
 References: <20211210221642.869015045@linutronix.de>
- <20211210221814.970099984@linutronix.de>
+ <20211210221815.329792721@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211210221814.970099984@linutronix.de>
+In-Reply-To: <20211210221815.329792721@linutronix.de>
 Cc: Nishanth Menon <nm@ti.com>, Mark Rutland <mark.rutland@arm.com>,
  Stuart Yoder <stuyoder@gmail.com>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
@@ -100,8 +102,8 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 On 10-12-21, 23:19, Thomas Gleixner wrote:
 > From: Thomas Gleixner <tglx@linutronix.de>
 > 
-> Storing a pointer to the MSI descriptor just to keep track of the Linux
-> interrupt number is daft. Use msi_get_virq() instead.
+> There is no reason to walk the MSI descriptors to retrieve the interrupt
+> number for a device. Use msi_get_virq() instead.
 
 Acked-By: Vinod Koul <vkoul@kernel.org>
 
