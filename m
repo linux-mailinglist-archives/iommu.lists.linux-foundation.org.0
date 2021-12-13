@@ -1,83 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553D2473418
-	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 19:33:30 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8EA4734EC
+	for <lists.iommu@lfdr.de>; Mon, 13 Dec 2021 20:24:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E1EF9404E3;
-	Mon, 13 Dec 2021 18:33:28 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id DA9D78126E;
+	Mon, 13 Dec 2021 19:24:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Yo0pn9hX8-rb; Mon, 13 Dec 2021 18:33:27 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hzmTrtOC5z2U; Mon, 13 Dec 2021 19:24:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A851140519;
-	Mon, 13 Dec 2021 18:33:27 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0BC1F81271;
+	Mon, 13 Dec 2021 19:24:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 09144C0070;
-	Mon, 13 Dec 2021 18:33:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CE434C0070;
+	Mon, 13 Dec 2021 19:24:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A0E7C0012
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:30:50 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 313DAC0012
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 19:24:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1AC6660B2A
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:30:50 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1E7EA60634
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 19:24:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=ti.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qpvxfHyavDLc for <iommu@lists.linux-foundation.org>;
- Mon, 13 Dec 2021 18:30:49 +0000 (UTC)
-X-Greylist: delayed 00:33:15 by SQLgrey-1.8.0
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 265D660B29
- for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 18:30:48 +0000 (UTC)
+ with ESMTP id yyipvNyfdyBy for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Dec 2021 19:24:48 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 4548D605BA
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Dec 2021 19:24:48 +0000 (UTC)
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1BDITweD032784;
- Mon, 13 Dec 2021 12:29:58 -0600
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1BDHvg60044666;
+ Mon, 13 Dec 2021 11:57:43 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1639420199;
- bh=CIwJXsDVc6MpWMxloZbtRdlpLw1Ztan/9G2UzPwMY0E=;
+ s=ti-com-17Q1; t=1639418263;
+ bh=pGs+7nCpdx7S5XWFe/UO8XALjMbjY1+VfXkPmDrylYE=;
  h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=aQr+rT7AbNmri1BYm4glcZYUB4D0/LtbXNn0eGzLe1Xq4LgTziMH/fZw9NMlUSxOJ
- eUvgRnz/JUOtWmI/LUlydZmqlDtGvShVqc/335BSewifnzHFovUoMb7LUYizCR9g/k
- /rYDbql0vQTQMlM2Nnxl+1kL4PPvB9mCQmf5UIQI=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1BDITwlR038320
+ b=TereNqQsHrOJN5x2htMCys19fN9lF6WIIbjFUj5DyrKhTGgPXKwfNA/gNxTT6+77z
+ JRw2kQu/xJl8fmFScS+cwwxZ07+XG8xXUbwh8Kk8HR+9ArnUZz+3a5U0jiM3or8k0i
+ mUKft05BDVfyOiq0ie7rKisbaUamlftbBRwigjBY=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1BDHvgPV120889
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 13 Dec 2021 12:29:58 -0600
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 13 Dec 2021 11:57:42 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 13
- Dec 2021 12:29:58 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2021 11:57:42 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Mon, 13 Dec 2021 12:29:58 -0600
+ Frontend Transport; Mon, 13 Dec 2021 11:57:42 -0600
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1BDITwZX089938;
- Mon, 13 Dec 2021 12:29:58 -0600
-Date: Mon, 13 Dec 2021 12:29:58 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1BDHvg6L017557;
+ Mon, 13 Dec 2021 11:57:42 -0600
+Date: Mon, 13 Dec 2021 11:57:41 -0600
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch V3 00/35] genirq/msi, PCI/MSI: Spring cleaning - Part 2
-Message-ID: <20211213182958.ytj4m6gsg35u77cv@detonator>
+Subject: Re: [patch V3 34/35] soc: ti: ti_sci_inta_msi: Get rid of
+ ti_sci_inta_msi_get_virq()
+Message-ID: <20211213175741.yxabloph4dr37dmt@abroad>
 References: <20211210221642.869015045@linutronix.de>
+ <20211210221815.269468319@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211210221642.869015045@linutronix.de>
+In-Reply-To: <20211210221815.269468319@linutronix.de>
 User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Approved-At: Mon, 13 Dec 2021 18:33:25 +0000
 Cc: Mark Rutland <mark.rutland@arm.com>, Stuart Yoder <stuyoder@gmail.com>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jassi Brar <jassisinghbrar@gmail.com>,
- Sinan Kaya <okaya@kernel.org>, iommu@lists.linux-foundation.org,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Will Deacon <will@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Ashok Raj <ashok.raj@intel.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Sinan Kaya <okaya@kernel.org>,
+ iommu@lists.linux-foundation.org, Bjorn Helgaas <helgaas@kernel.org>,
  linux-arm-kernel@lists.infradead.org, Jason Gunthorpe <jgg@nvidia.com>,
  linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
  Kevin Tian <kevin.tian@intel.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -109,43 +110,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 23:18-20211210, Thomas Gleixner wrote:
-[...]
-
+On 23:19-20211210, Thomas Gleixner wrote:
+> From: Thomas Gleixner <tglx@linutronix.de>
 > 
-> It's also available from git:
+> Just use the core function msi_get_virq().
 > 
->      git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git msi-v3-part-2
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: dmaengine@vger.kernel.org
 
-[...]
-
-> ---
->  drivers/dma/ti/k3-udma-private.c                    |    6 
->  drivers/dma/ti/k3-udma.c                            |   14 -
->  drivers/irqchip/irq-ti-sci-inta.c                   |    2 
->  drivers/soc/ti/k3-ringacc.c                         |    6 
->  drivers/soc/ti/ti_sci_inta_msi.c                    |   22 --
->  include/linux/soc/ti/ti_sci_inta_msi.h              |    1 
-
-Also while testing on TI K3 platforms, I noticed:
-
-msi_device_data_release/msi_device_destroy_sysfs in am64xx-evm / j7200
-[1] https://gist.github.com/nmenon/36899c7819681026cfe1ef185fb95f33#file-am64xx-evm-txt-L1018
-[2] https://gist.github.com/nmenon/36899c7819681026cfe1ef185fb95f33#file-j7200-evm-txt-L1076
-
-Which is not present in vanilla v5.16-rc4
-
-v5.16-rc4:
-https://gist.github.com/nmenon/1aee3f0a7da47d5e9dcb7336b32a70cb
-
-msi-v3-part-2:
-https://gist.github.com/nmenon/36899c7819681026cfe1ef185fb95f33
-
-(.config https://gist.github.com/nmenon/ec6f95303828abf16a64022d8e3a269f)
-
-Vs:
-next-20211208:
-https://gist.github.com/nmenon/f5ca3558bd5c1fbe62dc5ceb420b536e
+Acked-by: Nishanth Menon <nm@ti.com>
 
 -- 
 Regards,
