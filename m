@@ -1,82 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CC54745A5
-	for <lists.iommu@lfdr.de>; Tue, 14 Dec 2021 15:53:38 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F526474624
+	for <lists.iommu@lfdr.de>; Tue, 14 Dec 2021 16:14:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 5579D40892;
-	Tue, 14 Dec 2021 14:53:37 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E1B79814B7;
+	Tue, 14 Dec 2021 15:14:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aVK-CSMvUNWq; Tue, 14 Dec 2021 14:53:36 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1u2BAtK4f5hs; Tue, 14 Dec 2021 15:14:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7DCDA40287;
-	Tue, 14 Dec 2021 14:53:36 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 6798781437;
+	Tue, 14 Dec 2021 15:14:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B92FC0012;
-	Tue, 14 Dec 2021 14:53:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09854C0012;
+	Tue, 14 Dec 2021 15:14:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D349FC0012
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 14:53:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F0723C0012
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 09:04:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B913740548
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 14:53:34 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id CD6EE405AA
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 09:04:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kapsi.fi
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AhOoDcNsXX3m for <iommu@lists.linux-foundation.org>;
- Tue, 14 Dec 2021 14:53:33 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A257740125
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 14:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=QZYhNaGojIhkj+DE3EZypSilzYN2uhm80/kOdf1GbYA=; b=IlPN7dM2SThppX1r0UTulL/Isn
- e+U/mXVxY67CDVx82BzZ2uOGU/otApvyN6778DHwVP2o81j9E6zO+GGobSI5PUNjiaZj+46Tt5Tms
- zYQPfUcnELURQm0aXn2m7WzCu23wzd4oUxEXYZKcv5BgpjSsOIeRjsT8fg8Ynta/tOSyD6IeFZhxa
- nNmcRLipl3uuTZZmONO7kULsoXP+ShRwKgB6FmoswXmpUBbjRv+hZq32V48Y5BWDCLVJyU7k4HNoP
- drdGSCjfNFKpuEcDPHLq75GFb0MlmXDXY8aL2idfIcBmAldsRSH203JE1+Trc22VEgx3+p2j/HCEL
- gzMoJjIg==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1mx9BB-0000zE-4A; Tue, 14 Dec 2021 16:53:21 +0200
-Message-ID: <a62602df-91f6-783d-60f3-d9eba10da543@kapsi.fi>
-Date: Tue, 14 Dec 2021 16:53:20 +0200
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=google.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1aaUWF8BijEW for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Dec 2021 09:04:12 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B559A4055E
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 09:04:12 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ w33-20020a17090a6ba400b001a722a06212so14272927pjj.0
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 01:04:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BLtNJBPTKfFgEngscPwkP+dSPVASO8XmAtvek6gJJYY=;
+ b=oWW67fTzZWSJL5R4BckddJiSCZc1V0b1qLTqxm9SooUgBeSwc6S6hcJOYY+CDpL6T6
+ hWGAhpWOZ7WiRSXsF9XqqnNMyCLfuP3ky5z1O5ksg5D19rk/YN7Svh1QfVdQewvc9uve
+ yOquUnCG6sk222o6CRpLOmlOfmdmO541bZnZD1RK2J1tZEinaIeL0/IdvGExfsmvX1RF
+ TT7M6ONGo1hPzOntMTRRuEGyN0jxgFhmYoCx7PF7TgA3GkNXP+mQ48XAHRa7LEij/dEW
+ 6xaY627nOo4wnyAvUNRwGx0D4C9ISFYe9H//Ya5dZdg23yM6b0lfeCFOKixHiUdsfd3s
+ Drvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BLtNJBPTKfFgEngscPwkP+dSPVASO8XmAtvek6gJJYY=;
+ b=SGAP5lTcD/20L6q0FGb++vChpHuhJw4LvZelvlSXFnSFatxeWJws2L455wzlgeAHK/
+ fT6RESTjBWC57aBi4v+Do7SvOG052RN3rvtXskVJoE3wpLwnJfJpU8LFKxnjDvk7fqks
+ KjRv4EPqT9W+ESJtxITtUL/m5qHryUz9YbtuIN+tWbrWshrc+rldq+sx3If1kzGxNVq7
+ beVitLr5rBFLoLRhQS32xWifVK/u81bZWSVkjaGUHJFewg5Ruc3qb54KebEZZTQN6fK2
+ QVBi3UatuMAn7L39QpEzCWLNHyB6JUX0CyLNtv+lmNsENQz4ArEtKvrPouf6tfV1nrnS
+ 6YeA==
+X-Gm-Message-State: AOAM533sATPTaaux4NosMJn7M7f5GiXbdhqgCXUA+XPLxDQOxy4VAoDw
+ lICYF0IhVCbaA8a6inRwfnWB6w==
+X-Google-Smtp-Source: ABdhPJx1RHm9shDo9AZkjS+O+13ZegDk2AOGlHxMzBO6fB4uLVCwKlFaa183sh0fIZEMuEgAOlS+1w==
+X-Received: by 2002:a17:90a:ac0b:: with SMTP id
+ o11mr4099843pjq.143.1639472651731; 
+ Tue, 14 Dec 2021 01:04:11 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:16cc:acbf:e9c5:6393])
+ by smtp.gmail.com with ESMTPSA id p2sm1782960pja.55.2021.12.14.01.04.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 01:04:11 -0800 (PST)
+Date: Tue, 14 Dec 2021 17:04:08 +0800
+To: Yong Wu <yong.wu@mediatek.com>
+Subject: Re: [SPAM][PATCH] iommu/mediatek: Validate number of phandles
+ associated with "mediatek,larbs"
+Message-ID: <YbheCEbOS48Owcht@google.com>
+References: <20211210205704.1664928-1-linux@roeck-us.net>
+ <ebf58066a131f92c68e83a1ef56b88f435fa0d08.camel@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2 0/8] Host1x context isolation support
-Content-Language: en-US
-To: Dmitry Osipenko <digetx@gmail.com>, Jon Hunter <jonathanh@nvidia.com>,
- joro@8bytes.org, will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com,
- Mikko Perttunen <mperttunen@nvidia.com>
-References: <20210916143302.2024933-1-mperttunen@nvidia.com>
- <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
- <c382fb0e-6b73-5ca0-7f63-d2843351325e@nvidia.com>
- <91dddccd-a6c1-21b3-34d6-6a8082a386e7@nvidia.com>
- <a507b10b-395b-1f6d-87b9-7c7c436cab0e@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <a507b10b-395b-1f6d-87b9-7c7c436cab0e@gmail.com>
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <ebf58066a131f92c68e83a1ef56b88f435fa0d08.camel@mediatek.com>
+X-Mailman-Approved-At: Tue, 14 Dec 2021 15:14:01 +0000
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Will Deacon <will@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,18 +100,66 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+From: Tzung-Bi Shih via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Tzung-Bi Shih <tzungbi@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMTIvMTQvMjEgMTY6MzUsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiAxNC4xMi4yMDIxIDEx
-OjA1LCBKb24gSHVudGVyINC/0LjRiNC10YI6Cj4+IEhpIGFsbCwKPj4KPj4gU3RpbGwgbm8gcmVz
-cG9uc2Ugb24gdGhpcyA6LSgKPiAKPiBJIHNlZSBvbmx5IHR3byBwYXRjaGVzIG9uIFRlZ3JhIE1M
-IGFuZCBvdGhlcnMgb24gRFJJIE1MLiBNaWdodCBiZSBnb29kCj4gdG8gc3RhcnQgd2l0aCByZS1z
-ZW5kaW5nIHRoaXMgd2hvbGUgc2VyaWVzIGFuZCBDQ2luZyBNTHMgcHJvcGVybHkuCj4gCgpBbGwg
-cGF0Y2hlcyBzaG91bGQgaGF2ZSBiZWVuIHNlbnQgdG8gdGhlIHNhbWUgc2V0IG9mIGFkZHJlc3Nl
-cy4gQXQgbGVhc3QgCkxXTidzIGFyY2hpdmUgc2VlbXMgdG8gYWdyZWUuLgoKTWlra28KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBs
-aXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhm
-b3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On Tue, Dec 14, 2021 at 03:31:25PM +0800, Yong Wu wrote:
+> On Fri, 2021-12-10 at 12:57 -0800, Guenter Roeck wrote:
+> > Since commit baf94e6ebff9 ("iommu/mediatek: Add device link for smi-
+> > common
+> > and m4u"), the driver assumes that at least one phandle associated
+> > with
+> > "mediatek,larbs" exists. If that is not the case, for example if
+> > reason
+> > "mediatek,larbs" is provided as boolean property, the code will use
+> > an
+> > uninitialized pointer and may crash. To fix the problem, ensure that
+> > the
+> > number of phandles associated with "mediatek,larbs" is at least 1 and
+> > bail out immediately if that is not the case.
+> 
+> From the dt-binding, "mediatek,larbs" always is a phandle-array. I 
+> assumed the dts should conform to the dt-binding before. Then the
+> problem is that if we should cover the case that someone abuses/attacks
+> the dts. Could you help add more comment in the commit message?
+> something like: this is for avoid abuse the dt-binding.
+
+How could you make sure dts conform to dt-bindings in runtime?  Code shouldn't rely on the assumptions but try the best to prevent any abuse/misconfigured/malicious cases especially if the assumptions are controllable by other parties.
+
+Taking this case as an example, of_count_phandle_with_args() could return 3 types of values.
+1. Negative: an error, it is already handled in the original code.
+2. Positive: normal case, it falls down to the rest of code.
+3. Zero: it still falls down to the rest of code, however, some variables won't be filled.
+
+The code should handle all of the above types.
+
+> > diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> > index 25b834104790..0bbe32d0a2a6 100644
+> > --- a/drivers/iommu/mtk_iommu.c
+> > +++ b/drivers/iommu/mtk_iommu.c
+> > @@ -828,6 +828,8 @@ static int mtk_iommu_probe(struct platform_device
+> > *pdev)
+> >  					     "mediatek,larbs", NULL);
+> >  	if (larb_nr < 0)
+> >  		return larb_nr;
+> > +	if (larb_nr == 0)
+> > +		return -EINVAL;
+> 
+> Just assigning the larbnode to NULL may be simpler. In this case, it
+> won't enter the loop below, and return 0 in the
+> of_parse_phandle(larbnode, "mediatek,smi", 0).
+> 
+> -       struct device_node      *larbnode, *smicomm_node;
+> +       struct device_node      *larbnode = NULL, *smicomm_node;
+
+Setting larbnode to NULL doesn't make sense to me.  It wastes some more instructions.  If the code can exit earlier, why does it need to call another of_parse_phandle()?
+
+Also, it adds another dependency between the code blocks.  What if someone move the code blocks without awareness of the dependency?
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
