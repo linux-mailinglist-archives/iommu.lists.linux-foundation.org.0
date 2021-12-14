@@ -1,94 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8064745C9
-	for <lists.iommu@lfdr.de>; Tue, 14 Dec 2021 16:02:25 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ABCC47462C
+	for <lists.iommu@lfdr.de>; Tue, 14 Dec 2021 16:16:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BD49C60BC2;
-	Tue, 14 Dec 2021 15:02:23 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DADF240221;
+	Tue, 14 Dec 2021 15:16:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id huBMxxy1nynC; Tue, 14 Dec 2021 15:02:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9608260BC9;
-	Tue, 14 Dec 2021 15:02:22 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PiDf2mSTVwEB; Tue, 14 Dec 2021 15:16:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 03AF24022F;
+	Tue, 14 Dec 2021 15:16:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 62D55C0039;
-	Tue, 14 Dec 2021 15:02:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFBBCC0039;
+	Tue, 14 Dec 2021 15:16:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7F6E7C0012
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 15:02:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A85F3C0012
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 15:16:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5F8CF402B5
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 15:02:21 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 900D640228
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 15:16:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DPRbaWZOGEG6 for <iommu@lists.linux-foundation.org>;
- Tue, 14 Dec 2021 15:02:20 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 629DA402B8
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 15:02:20 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id o4so27485553oia.10
- for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 07:02:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:to:cc:references:from:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8r4jIs3l3D4eNr5ioKcyFBrXfLWslgp3sGsOXmwr0gM=;
- b=BiTbLU9uWpVoRh8INajbUvV0ayCz/0B2e/qrZPY6O2weJdQ1vBJInlP1cZllu1nygh
- UvSz3YHtMbD3b6Z3MawB3iM+dbjOlCkWqmbvwW0X2yPGk+spOwRp/tRe12UgQMJUQlKO
- vcQBRg3V28ijAEy81JLPHBmD1o6HOxeyt3dhBPmh/rMh7WUXbJKmk2hJjMmbk0O6vaCv
- QEBWKwfQPUq3cLH2ygRmYjO03hdk+suKqgrsHNRuh90Zx6Okr2o/ApIHs9RS549Exbll
- Cf7q8/0WNmOuef98QLeB5hecWbDAPz7So+1pqP8WpeLJ0g4RM0s/4L/zZaLk5jeBNJgW
- lueA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8r4jIs3l3D4eNr5ioKcyFBrXfLWslgp3sGsOXmwr0gM=;
- b=bDml+eQJbF43D8Z8ovFiGwIfkgSQsZZD49re6YSQWl0mUFKNMfWBa5/RZzmQtxF1OH
- sCF+y966LZnTb64JWSSi3pb/TLUxMgjecK4IxnpVDqAnCYgTzVUoJ47czk7yVSaYEcKJ
- xuutqARxS15vISRPAkdpxpTIK2r8SG9UGVkEQFHYddPjRxNRkbhp+9hG03EHlXXRpz6d
- N7MYjoYA9vBMLfUEvuXFxseIx7qG3tf8+MHzzGyJNN+JcKJYeRq7l8NkSdnycoVUwuVV
- OMbVmEohCRvaRFrslrFCV+q+agnnGN2MFXTyuz8jjrpuoirifp3+Jvew+wQnYNUkjJyI
- 6TyQ==
-X-Gm-Message-State: AOAM533bdxBJ3GyfsF4Fg6++cDJyxv5/my/Upxwl+j/uJDHaTi+GscVJ
- CW5LZFx5OrG4KqVo+Uhoflw=
-X-Google-Smtp-Source: ABdhPJwmIlYuaRbk3q2YpKEasBz7asrj7ak2wqmHgfkJRg3b4wwVc87W3XBqswlbK03+IWRo7+qnYQ==
-X-Received: by 2002:a05:6808:2cc:: with SMTP id
- a12mr4824714oid.126.1639494139306; 
- Tue, 14 Dec 2021 07:02:19 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id bb8sm25178oib.9.2021.12.14.07.02.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 07:02:18 -0800 (PST)
-To: Yong Wu <yong.wu@mediatek.com>
-References: <20211210205704.1664928-1-linux@roeck-us.net>
- <ebf58066a131f92c68e83a1ef56b88f435fa0d08.camel@mediatek.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [SPAM][PATCH] iommu/mediatek: Validate number of phandles
- associated with "mediatek,larbs"
-Message-ID: <ade9292c-38ee-14b3-a8c4-49cfc7a350e6@roeck-us.net>
-Date: Tue, 14 Dec 2021 07:02:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ with ESMTP id Z0gZDrVfdnC5 for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Dec 2021 15:16:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id C566940221
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Dec 2021 15:16:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01E9ED6E;
+ Tue, 14 Dec 2021 07:16:33 -0800 (PST)
+Received: from [10.57.34.58] (unknown [10.57.34.58])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 04C473F774;
+ Tue, 14 Dec 2021 07:16:31 -0800 (PST)
+Message-ID: <c2bad6da-5e3a-5385-25dc-107f90789d00@arm.com>
+Date: Tue, 14 Dec 2021 15:16:27 +0000
 MIME-Version: 1.0
-In-Reply-To: <ebf58066a131f92c68e83a1ef56b88f435fa0d08.camel@mediatek.com>
-Content-Language: en-US
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] Revert "iommu/arm-smmu-v3: Decrease the queue size of
+ evtq and priq"
+Content-Language: en-GB
+To: Will Deacon <will@kernel.org>, Zhou Wang <wangzhou1@hisilicon.com>
+References: <1638858768-9971-1-git-send-email-wangzhou1@hisilicon.com>
+ <20211214144841.GB14837@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20211214144841.GB14837@willie-the-truck>
+Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,156 +71,36 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 12/13/21 11:31 PM, Yong Wu wrote:
-> On Fri, 2021-12-10 at 12:57 -0800, Guenter Roeck wrote:
->> Since commit baf94e6ebff9 ("iommu/mediatek: Add device link for smi-
->> common
->> and m4u"), the driver assumes that at least one phandle associated
->> with
->> "mediatek,larbs" exists. If that is not the case, for example if
->> reason
->> "mediatek,larbs" is provided as boolean property, the code will use
->> an
->> uninitialized pointer and may crash. To fix the problem, ensure that
->> the
->> number of phandles associated with "mediatek,larbs" is at least 1 and
->> bail out immediately if that is not the case.
-> 
->  From the dt-binding, "mediatek,larbs" always is a phandle-array. I
-> assumed the dts should conform to the dt-binding before. Then the
-> problem is that if we should cover the case that someone abuses/attacks
-> the dts. Could you help add more comment in the commit message?
-> something like: this is for avoid abuse the dt-binding.
-> 
-
-This doesn't have to be an abuse or attack. It can simply be an error
-by the person who wrote the devicetree file. Sure, bugs or lack of
-error checking can often be used for attacks, but that doesn't mean
-that all bad data is an exploit or attack.
-
+On 2021-12-14 14:48, Will Deacon wrote:
+> On Tue, Dec 07, 2021 at 02:32:48PM +0800, Zhou Wang wrote:
+>> The commit f115f3c0d5d8 ("iommu/arm-smmu-v3: Decrease the queue size of
+>> evtq and priq") decreases evtq and priq, which may lead evtq/priq to be
+>> full with fault events, e.g HiSilicon ZIP/SEC/HPRE have maximum 1024 queues
+>> in one device, every queue could be binded with one process and trigger a
+>> fault event. So let's revert f115f3c0d5d8.
 >>
->> Cc: Yong Wu <yong.wu@mediatek.com>
->> Cc: Tomasz Figa <tfiga@chromium.org>
->> Fixes: baf94e6ebff9 ("iommu/mediatek: Add device link for smi-common
->> and m4u")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
->> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>> In fact, if an implementation of SMMU really does not need so long evtq
+>> and priq, value of IDR1_EVTQS and IDR1_PRIQS can be set to proper ones.
+>>
+>> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
 >> ---
->>   drivers/iommu/mtk_iommu.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
->> index 25b834104790..0bbe32d0a2a6 100644
->> --- a/drivers/iommu/mtk_iommu.c
->> +++ b/drivers/iommu/mtk_iommu.c
->> @@ -828,6 +828,8 @@ static int mtk_iommu_probe(struct platform_device
->> *pdev)
->>   					     "mediatek,larbs", NULL);
->>   	if (larb_nr < 0)
->>   		return larb_nr;
->> +	if (larb_nr == 0)
->> +		return -EINVAL;
+>>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> Just assigning the larbnode to NULL may be simpler. In this case, it
-> won't enter the loop below, and return 0 in the
-> of_parse_phandle(larbnode, "mediatek,smi", 0).
-> 
-> -       struct device_node      *larbnode, *smicomm_node;
-> +       struct device_node      *larbnode = NULL, *smicomm_node;
-> 
+> I'd like an Ack from Zhen Lei on this, as the aim of the original patch
+> was to reduce memory consumption.
 
-It is an option, but it would need to be explained and would not be
-as simple as it looks. And, yes, it would result in unnecessary code
-execution.
+I wonder if it's time to start trying to be a bit cleverer than just 
+allocating the smallest/largest possible queues, and try to scale them 
+to some heuristic of the "size" of the system? Certainly a module 
+parameter so that users can manually tune for their system/workload 
+might be a reasonable compromise.
 
-Why does it need to be explained ? I spent quite some additional
-time with the code trying to understand _why_ it works, and we should
-make sure that others don't have to spend that time.
+I'm also tempted by the idea of trying to dynamically reallocate larger 
+queues if they fill up, but I guess that depends on whether it's already 
+game over if events or PRI requests are lost...
 
-Anyway, that additional time made me find additional problems with
-the code.
-
-The for loop below assigns larbnode to the last node it finds.
-However, that node can be disabled.
-
-		if (!of_device_is_available(larbnode)) {
-                         of_node_put(larbnode);
-                         continue;
-                 }
-
-Is such a disabled larbnode, if it is the last one, the node to use
-when looking for "mediatek,smi" ?
-
-Also, there is
-
-	ret = of_property_read_u32(larbnode, "mediatek,larb-id", &id);
-         if (ret)/* The id is consecutive if there is no this property */
-                 id = i;
-
-There are two problems with this code. First, neither i nor id are range
-checked, but used later in
-
-	data->larb_imu[id].dev = &plarbdev->dev;
-
-That means a devicetree with a bad value for "mediatek,larb-id"
-or more than MTK_LARB_NR_MAX larb nodes will result in writes after
-the end of struct mtk_iommu_data.
-
-On top of that, the comment states that the nodes are consecutive if there
-is no "mediatek,larb-id". However, that isn't really the case if there
-are disabled nodes. If there are disabled nodes, there will be a gap in
-larb_imu[]. I don't know if that matters; if it doesn't, there should be
-a comment about it in the code.
-
-Last but not least, it would probably make sense to explain what the "last"
-larb node is expected to be in more detail. It is the last larb node in
-the devicetree file, but not the one with the highest id, and not
-(necessarily) an enabled one. For example, in
-arch/arm64/boot/dts/mediatek/mt2712e.dtsi, the code would pick
-<&smi_common0> even though <&smi_common1> is associated with a higher
-larb id.
-
-One could of course argue that this all doesn't matter because it would
-suggest that the devicetree data is bad, but it is common practice to validate
-devicetree data and not just blindly accept it. One could also argue
-that such bad data would be an "attack", but, again, we don't know that.
-
-In summary,
-
-- The check I introduced should probably be something like
-
-	if (larb_nr == 0 || larb_nr > MTK_LARB_NR_MAX)
-		return -EINVAL;
-
-- It needs to be clarified if larbnode to use for finding "mediatek,smi"
-   is indeed always the last one, even if it is disabled. If so, we should
-   probably also handle the situation that of_node_put(larbnode); was called
-   on that larbnode. Alternatively, if the last larb node to use is the last
-   _active_ larb node, we'll probably need a separate variable to save that
-   larb node pointer for later use.
-
-- It needs to be clarified if larb_imu[] may have gaps if there are disabled
-   larb nodes and "mediatek,larb-id" is not specified. If so, there is still the
-   problem that 'i' and a previous value of "mediatek,larb-id" may be identical
-   [ eg the first node provides mediatek,larb-id = <1> and the second node
-     doesn't provide "mediatek,larb-id" ]
-
-- "id" should be range checked.
-
-- The meaning of "last" larb node to use when looking for mediatek,smi should
-   be explained in more detail.
-
-Once we have determined the correct handling of all those situations, I'll
-be happy to send another revision of this patch (or possibly multiple patches).
-
-Thanks,
-Guenter
-
->>   
->>   	for (i = 0; i < larb_nr; i++) {
->>   		u32 id;
-
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
