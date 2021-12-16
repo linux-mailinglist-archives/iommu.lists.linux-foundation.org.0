@@ -1,64 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E2E47739E
-	for <lists.iommu@lfdr.de>; Thu, 16 Dec 2021 14:52:31 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D834774BB
+	for <lists.iommu@lfdr.de>; Thu, 16 Dec 2021 15:34:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4EF7540108;
-	Thu, 16 Dec 2021 13:52:30 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1113183E60;
+	Thu, 16 Dec 2021 14:34:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZJZmKl-dd-KR; Thu, 16 Dec 2021 13:52:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3C32340383;
-	Thu, 16 Dec 2021 13:52:29 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id k46E_pLCwj_B; Thu, 16 Dec 2021 14:34:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 38DC983E62;
+	Thu, 16 Dec 2021 14:34:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B796C0074;
-	Thu, 16 Dec 2021 13:52:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 18A51C0039;
+	Thu, 16 Dec 2021 14:34:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0580C0012;
- Thu, 16 Dec 2021 08:39:24 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 307CAC0012
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Dec 2021 14:34:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 799DF60F20;
- Thu, 16 Dec 2021 08:39:24 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1F3AC83E62
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Dec 2021 14:34:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZjpmucuDemo6; Thu, 16 Dec 2021 08:39:20 +0000 (UTC)
-X-Greylist: delayed 00:05:58 by SQLgrey-1.8.0
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HgFCq2We_glG for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Dec 2021 14:34:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from smtpbg604.qq.com (smtpbg604.qq.com [59.36.128.82])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DFAF560ED1;
- Thu, 16 Dec 2021 08:39:18 +0000 (UTC)
-X-QQ-mid: bizesmtp42t1639643591t2wqagec
-Received: from wangx.lan (unknown [218.88.124.63])
- by esmtp6.qq.com (ESMTP) with 
- id ; Thu, 16 Dec 2021 16:33:04 +0800 (CST)
-X-QQ-SSF: 0100000000200090C000000A0000000
-X-QQ-FEAT: 3uawQE1sH+3zorxK16b2U3h6zpzpeZk3B/nEX8RAutKOb06jgtfo0MhcLoUzX
- ntE9sw3AHToNqGmUa1vNX544/C5xpkLhwBAH2kMj0GjcU6/w7aV/wGYZJv+liXhkHXQIikv
- 4SUIpGndU7eBB3TLkdS6h+U+kq5y+BIDi8G3J74QfXBU4kDF50keElPOSIrau2Ko8Nx/6WW
- dul0ix7j8+7621vzgdfkat5lfKuczi0vA/V6uKlB/bw0lfjoKChMC2TYbA0gmFEkuitN0TB
- iQdcpnWhGxqq+vJg80fq31EkwU3I2wUh3QxDWqxcRkKHf6dfsQGvy/CANIKlIbDr4+EFZQ8
- vvS8TEBCddi5I2v2U2412pX9La9Bw==
-X-QQ-GoodBg: 0
-From: Xiang wangx <wangxiang@cdjrlc.com>
-To: will@kernel.org
-Subject: [PATCH] iommu/virtio: Fix typo in a comment
-Date: Thu, 16 Dec 2021 16:33:02 +0800
-Message-Id: <20211216083302.18049-1-wangxiang@cdjrlc.com>
-X-Mailer: git-send-email 2.20.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 515DA83E60
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Dec 2021 14:34:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73E1E12FC;
+ Thu, 16 Dec 2021 06:34:36 -0800 (PST)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C2F643F73B;
+ Thu, 16 Dec 2021 06:34:35 -0800 (PST)
+From: Robin Murphy <robin.murphy@arm.com>
+To: thierry.reding@gmail.com,
+	mperttunen@nvidia.com
+Subject: [PATCH] drm/tegra: Add missing DMA API includes
+Date: Thu, 16 Dec 2021 14:34:32 +0000
+Message-Id: <dc81eec74be9064e33247257b1fe439b0f6ec78d.1639664721.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam4
-X-Mailman-Approved-At: Thu, 16 Dec 2021 13:52:26 +0000
-Cc: jean-philippe@linaro.org, Xiang wangx <wangxiang@cdjrlc.com>,
- linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org
+Cc: iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,28 +67,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The double `as' in a comment is repeated, thus it should be removed.
+Include dma-mapping.h directly in the remaining places that touch the
+DMA API, to avoid imminent breakage from refactoring other headers.
 
-Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/virtio-iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index c9e8367d2962..162bd07e32fe 100644
---- a/drivers/iommu/virtio-iommu.c
-+++ b/drivers/iommu/virtio-iommu.c
-@@ -743,7 +743,7 @@ static int viommu_attach_dev(struct iommu_domain *domain, struct device *dev)
+This makes arm64 allmodconfig build cleanly for me with the IOVA series,
+so hopefully is the last of it...
+
+ drivers/gpu/drm/tegra/dc.c    | 1 +
+ drivers/gpu/drm/tegra/hub.c   | 1 +
+ drivers/gpu/drm/tegra/plane.c | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index a29d64f87563..c33420e1fb07 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -7,6 +7,7 @@
+ #include <linux/clk.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
++#include <linux/dma-mapping.h>
+ #include <linux/iommu.h>
+ #include <linux/interconnect.h>
+ #include <linux/module.h>
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index b910155f80c4..7d52a403334b 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -5,6 +5,7 @@
  
- 	/*
- 	 * In the virtio-iommu device, when attaching the endpoint to a new
--	 * domain, it is detached from the old one and, if as as a result the
-+	 * domain, it is detached from the old one and, if as a result the
- 	 * old domain isn't attached to any endpoint, all mappings are removed
- 	 * from the old domain and it is freed.
- 	 *
+ #include <linux/clk.h>
+ #include <linux/delay.h>
++#include <linux/dma-mapping.h>
+ #include <linux/host1x.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
+index 16a1cdc28657..75db069dd26f 100644
+--- a/drivers/gpu/drm/tegra/plane.c
++++ b/drivers/gpu/drm/tegra/plane.c
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2017 NVIDIA CORPORATION.  All rights reserved.
+  */
+ 
++#include <linux/dma-mapping.h>
+ #include <linux/iommu.h>
+ #include <linux/interconnect.h>
+ 
 -- 
-2.20.1
+2.28.0.dirty
 
 _______________________________________________
 iommu mailing list
