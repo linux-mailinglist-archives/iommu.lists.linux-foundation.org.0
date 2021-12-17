@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0068F4796B4
-	for <lists.iommu@lfdr.de>; Fri, 17 Dec 2021 23:02:02 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14E04796B7
+	for <lists.iommu@lfdr.de>; Fri, 17 Dec 2021 23:02:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AC58784CA5;
-	Fri, 17 Dec 2021 22:02:00 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7B3A384DAA;
+	Fri, 17 Dec 2021 22:02:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jpMxYI9WayPm; Fri, 17 Dec 2021 22:01:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BD89584BD3;
-	Fri, 17 Dec 2021 22:01:59 +0000 (UTC)
+	with ESMTP id nGovtjhpW5vK; Fri, 17 Dec 2021 22:02:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8291584D62;
+	Fri, 17 Dec 2021 22:02:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E4A6C0070;
-	Fri, 17 Dec 2021 22:01:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98955C0012;
+	Fri, 17 Dec 2021 22:02:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 644BFC0012
- for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 08F6DC002F
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:02:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5060640C33
+ by smtp3.osuosl.org (Postfix) with ESMTP id AE9456118F
  for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fbMuk0nj2Zum for <iommu@lists.linux-foundation.org>;
- Fri, 17 Dec 2021 22:01:57 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id byIcRaTfdkut for <iommu@lists.linux-foundation.org>;
+ Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9C85A40AB1
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 082E46116F
  for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639778517; x=1671314517;
+ t=1639778518; x=1671314518;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NHuCxyOdESdoiv75buH1o0WjIBI3bzfAYUCIy2K5lYI=;
- b=ceX/bRzDoKEvpGVipmRmh5esn2df7yfrx9jE6p6zLzoF5ZOmmMu+cNGq
- rfjRah+JTJuVqiaWHaHI2Pzf5gNfPalk51gjDoN2mFAj/gSR+NjrIbhXm
- 66i+U073xBe5SHG1LQuKjHftTnhwTWIuKGkkVrY+9wvlWNKXydxnmqtmB
- 44I1mJYZZflzinhZkc3a9mg0cg3gPzQlJNQ0LH0L8EtIxmm+o9vTclUgl
- oH851YTk2fiSONvQxxGfKO8ckN9Tm/j0BJGDXdGY+Un0Q+oNF+7shPDxB
- CXbzBQqSLGi04hOxMa9aRTwneFILpyzvgCLM3v+3KgjF9/Na+uwIbY2Mp Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="239793573"
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="239793573"
+ bh=h2zjBHw31kxQlzvVTL7vpb6HSLLXWXz/ULtGSJqMjjU=;
+ b=dZ6cYdidIjnajgIAE7fruzw6LxX/JCKUsun9D6fZ7cLTmG+SrBVZtCoQ
+ WJEmv0QJBlsKoZH7n55Sc2X6RjV/cBpqEnBtyIXuUKkc/qeohZe9pXFXL
+ Z0Bgd5xCSNldvpxtl9XUQ4mlh2c/dZtypV6WzkLjGUsB37Jgcd/6xVEIN
+ KLzOHJIQOXbC/xNryEEmbfKB/tBJ2kvwIh3GcWQ/VJAXtwUcO8Xf1Y4cU
+ s0tAtYkLqCBvVuMwvMEiClAjUIVfd0nuINjG3C49S/4ERZ61lhpsrQPKc
+ piyEzUKDzF3WZShYQX8p54lz7BvL6PcyjR1EE7QsGYsL7P0HW5mmZ1JtK A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="239793578"
+X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="239793578"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 14:01:47 -0800
+ 17 Dec 2021 14:01:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="506928076"
+X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="506928082"
 Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2021 14:01:47 -0800
 From: Fenghua Yu <fenghua.yu@intel.com>
@@ -67,9 +67,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
  "Ashok Raj" <ashok.raj@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v2 02/11] mm: Change CONFIG option for mm->pasid field
-Date: Fri, 17 Dec 2021 22:01:27 +0000
-Message-Id: <20211217220136.2762116-3-fenghua.yu@intel.com>
+Subject: [PATCH v2 03/11] iommu/ioasid: Introduce a helper to check for valid
+ PASIDs
+Date: Fri, 17 Dec 2021 22:01:28 +0000
+Message-Id: <20211217220136.2762116-4-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211217220136.2762116-1-fenghua.yu@intel.com>
 References: <20211217220136.2762116-1-fenghua.yu@intel.com>
@@ -93,49 +94,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This currently depends on CONFIG_IOMMU_SUPPORT. But it is only
-needed when CONFIG_IOMMU_SVA option is enabled.
+pasid_valid() is defined to check if a given PASID is valid.
 
-Change the CONFIG guards around definition and initialization
-of mm->pasid field.
-
+Suggested-by: Ashok Raj <ashok.raj@intel.com>
 Suggested-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
 v2:
-- Change condition to more accurate CONFIG_IOMMU_SVA (Jacob and Tony)
+- Define a helper pasid_valid() (Ashok, Jacob, Thomas, Tony)
 
- include/linux/mm_types.h | 2 +-
- kernel/fork.c            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/linux/ioasid.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index c3a6e6209600..6d92121d5bd9 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -643,7 +643,7 @@ struct mm_struct {
- #endif
- 		struct work_struct async_put_work;
+diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
+index e9dacd4b9f6b..2237f64dbaae 100644
+--- a/include/linux/ioasid.h
++++ b/include/linux/ioasid.h
+@@ -41,6 +41,10 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+ int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
+ void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+ int ioasid_set_data(ioasid_t ioasid, void *data);
++static inline bool pasid_valid(ioasid_t ioasid)
++{
++	return ioasid != INVALID_IOASID;
++}
  
--#ifdef CONFIG_IOMMU_SUPPORT
-+#ifdef CONFIG_IOMMU_SVA
- 		u32 pasid;
- #endif
- 	} __randomize_layout;
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 3244cc56b697..b33c52021d4e 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1020,7 +1020,7 @@ static void mm_init_owner(struct mm_struct *mm, struct task_struct *p)
- 
- static void mm_init_pasid(struct mm_struct *mm)
- {
--#ifdef CONFIG_IOMMU_SUPPORT
-+#ifdef CONFIG_IOMMU_SVA
- 	mm->pasid = INIT_PASID;
- #endif
+ #else /* !CONFIG_IOASID */
+ static inline ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
+@@ -78,5 +82,10 @@ static inline int ioasid_set_data(ioasid_t ioasid, void *data)
+ 	return -ENOTSUPP;
  }
+ 
++static inline bool pasid_valid(ioasid_t ioasid)
++{
++	return false;
++}
++
+ #endif /* CONFIG_IOASID */
+ #endif /* __LINUX_IOASID_H */
 -- 
 2.34.1
 
