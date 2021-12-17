@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6C94796BE
-	for <lists.iommu@lfdr.de>; Fri, 17 Dec 2021 23:02:12 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B6C4796BC
+	for <lists.iommu@lfdr.de>; Fri, 17 Dec 2021 23:02:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BEAD341F8C;
-	Fri, 17 Dec 2021 22:02:10 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E6EA440C52;
+	Fri, 17 Dec 2021 22:02:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JQJiHoLpNZlR; Fri, 17 Dec 2021 22:02:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E16B1421DA;
-	Fri, 17 Dec 2021 22:02:09 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4TNr0xAuOviy; Fri, 17 Dec 2021 22:02:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CDA4940C44;
+	Fri, 17 Dec 2021 22:02:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23D7BC0012;
-	Fri, 17 Dec 2021 22:02:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9EA4CC0012;
+	Fri, 17 Dec 2021 22:02:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2329BC007D
- for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:02:03 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D56FC0070
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:02:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 53DB261168
+ by smtp3.osuosl.org (Postfix) with ESMTP id 35D8161147
  for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yEuDysT9W-Hl for <iommu@lists.linux-foundation.org>;
+ with ESMTP id uK0zd-SggewY for <iommu@lists.linux-foundation.org>;
  Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp3.osuosl.org (Postfix) with ESMTPS id AA7336117D
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 926846116E
  for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1639778518; x=1671314518;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=38m/Q2AQH9Kv2z7BUSt3cLQo4zzkwKxvDeDlsUIPs6Y=;
- b=SbgRRyDgsz81E/3stmYZ3cPyshNkGkKOJ238XffLewpAl05n9MqJWX02
- 2MJ8NkgK9HwqXKDO/xekWoJ1p4b05I+ypHu7DgJMQQRhoiZESdTyahXrE
- 4CjNEuhHDxO41Z2VPFlQ5EPUSrr/x3sqO05VO8pQfB36hKX6bPJltYfzJ
- MNkOA4Z2W2iDz92OT+Bv/G6zqswu3BqYglj6bajZeljWdEDW2VwW3z/i+
- 9fliBFlxYA5CIu5CuDjeOZUzHdgWpz9dKRbkQiZ6JovvOKIJ8OsGVrtc1
- PYidlUNY1g3ANwreKUFzXOIgAtpGTDNQet01gy8t3ZjIUNkqkLp5UUZ0G Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="239793595"
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="239793595"
+ bh=WUETfejsiNGR9gILAkgt74/RWnHGbmhPzWPMpp74bp0=;
+ b=ZJgQHVbrRkAYaKANKKgnKpw5Ir0hu4whxxRIluZszNDWwhWezqOwKYgx
+ omA8m5C0GaNGg0xdXE4+vJVb992/ovW1kCPEF3S2Dj0NHtHwdeg84YcsR
+ S7BQWxn25lK6DYe5ZoFcr0aRs6fmF27AB+XWGfFbkRTL9QSqHh88qPG8l
+ BkS+z4pmTiYyNKJ5X8ygHCcIGn68dsnqyQHFluJdEVoX04149uZSTZ7I3
+ x5l35ND2sp4tcfO9TaEE2Uoe06YjuXSr1suwuHDIxToXZBUsEffOOnl2G
+ zPBZG+LBuzz9R9a4RX2vjRLLFKsrUoDrY9fwF9nRkZp2R9XqSvjvnic1J w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="239793601"
+X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="239793601"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Dec 2021 14:01:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="506928107"
+X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="506928110"
 Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2021 14:01:51 -0800
 From: Fenghua Yu <fenghua.yu@intel.com>
@@ -67,9 +67,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
  "Ashok Raj" <ashok.raj@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v2 09/11] x86/cpufeatures: Re-enable ENQCMD
-Date: Fri, 17 Dec 2021 22:01:34 +0000
-Message-Id: <20211217220136.2762116-10-fenghua.yu@intel.com>
+Subject: [PATCH v2 10/11] tools/objtool: Check for use of the ENQCMD
+ instruction in the kernel
+Date: Fri, 17 Dec 2021 22:01:35 +0000
+Message-Id: <20211217220136.2762116-11-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211217220136.2762116-1-fenghua.yu@intel.com>
 References: <20211217220136.2762116-1-fenghua.yu@intel.com>
@@ -93,39 +94,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since ENQCMD is handled by #GP fix up, it can be re-enabled.
+The ENQCMD implicitly accesses the PASID_MSR to fill in the pasid field
+of the descriptor being submitted to an accelerator. But there is no
+precise (and stable across kernel changes) point at which the PASID_MSR
+is updated from the value for one task to the next.
 
-The ENQCMD feature can only be used if CONFIG_INTEL_IOMMU_SVM is set. Add
-X86_FEATURE_ENQCMD to the disabled features mask as appropriate so that
-cpu_feature_enabled() can be used to check the feature.
+Kernel code that uses accelerators must always use the ENQCMDS instruction
+which does not access the PASID_MSR.
+
+Check for use of the ENQCMD instruction in the kernel and warn on its
+usage.
 
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
 v2:
-- Update the commit message (Tony).
+- Simplify handling ENQCMD (PeterZ and Josh)
 
- arch/x86/include/asm/disabled-features.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ tools/objtool/arch/x86/decode.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-index 8f28fafa98b3..1231d63f836d 100644
---- a/arch/x86/include/asm/disabled-features.h
-+++ b/arch/x86/include/asm/disabled-features.h
-@@ -56,8 +56,11 @@
- # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
- #endif
+diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
+index 4d6d7fc13255..11ffa0e53f84 100644
+--- a/tools/objtool/arch/x86/decode.c
++++ b/tools/objtool/arch/x86/decode.c
+@@ -112,7 +112,7 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
+ 	const struct elf *elf = file->elf;
+ 	struct insn insn;
+ 	int x86_64, ret;
+-	unsigned char op1, op2,
++	unsigned char op1, op2, op3,
+ 		      rex = 0, rex_b = 0, rex_r = 0, rex_w = 0, rex_x = 0,
+ 		      modrm = 0, modrm_mod = 0, modrm_rm = 0, modrm_reg = 0,
+ 		      sib = 0, /* sib_scale = 0, */ sib_index = 0, sib_base = 0;
+@@ -139,6 +139,7 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
  
--/* Force disable because it's broken beyond repair */
--#define DISABLE_ENQCMD		(1 << (X86_FEATURE_ENQCMD & 31))
-+#ifdef CONFIG_INTEL_IOMMU_SVM
-+# define DISABLE_ENQCMD		0
-+#else
-+# define DISABLE_ENQCMD		(1 << (X86_FEATURE_ENQCMD & 31))
-+#endif
+ 	op1 = insn.opcode.bytes[0];
+ 	op2 = insn.opcode.bytes[1];
++	op3 = insn.opcode.bytes[2];
  
- #ifdef CONFIG_X86_SGX
- # define DISABLE_SGX	0
+ 	if (insn.rex_prefix.nbytes) {
+ 		rex = insn.rex_prefix.bytes[0];
+@@ -491,6 +492,14 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
+ 			/* nopl/nopw */
+ 			*type = INSN_NOP;
+ 
++		} else if (op2 == 0x38 && op3 == 0xf8) {
++			if (insn.prefixes.nbytes == 1 &&
++			    insn.prefixes.bytes[0] == 0xf2) {
++				/* ENQCMD cannot be used in the kernel. */
++				WARN("ENQCMD instruction at %s:%lx", sec->name,
++				     offset);
++			}
++
+ 		} else if (op2 == 0xa0 || op2 == 0xa8) {
+ 
+ 			/* push fs/gs */
 -- 
 2.34.1
 
