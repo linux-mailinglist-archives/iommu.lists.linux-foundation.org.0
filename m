@@ -1,60 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9354796B8
-	for <lists.iommu@lfdr.de>; Fri, 17 Dec 2021 23:02:06 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E374796BF
+	for <lists.iommu@lfdr.de>; Fri, 17 Dec 2021 23:02:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2AEB961188;
-	Fri, 17 Dec 2021 22:02:05 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2468941661;
+	Fri, 17 Dec 2021 22:02:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6ynVOesEKaV1; Fri, 17 Dec 2021 22:02:04 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id G2-oNzx_-q76; Fri, 17 Dec 2021 22:02:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3E1B8611A2;
-	Fri, 17 Dec 2021 22:02:04 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3ABBD42245;
+	Fri, 17 Dec 2021 22:02:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D8CAC0074;
-	Fri, 17 Dec 2021 22:02:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 73249C0079;
+	Fri, 17 Dec 2021 22:02:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 47727C002F
- for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:02:01 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03E63C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:02:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 01E496116F
+ by smtp3.osuosl.org (Postfix) with ESMTP id E95836117D
  for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id D4dgksIKa-Dh for <iommu@lists.linux-foundation.org>;
+ with ESMTP id T7euGRWAwJ3p for <iommu@lists.linux-foundation.org>;
  Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 622DF61147
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6240461188
  for <iommu@lists.linux-foundation.org>; Fri, 17 Dec 2021 22:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1639778518; x=1671314518;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UnMZO3dIpMprFJhYU1oJBcxLAM+pPp7MOtKZRkV+U7g=;
- b=cHeWY+WpUUcwiBVSwFgnOgzq1+Psw6mtloS4f6Zki0YU/FCySCF3HgHQ
- y4Ko5ze212CezU105+pmmSgHv1QgBAIrSvrSTFrQjOVKu+WDVB3YQZaYT
- UofnPrHj3Kf8lF/Yhr3ODhxE1+NAIawBp2PFg3vpryd11+xGe6L5Dk7dD
- 7pwoTQhkzyQg30wVXO7qkcvPqZnFph99CjEvCYvQjQr86SB+xVOIh/r6/
- dSzhLtYNwEN2Pr/dNKS6mrbN9VYgIXJitEOw7pvv4LwO6F1bx13SQaFFo
- anvDcxO8nXI4Sdh4BvtTdvhaV+fAa0+ogZBUMJacZaCam6kGzw01i8+km Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="239793589"
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="239793589"
+ bh=OBpDZUm4EngfnhF5Yo9KgToppXO+yZbVrmisYzFVZ8w=;
+ b=AXC/gzpouVfWiR8lkamEbZVRSZ0MO452jPs1vmIeZjF5WWI7mbiRFCtL
+ 1ICPcMYfftw6beb2kT1fxZ9juXSqUhBon2GYcpVWhMsqYIQ17PVlU5Rzy
+ 1ACD2bMr7VCtxfuGQJaoJLpkI6RHPUXOg5woB9i/R7DZDK03BdIJGwb3C
+ lXIAjsd31/zbchxrj6dDmY22koNcvINlXF5Ucbm/2PYi+Llq/di6mRUyJ
+ jXv1XFWF/R+2DreTJUcJrU9dxiQ887Ztt40YJVchLPgzj+08rcPegb85N
+ kqV5zz1LvypjwqkZt0dtcxma81VK1kNayWvgiAtWXAGGYgncRR4uKKwZ+ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="239793590"
+X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="239793590"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 14:01:50 -0800
+ 17 Dec 2021 14:01:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="506928102"
+X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; d="scan'208";a="506928104"
 Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
- by orsmga007.jf.intel.com with ESMTP; 17 Dec 2021 14:01:49 -0800
+ by orsmga007.jf.intel.com with ESMTP; 17 Dec 2021 14:01:50 -0800
 From: Fenghua Yu <fenghua.yu@intel.com>
 To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Borislav Petkov" <bp@alien8.de>, "Peter Zijlstra" <peterz@infradead.org>,
@@ -65,10 +67,9 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
  "Ashok Raj" <ashok.raj@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v2 07/11] sched: Define and initialize a flag to identify
- valid PASID in the task
-Date: Fri, 17 Dec 2021 22:01:32 +0000
-Message-Id: <20211217220136.2762116-8-fenghua.yu@intel.com>
+Subject: [PATCH v2 08/11] x86/traps: Demand-populate PASID MSR via #GP
+Date: Fri, 17 Dec 2021 22:01:33 +0000
+Message-Id: <20211217220136.2762116-9-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211217220136.2762116-1-fenghua.yu@intel.com>
 References: <20211217220136.2762116-1-fenghua.yu@intel.com>
@@ -92,54 +93,109 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Peter Zijlstra <peterz@infradead.org>
+All tasks start with PASID state disabled. This means that the first
+time they execute an ENQCMD instruction they will take a #GP fault.
 
-Add a new single bit field to the task structure to track whether this task
-has initialized the IA32_PASID MSR to the mm's PASID.
+Modify the #GP fault handler to check if the "mm" for the task has
+already been allocated a PASID. If so, try to fix the #GP fault by
+loading the IA32_PASID MSR.
 
-Initialize the field to zero when creating a new task with fork/clone.
-
-Signed-off-by: Peter Zijlstra <peterz@infradead.org>
-Co-developed-by: Fenghua Yu <fenghua.yu@intel.com>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
 v2:
-- Change condition to more accurate CONFIG_IOMMU_SVA (Jacob)
+- Directly write IA32_PASID MSR in fixup while local IRQ is still disabled
+  (Thomas)
+- Move #ifdef over to CONFIG_IOMMU_SVA since it is what
+  defines mm->pasid and ->pasid_activated (Dave Hansen).
+- Rename try_fixup_pasid() -> try_fixup_enqcmd_gp(). This
+  code really is highly specific to ENQCMD, not PASIDs (Dave Hansen).
+- Add lockdep assert and comment about context (Dave Hansen).
+- Re-flow the if() mess (Dave Hansen).
 
- include/linux/sched.h | 3 +++
- kernel/fork.c         | 4 ++++
- 2 files changed, 7 insertions(+)
+ arch/x86/kernel/traps.c | 55 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 78c351e35fec..41a0b5703f94 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -933,6 +933,9 @@ struct task_struct {
- 	/* Recursion prevention for eventfd_signal() */
- 	unsigned			in_eventfd_signal:1;
- #endif
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index c9d566dcf89a..7ef00dee35be 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -39,6 +39,7 @@
+ #include <linux/io.h>
+ #include <linux/hardirq.h>
+ #include <linux/atomic.h>
++#include <linux/ioasid.h>
+ 
+ #include <asm/stacktrace.h>
+ #include <asm/processor.h>
+@@ -559,6 +560,57 @@ static bool fixup_iopl_exception(struct pt_regs *regs)
+ 	return true;
+ }
+ 
++/*
++ * The unprivileged ENQCMD instruction generates #GPs if the
++ * IA32_PASID MSR has not been populated.  If possible, populate
++ * the MSR from a PASID previously allocated to the mm.
++ */
++static bool try_fixup_enqcmd_gp(void)
++{
 +#ifdef CONFIG_IOMMU_SVA
-+	unsigned			pasid_activated:1;
-+#endif
- 
- 	unsigned long			atomic_flags; /* Flags requiring atomic access. */
- 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 3adad225cc09..cd297926b6f2 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -967,6 +967,10 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
- 	tsk->use_memdelay = 0;
- #endif
- 
-+#ifdef CONFIG_IOMMU_SVA
-+	tsk->pasid_activated = 0;
-+#endif
++	u32 pasid;
 +
- #ifdef CONFIG_MEMCG
- 	tsk->active_memcg = NULL;
- #endif
++	/*
++	 * MSR_IA32_PASID is managed using XSAVE.  Directly
++	 * writing to the MSR is only possible when fpregs
++	 * are valid and the fpstate is not.  This is
++	 * guaranteed when handling a userspace exception
++	 * in *before* interrupts are re-enabled.
++	 */
++	lockdep_assert_irqs_disabled();
++
++	/*
++	 * Hardware without ENQCMD will not generate
++	 * #GPs that can be fixed up here.
++	 */
++	if (!cpu_feature_enabled(X86_FEATURE_ENQCMD))
++		return false;
++
++	pasid = current->mm->pasid;
++
++	/*
++	 * If the mm has not been allocated a
++	 * PASID, the #GP can not be fixed up.
++	 */
++	if (!pasid_valid(pasid))
++		return false;
++
++	/*
++	 * Did this thread already have its PASID activated?
++	 * If so, the #GP must be from something else.
++	 */
++	if (current->pasid_activated)
++		return false;
++
++	wrmsrl(MSR_IA32_PASID, pasid | MSR_IA32_PASID_VALID);
++	current->pasid_activated = 1;
++
++	return true;
++#else
++	return false;
++#endif
++}
++
+ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+ {
+ 	char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
+@@ -567,6 +619,9 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+ 	unsigned long gp_addr;
+ 	int ret;
+ 
++	if (user_mode(regs) && try_fixup_enqcmd_gp())
++		return;
++
+ 	cond_local_irq_enable(regs);
+ 
+ 	if (static_cpu_has(X86_FEATURE_UMIP)) {
 -- 
 2.34.1
 
