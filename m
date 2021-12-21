@@ -2,51 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969D547BC50
-	for <lists.iommu@lfdr.de>; Tue, 21 Dec 2021 10:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7231447BC5F
+	for <lists.iommu@lfdr.de>; Tue, 21 Dec 2021 10:03:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0B8F34092A;
-	Tue, 21 Dec 2021 09:00:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 11A8E408E9;
+	Tue, 21 Dec 2021 09:02:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IeaEoLPIxv71; Tue, 21 Dec 2021 09:00:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 19F7F408FA;
-	Tue, 21 Dec 2021 09:00:17 +0000 (UTC)
+	with ESMTP id i0ieAlyA5KwK; Tue, 21 Dec 2021 09:02:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 438D84040B;
+	Tue, 21 Dec 2021 09:02:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E76D9C0039;
-	Tue, 21 Dec 2021 09:00:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A81AC0012;
+	Tue, 21 Dec 2021 09:02:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 81B78C0012
- for <iommu@lists.linux-foundation.org>; Tue, 21 Dec 2021 09:00:15 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0620CC0012
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Dec 2021 09:02:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5EE924016B
- for <iommu@lists.linux-foundation.org>; Tue, 21 Dec 2021 09:00:15 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id CCDA340576
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Dec 2021 09:02:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3zj_Tl8CkUC0 for <iommu@lists.linux-foundation.org>;
- Tue, 21 Dec 2021 09:00:14 +0000 (UTC)
+ with ESMTP id Z8lwZCOocpd3 for <iommu@lists.linux-foundation.org>;
+ Tue, 21 Dec 2021 09:02:55 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E3D0640129
- for <iommu@lists.linux-foundation.org>; Tue, 21 Dec 2021 09:00:13 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2B72C404FE
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Dec 2021 09:02:54 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 7A18568AFE; Tue, 21 Dec 2021 10:00:04 +0100 (CET)
-Date: Tue, 21 Dec 2021 10:00:03 +0100
+ id 3BC4968B05; Tue, 21 Dec 2021 10:02:49 +0100 (CET)
+Date: Tue, 21 Dec 2021 10:02:48 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH v4 01/23] lib/scatterlist: cleanup macros into static
- inline functions
-Message-ID: <20211221090003.GA7949@lst.de>
+Subject: Re: [PATCH v4 02/23] lib/scatterlist: add flag for indicating
+ P2PDMA segments in an SGL
+Message-ID: <20211221090248.GB7949@lst.de>
 References: <20211117215410.3695-1-logang@deltatee.com>
- <20211117215410.3695-2-logang@deltatee.com>
+ <20211117215410.3695-3-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211117215410.3695-2-logang@deltatee.com>
+In-Reply-To: <20211117215410.3695-3-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
  linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
@@ -56,9 +56,9 @@ Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, John Hubbard <jhubbard@nvidia.com>,
- linux-block@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
  Jakowski Andrzej <andrzej.jakowski@intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>, linux-kernel@vger.kernel.org,
  iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
@@ -80,23 +80,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Nov 17, 2021 at 02:53:48PM -0700, Logan Gunthorpe wrote:
-> Convert the sg_is_chain(), sg_is_last() and sg_chain_ptr() macros
-> into static inline functions. There's no reason for these to be macros
-> and static inline are generally preferred these days.
-> 
-> Also introduce the SG_PAGE_LINK_MASK define so the P2PDMA work, which is
-> adding another bit to this mask, can do so more easily.
-> 
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> +	#
+> +	# The need for the scatterlist DMA bus address flag means PCI P2PDMA
+> +	# requires 64bit
+> +	#
+> +	select NEED_SG_DMA_BUS_ADDR_FLAG
 
-Looks fine:
+> +config NEED_SG_DMA_BUS_ADDR_FLAG
+> +	depends on 64BIT
+> +	bool
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-scatterlist.h doesn't have a real maintainer, do you want me to pick
-this up through the DMA tree?
+depends does not work for symbols that are selected using select.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
