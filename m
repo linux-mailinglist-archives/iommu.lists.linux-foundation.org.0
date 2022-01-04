@@ -1,67 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC0C48455D
-	for <lists.iommu@lfdr.de>; Tue,  4 Jan 2022 16:54:49 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F5B48455E
+	for <lists.iommu@lfdr.de>; Tue,  4 Jan 2022 16:54:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 57A1C4149F;
-	Tue,  4 Jan 2022 15:54:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 79D4A414C1;
+	Tue,  4 Jan 2022 15:54:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 60h2Rii2jVzA; Tue,  4 Jan 2022 15:54:47 +0000 (UTC)
+	with ESMTP id 1VaMccsY8Wi1; Tue,  4 Jan 2022 15:54:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6A2EA411C6;
-	Tue,  4 Jan 2022 15:54:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A8E1C414A2;
+	Tue,  4 Jan 2022 15:54:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44ECDC006E;
-	Tue,  4 Jan 2022 15:54:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8ED05C001E;
+	Tue,  4 Jan 2022 15:54:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3A58C001E
- for <iommu@lists.linux-foundation.org>; Tue,  4 Jan 2022 15:54:46 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9BE69C001E
+ for <iommu@lists.linux-foundation.org>; Tue,  4 Jan 2022 15:54:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 84DDC826DE
- for <iommu@lists.linux-foundation.org>; Tue,  4 Jan 2022 15:54:46 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8A6B08268F
+ for <iommu@lists.linux-foundation.org>; Tue,  4 Jan 2022 15:54:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=collabora.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aC4IJyS-UDSQ for <iommu@lists.linux-foundation.org>;
- Tue,  4 Jan 2022 15:54:46 +0000 (UTC)
+ with ESMTP id FSFYTLC2N7u3 for <iommu@lists.linux-foundation.org>;
+ Tue,  4 Jan 2022 15:54:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 021BB8268F
- for <iommu@lists.linux-foundation.org>; Tue,  4 Jan 2022 15:54:45 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 02A1E826C1
+ for <iommu@lists.linux-foundation.org>; Tue,  4 Jan 2022 15:54:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id A745C1F43593
+ (Authenticated sender: kholk11) with ESMTPSA id 77F4B1F43596
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641311684;
- bh=htPv31qeleLONszyTBV6VHZP/int/iV0NZD4zdhGC3w=;
+ s=mail; t=1641311687;
+ bh=+EjaNGSwAWDlrlXS6ayy7mmIq1DUC6VaOMAwEnZbCLE=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=PNjmaFmhDh1B1oA3OZ2qRiTKOXyLO9Va9evMvCLECIobU+2Np9rjDMbKK0V8+LqRa
- cTbDRhZkehescMPqhkUYrjA2uBfUvKMH5yShtbnc36y5K3Qq62P/r1fGvrzqIaNmb9
- hAcuxUMGVebkD4TEpubxAA7WawtLmZSMOtwol7VgO++0BefFUWEVzKTxNjPKoZrOjd
- 0zBMOQJtg7QxdtqjcfhR8as2VppmtIYDM0QBBNFTvbDSYiUyp3K3Xrf7r0VAvjmJoH
- Jy28C8BZRRflyLFGta+cwynjSd4CpVGWVfQwkqqlzwLdDTKg2Au7OecJijGDOG2Y5f
- GOSn1YShJCHEw==
-Subject: Re: [PATCH v3 23/33] iommu/mediatek: Add mt8195 support
+ b=KXuioa6ya/0l9ax/FeyYfJTwPxq/3r/sBYqSNJDamQaA2jw0qbhkj7UY+6uTPN+Q4
+ O57SNua103TYclQYgq1jRWU1xr5O+baJHQ9d+weMkvd3ndaLbhc+u3v4o2RyodMO8I
+ N+WNXuhZpba5gvgEFUvuRHTA9ac20FXrk6/rJ9gHZn756OFisCcm412RVyjWTvBK9a
+ QG6CCurHxygPf0KYzjPlfA94AdFr0wujLWht/+b6XEZmeajQKeEdd93Nrs9IOKxyPM
+ isCwux/qfdr6wgeBY9PtpVu8r5t4w3DOpfXNwBoHL0QxknpLH1B2V0KpvA7LI0aVvX
+ R67ygosdoQW2g==
+Subject: Re: [PATCH v3 11/33] iommu/mediatek: Remove the granule in the tlb
+ flush
 To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
  Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
 References: <20210923115840.17813-1-yong.wu@mediatek.com>
- <20210923115840.17813-24-yong.wu@mediatek.com>
+ <20210923115840.17813-12-yong.wu@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <64436ab1-064b-3a99-8ce0-6af6e23d4db8@collabora.com>
-Date: Tue, 4 Jan 2022 16:54:40 +0100
+Message-ID: <428bbee6-d680-6188-9961-f13f64cc7c40@collabora.com>
+Date: Tue, 4 Jan 2022 16:54:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210923115840.17813-24-yong.wu@mediatek.com>
+In-Reply-To: <20210923115840.17813-12-yong.wu@mediatek.com>
 Content-Language: en-US
 Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
  srv_heupstream@mediatek.com,
@@ -88,13 +88,12 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Il 23/09/21 13:58, Yong Wu ha scritto:
-> mt8195 has 3 IOMMU, containing 2 MM IOMMUs, one is for vdo, the other
-> is for vpp. and 1 INFRA IOMMU.
+> The MediaTek IOMMU don't care about granule when tlb flushing.
+> Remove this variable.
 > 
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
 
 _______________________________________________
 iommu mailing list
