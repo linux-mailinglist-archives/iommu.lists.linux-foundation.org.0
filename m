@@ -1,68 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE318485422
-	for <lists.iommu@lfdr.de>; Wed,  5 Jan 2022 15:12:43 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABA2485651
+	for <lists.iommu@lfdr.de>; Wed,  5 Jan 2022 16:58:37 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A096E826FB;
-	Wed,  5 Jan 2022 14:12:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C6E81825C7;
+	Wed,  5 Jan 2022 15:58:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id buH3xjXS8Plp; Wed,  5 Jan 2022 14:12:41 +0000 (UTC)
+	with ESMTP id 1YvJ1HDRGftG; Wed,  5 Jan 2022 15:58:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B66B482443;
-	Wed,  5 Jan 2022 14:12:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E194B81DBF;
+	Wed,  5 Jan 2022 15:58:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CDD4C006E;
-	Wed,  5 Jan 2022 14:12:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C218CC006E;
+	Wed,  5 Jan 2022 15:58:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E66FC001E
- for <iommu@lists.linux-foundation.org>; Wed,  5 Jan 2022 14:12:40 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61C18C001E
+ for <iommu@lists.linux-foundation.org>; Wed,  5 Jan 2022 15:58:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 43FD460BAC
- for <iommu@lists.linux-foundation.org>; Wed,  5 Jan 2022 14:12:40 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4E9444051B
+ for <iommu@lists.linux-foundation.org>; Wed,  5 Jan 2022 15:58:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h7hcZi8MeHzq for <iommu@lists.linux-foundation.org>;
- Wed,  5 Jan 2022 14:12:37 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2A6FD60BA1
- for <iommu@lists.linux-foundation.org>; Wed,  5 Jan 2022 14:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=U4D7oTRxepQOIql+A0wdB71kxH0W4D69D2V8aoqf7ho=; b=YyG9hhbl3dS9oFB+zugcelrgKa
- VHt1ImGiM3IXoOweYcNA/TxtXsAvZNLhGkAAEB8HafztA8F8j/N1YoRMFgd1a/AQ977pedzl7mToK
- 0YHj6qtVPo8ekeC3I90UJjZE7gMr7uD7VKlJMsNiUgQFHPF/h2xQ4qd8u7x9ZNYsvpPaMhsq6T+Ce
- uY2Q3lo1Q7e52JW9qzq4QywowJu0zo7PwGEsECGsHgfHcLt+otva5gGRbwlkFnYFAbZ15EADSTraU
- AD+xqlCOv3bMZBJGNlGcz1YabmZQ9TvggFhwPqJJsNGYQxpw/cvL33R4uZ51HOBYW3MIDPiJ0xfi1
- MF5df9oQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1n571m-00ExQg-Td; Wed, 05 Jan 2022 14:12:34 +0000
-Date: Wed, 5 Jan 2022 06:12:34 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Tom Lendacky <thomas.lendacky@amd.com>
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=shutemov-name.20210112.gappssmtp.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 08wioGjd1ab0 for <iommu@lists.linux-foundation.org>;
+ Wed,  5 Jan 2022 15:58:31 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 4372140519
+ for <iommu@lists.linux-foundation.org>; Wed,  5 Jan 2022 15:58:31 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id g13so54569973ljj.10
+ for <iommu@lists.linux-foundation.org>; Wed, 05 Jan 2022 07:58:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shutemov-name.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wiI6XQzZPIKsgBJU59yNUo7XDWC6AOaI73DG/LrEbNc=;
+ b=JEAt5CbOaPVnz9c1qxftdo0HLUKfXOy5keqP7LwtR8RQ93o4hVGk4NCHjEQ3gcCCks
+ jU/Wa/24yaftusGPxzBoh2FwnVOlwNW9CuPE6X6GqB/gqe/3+OtLTNKMb44rbJs4VCsS
+ 9fRId+mOHNyK31euzv7hHZo9OgE/nfTTHKZ0mWV+h7IdLnAh4f5SNJsVmNufB5m1MwbD
+ tK+ojNs8bHW1TvdLzCVRmstfzt/Wkbtecsp9dcuH+wsYC44/Fa229x3twclpkdfEUhd/
+ JLMCIEOYJ+BYXVl0yijdbhbQQbwgkRpzzpBymVn0Jrn44bEW2L63/3ulTNLh09fyxy7i
+ SSLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wiI6XQzZPIKsgBJU59yNUo7XDWC6AOaI73DG/LrEbNc=;
+ b=K5H4YxrNA7eDWnbTwkfmQS03ktfpZAYNmup6EaipHGGku0GIcWaT6tw59r722oduEm
+ nPSkiFTHY7c9Lbq7F2GG7/pbe4AvH7Omo6H4Iy1kazcWGry/tc7Wq3Anc9JxNHWzAbff
+ Jya1cUBaDunyzRRezLNu+uFkE6PePJi990oPJQwqG37Ni4IxlTCT46jloiekZuYmVhhY
+ 9jkmj5f1I0GTZR83JOyvOKLtSDdivhS3/7GCpIG9DB9cjIY/ZGfqThk2I2t+2DmMV2A2
+ vp82O1SecKznJegRLGshLjMDw420js+NKtD0peMDRo+H44BuKfIaZIQmQxnjbNSmGjVl
+ zyZQ==
+X-Gm-Message-State: AOAM532Wg6oD8vk0+R4SedaglX55fMGlV41t2UfHPnVmx/oFk8E1mah3
+ dp1B0+oFb1XFusnKKkP601zFhw==
+X-Google-Smtp-Source: ABdhPJzL6AHZudebCYSLQypdGz4ryblk3JT0Ksy3qCQeS0L1AAVjheuCmSQxAJo/TxaPlhTwKnCo8g==
+X-Received: by 2002:a2e:854b:: with SMTP id u11mr35857378ljj.390.1641398309095; 
+ Wed, 05 Jan 2022 07:58:29 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+ by smtp.gmail.com with ESMTPSA id f33sm4243477lfv.39.2022.01.05.07.58.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 07:58:28 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+ id AE79A10425A; Wed,  5 Jan 2022 18:58:47 +0300 (+03)
+Date: Wed, 5 Jan 2022 18:58:47 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Christoph Hellwig <hch@infradead.org>
 Subject: Re: Memory clearing in swiotlb_update_mem_attributes()
-Message-ID: <YdWnUmJsjPUYiycV@infradead.org>
+Message-ID: <20220105155847.gcx443z7al3dbsdq@box.shutemov.name>
 References: <20220104224939.yhpceiuzqqhb72ql@box.shutemov.name>
  <d16046ad-7828-a015-b6a3-3ed01ed15bac@amd.com>
+ <YdWnUmJsjPUYiycV@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d16046ad-7828-a015-b6a3-3ed01ed15bac@amd.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Christoph Hellwig <hch@infradead.org>,
- "Kirill A. Shutemov" <kirill@shutemov.name>, iommu@lists.linux-foundation.org
+In-Reply-To: <YdWnUmJsjPUYiycV@infradead.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,27 +101,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jan 05, 2022 at 08:06:10AM -0600, Tom Lendacky wrote:
-> On 1/4/22 4:49 PM, Kirill A. Shutemov wrote:
-> > Hi Tom,
+On Wed, Jan 05, 2022 at 06:12:34AM -0800, Christoph Hellwig wrote:
+> On Wed, Jan 05, 2022 at 08:06:10AM -0600, Tom Lendacky wrote:
+> > On 1/4/22 4:49 PM, Kirill A. Shutemov wrote:
+> > > Hi Tom,
+> > > 
+> > > For larger TDX VM, memset() after set_memory_decrypted() in
+> > > swiotlb_update_mem_attributes() takes substantial portion of boot time.
+> > > 
+> > > It makes me wounder why do we need it there? Malicious VMM can mess with
+> > > decrypted/shared buffer at any point and for normal use it will be
+> > > populated with real data anyway.
+> > > 
+> > > Can we drop it?
 > > 
-> > For larger TDX VM, memset() after set_memory_decrypted() in
-> > swiotlb_update_mem_attributes() takes substantial portion of boot time.
-> > 
-> > It makes me wounder why do we need it there? Malicious VMM can mess with
-> > decrypted/shared buffer at any point and for normal use it will be
-> > populated with real data anyway.
-> > 
-> > Can we drop it?
+> > Probably more a question for Christoph. Does SWIOTLB need to be initialized
+> > to zeroes? If it does, then the memset after the set_memory_decrypted() is
+> > required, otherwise it will appear as ciphertext to SWIOTLB.
 > 
-> Probably more a question for Christoph. Does SWIOTLB need to be initialized
-> to zeroes? If it does, then the memset after the set_memory_decrypted() is
-> required, otherwise it will appear as ciphertext to SWIOTLB.
+> While the traditional swiotlb initialization zeroes it I can't really
+> see any reason why we would want to zero it.  If we really care about
+> not leaking data to the device we'd need to zero the padding at mapping
+> time.
 
-While the traditional swiotlb initialization zeroes it I can't really
-see any reason why we would want to zero it.  If we really care about
-not leaking data to the device we'd need to zero the padding at mapping
-time.
+Does the patch below look fine?
+
+From ab1aa6abbdbba9e34ac7b86e5af1f9f488afaa07 Mon Sep 17 00:00:00 2001
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Date: Wed, 5 Jan 2022 18:48:01 +0300
+Subject: [PATCH] swiotlb: Do not zero buffer in set_memory_decrypted()
+
+For larger TDX VM, memset() after set_memory_decrypted() in
+swiotlb_update_mem_attributes() takes substantial portion of boot time.
+
+Zeroing doesn't serve any functional purpose. Malicious VMM can mess
+with decrypted/shared buffer at any point.
+
+Remove the memset().
+
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+---
+ kernel/dma/swiotlb.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 8e840fbbed7c..4546c834accb 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -172,7 +172,6 @@ void __init swiotlb_update_mem_attributes(void)
+ 	vaddr = phys_to_virt(mem->start);
+ 	bytes = PAGE_ALIGN(mem->nslabs << IO_TLB_SHIFT);
+ 	set_memory_decrypted((unsigned long)vaddr, bytes >> PAGE_SHIFT);
+-	memset(vaddr, 0, bytes);
+ }
+ 
+ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+-- 
+ Kirill A. Shutemov
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
