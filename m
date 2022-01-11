@@ -1,76 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D48F48ABD5
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDA048ABD6
 	for <lists.iommu@lfdr.de>; Tue, 11 Jan 2022 11:57:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D706082DE6;
-	Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 196BF60AA3;
+	Tue, 11 Jan 2022 10:57:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2x5CtwmnBMGq; Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1336182779;
-	Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0snOXBE2xn_R; Tue, 11 Jan 2022 10:57:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3EA4560BF6;
+	Tue, 11 Jan 2022 10:57:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EEDA9C006E;
-	Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 718A3C002F;
+	Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 55A79C001E
- for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 423BCC001E
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D936E410E1
- for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:48 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2151460A7B
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SKK_0z0kyDO2 for <iommu@lists.linux-foundation.org>;
- Tue, 11 Jan 2022 10:57:48 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kfgWQZj7eiTD for <iommu@lists.linux-foundation.org>;
+ Tue, 11 Jan 2022 10:57:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 38201410D6
- for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:48 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 396AD60AA3
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id B54741F43A25
+ (Authenticated sender: kholk11) with ESMTPSA id 47C8A1F43A30
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641898666;
- bh=maGqzHJF1qFn8YKWg9shIrk4zVnFg7j3EfcNnyXvWMQ=;
+ s=mail; t=1641898668;
+ bh=z7dhA4q/V4tftc+cZa+nBqU+2vdxSivbhiKy1h+7qtQ=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=HZkHz0nQROPx25h6qtaZxGqYzpJ+jqQ3E2tvndUtqx5zSK4/6YamfBMOn57h1VViS
- tDnmXLgQSVIXrFpnRdAwHyXtnoOk/6AmNvF5DCDPNQdI8XMB5NLwdpDA32+bUddvSN
- T8oeVqYEuMeGwz1toI4JC3fj89vH5Lct3ABcIJJRZeWFAzXEoLk/yz5V/1qIVZc7B8
- mMH+LT0cw//r5gkhHNmyIkTCrhYACZIwSi5VhWAkWdsj1l8AwL+aMKtXYISuf4A9Cb
- ltoaglJimM5z3UlKd7dN7IllEJAg0IT3ZAANbRj9dSag6EsraheiOnR2ri3yVqtYKa
- ANuSuMNnm0jLw==
-Subject: Re: [PATCH v9 10/15] media: mtk-vcodec: Get rid of
- mtk_smi_larb_get/put
+ b=RRaYOVQpussaCc+0yRBL6RBG5qsxzVLHCsJN2oZEWUjvH48V2MO743x7hHveXauoF
+ +3Nha4N37fz8qj+kkWoc+sjcU3rEDzW3vnYJbVCqfjC1Jv2SI4Q6zDZ/SnkzbZPV5x
+ OlxczaXehAvI/3oePC6t5A90g330Z/J5+sFtMLG5VbhN933DtEr9MMwqfhbINiJaCp
+ N6cyz5EWmr2G8xsfA7HPK07hnVgeonTE77IrbWGCKc94cmXSnuco7AMQQLVPsnF2Tf
+ EMkhNj53mj8kA9OBp4UXrXGHXfz/W1TxYphtIJNijCt/kSZ72W8xMJOeSFAZlb5Wx6
+ IgspKKiIJdMzQ==
+Subject: Re: [PATCH v9 08/15] drm/mediatek: Add pm runtime support for ovl and
+ rdma
 To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
  <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20211112105509.12010-1-yong.wu@mediatek.com>
- <20211112105509.12010-11-yong.wu@mediatek.com>
+ <20211112105509.12010-9-yong.wu@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <4803854b-99b6-278c-f76a-f66e59307871@collabora.com>
-Date: Tue, 11 Jan 2022 11:57:42 +0100
+Message-ID: <ae5c8350-75c1-b90e-3bad-78c19154d7bd@collabora.com>
+Date: Tue, 11 Jan 2022 11:57:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211112105509.12010-11-yong.wu@mediatek.com>
+In-Reply-To: <20211112105509.12010-9-yong.wu@mediatek.com>
 Content-Language: en-US
 Cc: devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Irui Wang <irui.wang@mediatek.com>, Evan Green <evgreen@chromium.org>,
- Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
  mingyuan.ma@mediatek.com, linux-media@vger.kernel.org,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
  libo.kang@mediatek.com, yi.kuo@mediatek.com,
@@ -97,19 +95,23 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Il 12/11/21 11:55, Yong Wu ha scritto:
-> MediaTek IOMMU has already added the device_link between the consumer
-> and smi-larb device. If the vcodec device call the pm_runtime_get_sync,
-> the smi-larb's pm_runtime_get_sync also be called automatically.
+> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > 
-> CC: Tiffany Lin <tiffany.lin@mediatek.com>
-> CC: Irui Wang <irui.wang@mediatek.com>
+> Prepare for smi cleaning up "mediatek,larb".
+> 
+> Display use the dispsys device to call pm_rumtime_get_sync before.
+> This patch add pm_runtime_xx with ovl and rdma device whose nodes has
+> "iommus" property, then display could help pm_runtime_get for smi via
+> ovl or rdma device.
+> 
+> CC: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> Reviewed-by: Evan Green <evgreen@chromium.org>
-> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
-> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> (Yong: Use pm_runtime_resume_and_get instead of pm_runtime_get_sync)
+> Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
 
 _______________________________________________
 iommu mailing list
