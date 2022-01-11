@@ -2,83 +2,81 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C53748ABD9
-	for <lists.iommu@lfdr.de>; Tue, 11 Jan 2022 11:57:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5156C48ABE2
+	for <lists.iommu@lfdr.de>; Tue, 11 Jan 2022 11:58:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 669CB60ACE;
+	by smtp3.osuosl.org (Postfix) with ESMTP id E6E9660D4D;
 	Tue, 11 Jan 2022 10:57:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rLPp2zYktmyM; Tue, 11 Jan 2022 10:57:53 +0000 (UTC)
+	with ESMTP id DT3rzu9gLQ9C; Tue, 11 Jan 2022 10:57:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9539360D4D;
-	Tue, 11 Jan 2022 10:57:53 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 0572C60773;
+	Tue, 11 Jan 2022 10:57:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B445CC001E;
-	Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD7CDC001E;
+	Tue, 11 Jan 2022 10:57:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C5D4C002F
- for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7F545C0077
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2CC474099A
- for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5945740242
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=collabora.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CjArcHzp9CML for <iommu@lists.linux-foundation.org>;
- Tue, 11 Jan 2022 10:57:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GsK9fd9p4NJT for <iommu@lists.linux-foundation.org>;
+ Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 3F47D410E3
- for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:50 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 96FB2401A2
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Jan 2022 10:57:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 9C4581F43A34
+ (Authenticated sender: kholk11) with ESMTPSA id 7F8D61F43A35
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641898668;
- bh=NvBp4xkPJVbNU3MK/oJVdRowkuSL4h8ZkX5EWIFweAI=;
+ s=mail; t=1641898669;
+ bh=w5BDtpAS0IG8A52FS/8V2a2UttXGE+Cd5hv/CSzivNE=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=U90UTcwrcHl7lAE18Dd1C2v+QTtECGqSHw6u7imCFmXlIJL8hlnErzEALxjHebYGo
- +fX9GGbwyyHdQr6yWIf1R+4fIiSzm0ohVZ9OFu0EJURw3P+45Ov1dfR4XQ+l6wAu5w
- SqLnH3tJ/SqyxTnzhU5uzPKBkh/Upr5Ew6S7bis+rrdnmMuCaLIcC4LV1rwxeKbaP8
- GPViTBYhTVDaZe4JzcIT8jTKycSTqNkRWe2QbsOA3XcTj1HRzpsYp/TDvR92B+YJP2
- +1pyNwJm+S7KfKQ0YFaT768zI5+B0U2sipkCh2WkA24w6qQeSUfCNhohyyI3vlbx6L
- XipzmjZI9bz0Q==
-Subject: Re: [PATCH v9 07/15] media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+ b=YiyLULsgUHw/8bEQUraCWZ47NGhu/oZat3mLwkUxP0OHrHmnIumJbpycM+cDbhcog
+ bSF0Rog5BfHklpvJkxJY8oDnhEF9Z7GQGd/RPARulgMY/HjTldhm1SZEtVwZtYlyWP
+ AiRk59GOJjVjBhj+SQmmZjPu0Mh3bsNvdAXUvv1HH3OR1Yu2Da+68ocTSP3rIebtkX
+ 4Gn4UOIbkBSJ9RVrI3KA4aMdwHacS+PmqCBGp7zpHDxu4wvy+21qkz84COAB7a/hiP
+ 3kkhN2gGyc9hLfo2CVQL1IEqH6lFSniTJfwAGajOkR6Nd8FoA9nk2OTal/BWcKbdhI
+ mUaRVU2/OMeyw==
+Subject: Re: [PATCH v9 06/15] media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
 To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
  <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20211112105509.12010-1-yong.wu@mediatek.com>
- <20211112105509.12010-8-yong.wu@mediatek.com>
+ <20211112105509.12010-7-yong.wu@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <16f77e36-fffe-d2d3-2c7c-6412a038238c@collabora.com>
+Message-ID: <1003e60d-fa75-d518-943d-72ff88d6b132@collabora.com>
 Date: Tue, 11 Jan 2022 11:57:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211112105509.12010-8-yong.wu@mediatek.com>
+In-Reply-To: <20211112105509.12010-7-yong.wu@mediatek.com>
 Content-Language: en-US
-Cc: devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+Cc: Xia Jiang <xia.jiang@mediatek.com>, devicetree@vger.kernel.org,
+ Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, anthony.huang@mediatek.com,
+ youlin.pei@mediatek.com, Rick Chang <rick.chang@mediatek.com>,
  Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
  Matthias Kaehlcke <mka@chromium.org>, mingyuan.ma@mediatek.com,
  linux-media@vger.kernel.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, libo.kang@mediatek.com, yi.kuo@mediatek.com,
- linux-mediatek@lists.infradead.org, Houlong Wei <houlong.wei@mediatek.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
- acourbot@chromium.org, srv_heupstream@mediatek.com,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>, yf.wang@mediatek.com,
- iommu@lists.linux-foundation.org, Philipp Zabel <p.zabel@pengutronix.de>,
- Robin Murphy <robin.murphy@arm.com>
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ anan.sun@mediatek.com, acourbot@chromium.org, srv_heupstream@mediatek.com,
+ yf.wang@mediatek.com, iommu@lists.linux-foundation.org,
+ Philipp Zabel <p.zabel@pengutronix.de>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,18 +95,22 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Il 12/11/21 11:55, Yong Wu ha scritto:
-> MediaTek IOMMU has already added the device_link between the consumer
-> and smi-larb device. If the mdp device call the pm_runtime_get_sync,
+> MediaTek IOMMU has already added device_link between the consumer
+> and smi-larb device. If the jpg device call the pm_runtime_get_sync,
 > the smi-larb's pm_runtime_get_sync also be called automatically.
 > 
-> CC: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-> CC: Houlong Wei <houlong.wei@mediatek.com>
+> After removing the larb_get operations, then mtk_jpeg_clk_init is
+> also unnecessary. Remove it too.
+> 
+> CC: Rick Chang <rick.chang@mediatek.com>
+> CC: Xia Jiang <xia.jiang@mediatek.com>
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > Reviewed-by: Evan Green <evgreen@chromium.org>
-> Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+> Acked-by: Rick Chang <rick.chang@mediatek.com>
 > Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 _______________________________________________
 iommu mailing list
