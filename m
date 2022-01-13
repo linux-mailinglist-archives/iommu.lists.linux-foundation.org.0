@@ -1,71 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B7A48D53C
-	for <lists.iommu@lfdr.de>; Thu, 13 Jan 2022 11:11:53 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 803B948D5AB
+	for <lists.iommu@lfdr.de>; Thu, 13 Jan 2022 11:27:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2067D4149D;
-	Thu, 13 Jan 2022 10:11:52 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 31A2D4032D;
+	Thu, 13 Jan 2022 10:27:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d5-8bhMY2p7t; Thu, 13 Jan 2022 10:11:51 +0000 (UTC)
+	with ESMTP id Xl7b6LGtUQ4L; Thu, 13 Jan 2022 10:27:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3BCA340986;
-	Thu, 13 Jan 2022 10:11:51 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 465DC4026F;
+	Thu, 13 Jan 2022 10:27:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04D16C006E;
-	Thu, 13 Jan 2022 10:11:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09C46C006E;
+	Thu, 13 Jan 2022 10:27:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87D2FC001E
- for <iommu@lists.linux-foundation.org>; Thu, 13 Jan 2022 10:11:49 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93EDFC001E
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Jan 2022 10:27:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5CCF14019E
- for <iommu@lists.linux-foundation.org>; Thu, 13 Jan 2022 10:11:49 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6D2064026F
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Jan 2022 10:27:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O1VFT4DQ3BW1 for <iommu@lists.linux-foundation.org>;
- Thu, 13 Jan 2022 10:11:48 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 445C1400FC
- for <iommu@lists.linux-foundation.org>; Thu, 13 Jan 2022 10:11:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id E4E661F4585E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1642068704;
- bh=D/XYC6ZGl5zYQW2bPb5HgmDBOTYg/Taj7564Kp6Xo1w=;
- h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
- b=mE4sw4YvYqPtPCeGgdYDQbOGYr1D0sRwnP4JUyOyjhZj86DL2KdqFn53kzdPhLzVf
- Bw1VvaPOhimlqvAni2KTggbrrVF2tMVgZUYZ8GT3HumFLMHl/swIw8OEmuB63xYT9D
- ry4EVMAhrR1d8HMl2egIRfzRMjosarxVeMM5DKaB83CPATfsl/FDKcekgbGiXopEIL
- MnHuCbLxWgj6rZKBy6qsMzCkq0MxYh4lCNn7zCBOc/+l8UBmSPACrlbKg9pzt44nrH
- jFeTmjYUIPMAWJwQeXwYslmZrcg0H+P/WZvI2jlUHmT8gdPkXem6ziG4wdUDcl9DH5
- E8ZqIX9/NoQSw==
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id V5k9ny2-4axH for <iommu@lists.linux-foundation.org>;
+ Thu, 13 Jan 2022 10:27:00 +0000 (UTC)
+X-Greylist: delayed 00:11:06 by SQLgrey-1.8.0
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0BE494023D
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Jan 2022 10:26:59 +0000 (UTC)
+X-KPN-MessageId: b2220258-7459-11ec-9a2e-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+ by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+ id b2220258-7459-11ec-9a2e-005056abbe64;
+ Thu, 13 Jan 2022 11:15:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=xs4all01;
+ h=content-type:from:to:subject:mime-version:date:message-id;
+ bh=gDVXsjFxRvpjVOimhsqczbSYEgs92OjIY8q3HQ0xZLo=;
+ b=HBr/18+Ajg3wdobbfWiqxNHvlD5i0q1fqXDA/Hd6sXbGh1VIvyCHpK08n/9w1Gb+CSo6G3/2+QYgh
+ 6D7DjgaCmpgmWNmn42nFiXcnqeWwFneTX2hFv5YkafeaAN8dL5/bS7kJYqwLF8oFL5LOH/DYFC2Xaw
+ z5khnE9cYoIjJOWI43E5RtaLFz99+hrR107PUMVKQcoBO0na3FMPXEDUkQMcWIBcGs658HYp913aLt
+ m6IiJ6/e/+N1z5xEO4Xds2vDDKkwI7t77pHPUpFWQ7yyyhuh9s9mbSvIdLJyIvhMqWnqKIHrw38aaX
+ rjz44ENw3ycdGfIor0BEqqupi6EIUCw==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|E3dVle7ORv8LVtMgyR7kL3/O5bzeh7Y0MMGEunRsfjRJEHWcSAEdfVoLox9zTgP
+ iTmLz1DX0F5kFZJzXWyZNow==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+ by smtp.xs4all.nl (Halon) with ESMTPSA
+ id c77cf44a-7459-11ec-83ab-005056ab1411;
+ Thu, 13 Jan 2022 11:15:50 +0100 (CET)
+Message-ID: <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
+Date: Thu, 13 Jan 2022 11:15:48 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
 Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
  mtk_vcodec_release_enc_pm
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh+dt@kernel.org>,
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yong Wu <yong.wu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20211112105509.12010-1-yong.wu@mediatek.com>
  <20211112105509.12010-13-yong.wu@mediatek.com>
  <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
-Message-ID: <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
-Date: Thu, 13 Jan 2022 11:11:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
-Content-Language: en-US
+ <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
 Cc: devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  anthony.huang@mediatek.com, youlin.pei@mediatek.com,
@@ -91,40 +99,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
-> Il 12/11/21 11:55, Yong Wu ha scritto:
->> After this patchset, mtk_vcodec_release_enc_pm has only one line.
->> then remove that function, use pm_runtime_disable instead.
+On 13/01/2022 11:11, AngeloGioacchino Del Regno wrote:
+> Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
+>> Il 12/11/21 11:55, Yong Wu ha scritto:
+>>> After this patchset, mtk_vcodec_release_enc_pm has only one line.
+>>> then remove that function, use pm_runtime_disable instead.
+>>>
+>>> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
+>>> rename it from the _pm to _clk.
+>>>
+>>> No functional change.
+>>>
+>>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+>>> CC: Irui Wang <irui.wang@mediatek.com>
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 >>
->> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
->> rename it from the _pm to _clk.
+>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 >>
->> No functional change.
->>
->> CC: Tiffany Lin <tiffany.lin@mediatek.com>
->> CC: Irui Wang <irui.wang@mediatek.com>
->> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Hello Yong,
+> the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
+> scheduled that for v5.18.
 > 
+> Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
+> media: mtk-vcodec: *) from this series?
+> 
+> For the records, I think that after sending v10 this series is ready to be merged,
+> as it was well reviewed and also tested on many MTK platforms.
 
-Hello Yong,
-the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
-scheduled that for v5.18.
+Good to know. When I have the v10 I'll try to prioritize reviewing it and running
+my usual tests.
 
-Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
-media: mtk-vcodec: *) from this series?
+Yong, please make sure you run 'checkpatch.pl --strict' over the v10 patches and fix
+any issues (using common sense).
 
-For the records, I think that after sending v10 this series is ready to be merged,
-as it was well reviewed and also tested on many MTK platforms.
+Regards,
 
-Thank you,
-- Angelo
+	Hans
+
+> 
+> Thank you,
+> - Angelo
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
