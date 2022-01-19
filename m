@@ -1,91 +1,97 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE50494050
-	for <lists.iommu@lfdr.de>; Wed, 19 Jan 2022 20:06:43 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE27494052
+	for <lists.iommu@lfdr.de>; Wed, 19 Jan 2022 20:06:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D2CF880C89;
-	Wed, 19 Jan 2022 19:06:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7C1EB404A8;
+	Wed, 19 Jan 2022 19:06:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QrBSWhY8FJvQ; Wed, 19 Jan 2022 19:06:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CBF5680C67;
-	Wed, 19 Jan 2022 19:06:40 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id X6hpIkj6XUJG; Wed, 19 Jan 2022 19:06:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 15EDD4056E;
+	Wed, 19 Jan 2022 19:06:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9586FC007A;
-	Wed, 19 Jan 2022 19:06:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5933C002F;
+	Wed, 19 Jan 2022 19:06:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 92061C002F;
- Wed, 19 Jan 2022 19:06:38 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3973BC002F;
+ Wed, 19 Jan 2022 19:06:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6B6A280C4D;
- Wed, 19 Jan 2022 19:06:38 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1A13B60B58;
+ Wed, 19 Jan 2022 19:06:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ew6oBHjRsi0J; Wed, 19 Jan 2022 19:06:37 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=sent.com header.b="jfEgOdn4";
+ dkim=pass (2048-bit key) header.d=messagingengine.com
+ header.b="a3g6Otxn"
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iK8Ppdww20CM; Wed, 19 Jan 2022 19:06:38 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 33FF080C39;
- Wed, 19 Jan 2022 19:06:37 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 67B0C5806EB;
- Wed, 19 Jan 2022 14:06:34 -0500 (EST)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 348A260B08;
+ Wed, 19 Jan 2022 19:06:38 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 41B865806D1;
+ Wed, 19 Jan 2022 14:06:36 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 19 Jan 2022 14:06:34 -0500
+ by compute5.internal (MEProxy); Wed, 19 Jan 2022 14:06:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sent.com; h=from
- :to:cc:subject:date:message-id:reply-to:mime-version
- :content-transfer-encoding; s=fm2; bh=XoGtHOG8AyFnf2S1JWsX18T68L
- iZtgT1QGCS/Lzv0YE=; b=Z0dpaC+CnN0yiYzTq1mRWwOkyRPH017sN6ZHiGIChO
- nmpfDjp8pp8RNPA+LdfgXzQBRUkihXdVIYSYo4szEZcidjaMBMDh+5kvIiubryoi
- 66m1R29c339JdNYRLdaaoS6iWxI+4RKk/z/0PsExH/w4UlGPDLIeX5twM+7umkqb
- IhxJMQso5cS9cA87YHayQDC8NC9SF5OQpS19xpa9NpUuBDSy8S0DDv5jSih9f3W+
- IT3pXQYau1KU8WlAQlPy8IbbDN03QhzGotU0zfvn4R4D72hslzoWXk08ltGOGSdY
- okbjZHc7PbKQpsDNVTfhVBbBr2iDGQJeF77f6xB4EgsQ==
+ :to:cc:subject:date:message-id:in-reply-to:references:reply-to
+ :mime-version:content-transfer-encoding; s=fm2; bh=q0ih4ZGu7K0TB
+ LC0mgUjnHBfPkRQSf5he8QSdlBoNQ4=; b=jfEgOdn4BGr+TuP2w75Wt10+ZOjWZ
+ 5wtQRYAjlZT1pMOGNZuxExbyYDvzZWs1w/9XgA00oxJjPSD6X72QwLEBnSdgqvUr
+ /f3qIXu854rkelt0A7p+dZdTQluXWD6Pw7JERZbv7EnVpvw1fNAt4Qvo3rHqN0xT
+ J4wK+o2Dt9VD5dXJM9d1MK4hmLWmLtm/8cKcRb4WA14de3KJN7gPjrGfEnnC5/yC
+ NmddZEjk/wbfOQwA1M2N2J7MUhtx2d08+4hFynhkLl5pLNqTCGlyk0hOFMifJ75Y
+ VllWlwUXxHTAztlFsZBKheI8JgrnfniDHVg1Ol2soCLoyyEecxkqQK1cg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:reply-to:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XoGtHO
- G8AyFnf2S1JWsX18T68LiZtgT1QGCS/Lzv0YE=; b=gO/I3NtEdFsJenepxchu8j
- UlgO3PKzV+G9z1b9Co4w3dxKEVm8aescI/cx7jrzM1sf2pxuX+4rKKtWucUgeHdK
- 7BZSvNyd66wLg8J/snTG92OG7v+luaxfdfUmhdME+MFgkwlJ7svlWfCm6Iyf5eOD
- B0ZJaTfBr8q+eTAcR7vScMOfjuU3BNF+bsUIHlMJENDDitGX4+TwKqH+EUdabudu
- rgBIIbcyivP/RNaj2l/nGgXEspAUhPVgFPmH3eeWw6T+WHpE1MhZk0j/AWOunRrG
- gUyHXW4XSNfQHrsBJCBGOaFlGojH9mVZPiwPLkeuaxxZj/7MqGSO52jyoee8EeWQ
- ==
-X-ME-Sender: <xms:OWHoYTW9q79dcH0I_y05ufdpEexSVpQv2pCP8mbq8wKYJQf0uUaNyQ>
- <xme:OWHoYblJ75KeKpx-6iO3DY0uyzHzU1TD5wkPTTdItJ11kgQGTj38zriDpvxr7AKlq
- 7VRJ8dtCnSv2f8Otw>
-X-ME-Received: <xmr:OWHoYfbxCuhIczX6BzsDCjwxKuhdtcZdv3Hi74rHeFXEvP2XyTBHabpqgP2ZFyoNU58_SAAf>
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=q0ih4ZGu7K0TBLC0mgUjnHBfPkRQSf5he8QSdlBoNQ4=; b=a3g6Otxn
+ 1P5/QNZvcBTEFQCfKcdFmGDd2DdgRTczVijbu6kDaB9bRBdJreqYjNFHux4rgD+h
+ UkF650jU7mJn4rQPHlV0IpnQwab0MwOu9ikwsmVZQkt6K4pX/5zbh2K+MupmP+BW
+ 0YOhk0bg8/as2lRJFrjtWJECTICLB5yfrzZo36AAtfVJl6C9oqQ+hlp3FIHMpf5T
+ d7y+OuUDYH1rlCS4idv3scy0M9yk3mFf2seAksNTTUT5PJDJECJuxyGHjfRB8Y8S
+ P3E3MhkFkZGVImgoNE2qI1rcQFzllWnyhFKiRxkzE04QUVBHw27flTX6WPs/A95g
+ l/Z0tVucFtM2wA==
+X-ME-Sender: <xms:OmHoYYjDt5bJPnaqv8TrL9lkzpt8adtAHjk8msVKyJ_1IZR0Yw4aeQ>
+ <xme:OmHoYRCNQL-qjZbdM8WhZIMCoSpQJvqf5D_IV-_ZlyOyr2T5o-H3HgJu6Bi25ECZp
+ -l4_pWajbCZChbxXw>
+X-ME-Received: <xmr:OmHoYQHIWE9Xxjhz9TwH30OnS3w0tOUXFmwtO-5UaI2nsRSMx3mgGJ51JlsXySAKecLlGewK>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigdeivdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofhrggfgsedtqhertdertddtnecuhfhrohhmpegkihcujggrnhcu
- oeiiihdrhigrnhesshgvnhhtrdgtohhmqeenucggtffrrghtthgvrhhnpeetieeitdejgf
- fhfeeukeejvdeufedtvddulefhteduffeigfefteehgefhvdegudenucffohhmrghinhep
- khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepiihirdihrghnsehsvghnthdrtghomh
-X-ME-Proxy: <xmx:OWHoYeV1t0lxGc4gdWK-ouG9ad45A9L8NCoPoE92P1caNy2KsIL_Zw>
- <xmx:OWHoYdm0aLgpkYzkLFSOMST8y9NsQrWLBjU6CRISanXt_CDFW1Jj0g>
- <xmx:OWHoYbeSAv4kvACI_gTYkmwirMOq5KZfcgqziIj4zC8AjOHNuimYZA>
- <xmx:OmHoYQ8ynrUETe1CpldILj1hXHQkvFnP8Zg-t5StFVxtTXErGBUnvg>
+ fjughrpefhvffufffkofgjfhhrggfgsedtqhertdertddtnecuhfhrohhmpegkihcujggr
+ nhcuoeiiihdrhigrnhesshgvnhhtrdgtohhmqeenucggtffrrghtthgvrhhnpeekieeule
+ dvtdetueejhedtgeehjeelvddttefgieeljeefgefhfedtuefffeelveenucffohhmrghi
+ nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepiihirdihrghnsehsvghnthdrtghomh
+X-ME-Proxy: <xmx:OmHoYZR6TRDNhb7e-1EHAtHNY7Rkgbip-xe-ddvOHHAPmiG7C_lm-w>
+ <xmx:OmHoYVzt0SG_sr589OoAThHOtIIicYY-ANJaP83S8k_6y3LUOZZ3Ug>
+ <xmx:OmHoYX5UWRuqvQWLgsOpiG917uBuXvx2MZj5QFLajPT-BXyag8VPaA>
+ <xmx:PGHoYYriwSXjN_gf2lpBFBkoVaydd2-D6CEK8xxq5MH56St65-B0cQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Jan 2022 14:06:32 -0500 (EST)
+ 19 Jan 2022 14:06:34 -0500 (EST)
 From: Zi Yan <zi.yan@sent.com>
 To: David Hildenbrand <david@redhat.com>,
 	linux-mm@kvack.org
-Subject: [PATCH v4 0/7] Use pageblock_order for cma and alloc_contig_range
- alignment.
-Date: Wed, 19 Jan 2022 14:06:16 -0500
-Message-Id: <20220119190623.1029355-1-zi.yan@sent.com>
+Subject: [PATCH v4 1/7] mm: page_alloc: avoid merging non-fallbackable
+ pageblocks with others.
+Date: Wed, 19 Jan 2022 14:06:17 -0500
+Message-Id: <20220119190623.1029355-2-zi.yan@sent.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220119190623.1029355-1-zi.yan@sent.com>
+References: <20220119190623.1029355-1-zi.yan@sent.com>
 MIME-Version: 1.0
 Cc: Mel Gorman <mgorman@techsingularity.net>, Zi Yan <ziy@nvidia.com>,
  Michael Ellerman <mpe@ellerman.id.au>, Robin Murphy <robin.murphy@arm.com>,
@@ -113,85 +119,119 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Zi Yan <ziy@nvidia.com>
 
-Hi all,
+This is done in addition to MIGRATE_ISOLATE pageblock merge avoidance.
+It prepares for the upcoming removal of the MAX_ORDER-1 alignment
+requirement for CMA and alloc_contig_range().
 
-This patchset tries to remove the MAX_ORDER-1 alignment requirement for CMA
-and alloc_contig_range(). It prepares for my upcoming changes to make
-MAX_ORDER adjustable at boot time[1]. It is on top of mmotm-2021-12-29-20-07.
+MIGRARTE_HIGHATOMIC should not merge with other migratetypes like
+MIGRATE_ISOLATE and MIGRARTE_CMA[1], so this commit prevents that too.
+Also add MIGRARTE_HIGHATOMIC to fallbacks array for completeness.
 
-Changelog from RFC
-===
-1. Dropped two irrelevant patches on non-lru compound page handling, as
-   it is not supported upstream.
-2. Renamed migratetype_has_fallback() to migratetype_is_mergeable().
-3. Always check whether two pageblocks can be merged in
-   __free_one_page() when order is >= pageblock_order, as the case (not
-   mergeable pageblocks are isolated, CMA, and HIGHATOMIC) becomes more common.
-3. Moving has_unmovable_pages() is now a separate patch.
-4. Removed MAX_ORDER-1 alignment requirement in the comment in virtio_mem code.
+[1] https://lore.kernel.org/linux-mm/20211130100853.GP3366@techsingularity.net/
 
-Description
-===
+Signed-off-by: Zi Yan <ziy@nvidia.com>
+---
+ include/linux/mmzone.h | 11 +++++++++++
+ mm/page_alloc.c        | 37 ++++++++++++++++++++-----------------
+ 2 files changed, 31 insertions(+), 17 deletions(-)
 
-The MAX_ORDER - 1 alignment requirement comes from that alloc_contig_range()
-isolates pageblocks to remove free memory from buddy allocator but isolating
-only a subset of pageblocks within a page spanning across multiple pageblocks
-causes free page accounting issues. Isolated page might not be put into the
-right free list, since the code assumes the migratetype of the first pageblock
-as the whole free page migratetype. This is based on the discussion at [2].
-
-To remove the requirement, this patchset:
-1. still isolates pageblocks at MAX_ORDER - 1 granularity;
-2. but saves the pageblock migratetypes outside the specified range of
-   alloc_contig_range() and restores them after all pages within the range
-   become free after __alloc_contig_migrate_range();
-3. only checks unmovable pages within the range instead of MAX_ORDER - 1 aligned
-   range during isolation to avoid alloc_contig_range() failure when pageblocks
-   within a MAX_ORDER - 1 aligned range are allocated separately.
-3. splits free pages spanning multiple pageblocks at the beginning and the end
-   of the range and puts the split pages to the right migratetype free lists
-   based on the pageblock migratetypes;
-4. returns pages not in the range as it did before.
-
-Isolation needs to be done at MAX_ORDER - 1 granularity, because otherwise
-either 1) it is needed to detect to-be-isolated page size (free, PageHuge, THP,
-or other PageCompound) to make sure all pageblocks belonging to a single page
-are isolated together and later restore pageblock migratetypes outside the
-range, or 2) assuming isolation happens at pageblock granularity, a free page
-with multi-migratetype pageblocks can seen in free page path and needs
-to be split and freed at pageblock granularity.
-
-One optimization might come later:
-1. make MIGRATE_ISOLATE a separate bit to avoid saving and restoring existing
-   migratetypes before and after isolation respectively.
-
-Feel free to give comments and suggestions. Thanks.
-
-[1] https://lore.kernel.org/linux-mm/20210805190253.2795604-1-zi.yan@sent.com/
-[2] https://lore.kernel.org/linux-mm/d19fb078-cb9b-f60f-e310-fdeea1b947d2@redhat.com/
-
-
-Zi Yan (7):
-  mm: page_alloc: avoid merging non-fallbackable pageblocks with others.
-  mm: page_isolation: move has_unmovable_pages() to mm/page_isolation.c
-  mm: page_isolation: check specified range for unmovable pages
-  mm: make alloc_contig_range work at pageblock granularity
-  mm: cma: use pageblock_order as the single alignment
-  drivers: virtio_mem: use pageblock size as the minimum virtio_mem
-    size.
-  arch: powerpc: adjust fadump alignment to be pageblock aligned.
-
- arch/powerpc/include/asm/fadump-internal.h |   4 +-
- drivers/virtio/virtio_mem.c                |   7 +-
- include/linux/mmzone.h                     |  16 +-
- include/linux/page-isolation.h             |   3 +-
- kernel/dma/contiguous.c                    |   2 +-
- mm/cma.c                                   |   6 +-
- mm/memory_hotplug.c                        |  12 +-
- mm/page_alloc.c                            | 337 +++++++++++----------
- mm/page_isolation.c                        | 154 +++++++++-
- 9 files changed, 352 insertions(+), 189 deletions(-)
-
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index aed44e9b5d89..71b77aab748d 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -83,6 +83,17 @@ static inline bool is_migrate_movable(int mt)
+ 	return is_migrate_cma(mt) || mt == MIGRATE_MOVABLE;
+ }
+ 
++/*
++ * Check whether a migratetype can be merged with another migratetype.
++ *
++ * It is only mergeable when it can fall back to other migratetypes for
++ * allocation. See fallbacks[MIGRATE_TYPES][3] in page_alloc.c.
++ */
++static inline bool migratetype_is_mergeable(int mt)
++{
++	return mt < MIGRATE_PCPTYPES;
++}
++
+ #define for_each_migratetype_order(order, type) \
+ 	for (order = 0; order < MAX_ORDER; order++) \
+ 		for (type = 0; type < MIGRATE_TYPES; type++)
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 8dd6399bafb5..15de65215c02 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1117,25 +1117,24 @@ static inline void __free_one_page(struct page *page,
+ 	}
+ 	if (order < MAX_ORDER - 1) {
+ 		/* If we are here, it means order is >= pageblock_order.
+-		 * We want to prevent merge between freepages on isolate
+-		 * pageblock and normal pageblock. Without this, pageblock
+-		 * isolation could cause incorrect freepage or CMA accounting.
++		 * We want to prevent merge between freepages on pageblock
++		 * without fallbacks and normal pageblock. Without this,
++		 * pageblock isolation could cause incorrect freepage or CMA
++		 * accounting or HIGHATOMIC accounting.
+ 		 *
+ 		 * We don't want to hit this code for the more frequent
+ 		 * low-order merging.
+ 		 */
+-		if (unlikely(has_isolate_pageblock(zone))) {
+-			int buddy_mt;
++		int buddy_mt;
+ 
+-			buddy_pfn = __find_buddy_pfn(pfn, order);
+-			buddy = page + (buddy_pfn - pfn);
+-			buddy_mt = get_pageblock_migratetype(buddy);
++		buddy_pfn = __find_buddy_pfn(pfn, order);
++		buddy = page + (buddy_pfn - pfn);
++		buddy_mt = get_pageblock_migratetype(buddy);
+ 
+-			if (migratetype != buddy_mt
+-					&& (is_migrate_isolate(migratetype) ||
+-						is_migrate_isolate(buddy_mt)))
+-				goto done_merging;
+-		}
++		if (migratetype != buddy_mt
++				&& (!migratetype_is_mergeable(migratetype) ||
++					!migratetype_is_mergeable(buddy_mt)))
++			goto done_merging;
+ 		max_order = order + 1;
+ 		goto continue_merging;
+ 	}
+@@ -2484,6 +2483,7 @@ static int fallbacks[MIGRATE_TYPES][3] = {
+ 	[MIGRATE_UNMOVABLE]   = { MIGRATE_RECLAIMABLE, MIGRATE_MOVABLE,   MIGRATE_TYPES },
+ 	[MIGRATE_MOVABLE]     = { MIGRATE_RECLAIMABLE, MIGRATE_UNMOVABLE, MIGRATE_TYPES },
+ 	[MIGRATE_RECLAIMABLE] = { MIGRATE_UNMOVABLE,   MIGRATE_MOVABLE,   MIGRATE_TYPES },
++	[MIGRATE_HIGHATOMIC] = { MIGRATE_TYPES }, /* Never used */
+ #ifdef CONFIG_CMA
+ 	[MIGRATE_CMA]         = { MIGRATE_TYPES }, /* Never used */
+ #endif
+@@ -2795,8 +2795,8 @@ static void reserve_highatomic_pageblock(struct page *page, struct zone *zone,
+ 
+ 	/* Yoink! */
+ 	mt = get_pageblock_migratetype(page);
+-	if (!is_migrate_highatomic(mt) && !is_migrate_isolate(mt)
+-	    && !is_migrate_cma(mt)) {
++	/* Only reserve normal pageblocks (i.e., they can merge with others) */
++	if (migratetype_is_mergeable(mt)) {
+ 		zone->nr_reserved_highatomic += pageblock_nr_pages;
+ 		set_pageblock_migratetype(page, MIGRATE_HIGHATOMIC);
+ 		move_freepages_block(zone, page, MIGRATE_HIGHATOMIC, NULL);
+@@ -3545,8 +3545,11 @@ int __isolate_free_page(struct page *page, unsigned int order)
+ 		struct page *endpage = page + (1 << order) - 1;
+ 		for (; page < endpage; page += pageblock_nr_pages) {
+ 			int mt = get_pageblock_migratetype(page);
+-			if (!is_migrate_isolate(mt) && !is_migrate_cma(mt)
+-			    && !is_migrate_highatomic(mt))
++			/*
++			 * Only change normal pageblocks (i.e., they can merge
++			 * with others)
++			 */
++			if (migratetype_is_mergeable(mt))
+ 				set_pageblock_migratetype(page,
+ 							  MIGRATE_MOVABLE);
+ 		}
 -- 
 2.34.1
 
