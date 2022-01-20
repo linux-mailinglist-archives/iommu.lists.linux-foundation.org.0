@@ -1,55 +1,94 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82512494E90
-	for <lists.iommu@lfdr.de>; Thu, 20 Jan 2022 14:04:27 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 32F0D82F84;
-	Thu, 20 Jan 2022 13:04:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id r6HCqjXxxkg7; Thu, 20 Jan 2022 13:04:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0D24883065;
-	Thu, 20 Jan 2022 13:04:25 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE2E9C0077;
-	Thu, 20 Jan 2022 13:04:24 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8F0A0C002F
- for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 13:04:23 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9495049558B
+	for <lists.iommu@lfdr.de>; Thu, 20 Jan 2022 21:42:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 75D8E409DB
- for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 13:04:23 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 23178404F6;
+	Thu, 20 Jan 2022 20:42:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8qwlTOgKI0Tx for <iommu@lists.linux-foundation.org>;
- Thu, 20 Jan 2022 13:04:22 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B7D08409DA
- for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 13:04:21 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id A98F768BEB; Thu, 20 Jan 2022 14:04:15 +0100 (CET)
-Date: Thu, 20 Jan 2022 14:04:15 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: syzbot <syzbot+d03b64357793677f0080@syzkaller.appspotmail.com>
-Subject: Re: [syzbot] WARNING in dma_map_sgtable
-Message-ID: <20220120130415.GA10364@lst.de>
-References: <00000000000083ab5e05d6027f02@google.com>
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JLSVhq-Sy_J4; Thu, 20 Jan 2022 20:42:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CAAF240574;
+	Thu, 20 Jan 2022 20:42:09 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 63D9CC0077;
+	Thu, 20 Jan 2022 20:42:09 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37089C002F
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 20:20:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 16B4941644
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 20:20:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linaro.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UiFgV_YjnOvX for <iommu@lists.linux-foundation.org>;
+ Thu, 20 Jan 2022 20:20:02 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 57106414CD
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 20:20:02 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id m3so26247298lfu.0
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Jan 2022 12:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SV2+kbDgVtw0lV31uGNVO0MZ2UY0VfBryzePxW9RfDo=;
+ b=hjq4AM/+aWwjiHOTI1IslNvdQgEv7Wbun6S6h7xb8cEm5+1TLN/d0WYqA/mc6RvKNN
+ gQoe6LKKSpfjOZLCLTLw4Trrwoy5pXt9ZXEhM1B1luwTPNTaZHvZvecumQPBw/nPJ8Vb
+ ENXUAiSZ2tztrL1y2h31ulq2bhNPSHGHa5MWThKCSMSusMuK0rbzEQpVlpSLdzHb6Bpk
+ FmouJtfAYUYKVnFOUw5o0tObrSmDtyx8Zst5xGxBpe6NhnhpFeLs+PX4HmQJsf0jHfK7
+ yOZ9Wp7UrHJmxsXvIXLkY3xAI4Thzz/XA+rA0ufps2f8KuC/1LSFCNNgdMYPwAWozk0B
+ 8qMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SV2+kbDgVtw0lV31uGNVO0MZ2UY0VfBryzePxW9RfDo=;
+ b=kJ7MCkmUuDfJqSLcLSnBQSkDaBaXfkLOCUgkbnm3NDZJ4SWvxZIOOZV8P2KIHBcNNk
+ JGJJpj4xnGKjkZq76F4igLfPkwNYwQ0cGzMBzf5jMFSciqr37hdTfLk6M8SuQZK3fVWZ
+ Tck+meCqgkAslO3bRJTuB7rWZp/f5YtPnBU+qGY8oHQ09bAMpIaWSptV2B32UEZvpm3P
+ MpyHT7sdCLZOVFP7rJB7q+xEILCuzHT81+dBla3cwGpnHbP9kJaSGmh4xNr2YIsDb37J
+ uXqlB2/yqkvC3Rx2BjZTGr2dsztd0m+/jrY44N6YN6SWVa2V2fhba4mzuV+SDZdeOG8J
+ 3tCA==
+X-Gm-Message-State: AOAM532OXwQYp0OIeu+Tll6eiDSPE1+4PKAVOBKPYzAeXLLptn8emugK
+ zCmrGeXscc8h20REp+gRnY4lqA==
+X-Google-Smtp-Source: ABdhPJxE6MkmquotwQB0ocKSKdWoDh5ulhRTbJKLE+X/Kg/iQUIIWJNEWpJYx5Uhrcqz6/tpYGTFTw==
+X-Received: by 2002:a05:651c:511:: with SMTP id
+ o17mr559195ljp.435.1642709999939; 
+ Thu, 20 Jan 2022 12:19:59 -0800 (PST)
+Received: from localhost ([31.134.121.151])
+ by smtp.gmail.com with ESMTPSA id q17sm21155lfb.271.2022.01.20.12.19.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 12:19:59 -0800 (PST)
+From: Sam Protsenko <semen.protsenko@linaro.org>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: [RFC 0/3] iommu/samsung: Introduce Exynos sysmmu-v8 driver
+Date: Thu, 20 Jan 2022 22:19:55 +0200
+Message-Id: <20220120201958.2649-1-semen.protsenko@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <00000000000083ab5e05d6027f02@google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux-foundation.org,
- robin.murphy@arm.com, christian.koenig@amd.com, linux-media@vger.kernel.org
+X-Mailman-Approved-At: Thu, 20 Jan 2022 20:42:08 +0000
+Cc: Janghyuck Kim <janghyuck.kim@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Carlos Llamas <cmllamas@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-samsung-soc@vger.kernel.org,
+ Mark Salyzyn <salyzyn@google.com>, Jinkyu Yang <jinkyu1.yang@samsung.com>,
+ Thierry Strudel <tstrudel@google.com>, Will McVicker <willmcvicker@google.com>,
+ Cho KyongHo <pullip.cho@samsung.com>, linux-arm-kernel@lists.infradead.org,
+ Jonglin Lee <jonglin@google.com>, "J . Avila" <elavila@google.com>,
+ Alex <acnwigwe@google.com>, linux-kernel@vger.kernel.org,
+ Hyesoo Yu <hyesoo.yu@samsung.com>, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,77 +106,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This means the DMA API is called on a not DMA capable device.  This
-needs fixing in the caller.
+This is a draft of a new IOMMU driver used in modern Exynos SoCs (like
+Exynos850) and Google's GS101 SoC (used in Pixel 6 phone). Most of its
+code were taken from GS101 downstream kernel [1], with some extra
+patches on top (fixes from Exynos850 downstream kernel and some porting
+changes to adapt it to the mainline kernel). All development history can
+be found at [2].
 
-On Thu, Jan 20, 2022 at 04:18:21AM -0800, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    e3a8b6a1e70c Merge tag 'slab-for-5.17-part2' of git://git...
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1507e01fb00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=73c17fd2d4a060fe
-> dashboard link: https://syzkaller.appspot.com/bug?extid=d03b64357793677f0080
-> compiler:       Debian clang version 11.0.1-2, GNU ld (GNU Binutils for Debian) 2.35.2
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+d03b64357793677f0080@syzkaller.appspotmail.com
-> 
-> ------------[ cut here ]------------
-> WARNING: CPU: 1 PID: 21150 at kernel/dma/mapping.c:188 __dma_map_sg_attrs kernel/dma/mapping.c:188 [inline]
-> WARNING: CPU: 1 PID: 21150 at kernel/dma/mapping.c:188 dma_map_sgtable+0x203/0x260 kernel/dma/mapping.c:264
-> Modules linked in:
-> CPU: 1 PID: 21150 Comm: syz-executor.5 Not tainted 5.16.0-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> RIP: 0010:__dma_map_sg_attrs kernel/dma/mapping.c:188 [inline]
-> RIP: 0010:dma_map_sgtable+0x203/0x260 kernel/dma/mapping.c:264
-> Code: 75 15 e8 50 b2 13 00 eb cb e8 49 b2 13 00 eb c4 e8 42 b2 13 00 eb bd e8 3b b2 13 00 0f 0b bd fb ff ff ff eb af e8 2d b2 13 00 <0f> 0b 31 ed 48 bb 00 00 00 00 00 fc ff df e9 7b ff ff ff 89 e9 80
-> RSP: 0018:ffffc9000969fd20 EFLAGS: 00010287
-> RAX: ffffffff8171ee13 RBX: dffffc0000000000 RCX: 0000000000040000
-> RDX: ffffc900056f9000 RSI: 000000000000079b RDI: 000000000000079c
-> RBP: ffff888147437408 R08: ffffffff8171ece3 R09: ffffed100d4e6956
-> R10: ffffed100d4e6956 R11: 0000000000000000 R12: ffff888147437000
-> R13: ffff88806a734aa0 R14: 0000000000000000 R15: 0000000000000002
-> FS:  00007f009bbc7700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000055555641b108 CR3: 000000001901b000 CR4: 00000000003506e0
-> DR0: 0000000020000100 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000600
-> Call Trace:
->  <TASK>
->  get_sg_table+0xfc/0x150 drivers/dma-buf/udmabuf.c:72
->  begin_cpu_udmabuf+0xf5/0x160 drivers/dma-buf/udmabuf.c:126
->  dma_buf_begin_cpu_access+0xd8/0x170 drivers/dma-buf/dma-buf.c:1164
->  dma_buf_ioctl+0x2a0/0x2f0 drivers/dma-buf/dma-buf.c:363
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:874 [inline]
->  __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:860
->  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x44/0xd0 arch/x86/entry/common.c:80
->  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> RIP: 0033:0x7f009d251fe9
-> Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f009bbc7168 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 00007f009d364f60 RCX: 00007f009d251fe9
-> RDX: 0000000020000040 RSI: 0000000040086200 RDI: 000000000000000b
-> RBP: 00007f009d2ac08d R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007ffc7751fd4f R14: 00007f009bbc7300 R15: 0000000000022000
->  </TASK>
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
----end quoted text---
+Similarities with existing exynos-iommu.c is minimal. I did some
+analysis using similarity-tester tool:
+
+8<-------------------------------------------------------------------->8
+    $ sim_c -peu -S exynos-iommu.c "|" samsung-*
+
+    exynos-iommu.c consists for 15 % of samsung-iommu.c material
+    exynos-iommu.c consists for 1 %  of samsung-iommu-fault.c material
+    exynos-iommu.c consists for 3 %  of samsung-iommu.h material
+8<-------------------------------------------------------------------->8
+
+So the similarity is very low, most of that code is some boilerplate
+that shouldn't be extracted to common code (like allocating the memory
+and requesting clocks/interrupts in probe function).
+
+It was tested on v5.4 Android kernel on Exynos850 (E850-96 board) with
+DPU use-case (displaying some graphics to the screen). Also it
+apparently works fine on v5.10 GS101 kernel (on Pixel 6). On mainline
+kernel I managed to build, match and bind the driver. No real world test
+was done, but the changes from v5.10 (where it works fine) are minimal
+(see [2] for details). So I'm pretty sure the driver is functional.
+
+For this patch series I'd like to receive some high-level review for
+driver's design and architecture. Coding style and API issues I can fix
+later, when sending real (not RFC) series. Particularly I'd like to hear
+some opinions about:
+  - namings: Kconfig option, file names, module name, compatible, etc
+  - modularity: should this driver be a different platform driver (like
+    in this series), or should it be integrated into existing
+    exynos-iommu.c driver somehow
+  - dt-bindings: does it look ok as it is, or some interface changes are
+    needed
+  - internal driver architecture: approach seems to be similar to
+    exynos-iommu.c, but any comments are welcome
+  - ongoing work: please let me know if you're aware of some efforts to
+    upstream this driver by some other party (e.g. Google engineers
+    might be working on something similar)
+
+Basically, I want to figure out what should be changed/fixed in this
+driver (on a high level), so it can be considered "upstreamable".
+
+[1] https://android.googlesource.com/kernel/gs/
+[2] https://github.com/joe-skb7/linux/commits/iommu-exynos850-dev
+
+Sam Protsenko (3):
+  dt-bindings: iommu: Add bindings for samsung,sysmmu-v8
+  iommu/samsung: Introduce Exynos sysmmu-v8 driver
+  arm64: defconfig: Enable sysmmu-v8 IOMMU
+
+ .../bindings/iommu/samsung,sysmmu-v8.txt      |   31 +
+ arch/arm64/configs/defconfig                  |    2 +
+ drivers/iommu/Kconfig                         |   13 +
+ drivers/iommu/Makefile                        |    3 +
+ drivers/iommu/samsung-iommu-fault.c           |  617 +++++++
+ drivers/iommu/samsung-iommu-group.c           |   50 +
+ drivers/iommu/samsung-iommu.c                 | 1521 +++++++++++++++++
+ drivers/iommu/samsung-iommu.h                 |  216 +++
+ include/dt-bindings/soc/samsung,sysmmu-v8.h   |   43 +
+ 9 files changed, 2496 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iommu/samsung,sysmmu-v8.txt
+ create mode 100644 drivers/iommu/samsung-iommu-fault.c
+ create mode 100644 drivers/iommu/samsung-iommu-group.c
+ create mode 100644 drivers/iommu/samsung-iommu.c
+ create mode 100644 drivers/iommu/samsung-iommu.h
+ create mode 100644 include/dt-bindings/soc/samsung,sysmmu-v8.h
+
+-- 
+2.30.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
