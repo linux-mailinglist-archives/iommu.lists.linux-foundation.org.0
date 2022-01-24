@@ -1,64 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A62497C01
-	for <lists.iommu@lfdr.de>; Mon, 24 Jan 2022 10:32:36 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A606497C1C
+	for <lists.iommu@lfdr.de>; Mon, 24 Jan 2022 10:37:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F1E8B60BA4;
-	Mon, 24 Jan 2022 09:32:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id CFF1960BC6;
+	Mon, 24 Jan 2022 09:37:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e8f1Y1S-0ezr; Mon, 24 Jan 2022 09:32:29 +0000 (UTC)
+	with ESMTP id JJlwXt0HjnER; Mon, 24 Jan 2022 09:37:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7577560B9F;
-	Mon, 24 Jan 2022 09:32:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 4EAB160BA4;
+	Mon, 24 Jan 2022 09:37:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56105C007A;
-	Mon, 24 Jan 2022 09:32:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E575C007A;
+	Mon, 24 Jan 2022 09:37:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 83FE0C002F
- for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 09:32:27 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BBD8AC002F
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 09:37:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6954240977
- for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 09:32:27 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id AADB260BA4
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 09:37:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TS70ep2Yzp_d for <iommu@lists.linux-foundation.org>;
- Mon, 24 Jan 2022 09:32:22 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tMFVw_ggINCS for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Jan 2022 09:37:30 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1B4A640984
- for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 09:32:21 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 5AF1760B9F
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 09:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=apuUXH+60n6hljRak/UVGWlJLkn1KcaMbpnLlafoj9s=; b=hVSTPrEcrShyI50dK3OBPQnhac
- maUZoKQh8S9+L4HSCfX2bpnHFRylBiAFnpnySwK8VANInwz9+Q3PQczTrtReo2Z71IhkalEjU9IrX
- zp1orRmwMunA4S4gWCFQy//JLgYjB6uZgjzVtCH2nptqNpe2886yBsOy4RWYBPvcmxqM1/R+gakd3
- CfRiiJDFzOnXcLZn4FAILBTaqCOcC0/GZUvlwNJRwVmulvcGydFJWZDE90TGJEdgn6HbZB8wIVBk0
- KVLzMKAeJE9URH+f89yX5NaN7ayeFp1EowP4ZeaXe80w9FRuO83rSHt1owTqL7Kz0QWEZSsJD7HP4
- 7zCyL4MQ==;
+ bh=z/r63EfvVm9RGMh2KAen4T39zB4cnOCdcpB+cKli6kk=; b=44hIObpmhtBGdpXCw/Owm1z15D
+ gX3B43MrVba/2WBdQfup9/lzCAMQUm574OPNrXbV9oozMfw5HxE96QnNtc8jdo9JbaFSEQsq69UHq
+ xYViMyqTzihvBZAyNoQHnIh39jq5hr7SBtYvZn3S3GW1s3LiVnrPbxdul/P8pIUT5cGDzRuLcyJ6J
+ o098rl9sploiMtLIIa/7RPAv8stiyivLwWVQ6wSaI3BMD5kYiYImyma7TCz8XIy9B2+iB8Wc2ODZq
+ v9IJe+4PH9SUnn+OHDjjsVrp0A0cctGZf45rGQv1GUhVOYhPAQ5RapGmD/t7d5wsFASILlYgnlSzZ
+ 1xm7p5YA==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nBvht-002nqj-Nq; Mon, 24 Jan 2022 09:32:13 +0000
-Date: Mon, 24 Jan 2022 01:32:13 -0800
+ Hat Linux)) id 1nBvmr-002p4d-M0; Mon, 24 Jan 2022 09:37:21 +0000
+Date: Mon, 24 Jan 2022 01:37:21 -0800
 From: Christoph Hellwig <hch@infradead.org>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 6/7] iommu: Use right way to retrieve iommu_ops
-Message-ID: <Ye5yHejpaAnJQYeR@infradead.org>
+Subject: Re: [PATCH 7/7] iommu: Add iommu_domain::domain_ops
+Message-ID: <Ye5zUapC/YcZs7kl@infradead.org>
 References: <20220124071103.2097118-1-baolu.lu@linux.intel.com>
- <20220124071103.2097118-7-baolu.lu@linux.intel.com>
+ <20220124071103.2097118-8-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220124071103.2097118-7-baolu.lu@linux.intel.com>
+In-Reply-To: <20220124071103.2097118-8-baolu.lu@linux.intel.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: Kevin Tian <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>,
@@ -87,15 +85,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jan 24, 2022 at 03:11:01PM +0800, Lu Baolu wrote:
-> The common iommu_ops is hooked to both device and domain. When a helper
-> has both device and domain pointer, the way to get the iommu_ops looks
-> messy in iommu core. This sorts out the way to get iommu_ops. The device
-> related helpers go through device pointer, while the domain related ones
-> go through domain pointer.
+On Mon, Jan 24, 2022 at 03:11:02PM +0800, Lu Baolu wrote:
+> Add a domain specific callback set, domain_ops, for vendor iommu driver
+> to provide domain specific operations. Move domain-specific callbacks
+> from iommu_ops to the domain_ops and hook them when a domain is allocated.
 
-Ugg. This really sounds like we should have a different structures for
-each set of ops?
+Ah, that's what I meant earlier.  Perfect!
+
+Nit:  I don't think vendor is the right term here.
+
+Maybe something like:
+
+iommut: split struct iommu_ops
+
+Move the domain specific operations out of struct iommu_ops into a new
+structure that only has domain specific operations.  This solves
+the problem of needing to know if the method vector for a given
+operation needs to be retreived from the device or th domain.
+
+> +struct domain_ops {
+
+This needs to keep an iommu in the name, i.e. iommu_domain_ops.
+
+> +	phys_addr_t (*iova_to_phys)(struct iommu_domain *domain, dma_addr_t iova);
+
+Overly long line.
+
+> +static inline void iommu_domain_set_ops(struct iommu_domain *domain,
+> +					const struct domain_ops *ops)
+> +{
+> +	domain->ops = ops;
+> +}
+
+Do we really need this helper?
+
+> +static const struct domain_ops amd_domain_ops;
+
+Can we avoid these forward declarations or would that cause too much
+churn?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
