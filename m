@@ -1,71 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F3D498098
-	for <lists.iommu@lfdr.de>; Mon, 24 Jan 2022 14:12:47 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E31D4981C7
+	for <lists.iommu@lfdr.de>; Mon, 24 Jan 2022 15:10:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7C44583EE9;
-	Mon, 24 Jan 2022 13:12:44 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DB9C341515;
+	Mon, 24 Jan 2022 14:10:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XRJ855lkRFvJ; Mon, 24 Jan 2022 13:12:43 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2VXRNVLf87hC; Mon, 24 Jan 2022 14:10:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 981B483F9C;
-	Mon, 24 Jan 2022 13:12:43 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1544A41511;
+	Mon, 24 Jan 2022 14:10:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ABBE2C002F;
-	Mon, 24 Jan 2022 13:12:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D43F2C002F;
+	Mon, 24 Jan 2022 14:10:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BD894C0031
- for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 13:12:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DA3AEC002F
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 14:10:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 95614410E9
- for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 13:12:40 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id BAC6D41511
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 14:10:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S1IWnYkQNB19 for <iommu@lists.linux-foundation.org>;
- Mon, 24 Jan 2022 13:12:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DC625410D2
- for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 13:12:39 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Jj9KV0DSyz1FCv5;
- Mon, 24 Jan 2022 21:08:46 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 21:12:37 +0800
-To: <gregkh@linuxfoundation.org>, <helgaas@kernel.org>,
- <alexander.shishkin@linux.intel.com>, <lorenzo.pieralisi@arm.com>,
- <will@kernel.org>, <mark.rutland@arm.com>, <mathieu.poirier@linaro.org>,
- <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <leo.yan@linaro.org>,
- <jonathan.cameron@huawei.com>, <daniel.thompson@linaro.org>,
- <joro@8bytes.org>, <john.garry@huawei.com>,
- <shameerali.kolothum.thodi@huawei.com>, <robin.murphy@arm.com>,
- <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <coresight@lists.linaro.org>, <linux-pci@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <iommu@lists.linux-foundation.org>
-Subject: [PATCH v3 8/8] iommu/arm-smmu-v3: Make default domain type of
- HiSilicon PTT device to identity
-Date: Mon, 24 Jan 2022 21:11:18 +0800
-Message-ID: <20220124131118.17887-9-yangyicong@hisilicon.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220124131118.17887-1-yangyicong@hisilicon.com>
-References: <20220124131118.17887-1-yangyicong@hisilicon.com>
+ with ESMTP id PCGOwAgCPNAh for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Jan 2022 14:10:05 +0000 (UTC)
+X-Greylist: delayed 00:07:57 by SQLgrey-1.8.0
+Received: from outbound-smtp24.blacknight.com (outbound-smtp24.blacknight.com
+ [81.17.249.192])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8E1C3414CA
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 14:10:05 +0000 (UTC)
+Received: from mail.blacknight.com (pemlinmail03.blacknight.ie [81.17.254.16])
+ by outbound-smtp24.blacknight.com (Postfix) with ESMTPS id BE9BFC0C99
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 14:02:05 +0000 (GMT)
+Received: (qmail 12616 invoked from network); 24 Jan 2022 14:02:05 -0000
+Received: from unknown (HELO techsingularity.net)
+ (mgorman@techsingularity.net@[84.203.17.223])
+ by 81.17.254.9 with ESMTPSA (AES256-SHA encrypted, authenticated);
+ 24 Jan 2022 14:02:05 -0000
+Date: Mon, 24 Jan 2022 14:02:03 +0000
+From: Mel Gorman <mgorman@techsingularity.net>
+To: Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v4 1/7] mm: page_alloc: avoid merging non-fallbackable
+ pageblocks with others.
+Message-ID: <20220124140203.GE3366@techsingularity.net>
+References: <20220119190623.1029355-1-zi.yan@sent.com>
+ <20220119190623.1029355-2-zi.yan@sent.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Cc: prime.zeng@huawei.com, linuxarm@huawei.com, yangyicong@hisilicon.com,
- zhangshaokun@hisilicon.com, liuqi115@huawei.com
+Content-Disposition: inline
+In-Reply-To: <20220119190623.1029355-2-zi.yan@sent.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: David Hildenbrand <david@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Eric Ren <renzhengeek@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Vlastimil Babka <vbabka@suse.cz>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,59 +73,46 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yicong Yang <yangyicong@hisilicon.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The DMA of HiSilicon PTT device can only work with identical
-mapping. So add a quirk for the device to force the domain
-passthrough.
+On Wed, Jan 19, 2022 at 02:06:17PM -0500, Zi Yan wrote:
+> From: Zi Yan <ziy@nvidia.com>
+> 
+> This is done in addition to MIGRATE_ISOLATE pageblock merge avoidance.
+> It prepares for the upcoming removal of the MAX_ORDER-1 alignment
+> requirement for CMA and alloc_contig_range().
+> 
+> MIGRARTE_HIGHATOMIC should not merge with other migratetypes like
+> MIGRATE_ISOLATE and MIGRARTE_CMA[1], so this commit prevents that too.
+> Also add MIGRARTE_HIGHATOMIC to fallbacks array for completeness.
+> 
+> [1] https://lore.kernel.org/linux-mm/20211130100853.GP3366@techsingularity.net/
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+>
+> <SNIP>
+>
+> @@ -2484,6 +2483,7 @@ static int fallbacks[MIGRATE_TYPES][3] = {
+>  	[MIGRATE_UNMOVABLE]   = { MIGRATE_RECLAIMABLE, MIGRATE_MOVABLE,   MIGRATE_TYPES },
+>  	[MIGRATE_MOVABLE]     = { MIGRATE_RECLAIMABLE, MIGRATE_UNMOVABLE, MIGRATE_TYPES },
+>  	[MIGRATE_RECLAIMABLE] = { MIGRATE_UNMOVABLE,   MIGRATE_MOVABLE,   MIGRATE_TYPES },
+> +	[MIGRATE_HIGHATOMIC] = { MIGRATE_TYPES }, /* Never used */
+>  #ifdef CONFIG_CMA
+>  	[MIGRATE_CMA]         = { MIGRATE_TYPES }, /* Never used */
+>  #endif
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+If it's never used, why is it added?
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 6dc6d8b6b368..6f67a2b1dd27 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2838,6 +2838,21 @@ static int arm_smmu_dev_disable_feature(struct device *dev,
- 	}
- }
- 
-+#define IS_HISI_PTT_DEVICE(pdev)	((pdev)->vendor == PCI_VENDOR_ID_HUAWEI && \
-+					 (pdev)->device == 0xa12e)
-+
-+static int arm_smmu_def_domain_type(struct device *dev)
-+{
-+	if (dev_is_pci(dev)) {
-+		struct pci_dev *pdev = to_pci_dev(dev);
-+
-+		if (IS_HISI_PTT_DEVICE(pdev))
-+			return IOMMU_DOMAIN_IDENTITY;
-+	}
-+
-+	return 0;
-+}
-+
- static struct iommu_ops arm_smmu_ops = {
- 	.capable		= arm_smmu_capable,
- 	.domain_alloc		= arm_smmu_domain_alloc,
-@@ -2863,6 +2878,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.sva_unbind		= arm_smmu_sva_unbind,
- 	.sva_get_pasid		= arm_smmu_sva_get_pasid,
- 	.page_response		= arm_smmu_page_response,
-+	.def_domain_type	= arm_smmu_def_domain_type,
- 	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
- 	.owner			= THIS_MODULE,
- };
+Otherwise looks fine so
+
+Acked-by: Mel Gorman <mgorman@techsingularity.net>
+
 -- 
-2.24.0
-
+Mel Gorman
+SUSE Labs
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
