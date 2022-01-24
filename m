@@ -1,92 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5714981E1
-	for <lists.iommu@lfdr.de>; Mon, 24 Jan 2022 15:18:12 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C25D49809E
+	for <lists.iommu@lfdr.de>; Mon, 24 Jan 2022 14:12:50 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A71AB84B61;
-	Mon, 24 Jan 2022 14:18:10 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7E09060E59;
+	Mon, 24 Jan 2022 13:12:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VyZ3X-QhuH-r; Mon, 24 Jan 2022 14:18:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 99A3584B4A;
-	Mon, 24 Jan 2022 14:18:09 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id z7mVNZbl8czs; Mon, 24 Jan 2022 13:12:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3814E60E5C;
+	Mon, 24 Jan 2022 13:12:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 831B2C002F;
-	Mon, 24 Jan 2022 14:18:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 51C12C0031;
+	Mon, 24 Jan 2022 13:12:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 11FEBC002F;
- Mon, 24 Jan 2022 09:55:48 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 47490C007A
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 13:12:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EE556817E4;
- Mon, 24 Jan 2022 09:55:47 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2BFEA83EE9
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 13:12:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jlOlAUi8jihQ; Mon, 24 Jan 2022 09:55:47 +0000 (UTC)
+ with ESMTP id 6nh6hAUrqzia for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Jan 2022 13:12:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1F2FF817C3;
- Mon, 24 Jan 2022 09:55:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1C8DE1F88E;
- Mon, 24 Jan 2022 09:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643018144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UY9IYgd8hkKnbM1EBvRlpgL7L8s4nRO/7Rp2w0hALcQ=;
- b=KGtiw7MbrqbtdwmTIN21tihOEMjPY1IV7E0JkU89QUCci4JpOtfDiI1XTrJgmG4yZjZ9h7
- s1QgPOwhButRlG3q7JdTF3j9Cqv/X0oB27ZmmEEx3x//gMB3DOms+1sYO1DHzzism3ATYl
- 636sePlLdPVWWR3UHlLv7khhAx6FVgk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643018144;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UY9IYgd8hkKnbM1EBvRlpgL7L8s4nRO/7Rp2w0hALcQ=;
- b=pccFyVChZpI+deG/lwWKxfYZX5Ho6yT54MMe43//zUOjCgx34C1UbYttn5zp4g777PCZbJ
- q1YdEzxEBH/2CrCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 062BA13AB8;
- Mon, 24 Jan 2022 09:55:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id etlEAaB37mEqVwAAMHmgww
- (envelope-from <osalvador@suse.de>); Mon, 24 Jan 2022 09:55:44 +0000
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2819883F0B
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Jan 2022 13:12:38 +0000 (UTC)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Jj9Ny5Z7jzcck6;
+ Mon, 24 Jan 2022 21:11:46 +0800 (CST)
+Received: from localhost.localdomain (10.67.164.66) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 24 Jan 2022 21:12:35 +0800
+To: <gregkh@linuxfoundation.org>, <helgaas@kernel.org>,
+ <alexander.shishkin@linux.intel.com>, <lorenzo.pieralisi@arm.com>,
+ <will@kernel.org>, <mark.rutland@arm.com>, <mathieu.poirier@linaro.org>,
+ <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <leo.yan@linaro.org>,
+ <jonathan.cameron@huawei.com>, <daniel.thompson@linaro.org>,
+ <joro@8bytes.org>, <john.garry@huawei.com>,
+ <shameerali.kolothum.thodi@huawei.com>, <robin.murphy@arm.com>,
+ <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <coresight@lists.linaro.org>, <linux-pci@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+Subject: [PATCH v3 0/8] Add support for HiSilicon PCIe Tune and Trace device
+Date: Mon, 24 Jan 2022 21:11:10 +0800
+Message-ID: <20220124131118.17887-1-yangyicong@hisilicon.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Date: Mon, 24 Jan 2022 10:55:43 +0100
-From: Oscar Salvador <osalvador@suse.de>
-To: Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v4 3/7] mm: page_isolation: check specified range for
- unmovable pages
-In-Reply-To: <20220119190623.1029355-4-zi.yan@sent.com>
-References: <20220119190623.1029355-1-zi.yan@sent.com>
- <20220119190623.1029355-4-zi.yan@sent.com>
-User-Agent: Roundcube Webmail
-Message-ID: <b7c311d4b2cd377cdc4f92bc9ccf6af1@suse.de>
-X-Sender: osalvador@suse.de
-X-Mailman-Approved-At: Mon, 24 Jan 2022 14:18:07 +0000
-Cc: Mel Gorman <mgorman@techsingularity.net>,
- David Hildenbrand <david@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Eric Ren <renzhengeek@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Vlastimil Babka <vbabka@suse.cz>
+X-Originating-IP: [10.67.164.66]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+Cc: prime.zeng@huawei.com, linuxarm@huawei.com, yangyicong@hisilicon.com,
+ zhangshaokun@hisilicon.com, liuqi115@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,85 +75,112 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Yicong Yang <yangyicong@hisilicon.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022-01-19 20:06, Zi Yan wrote:
-> From: Zi Yan <ziy@nvidia.com>
-> 
-> Enable set_migratetype_isolate() to check specified sub-range for
-> unmovable pages during isolation. Page isolation is done
-> at max(MAX_ORDER_NR_PAEGS, pageblock_nr_pages) granularity, but not all
-> pages within that granularity are intended to be isolated. For example,
-> alloc_contig_range(), which uses page isolation, allows ranges without
-> alignment. This commit makes unmovable page check only look for
-> interesting pages, so that page isolation can succeed for any
-> non-overlapping ranges.
+HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
+integrated Endpoint (RCiEP) device, providing the capability
+to dynamically monitor and tune the PCIe traffic (tune),
+and trace the TLP headers (trace).
 
-Hi Zi Yan,
+PTT tune is designed for monitoring and adjusting PCIe link parameters.
+We provide several parameters of the PCIe link. Through the driver,
+user can adjust the value of certain parameter to affect the PCIe link
+for the purpose of enhancing the performance in certian situation.
 
-I had to re-read this several times as I found this a bit misleading.
-I was mainly confused by the fact that memory_hotplug does isolation on 
-PAGES_PER_SECTION granularity, and reading the above seems to indicate 
-that either do it at MAX_ORDER_NR_PAGES or at pageblock_nr_pages 
-granularity.
+PTT trace is designed for dumping the TLP headers to the memory, which
+can be used to analyze the transactions and usage condition of the PCIe
+Link. Users can choose filters to trace headers, by either requester
+ID, or those downstream of a set of Root Ports on the same core of the
+PTT device. It's also supported to trace the headers of certain type and
+of certain direction.
 
-True is that start_isolate_page_range() expects the range to be 
-pageblock aligned and works in pageblock_nr_pages chunks, but I do not 
-think that is what you meant to say here.
+The driver registers a PMU device for each PTT device. The trace can
+be used through `perf record` and the traced headers can be decoded
+by `perf report`. The perf command support for the device is also
+added in this patchset. The tune can be used through the sysfs
+attributes of related PMU device. See the documentation for the
+detailed usage.
 
-Now, to the change itself, below:
+Change since v2:
+- address the comments from Mathieu
+  - rename the directory to ptt to match the function of the device
+  - spinoff the declarations to a separate header
+  - split the trace function to several patches
+  - some other comments.
+- make default smmu domain type of PTT device to identity
+  Drop the RMR as it's not recommended and use an iommu_def_domain_type
+  quirk to passthrough the device DMA as suggested by Robin. 
+Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyicong@hisilicon.com/
 
+Change since v1:
+- switch the user interface of trace to perf from debugfs
+- switch the user interface of tune to sysfs from debugfs
+- add perf tool support to start trace and decode the trace data
+- address the comments of documentation from Bjorn
+- add RMR[1] support of the device as trace works in RMR mode or
+  direct DMA mode. RMR support is achieved by common APIs rather
+  than the APIs implemented in [1].
+Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-yangyicong@hisilicon.com/
 
-> @@ -47,8 +51,8 @@ static struct page *has_unmovable_pages(struct zone
-> *zone, struct page *page,
->  		return page;
->  	}
-> 
-> -	for (; iter < pageblock_nr_pages - offset; iter++) {
-> -		page = pfn_to_page(pfn + iter);
-> +	for (pfn = first_pfn; pfn < last_pfn; pfn++) {
+[1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali.kolothum.thodi@huawei.com/
 
-You already did pfn = first_pfn before.
+Qi Liu (1):
+  perf tool: Add support for HiSilicon PCIe Tune and Trace device driver
 
->  /**
->   * start_isolate_page_range() - make page-allocation-type of range of 
-> pages to
->   * be MIGRATE_ISOLATE.
-> - * @start_pfn:		The lower PFN of the range to be isolated.
-> - * @end_pfn:		The upper PFN of the range to be isolated.
-> + * @start_pfn:		The lower PFN of the range to be checked for
-> + *			possibility of isolation.
-> + * @end_pfn:		The upper PFN of the range to be checked for
-> + *			possibility of isolation.
-> + * @isolate_start:		The lower PFN of the range to be isolated.
-> + * @isolate_end:		The upper PFN of the range to be isolated.
+Yicong Yang (7):
+  hwtracing: Add trace function support for HiSilicon PCIe Tune and
+    Trace device
+  hisi_ptt: Register PMU device for PTT trace
+  hisi_ptt: Add support for dynamically updating the filter list
+  hisi_ptt: Add tune function support for HiSilicon PCIe Tune and Trace
+    device
+  docs: Add HiSilicon PTT device driver documentation
+  MAINTAINERS: Add maintainer for HiSilicon PTT driver
+  iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device to
+    identity
 
-So, what does "possibility" means here. I think this need to be 
-clarified a bit better.
-
- From what you pointed out in the commit message I think what you are 
-doing is:
-
-- alloc_contig_range() gets a range to be isolated.
-- then you pass two ranges to start_isolate_page_range()
-   (start_pfn, end_pfn]: which is the unaligned range you got in 
-alloc_contig_range()
-   (isolate_start, isolate_end]: which got aligned to, let's say, to 
-MAX_ORDER_NR_PAGES
-
-Now, most likely, (start_pfn, end_pfn] only covers a sub-range of 
-(isolate_start, isolate_end], and that
-sub-range is what you really want to isolate (so (start_pfn, end_pfn])?
-
-If so, should not the names be reversed?
-
+ Documentation/trace/hisi-ptt.rst              |  304 +++++
+ MAINTAINERS                                   |    7 +
+ drivers/Makefile                              |    1 +
+ drivers/hwtracing/Kconfig                     |    2 +
+ drivers/hwtracing/ptt/Kconfig                 |   11 +
+ drivers/hwtracing/ptt/Makefile                |    2 +
+ drivers/hwtracing/ptt/hisi_ptt.c              | 1124 +++++++++++++++++
+ drivers/hwtracing/ptt/hisi_ptt.h              |  239 ++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   16 +
+ tools/perf/arch/arm/util/auxtrace.c           |   56 +-
+ tools/perf/arch/arm/util/pmu.c                |    3 +
+ tools/perf/arch/arm64/util/Build              |    2 +-
+ tools/perf/arch/arm64/util/hisi_ptt.c         |  195 +++
+ tools/perf/util/Build                         |    2 +
+ tools/perf/util/auxtrace.c                    |    4 +
+ tools/perf/util/auxtrace.h                    |    1 +
+ tools/perf/util/hisi-ptt-decoder/Build        |    1 +
+ .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   |  170 +++
+ .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   |   28 +
+ tools/perf/util/hisi_ptt.c                    |  228 ++++
+ tools/perf/util/hisi_ptt.h                    |   28 +
+ 21 files changed, 2420 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/trace/hisi-ptt.rst
+ create mode 100644 drivers/hwtracing/ptt/Kconfig
+ create mode 100644 drivers/hwtracing/ptt/Makefile
+ create mode 100644 drivers/hwtracing/ptt/hisi_ptt.c
+ create mode 100644 drivers/hwtracing/ptt/hisi_ptt.h
+ create mode 100644 tools/perf/arch/arm64/util/hisi_ptt.c
+ create mode 100644 tools/perf/util/hisi-ptt-decoder/Build
+ create mode 100644 tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
+ create mode 100644 tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
+ create mode 100644 tools/perf/util/hisi_ptt.c
+ create mode 100644 tools/perf/util/hisi_ptt.h
 
 -- 
-Oscar Salvador
-SUSE Labs
+2.24.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
