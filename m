@@ -1,97 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92C549B4D1
-	for <lists.iommu@lfdr.de>; Tue, 25 Jan 2022 14:19:56 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 700BD49B719
+	for <lists.iommu@lfdr.de>; Tue, 25 Jan 2022 16:02:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 439ED82CB7;
-	Tue, 25 Jan 2022 13:19:55 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0C11C4092C;
+	Tue, 25 Jan 2022 15:02:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VqB_ZJuMepvA; Tue, 25 Jan 2022 13:19:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 57F9C82C35;
-	Tue, 25 Jan 2022 13:19:54 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sPTHDgYKiqpw; Tue, 25 Jan 2022 15:02:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 351944092F;
+	Tue, 25 Jan 2022 15:02:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31BEFC002F;
-	Tue, 25 Jan 2022 13:19:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A7EDC002F;
+	Tue, 25 Jan 2022 15:02:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CBA10C002F;
- Tue, 25 Jan 2022 13:19:52 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C1122C002F
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Jan 2022 13:20:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id B9FB960B45;
- Tue, 25 Jan 2022 13:19:52 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 82820403F8
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Jan 2022 13:20:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=suse.de header.b="OAQFnCJ9";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=suse.de header.b="URWUxsOG"
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HrIsozwVbZST; Tue, 25 Jan 2022 13:19:51 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MBKERIHiM3i7 for <iommu@lists.linux-foundation.org>;
+ Tue, 25 Jan 2022 13:20:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7502760B35;
- Tue, 25 Jan 2022 13:19:51 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C010621129;
- Tue, 25 Jan 2022 13:19:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643116788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W7ugEwGd8z1ciGcssO9NOuo6Y70kmTmAuz+RVBNhgQo=;
- b=OAQFnCJ9fJXwRf+XqgaH8z+GcXVjo9HxXhbpGWNi3xMFKm4awPudNVTJaJaXXs1dSxQj1I
- /htMCb/jE9Jo8zsCT8DVooqvtd6XAyQmf3X5bQaNYmHaXyRhOYiGujXcl4ae/nW4gqHHZG
- iIctFqchskLEpoSkcCX/nH6b9I06d44=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643116788;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W7ugEwGd8z1ciGcssO9NOuo6Y70kmTmAuz+RVBNhgQo=;
- b=URWUxsOGxCPGESRThyQ7b2f2CoH5apJnVqlsxfRb5qW9qyCiYDfA7/lidO7XlY8xzuv09P
- oqD7gCa//062VVAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F330613DE5;
- Tue, 25 Jan 2022 13:19:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id TzS6OPP472GbRwAAMHmgww
- (envelope-from <osalvador@suse.de>); Tue, 25 Jan 2022 13:19:47 +0000
-Date: Tue, 25 Jan 2022 14:19:46 +0100
-From: Oscar Salvador <osalvador@suse.de>
-To: Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v4 3/7] mm: page_isolation: check specified range for
- unmovable pages
-Message-ID: <20220125131943.GA5609@linux>
-References: <20220119190623.1029355-1-zi.yan@sent.com>
- <20220119190623.1029355-4-zi.yan@sent.com>
- <b7c311d4b2cd377cdc4f92bc9ccf6af1@suse.de>
- <6AEF32AC-4E0D-41E0-8850-33B8BD955920@nvidia.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2790D400D0
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Jan 2022 13:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643116801; x=1674652801;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/+E6KM6MhYotob2Q+ULiwrF3HDRPvMbqv/S7snCErjQ=;
+ b=ApkMvOQ0rFj2y4X64ystMfSUelZhk++et9uC/jo8nf4waaW7hJKbULzs
+ SQQ3VC8VF37DiChxcnqB+HPAY7N3zVnvlqb1d/BqEAohCN+pEwUobIPTd
+ bmEpYdbvTg7pnSgiXusrrYRQW13x6ariXgxF+ZCehwHYVY3M76sZE71Bw
+ /c/+MsnMv6b+v7Bs2bxfOt5rCZ2tpZDCt7txxJ6h55Et1JLy8dL7adzWP
+ YnZDHxRp/F9IYKfRwoI2JjqlcNwXxZtEWZO3etgSDpoe7O85HVxC2MupX
+ AAnlX7dSkDF5b2F+pnfw2ulw4fN/cM1z7w5B8TG1taB6M66D7QFKdrRwR Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="307012191"
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="307012191"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 05:20:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="534720623"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga008.jf.intel.com with ESMTP; 25 Jan 2022 05:19:59 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+ id 5193B178; Tue, 25 Jan 2022 15:20:12 +0200 (EET)
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: iommu@lists.linux-foundation.org,
+	hch@infradead.org
+Subject: [PATCH] swiotlb: Do not zero buffer in set_memory_decrypted()
+Date: Tue, 25 Jan 2022 16:20:01 +0300
+Message-Id: <20220125132001.37380-1-kirill.shutemov@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6AEF32AC-4E0D-41E0-8850-33B8BD955920@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Mel Gorman <mgorman@techsingularity.net>,
- David Hildenbrand <david@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Eric Ren <renzhengeek@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Vlastimil Babka <vbabka@suse.cz>
+X-Mailman-Approved-At: Tue, 25 Jan 2022 15:02:10 +0000
+Cc: thomas.lendacky@amd.com,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,55 +82,41 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gTW9uLCBKYW4gMjQsIDIwMjIgYXQgMTI6MTc6MjNQTSAtMDUwMCwgWmkgWWFuIHdyb3RlOgo+
-IFlvdSBhcmUgcmlnaHQuIFNvcnJ5IGZvciB0aGUgY29uZnVzaW9uLiBJIHRoaW5rIGl0IHNob3Vs
-ZCBiZQo+IOKAnFBhZ2UgaXNvbGF0aW9uIGlzIGRvbmUgYXQgbGVhc3Qgb24gbWF4KE1BWF9PUkRF
-Ul9OUl9QQUVHUywKPiBwYWdlYmxvY2tfbnJfcGFnZXMpIGdyYW51bGFyaXR5LuKAnQo+IAo+IG1l
-bW9yeV9ob3RwbHVnIHVzZXMgUEFHRVNfUEVSX1NFQ1RJT04uIEl0IGlzIGdyZWF0ZXIgdGhhbiB0
-aGF0LgoKT3IganVzdCBzcGVjaWZ5IHRoYXQgdGhlIG1heChNQVhfT1JERVJfTlJfUEFHRVMsIHBh
-Z2VibG9ja19ucl9wYWdlcykgZ3JhbnVyYWxpdHkKb25seSBjb21lcyBmcm9tIGFsbG9jX2NvbnRp
-Z19yYW5nZSBhdCB0aGUgbW9tZW50LiBPdGhlciBjYWxsZXJzIG1pZ2h0IHdhbnQKdG8gd29yayBp
-biBvdGhlciBncmFudWxhcml0eSAoZS5nOiBtZW1vcnktaG90cGx1ZykgYWx0aG91Z2ggdWx0aW1h
-dGVseSB0aGUKcmFuZ2UgaGFzIHRvIGJlIGFsaWduZWQgdG8gc29tZXRoaW5nLgoKPiA+IFRydWUg
-aXMgdGhhdCBzdGFydF9pc29sYXRlX3BhZ2VfcmFuZ2UoKSBleHBlY3RzIHRoZSByYW5nZSB0byBi
-ZSBwYWdlYmxvY2sgYWxpZ25lZCBhbmQgd29ya3MgaW4gcGFnZWJsb2NrX25yX3BhZ2VzIGNodW5r
-cywgYnV0IEkgZG8gbm90IHRoaW5rIHRoYXQgaXMgd2hhdCB5b3UgbWVhbnQgdG8gc2F5IGhlcmUu
-Cj4gCj4gQWN0dWFsbHksIHN0YXJ0X2lzb2xhdGVfcGFnZV9yYW5nZSgpIHNob3VsZCBleHBlY3Qg
-bWF4KE1BWF9PUkRFUl9OUl9QQUVHUywKPiBwYWdlYmxvY2tfbnJfcGFnZXMpIGFsaWdubWVudCBp
-bnN0ZWFkIG9mIHBhZ2VibG9jayBhbGlnbm1lbnQuIEl0IHNlZW1zIHRvCj4gYmUgYW4gdW5jb3Zl
-cmVkIGJ1ZyBpbiB0aGUgY3VycmVudCBjb2RlLCBzaW5jZSBhbGwgY2FsbGVycyB1c2VzIGF0IGxl
-YXN0Cj4gbWF4KE1BWF9PUkRFUl9OUl9QQUVHUywgcGFnZWJsb2NrX25yX3BhZ2VzKSBhbGlnbm1l
-bnQuCj4gCj4gVGhlIHJlYXNvbiBpcyB0aGF0IGlmIHN0YXJ0X2lzb2xhdGVfcGFnZV9yYW5nZSgp
-IGlzIG9ubHkgcGFnZWJsb2NrIGFsaWduZWQKPiBhbmQgYSBjYWxsZXIgd2FudHMgdG8gaXNvbGF0
-ZSBvbmUgcGFnZWJsb2NrIGZyb20gYSBNQVhfT1JERVItMQo+ICgyIHBhZ2VibG9ja3Mgb24geDg0
-XzY0IHN5c3RlbXMpIGZyZWUgcGFnZSwgdGhpcyB3aWxsIGxlYWQgdG8gTUlHUkFURV9JU09MQVRF
-Cj4gYWNjb3VudGluZyBlcnJvci4gVG8gYXZvaWQgaXQsIHN0YXJ0X2lzb2xhdGVfcGFnZV9yYW5n
-ZSgpIG5lZWRzIHRvIGlzb2xhdGUKPiB0aGUgbWF4KE1BWF9PUkRFUl9OUl9QQUVHUywgcGFnZWJs
-b2NrX25yX3BhZ2VzKSBhbGlnbmVkIHJhbmdlLgoKU28sIGxldCBtZSBzZWUgaWYgSSBnZXQgdGhp
-cyBzdHJhaWdodDoKCllvdSBhcmUgc2F5aW5nIHRoYXQsIGN1cnJlbnRseSwgYWxsb2NfY29udGln
-X3JhbmdlcygpIHdvcmtzIG9uIHRoZSBiaWdnZXN0CmFsaWdubWVudCBvdGhlcndpc2Ugd2UgbWln
-aHQgaGF2ZSB0aGlzIHNjZW5hcmlvOgoKWyAgICAgIE1BWF9PUkRFUi0xICAgICAgIF0KW3BhZ2Vi
-bG9jayMwXVtwYWdlYmxvY2sjMV0KCldlIG9ubHkgd2FudCB0byBpc29sYXRlIHBhZ2VibG9jayMx
-LCBzbyB3ZSBwYXNzIGEgcGFnZWJsb2NrLWFsaWduZWQgcmFuZ2UgdG8Kc3RhcnRfaXNvbGF0ZV9w
-YWdlX3JhbmdlKCksIGJ1dCB0aGUgcGFnZSBiZWxvbmdpbmcgdG8gcGFnZWJsb2NrIzEgc3BhbnMK
-cGFnZWJsb2NrIzAgYW5kIHBhZ2VibG9jayMxIGJlY2F1c2UgaXQgaXMgYSBNQVhfT1JERVItMSBw
-YWdlLgoKU28gd2hlbiB3ZSBjYWxsIHNldF9taWdyYXRldHlwZV9pc29sYXRlKCktPnNldF9wYWdl
-YmxvY2tfbWlncmF0ZXR5cGUoKSwgdGhpcyB3aWxsCm1hcmsgZWl0aGVyIHBhZ2VibG9jayMwIG9y
-IHBhZ2VibG9jayMxIGFzIGlzb2xhdGVkLCBidXQgdGhlIHdob2xlIHBhZ2Ugd2lsbCBiZSBwdXQK
-aW4gdGhlIE1JR1JBVEVfSVNPTEFURSBmcmVlbGlzdCBieSBtb3ZlX2ZyZWVwYWdlc19ibG9jaygp
-LT5tb3ZlX2ZyZWVwYWdlcygpLgpNZWFuaW5nLCB3ZSB3aWwgZWZmZWN0aXZlbHkgaGF2ZSB0d28g
-cGFnZWJsb2NrcyBpc29sYXRlZCwgYnV0IG9ubHkgb25lIG1hcmtlZAphcyBzdWNoPwoKRGlkIEkg
-Z2V0IGl0IHJpZ2h0IG9yIGRpZCBJIG1pc3Mgc29tZXRoaW5nPwoKSSBrbm93IHRoYXQgdGhpcyBo
-YXMgYmVlbiBkaXNjdXNzZWQgcHJldmlvdXNseSwgYW5kIHRoZSBjb3Zlci1sZXR0ZXIgYWxyZWFk
-eQptZW50aW9ucyBpdCwgYnV0IEkgdGhpbmsgaXQgd291bGQgYmUgZ3JlYXQgdG8gaGF2ZSBzb21l
-IHNvcnQgb2YgaW5mb3JtYXRpb24gYWJvdXQKdGhlIHByb2JsZW0gaW4gdGhlIGNvbW1pdCBtZXNz
-YWdlIGFzIHdlbGwsIHNvIHBlb3BsZSBkbyBub3QgaGF2ZSB0byBnbyBhbmQgZmluZAppdCBzb21l
-d2hlcmUgZWxzZS4KCgotLSAKT3NjYXIgU2FsdmFkb3IKU1VTRSBMYWJzCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21t
-dUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlv
-bi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+For larger TDX VM, memset() after set_memory_decrypted() in
+swiotlb_update_mem_attributes() takes substantial portion of boot time.
+
+Zeroing doesn't serve any functional purpose. Malicious VMM can mess
+with decrypted/shared buffer at any point.
+
+Remove the memset().
+
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+---
+ kernel/dma/swiotlb.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index f1e7ea160b43..9390b38d2897 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -207,8 +207,6 @@ void __init swiotlb_update_mem_attributes(void)
+ 	mem->vaddr = swiotlb_mem_remap(mem, bytes);
+ 	if (!mem->vaddr)
+ 		mem->vaddr = vaddr;
+-
+-	memset(mem->vaddr, 0, bytes);
+ }
+ 
+ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+-- 
+2.34.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
