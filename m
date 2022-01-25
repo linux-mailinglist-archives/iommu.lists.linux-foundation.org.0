@@ -1,75 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700BD49B719
-	for <lists.iommu@lfdr.de>; Tue, 25 Jan 2022 16:02:14 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3616649B4D9
+	for <lists.iommu@lfdr.de>; Tue, 25 Jan 2022 14:21:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0C11C4092C;
-	Tue, 25 Jan 2022 15:02:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DDD5B4157E;
+	Tue, 25 Jan 2022 13:21:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sPTHDgYKiqpw; Tue, 25 Jan 2022 15:02:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 351944092F;
-	Tue, 25 Jan 2022 15:02:12 +0000 (UTC)
+	with ESMTP id BbhZxww0Pf3T; Tue, 25 Jan 2022 13:21:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 15B214028D;
+	Tue, 25 Jan 2022 13:21:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A7EDC002F;
-	Tue, 25 Jan 2022 15:02:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DCE3DC002F;
+	Tue, 25 Jan 2022 13:21:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C1122C002F
- for <iommu@lists.linux-foundation.org>; Tue, 25 Jan 2022 13:20:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20579C002F;
+ Tue, 25 Jan 2022 13:21:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 82820403F8
- for <iommu@lists.linux-foundation.org>; Tue, 25 Jan 2022 13:20:02 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id F377640332;
+ Tue, 25 Jan 2022 13:21:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
+ dkim=pass (1024-bit key) header.d=suse.de header.b="geSefv54";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=suse.de header.b="doyAyKlE"
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MBKERIHiM3i7 for <iommu@lists.linux-foundation.org>;
- Tue, 25 Jan 2022 13:20:01 +0000 (UTC)
+ with ESMTP id 6A0KX1vACroH; Tue, 25 Jan 2022 13:21:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 2790D400D0
- for <iommu@lists.linux-foundation.org>; Tue, 25 Jan 2022 13:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643116801; x=1674652801;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/+E6KM6MhYotob2Q+ULiwrF3HDRPvMbqv/S7snCErjQ=;
- b=ApkMvOQ0rFj2y4X64ystMfSUelZhk++et9uC/jo8nf4waaW7hJKbULzs
- SQQ3VC8VF37DiChxcnqB+HPAY7N3zVnvlqb1d/BqEAohCN+pEwUobIPTd
- bmEpYdbvTg7pnSgiXusrrYRQW13x6ariXgxF+ZCehwHYVY3M76sZE71Bw
- /c/+MsnMv6b+v7Bs2bxfOt5rCZ2tpZDCt7txxJ6h55Et1JLy8dL7adzWP
- YnZDHxRp/F9IYKfRwoI2JjqlcNwXxZtEWZO3etgSDpoe7O85HVxC2MupX
- AAnlX7dSkDF5b2F+pnfw2ulw4fN/cM1z7w5B8TG1taB6M66D7QFKdrRwR Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="307012191"
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="307012191"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 05:20:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="534720623"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga008.jf.intel.com with ESMTP; 25 Jan 2022 05:19:59 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1000)
- id 5193B178; Tue, 25 Jan 2022 15:20:12 +0200 (EET)
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: iommu@lists.linux-foundation.org,
-	hch@infradead.org
-Subject: [PATCH] swiotlb: Do not zero buffer in set_memory_decrypted()
-Date: Tue, 25 Jan 2022 16:20:01 +0300
-Message-Id: <20220125132001.37380-1-kirill.shutemov@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id AD976400D0;
+ Tue, 25 Jan 2022 13:21:13 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 48BE31F380;
+ Tue, 25 Jan 2022 13:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643116871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tjUs1q6Quu5nC0h0Hi0GuZYGA16F6GuJibeMLPKEWzU=;
+ b=geSefv54LvjC2z6DIL70spVZaDzppWHExeEG5OxDnG8ux2UIBLU/SIC6rjyOeDqGx8UTJ5
+ rtZpzd3NDtiVdLKiNm4v5kg7ZQuQTemoYg8K1s+C5AFgglm0JkeqKbDEdleQKcVrGbfjlh
+ 6WTlFX0FQjrpiQqjYZeT2RUd8KHblWA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643116871;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tjUs1q6Quu5nC0h0Hi0GuZYGA16F6GuJibeMLPKEWzU=;
+ b=doyAyKlE0iwztVhHYXfNwIhvLng9A6f9n9xGSaOAj7D/+0C35msSljnb0rll8T8cizECN9
+ h+VC6fPgSyqHt8CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 91FB613DEB;
+ Tue, 25 Jan 2022 13:21:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id c6QzIUb572FcSAAAMHmgww
+ (envelope-from <osalvador@suse.de>); Tue, 25 Jan 2022 13:21:10 +0000
+Date: Tue, 25 Jan 2022 14:21:08 +0100
+From: Oscar Salvador <osalvador@suse.de>
+To: Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v4 3/7] mm: page_isolation: check specified range for
+ unmovable pages
+Message-ID: <20220125132108.GB5609@linux>
+References: <20220119190623.1029355-1-zi.yan@sent.com>
+ <20220119190623.1029355-4-zi.yan@sent.com>
+ <b7c311d4b2cd377cdc4f92bc9ccf6af1@suse.de>
+ <6AEF32AC-4E0D-41E0-8850-33B8BD955920@nvidia.com>
+ <20220125131943.GA5609@linux>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 25 Jan 2022 15:02:10 +0000
-Cc: thomas.lendacky@amd.com,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Disposition: inline
+In-Reply-To: <20220125131943.GA5609@linux>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Mel Gorman <mgorman@techsingularity.net>,
+ David Hildenbrand <david@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Eric Ren <renzhengeek@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Vlastimil Babka <vbabka@suse.cz>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,35 +108,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-For larger TDX VM, memset() after set_memory_decrypted() in
-swiotlb_update_mem_attributes() takes substantial portion of boot time.
+On Tue, Jan 25, 2022 at 02:19:46PM +0100, Oscar Salvador wrote:
+> I know that this has been discussed previously, and the cover-letter already
+> mentions it, but I think it would be great to have some sort of information about
+> the problem in the commit message as well, so people do not have to go and find
+> it somewhere else.
 
-Zeroing doesn't serve any functional purpose. Malicious VMM can mess
-with decrypted/shared buffer at any point.
+Sorry, the commit already points it out, but I meant to elaborate some more.
 
-Remove the memset().
-
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
----
- kernel/dma/swiotlb.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index f1e7ea160b43..9390b38d2897 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -207,8 +207,6 @@ void __init swiotlb_update_mem_attributes(void)
- 	mem->vaddr = swiotlb_mem_remap(mem, bytes);
- 	if (!mem->vaddr)
- 		mem->vaddr = vaddr;
--
--	memset(mem->vaddr, 0, bytes);
- }
- 
- static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
 -- 
-2.34.1
-
+Oscar Salvador
+SUSE Labs
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
