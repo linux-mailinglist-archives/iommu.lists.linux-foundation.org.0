@@ -2,80 +2,116 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2514A01E1
-	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 21:29:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1244A0396
+	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 23:24:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 448A941477;
-	Fri, 28 Jan 2022 20:29:33 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 814BF4165D;
+	Fri, 28 Jan 2022 22:24:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ee2fwH11WHEK; Fri, 28 Jan 2022 20:29:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 4A9BC41D4B;
-	Fri, 28 Jan 2022 20:29:32 +0000 (UTC)
+	with ESMTP id TkK5691uQNro; Fri, 28 Jan 2022 22:24:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E037C4160E;
+	Fri, 28 Jan 2022 22:24:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A93D8C0079;
-	Fri, 28 Jan 2022 20:29:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A9E71C0031;
+	Fri, 28 Jan 2022 22:24:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5404FC000B
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:27 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EDC06C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 22:24:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8190540359
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:25 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id C74A083F84
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 22:24:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lLqXp2o0Bz92 for <iommu@lists.linux-foundation.org>;
- Fri, 28 Jan 2022 20:29:24 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C112040492
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643401764; x=1674937764;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qFGT50wtzxZn0pd/mKB4aYLdN6vzUrpmDy6Ee1GufQU=;
- b=MyVHjF3IQmBgQUnxxJT+xsh1UWM5/hb83VseagQE0K+XgrsCOjtq+pd0
- jEdG8KTEJG4uIsEArs7HpvatIVJ83yhHyMNL7OjNsjgBScfOvq7xPc9Lm
- Bpv9A4CyLzjyHlxIUWMEUroncjw5gAv+goE3IyqWJ2nhGnEgbg5aKBwRf
- jKq9rerqh6kfD+m2x8oy2c8NYWvE/1oNXZ9Yq7rr05l0GE3uT4c1xJl9c
- qGPsiI8sxceAHN2NaIQ3yjXBOWTE2a33oJrYf92/p4yYafVi18i+wJlzv
- 0F4g+nF3uyThdfftv/RysPcuf3vKchMQvnbIEOvNMsAEwpYXNc1j890D0 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="227862453"
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="227862453"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 12:29:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="618827718"
-Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
- by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2022 12:29:23 -0800
-From: Fenghua Yu <fenghua.yu@intel.com>
-To: "Thomas Gleixner" <tglx@linutronix.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Andy Lutomirski" <luto@kernel.org>, "Tony Luck" <tony.luck@intel.com>,
- "Lu Baolu" <baolu.lu@linux.intel.com>, "Joerg Roedel" <joro@8bytes.org>,
- Josh Poimboeuf <jpoimboe@redhat.com>,
- "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
- "Ashok Raj" <ashok.raj@intel.com>,
- "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v3 11/11] docs: x86: Change documentation for SVA (Shared
- Virtual Addressing)
-Date: Fri, 28 Jan 2022 12:29:05 -0800
-Message-Id: <20220128202905.2274672-12-fenghua.yu@intel.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220128202905.2274672-1-fenghua.yu@intel.com>
-References: <20220128202905.2274672-1-fenghua.yu@intel.com>
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ffwll.ch
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id LYhkkKwtN55k for <iommu@lists.linux-foundation.org>;
+ Fri, 28 Jan 2022 22:24:30 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E4EE183F81
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 22:24:29 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id e2so13513468wra.2
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 14:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hVe4UGM2j/Oy64Jg/hvtQc5/6XvCQE0MorTi0mtS/Ds=;
+ b=W3F350q2iKhIXPRYjvVIic+6s3eEFpaqacV2xPn9u66qn7+2DrE2FPkZpXRIxBmtMZ
+ jNtEexEH83nzGAnDGKwUxcTyJZ8jiwNwd/YGwlbjerBlz/MDaesVdPB7SL1bjto9IEjk
+ e4gL2p2/vPhNvmflqscW96FWWQHedYKlMNXOc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=hVe4UGM2j/Oy64Jg/hvtQc5/6XvCQE0MorTi0mtS/Ds=;
+ b=b/AS32w9l241HvU8YjCku3N2Wn0l1UcQR1jcRsfldm4pVUK/NBCPeAzi9ZqStunyig
+ 5AyTFc72FckEdiZnUdR7RtWQ7uWjIM55wANCzfEgxU6bXMyajqJU+gkKG0GGeJHDjy7B
+ g/zzCkYE52Z9hxUHfHe9E3s5+ZgeuR/qMcZ+hGOff0K05Ws9F+sAJXn55Apr9Y9FEI9J
+ gL8W0rVePdOi7+QE4Wf4aJTARPLXq57/WLemcpgAjzMWcjg1EYFIRfCgY570RWJ1h8bF
+ +65sLz49/xDINVGItayYpLrykLqekNDL8TQUAnFecDKXThgZvMAJE4nQfR3d9n7zefNz
+ bHAA==
+X-Gm-Message-State: AOAM531usMe1JlkZUTgloF8BXEWbVu9svV9/3HpkXErNXoudfAxuF8Qo
+ OStMpHGySn5SW5bqhefW0oS7Sg==
+X-Google-Smtp-Source: ABdhPJywDTYxCw86x7CvarXOabJUVJ5FlChZcUX4YWLwW4hPs/xvTPNEnJnHVPNPMUYivkaA5MjK/A==
+X-Received: by 2002:adf:fcd0:: with SMTP id f16mr8638555wrs.359.1643408667704; 
+ Fri, 28 Jan 2022 14:24:27 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m64sm2913505wmm.31.2022.01.28.14.24.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jan 2022 14:24:27 -0800 (PST)
+Date: Fri, 28 Jan 2022 23:24:24 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Yong Wu <yong.wu@mediatek.com>
+Subject: Re: [RFC PATCH] component: Add common helpers for compare/release
+ functions
+Message-ID: <YfRtGF3v+BwH5RkG@phenom.ffwll.local>
+Mail-Followup-To: Yong Wu <yong.wu@mediatek.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ James Wang <james.qian.wang@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, iommu@lists.linux-foundation.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ linux-kernel@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-mediatek@lists.infradead.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Tomasz Figa <tfiga@chromium.org>, srv_heupstream@mediatek.com,
+ Rob Clark <robdclark@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sebastian Reichel <sre@kernel.org>
+References: <20220128081101.27837-1-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
- x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20220128081101.27837-1-yong.wu@mediatek.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Will Deacon <will@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ James Wang <james.qian.wang@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Daniel Vetter <daniel@ffwll.ch>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,90 +129,556 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since allocating, freeing and fixing up PASID are changed, the
-documentation is updated to reflect the changes.
+On Fri, Jan 28, 2022 at 04:11:01PM +0800, Yong Wu wrote:
+> The component requires the compare/release functions, there are so many
+> copy in current kernel. Just define three common helpers for them.
+> No functional change.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+> Base on v5.17-rc1
+> ---
+>  .../gpu/drm/arm/display/komeda/komeda_drv.c    |  5 -----
+>  drivers/gpu/drm/arm/hdlcd_drv.c                |  7 +------
+>  drivers/gpu/drm/armada/armada_drv.c            |  5 -----
+>  drivers/gpu/drm/drm_of.c                       |  8 +-------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c          |  7 -------
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c        |  5 -----
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |  5 -----
+>  drivers/gpu/drm/imx/imx-drm-core.c             |  4 ++--
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c      |  5 -----
+>  drivers/gpu/drm/mcde/mcde_drv.c                |  7 +------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c         |  5 -----
+>  drivers/gpu/drm/meson/meson_drv.c              |  8 --------
+>  drivers/gpu/drm/msm/msm_drv.c                  |  9 ---------
+>  drivers/gpu/drm/omapdrm/dss/dss.c              |  8 +-------
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c    |  5 -----
+>  drivers/gpu/drm/sti/sti_drv.c                  |  5 -----
+>  drivers/gpu/drm/sun4i/sun4i_drv.c              |  9 ---------
+>  drivers/gpu/drm/vc4/vc4_drv.c                  |  5 -----
+>  drivers/iommu/mtk_iommu.h                      | 10 ----------
+>  drivers/power/supply/ab8500_charger.c          |  8 +-------
+>  drivers/video/fbdev/omap2/omapfb/dss/dss.c     |  8 +-------
+>  include/linux/component.h                      | 18 ++++++++++++++++++
+>  sound/soc/codecs/wcd938x.c                     | 16 ++--------------
 
-Originally-by: Ashok Raj <ashok.raj@intel.com>
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
----
-v3:
-- Remove PASID refcount description (Thomas).
+Seems like a neat idea. Please add kerneldoc for the new functions you're
+adding (bonus point for an example in there) and make sure it all renders
+correctly in
 
-v2:
-- Update life cycle info (Tony and Thomas).
-- Update initial PASID value to INVALID_IOASID on fork().
+$ make htmldoc
 
- Documentation/x86/sva.rst | 53 ++++++++++++++++++++++++++++++---------
- 1 file changed, 41 insertions(+), 12 deletions(-)
+Also please split up the patch series per-driver and add the maintainers
+to each patches' Cc: list. With that I think this should be ready for
+merging.
 
-diff --git a/Documentation/x86/sva.rst b/Documentation/x86/sva.rst
-index 076efd51ef1f..1a22020735a3 100644
---- a/Documentation/x86/sva.rst
-+++ b/Documentation/x86/sva.rst
-@@ -104,18 +104,47 @@ The MSR must be configured on each logical CPU before any application
- thread can interact with a device. Threads that belong to the same
- process share the same page tables, thus the same MSR value.
- 
--PASID is cleared when a process is created. The PASID allocation and MSR
--programming may occur long after a process and its threads have been created.
--One thread must call iommu_sva_bind_device() to allocate the PASID for the
--process. If a thread uses ENQCMD without the MSR first being populated, a #GP
--will be raised. The kernel will update the PASID MSR with the PASID for all
--threads in the process. A single process PASID can be used simultaneously
--with multiple devices since they all share the same address space.
--
--One thread can call iommu_sva_unbind_device() to free the allocated PASID.
--The kernel will clear the PASID MSR for all threads belonging to the process.
--
--New threads inherit the MSR value from the parent.
-+PASID Life Cycle Management
-+==========================
-+
-+PASID is initialized as INVALID_IOASID (-1) when a process is created.
-+
-+Only processes that access SVA-capable devices need to have a PASID
-+allocated. This allocation happens when a process opens/binds an SVA-capable
-+device but finds no PASID for this process. Subsequent binds of the same, or
-+other devices will share the same PASID.
-+
-+Although the PASID is allocated to the process by opening a device,
-+it is not active in any of the threads of that process. It's loaded to the
-+IA32_PASID MSR lazily when a thread tries to submit a work descriptor
-+to a device using the ENQCMD.
-+
-+That first access will trigger a #GP fault because the IA32_PASID MSR
-+has not been initialized with the PASID value assigned to the process
-+when the device was opened. The Linux #GP handler notes that a PASID has
-+been allocated for the process, and so initializes the IA32_PASID MSR
-+and returns so that the ENQCMD instruction is re-executed.
-+
-+On fork(2) or exec(2) the PASID is removed from the process as it no
-+longer has the same address space that it had when the device was opened.
-+
-+On clone(2) the new task shares the same address space, so will be
-+able to use the PASID allocated to the process. The IA32_PASID is not
-+preemptively initialized as the PASID value might not be allocated yet or
-+the kernel does not know whether this thread is going to access the device
-+and the cleared IA32_PASID MSR reduces context switch overhead by xstate
-+init optimization. Since #GP faults have to be handled on any threads that
-+were created before the PASID was assigned to the mm of the process, newly
-+created threads might as well be treated in a consistent way.
-+
-+Due to complexity of freeing the PASID and clearing all IA32_PASID MSRs in
-+all threads in unbind, free the PASID lazily only on mm exit.
-+
-+If a process does a close(2) of the device file descriptor and munmap(2)
-+of the device MMIO portal, then the driver will unbind the device. The
-+PASID is still marked VALID in the PASID_MSR for any threads in the
-+process that accessed the device. But this is harmless as without the
-+MMIO portal they cannot submit new work to the device.
- 
- Relationships
- =============
+Cheers, Daniel
+
+>  23 files changed, 28 insertions(+), 144 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> index e7933930a657..fe5b97107417 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> @@ -92,11 +92,6 @@ static const struct component_master_ops komeda_master_ops = {
+>  	.unbind	= komeda_unbind,
+>  };
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static void komeda_add_slave(struct device *master,
+>  			     struct component_match **match,
+>  			     struct device_node *np,
+> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+> index 479c2422a2e0..36d84c439df8 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
+> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+> @@ -372,11 +372,6 @@ static const struct component_master_ops hdlcd_master_ops = {
+>  	.unbind		= hdlcd_drm_unbind,
+>  };
+>  
+> -static int compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static int hdlcd_probe(struct platform_device *pdev)
+>  {
+>  	struct device_node *port;
+> @@ -387,7 +382,7 @@ static int hdlcd_probe(struct platform_device *pdev)
+>  	if (!port)
+>  		return -ENODEV;
+>  
+> -	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
+> +	drm_of_component_match_add(&pdev->dev, &match, compare_of, port);
+>  	of_node_put(port);
+>  
+>  	return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
+> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+> index 8e3e98f13db4..9edc4912c1a0 100644
+> --- a/drivers/gpu/drm/armada/armada_drv.c
+> +++ b/drivers/gpu/drm/armada/armada_drv.c
+> @@ -177,11 +177,6 @@ static void armada_drm_unbind(struct device *dev)
+>  	drm_mm_takedown(&priv->linear);
+>  }
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static int compare_dev_name(struct device *dev, void *data)
+>  {
+>  	const char *name = data;
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index 59d368ea006b..f958f48f8ba4 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -18,11 +18,6 @@
+>   * properties.
+>   */
+>  
+> -static void drm_release_of(struct device *dev, void *data)
+> -{
+> -	of_node_put(data);
+> -}
+> -
+>  /**
+>   * drm_of_crtc_port_mask - find the mask of a registered CRTC by port OF node
+>   * @dev: DRM device
+> @@ -94,8 +89,7 @@ void drm_of_component_match_add(struct device *master,
+>  				struct device_node *node)
+>  {
+>  	of_node_get(node);
+> -	component_match_add_release(master, matchptr, drm_release_of,
+> -				    compare, node);
+> +	component_match_add_release(master, matchptr, release_of, compare, node);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_of_component_match_add);
+>  
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 0b756ecb1bc2..15351e26ab00 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -574,13 +574,6 @@ static const struct component_master_ops etnaviv_master_ops = {
+>  	.unbind = etnaviv_unbind,
+>  };
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	struct device_node *np = data;
+> -
+> -	return dev->of_node == np;
+> -}
+> -
+>  static int compare_str(struct device *dev, void *data)
+>  {
+>  	return !strcmp(dev_name(dev), data);
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> index 9743b6b17447..97f6bc69bee3 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> @@ -212,11 +212,6 @@ static struct exynos_drm_driver_info exynos_drm_drivers[] = {
+>  	}
+>  };
+>  
+> -static int compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev == (struct device *)data;
+> -}
+> -
+>  static struct component_match *exynos_drm_match_add(struct device *dev)
+>  {
+>  	struct component_match *match = NULL;
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> index 98ae9a48f3fe..8cc6e13e46af 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> @@ -203,11 +203,6 @@ static int kirin_drm_kms_init(struct drm_device *dev,
+>  	return ret;
+>  }
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static int kirin_drm_kms_cleanup(struct drm_device *dev)
+>  {
+>  	drm_kms_helper_poll_fini(dev);
+> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+> index cb685fe2039b..11b5c0fae045 100644
+> --- a/drivers/gpu/drm/imx/imx-drm-core.c
+> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+> @@ -176,7 +176,7 @@ static const struct drm_driver imx_drm_driver = {
+>  	.patchlevel		= 0,
+>  };
+>  
+> -static int compare_of(struct device *dev, void *data)
+> +static int imx_compare_of(struct device *dev, void *data)
+>  {
+>  	struct device_node *np = data;
+>  
+> @@ -286,7 +286,7 @@ static const struct component_master_ops imx_drm_ops = {
+>  
+>  static int imx_drm_platform_probe(struct platform_device *pdev)
+>  {
+> -	int ret = drm_of_component_probe(&pdev->dev, compare_of, &imx_drm_ops);
+> +	int ret = drm_of_component_probe(&pdev->dev, imx_compare_of, &imx_drm_ops);
+>  
+>  	if (!ret)
+>  		ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index b4943a56be09..194abab14ffe 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -1322,11 +1322,6 @@ static int ingenic_drm_bind_with_components(struct device *dev)
+>  	return ingenic_drm_bind(dev, true);
+>  }
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static void ingenic_drm_unbind(struct device *dev)
+>  {
+>  	struct ingenic_drm *priv = dev_get_drvdata(dev);
+> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+> index 5b5afc6aaf8e..015690b6d308 100644
+> --- a/drivers/gpu/drm/mcde/mcde_drv.c
+> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
+> @@ -265,11 +265,6 @@ static struct platform_driver *const mcde_component_drivers[] = {
+>  	&mcde_dsi_driver,
+>  };
+>  
+> -static int mcde_compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev == data;
+> -}
+> -
+>  static int mcde_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -399,7 +394,7 @@ static int mcde_probe(struct platform_device *pdev)
+>  
+>  		while ((d = platform_find_device_by_driver(p, drv))) {
+>  			put_device(p);
+> -			component_match_add(dev, &match, mcde_compare_dev, d);
+> +			component_match_add(dev, &match, compare_dev, d);
+>  			p = d;
+>  		}
+>  		put_device(p);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 56ff8c57ef8f..72586983ec1d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -369,11 +369,6 @@ static const struct drm_driver mtk_drm_driver = {
+>  	.minor = DRIVER_MINOR,
+>  };
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static int mtk_drm_bind(struct device *dev)
+>  {
+>  	struct mtk_drm_private *private = dev_get_drvdata(dev);
+> diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+> index 80f1d439841a..b68631d16eb3 100644
+> --- a/drivers/gpu/drm/meson/meson_drv.c
+> +++ b/drivers/gpu/drm/meson/meson_drv.c
+> @@ -423,14 +423,6 @@ static int __maybe_unused meson_drv_pm_resume(struct device *dev)
+>  	return drm_mode_config_helper_resume(priv->drm);
+>  }
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	DRM_DEBUG_DRIVER("Comparing of node %pOF with %pOF\n",
+> -			 dev->of_node, data);
+> -
+> -	return dev->of_node == data;
+> -}
+> -
+>  static void meson_drv_shutdown(struct platform_device *pdev)
+>  {
+>  	struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index ad35a5d94053..6250327b1eda 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1173,15 +1173,6 @@ static const struct dev_pm_ops msm_pm_ops = {
+>   * Componentized driver support:
+>   */
+>  
+> -/*
+> - * NOTE: duplication of the same code as exynos or imx (or probably any other).
+> - * so probably some room for some helpers
+> - */
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  /*
+>   * Identify what components need to be added by parsing what remote-endpoints
+>   * our MDP output ports are connected to. In the case of LVDS on MDP4, there
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+> index 69b3e15b9356..5216000c7657 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dss.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+> @@ -1344,12 +1344,6 @@ static const struct component_master_ops dss_component_ops = {
+>  	.unbind = dss_unbind,
+>  };
+>  
+> -static int dss_component_compare(struct device *dev, void *data)
+> -{
+> -	struct device *child = data;
+> -	return dev == child;
+> -}
+> -
+>  struct dss_component_match_data {
+>  	struct device *dev;
+>  	struct component_match **match;
+> @@ -1379,7 +1373,7 @@ static int dss_add_child_component(struct device *dev, void *data)
+>  		return device_for_each_child(dev, cmatch,
+>  					     dss_add_child_component);
+>  
+> -	component_match_add(cmatch->dev, match, dss_component_compare, dev);
+> +	component_match_add(cmatch->dev, match, compare_dev, dev);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> index bec207de4544..276e41168bd0 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -290,11 +290,6 @@ int rockchip_drm_endpoint_is_subdriver(struct device_node *ep)
+>  	return false;
+>  }
+>  
+> -static int compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev == (struct device *)data;
+> -}
+> -
+>  static void rockchip_drm_match_remove(struct device *dev)
+>  {
+>  	struct device_link *link;
+> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+> index c7efb43b83ee..3c3294c2100d 100644
+> --- a/drivers/gpu/drm/sti/sti_drv.c
+> +++ b/drivers/gpu/drm/sti/sti_drv.c
+> @@ -144,11 +144,6 @@ static const struct drm_driver sti_driver = {
+>  	.minor = DRIVER_MINOR,
+>  };
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static int sti_init(struct drm_device *ddev)
+>  {
+>  	struct sti_private *private;
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> index b630614b3d72..de26c1448486 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> @@ -201,15 +201,6 @@ static bool sun4i_drv_node_is_tcon_top(struct device_node *node)
+>  		!!of_match_node(sun8i_tcon_top_of_table, node);
+>  }
+>  
+> -static int compare_of(struct device *dev, void *data)
+> -{
+> -	DRM_DEBUG_DRIVER("Comparing of node %pOF with %pOF\n",
+> -			 dev->of_node,
+> -			 data);
+> -
+> -	return dev->of_node == data;
+> -}
+> -
+>  /*
+>   * The encoder drivers use drm_of_find_possible_crtcs to get upstream
+>   * crtcs from the device tree using of_graph. For the results to be
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index 16abc3a3d601..43474107a4f2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -187,11 +187,6 @@ static struct drm_driver vc4_drm_driver = {
+>  	.patchlevel = DRIVER_PATCHLEVEL,
+>  };
+>  
+> -static int compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev == data;
+> -}
+> -
+>  static void vc4_match_add_drivers(struct device *dev,
+>  				  struct component_match **match,
+>  				  struct platform_driver *const *drivers,
+> diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+> index f81fa8862ed0..b742432220c5 100644
+> --- a/drivers/iommu/mtk_iommu.h
+> +++ b/drivers/iommu/mtk_iommu.h
+> @@ -84,16 +84,6 @@ struct mtk_iommu_data {
+>  	struct mtk_smi_larb_iommu	larb_imu[MTK_LARB_NR_MAX];
+>  };
+>  
+> -static inline int compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+> -static inline void release_of(struct device *dev, void *data)
+> -{
+> -	of_node_put(data);
+> -}
+> -
+>  static inline int mtk_iommu_bind(struct device *dev)
+>  {
+>  	struct mtk_iommu_data *data = dev_get_drvdata(dev);
+> diff --git a/drivers/power/supply/ab8500_charger.c b/drivers/power/supply/ab8500_charger.c
+> index ce074c018dcb..248dfd8aec19 100644
+> --- a/drivers/power/supply/ab8500_charger.c
+> +++ b/drivers/power/supply/ab8500_charger.c
+> @@ -3414,11 +3414,6 @@ static struct platform_driver *const ab8500_charger_component_drivers[] = {
+>  	&ab8500_chargalg_driver,
+>  };
+>  
+> -static int ab8500_charger_compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev == data;
+> -}
+> -
+>  static int ab8500_charger_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -3657,8 +3652,7 @@ static int ab8500_charger_probe(struct platform_device *pdev)
+>  
+>  		while ((d = platform_find_device_by_driver(p, drv))) {
+>  			put_device(p);
+> -			component_match_add(dev, &match,
+> -					    ab8500_charger_compare_dev, d);
+> +			component_match_add(dev, &match, compare_dev, d);
+>  			p = d;
+>  		}
+>  		put_device(p);
+> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+> index a6b1c1598040..328aa5d86f1a 100644
+> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+> @@ -1193,12 +1193,6 @@ static const struct component_master_ops dss_component_ops = {
+>  	.unbind = dss_unbind,
+>  };
+>  
+> -static int dss_component_compare(struct device *dev, void *data)
+> -{
+> -	struct device *child = data;
+> -	return dev == child;
+> -}
+> -
+>  static int dss_add_child_component(struct device *dev, void *data)
+>  {
+>  	struct component_match **match = data;
+> @@ -1212,7 +1206,7 @@ static int dss_add_child_component(struct device *dev, void *data)
+>  	if (strstr(dev_name(dev), "rfbi"))
+>  		return 0;
+>  
+> -	component_match_add(dev->parent, match, dss_component_compare, dev);
+> +	component_match_add(dev->parent, match, compare_dev, dev);
+>  
+>  	return 0;
+>  }
+> diff --git a/include/linux/component.h b/include/linux/component.h
+> index 16de18f473d7..5a7468ea827c 100644
+> --- a/include/linux/component.h
+> +++ b/include/linux/component.h
+> @@ -2,6 +2,8 @@
+>  #ifndef COMPONENT_H
+>  #define COMPONENT_H
+>  
+> +#include <linux/device.h>
+> +#include <linux/of.h>
+>  #include <linux/stddef.h>
+>  
+>  
+> @@ -82,6 +84,22 @@ struct component_master_ops {
+>  	void (*unbind)(struct device *master);
+>  };
+>  
+> +/* A set common helpers for compare/release functions */
+> +static inline int compare_of(struct device *dev, void *data)
+> +{
+> +	return dev->of_node == data;
+> +}
+> +
+> +static inline void release_of(struct device *dev, void *data)
+> +{
+> +	of_node_put(data);
+> +}
+> +
+> +static inline int compare_dev(struct device *dev, void *data)
+> +{
+> +	return dev == data;
+> +}
+> +
+>  void component_master_del(struct device *,
+>  	const struct component_master_ops *);
+>  
+> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+> index eff200a07d9f..992132cbfb9f 100644
+> --- a/sound/soc/codecs/wcd938x.c
+> +++ b/sound/soc/codecs/wcd938x.c
+> @@ -4417,16 +4417,6 @@ static const struct component_master_ops wcd938x_comp_ops = {
+>  	.unbind = wcd938x_unbind,
+>  };
+>  
+> -static int wcd938x_compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+> -static void wcd938x_release_of(struct device *dev, void *data)
+> -{
+> -	of_node_put(data);
+> -}
+> -
+>  static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+>  					struct device *dev,
+>  					struct component_match **matchptr)
+> @@ -4442,8 +4432,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+>  	}
+>  
+>  	of_node_get(wcd938x->rxnode);
+> -	component_match_add_release(dev, matchptr, wcd938x_release_of,
+> -				    wcd938x_compare_of,	wcd938x->rxnode);
+> +	component_match_add_release(dev, matchptr, release_of, compare_of, wcd938x->rxnode);
+>  
+>  	wcd938x->txnode = of_parse_phandle(np, "qcom,tx-device", 0);
+>  	if (!wcd938x->txnode) {
+> @@ -4451,8 +4440,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+>  		return -ENODEV;
+>  	}
+>  	of_node_get(wcd938x->txnode);
+> -	component_match_add_release(dev, matchptr, wcd938x_release_of,
+> -				    wcd938x_compare_of,	wcd938x->txnode);
+> +	component_match_add_release(dev, matchptr, release_of, compare_of, wcd938x->txnode);
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.18.0
+> 
+
 -- 
-2.35.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
