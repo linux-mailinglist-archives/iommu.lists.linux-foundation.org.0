@@ -1,60 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142D24A01E3
-	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 21:29:37 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2514A01E1
+	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 21:29:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BA33440A3A;
-	Fri, 28 Jan 2022 20:29:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 448A941477;
+	Fri, 28 Jan 2022 20:29:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WB4U8qY3Pcxl; Fri, 28 Jan 2022 20:29:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8448B405D7;
-	Fri, 28 Jan 2022 20:29:34 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ee2fwH11WHEK; Fri, 28 Jan 2022 20:29:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4A9BC41D4B;
+	Fri, 28 Jan 2022 20:29:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 45F52C0031;
-	Fri, 28 Jan 2022 20:29:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A93D8C0079;
+	Fri, 28 Jan 2022 20:29:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15F2DC000B
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:30 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5404FC000B
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5657E827A5
+ by smtp4.osuosl.org (Postfix) with ESMTP id 8190540359
  for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rkAlUw26yYTB for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lLqXp2o0Bz92 for <iommu@lists.linux-foundation.org>;
  Fri, 28 Jan 2022 20:29:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A231083449
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C112040492
  for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 20:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1643401764; x=1674937764;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Zs6a0hud3tcEUziiNk3cD8a/Ewh7oEDNlHJ8E4IWhEw=;
- b=lKqIXX0p02GpFVC7oUDjK1/a/hEMRl4Dl3FvqZJ5TferIzjdirxUb3nI
- SwXF+uGP15HlyEcKtuAlo5u1ZbnWQx4MM2Y3uJWqf4JUwcifgamBSJHo+
- CgK0a3SpAInKzxDxRGK/SAVRsiGF0XwGkCfZKj+Qw2x2AsdU71dql0DvB
- SxhBOuC3lPPwbcAKtxpiwK5UhXZkJD/BO4QyjrhdfFoLnLwCzQ75fsvhj
- csyLnT72WqSAAp9TK2/dkcZbYpvSz1UNJa3OOFHlIJrEaQZ8vwErUgGzO
- /ld2LVSGUSi24ursW/G4uw8Q2tL03TU38ckFK2su+4uP/TN88aKDCiykR w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="227862451"
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="227862451"
+ bh=qFGT50wtzxZn0pd/mKB4aYLdN6vzUrpmDy6Ee1GufQU=;
+ b=MyVHjF3IQmBgQUnxxJT+xsh1UWM5/hb83VseagQE0K+XgrsCOjtq+pd0
+ jEdG8KTEJG4uIsEArs7HpvatIVJ83yhHyMNL7OjNsjgBScfOvq7xPc9Lm
+ Bpv9A4CyLzjyHlxIUWMEUroncjw5gAv+goE3IyqWJ2nhGnEgbg5aKBwRf
+ jKq9rerqh6kfD+m2x8oy2c8NYWvE/1oNXZ9Yq7rr05l0GE3uT4c1xJl9c
+ qGPsiI8sxceAHN2NaIQ3yjXBOWTE2a33oJrYf92/p4yYafVi18i+wJlzv
+ 0F4g+nF3uyThdfftv/RysPcuf3vKchMQvnbIEOvNMsAEwpYXNc1j890D0 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="227862453"
+X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="227862453"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Jan 2022 12:29:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="618827715"
+X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="618827718"
 Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
  by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2022 12:29:23 -0800
 From: Fenghua Yu <fenghua.yu@intel.com>
@@ -68,10 +66,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>,
  "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
  "Ashok Raj" <ashok.raj@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v3 10/11] tools/objtool: Check for use of the ENQCMD
- instruction in the kernel
-Date: Fri, 28 Jan 2022 12:29:04 -0800
-Message-Id: <20220128202905.2274672-11-fenghua.yu@intel.com>
+Subject: [PATCH v3 11/11] docs: x86: Change documentation for SVA (Shared
+ Virtual Addressing)
+Date: Fri, 28 Jan 2022 12:29:05 -0800
+Message-Id: <20220128202905.2274672-12-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220128202905.2274672-1-fenghua.yu@intel.com>
 References: <20220128202905.2274672-1-fenghua.yu@intel.com>
@@ -95,66 +93,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The ENQCMD implicitly accesses the PASID_MSR to fill in the pasid field
-of the descriptor being submitted to an accelerator. But there is no
-precise (and stable across kernel changes) point at which the PASID_MSR
-is updated from the value for one task to the next.
+Since allocating, freeing and fixing up PASID are changed, the
+documentation is updated to reflect the changes.
 
-Kernel code that uses accelerators must always use the ENQCMDS instruction
-which does not access the PASID_MSR.
-
-Check for use of the ENQCMD instruction in the kernel and warn on its
-usage.
-
+Originally-by: Ashok Raj <ashok.raj@intel.com>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
 ---
 v3:
-- Add Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
+- Remove PASID refcount description (Thomas).
 
 v2:
-- Simplify handling ENQCMD (PeterZ and Josh)
+- Update life cycle info (Tony and Thomas).
+- Update initial PASID value to INVALID_IOASID on fork().
 
- tools/objtool/arch/x86/decode.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ Documentation/x86/sva.rst | 53 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 41 insertions(+), 12 deletions(-)
 
-diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
-index c10ef78df050..479e769ca324 100644
---- a/tools/objtool/arch/x86/decode.c
-+++ b/tools/objtool/arch/x86/decode.c
-@@ -112,7 +112,7 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
- 	const struct elf *elf = file->elf;
- 	struct insn insn;
- 	int x86_64, ret;
--	unsigned char op1, op2,
-+	unsigned char op1, op2, op3,
- 		      rex = 0, rex_b = 0, rex_r = 0, rex_w = 0, rex_x = 0,
- 		      modrm = 0, modrm_mod = 0, modrm_rm = 0, modrm_reg = 0,
- 		      sib = 0, /* sib_scale = 0, */ sib_index = 0, sib_base = 0;
-@@ -139,6 +139,7 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
+diff --git a/Documentation/x86/sva.rst b/Documentation/x86/sva.rst
+index 076efd51ef1f..1a22020735a3 100644
+--- a/Documentation/x86/sva.rst
++++ b/Documentation/x86/sva.rst
+@@ -104,18 +104,47 @@ The MSR must be configured on each logical CPU before any application
+ thread can interact with a device. Threads that belong to the same
+ process share the same page tables, thus the same MSR value.
  
- 	op1 = insn.opcode.bytes[0];
- 	op2 = insn.opcode.bytes[1];
-+	op3 = insn.opcode.bytes[2];
- 
- 	if (insn.rex_prefix.nbytes) {
- 		rex = insn.rex_prefix.bytes[0];
-@@ -491,6 +492,14 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
- 			/* nopl/nopw */
- 			*type = INSN_NOP;
- 
-+		} else if (op2 == 0x38 && op3 == 0xf8) {
-+			if (insn.prefixes.nbytes == 1 &&
-+			    insn.prefixes.bytes[0] == 0xf2) {
-+				/* ENQCMD cannot be used in the kernel. */
-+				WARN("ENQCMD instruction at %s:%lx", sec->name,
-+				     offset);
-+			}
+-PASID is cleared when a process is created. The PASID allocation and MSR
+-programming may occur long after a process and its threads have been created.
+-One thread must call iommu_sva_bind_device() to allocate the PASID for the
+-process. If a thread uses ENQCMD without the MSR first being populated, a #GP
+-will be raised. The kernel will update the PASID MSR with the PASID for all
+-threads in the process. A single process PASID can be used simultaneously
+-with multiple devices since they all share the same address space.
+-
+-One thread can call iommu_sva_unbind_device() to free the allocated PASID.
+-The kernel will clear the PASID MSR for all threads belonging to the process.
+-
+-New threads inherit the MSR value from the parent.
++PASID Life Cycle Management
++==========================
 +
- 		} else if (op2 == 0xa0 || op2 == 0xa8) {
++PASID is initialized as INVALID_IOASID (-1) when a process is created.
++
++Only processes that access SVA-capable devices need to have a PASID
++allocated. This allocation happens when a process opens/binds an SVA-capable
++device but finds no PASID for this process. Subsequent binds of the same, or
++other devices will share the same PASID.
++
++Although the PASID is allocated to the process by opening a device,
++it is not active in any of the threads of that process. It's loaded to the
++IA32_PASID MSR lazily when a thread tries to submit a work descriptor
++to a device using the ENQCMD.
++
++That first access will trigger a #GP fault because the IA32_PASID MSR
++has not been initialized with the PASID value assigned to the process
++when the device was opened. The Linux #GP handler notes that a PASID has
++been allocated for the process, and so initializes the IA32_PASID MSR
++and returns so that the ENQCMD instruction is re-executed.
++
++On fork(2) or exec(2) the PASID is removed from the process as it no
++longer has the same address space that it had when the device was opened.
++
++On clone(2) the new task shares the same address space, so will be
++able to use the PASID allocated to the process. The IA32_PASID is not
++preemptively initialized as the PASID value might not be allocated yet or
++the kernel does not know whether this thread is going to access the device
++and the cleared IA32_PASID MSR reduces context switch overhead by xstate
++init optimization. Since #GP faults have to be handled on any threads that
++were created before the PASID was assigned to the mm of the process, newly
++created threads might as well be treated in a consistent way.
++
++Due to complexity of freeing the PASID and clearing all IA32_PASID MSRs in
++all threads in unbind, free the PASID lazily only on mm exit.
++
++If a process does a close(2) of the device file descriptor and munmap(2)
++of the device MMIO portal, then the driver will unbind the device. The
++PASID is still marked VALID in the PASID_MSR for any threads in the
++process that accessed the device. But this is harmless as without the
++MMIO portal they cannot submit new work to the device.
  
- 			/* push fs/gs */
+ Relationships
+ =============
 -- 
 2.35.0
 
