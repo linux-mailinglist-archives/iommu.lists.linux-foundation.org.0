@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4B149EF51
-	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 01:26:40 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CCA49EF4F
+	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 01:26:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6CA0260F8C;
-	Fri, 28 Jan 2022 00:26:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id EC6A084E1A;
+	Fri, 28 Jan 2022 00:26:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id naal-tUBJb-o; Fri, 28 Jan 2022 00:26:38 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id H0PIAIUBcild; Fri, 28 Jan 2022 00:26:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8427A60BB5;
-	Fri, 28 Jan 2022 00:26:38 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E07C184E03;
+	Fri, 28 Jan 2022 00:26:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B5909C0079;
-	Fri, 28 Jan 2022 00:26:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1CEECC000B;
+	Fri, 28 Jan 2022 00:26:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8E300C000B
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:32 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A899BC0011
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8E56E40153
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:31 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 892EF41B32
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aYsObdNC6pin for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Z6Gh2FJ1YG7V for <iommu@lists.linux-foundation.org>;
  Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id DD522400E5
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id F1EBC41826
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=aCaIC1aGEU3aE4W87JAzdHtyIfK4Tw21zQ04iz9J0qw=; b=Z69R0PP15szxfRgF3lQdDjdoCU
- wo/mXI4lYi8n/BvLZ9xCK6yUFuAwlswjoRaY/u6opnOYHIK/Gx7JB2KPTj2h0TXcG3h5PRViuSnc/
- 5j2UmCO1qqgon+0L5+MSOS7FHf0YXhTl3m1hb68GLJ52n1SG/G7AlNuIqfINyLJbCyQsJ8n5o3Mn8
- 0s+EKnXr6vLLVTG3bmSE7BwIhTELu+o1NYDb7m/nmgMUPMIF3uuM6tH3PiDhzrzshKt5jlQhCA96N
- rbA+x2+ZPskhkkYf59tRpEHy8nr8UvTeXF5fapebJ/4AWBYv/BmBwrRARsMHxDbEozilNtK5aYCh5
- pEHFhSCg==;
+ bh=0VjpBnfEXTqeS7LssS80lKjFqlCuU84Zlsdnl3oeMpI=; b=s+iKXLCRsc+FunOheuw5aq1lFe
+ A3yhmwa7yvIPlR+O4DL+kig4M+u0iProbdm2Z/k9TQ6V5GE6VD41v7xCnzaCpBc6VxhWojkEFUGlK
+ yJFShL2es4N5xsnMFnWxQCqOI+6QIkN2s796jh173f2MhCcEo0wMO5G/HBgWs7UXUrfNK4XIomtIN
+ IZLFtYyw+qCrWSirVzZW8oqDHd6scxRM/Bogwwrv+2TB8D16dLCievCu+ti7YfMxUGCeTBwKAtFB1
+ orWWKfeJH5SIoMbWa/ccX8n2rO/VQI36kH5LbgN8Qj+qk7MBOb/cNvZn5PLstKbV5YphGTQ269YBo
+ wZym8kRA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5r-005Oca-Ri; Thu, 27 Jan 2022 17:26:25 -0700
+ id 1nDF5r-005OcZ-Pd; Thu, 27 Jan 2022 17:26:24 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5p-0001dL-Jc; Thu, 27 Jan 2022 17:26:21 -0700
+ id 1nDF5p-0001dP-P3; Thu, 27 Jan 2022 17:26:21 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu, 27 Jan 2022 17:26:10 -0700
-Message-Id: <20220128002614.6136-21-logang@deltatee.com>
+Date: Thu, 27 Jan 2022 17:26:11 -0700
+Message-Id: <20220128002614.6136-22-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
 References: <20220128002614.6136-1-logang@deltatee.com>
@@ -75,8 +75,7 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v5 20/24] block: set FOLL_PCI_P2PDMA in
- __bio_iov_iter_get_pages()
+Subject: [PATCH v5 21/24] block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
@@ -110,41 +109,46 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
-iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be passed
-from userspace and enables the O_DIRECT path in iomap based filesystems
-and direct to block devices.
+iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be
+passed from userspace and enables the NVMe passthru requests to
+use P2PDMA pages.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- block/bio.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ block/blk-map.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index 055fcf159461..cb19689cf9fe 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1121,6 +1121,7 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 	struct bio_vec *bv = bio->bi_io_vec + bio->bi_vcnt;
- 	struct page **pages = (struct page **)bv;
- 	bool same_page = false;
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 4526adde0156..7508448e290c 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -234,6 +234,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		gfp_t gfp_mask)
+ {
+ 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
 +	unsigned int flags = 0;
- 	ssize_t size, left;
- 	unsigned len, i;
- 	size_t offset;
-@@ -1133,7 +1134,12 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 	BUILD_BUG_ON(PAGE_PTRS_PER_BVEC < 2);
- 	pages += entries_left * (PAGE_PTRS_PER_BVEC - 1);
+ 	struct bio *bio;
+ 	int ret;
+ 	int j;
+@@ -246,13 +247,17 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		return -ENOMEM;
+ 	bio->bi_opf |= req_op(rq);
  
--	size = iov_iter_get_pages(iter, pages, LONG_MAX, nr_pages, &offset);
-+	if (bio->bi_bdev && bio->bi_bdev->bd_disk &&
-+	    blk_queue_pci_p2pdma(bio->bi_bdev->bd_disk->queue))
++	if (blk_queue_pci_p2pdma(rq->q))
 +		flags |= FOLL_PCI_P2PDMA;
 +
-+	size = iov_iter_get_pages_flags(iter, pages, LONG_MAX, nr_pages,
-+					&offset, flags);
- 	if (unlikely(size <= 0))
- 		return size ? size : -EFAULT;
+ 	while (iov_iter_count(iter)) {
+ 		struct page **pages;
+ 		ssize_t bytes;
+ 		size_t offs, added = 0;
+ 		int npages;
  
+-		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
++		bytes = iov_iter_get_pages_alloc_flags(iter, &pages, LONG_MAX,
++						       &offs, flags);
+ 		if (unlikely(bytes <= 0)) {
+ 			ret = bytes ? bytes : -EFAULT;
+ 			goto out_unmap;
 -- 
 2.30.2
 
