@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883BD49EF50
-	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 01:26:40 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7884E49EF5E
+	for <lists.iommu@lfdr.de>; Fri, 28 Jan 2022 01:26:49 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1C07184E03;
-	Fri, 28 Jan 2022 00:26:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 447DB41C87;
+	Fri, 28 Jan 2022 00:26:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7ha91-IaVDvX; Fri, 28 Jan 2022 00:26:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 2471F84E0D;
-	Fri, 28 Jan 2022 00:26:34 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VUJ4geXpHGgI; Fri, 28 Jan 2022 00:26:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3855D41C90;
+	Fri, 28 Jan 2022 00:26:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6827CC0039;
-	Fri, 28 Jan 2022 00:26:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E86EBC000B;
+	Fri, 28 Jan 2022 00:26:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D8D59C000B
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE0AC002D
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B733840180
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3EDC860F80
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8aTQUTjAP53f for <iommu@lists.linux-foundation.org>;
- Fri, 28 Jan 2022 00:26:30 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BKwE82X-t6TG for <iommu@lists.linux-foundation.org>;
+ Fri, 28 Jan 2022 00:26:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id F36FD400E5
- for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:29 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8E24B60F4D
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Jan 2022 00:26:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=HHTYT5k3QiiDV6LMv4vKtzyhJ9FCFmq5gXJCns7NBlU=; b=nH+QGcWcTfLDJqbFBTkackrqrG
- IP6cWyAeLl9RuOzP5vD7BPyQU58XFn47tuDx4R7Thwosc+4soLlQVecHvAgk4qyxAjLmiqxSW3I5g
- SqIvy9WWdkwSYLgfzKnqG+dBpmOVLy4K6320JbcNr95+oWJo7UZV/NITfylMgQ8/RTfCcifnSfZBX
- r41I8tSoanWnwJpvJUpUw/NlhzAT4jhPRHUIZoBCgMZi//CDOJpWdTYlF2dkrkYW2sa/+iJk+Oy+2
- a2caIhrPLspGcwjE+BtlAnMEszIzOsYbKM+4zKJzw5grV9y8OoAAbzhfGXuxs5Cs9EpHAAqLDRLRB
- NXs+TrNA==;
+ bh=HHp/udGn7DOd58DraTUExtOtELgyrWSCODGG+didgEo=; b=REQ1q6keF1k3wmIvHrJ2N1tUZF
+ /8akmrb1y4+4Z+n8KDFTApTCuHTzYuTKoSOQ1Hz0hLwVn+cEXd021htW4RxREBjpYLCk2osB2ZkeQ
+ +XpTeIAMs56GK/2+jr7+6JvI1fUbDZTIw2R2iFwKGVs7XFKLRPq56p2eCCIRr6D8Ntmq9vk0nUH55
+ btpQhL1YhY4uqH2fP0BOBi/X50wctXiZPq6lMW5hWLTy6kOdr2fr/KwgXPBCIG2vM1AwmUaDa/eZR
+ biVZtYLIJTN10PnA5CSNOnpgt61NBiVZBYgA1T+TT8zWfdfCj2i1lSz2xfnXrJtHs/zmzrEsdi9rZ
+ D4pR5lGA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5p-005Oca-Lc; Thu, 27 Jan 2022 17:26:22 -0700
+ id 1nDF5w-005Oca-5a; Thu, 27 Jan 2022 17:26:34 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5m-0001cL-MP; Thu, 27 Jan 2022 17:26:18 -0700
+ id 1nDF5m-0001cO-QF; Thu, 27 Jan 2022 17:26:18 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu, 27 Jan 2022 17:25:54 -0700
-Message-Id: <20220128002614.6136-5-logang@deltatee.com>
+Date: Thu, 27 Jan 2022 17:25:55 -0700
+Message-Id: <20220128002614.6136-6-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
 References: <20220128002614.6136-1-logang@deltatee.com>
@@ -73,10 +73,9 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
  ckulkarnilinux@gmail.com, logang@deltatee.com, bhelgaas@google.com,
- jhubbard@nvidia.com, rcampbell@nvidia.com, kch@nvidia.com
+ jhubbard@nvidia.com, rcampbell@nvidia.com, jgg@nvidia.com, kch@nvidia.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v5 04/24] PCI/P2PDMA: Attempt to set map_type if it has not
- been set
+Subject: [PATCH v5 05/24] PCI/P2PDMA: Expose pci_p2pdma_map_type()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
@@ -86,9 +85,10 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ralph Campbell <rcampbell@nvidia.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Dan Williams <dan.j.williams@intel.com>,
  Jakowski Andrzej <andrzej.jakowski@intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>, Logan Gunthorpe <logang@deltatee.com>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -110,56 +110,127 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Attempt to find the mapping type for P2PDMA pages on the first
-DMA map attempt if it has not been done ahead of time.
+pci_p2pdma_map_type() will be needed by the dma-iommu map_sg
+implementation because it will need to determine the mapping type
+ahead of actually doing the mapping to create the actual IOMMU mapping.
 
-Previously, the mapping type was expected to be calculated ahead of
-time, but if pages are to come from userspace then there's no
-way to ensure the path was checked ahead of time.
-
-This change will calculate the mapping type if it hasn't pre-calculated
-so it is no longer invalid to call pci_p2pdma_map_sg() before the mapping
-type is calculated, so drop the WARN_ON when that is he case.
+Prototypes for this helper are added to dma-map-ops.h as they are only
+useful to dma map implementations and don't need to pollute the public
+pci-p2pdma header
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/pci/p2pdma.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/pci/p2pdma.c        | 25 +++++++++++++--------
+ include/linux/dma-map-ops.h | 45 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 1015274bd2fe..bb8900ce073a 100644
+index bb8900ce073a..751d682e66ae 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -848,6 +848,7 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+@@ -10,6 +10,7 @@
+ 
+ #define pr_fmt(fmt) "pci-p2pdma: " fmt
+ #include <linux/ctype.h>
++#include <linux/dma-map-ops.h>
+ #include <linux/pci-p2pdma.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+@@ -20,13 +21,6 @@
+ #include <linux/seq_buf.h>
+ #include <linux/xarray.h>
+ 
+-enum pci_p2pdma_map_type {
+-	PCI_P2PDMA_MAP_UNKNOWN = 0,
+-	PCI_P2PDMA_MAP_NOT_SUPPORTED,
+-	PCI_P2PDMA_MAP_BUS_ADDR,
+-	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
+-};
+-
+ struct pci_p2pdma {
+ 	struct gen_pool *pool;
+ 	bool p2pmem_published;
+@@ -841,8 +835,21 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+ 
+-static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+-						    struct device *dev)
++/**
++ * pci_p2pdma_map_type - return the type of mapping that should be used for
++ *	a given device and pgmap
++ * @pgmap: the pagemap of a page to determine the mapping type for
++ * @dev: device that is mapping the page
++ *
++ * Returns one of:
++ *	PCI_P2PDMA_MAP_NOT_SUPPORTED - The mapping should not be done
++ *	PCI_P2PDMA_MAP_BUS_ADDR - The mapping should use the PCI bus address
++ *	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE - The mapping should be done normally
++ *		using the CPU physical address (in dma-direct) or an IOVA
++ *		mapping for the IOMMU.
++ */
++enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
++					     struct device *dev)
+ {
+ 	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
  	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
- 	struct pci_dev *client;
- 	struct pci_p2pdma *p2pdma;
-+	int dist;
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 0d5b06b3a4a6..d693a0e33bac 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -379,4 +379,49 @@ static inline void debug_dma_dump_mappings(struct device *dev)
  
- 	if (!provider->p2pdma)
- 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-@@ -864,6 +865,10 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
- 		type = xa_to_value(xa_load(&p2pdma->map_types,
- 					   map_types_idx(client)));
- 	rcu_read_unlock();
-+
-+	if (type == PCI_P2PDMA_MAP_UNKNOWN)
-+		return calc_map_type_and_dist(provider, client, &dist, true);
-+
- 	return type;
- }
+ extern const struct dma_map_ops dma_dummy_ops;
  
-@@ -906,7 +911,7 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 	case PCI_P2PDMA_MAP_BUS_ADDR:
- 		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
- 	default:
--		WARN_ON_ONCE(1);
-+		/* Mapping is not Supported */
- 		return 0;
- 	}
- }
++enum pci_p2pdma_map_type {
++	/*
++	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally for indicating the mapping
++	 * type hasn't been calculated yet. Functions that return this enum
++	 * never return this value.
++	 */
++	PCI_P2PDMA_MAP_UNKNOWN = 0,
++
++	/*
++	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
++	 * traverse the host bridge and the host bridge is not in the
++	 * allowlist. DMA Mapping routines should return an error when
++	 * this is returned.
++	 */
++	PCI_P2PDMA_MAP_NOT_SUPPORTED,
++
++	/*
++	 * PCI_P2PDMA_BUS_ADDR: Indicates that two devices can talk to
++	 * each other directly through a PCI switch and the transaction will
++	 * not traverse the host bridge. Such a mapping should program
++	 * the DMA engine with PCI bus addresses.
++	 */
++	PCI_P2PDMA_MAP_BUS_ADDR,
++
++	/*
++	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
++	 * to each other, but the transaction traverses a host bridge on the
++	 * allowlist. In this case, a normal mapping either with CPU physical
++	 * addresses (in the case of dma-direct) or IOVA addresses (in the
++	 * case of IOMMUs) should be used to program the DMA engine.
++	 */
++	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
++};
++
++#ifdef CONFIG_PCI_P2PDMA
++enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
++					     struct device *dev);
++#else /* CONFIG_PCI_P2PDMA */
++static inline enum pci_p2pdma_map_type
++pci_p2pdma_map_type(struct dev_pagemap *pgmap, struct device *dev)
++{
++	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
++}
++#endif /* CONFIG_PCI_P2PDMA */
++
+ #endif /* _LINUX_DMA_MAP_OPS_H */
 -- 
 2.30.2
 
