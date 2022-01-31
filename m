@@ -1,53 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7875B4A4AF6
-	for <lists.iommu@lfdr.de>; Mon, 31 Jan 2022 16:50:24 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C781F4A4B00
+	for <lists.iommu@lfdr.de>; Mon, 31 Jan 2022 16:52:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2ABAE414E6;
-	Mon, 31 Jan 2022 15:50:23 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7CCC682B24;
+	Mon, 31 Jan 2022 15:52:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rkgNruDp7EI8; Mon, 31 Jan 2022 15:50:22 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ahE9DfHnJZuH; Mon, 31 Jan 2022 15:52:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 5432641519;
-	Mon, 31 Jan 2022 15:50:22 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B24AD82B3E;
+	Mon, 31 Jan 2022 15:52:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23416C000B;
-	Mon, 31 Jan 2022 15:50:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 905D0C000B;
+	Mon, 31 Jan 2022 15:52:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 18C23C000B
- for <iommu@lists.linux-foundation.org>; Mon, 31 Jan 2022 15:50:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E124C000B
+ for <iommu@lists.linux-foundation.org>; Mon, 31 Jan 2022 15:52:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 07CF782894
- for <iommu@lists.linux-foundation.org>; Mon, 31 Jan 2022 15:50:21 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4668C82B24
+ for <iommu@lists.linux-foundation.org>; Mon, 31 Jan 2022 15:52:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id etwtva0JSJFf for <iommu@lists.linux-foundation.org>;
- Mon, 31 Jan 2022 15:50:20 +0000 (UTC)
+ with ESMTP id pCvgpfiEBX0G for <iommu@lists.linux-foundation.org>;
+ Mon, 31 Jan 2022 15:52:13 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org
- [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6174982868
- for <iommu@lists.linux-foundation.org>; Mon, 31 Jan 2022 15:50:20 +0000 (UTC)
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B2001833AF
+ for <iommu@lists.linux-foundation.org>; Mon, 31 Jan 2022 15:52:13 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 268E24DC; Mon, 31 Jan 2022 16:50:18 +0100 (CET)
-Date: Mon, 31 Jan 2022 16:50:16 +0100
+ id D94A74DC; Mon, 31 Jan 2022 16:52:11 +0100 (CET)
+Date: Mon, 31 Jan 2022 16:52:10 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH] iommu: Fix some W=1 warnings
-Message-ID: <YfgFOLz79Gmvl5U9@8bytes.org>
-References: <1643366673-26803-1-git-send-email-john.garry@huawei.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 1/2] iommu/vt-d: Fix PCI bus rescan device hot add
+Message-ID: <YfgFqp+lR9wRdUWn@8bytes.org>
+References: <20220128031002.2219155-1-baolu.lu@linux.intel.com>
+ <20220128031002.2219155-2-baolu.lu@linux.intel.com>
+ <YfZBlzYTN/RfCGnE@8bytes.org>
+ <d9c35bb7-e6f5-a439-505b-5352c34f5621@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1643366673-26803-1-git-send-email-john.garry@huawei.com>
-Cc: robin.murphy@arm.com, iommu@lists.linux-foundation.org, will@kernel.org,
- linux-kernel@vger.kernel.org
+In-Reply-To: <d9c35bb7-e6f5-a439-505b-5352c34f5621@arm.com>
+Cc: iommu@lists.linux-foundation.org, Zhang@8bytes.org,
+ Guoqing Jiang <guoqing.jiang@linux.dev>, Bernice <bernice.zhang@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,18 +67,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jan 28, 2022 at 06:44:33PM +0800, John Garry wrote:
-> The code is mostly free of W=1 warning, so fix the following:
-> 
-> drivers/iommu/iommu.c:996: warning: expecting prototype for iommu_group_for_each_dev(). Prototype was for __iommu_group_for_each_dev() instead
-> drivers/iommu/iommu.c:3048: warning: Function parameter or member 'drvdata' not described in 'iommu_sva_bind_device'
-> drivers/iommu/ioasid.c:354: warning: Function parameter or member 'ioasid' not described in 'ioasid_get'
-> drivers/iommu/omap-iommu.c:1098: warning: expecting prototype for omap_iommu_suspend_prepare(). Prototype was for omap_iommu_prepare() instead
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
+On Mon, Jan 31, 2022 at 01:53:06PM +0000, Robin Murphy wrote:
+> Indeed I very nearly asked whether we couldn't just call these from
+> intel_iommu_{probe,release}_device() directly, but it looks like they also
+> interact with the interrupt remapping stuff which can be built independently
+> of the IOMMU API :(
 
-Applied, thanks.
+Okay, but having two notifiers is still ugly. Can we only register a
+notifier when IRQ-remapping is used without IOMMU-API? In this case a
+single notifier be sufficient.
 
+Regards,
+
+Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
