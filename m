@@ -1,67 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5114A7174
-	for <lists.iommu@lfdr.de>; Wed,  2 Feb 2022 14:23:18 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD14A72D8
+	for <lists.iommu@lfdr.de>; Wed,  2 Feb 2022 15:18:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 14BF940462;
-	Wed,  2 Feb 2022 13:23:17 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9D65983EF1;
+	Wed,  2 Feb 2022 14:18:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2iKw7GA_37ZD; Wed,  2 Feb 2022 13:23:16 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NhdvW9-D2KFt; Wed,  2 Feb 2022 14:18:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 157B440463;
-	Wed,  2 Feb 2022 13:23:16 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7E4E883EDA;
+	Wed,  2 Feb 2022 14:18:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6ABCC0073;
-	Wed,  2 Feb 2022 13:23:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59F91C000B;
+	Wed,  2 Feb 2022 14:18:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A520C000B
- for <iommu@lists.linux-foundation.org>; Wed,  2 Feb 2022 13:23:14 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7FA75C000B
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Feb 2022 14:18:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 29BFA401B9
- for <iommu@lists.linux-foundation.org>; Wed,  2 Feb 2022 13:23:14 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6E7A460FB9
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Feb 2022 14:18:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QokkcyMTAh_e for <iommu@lists.linux-foundation.org>;
- Wed,  2 Feb 2022 13:23:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6A6EB40188
- for <iommu@lists.linux-foundation.org>; Wed,  2 Feb 2022 13:23:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49719ED1;
- Wed,  2 Feb 2022 05:23:12 -0800 (PST)
-Received: from [10.57.68.47] (unknown [10.57.68.47])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65DE23F718;
- Wed,  2 Feb 2022 05:23:08 -0800 (PST)
-Message-ID: <862bfda8-5c95-3743-3758-2e63faa7ac3e@arm.com>
-Date: Wed, 2 Feb 2022 13:22:46 +0000
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=infradead.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YN3l0p5_wqUh for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Feb 2022 14:18:23 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9379E60586
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Feb 2022 14:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=u0UMpt5R0DZsXe8onQGJg8MHl0
+ LW4Ndvh2ka0Mju98F0zQFdCL/g5yEWNd0YPJj5Zaa6RETECrJuc70bLHQ6/45lHau3i7MgmahozCY
+ 1SLESdfnhSvIohKkkHJ6nYOxbZsxdnl94SbpuOXor67peuJkCT4jtbxxdBfOrcb0q8WRMntEi7XTr
+ jP76yfBZDSw1pK3TU96ConTheHx8zPYgnfCSy6tErUSBoOuwysly4qpwilCDQqoWRSNt8kwWs1N1L
+ QGT7K5YTUB0hkCv7ODSFWM55XXnoOnN7ozdNIC9ZBx3MYy6YOnU/7k7Um9kGH7qT95+U8ERtyuQX2
+ 8eisWkqA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1nFGSi-00FclL-Ox; Wed, 02 Feb 2022 14:18:20 +0000
+Date: Wed, 2 Feb 2022 06:18:20 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Subject: Re: [PATCH] iommu/vt-d: Remove comment reference to
+ iommu_dev_has_feature
+Message-ID: <YfqSrK09u67EyACx@infradead.org>
+References: <20220202023743.28135-1-akeem.g.abodunrin@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH 0/2] x86/hyperv/Swiotlb: Add swiotlb_alloc_from_low_pages
- switch
-Content-Language: en-GB
-To: Christoph Hellwig <hch@infradead.org>, Tianyu Lan <ltykernel@gmail.com>
-References: <20220126161053.297386-1-ltykernel@gmail.com>
- <Yfo84XYBsV7tA6Xd@infradead.org>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <Yfo84XYBsV7tA6Xd@infradead.org>
-Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, kys@microsoft.com, hch@lst.de,
- wei.liu@kernel.org, sthemmin@microsoft.com, x86@kernel.org,
- decui@microsoft.com, michael.h.kelley@microsoft.com, mingo@redhat.com,
- parri.andrea@gmail.com, thomas.lendacky@amd.com,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, konrad.wilk@oracle.com,
- haiyangz@microsoft.com, bp@alien8.de, tglx@linutronix.de,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- vkuznets@redhat.com
+Content-Disposition: inline
+In-Reply-To: <20220202023743.28135-1-akeem.g.abodunrin@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: iommu@lists.linux-foundation.org, matthew.d.roper@intel.com,
+ dri-devel@lists.freedesktop.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,24 +75,14 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022-02-02 08:12, Christoph Hellwig wrote:
-> I think this interface is a little too hacky.  In the end all the
-> non-trusted hypervisor schemes (including the per-device swiotlb one)
-> can allocate the memory from everywhere and want for force use of
-> swiotlb.  I think we need some kind of proper interface for that instead
-> of setting all kinds of global variables.
+Looks good:
 
-Right, if platform/hypervisor code knows enough to be able to set magic 
-non-standard allocation flags correctly, surely it could equally just 
-perform whatever non-standard allocation it needs and call 
-swiotlb_init_with_tbl() instead of swiotlb_init().
-
-Robin.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
