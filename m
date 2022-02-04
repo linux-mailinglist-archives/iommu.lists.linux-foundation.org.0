@@ -1,59 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294D64AA3F7
-	for <lists.iommu@lfdr.de>; Sat,  5 Feb 2022 00:07:40 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 982584AA3F9
+	for <lists.iommu@lfdr.de>; Sat,  5 Feb 2022 00:07:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8C65A829DB;
-	Fri,  4 Feb 2022 23:07:38 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0D87E405FD;
+	Fri,  4 Feb 2022 23:07:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wiNCyXEbGfRK; Fri,  4 Feb 2022 23:07:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C072482786;
-	Fri,  4 Feb 2022 23:07:37 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MvM5xN7k8txW; Fri,  4 Feb 2022 23:07:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E252840004;
+	Fri,  4 Feb 2022 23:07:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 893C8C000B;
-	Fri,  4 Feb 2022 23:07:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B7DA5C000B;
+	Fri,  4 Feb 2022 23:07:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 28FCCC000B
- for <iommu@lists.linux-foundation.org>; Fri,  4 Feb 2022 23:07:36 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8AC4CC000B
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Feb 2022 23:07:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1040482786
- for <iommu@lists.linux-foundation.org>; Fri,  4 Feb 2022 23:07:36 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 79F2160D6C
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Feb 2022 23:07:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EK2pZ_kDHxhE for <iommu@lists.linux-foundation.org>;
- Fri,  4 Feb 2022 23:07:35 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linutronix.de header.b="EEXdM43Y";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=linutronix.de header.b="jMvBOaIp"
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wskpaHeAv3qL for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Feb 2022 23:07:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6DC9882735
- for <iommu@lists.linux-foundation.org>; Fri,  4 Feb 2022 23:07:35 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E0EF560AF2
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Feb 2022 23:07:51 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1644016051;
+ s=2020; t=1644016069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XnhUMmuoy3H9frjewzOP3Ywq/q0qdsbrKJfw5nT/m5k=;
- b=SOrHnXVoPsmninpWXs7KWSnkzSfHvmZT2/Qwp8SQ3LJmhoagnYkNopDitPTiZBx8bJwzVi
- +L1A/Vp7e7jWLVYl5g9q/jBz6Q+WZHHiHLf7Divdgh2F5TyEIzwu0A+DPO/VJ+cyuht2BR
- OgyOeL+yHiTAUkOEk2ICFehbrKjMRT+ZALsXd7KOUDEts30nnEbRJNYWqz9MAOeqgmFG6z
- 1WvGc99mVt2WBauUhR3n1hiejdO3dj6xITEQuIcSrEfH1dS1etlSJ3uwStNURXbAvqblWg
- vqFPJYVcB4KzDlpksC7k43DS4KHUUKTz7sUFNR5et46bJWzOsQXnPQx4fX5lbw==
+ bh=ld1PFYBLYxe6OCr2s2kgC8WKseN0fuK+fr3Z4cIGHcU=;
+ b=EEXdM43YWo46V68aujQjWgrltp7wN0bI61WoXn8oEWXUGhsDkJVlbSYLsoizCE+o1vi4Yj
+ fYyrfor/EEQMTJdDd7IKEg9wMLJVARTHls75/ey2yrDQATdI8KRUnesWnivrQmBowOK/tj
+ a3YOG/Vv1PXc4dI+8wP2Y0j9MmrXLdPksjIFxQX87FkLu2KQzVkdEDjjhM6fWta+HZajiT
+ EUFW0WQ/9lScvrcnJgHE0tFSQ56JwhsKxTVZ8sp+2X3N7Gyli87O7MLyUjVSSV1p7z1IQa
+ Ak7UMA5ODZX6MWc2P/OTBRZifM+eKnJj4ROqhUw3xl6OZAEuyrWhU0CJfv1kww==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1644016051;
+ s=2020e; t=1644016069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XnhUMmuoy3H9frjewzOP3Ywq/q0qdsbrKJfw5nT/m5k=;
- b=Z8NUF1bglArTaYD5uZz98QaGYAItoaStikcyQYz06YFqKMk5g9zors8SaVtMR3Z66WKb5q
- oYmW4denlK0mMXBg==
+ bh=ld1PFYBLYxe6OCr2s2kgC8WKseN0fuK+fr3Z4cIGHcU=;
+ b=jMvBOaIpolZEID1SEOxXurziTcZcYEdIzb/6ZjUwcwqwQdwZTGgmPAxu5pPaw9fac9erdB
+ kyYeyxTCNno1lMDw==
 To: Fenghua Yu <fenghua.yu@intel.com>, Dave Hansen
  <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, Borislav
  Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, Andy
@@ -61,13 +65,12 @@ To: Fenghua Yu <fenghua.yu@intel.com>, Dave Hansen
  <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Josh Poimboeuf
  <jpoimboe@redhat.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>, Ashok
  Raj <ashok.raj@intel.com>, Ravi V Shankar <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v3 01/11] iommu/sva: Rename CONFIG_IOMMU_SVA_LIB to
- CONFIG_IOMMU_SVA
-In-Reply-To: <20220128202905.2274672-2-fenghua.yu@intel.com>
+Subject: Re: [PATCH v3 02/11] mm: Change CONFIG option for mm->pasid field
+In-Reply-To: <20220128202905.2274672-3-fenghua.yu@intel.com>
 References: <20220128202905.2274672-1-fenghua.yu@intel.com>
- <20220128202905.2274672-2-fenghua.yu@intel.com>
-Date: Sat, 05 Feb 2022 00:07:31 +0100
-Message-ID: <877daacjt8.ffs@tglx>
+ <20220128202905.2274672-3-fenghua.yu@intel.com>
+Date: Sat, 05 Feb 2022 00:07:48 +0100
+Message-ID: <874k5ecjsr.ffs@tglx>
 MIME-Version: 1.0
 Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
  x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
@@ -90,13 +93,13 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On Fri, Jan 28 2022 at 12:28, Fenghua Yu wrote:
 
-> This CONFIG option originally only referred to the Shared
-> Virtual Address (SVA) library. But it is now also used for
-> non-library portions of code.
+> This currently depends on CONFIG_IOMMU_SUPPORT. But it is only
+> needed when CONFIG_IOMMU_SVA option is enabled.
 >
-> Drop the "_LIB" suffix so that there is just one configuration
-> options for all code relating to SVA.
+> Change the CONFIG guards around definition and initialization
+> of mm->pasid field.
 >
+> Suggested-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 > Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 > Reviewed-by: Tony Luck <tony.luck@intel.com>
 
