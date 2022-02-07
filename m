@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783374ACC74
-	for <lists.iommu@lfdr.de>; Tue,  8 Feb 2022 00:04:03 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7454E4ACC71
+	for <lists.iommu@lfdr.de>; Tue,  8 Feb 2022 00:04:01 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8961A40535;
-	Mon,  7 Feb 2022 23:04:00 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id swPb3d7eIKUu; Mon,  7 Feb 2022 23:03:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1BDC34058A;
-	Mon,  7 Feb 2022 23:03:59 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D969CC000B;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 291D0404CF;
 	Mon,  7 Feb 2022 23:03:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id x58QOZ7R0Z8K; Mon,  7 Feb 2022 23:03:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 347C84043A;
+	Mon,  7 Feb 2022 23:03:57 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C498C000B;
+	Mon,  7 Feb 2022 23:03:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13D1EC000B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 23:03:56 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24DF0C0011
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 23:03:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5050E80BC2
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4865340253
  for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 23:03:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NmcbLL_9IxSL for <iommu@lists.linux-foundation.org>;
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 78uo29POR8ED for <iommu@lists.linux-foundation.org>;
  Mon,  7 Feb 2022 23:03:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A207380B91
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2C1BB4049B
  for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 23:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1644275031; x=1675811031;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=exni2nSl44fcOYxYrJayxLKBv/TSBnKt2khR1kpp+yw=;
- b=oFbqffrBlR6hi1Zyn0R6hkEnzVGNce0pLDKd1yXw6JsIXXHRwMFbTQgF
- k/nu0/JX99f9Jzxy7zMUAhAJYz27MbgE053AdWsWQi18h1BMFPgtEUBMe
- DPs80QZXyTVRQXNiDbBRTMjw9UdHmLEWGtE6Z7KWHSSrt2BnVdGWN8GTs
- LKa4NZQj+3F112qZM/H83i3pUHMzUrrCDkvxOFFce8Zv4dS5cSRjhrNSS
- 4mjegOLU/QGTBV041yUJ7D3CltIA8VwE4BqEhErFdJWfvLTkOOumhf+hz
- ytd2pznwRnlpW2m02lWesd+Y3NLbC9YVr3RX/S5tP3aZaLbnFtZ/SmFt/ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="248774779"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="248774779"
+ bh=ncFZ3GgiFenQLT9iFwTMGx9ZJmzYJBlebX18EhhOoaA=;
+ b=m4FyjIJ2FPbKkEqaZteskZ5wk7Iwzt6feGfVkKw7fUGImfrhQqvW/WUI
+ 9b4ZAATxnw5ZSR7OEzCpAi0D7iNEm60izWAtdmL6mzi6CpKCKK2aiSecv
+ nyTbfUudsa/eneRnj+SNUE4XAhqGXLzSMxUMOlYfyE/rYkmuDj1Fk9CKK
+ S3H5f5/AZQBgYmAgNQdU3VP+BUVFhBX9aszXPwP1/7QBCQikCmKJDwi4g
+ BDj4zeqP7h9oh+1H7aJ6Sv5JORBXmd6zzEgoTKOjLTOaVPW5fxmRIBxVt
+ i910e0ypHamxvbJml+MuyoWb4CLbm20zySpb3QjqU28yx+13o13ZaQ7K4 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="248774782"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="248774782"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Feb 2022 15:03:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="540324097"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="540324104"
 Received: from otcwcpicx3.sc.intel.com ([172.25.55.73])
- by orsmga008.jf.intel.com with ESMTP; 07 Feb 2022 15:03:06 -0800
+ by orsmga008.jf.intel.com with ESMTP; 07 Feb 2022 15:03:07 -0800
 From: Fenghua Yu <fenghua.yu@intel.com>
 To: "Thomas Gleixner" <tglx@linutronix.de>,
  "Dave Hansen" <dave.hansen@linux.intel.com>,
@@ -68,10 +68,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>,
  "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
  "Ashok Raj" <ashok.raj@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v4 10/11] tools/objtool: Check for use of the ENQCMD
- instruction in the kernel
-Date: Mon,  7 Feb 2022 15:02:53 -0800
-Message-Id: <20220207230254.3342514-11-fenghua.yu@intel.com>
+Subject: [PATCH v4 11/11] docs: x86: Change documentation for SVA (Shared
+ Virtual Addressing)
+Date: Mon,  7 Feb 2022 15:02:54 -0800
+Message-Id: <20220207230254.3342514-12-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220207230254.3342514-1-fenghua.yu@intel.com>
 References: <20220207230254.3342514-1-fenghua.yu@intel.com>
@@ -95,66 +95,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The ENQCMD implicitly accesses the PASID_MSR to fill in the pasid field
-of the descriptor being submitted to an accelerator. But there is no
-precise (and stable across kernel changes) point at which the PASID_MSR
-is updated from the value for one task to the next.
+Since allocating, freeing and fixing up PASID are changed, the
+documentation is updated to reflect the changes.
 
-Kernel code that uses accelerators must always use the ENQCMDS instruction
-which does not access the PASID_MSR.
-
-Check for use of the ENQCMD instruction in the kernel and warn on its
-usage.
-
+Originally-by: Ashok Raj <ashok.raj@intel.com>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
 ---
 v3:
-- Add Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
+- Remove PASID refcount description (Thomas).
 
 v2:
-- Simplify handling ENQCMD (PeterZ and Josh)
+- Update life cycle info (Tony and Thomas).
+- Update initial PASID value to INVALID_IOASID on fork().
 
- tools/objtool/arch/x86/decode.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ Documentation/x86/sva.rst | 53 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 41 insertions(+), 12 deletions(-)
 
-diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
-index c10ef78df050..479e769ca324 100644
---- a/tools/objtool/arch/x86/decode.c
-+++ b/tools/objtool/arch/x86/decode.c
-@@ -112,7 +112,7 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
- 	const struct elf *elf = file->elf;
- 	struct insn insn;
- 	int x86_64, ret;
--	unsigned char op1, op2,
-+	unsigned char op1, op2, op3,
- 		      rex = 0, rex_b = 0, rex_r = 0, rex_w = 0, rex_x = 0,
- 		      modrm = 0, modrm_mod = 0, modrm_rm = 0, modrm_reg = 0,
- 		      sib = 0, /* sib_scale = 0, */ sib_index = 0, sib_base = 0;
-@@ -139,6 +139,7 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
+diff --git a/Documentation/x86/sva.rst b/Documentation/x86/sva.rst
+index 076efd51ef1f..1a22020735a3 100644
+--- a/Documentation/x86/sva.rst
++++ b/Documentation/x86/sva.rst
+@@ -104,18 +104,47 @@ The MSR must be configured on each logical CPU before any application
+ thread can interact with a device. Threads that belong to the same
+ process share the same page tables, thus the same MSR value.
  
- 	op1 = insn.opcode.bytes[0];
- 	op2 = insn.opcode.bytes[1];
-+	op3 = insn.opcode.bytes[2];
- 
- 	if (insn.rex_prefix.nbytes) {
- 		rex = insn.rex_prefix.bytes[0];
-@@ -491,6 +492,14 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
- 			/* nopl/nopw */
- 			*type = INSN_NOP;
- 
-+		} else if (op2 == 0x38 && op3 == 0xf8) {
-+			if (insn.prefixes.nbytes == 1 &&
-+			    insn.prefixes.bytes[0] == 0xf2) {
-+				/* ENQCMD cannot be used in the kernel. */
-+				WARN("ENQCMD instruction at %s:%lx", sec->name,
-+				     offset);
-+			}
+-PASID is cleared when a process is created. The PASID allocation and MSR
+-programming may occur long after a process and its threads have been created.
+-One thread must call iommu_sva_bind_device() to allocate the PASID for the
+-process. If a thread uses ENQCMD without the MSR first being populated, a #GP
+-will be raised. The kernel will update the PASID MSR with the PASID for all
+-threads in the process. A single process PASID can be used simultaneously
+-with multiple devices since they all share the same address space.
+-
+-One thread can call iommu_sva_unbind_device() to free the allocated PASID.
+-The kernel will clear the PASID MSR for all threads belonging to the process.
+-
+-New threads inherit the MSR value from the parent.
++PASID Life Cycle Management
++==========================
 +
- 		} else if (op2 == 0xa0 || op2 == 0xa8) {
++PASID is initialized as INVALID_IOASID (-1) when a process is created.
++
++Only processes that access SVA-capable devices need to have a PASID
++allocated. This allocation happens when a process opens/binds an SVA-capable
++device but finds no PASID for this process. Subsequent binds of the same, or
++other devices will share the same PASID.
++
++Although the PASID is allocated to the process by opening a device,
++it is not active in any of the threads of that process. It's loaded to the
++IA32_PASID MSR lazily when a thread tries to submit a work descriptor
++to a device using the ENQCMD.
++
++That first access will trigger a #GP fault because the IA32_PASID MSR
++has not been initialized with the PASID value assigned to the process
++when the device was opened. The Linux #GP handler notes that a PASID has
++been allocated for the process, and so initializes the IA32_PASID MSR
++and returns so that the ENQCMD instruction is re-executed.
++
++On fork(2) or exec(2) the PASID is removed from the process as it no
++longer has the same address space that it had when the device was opened.
++
++On clone(2) the new task shares the same address space, so will be
++able to use the PASID allocated to the process. The IA32_PASID is not
++preemptively initialized as the PASID value might not be allocated yet or
++the kernel does not know whether this thread is going to access the device
++and the cleared IA32_PASID MSR reduces context switch overhead by xstate
++init optimization. Since #GP faults have to be handled on any threads that
++were created before the PASID was assigned to the mm of the process, newly
++created threads might as well be treated in a consistent way.
++
++Due to complexity of freeing the PASID and clearing all IA32_PASID MSRs in
++all threads in unbind, free the PASID lazily only on mm exit.
++
++If a process does a close(2) of the device file descriptor and munmap(2)
++of the device MMIO portal, then the driver will unbind the device. The
++PASID is still marked VALID in the PASID_MSR for any threads in the
++process that accessed the device. But this is harmless as without the
++MMIO portal they cannot submit new work to the device.
  
- 			/* push fs/gs */
+ Relationships
+ =============
 -- 
 2.35.1
 
