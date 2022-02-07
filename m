@@ -1,60 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195124AB8A3
-	for <lists.iommu@lfdr.de>; Mon,  7 Feb 2022 11:26:27 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 701194AB8D5
+	for <lists.iommu@lfdr.de>; Mon,  7 Feb 2022 11:40:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BABCA400AB;
-	Mon,  7 Feb 2022 10:26:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0E8DD81400;
+	Mon,  7 Feb 2022 10:40:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5b6znPXBJf1K; Mon,  7 Feb 2022 10:26:24 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id p0IhtFVnIjzV; Mon,  7 Feb 2022 10:40:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B29A9402C3;
-	Mon,  7 Feb 2022 10:26:24 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 470878140D;
+	Mon,  7 Feb 2022 10:40:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FEA2C0073;
-	Mon,  7 Feb 2022 10:26:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 117DFC0073;
+	Mon,  7 Feb 2022 10:40:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9BCADC000B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 10:26:22 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 81C94C000B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 10:40:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 780EB40289
- for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 10:26:22 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 703FF60B78
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 10:40:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m9La705rkW6f for <iommu@lists.linux-foundation.org>;
- Mon,  7 Feb 2022 10:26:21 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Bt5L1rb8zHKy for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Feb 2022 10:40:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 61E75401A2
- for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 10:26:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 595B811B3;
- Mon,  7 Feb 2022 02:26:20 -0800 (PST)
-Received: from [10.57.70.156] (unknown [10.57.70.156])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F01BB3F718;
- Mon,  7 Feb 2022 02:26:18 -0800 (PST)
-Message-ID: <f17da9b7-1642-762c-0854-e131e3c2f438@arm.com>
-Date: Mon, 7 Feb 2022 10:26:15 +0000
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 4A9F460597
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 10:40:12 +0000 (UTC)
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JsjGv00YNz67yfJ;
+ Mon,  7 Feb 2022 18:36:06 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 7 Feb 2022 11:40:08 +0100
+Received: from [10.47.86.164] (10.47.86.164) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Feb
+ 2022 10:40:02 +0000
+Message-ID: <ce1183f5-cec1-9438-4b5d-a4a99b046ab6@huawei.com>
+Date: Mon, 7 Feb 2022 10:39:58 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH 1/2] iommu/arm-smmu-v3: Avoid open coded arithmetic in
- memory allocation
-Content-Language: en-GB
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>
-References: <de9e8705169b5dc873f6ce9f9a17598de89aa6a7.1644081032.git.christophe.jaillet@wanadoo.fr>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <de9e8705169b5dc873f6ce9f9a17598de89aa6a7.1644081032.git.christophe.jaillet@wanadoo.fr>
-Cc: iommu@lists.linux-foundation.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v1 04/10] iommu/vt-d: Remove iova_cache_get/put()
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ "Kevin Tian" <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>, Liu Yi
+ L <yi.l.liu@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>
+References: <20220207064142.1092846-1-baolu.lu@linux.intel.com>
+ <20220207064142.1092846-5-baolu.lu@linux.intel.com>
+In-Reply-To: <20220207064142.1092846-5-baolu.lu@linux.intel.com>
+X-Originating-IP: [10.47.86.164]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>, Christoph
+ Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,50 +77,41 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: John Garry via iommu <iommu@lists.linux-foundation.org>
+Reply-To: John Garry <john.garry@huawei.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022-02-05 17:10, Christophe JAILLET wrote:
-> kmalloc_array()/kcalloc() should be used to avoid potential overflow when
-> a multiplication is needed to compute the size of the requested memory.
-> 
-> So turn a devm_kzalloc()+explicit size computation into an equivalent
-> devm_kcalloc().
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> This is NOT compile tested.
-> I don't have the needed cross compiling tools.
-
-FYI, https://cdn.kernel.org/pub/tools/crosstool/
-
-Either way, the patch looks reasonable, thanks!
-
-Acked-by: Robin Murphy <robin.murphy@arm.com>
-
-> ---
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index 6dc6d8b6b368..14d06aad0726 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -2981,10 +2981,10 @@ static int arm_smmu_init_l1_strtab(struct arm_smmu_device *smmu)
+On 07/02/2022 06:41, Lu Baolu wrote:
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 583ec0fa4ac1..e8d58654361c 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -3348,9 +3348,6 @@ static inline int iommu_devinfo_cache_init(void)
+>   static int __init iommu_init_mempool(void)
 >   {
->   	unsigned int i;
->   	struct arm_smmu_strtab_cfg *cfg = &smmu->strtab_cfg;
-> -	size_t size = sizeof(*cfg->l1_desc) * cfg->num_l1_ents;
->   	void *strtab = smmu->strtab_cfg.strtab;
+>   	int ret;
+> -	ret = iova_cache_get();
+> -	if (ret)
+> -		return ret;
 >   
-> -	cfg->l1_desc = devm_kzalloc(smmu->dev, size, GFP_KERNEL);
-> +	cfg->l1_desc = devm_kcalloc(smmu->dev, cfg->num_l1_ents,
-> +				    sizeof(*cfg->l1_desc), GFP_KERNEL);
->   	if (!cfg->l1_desc)
->   		return -ENOMEM;
+>   	ret = iommu_domain_cache_init();
+>   	if (ret)
+> @@ -3362,7 +3359,6 @@ static int __init iommu_init_mempool(void)
 >   
+>   	kmem_cache_destroy(iommu_domain_cache);
+>   domain_error:
+
+nit: is this label still really required? only failures in 
+iommu_domain_cache_init() jump to it, and that can return directly now.
+
+Thanks,
+John
+
+> -	iova_cache_put();
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
