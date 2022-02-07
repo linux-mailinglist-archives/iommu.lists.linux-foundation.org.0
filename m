@@ -1,74 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDAF4AB6EF
-	for <lists.iommu@lfdr.de>; Mon,  7 Feb 2022 10:05:08 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B36134AB8B8
+	for <lists.iommu@lfdr.de>; Mon,  7 Feb 2022 11:31:49 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 92543402A1;
-	Mon,  7 Feb 2022 09:05:07 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 52C214029F;
+	Mon,  7 Feb 2022 10:31:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ps52hJVynLUI; Mon,  7 Feb 2022 09:05:06 +0000 (UTC)
+	with ESMTP id Yh2jT7l03d_r; Mon,  7 Feb 2022 10:31:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 926324029F;
-	Mon,  7 Feb 2022 09:05:06 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3067640289;
+	Mon,  7 Feb 2022 10:31:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6AE7DC000B;
-	Mon,  7 Feb 2022 09:05:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09571C0073;
+	Mon,  7 Feb 2022 10:31:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 58D0EC000B
- for <iommu@lists.linux-foundation.org>; Sat,  5 Feb 2022 20:18:25 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A9AAC000B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 09:40:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 31E354047D
- for <iommu@lists.linux-foundation.org>; Sat,  5 Feb 2022 20:18:25 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 269674027A
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 09:40:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FJUubVzpKLIV for <iommu@lists.linux-foundation.org>;
- Sat,  5 Feb 2022 20:18:24 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 56FD24032B
- for <iommu@lists.linux-foundation.org>; Sat,  5 Feb 2022 20:18:24 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id
- b4-20020a05660214c400b00632eb8bff25so6071179iow.1
- for <iommu@lists.linux-foundation.org>; Sat, 05 Feb 2022 12:18:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=//IpWN0Kyb3zdaJDZWQVUdBv0C1amCkj+8BKi6AK2E8=;
- b=IRQMrNmI/YWFZjuJb4b6wE6flyEyW6/LzYbKcNOu7Xnwfx89UeN5+YTCDqItQFTBxl
- v2d5LLp1ZF2AyKXxew0a18JtPlt0kG4rGrI9U4oFFVZQrbIRjBlmW9OCoJn3js77rm73
- eez03oK8hDDO3UW4jnEYGKUa3pW9jRoYJ2qMbETfQ2oX9XC2Qr+ATF7Ia2DJJ/nkxKi9
- rLQkVIxjio/0ClYufTfMEdW/88DwfigFRr8E8JugKjBFwnHGll0bThYFbnAVeN4uJjm4
- /hbTcpUvEM4oA8HsjogGK1BOYLmSBFC8LMNy7unnDP1r7NL3nKu+1FlP4Y6VNfsEKo9P
- E94w==
-X-Gm-Message-State: AOAM532hJ6Yg2rwwGM8FzpW9vnuyJ5MEvwlHOXAWBOgCriedvnFo3xqN
- Pxp0QuKoDJ+JWBev6I0J18ZS3Ie9cCjM7Hgexasbnrsu3/w/
-X-Google-Smtp-Source: ABdhPJzhnyzMxtbaHXNJiT1k74YVxhCWjxXPME4lFoT8tI7K+SyNyfciNozxXMu79sQ46O/u0++E7iSm/HIuYe/CYp/FV8FIddR+
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id WApPiXbkdMEM for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Feb 2022 09:40:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 3CB8040272
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Feb 2022 09:40:12 +0000 (UTC)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Jsh0V0MX8z9sL0;
+ Mon,  7 Feb 2022 17:38:34 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 7 Feb 2022 17:40:03 +0800
+Subject: Re: [PATCH v3 0/8] Add support for HiSilicon PCIe Tune and Trace
+ device
+To: Yicong Yang <yangyicong@hisilicon.com>, <gregkh@linuxfoundation.org>,
+ <helgaas@kernel.org>, <alexander.shishkin@linux.intel.com>,
+ <lorenzo.pieralisi@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
+ <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+ <mike.leach@linaro.org>, <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>, 
+ <daniel.thompson@linaro.org>, <joro@8bytes.org>, <john.garry@huawei.com>,
+ <shameerali.kolothum.thodi@huawei.com>, <robin.murphy@arm.com>,
+ <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <coresight@lists.linaro.org>, <linux-pci@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+References: <20220124131118.17887-1-yangyicong@hisilicon.com>
+Message-ID: <5c1099b2-232f-2dc5-7c31-18fe3343955e@huawei.com>
+Date: Mon, 7 Feb 2022 17:40:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:389a:: with SMTP id
- b26mr2580834jav.158.1644092303434; 
- Sat, 05 Feb 2022 12:18:23 -0800 (PST)
-Date: Sat, 05 Feb 2022 12:18:23 -0800
-In-Reply-To: <000000000000f0196305d219b2fe@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b968f305d74b1195@google.com>
-Subject: Re: [syzbot] WARNING in __dma_map_sg_attrs
-From: syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, hch@lst.de, 
- iommu@lists.linux-foundation.org, linaro-mm-sig-owner@lists.linaro.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, m.szyprowski@samsung.com, robin.murphy@arm.com, 
- sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-X-Mailman-Approved-At: Mon, 07 Feb 2022 09:05:05 +0000
+In-Reply-To: <20220124131118.17887-1-yangyicong@hisilicon.com>
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Mon, 07 Feb 2022 10:31:45 +0000
+Cc: zhangshaokun@hisilicon.com, liuqi115@huawei.com, linuxarm@huawei.com,
+ prime.zeng@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,67 +80,116 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Yicong Yang <yangyicong@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-syzbot has found a reproducer for the following issue on:
+Hi perf, ETM and PCI related experts,
 
-HEAD commit:    0457e5153e0e Merge tag 'for-linus' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11b2637c700000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6f043113811433a5
-dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11c65542700000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1163f480700000
+a gentle ping ... appreciate for the comments.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
+thanks.
 
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Modules linked in:
-CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted 5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0 83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
-RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
-RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
-R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
-R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
- get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
- begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
- dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
- dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f62fcf530f9
-Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
-RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-
+On 2022/1/24 21:11, Yicong Yang wrote:
+> HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
+> integrated Endpoint (RCiEP) device, providing the capability
+> to dynamically monitor and tune the PCIe traffic (tune),
+> and trace the TLP headers (trace).
+> 
+> PTT tune is designed for monitoring and adjusting PCIe link parameters.
+> We provide several parameters of the PCIe link. Through the driver,
+> user can adjust the value of certain parameter to affect the PCIe link
+> for the purpose of enhancing the performance in certian situation.
+> 
+> PTT trace is designed for dumping the TLP headers to the memory, which
+> can be used to analyze the transactions and usage condition of the PCIe
+> Link. Users can choose filters to trace headers, by either requester
+> ID, or those downstream of a set of Root Ports on the same core of the
+> PTT device. It's also supported to trace the headers of certain type and
+> of certain direction.
+> 
+> The driver registers a PMU device for each PTT device. The trace can
+> be used through `perf record` and the traced headers can be decoded
+> by `perf report`. The perf command support for the device is also
+> added in this patchset. The tune can be used through the sysfs
+> attributes of related PMU device. See the documentation for the
+> detailed usage.
+> 
+> Change since v2:
+> - address the comments from Mathieu
+>   - rename the directory to ptt to match the function of the device
+>   - spinoff the declarations to a separate header
+>   - split the trace function to several patches
+>   - some other comments.
+> - make default smmu domain type of PTT device to identity
+>   Drop the RMR as it's not recommended and use an iommu_def_domain_type
+>   quirk to passthrough the device DMA as suggested by Robin. 
+> Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyicong@hisilicon.com/
+> 
+> Change since v1:
+> - switch the user interface of trace to perf from debugfs
+> - switch the user interface of tune to sysfs from debugfs
+> - add perf tool support to start trace and decode the trace data
+> - address the comments of documentation from Bjorn
+> - add RMR[1] support of the device as trace works in RMR mode or
+>   direct DMA mode. RMR support is achieved by common APIs rather
+>   than the APIs implemented in [1].
+> Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-yangyicong@hisilicon.com/
+> 
+> [1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali.kolothum.thodi@huawei.com/
+> 
+> Qi Liu (1):
+>   perf tool: Add support for HiSilicon PCIe Tune and Trace device driver
+> 
+> Yicong Yang (7):
+>   hwtracing: Add trace function support for HiSilicon PCIe Tune and
+>     Trace device
+>   hisi_ptt: Register PMU device for PTT trace
+>   hisi_ptt: Add support for dynamically updating the filter list
+>   hisi_ptt: Add tune function support for HiSilicon PCIe Tune and Trace
+>     device
+>   docs: Add HiSilicon PTT device driver documentation
+>   MAINTAINERS: Add maintainer for HiSilicon PTT driver
+>   iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device to
+>     identity
+> 
+>  Documentation/trace/hisi-ptt.rst              |  304 +++++
+>  MAINTAINERS                                   |    7 +
+>  drivers/Makefile                              |    1 +
+>  drivers/hwtracing/Kconfig                     |    2 +
+>  drivers/hwtracing/ptt/Kconfig                 |   11 +
+>  drivers/hwtracing/ptt/Makefile                |    2 +
+>  drivers/hwtracing/ptt/hisi_ptt.c              | 1124 +++++++++++++++++
+>  drivers/hwtracing/ptt/hisi_ptt.h              |  239 ++++
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   16 +
+>  tools/perf/arch/arm/util/auxtrace.c           |   56 +-
+>  tools/perf/arch/arm/util/pmu.c                |    3 +
+>  tools/perf/arch/arm64/util/Build              |    2 +-
+>  tools/perf/arch/arm64/util/hisi_ptt.c         |  195 +++
+>  tools/perf/util/Build                         |    2 +
+>  tools/perf/util/auxtrace.c                    |    4 +
+>  tools/perf/util/auxtrace.h                    |    1 +
+>  tools/perf/util/hisi-ptt-decoder/Build        |    1 +
+>  .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   |  170 +++
+>  .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   |   28 +
+>  tools/perf/util/hisi_ptt.c                    |  228 ++++
+>  tools/perf/util/hisi_ptt.h                    |   28 +
+>  21 files changed, 2420 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/trace/hisi-ptt.rst
+>  create mode 100644 drivers/hwtracing/ptt/Kconfig
+>  create mode 100644 drivers/hwtracing/ptt/Makefile
+>  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.c
+>  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.h
+>  create mode 100644 tools/perf/arch/arm64/util/hisi_ptt.c
+>  create mode 100644 tools/perf/util/hisi-ptt-decoder/Build
+>  create mode 100644 tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
+>  create mode 100644 tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
+>  create mode 100644 tools/perf/util/hisi_ptt.c
+>  create mode 100644 tools/perf/util/hisi_ptt.h
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
