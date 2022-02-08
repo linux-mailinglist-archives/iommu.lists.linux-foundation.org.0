@@ -1,54 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD1A4ACCBF
-	for <lists.iommu@lfdr.de>; Tue,  8 Feb 2022 01:20:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D765660C0E;
-	Tue,  8 Feb 2022 00:20:41 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m81JKtA-be1w; Tue,  8 Feb 2022 00:20:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0E5C560BF5;
-	Tue,  8 Feb 2022 00:20:41 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8498C0077;
-	Tue,  8 Feb 2022 00:20:40 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 51638C000B
- for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 00:20:39 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70144ACCC1
+	for <lists.iommu@lfdr.de>; Tue,  8 Feb 2022 01:20:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3656E8176A
- for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 00:20:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3D1C98176A;
+	Tue,  8 Feb 2022 00:20:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 277-qvRmVPqG for <iommu@lists.linux-foundation.org>;
- Tue,  8 Feb 2022 00:20:38 +0000 (UTC)
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qcinRT90PJbh; Tue,  8 Feb 2022 00:20:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 52FE081771;
+	Tue,  8 Feb 2022 00:20:45 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B2E1C000B;
+	Tue,  8 Feb 2022 00:20:45 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3875C0073
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 00:20:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7430A403C1
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 00:20:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Dn3IXB-P7Jxi for <iommu@lists.linux-foundation.org>;
+ Tue,  8 Feb 2022 00:20:39 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by smtp1.osuosl.org (Postfix) with ESMTP id 44DDB8174A
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id CC84A403C8
  for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 00:20:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.88,351,1635174000"; d="scan'208";a="109824763"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635174000"; d="scan'208";a="110545975"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 08 Feb 2022 09:20:36 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 08 Feb 2022 09:20:36 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 98D39400A108;
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id B908B400A102;
  Tue,  8 Feb 2022 09:20:36 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: joro@8bytes.org,
 	will@kernel.org,
 	robh+dt@kernel.org
-Subject: [PATCH v3 1/2] dt-bindings: iommu: renesas,
- ipmmu-vmsa: add r8a779f0 support
-Date: Tue,  8 Feb 2022 09:20:29 +0900
-Message-Id: <20220208002030.1319984-2-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 2/2] iommu/ipmmu-vmsa: Add support for R-Car Gen4
+Date: Tue,  8 Feb 2022 09:20:30 +0900
+Message-Id: <20220208002030.1319984-3-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208002030.1319984-1-yoshihiro.shimoda.uh@renesas.com>
 References: <20220208002030.1319984-1-yoshihiro.shimoda.uh@renesas.com>
@@ -72,30 +71,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Document the compatible values for the IPMMU-VMSA blocks in
-the Renesas R-Car S4-8 (R8A779F0) SoC and R-Car Gen4.
+Add support for R-Car Gen4 like r8a779f0 (R-Car S4-8). The IPMMU
+hardware design of r8a779f0 is the same as r8a779a0. So, rename
+"r8a779a0" to "rcar_gen4".
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml         | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/iommu/ipmmu-vmsa.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-index ce0c715205c6..5159a87f3fa7 100644
---- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-+++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-@@ -44,6 +44,10 @@ properties:
-               - renesas,ipmmu-r8a77990 # R-Car E3
-               - renesas,ipmmu-r8a77995 # R-Car D3
-               - renesas,ipmmu-r8a779a0 # R-Car V3U
-+      - items:
-+          - enum:
-+              - renesas,ipmmu-r8a779f0 # R-Car S4-8
-+          - const: renesas,rcar-gen4-ipmmu-vmsa  # R-Car Gen4
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index ca752bdc710f..0f7e975546e9 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -719,6 +719,7 @@ static int ipmmu_init_platform_device(struct device *dev,
  
-   reg:
-     maxItems: 1
+ static const struct soc_device_attribute soc_needs_opt_in[] = {
+ 	{ .family = "R-Car Gen3", },
++	{ .family = "R-Car Gen4", },
+ 	{ .family = "RZ/G2", },
+ 	{ /* sentinel */ }
+ };
+@@ -743,7 +744,7 @@ static bool ipmmu_device_is_allowed(struct device *dev)
+ 	unsigned int i;
+ 
+ 	/*
+-	 * R-Car Gen3 and RZ/G2 use the allow list to opt-in devices.
++	 * R-Car Gen3/4 and RZ/G2 use the allow list to opt-in devices.
+ 	 * For Other SoCs, this returns true anyway.
+ 	 */
+ 	if (!soc_device_match(soc_needs_opt_in))
+@@ -926,7 +927,7 @@ static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
+ 	.utlb_offset_base = 0,
+ };
+ 
+-static const struct ipmmu_features ipmmu_features_r8a779a0 = {
++static const struct ipmmu_features ipmmu_features_rcar_gen4 = {
+ 	.use_ns_alias_offset = false,
+ 	.has_cache_leaf_nodes = true,
+ 	.number_of_contexts = 16,
+@@ -982,7 +983,10 @@ static const struct of_device_id ipmmu_of_ids[] = {
+ 		.data = &ipmmu_features_rcar_gen3,
+ 	}, {
+ 		.compatible = "renesas,ipmmu-r8a779a0",
+-		.data = &ipmmu_features_r8a779a0,
++		.data = &ipmmu_features_rcar_gen4,
++	}, {
++		.compatible = "renesas,rcar-gen4-ipmmu",
++		.data = &ipmmu_features_rcar_gen4,
+ 	}, {
+ 		/* Terminator */
+ 	},
 -- 
 2.25.1
 
