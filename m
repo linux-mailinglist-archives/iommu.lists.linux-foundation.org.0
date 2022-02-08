@@ -1,91 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAB84AD14E
-	for <lists.iommu@lfdr.de>; Tue,  8 Feb 2022 06:56:53 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FB24AD22E
+	for <lists.iommu@lfdr.de>; Tue,  8 Feb 2022 08:28:26 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AA71F819F6;
-	Tue,  8 Feb 2022 05:56:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D8A7B40102;
+	Tue,  8 Feb 2022 07:28:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PJXF_r4tpeNk; Tue,  8 Feb 2022 05:56:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AntlpHmONLv9; Tue,  8 Feb 2022 07:28:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AA224819E6;
-	Tue,  8 Feb 2022 05:56:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C3B63400D1;
+	Tue,  8 Feb 2022 07:28:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 73763C000B;
-	Tue,  8 Feb 2022 05:56:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93763C0073;
+	Tue,  8 Feb 2022 07:28:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3CE01C000B
- for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 05:56:49 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AB783C000B
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 07:28:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 1BF2440888
- for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 05:56:49 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7D01F81379
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 07:28:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yD__CQmAIacL for <iommu@lists.linux-foundation.org>;
- Tue,  8 Feb 2022 05:56:48 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DC4A540887
- for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 05:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644299807; x=1675835807;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/E3+XDZn+fI4PCSgbxMj37rovQtgfKS2C5AACs5xPYs=;
- b=jCcduvp0pUbuEiRKapBclLvfL+KNXXQGT7YvuehPp+76pQGAoyM11d+Y
- MJipUqKEkT2+PyfXT63WK9VHl/Hk7eXnloW5UZOqzuv4XSWoYymBudrn1
- ouGHuhhc5Kbhqvy8Vi4Zqk0S6brzcPyt7vee9+f5vqgUfgXbVPBsxihiG
- m5pmI7vV62ZLf4vFdu95zvfcBVOeRTaAigQDbzSKT1NVcemv+i22WgL9P
- j9IrHn81ljm8iEF8/YnFjaPLsJOhdVit+C6m5a5N28tMeyM9MEHdjpaxz
- jwJN3idf/DAH2QZW19Bwn5wv7uf8OoqRgm1l5yVFi3lpV58+gXHmLDVtL g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="309623926"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="309623926"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 21:56:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="678001282"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
- ([10.239.159.118])
- by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2022 21:56:39 -0800
-Message-ID: <608192e0-136a-57fc-cb2c-3ebb42874788@linux.intel.com>
-Date: Tue, 8 Feb 2022 13:55:29 +0800
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5zxqvxE1ItSt for <iommu@lists.linux-foundation.org>;
+ Tue,  8 Feb 2022 07:28:20 +0000 (UTC)
+X-Greylist: delayed 00:17:55 by SQLgrey-1.8.0
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6FA0281376
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Feb 2022 07:28:20 +0000 (UTC)
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JtDZB4MvFz1FD3Z;
+ Tue,  8 Feb 2022 15:06:10 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Tue, 8 Feb 2022 15:10:21 +0800
+To: <song.bao.hua@hisilicon.com>, <hch@lst.de>, <m.szyprowski@samsung.com>,
+ <robin.murphy@arm.com>
+Subject: [PATCH] MAINTAINERS: Update maintainer list of DMA MAPPING BENCHMARK
+Date: Tue, 8 Feb 2022 15:04:51 +0800
+Message-ID: <1644303891-81063-1-git-send-email-chenxiang66@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 02/14] driver core: Add dma_cleanup callback in bus_type
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jason Gunthorpe <jgg@nvidia.com>
-References: <20220104015644.2294354-1-baolu.lu@linux.intel.com>
- <20220104015644.2294354-3-baolu.lu@linux.intel.com>
- <YdQcpHrV7NwUv+qc@infradead.org> <20220104123911.GE2328285@nvidia.com>
- <YdRFyXWay/bdSSem@kroah.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-In-Reply-To: <YdRFyXWay/bdSSem@kroah.com>
-Cc: Stuart Yoder <stuyoder@gmail.com>, rafael@kernel.org,
- David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
- Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
- Kevin Tian <kevin.tian@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
- Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
- Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
- Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Robin Murphy <robin.murphy@arm.com>
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, linuxarm@openeuler.org,
+ linux-kselftest@vger.kernel.org, linuxarm@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,53 +66,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: chenxiang via iommu <iommu@lists.linux-foundation.org>
+Reply-To: chenxiang <chenxiang66@hisilicon.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Greg,
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-On 1/4/22 9:04 PM, Greg Kroah-Hartman wrote:
-> On Tue, Jan 04, 2022 at 08:39:11AM -0400, Jason Gunthorpe wrote:
->> On Tue, Jan 04, 2022 at 02:08:36AM -0800, Christoph Hellwig wrote:
->>> All these bus callouts still looks horrible and just create tons of
->>> boilerplate code.
->>
->> Yes, Lu - Greg asked questions then didn't respond to their answers
->> meaning he accepts them, you should stick with the v4 version.
-> 
-> Trying to catch up on emails from the break, that was way down my list
-> of things to get back to as it's messy and non-obvious.  I'll revisit it
-> again after 5.17-rc1 is out, this is too late for that merge window
-> anyway.
+Barry Song will not focus on this area, and Xiang Chen will continue his 
+work to maintain this module.
 
-In this series we want to add calls into the iommu subsystem during
-device driver binding/unbinding, so that the device DMA ownership
-conflict (kernel driver vs. user-space) could be detected and avoided
-before calling into device driver's .probe().
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In this v5 series, we implemented this in the affected buses (amba/
-platform/fsl-mc/pci) which are known to support assigning devices to
-user space through the vfio framework currently. And more buses are
-possible to be affected in the future if they also want to support
-device assignment. Christoph commented that this will create boilerplate
-code in various bus drivers.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea3e6c914384..48335022b0e4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5765,7 +5765,7 @@ F:	include/linux/dma-map-ops.h
+ F:	kernel/dma/
+ 
+ DMA MAPPING BENCHMARK
+-M:	Barry Song <song.bao.hua@hisilicon.com>
++M:	Xiang Chen <chenxiang66@hisilicon.com>
+ L:	iommu@lists.linux-foundation.org
+ F:	kernel/dma/map_benchmark.c
+ F:	tools/testing/selftests/dma/
+-- 
+2.33.0
 
-Back to v4 of this series (please refer to below link [1]), we added
-this call in the driver core if buses have provided the dma_configure()
-callback (please refer to below link [2]).
-
-Which would you prefer, or any other suggestions? We need your guide to
-move this series ahead. Please help to suggest.
-
-[1] 
-https://lore.kernel.org/linux-iommu/20211217063708.1740334-1-baolu.lu@linux.intel.com/
-[2] 
-https://lore.kernel.org/linux-iommu/20211217063708.1740334-3-baolu.lu@linux.intel.com/
-
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
