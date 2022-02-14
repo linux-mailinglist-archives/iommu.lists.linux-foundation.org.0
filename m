@@ -1,51 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014A54B42D3
-	for <lists.iommu@lfdr.de>; Mon, 14 Feb 2022 08:32:07 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99604B42D4
+	for <lists.iommu@lfdr.de>; Mon, 14 Feb 2022 08:32:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5421E400EA;
-	Mon, 14 Feb 2022 07:32:06 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 63765607CA;
+	Mon, 14 Feb 2022 07:32:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JOqBFqQtCNBX; Mon, 14 Feb 2022 07:32:05 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ngXGGZyzc9Vm; Mon, 14 Feb 2022 07:32:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6964A4012A;
-	Mon, 14 Feb 2022 07:32:05 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id A535560669;
+	Mon, 14 Feb 2022 07:32:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E780C0073;
-	Mon, 14 Feb 2022 07:32:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EF15C000B;
+	Mon, 14 Feb 2022 07:32:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 01411C000B
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 07:32:04 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1BE4EC000B
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 07:32:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E4FFD8136A
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 07:32:03 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id F0B3340323
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 07:32:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Jokx1swdfpVN for <iommu@lists.linux-foundation.org>;
- Mon, 14 Feb 2022 07:32:03 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0aCyIFBxxJnU for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Feb 2022 07:32:40 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6AC7781365
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 07:32:03 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5CC10402FA
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 07:32:40 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8E1A968B05; Mon, 14 Feb 2022 08:31:58 +0100 (CET)
-Date: Mon, 14 Feb 2022 08:31:58 +0100
+ id DA38E68B05; Mon, 14 Feb 2022 08:32:36 +0100 (CET)
+Date: Mon, 14 Feb 2022 08:32:36 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v2 05/11] iommu/vt-d: Remove DEFER_DEVICE_DOMAIN_INFO
-Message-ID: <20220214073158.GA17411@lst.de>
+Subject: Re: [PATCH v2 06/11] iommu/vt-d: Remove unnecessary includes
+Message-ID: <20220214073236.GB17411@lst.de>
 References: <20220214025704.3184654-1-baolu.lu@linux.intel.com>
- <20220214025704.3184654-6-baolu.lu@linux.intel.com>
+ <20220214025704.3184654-7-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220214025704.3184654-6-baolu.lu@linux.intel.com>
+In-Reply-To: <20220214025704.3184654-7-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: Kevin Tian <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
@@ -68,7 +68,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Looks good,
+On Mon, Feb 14, 2022 at 10:56:59AM +0800, Lu Baolu wrote:
+> Remove unnecessary include files and sort the remaining alphabetically.
+
+I can't see I like any of the sorting schemes very much, but dropping the
+unused includes is always good, so:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
