@@ -1,85 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E254B45F5
-	for <lists.iommu@lfdr.de>; Mon, 14 Feb 2022 10:33:10 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5BF4B48EF
+	for <lists.iommu@lfdr.de>; Mon, 14 Feb 2022 11:12:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EAA084023C;
-	Mon, 14 Feb 2022 09:33:08 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6322C60E2E;
+	Mon, 14 Feb 2022 10:12:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bmfhVoVv41KD; Mon, 14 Feb 2022 09:33:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 758ED401BC;
-	Mon, 14 Feb 2022 09:33:03 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fcUws_8Ek1zm; Mon, 14 Feb 2022 10:12:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 72B4860E8F;
+	Mon, 14 Feb 2022 10:12:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3907AC0073;
-	Mon, 14 Feb 2022 09:33:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84C9EC007A;
+	Mon, 14 Feb 2022 10:12:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 616F6C000B
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 09:33:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B5E54C0073
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 10:12:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4E213401FB
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 09:33:02 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 87AD6405CE
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 10:12:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pzeg0jXIpogA for <iommu@lists.linux-foundation.org>;
- Mon, 14 Feb 2022 09:32:56 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
- [IPv6:2607:f8b0:4864:20::e2b])
- by smtp2.osuosl.org (Postfix) with ESMTPS id ADB90403AC
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 09:32:56 +0000 (UTC)
-Received: by mail-vs1-xe2b.google.com with SMTP id r20so18100450vsn.0
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 01:32:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PLcOLPtWWBqmDDHWEpO34tYOTTm7+UHIWiSVGaIprIg=;
- b=kg7kZyOb9/YPB2k+M73IONRXz0ib37KQkPxENT9vkKJhUhnBd8pRRHgbxHfmDHuwaI
- Qp0xORBGpq8I118nzQGSimsTjEb/8C0E2jTHe4NQ39vqZnvaykMSBztw2sBlX7jIU20I
- kiZbcEw7bF3GAHyAntGEJZ50THUb/HaulyM4G1Y8nq+8KVTiTHr6iAL4nVJdIYXXKpL2
- bPROl28fDbRGWgfe4O1nqP5CGVm0w6sJq+14a0KLXytgO2KZS6zorANr24VCnVDLUZ5k
- eRp4SBUhHR/IHYZSa27xAmqszPkdSAIA/vvO2wCMBqeLB7xyLe3ZX5sDaHOOtHyqFLsb
- Bgsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PLcOLPtWWBqmDDHWEpO34tYOTTm7+UHIWiSVGaIprIg=;
- b=wH332EEkSUKvTLnIxjmBRqyM8nNYndn01Q17zPrO0M9F+v4JnVUPLYd34DryTiH+sa
- lKKGwceMQqisGaYAv2D9djLUx9r+tyF03BXtwPruQcCuAiAVWgeKWZryk8dNb9i+E2/V
- YBOKtjJhaTTHPDQXmWJVUuUmXRhvIcabTAUoAmA2myZY0jvOa6rvLvelUoeYFP/uuayz
- mr4oOl+TQ/wTjjFd1EfvisL5MlcAMacJf14LQP6Qz1M/z6Xyw8FjxPoFZ4Rkz12tIn1I
- HYoWVxfePB61gw3Tav9WKDGkwh7IkvWyiC8v6kqIk8UABmDR+ErcmNDxkJ4dJLXXk+LP
- Bwiw==
-X-Gm-Message-State: AOAM532FDjizH4LuM6kyznAuSDoSAPJg7yU8gkacghR0nlUSqxDc+edj
- geCtH1PbHOGOiyXGMZn3nlVkYEQGHVBXbiONELc=
-X-Google-Smtp-Source: ABdhPJy4V/CniEFw8ajNIlkx7WvD0RKtlAJV/VatU6txf3/yRAN7MFYb/HrmUclI/GBtLwYDypffXY+IlaXcTaG1q7A=
-X-Received: by 2002:a05:6102:3e90:: with SMTP id
- m16mr3333445vsv.4.1644831175514; 
- Mon, 14 Feb 2022 01:32:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20220211024515.21884-1-adrianhuang0701@gmail.com>
- <1627d563-ff48-6204-33be-361db75011f9@linux.intel.com>
-In-Reply-To: <1627d563-ff48-6204-33be-361db75011f9@linux.intel.com>
-From: Huang Adrian <adrianhuang0701@gmail.com>
-Date: Mon, 14 Feb 2022 17:32:43 +0800
-Message-ID: <CAHKZfL3os22ADrC=C3JVO-4h-hAa_cLYNq7c3_+vo3jkbtrCrg@mail.gmail.com>
-Subject: Re: [PATCH] iommu/vt-d: Fix list_add double add when enabling VMD and
- scalable mode
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1c-bldM49yq0 for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Feb 2022 10:12:26 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 9A2C5405A6
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 10:12:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 66EB0B80E15;
+ Mon, 14 Feb 2022 10:12:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D3CC340E9;
+ Mon, 14 Feb 2022 10:12:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1644833541;
+ bh=4e6jacegMudm5QOO5r4b8aXUbKWQ/KZagciGyXk0tFQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dWgOCaq9LwmLUWtMT7HPrs1K+hIb25M6y5lmPLlGADQIWn+ktjprZPDD4AHsRsFdP
+ 22C5wQvlEiUCP2TIBNNZG0gJ+dQ4/5WAaA8UbkTfOuU3UVef1Kj4DZOkHgKPZU6q51
+ 6mKzlynGQpisdWw3qFqtDq7e6e382gjSAm2McVts=
+Date: Mon, 14 Feb 2022 10:59:50 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Kevin Tian <kevin.tian@intel.com>,
- Nirmal Patel <nirmal.patel@linux.intel.com>, iommu@lists.linux-foundation.org,
- Adrian Huang <ahuang12@lenovo.com>,
- Jonathan Derrick <jonathan.derrick@linux.dev>,
- David Woodhouse <dwmw2@infradead.org>
+Subject: Re: [PATCH v5 04/14] driver core: platform: Add driver dma ownership
+ management
+Message-ID: <YgooFjSWLTSapuIs@kroah.com>
+References: <20220104015644.2294354-1-baolu.lu@linux.intel.com>
+ <20220104015644.2294354-5-baolu.lu@linux.intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20220104015644.2294354-5-baolu.lu@linux.intel.com>
+Cc: Stuart Yoder <stuyoder@gmail.com>, rafael@kernel.org,
+ David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
+ Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,26 +92,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Baolu,
+On Tue, Jan 04, 2022 at 09:56:34AM +0800, Lu Baolu wrote:
+> Multiple platform devices may be placed in the same IOMMU group because
+> they cannot be isolated from each other. These devices must either be
+> entirely under kernel control or userspace control, never a mixture. This
+> checks and sets DMA ownership during driver binding, and release the
+> ownership during driver unbinding.
+> 
+> The device driver may set a new flag (no_kernel_api_dma) to skip calling
+> iommu_device_use_dma_api() during the binding process. For instance, the
+> userspace framework drivers (vfio etc.) which need to manually claim
+> their own dma ownership when assigning the device to userspace.
+> 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  include/linux/platform_device.h |  1 +
+>  drivers/base/platform.c         | 20 ++++++++++++++++++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+> index 17fde717df68..8f0eaafcef47 100644
+> --- a/include/linux/platform_device.h
+> +++ b/include/linux/platform_device.h
+> @@ -210,6 +210,7 @@ struct platform_driver {
+>  	struct device_driver driver;
+>  	const struct platform_device_id *id_table;
+>  	bool prevent_deferred_probe;
+> +	bool no_kernel_api_dma;
+>  };
+>  
+>  #define to_platform_driver(drv)	(container_of((drv), struct platform_driver, \
+> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> index b4d36b46ab2e..d5171e44d903 100644
+> --- a/drivers/base/platform.c
+> +++ b/drivers/base/platform.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/property.h>
+>  #include <linux/kmemleak.h>
+>  #include <linux/types.h>
+> +#include <linux/iommu.h>
+>  
+>  #include "base.h"
+>  #include "power/power.h"
+> @@ -1451,9 +1452,16 @@ static void platform_shutdown(struct device *_dev)
+>  
+>  static int platform_dma_configure(struct device *dev)
+>  {
+> +	struct platform_driver *drv = to_platform_driver(dev->driver);
+>  	enum dev_dma_attr attr;
+>  	int ret = 0;
+>  
+> +	if (!drv->no_kernel_api_dma) {
+> +		ret = iommu_device_use_dma_api(dev);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	if (dev->of_node) {
+>  		ret = of_dma_configure(dev, dev->of_node, true);
+>  	} else if (has_acpi_companion(dev)) {
+> @@ -1461,9 +1469,20 @@ static int platform_dma_configure(struct device *dev)
+>  		ret = acpi_dma_configure(dev, attr);
+>  	}
+>  
+> +	if (ret && !drv->no_kernel_api_dma)
+> +		iommu_device_unuse_dma_api(dev);
 
-On Mon, Feb 14, 2022 at 8:35 AM Lu Baolu <baolu.lu@linux.intel.com> wrote:
->
-> Hi Adrian,
->
-> > The solution is to prevent from allocating pasid table if those
-> > devices are subdevices of the VMD device.
->
-> Thanks for your patch!
->
-> Is this the only patch that is needed to make VMD devices work in VT-d
-> scalable mode?
+So you are now going to call this for every platform driver _unless_
+they set this flag?
 
-Yes, it is. With this patch, the system can boot successfully and the
-RAID device connected to the VMD device can be recognized by the host
-OS. I also ran a simple IO stress on the RAID device by compiling
-kernel `$ make -j $(nproc)`. Everything looks good.
+And having "negative" flags is rough to parse at times.  Yes, we have
+"prevent_deferred_probe" already here, so maybe keep this in the same
+nameing scheme and use "prevent_dma_api"?
 
--- Adrian
+And it would be good to document this somewhere as to what this means.
+
+thanks,
+
+greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
