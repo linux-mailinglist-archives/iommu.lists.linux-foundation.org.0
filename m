@@ -1,70 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A95B4B432F
-	for <lists.iommu@lfdr.de>; Mon, 14 Feb 2022 09:03:19 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 975F04B43E2
+	for <lists.iommu@lfdr.de>; Mon, 14 Feb 2022 09:19:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 37DF360B2D;
-	Mon, 14 Feb 2022 08:03:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fmF1-6WtlLEC; Mon, 14 Feb 2022 08:03:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 532D460B28;
-	Mon, 14 Feb 2022 08:03:17 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D1E8C000B;
-	Mon, 14 Feb 2022 08:03:17 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B0393C000B
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 08:03:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 8FEDF813F9
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 08:03:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 371FF813BE;
+	Mon, 14 Feb 2022 08:19:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6xcUYd4Io1F4 for <iommu@lists.linux-foundation.org>;
- Mon, 14 Feb 2022 08:03:15 +0000 (UTC)
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mqoo_mdiduGj; Mon, 14 Feb 2022 08:19:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7068A813B0;
+	Mon, 14 Feb 2022 08:19:25 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 409CBC0073;
+	Mon, 14 Feb 2022 08:19:25 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 51BD9C000B
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 08:19:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4E1F54024F
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 08:19:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bc0N3lE9DYx5 for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Feb 2022 08:19:23 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D9A6D813A7
- for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 08:03:14 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nJWKA-0006vg-Ok; Mon, 14 Feb 2022 09:03:06 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH 13/23] drm/rockchip: Make use of the helper
- component_compare_dev
-Date: Mon, 14 Feb 2022 09:03:04 +0100
-Message-ID: <3640952.nfqboWGjmy@diego>
-In-Reply-To: <20220214060819.7334-14-yong.wu@mediatek.com>
-References: <20220214060819.7334-1-yong.wu@mediatek.com>
- <20220214060819.7334-14-yong.wu@mediatek.com>
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B0E374023C
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Feb 2022 08:19:23 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 38CEE68AA6; Mon, 14 Feb 2022 09:19:19 +0100 (CET)
+Date: Mon, 14 Feb 2022 09:19:19 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Tianyu Lan <ltykernel@gmail.com>
+Subject: Re: [PATCH V2 1/2] Swiotlb: Add swiotlb_alloc_from_low_pages switch
+Message-ID: <20220214081919.GA18337@lst.de>
+References: <20220209122302.213882-1-ltykernel@gmail.com>
+ <20220209122302.213882-2-ltykernel@gmail.com>
 MIME-Version: 1.0
-Cc: Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
- James Wang <james.qian.wang@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>
+Content-Disposition: inline
+In-Reply-To: <20220209122302.213882-2-ltykernel@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, kys@microsoft.com, hch@lst.de,
+ hch@infradead.org, wei.liu@kernel.org, sthemmin@microsoft.com, x86@kernel.org,
+ decui@microsoft.com, michael.h.kelley@microsoft.com, mingo@redhat.com,
+ parri.andrea@gmail.com, thomas.lendacky@amd.com,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, konrad.wilk@oracle.com,
+ haiyangz@microsoft.com, bp@alien8.de, tglx@linutronix.de,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ vkuznets@redhat.com, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,64 +68,17 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Am Montag, 14. Februar 2022, 07:08:09 CET schrieb Yong Wu:
-> Use the common compare helper from component.
-> =
-
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: "Heiko St=A8=B9bner" <heiko@sntech.de>
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-
-Acked-by: Heiko Stuebner <heiko@sntech.de>
-
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/dr=
-m/rockchip/rockchip_drm_drv.c
-> index bec207de4544..3c2f2d6ecc36 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -290,11 +290,6 @@ int rockchip_drm_endpoint_is_subdriver(struct device=
-_node *ep)
->  	return false;
->  }
->  =
-
-> -static int compare_dev(struct device *dev, void *data)
-> -{
-> -	return dev =3D=3D (struct device *)data;
-> -}
-> -
->  static void rockchip_drm_match_remove(struct device *dev)
->  {
->  	struct device_link *link;
-> @@ -321,7 +316,7 @@ static struct component_match *rockchip_drm_match_add=
-(struct device *dev)
->  				break;
->  =
-
->  			device_link_add(dev, d, DL_FLAG_STATELESS);
-> -			component_match_add(dev, &match, compare_dev, d);
-> +			component_match_add(dev, &match, component_compare_dev, d);
->  		} while (true);
->  	}
->  =
-
-> =
-
-
-
-
-
+Adding a function to set the flag doesn't really change much.  As Robin
+pointed out last time you should fine a way to just call
+swiotlb_init_with_tbl directly with the memory allocated the way you
+like it.  Or given that we have quite a few of these trusted hypervisor
+schemes maybe add an argument to swiotlb_init that specifies how to
+allocate the memory.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
