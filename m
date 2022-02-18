@@ -1,67 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F86C4BB969
-	for <lists.iommu@lfdr.de>; Fri, 18 Feb 2022 13:52:33 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FB24BB96A
+	for <lists.iommu@lfdr.de>; Fri, 18 Feb 2022 13:52:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DA42B84C0E;
-	Fri, 18 Feb 2022 12:52:31 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2DB1A610C5;
+	Fri, 18 Feb 2022 12:52:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LY8ZwjV_wdWC; Fri, 18 Feb 2022 12:52:31 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pm0BhoD8AyUG; Fri, 18 Feb 2022 12:52:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1F6D284C1E;
-	Fri, 18 Feb 2022 12:52:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 48685611A6;
+	Fri, 18 Feb 2022 12:52:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE8EBC0039;
-	Fri, 18 Feb 2022 12:52:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B4B1C000B;
+	Fri, 18 Feb 2022 12:52:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CB599C000B
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:52:28 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1ACB1C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:52:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id B862C84C1E
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:52:28 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id EF9E341DBC
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:52:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CMEqTX3WFQjz for <iommu@lists.linux-foundation.org>;
- Fri, 18 Feb 2022 12:52:26 +0000 (UTC)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=collabora.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id mJKqyNwOOKFu for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Feb 2022 12:52:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 96EF284C0E
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:52:26 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 4485441DB9
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:52:31 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 281841F46910
+ (Authenticated sender: kholk11) with ESMTPSA id 539721F469B0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645188744;
- bh=XVKS75XpYQxb5/TVvYHVixSh4Vl0aBXRGf/YFk8Ta7w=;
+ s=mail; t=1645188749;
+ bh=tGSf/pth4T/62+a3wtoLcmdEh6+MDWX12/pzQsxIz+0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SIGILJp6htL6o7lcCxedptEr2v14pHNt09Vrw6JNFphmrJAukrVO189Vh24oMXrPI
- 9vWL65qlnN0jlhLfVMM4uHAb3DBCt0Z2vZbg7Li8fDKINWurPLaq7nqi1Fen2h2puJ
- 5hfWkLAuXRZvi37rGQ9UjY6jpHS8g1EpBPPcjBruJ8Kl+j2/3abxB7oDSZp8TpGaZO
- StC+31dsaX8r+TWfIAL8CkSMdDsvqWJEJTY07p3+ca3fzCqaCf3j/q/CLuP7UOs8Mz
- +jn4/xLVPwn+lkbm9goa29rrHMv6hsGTeYP6ucU8D9gET5qmbIcow1CCx2a+vGV2mV
- oTp8lxApvRhtQ==
-Message-ID: <71d7c940-63d5-bf65-527d-b27a8e0e5edc@collabora.com>
-Date: Fri, 18 Feb 2022 13:52:20 +0100
+ b=lBjwh7yJuYAoaAT+I6wUQ2YXt8niYeOxV/bGvQpiOq4KemuD4k6omY4dhN8nZd8SM
+ yDk9tq3tXaUEaPUbNNhw1CHDWAVmWfpuMeEpL6JBprCAqF1bJvyudHHVjpHk89b+i4
+ PJYhPTEVccobQNSR5iS5aZlN7zLFDYBwbSgolvbi0SAnKi33bUYyX7/CwL/e0+v/H2
+ MFQOx36w1EG4gkYLgCueqgDhhDyjnEfwHqxa6dBQ7zVjcXvsIlC8BLz3QMGjjU/aOM
+ OcwIAWkkIYi1CXSM4/+vqcKT4fX6lxT39bzrHaTLoUGza+jUwNC/ZYbNo45HItl2pN
+ in1BAZHn/9hDQ==
+Message-ID: <81cd0888-b202-feae-1c54-99ad2ef3f8cb@collabora.com>
+Date: Fri, 18 Feb 2022 13:52:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v5 19/34] iommu/mediatek: Add a PM_CLK_AO flag for infra
- iommu
+Subject: Re: [PATCH v5 21/34] iommu/mediatek: Add PCIe support
 Content-Language: en-US
 To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
  Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Will Deacon <will@kernel.org>
 References: <20220217113453.13658-1-yong.wu@mediatek.com>
- <20220217113453.13658-20-yong.wu@mediatek.com>
+ <20220217113453.13658-22-yong.wu@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220217113453.13658-20-yong.wu@mediatek.com>
+In-Reply-To: <20220217113453.13658-22-yong.wu@mediatek.com>
 Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  chengci.xu@mediatek.com, xueqi.zhang@mediatek.com,
@@ -89,12 +90,28 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Il 17/02/22 12:34, Yong Wu ha scritto:
-> The power/clock of infra iommu is always on, and it doesn't have the
-> device link with the master devices, then the infra iommu device's pm
-> statua is not active, thus we add A PM_CLK_AO flag for infra iommu.
+> Currently the code for of_iommu_configure_dev_id is like this:
 > 
-> The tlb operation is a bit not clear in this file, Comment them in the
-> code here.
+> static int of_iommu_configure_dev_id(struct device_node *master_np,
+>                                       struct device *dev,
+>                                       const u32 *id)
+> {
+>         struct of_phandle_args iommu_spec = { .args_count = 1 };
+> 
+>         err = of_map_id(master_np, *id, "iommu-map",
+>                         "iommu-map-mask", &iommu_spec.np,
+>                         iommu_spec.args);
+> ...
+> }
+> 
+> It supports only one id output. BUT our PCIe HW has two ID(one is for
+> writing, the other is for reading). I'm not sure if we should change
+> of_map_id to support output MAX_PHANDLE_ARGS.
+> 
+> Here add the solution in ourselve drivers. If it's pcie case, enable one
+> more bit.
+> 
+> Not all infra iommu support PCIe, thus add a PCIe support flag here.
 > 
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
