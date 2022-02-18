@@ -1,60 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E184BAEBA
-	for <lists.iommu@lfdr.de>; Fri, 18 Feb 2022 01:58:16 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678564BAEC0
+	for <lists.iommu@lfdr.de>; Fri, 18 Feb 2022 01:58:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F30B94094C;
-	Fri, 18 Feb 2022 00:58:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id CC80281773;
+	Fri, 18 Feb 2022 00:58:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yn7NsQm5890E; Fri, 18 Feb 2022 00:58:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 03623415EE;
-	Fri, 18 Feb 2022 00:58:14 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eygy454CbdyW; Fri, 18 Feb 2022 00:58:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D73E08149A;
+	Fri, 18 Feb 2022 00:58:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D1814C0039;
-	Fri, 18 Feb 2022 00:58:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BF873C000B;
+	Fri, 18 Feb 2022 00:58:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 101A2C000B
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 00:58:11 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 533CBC000B
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 00:58:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id CF2B2408E3
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 00:58:10 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 41EC56F792
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 00:58:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ic-0jIkQ5Jqf for <iommu@lists.linux-foundation.org>;
- Fri, 18 Feb 2022 00:58:10 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kGS7DO56DTOS for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Feb 2022 00:58:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2F00E415E9
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 00:58:10 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9EB456F772
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 00:58:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645145890; x=1676681890;
+ t=1645145911; x=1676681911;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BvWD5Lboq9S4Krrx4d7tcUXOjVqPHchjOiIFhoJfn2M=;
- b=aVOaC4GM+zKxr0HlhOdclh8U4YKVKAv9u5b6joh+vXQ7j7lZMpoHiVwn
- KfGR5E4TEPKn1j79DBh8g64OkyL9yO2cWMltwhHIY6k+S6VH7LTzmRiQj
- GEE070K9Bffa/+QGlpvgFBwgdE30O5TAW5CFqpteTGmWzm+7uVxRkmVUu
- Kjdu+1vubYK/Xh0oB9a0htEvMDABOWvSG9PKVE9luvNhFMx5sps1dJuMM
- X+pwaORXTLzQO+fBtihEkORoPM0jKEePHgRvzeVW0nZY3/enIr5D0r/yp
- SuNtDaUWnF1pnQ5n5NhSjO5xYV18sBmxyjC9myTG4OwFTdJ70tF4+NjDa A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250962254"
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="250962254"
+ bh=Z96GxEBC+Q+GUaDOqHkjPNoRKRZDT2uZ37npGzcnohE=;
+ b=f7r2Hi7C/t+Cvl6aaRuZaGf5u0nFmOzE8yXZ0GuCmI5RKXxqpO3gVSqg
+ 0lYbePNW3PGJ04iM58J0myaiffdMwQ1pzy4kHghy18PloeTh1wi2Ef+DE
+ 2RzKkj7L6QSonUsyn5G9bCHtuDbXKm/qW2GEU/uBOO9vA+e6Yy+wvZIvW
+ LDKSlbZt7WeysT7mnqg2QxahSX/Gp5NnXc0TVVJvpbumV3th8ZN3WO6bl
+ XeD9OTqj8MrGzMmdIT6BBA3z/WRoqh9LOj7N1dQKgv7W8PvtjeURD1j2Y
+ J/NmDCofDdu5jjzqcRJeoFvr0v232CJ8S5eDo4NvKZCJnzo1wkfG10YG9 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="231001192"
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="231001192"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 16:57:45 -0800
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 16:57:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="637491277"
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="637491390"
 Received: from allen-box.sh.intel.com ([10.239.159.118])
- by orsmga004.jf.intel.com with ESMTP; 17 Feb 2022 16:57:37 -0800
+ by orsmga004.jf.intel.com with ESMTP; 17 Feb 2022 16:57:45 -0800
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Joerg Roedel <joro@8bytes.org>,
@@ -62,9 +64,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Bjorn Helgaas <bhelgaas@google.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Christoph Hellwig <hch@infradead.org>, Kevin Tian <kevin.tian@intel.com>,
  Ashok Raj <ashok.raj@intel.com>
-Subject: [PATCH v6 07/11] vfio: Set DMA ownership for VFIO devices
-Date: Fri, 18 Feb 2022 08:55:17 +0800
-Message-Id: <20220218005521.172832-8-baolu.lu@linux.intel.com>
+Subject: [PATCH v6 08/11] vfio: Remove use of vfio_group_viable()
+Date: Fri, 18 Feb 2022 08:55:18 +0800
+Message-Id: <20220218005521.172832-9-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220218005521.172832-1-baolu.lu@linux.intel.com>
 References: <20220218005521.172832-1-baolu.lu@linux.intel.com>
@@ -95,101 +97,71 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Claim group dma ownership when an IOMMU group is set to a container,
-and release the dma ownership once the iommu group is unset from the
-container.
+As DMA ownership is claimed for the iommu group when a VFIO group is
+added to a VFIO container, the VFIO group viability is guaranteed as long
+as group->container_users > 0. Remove those unnecessary group viability
+checks which are only hit when group->container_users is not zero.
+
+The only remaining reference is in GROUP_GET_STATUS, which could be called
+at any time when group fd is valid. Here we just replace the
+vfio_group_viable() by directly calling IOMMU core to get viability status.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/vfio/fsl-mc/vfio_fsl_mc.c     |  1 +
- drivers/vfio/pci/vfio_pci.c           |  1 +
- drivers/vfio/platform/vfio_amba.c     |  1 +
- drivers/vfio/platform/vfio_platform.c |  1 +
- drivers/vfio/vfio.c                   | 10 +++++++++-
- 5 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/vfio/vfio.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-index 6e2e62c6f47a..3feff729f3ce 100644
---- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-+++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-@@ -588,6 +588,7 @@ static struct fsl_mc_driver vfio_fsl_mc_driver = {
- 		.name	= "vfio-fsl-mc",
- 		.owner	= THIS_MODULE,
- 	},
-+	.driver_managed_dma = true,
- };
- 
- static int __init vfio_fsl_mc_driver_init(void)
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index a5ce92beb655..941909d3918b 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -193,6 +193,7 @@ static struct pci_driver vfio_pci_driver = {
- 	.remove			= vfio_pci_remove,
- 	.sriov_configure	= vfio_pci_sriov_configure,
- 	.err_handler		= &vfio_pci_core_err_handlers,
-+	.driver_managed_dma	= true,
- };
- 
- static void __init vfio_pci_fill_ids(void)
-diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vfio_amba.c
-index badfffea14fb..1aaa4f721bd2 100644
---- a/drivers/vfio/platform/vfio_amba.c
-+++ b/drivers/vfio/platform/vfio_amba.c
-@@ -95,6 +95,7 @@ static struct amba_driver vfio_amba_driver = {
- 		.name = "vfio-amba",
- 		.owner = THIS_MODULE,
- 	},
-+	.driver_managed_dma = true,
- };
- 
- module_amba_driver(vfio_amba_driver);
-diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
-index 68a1c87066d7..04f40c5acfd6 100644
---- a/drivers/vfio/platform/vfio_platform.c
-+++ b/drivers/vfio/platform/vfio_platform.c
-@@ -76,6 +76,7 @@ static struct platform_driver vfio_platform_driver = {
- 	.driver	= {
- 		.name	= "vfio-platform",
- 	},
-+	.driver_managed_dma = true,
- };
- 
- module_platform_driver(vfio_platform_driver);
 diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 735d1d344af9..df9d4b60e5ae 100644
+index df9d4b60e5ae..73034446e03f 100644
 --- a/drivers/vfio/vfio.c
 +++ b/drivers/vfio/vfio.c
-@@ -1198,6 +1198,8 @@ static void __vfio_group_unset_container(struct vfio_group *group)
- 		driver->ops->detach_group(container->iommu_data,
- 					  group->iommu_group);
+@@ -1313,12 +1313,6 @@ static int vfio_group_set_container(struct vfio_group *group, int container_fd)
+ 	return ret;
+ }
  
-+	iommu_group_release_dma_owner(group->iommu_group);
-+
- 	group->container = NULL;
- 	wake_up(&group->container_q);
- 	list_del(&group->container_next);
-@@ -1282,13 +1284,19 @@ static int vfio_group_set_container(struct vfio_group *group, int container_fd)
- 		goto unlock_out;
+-static bool vfio_group_viable(struct vfio_group *group)
+-{
+-	return (iommu_group_for_each_dev(group->iommu_group,
+-					 group, vfio_dev_viable) == 0);
+-}
+-
+ static int vfio_group_add_container_user(struct vfio_group *group)
+ {
+ 	if (!atomic_inc_not_zero(&group->container_users))
+@@ -1328,7 +1322,7 @@ static int vfio_group_add_container_user(struct vfio_group *group)
+ 		atomic_dec(&group->container_users);
+ 		return -EPERM;
  	}
- 
-+	ret = iommu_group_claim_dma_owner(group->iommu_group, f.file);
-+	if (ret)
-+		goto unlock_out;
-+
- 	driver = container->iommu_driver;
- 	if (driver) {
- 		ret = driver->ops->attach_group(container->iommu_data,
- 						group->iommu_group,
- 						group->type);
--		if (ret)
-+		if (ret) {
-+			iommu_group_release_dma_owner(group->iommu_group);
- 			goto unlock_out;
-+		}
+-	if (!group->container->iommu_driver || !vfio_group_viable(group)) {
++	if (!group->container->iommu_driver) {
+ 		atomic_dec(&group->container_users);
+ 		return -EINVAL;
  	}
+@@ -1346,7 +1340,7 @@ static int vfio_group_get_device_fd(struct vfio_group *group, char *buf)
+ 	int ret = 0;
  
- 	group->container = container;
+ 	if (0 == atomic_read(&group->container_users) ||
+-	    !group->container->iommu_driver || !vfio_group_viable(group))
++	    !group->container->iommu_driver)
+ 		return -EINVAL;
+ 
+ 	if (group->type == VFIO_NO_IOMMU && !capable(CAP_SYS_RAWIO))
+@@ -1438,11 +1432,11 @@ static long vfio_group_fops_unl_ioctl(struct file *filep,
+ 
+ 		status.flags = 0;
+ 
+-		if (vfio_group_viable(group))
+-			status.flags |= VFIO_GROUP_FLAGS_VIABLE;
+-
+ 		if (group->container)
+-			status.flags |= VFIO_GROUP_FLAGS_CONTAINER_SET;
++			status.flags |= VFIO_GROUP_FLAGS_CONTAINER_SET |
++					VFIO_GROUP_FLAGS_VIABLE;
++		else if (!iommu_group_dma_owner_claimed(group->iommu_group))
++			status.flags |= VFIO_GROUP_FLAGS_VIABLE;
+ 
+ 		if (copy_to_user((void __user *)arg, &status, minsz))
+ 			return -EFAULT;
 -- 
 2.25.1
 
