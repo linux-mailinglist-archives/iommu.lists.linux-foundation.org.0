@@ -1,79 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED834BB46F
-	for <lists.iommu@lfdr.de>; Fri, 18 Feb 2022 09:41:50 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671174BB8E0
+	for <lists.iommu@lfdr.de>; Fri, 18 Feb 2022 13:12:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EDCEF8404C;
-	Fri, 18 Feb 2022 08:41:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6319441DE1;
+	Fri, 18 Feb 2022 12:12:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8jTWUWyz4J8J; Fri, 18 Feb 2022 08:41:48 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7g5YBlXWSyAT; Fri, 18 Feb 2022 12:12:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0AD7484042;
-	Fri, 18 Feb 2022 08:41:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5A52E41DD8;
+	Fri, 18 Feb 2022 12:12:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA17DC0039;
-	Fri, 18 Feb 2022 08:41:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4FB16C000B;
+	Fri, 18 Feb 2022 12:12:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9A92C000B
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 08:41:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 56869C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:12:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id CE2A140184
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 08:41:45 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 45C8941D62
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:12:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id siuwDvHnjZWe for <iommu@lists.linux-foundation.org>;
- Fri, 18 Feb 2022 08:41:44 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7C73D40147
- for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 08:41:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 3F9AD1F4417B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645173701;
- bh=y1MQQgamboxKWXR250aZ3v7J3tHKl044R2X9kxvJNdI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hryznIMs6S1YAgP5BqLwjtosco6cTHMhj8+u3FKZgapd5mLfncU7NthBVXO5JlV/K
- uV3Y2xOjmgTMbN71Usw1XA6qLIlGbCLHg7Fb/4CxzQPdFGiVwcPLyhRRsp6xas6EoI
- rt0DZ24LBHflRQEkcdLvCH4JYZwN/yFYchX0c96GaOHzYoroYIwuzhc7JrEXdNR4xQ
- mqCZ1Ld8DDobZ6EniAvDXDGa6GjGor8eXqWhKJpOJi37BCg2wFuhw1lgfVW8BxIdr2
- ZBCDZUBjSN/xOmGmP9h8SO3jzWdulFseuCCj71qC4MnDJ8jv40LOK/caehosqx4iKM
- ZoQfCXpD9PUbQ==
-Message-ID: <a4e66e61-35c4-adb5-fb65-e1f076bbe6ba@collabora.com>
-Date: Fri, 18 Feb 2022 09:41:37 +0100
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zMQlb9kTtiRC for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Feb 2022 12:12:02 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 99A3C41DD3
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Feb 2022 12:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=gFf5jfKrkPZO7pBJTx+x51tYvfxtkyD2Tt7FbOYTxSM=; b=ne3pKNvph23SdiOId6gZjhosGZ
+ 0/Y330PGQTWsNgZph8JRPvujHW8Q7yKi9RQEgI8sxuwa2hTYF1G3+u4oQbOVU3E/PpQedbAEsecpY
+ GB/eNaRWvsSnwp7xFs7UD57eeoSb7bgvY5aVZXPlhLXS3vFFiscH0vkrzkRecru/9bTh+zaiKsKRR
+ 9G0bujjWMv3oiBpmAlrCLQlvdZ9rr4G6A1/9444UmUXEqkVY/r9YMST3MN5eVMm/2iPyHlAZLbxdJ
+ rmvXg8Rn5+I8rTguH5iOrNTLqeNT5TgHldS7x9iJj/X/MNKmlX+irsCyJS4Xuo/QAmF7mPTf02za3
+ O4j4fI0w==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
+ id 1nL1fp-0006eP-OW; Fri, 18 Feb 2022 13:43:41 +0200
+To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+ will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
+Subject: [PATCH v3 0/9] Host1x context isolation support
+Date: Fri, 18 Feb 2022 13:39:43 +0200
+Message-Id: <20220218113952.3077606-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH 2/2] iommu/mediatek: Add mt8186 iommu support
-Content-Language: en-US
-To: Yong Wu <yong.wu@mediatek.com>
-References: <20220125093244.18230-1-yong.wu@mediatek.com>
- <20220125093244.18230-3-yong.wu@mediatek.com>
- <b52a1df8-58f4-baa2-cfb6-9c56244caa0f@collabora.com>
- <01cc69cdf7773962140c01fe37b12ab2c9491c25.camel@mediatek.com>
- <0e430d1e-ee25-1b3d-4a2c-8641db255adb@collabora.com>
- <8b63983222a4a304586a7b880379fcf4a7036c4a.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <8b63983222a4a304586a7b880379fcf4a7036c4a.camel@mediatek.com>
-Cc: yf.wang@mediatek.com, yen-chang.chen@mediatek.com,
- Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- xueqi.zhang@mediatek.com, mingyuan.ma@mediatek.com, devicetree@vger.kernel.org,
- chengci.xu@mediatek.com, libo.kang@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
- srv_heupstream@mediatek.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,95 +77,98 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Mikko Perttunen via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Il 18/02/22 04:32, Yong Wu ha scritto:
-> On Mon, 2022-01-31 at 10:25 +0100, AngeloGioacchino Del Regno wrote:
->> Il 28/01/22 10:39, Yong Wu ha scritto:
->>> On Thu, 2022-01-27 at 12:28 +0100, AngeloGioacchino Del Regno
->>> wrote:
->>>> Il 25/01/22 10:32, Yong Wu ha scritto:
->>>>> Add mt8186 iommu supports.
->>>>>
->>>>> Signed-off-by: Anan Sun <anan.sun@mediatek.com>
->>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>>>> ---
->>>>>     drivers/iommu/mtk_iommu.c | 17 +++++++++++++++++
->>>>>     1 file changed, 17 insertions(+)
->>>
->>> [snip]
->>>
->>>>>     static const struct mtk_iommu_plat_data mt8192_data = {
->>>>>     	.m4u_plat       = M4U_MT8192,
->>>>>     	.flags          = HAS_BCLK | HAS_SUB_COMM_2BITS |
->>>>> OUT_ORDER_WR_EN |
->>>>> @@ -1470,6 +1486,7 @@ static const struct of_device_id
->>>>> mtk_iommu_of_ids[] = {
->>>>>     	{ .compatible = "mediatek,mt8167-m4u", .data =
->>>>> &mt8167_data},
->>>>>     	{ .compatible = "mediatek,mt8173-m4u", .data =
->>>>> &mt8173_data},
->>>>>     	{ .compatible = "mediatek,mt8183-m4u", .data =
->>>>> &mt8183_data},
->>>>> +	{ .compatible = "mediatek,mt8186-iommu-mm", .data =
->>>>> &mt8186_data_mm},
->>>>
->>>> Hello!
->>>>
->>>> Is there any particular reason why this compatible is not
->>>> "mediatek,mt8186-m4u"?
->>>
->>> There is no special reason. In the previous SoC, We only support MM
->>> IOMMU, it was called by "m4u". In the lastest SoC, We have the
->>> other
->>> types IOMMU, like for INFRA masters and APU, thus they are called
->>> "mm
->>> iommu", "infra iommu" and "apu iommu". Of course, "m4u" means "mm
->>> iommu".
->>>
->>
->> I suggest, at this point, to change it to "mediatek,mt8186-m4u" for
->> naming
->> consistency with the other bindings and to avoid any kind of
->> confusion.
-> 
-> Understand. But we don't call it "m4u" anymore. I'd not like to use a
-> outdated name. For readable, I could add a comment like this:
-> 
-> { .compatible = "mediatek,mt8186-iommu-mm", xx}, /* iommu-mm: m4u */
-> 
-> Is this ok for you?
-> Thanks.
-> 
+***
+New in v3:
 
-Ok, go on with that.
+Added device tree bindings for new property.
+Rebased.
+***
 
-Cheers,
-Angelo
+***
+New in v2:
 
->> Thank you!
->>
->>>>
->>>> Thanks,
->>>> Angelo
->>>>
->>>>>     	{ .compatible = "mediatek,mt8192-m4u", .data =
->>>>> &mt8192_data},
->>>>>     	{ .compatible = "mediatek,mt8195-iommu-infra", .data =
->>>>> &mt8195_data_infra},
->>>>>     	{ .compatible = "mediatek,mt8195-iommu-vdo",   .data =
->>>>> &mt8195_data_vdo},
->>>>
->>>> _______________________________________________
->>>> Linux-mediatek mailing list
->>>> Linux-mediatek@lists.infradead.org
->>>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
->>
->>
-> 
+Added support for Tegra194
+Use standard iommu-map property instead of custom mechanism
+***
+
+This series adds support for Host1x 'context isolation'. Since
+when programming engines through Host1x, userspace can program in
+any addresses it wants, we need some way to isolate the engines'
+memory spaces. Traditionally this has either been done imperfectly
+with a single shared IOMMU domain, or by copying and verifying the
+programming command stream at submit time (Host1x firewall).
+
+Since Tegra186 there is a privileged (only usable by kernel)
+Host1x opcode that allows setting the stream ID sent by the engine
+to the SMMU. So, by allocating a number of context banks and stream
+IDs for this purpose, and using this opcode at the beginning of
+each job, we can implement isolation. Due to the limited number of
+context banks only each process gets its own context, and not
+each channel.
+
+This feature also allows sharing engines among multiple VMs when
+used with Host1x's hardware virtualization support - up to 8 VMs
+can be configured with a subset of allowed stream IDs, enforced
+at hardware level.
+
+To implement this, this series adds a new host1x context bus, which
+will contain the 'struct device's corresponding to each context
+bank / stream ID, changes to device tree and SMMU code to allow
+registering the devices and using the bus, as well as the Host1x
+stream ID programming code and support in TegraDRM.
+
+Thanks,
+Mikko
+
+Mikko Perttunen (9):
+  dt-bindings: host1x: Add memory-contexts property
+  gpu: host1x: Add context bus
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  iommu/arm-smmu: Attach to host1x context device bus
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: falcon: Set DMACTX field on DMA transactions
+  drm/tegra: vic: Implement get_streamid_offset
+  drm/tegra: Support context isolation
+
+ .../display/tegra/nvidia,tegra20-host1x.yaml  |  10 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  12 ++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  12 ++
+ drivers/gpu/Makefile                          |   3 +-
+ drivers/gpu/drm/tegra/drm.h                   |   2 +
+ drivers/gpu/drm/tegra/falcon.c                |   8 +
+ drivers/gpu/drm/tegra/falcon.h                |   1 +
+ drivers/gpu/drm/tegra/submit.c                |  13 ++
+ drivers/gpu/drm/tegra/uapi.c                  |  36 +++-
+ drivers/gpu/drm/tegra/vic.c                   |  38 ++++
+ drivers/gpu/host1x/Kconfig                    |   5 +
+ drivers/gpu/host1x/Makefile                   |   2 +
+ drivers/gpu/host1x/context.c                  | 174 ++++++++++++++++++
+ drivers/gpu/host1x/context.h                  |  27 +++
+ drivers/gpu/host1x/context_bus.c              |  31 ++++
+ drivers/gpu/host1x/dev.c                      |  12 +-
+ drivers/gpu/host1x/dev.h                      |   2 +
+ drivers/gpu/host1x/hw/channel_hw.c            |  52 +++++-
+ drivers/gpu/host1x/hw/host1x06_hardware.h     |  10 +
+ drivers/gpu/host1x/hw/host1x07_hardware.h     |  10 +
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 ++
+ include/linux/host1x.h                        |  21 +++
+ include/linux/host1x_context_bus.h            |  15 ++
+ 23 files changed, 500 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+ create mode 100644 drivers/gpu/host1x/context_bus.c
+ create mode 100644 include/linux/host1x_context_bus.h
+
+-- 
+2.35.0
 
 _______________________________________________
 iommu mailing list
