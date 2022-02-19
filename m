@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728B84BC6B3
-	for <lists.iommu@lfdr.de>; Sat, 19 Feb 2022 08:32:26 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B724BC6B5
+	for <lists.iommu@lfdr.de>; Sat, 19 Feb 2022 08:32:57 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D52C760777;
-	Sat, 19 Feb 2022 07:32:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A7CF54017F;
+	Sat, 19 Feb 2022 07:32:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6B62AY-vFPPZ; Sat, 19 Feb 2022 07:32:22 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PaUMqvavH1AE; Sat, 19 Feb 2022 07:32:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 64EEE60ADD;
-	Sat, 19 Feb 2022 07:32:22 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B3EB2400FC;
+	Sat, 19 Feb 2022 07:32:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C91CC0073;
-	Sat, 19 Feb 2022 07:32:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 656B0C0073;
+	Sat, 19 Feb 2022 07:32:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 253BBC000B
- for <iommu@lists.linux-foundation.org>; Sat, 19 Feb 2022 07:32:20 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5669EC000B
+ for <iommu@lists.linux-foundation.org>; Sat, 19 Feb 2022 07:32:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0A817400D3
- for <iommu@lists.linux-foundation.org>; Sat, 19 Feb 2022 07:32:20 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4226883F10
+ for <iommu@lists.linux-foundation.org>; Sat, 19 Feb 2022 07:32:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xbBhEKfxa0gb for <iommu@lists.linux-foundation.org>;
- Sat, 19 Feb 2022 07:32:18 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xVliLH5z2zsW for <iommu@lists.linux-foundation.org>;
+ Sat, 19 Feb 2022 07:32:52 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp2.osuosl.org (Postfix) with ESMTPS id DAF4540139
- for <iommu@lists.linux-foundation.org>; Sat, 19 Feb 2022 07:32:18 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id BCC5E83F0D
+ for <iommu@lists.linux-foundation.org>; Sat, 19 Feb 2022 07:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=sqAnJz8uVZ8Q/dp+lB46Xah1mFGaVnx8u72C4fMPl04=; b=rP4bE3sgbuBhtx1bYdIiik7xle
- rKcv/uKt73U/LsdlA6ROBkmJq+fXwMS6uHEC8qmvy9pyt1GeMS0eaZzkVYzOAJGgXTgydYWLpQ9xh
- HurXlTCgi/VzX9c7ZnTwLwXPRvSx+lAhnLjbn4JAkqTW0foCDvE2ZBJ40p3AE7tZtvO8K2TcRKduo
- gd1hGdBcsevj0xXkYK8dKa1LXMn1VuAaCEh+PldyPGvcs1THypyd1CM1btGGAy3qQZOwpn8wKBdVg
- oAJYM8fgMtO1fJLR0mgiyXnxCUuf4sCc9jW7yCKkusjUeHqpepsTWF8H7t9hundXbECdrLsDL/vda
- j1FYt9Kw==;
+ bh=7eqdhnHI2SxSJ00bmOAf2xivBvyxyv0i9DUvwzQp/5c=; b=y8QNB+LFsQoRt0/Ug2MT7R5jm/
+ Pz50D6Dr1Owrb9/23C4jgfcqtSEBXwHo0qBohWZY48AK7rWIDK7cD4EW7HIMXlrN1YABbgedFv7GN
+ SfGQIre7H5o7+AoB5fFMsX+yT0jy/4/nsEEHgCRsi794ATO1E4BmyM5/9zWEoNKInh2w/Zsuvepj6
+ qVLr+n1wjm4gwEc7Fruj99WZ8y8hdPvBh9yy5DJSC40S5Z9QjwQmlmZlCh92tBXpy3tNcD/qOqwV3
+ C76W32A48372jZouRhAu//ZVsnbwjk8EiFdYucVqX6yJS8z5J/mD+cZoS4xozEg/+P5Y1Y2u6JW1c
+ PC9U+8OA==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nLKDi-00GMxk-09; Sat, 19 Feb 2022 07:31:54 +0000
-Date: Fri, 18 Feb 2022 23:31:53 -0800
+ Hat Linux)) id 1nLKEM-00GN21-4h; Sat, 19 Feb 2022 07:32:34 +0000
+Date: Fri, 18 Feb 2022 23:32:34 -0800
 From: Christoph Hellwig <hch@infradead.org>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v6 01/11] iommu: Add dma ownership management interfaces
-Message-ID: <YhCc6dKyojInJe7u@infradead.org>
+Subject: Re: [PATCH v6 02/11] driver core: Add dma_cleanup callback in bus_type
+Message-ID: <YhCdEmC2lYStmUSL@infradead.org>
 References: <20220218005521.172832-1-baolu.lu@linux.intel.com>
- <20220218005521.172832-2-baolu.lu@linux.intel.com>
+ <20220218005521.172832-3-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220218005521.172832-2-baolu.lu@linux.intel.com>
+In-Reply-To: <20220218005521.172832-3-baolu.lu@linux.intel.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: kvm@vger.kernel.org, rafael@kernel.org, David Airlie <airlied@linux.ie>,
@@ -92,30 +92,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The overall API and patch looks fine, but:
-
-> + * iommu_group_dma_owner_claimed() - Query group dma ownership status
-> + * @group: The group.
-> + *
-> + * This provides status query on a given group. It is racey and only for
-> + * non-binding status reporting.
-
-s/racey/racy/
-
-> + */
-> +bool iommu_group_dma_owner_claimed(struct iommu_group *group)
-> +{
-> +	unsigned int user;
-> +
-> +	mutex_lock(&group->mutex);
-> +	user = group->owner_cnt;
-> +	mutex_unlock(&group->mutex);
-> +
-> +	return user;
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_group_dma_owner_claimed);
-
-Still no no need for the lock here.
+So we are back to the callback madness instead of the nice and simple
+flag?  Sigh.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
