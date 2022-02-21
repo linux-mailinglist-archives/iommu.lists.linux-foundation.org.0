@@ -1,70 +1,116 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6754BD850
-	for <lists.iommu@lfdr.de>; Mon, 21 Feb 2022 09:44:27 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFC24BD93E
+	for <lists.iommu@lfdr.de>; Mon, 21 Feb 2022 11:54:06 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EC76780C52;
-	Mon, 21 Feb 2022 08:44:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id DD7BB813FC;
+	Mon, 21 Feb 2022 10:54:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rqJrbk8J2MQJ; Mon, 21 Feb 2022 08:44:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 22B1880D5A;
-	Mon, 21 Feb 2022 08:44:25 +0000 (UTC)
+	with ESMTP id V2kCH6rIY8cG; Mon, 21 Feb 2022 10:54:04 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id F355781380;
+	Mon, 21 Feb 2022 10:54:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B7004C0011;
-	Mon, 21 Feb 2022 08:44:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CDC0DC0011;
+	Mon, 21 Feb 2022 10:54:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4BF49C0011
- for <iommu@lists.linux-foundation.org>; Mon, 21 Feb 2022 08:44:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 878FEC0011
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Feb 2022 04:59:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 25DE260D67
- for <iommu@lists.linux-foundation.org>; Mon, 21 Feb 2022 08:44:22 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6D97040339
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Feb 2022 04:59:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wTd97kxSrfBR for <iommu@lists.linux-foundation.org>;
- Mon, 21 Feb 2022 08:44:21 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 70E53600C6
- for <iommu@lists.linux-foundation.org>; Mon, 21 Feb 2022 08:44:21 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4K2G645Xcyzcg15;
- Mon, 21 Feb 2022 16:43:08 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 21 Feb 2022 16:44:18 +0800
-To: <gregkh@linuxfoundation.org>, <helgaas@kernel.org>,
- <alexander.shishkin@linux.intel.com>, <lorenzo.pieralisi@arm.com>,
- <will@kernel.org>, <mark.rutland@arm.com>, <mathieu.poirier@linaro.org>,
- <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <leo.yan@linaro.org>,
- <jonathan.cameron@huawei.com>, <daniel.thompson@linaro.org>,
- <joro@8bytes.org>, <john.garry@huawei.com>,
- <shameerali.kolothum.thodi@huawei.com>, <robin.murphy@arm.com>,
- <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <coresight@lists.linaro.org>, <linux-pci@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <iommu@lists.linux-foundation.org>
-Subject: [PATCH v4 8/8] MAINTAINERS: Add maintainer for HiSilicon PTT driver
-Date: Mon, 21 Feb 2022 16:43:07 +0800
-Message-ID: <20220221084307.33712-9-yangyicong@hisilicon.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220221084307.33712-1-yangyicong@hisilicon.com>
-References: <20220221084307.33712-1-yangyicong@hisilicon.com>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=amd.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id d38mgQUEBp8i for <iommu@lists.linux-foundation.org>;
+ Mon, 21 Feb 2022 04:59:37 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on20612.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::612])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2611F40331
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Feb 2022 04:59:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KksJ38z2XsZLbd71WeGjv1P1YOJFbl30B3PnqoRdX+zwmmyMzFJuv8x5f0dNb3CYamYK7BojUmk2wP3tglwR25Hxi2eCEq3XR6Ynt3E87Jtcvb1LrYrXe1Hzwl9+UJpxh5Vj0WNO362N5vTxlWvHf9CL1VeO9Q6iHjS5ZOL8AR7FdfzaURL+D/KQrD1stdPqTqcClIKH69PoVFrFmIp8pfHNS8AMa+5n3G5APHYxFN0sRRrLizQRNrlQ9OIEDYRA7DYCBUZAn43WrAoIfyS734CSt+I4VWukzrEPaATVqJs+K0cGWDazDfAiKcJtQ24aH23HfFJ/iIrTcjzkxDPayw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vKWMLVjs9XHpxFU4YEa+VIBqiUt4Qosl+HNDTgWU6N8=;
+ b=n3BgWHm/nRWh/wJgwTdmeOHcvw4CPRKaOifjJkOkZyOQp4inlwOmrxAopPp85Kibf1CIbt3FYZlR7WKoQeVtlHMLP8poW5A10a4YANtad3IuV2cgOz8kO6sKoakGo7JGnHeFjZkbT0iuR8X0woBOpqnpriYCc8Gx4VoORH50eSHtnpFcr5MlPtbuL5YLlWOFT9tL+cF3/bY5MOJfrK3lz7pEBsC1UNpOBHpbxPXNZBJ4GonNTmSZeXS+r7D09Y+pkiepNHLf49J4zuzETJDXmibGzScKnviMePCFSqFPbK5z4tbawerMgyvxnRaYtuoPWH1BjlYN+m1dMu/WjoU4LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=8bytes.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vKWMLVjs9XHpxFU4YEa+VIBqiUt4Qosl+HNDTgWU6N8=;
+ b=0wI2roXYiKyJunY82qLQ9rIxPPg7pdUxonMwbduxZl8ZM8csf+18dhxXZOSI7/hmpb4vpDYvu3P6XMl2fVwlTmHAEdsnxghyZzBZrGejAjrl1gbmumA0C4teU6Iq/az3A3Dg/1xmcred7z/mLgs8lwZhtmy9cxx2fBJfrmRtOPE=
+Received: from BN9PR03CA0032.namprd03.prod.outlook.com (2603:10b6:408:fb::7)
+ by BL0PR12MB5012.namprd12.prod.outlook.com (2603:10b6:208:1ca::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14; Mon, 21 Feb
+ 2022 04:59:33 +0000
+Received: from BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fb:cafe::54) by BN9PR03CA0032.outlook.office365.com
+ (2603:10b6:408:fb::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16 via Frontend
+ Transport; Mon, 21 Feb 2022 04:59:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT061.mail.protection.outlook.com (10.13.177.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4995.15 via Frontend Transport; Mon, 21 Feb 2022 04:59:32 +0000
+Received: from kali.amdval.net (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Sun, 20 Feb
+ 2022 22:59:31 -0600
+To: <joro@8bytes.org>, <iommu@lists.linux-foundation.org>
+Subject: [PATCH 0/5] iommu/amd: Cleanup and fixes
+Date: Mon, 21 Feb 2022 10:29:11 +0530
+Message-ID: <20220221045916.19701-1-vasant.hegde@amd.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Cc: prime.zeng@huawei.com, linuxarm@huawei.com, yangyicong@hisilicon.com,
- zhangshaokun@hisilicon.com, liuqi115@huawei.com
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 41618a2d-9079-4cb6-c70c-08d9f4f6f351
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5012:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB50120AC710E6BB91186938EB873A9@BL0PR12MB5012.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PGvAApdc1H9OjR7WtYY50Q7Av1/gtOwbPNgq6MsXzq9rOHp0nsn6ZYKwkx084PnHB9tgPRjKr8Ib9QsQWQXSDyvTUwOnXsk+4BswGkuP+Og/5l18kV6Y1HVsHVa/ZuGlzRkAin7lqPojsfoBgVlKFlXqLwwMG6wNO/v/Yn5MbQyDfPdDPmD8EHpJt+/pspglDsxp8Q4NrAEiXJ4udIWyohT0bNMbr5Wi410E7cQmJHz/4kdMkJykddKVcB31Kp5kTG8iM9SEjTm9a0s6yikJuHf6QwO9oZo24XvaraW7hDjyhnef/GfkNHdnT+vEe7JNIGYmZ9YEd6t1OGWhNK4imG/cyr0/6p4SlTGWQd6r4eu+KwNUf3L+m1L1ypH9+cO9OSaMXajQ7bOZ1G+8KgYFMFxl8FJEJShAX8jCWFQSAuuDfryulleNz0ej5NJ+uDnnotuQ7STfIagdG0R5NjLrLLjrQFsB76ctwDAjmDZDn70NPkUgmdzcirESmpY8Ackgl58N/KkPsGs9vYSjBt6JploNFkE/GWPaIo6Xjb2pkBMh52/o1FPliYdcpnf5wvbUoNBiBqMEmg0kjyI9MPO3yppFnzeUIU9r/3cxdvIqAZWcVg7vK5r8yjdZOe5OebJ2cbi4iPFgG5yLq8bCAttwnG6yEX0HetdXlLjXDSjQmqDea2oD24uxZe33X0cnjU+Ofs5TkR25XZSu1Jc3ocfdBg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(36860700001)(2906002)(40460700003)(82310400004)(86362001)(81166007)(54906003)(356005)(70206006)(2616005)(1076003)(316002)(26005)(186003)(336012)(426003)(6666004)(110136005)(70586007)(5660300002)(4326008)(508600001)(8676002)(4744005)(44832011)(8936002)(47076005)(83380400001)(36756003)(16526019)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 04:59:32.9584 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41618a2d-9079-4cb6-c70c-08d9f4f6f351
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5012
+X-Mailman-Approved-At: Mon, 21 Feb 2022 10:54:02 +0000
+Cc: Vasant Hegde <vasant.hegde@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,40 +123,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yicong Yang <yangyicong@hisilicon.com>
+From: Vasant Hegde via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Vasant Hegde <vasant.hegde@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add maintainer for driver and documentation of HiSilicon PTT device.
+This series contains various cleanup and trivial fixes.
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+Suravee Suthikulpanit (2):
+  iommu/amd: Improve error handling for amd_iommu_init_pci
+  iommu/amd: Improve amd_iommu_v2_exit()
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea3e6c914384..237c618a74d5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8689,6 +8689,13 @@ F:	Documentation/admin-guide/perf/hisi-pcie-pmu.rst
- F:	Documentation/admin-guide/perf/hisi-pmu.rst
- F:	drivers/perf/hisilicon
- 
-+HISILICON PTT DRIVER
-+M:	Yicong Yang <yangyicong@hisilicon.com>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/trace/hisi-ptt.rst
-+F:	drivers/hwtracing/ptt/
-+
- HISILICON QM AND ZIP Controller DRIVER
- M:	Zhou Wang <wangzhou1@hisilicon.com>
- L:	linux-crypto@vger.kernel.org
+Vasant Hegde (3):
+  iommu/amd: Call memunmap in error path
+  iommu/amd: Clean up function declarations
+  iommu/amd: Remove unused struct fault.devid
+
+ drivers/iommu/amd/amd_iommu.h |  4 ----
+ drivers/iommu/amd/init.c      | 16 ++++++++++++----
+ drivers/iommu/amd/iommu_v2.c  | 35 +++++++++++++++++------------------
+ 3 files changed, 29 insertions(+), 26 deletions(-)
+
 -- 
-2.24.0
+2.27.0
 
 _______________________________________________
 iommu mailing list
