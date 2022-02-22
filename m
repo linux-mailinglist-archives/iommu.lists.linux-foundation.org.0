@@ -1,72 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA1A4BFCCC
-	for <lists.iommu@lfdr.de>; Tue, 22 Feb 2022 16:36:00 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3D64BFDFD
+	for <lists.iommu@lfdr.de>; Tue, 22 Feb 2022 17:00:50 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6BAA260EFA;
-	Tue, 22 Feb 2022 15:35:57 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1DB8081BB2;
+	Tue, 22 Feb 2022 16:00:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eAdjVhU9S5Nm; Tue, 22 Feb 2022 15:35:56 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id d-8SQrUJmnhC; Tue, 22 Feb 2022 16:00:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8076960EF9;
-	Tue, 22 Feb 2022 15:35:56 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 515AF81BB0;
+	Tue, 22 Feb 2022 16:00:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BDB63C0079;
-	Tue, 22 Feb 2022 15:35:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 16D2FC0011;
+	Tue, 22 Feb 2022 16:00:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8A53C0011
- for <iommu@lists.linux-foundation.org>; Tue, 22 Feb 2022 15:35:54 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 22248C0011
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Feb 2022 16:00:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 89C7860EF9
- for <iommu@lists.linux-foundation.org>; Tue, 22 Feb 2022 15:35:54 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id CAA55414C9
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Feb 2022 16:00:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2zHs7xJW7o7A for <iommu@lists.linux-foundation.org>;
- Tue, 22 Feb 2022 15:35:54 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BXuYgt-8uUpP for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Feb 2022 16:00:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by smtp3.osuosl.org (Postfix) with ESMTPS id F1E0A60EF6
- for <iommu@lists.linux-foundation.org>; Tue, 22 Feb 2022 15:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=zCMW1Q+QCPXYuvBuEGOZUQKFwE9OwdLFtYhltvQ29K4=; b=UivVJu0xfBlRElPO98LGgBvic3
- FgFkBA8tXOAwbzm4ASFviz4SOlLZ2Xk5ojd8aBpgvcYaCCrlUt0AmrI5QXz9BLb9cU7dErlkZgnz3
- IzVqfHy80xQHgtYs4YtsJIktFe5xVp6loPXsAhY+LqtEtDSPdoKeEjZiqWlkk7Equu3WmJaFkQpSY
- nCZa1Oyt2hQQICm8D2KgV+1H1RPCuXGZ7ggZgJ+BM2gIRjfpfUXSW4OsSGdg/5dox+XsD7+FHqwZ8
- loSXrmeHFqVxP2h0pkLAiL/0DZ/bH24KlkPtKONU0U65lHnthcy9X8oVbBAOSQMLGRq8tZSF7/H/x
- UnbZJ7Dg==;
-Received: from [2001:4bb8:198:f8fc:c22a:ebfc:be8d:63c2] (helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMXCe-00AH73-Qo; Tue, 22 Feb 2022 15:35:49 +0000
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 20F28414E2
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Feb 2022 16:00:45 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 97CA868AFE; Tue, 22 Feb 2022 17:00:40 +0100 (CET)
+Date: Tue, 22 Feb 2022 17:00:39 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH 11/11] x86: remove cruft from <asm/dma-mapping.h>
-Date: Tue, 22 Feb 2022 16:35:14 +0100
-Message-Id: <20220222153514.593231-12-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220222153514.593231-1-hch@lst.de>
-References: <20220222153514.593231-1-hch@lst.de>
+To: Tianyu Lan <ltykernel@gmail.com>
+Subject: Re: [PATCH V2 1/2] Swiotlb: Add swiotlb_alloc_from_low_pages switch
+Message-ID: <20220222160039.GA13380@lst.de>
+References: <20220209122302.213882-1-ltykernel@gmail.com>
+ <20220209122302.213882-2-ltykernel@gmail.com> <20220214081919.GA18337@lst.de>
+ <4f433f07-05be-f81f-43e8-55c3f1af23b3@gmail.com>
+ <20220214135834.GA30150@lst.de>
+ <8d052867-ccff-f00f-7c89-cc26a4bfa347@gmail.com>
+ <23f4a64d-5977-1816-8faa-fe7691ace2ff@gmail.com>
+ <20220222080543.GA5412@lst.de>
+ <00112505-4999-ac41-877e-49c4cc45312e@gmail.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Juergen Gross <jgross@suse.com>, linux-s390@vger.kernel.org,
- linux-hyperv@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
- linux-ia64@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- x86@kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- tboot-devel@lists.sourceforge.net, linux-pci@vger.kernel.org,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- David Woodhouse <dwmw2@infradead.org>, linux-riscv@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <00112505-4999-ac41-877e-49c4cc45312e@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, kys@microsoft.com,
+ Christoph Hellwig <hch@lst.de>, hch@infradead.org, wei.liu@kernel.org,
+ sthemmin@microsoft.com, x86@kernel.org, decui@microsoft.com,
+ michael.h.kelley@microsoft.com, mingo@redhat.com, parri.andrea@gmail.com,
+ thomas.lendacky@amd.com, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ konrad.wilk@oracle.com, haiyangz@microsoft.com, bp@alien8.de,
+ tglx@linutronix.de, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, vkuznets@redhat.com, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,53 +79,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-<asm/dma-mapping.h> gets pulled in by all drivers using the DMA API.
-Remove x86 internal variables and unnecessary includes from it.
+On Tue, Feb 22, 2022 at 11:07:19PM +0800, Tianyu Lan wrote:
+> Thanks for your comment. That means we need to expose an 
+> swiotlb_device_init() interface to allocate bounce buffer and initialize
+> io tlb mem entry. DMA API Current  rmem_swiotlb_device_init() only works
+> for platform with device tree. The new API should be called in the bus
+> driver or new DMA API. Could you check whether this is a right way before 
+> we start the work.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/x86/include/asm/dma-mapping.h | 11 -----------
- arch/x86/include/asm/iommu.h       |  2 ++
- 2 files changed, 2 insertions(+), 11 deletions(-)
-
-diff --git a/arch/x86/include/asm/dma-mapping.h b/arch/x86/include/asm/dma-mapping.h
-index 256fd8115223d..1c66708e30623 100644
---- a/arch/x86/include/asm/dma-mapping.h
-+++ b/arch/x86/include/asm/dma-mapping.h
-@@ -2,17 +2,6 @@
- #ifndef _ASM_X86_DMA_MAPPING_H
- #define _ASM_X86_DMA_MAPPING_H
- 
--/*
-- * IOMMU interface. See Documentation/core-api/dma-api-howto.rst and
-- * Documentation/core-api/dma-api.rst for documentation.
-- */
--
--#include <linux/scatterlist.h>
--#include <asm/io.h>
--
--extern int iommu_merge;
--extern int panic_on_overflow;
--
- extern const struct dma_map_ops *dma_ops;
- 
- static inline const struct dma_map_ops *get_arch_dma_ops(struct bus_type *bus)
-diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
-index dba89ed40d38d..0bef44d30a278 100644
---- a/arch/x86/include/asm/iommu.h
-+++ b/arch/x86/include/asm/iommu.h
-@@ -8,6 +8,8 @@
- 
- extern int force_iommu, no_iommu;
- extern int iommu_detected;
-+extern int iommu_merge;
-+extern int panic_on_overflow;
- 
- #ifdef CONFIG_SWIOTLB
- extern bool x86_swiotlb_enable;
--- 
-2.30.2
-
+Do these VMs use ACPI?  We'd probably really want some kind of higher
+level configuration and not have the drivers request it themselves.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
