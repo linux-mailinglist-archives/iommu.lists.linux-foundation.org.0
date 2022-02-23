@@ -1,95 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2934F4C0B5C
-	for <lists.iommu@lfdr.de>; Wed, 23 Feb 2022 06:02:52 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D74C0CBB
+	for <lists.iommu@lfdr.de>; Wed, 23 Feb 2022 07:43:39 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B8E4A40329;
-	Wed, 23 Feb 2022 05:02:50 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CF0CE40324;
+	Wed, 23 Feb 2022 06:43:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uI4JvcEd_eHJ; Wed, 23 Feb 2022 05:02:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A5EB440158;
-	Wed, 23 Feb 2022 05:02:49 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Rb3nuXKhsVI6; Wed, 23 Feb 2022 06:43:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DCA324031B;
+	Wed, 23 Feb 2022 06:43:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5CEDDC0073;
-	Wed, 23 Feb 2022 05:02:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A7B03C0011;
+	Wed, 23 Feb 2022 06:43:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 26773C0011
- for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 05:02:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9A804C0011
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 06:43:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0728081C18
- for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 05:02:48 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 89CB260D6B
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 06:43:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dUp9OTfmMw6Y for <iommu@lists.linux-foundation.org>;
- Wed, 23 Feb 2022 05:02:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pJNCEEdox-SP for <iommu@lists.linux-foundation.org>;
+ Wed, 23 Feb 2022 06:43:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3AC3781BC2
- for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 05:02:46 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D5BA560803
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 06:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645592567; x=1677128567;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FNDR7wni8O9F98zBun4+rCEdedHrEYsctc1r1OAxlDU=;
- b=h3vZbMfgX1W31zHx390r2Ofsf283Cxp7JS/QgzH+ioCooCMU+JG6fd7K
- ulTA1W/aKKkbeBE0PGPRo5VMrLqMTAyb3gQGq2bx+/qzuUCL31bhwKpjE
- 8f6n0rNOfo/7uLlFIpT9oVDXXckWY5QUHhcQix55NF2oWGmHdLmKZEcaM
- 93Gpb7gInTxMzVcZ6SypEnkDjUJmqaS+27x3ePaptASf9AyUiLOzNOs8v
- xQRXnFFD9XUAEa1KqreHScRVwhWfNUUtyXpAtkUySDFZKyxdWtwapEO1E
- t54UNna+HU2NtXJPYhxTX8wnM6DAbc18F4RWfNAqpTsg9LVNAOFxVIDSW A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="250711070"
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="250711070"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 21:02:46 -0800
+ t=1645598613; x=1677134613;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=iAzHQTpn9DxNKx4uTZxZqiWGmmryDr7CtIYtk4VFei4=;
+ b=AL+3hBmVAOLyPpb1PMaDe05+IE5C3NN/ln1aQWzc3AxQehlsRf5S09tJ
+ ZJ2P4Ee6YDbkykoW522++yxNRK0K83Wn4ZWA6lFBbN6kcrggZCitJaLqq
+ DlAldul8xAfMkeVC8aGQugWba4nor0qkDiXe19MtYSZKDOKNrrjs3KDFE
+ NSFou3d6o51hUoIGdk48G0c/SEfvsoCAoX4Sv9MUp6dQV/fSOUeVt+lt+
+ rG7IHoC1LayIymeXLpSAkJ4imU6iuLKxFzrOyXxt85cYfrV7j8utqBid0
+ b84pQrnWmpetgFD1clUJdN87cqMN93embTgG5Nlq8cJwNyVUukkgHJu4H Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="231870487"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="231870487"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 22:43:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="683771422"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
- ([10.239.159.118])
- by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2022 21:02:40 -0800
-Message-ID: <171bec90-5ea6-b35b-f027-1b5e961f5ddf@linux.intel.com>
-Date: Wed, 23 Feb 2022 13:01:13 +0800
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="508311190"
+Received: from tejas-system-product-name.iind.intel.com ([10.145.162.130])
+ by orsmga006.jf.intel.com with ESMTP; 22 Feb 2022 22:43:31 -0800
+From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu/vt-d: Add RPLS to quirk list to skip TE disabling
+Date: Wed, 23 Feb 2022 11:59:57 +0530
+Message-Id: <20220223062957.31797-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 02/11] driver core: Add dma_cleanup callback in bus_type
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Robin Murphy <robin.murphy@arm.com>
-References: <20220218005521.172832-1-baolu.lu@linux.intel.com>
- <20220218005521.172832-3-baolu.lu@linux.intel.com>
- <YhCdEmC2lYStmUSL@infradead.org>
- <1d8004d3-1887-4fc7-08d2-0e2ee6b5fdcb@arm.com>
- <20220221234837.GA10061@nvidia.com>
- <1acb8748-8d44-688d-2380-f39ec820776f@arm.com>
- <20220222151632.GB10061@nvidia.com>
- <3d4c3bf1-fed6-f640-dc20-36d667de7461@arm.com>
- <20220222235353.GF10061@nvidia.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220222235353.GF10061@nvidia.com>
-Cc: kvm@vger.kernel.org, rafael@kernel.org, David Airlie <airlied@linux.ie>,
- linux-pci@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
- Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
- Stuart Yoder <stuyoder@gmail.com>, Kevin Tian <kevin.tian@intel.com>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
- Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
- Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Raviteja Goud Talla <ravitejax.goud.talla@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,41 +78,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2/23/22 7:53 AM, Jason Gunthorpe wrote:
->> To spell it out, the scheme I'm proposing looks like this:
-> Well, I already got this, it is what is in driver_or_DMA_API_token()
-> that matters
-> 
-> I think you are suggesting to do something like:
-> 
->     if (!READ_ONCE(dev->driver) ||  ???)
->         return NULL;
->     return group;  // A DMA_API 'token'
-> 
-> Which is locklessly reading dev->driver, and why you are talking about
-> races, I guess.
-> 
+The VT-d spec requires (10.4.4 Global Command Register, TE
+field) that:
 
-I am afraid that we are not able to implement a race-free
-driver_or_DMA_API_token() helper. The lock problem between the IOMMU
-core and driver core always exists.
+Hardware implementations supporting DMA draining must drain
+any in-flight DMA read/write requests queued within the
+Root-Complex before completing the translation enable
+command and reflecting the status of the command through
+the TES field in the Global Status register.
 
-For example, when we implemented iommu_group_store_type() to change the
-default domain type of a device through sysfs, we could only comprised
-and limited this functionality to singleton groups to avoid the lock
-issue.
+Unfortunately, some integrated graphic devices fail to do
+so after some kind of power state transition. As the
+result, the system might stuck in iommu_disable_translati
+on(), waiting for the completion of TE transition.
 
-Unfortunately, that compromise cannot simply applied to the problem to
-be solved by this series, because the iommu core cannot abort the driver
-binding when the conflict is detected in the bus notifier.
+This adds RPLS to a quirk list for those devices and skips
+TE disabling if the qurik hits.
 
-Best regards,
-baolu
+Fixes: https://gitlab.freedesktop.org/drm/intel/-/issues/4898
+Fixes: LCK-10789
+Tested-by: Raviteja Goud Talla <ravitejax.goud.talla@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+---
+ drivers/iommu/intel/iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 92fea3fbbb11..be9487516617 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -5743,7 +5743,7 @@ static void quirk_igfx_skip_te_disable(struct pci_dev *dev)
+ 	ver = (dev->device >> 8) & 0xff;
+ 	if (ver != 0x45 && ver != 0x46 && ver != 0x4c &&
+ 	    ver != 0x4e && ver != 0x8a && ver != 0x98 &&
+-	    ver != 0x9a)
++	    ver != 0x9a && ver != 0xa7)
+ 		return;
+ 
+ 	if (risky_device(dev))
+-- 
+2.34.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
