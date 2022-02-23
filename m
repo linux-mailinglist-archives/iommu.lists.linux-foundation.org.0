@@ -1,104 +1,95 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651604C0B14
-	for <lists.iommu@lfdr.de>; Wed, 23 Feb 2022 05:31:01 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2934F4C0B5C
+	for <lists.iommu@lfdr.de>; Wed, 23 Feb 2022 06:02:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DCB3A60D6B;
-	Wed, 23 Feb 2022 04:30:57 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B8E4A40329;
+	Wed, 23 Feb 2022 05:02:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VsVSEoqO2fTC; Wed, 23 Feb 2022 04:30:57 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uI4JvcEd_eHJ; Wed, 23 Feb 2022 05:02:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E47EE60EE0;
-	Wed, 23 Feb 2022 04:30:56 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A5EB440158;
+	Wed, 23 Feb 2022 05:02:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C6CF7C0011;
-	Wed, 23 Feb 2022 04:30:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5CEDDC0073;
+	Wed, 23 Feb 2022 05:02:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5551CC0011;
- Wed, 23 Feb 2022 04:30:51 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 26773C0011
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 05:02:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4FB3A60BE8;
- Wed, 23 Feb 2022 04:30:51 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0728081C18
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 05:02:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QeHUA2WebMMH; Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B838160ACB;
- Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id E68F7580151;
- Tue, 22 Feb 2022 23:30:49 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 22 Feb 2022 23:30:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sent.com; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=EW0q3DKsqq85t3
- 6Mhl5XwyP6zYfcE0gyy04nLECgLok=; b=OvJS9MBw0ak9QSpdlP0SjZT4EbTlVg
- G957KqEariXB87msO6UEXK8rXWBNRiPEu8WQJtJhslcx5XbwmNwSj3g3yHIcD3Aa
- SXiPHwpFb9ZgkYzgwvFBvEml0kMAqhy4E9+2zq6+vi+84oAzkthnmjNYuJQvkkn3
- NvFUSmz6hDV3JJJ/ZumtEv+VUUgQpHWpllbYbuOSSKSGMHKg/USS+2Gk+fz7X8bI
- U/ERaWqu7MWOyHGgT7DwKGWmA4vtyGUeJiWMOrwCTh4+jisPnnkxbBVin85fUNea
- udm6VtqSbdnaaffHtdOQ/X2JowEj6fIe6V17/71xEMwF6xKyGL7fUOdQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=EW0q3DKsqq85t36Mhl5XwyP6zYfcE0gyy04nLECgLok=; b=QQvfRN3w
- vMMnMOJfAC8ZY+rjIyJbgTJjBhTpPhCYy90nbh3dYxs8/uZ6tuSzkBIGf4/x0vP5
- h6P/BKfhvldynl22wSwYvr/jJhB0Oj1gfbn2dv85xVGT0THw00i/Yb+ZW08YEtZD
- SylhU/7swIv5Xpg1J9U+wYuAMU4ISXpTUJJLGf9nEfvU68RBOCylLg7vWlESVm6O
- /pv6gyEJguWkNqbwAqQaTD2H17LYwzISaEX8/JsZFDYvcjRF9y2MyAjK3Ohvfwmp
- ROwTD+y/D+k1wO3Ca5vLJJskVHGgGB4uJuPwU1yVayCIqmrf6wG2Z/N+vrtWHYkC
- kMaHkBXEgB4Qmg==
-X-ME-Sender: <xms:ebgVYrJ4ulT1rRejF-PBu9amo-MxXNhUbsVqtw7ain1W8mUD58c-NA>
- <xme:ebgVYvJr44MKSnAMIpfiFXrgh2SAnUbxdILzJb1_a8PBvyfIOlDuTvbaFqhkAf9J7
- 0QUS0ul53vLMFTvfQ>
-X-ME-Received: <xmr:ebgVYju6SNG5wG97wpYPtCi_ac0X3RGv8KZHIVFAuAZJON7ognS8SMc9XbZ2L2hWHeMKdajw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeelgdejudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhhrggfgsedtqhertdertddtnecuhfhrohhmpegkihcujggr
- nhcuoeiiihdrhigrnhesshgvnhhtrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeeuvd
- euudeuhfeghfehieeuvdetvdeugfeigeevteeuieeuhedtgeduheefleenucevlhhushht
- vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeiiihdrhigrnhesshgvnh
- htrdgtohhm
-X-ME-Proxy: <xmx:ebgVYka5j5CFpx65WA7YkbyC4MicIWPpBuOfY6VBkCLl3oxKxg5CZg>
- <xmx:ebgVYiaLcmpM7HJmJ_-H90HXOnxzCK4ajyZGKggtrmU_EpQHSNW_bw>
- <xmx:ebgVYoD_t_cAY9j91YpfqwQPi4RLTQ3GIsRpGMeyU5h7eBCnrG1gRw>
- <xmx:ebgVYnLK_DN2ZYxxBsbKhrUuS3SRjebwvZKdMzoMrfnalSiIoXwspw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Feb 2022 23:30:49 -0500 (EST)
-From: Zi Yan <zi.yan@sent.com>
-To: David Hildenbrand <david@redhat.com>,
-	linux-mm@kvack.org
-Subject: [PATCH v6 5/5] drivers: virtio_mem: use pageblock size as the minimum
- virtio_mem size.
-Date: Tue, 22 Feb 2022 23:30:37 -0500
-Message-Id: <20220223043037.715205-6-zi.yan@sent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220223043037.715205-1-zi.yan@sent.com>
-References: <20220223043037.715205-1-zi.yan@sent.com>
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dUp9OTfmMw6Y for <iommu@lists.linux-foundation.org>;
+ Wed, 23 Feb 2022 05:02:47 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3AC3781BC2
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Feb 2022 05:02:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645592567; x=1677128567;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=FNDR7wni8O9F98zBun4+rCEdedHrEYsctc1r1OAxlDU=;
+ b=h3vZbMfgX1W31zHx390r2Ofsf283Cxp7JS/QgzH+ioCooCMU+JG6fd7K
+ ulTA1W/aKKkbeBE0PGPRo5VMrLqMTAyb3gQGq2bx+/qzuUCL31bhwKpjE
+ 8f6n0rNOfo/7uLlFIpT9oVDXXckWY5QUHhcQix55NF2oWGmHdLmKZEcaM
+ 93Gpb7gInTxMzVcZ6SypEnkDjUJmqaS+27x3ePaptASf9AyUiLOzNOs8v
+ xQRXnFFD9XUAEa1KqreHScRVwhWfNUUtyXpAtkUySDFZKyxdWtwapEO1E
+ t54UNna+HU2NtXJPYhxTX8wnM6DAbc18F4RWfNAqpTsg9LVNAOFxVIDSW A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="250711070"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="250711070"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 21:02:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="683771422"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
+ ([10.239.159.118])
+ by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2022 21:02:40 -0800
+Message-ID: <171bec90-5ea6-b35b-f027-1b5e961f5ddf@linux.intel.com>
+Date: Wed, 23 Feb 2022 13:01:13 +0800
 MIME-Version: 1.0
-Cc: Mel Gorman <mgorman@techsingularity.net>, Zi Yan <ziy@nvidia.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Oscar Salvador <osalvador@suse.de>,
- Robin Murphy <robin.murphy@arm.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Mike Rapoport <rppt@kernel.org>,
- Eric Ren <renzhengeek@gmail.com>, virtualization@lists.linux-foundation.org,
- linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>,
- Vlastimil Babka <vbabka@suse.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 02/11] driver core: Add dma_cleanup callback in bus_type
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>, Robin Murphy <robin.murphy@arm.com>
+References: <20220218005521.172832-1-baolu.lu@linux.intel.com>
+ <20220218005521.172832-3-baolu.lu@linux.intel.com>
+ <YhCdEmC2lYStmUSL@infradead.org>
+ <1d8004d3-1887-4fc7-08d2-0e2ee6b5fdcb@arm.com>
+ <20220221234837.GA10061@nvidia.com>
+ <1acb8748-8d44-688d-2380-f39ec820776f@arm.com>
+ <20220222151632.GB10061@nvidia.com>
+ <3d4c3bf1-fed6-f640-dc20-36d667de7461@arm.com>
+ <20220222235353.GF10061@nvidia.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+In-Reply-To: <20220222235353.GF10061@nvidia.com>
+Cc: kvm@vger.kernel.org, rafael@kernel.org, David Airlie <airlied@linux.ie>,
+ linux-pci@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ Stuart Yoder <stuyoder@gmail.com>, Kevin Tian <kevin.tian@intel.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
+ Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,44 +102,41 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Reply-To: Zi Yan <ziy@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Zi Yan <ziy@nvidia.com>
+On 2/23/22 7:53 AM, Jason Gunthorpe wrote:
+>> To spell it out, the scheme I'm proposing looks like this:
+> Well, I already got this, it is what is in driver_or_DMA_API_token()
+> that matters
+> 
+> I think you are suggesting to do something like:
+> 
+>     if (!READ_ONCE(dev->driver) ||  ???)
+>         return NULL;
+>     return group;  // A DMA_API 'token'
+> 
+> Which is locklessly reading dev->driver, and why you are talking about
+> races, I guess.
+> 
 
-alloc_contig_range() now only needs to be aligned to pageblock_order,
-drop virtio_mem size requirement that it needs to be the max of
-pageblock_order and MAX_ORDER.
+I am afraid that we are not able to implement a race-free
+driver_or_DMA_API_token() helper. The lock problem between the IOMMU
+core and driver core always exists.
 
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
- drivers/virtio/virtio_mem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+For example, when we implemented iommu_group_store_type() to change the
+default domain type of a device through sysfs, we could only comprised
+and limited this functionality to singleton groups to avoid the lock
+issue.
 
-diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
-index e7d6b679596d..e07486f01999 100644
---- a/drivers/virtio/virtio_mem.c
-+++ b/drivers/virtio/virtio_mem.c
-@@ -2476,10 +2476,10 @@ static int virtio_mem_init_hotplug(struct virtio_mem *vm)
- 				      VIRTIO_MEM_DEFAULT_OFFLINE_THRESHOLD);
- 
- 	/*
--	 * TODO: once alloc_contig_range() works reliably with pageblock
--	 * granularity on ZONE_NORMAL, use pageblock_nr_pages instead.
-+	 * alloc_contig_range() works reliably with pageblock
-+	 * granularity on ZONE_NORMAL, use pageblock_nr_pages.
- 	 */
--	sb_size = PAGE_SIZE * MAX_ORDER_NR_PAGES;
-+	sb_size = PAGE_SIZE * pageblock_nr_pages;
- 	sb_size = max_t(uint64_t, vm->device_block_size, sb_size);
- 
- 	if (sb_size < memory_block_size_bytes() && !force_bbm) {
--- 
-2.34.1
+Unfortunately, that compromise cannot simply applied to the problem to
+be solved by this series, because the iommu core cannot abort the driver
+binding when the conflict is detected in the bus notifier.
 
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
