@@ -1,91 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155874C0B10
-	for <lists.iommu@lfdr.de>; Wed, 23 Feb 2022 05:30:56 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 651604C0B14
+	for <lists.iommu@lfdr.de>; Wed, 23 Feb 2022 05:31:01 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7BD9D4092F;
-	Wed, 23 Feb 2022 04:30:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id DCB3A60D6B;
+	Wed, 23 Feb 2022 04:30:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ekzg-I1YXj8B; Wed, 23 Feb 2022 04:30:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 741B940912;
-	Wed, 23 Feb 2022 04:30:53 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VsVSEoqO2fTC; Wed, 23 Feb 2022 04:30:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E47EE60EE0;
+	Wed, 23 Feb 2022 04:30:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6578C0073;
-	Wed, 23 Feb 2022 04:30:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6CF7C0011;
+	Wed, 23 Feb 2022 04:30:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B90B5C0011;
- Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5551CC0011;
+ Wed, 23 Feb 2022 04:30:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9307B4092F;
- Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4FB3A60BE8;
+ Wed, 23 Feb 2022 04:30:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MaBW2vzpyHCr; Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QeHUA2WebMMH; Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DDF5740912;
- Wed, 23 Feb 2022 04:30:49 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 18511580137;
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B838160ACB;
+ Wed, 23 Feb 2022 04:30:50 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E68F7580151;
  Tue, 22 Feb 2022 23:30:49 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 22 Feb 2022 23:30:49 -0500
+ by compute1.internal (MEProxy); Tue, 22 Feb 2022 23:30:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sent.com; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=AfFDHj1c96/TKE
- 7TOTCl/a+qq6hQy8alpItolvHSm/8=; b=loroW7MKBg/4JLVLHXMyTJwf0my9rK
- OvhbebnI3I0jYeSfHnVR+xWdKDDBgGTlKqG0ToyousjhFJo3aQyDGAgwFpa0NmO4
- 4+u8bxfOr1eqGhzLVk82L+OOPDLWPPvZ5u/6sSlD6lhytqtrj3nFYIC4lChVtThC
- Be+gvrI76BJ+YyeUnIC0siPLBduxPUOoS/8jXW4pVIqj7S8ZhRfrG2dufqWn438o
- 4rscDaib/zQuGVnCBFY0HPWu2K3latDoS8Ac+jHOcKfQixpOGtyX5cJ8SCY1MAV8
- mbw2U3jUeEdpGG9PTYLo7YM9YgBrfeSI1NSduMNvezDxLc/9aNihcTJw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=EW0q3DKsqq85t3
+ 6Mhl5XwyP6zYfcE0gyy04nLECgLok=; b=OvJS9MBw0ak9QSpdlP0SjZT4EbTlVg
+ G957KqEariXB87msO6UEXK8rXWBNRiPEu8WQJtJhslcx5XbwmNwSj3g3yHIcD3Aa
+ SXiPHwpFb9ZgkYzgwvFBvEml0kMAqhy4E9+2zq6+vi+84oAzkthnmjNYuJQvkkn3
+ NvFUSmz6hDV3JJJ/ZumtEv+VUUgQpHWpllbYbuOSSKSGMHKg/USS+2Gk+fz7X8bI
+ U/ERaWqu7MWOyHGgT7DwKGWmA4vtyGUeJiWMOrwCTh4+jisPnnkxbBVin85fUNea
+ udm6VtqSbdnaaffHtdOQ/X2JowEj6fIe6V17/71xEMwF6xKyGL7fUOdQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=AfFDHj1c96/TKE7TOTCl/a+qq6hQy8alpItolvHSm/8=; b=R4aMF6ON
- Vlc3etrYS96dvAL/WToZ49N9W1jJAY2pT6fGZd29fPfEfl5V563F3yvHeaLG1NzU
- XpKdMwYwekuZ9YO9T04qHKAqkiCa4Qk38LSAJsyPCANdLuVR+XtMzKXzPn2IyW+9
- ks16ehPM/gMyFNZev4ECkRw2YLv65yRsOOMPRTA8mG9osBjHux7BM8lP0gT+D5TO
- yIup2BWS6C7T4FeLXP9JubZ9sJ2AUyuZmbyA5qpyXyfBpgwXPVHkI30Rp0wjelni
- I2aiI8lJZVivXdPp3n8EC9ROkuHPTwCn2N3h9smi9OhJkZja0kQ8MEKv6u0dqRvh
- n4OTv8XWikHaXA==
-X-ME-Sender: <xms:eLgVYkAi33MZLe2zHyto2r5Ay-v3h9OSANLpOR3uwopGSdUEu5ZJ6A>
- <xme:eLgVYmgxvSkIeZnnH0c1XbCkTOovx-NZ3RWYfzWWRnGFmnMhevZLl3XMTJENyRWlf
- 81AWT6HSpjtKdqm6g>
-X-ME-Received: <xmr:eLgVYnnRMXM5CxmfFmcDwBcROzt2VOdu_M0XcYytR-B0t-B5VPQJyTkzhe9RMHwvY_dgGFLs>
+ fm2; bh=EW0q3DKsqq85t36Mhl5XwyP6zYfcE0gyy04nLECgLok=; b=QQvfRN3w
+ vMMnMOJfAC8ZY+rjIyJbgTJjBhTpPhCYy90nbh3dYxs8/uZ6tuSzkBIGf4/x0vP5
+ h6P/BKfhvldynl22wSwYvr/jJhB0Oj1gfbn2dv85xVGT0THw00i/Yb+ZW08YEtZD
+ SylhU/7swIv5Xpg1J9U+wYuAMU4ISXpTUJJLGf9nEfvU68RBOCylLg7vWlESVm6O
+ /pv6gyEJguWkNqbwAqQaTD2H17LYwzISaEX8/JsZFDYvcjRF9y2MyAjK3Ohvfwmp
+ ROwTD+y/D+k1wO3Ca5vLJJskVHGgGB4uJuPwU1yVayCIqmrf6wG2Z/N+vrtWHYkC
+ kMaHkBXEgB4Qmg==
+X-ME-Sender: <xms:ebgVYrJ4ulT1rRejF-PBu9amo-MxXNhUbsVqtw7ain1W8mUD58c-NA>
+ <xme:ebgVYvJr44MKSnAMIpfiFXrgh2SAnUbxdILzJb1_a8PBvyfIOlDuTvbaFqhkAf9J7
+ 0QUS0ul53vLMFTvfQ>
+X-ME-Received: <xmr:ebgVYju6SNG5wG97wpYPtCi_ac0X3RGv8KZHIVFAuAZJON7ognS8SMc9XbZ2L2hWHeMKdajw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeelgdejudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhhrggfgsedtqhertdertddtnecuhfhrohhmpegkihcujggr
  nhcuoeiiihdrhigrnhesshgvnhhtrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeeuvd
  euudeuhfeghfehieeuvdetvdeugfeigeevteeuieeuhedtgeduheefleenucevlhhushht
- vghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpeiiihdrhigrnhesshgvnh
+ vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeiiihdrhigrnhesshgvnh
  htrdgtohhm
-X-ME-Proxy: <xmx:eLgVYqxS2Bz3WA58WJTxKvt_-GBI_I-y7jD8oHKDQf5QtesCl5Qyqg>
- <xmx:eLgVYpR_NT2MUYN0ToUtzkSr9X1a4YdewihXq9nLDX3BHQAwoO4sdw>
- <xmx:eLgVYlbmvJWin1DPrSFP6XooqawzUwpLPunehXu5tQmag_YTlQC38w>
- <xmx:ebgVYiiC5VXsXmfwDM8dpIFZDNHzX8eLI8U3fo3xcB49iggVaMZTrw>
+X-ME-Proxy: <xmx:ebgVYka5j5CFpx65WA7YkbyC4MicIWPpBuOfY6VBkCLl3oxKxg5CZg>
+ <xmx:ebgVYiaLcmpM7HJmJ_-H90HXOnxzCK4ajyZGKggtrmU_EpQHSNW_bw>
+ <xmx:ebgVYoD_t_cAY9j91YpfqwQPi4RLTQ3GIsRpGMeyU5h7eBCnrG1gRw>
+ <xmx:ebgVYnLK_DN2ZYxxBsbKhrUuS3SRjebwvZKdMzoMrfnalSiIoXwspw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Feb 2022 23:30:48 -0500 (EST)
+ 22 Feb 2022 23:30:49 -0500 (EST)
 From: Zi Yan <zi.yan@sent.com>
 To: David Hildenbrand <david@redhat.com>,
 	linux-mm@kvack.org
-Subject: [PATCH v6 4/5] mm: cma: use pageblock_order as the single alignment
-Date: Tue, 22 Feb 2022 23:30:36 -0500
-Message-Id: <20220223043037.715205-5-zi.yan@sent.com>
+Subject: [PATCH v6 5/5] drivers: virtio_mem: use pageblock size as the minimum
+ virtio_mem size.
+Date: Tue, 22 Feb 2022 23:30:37 -0500
+Message-Id: <20220223043037.715205-6-zi.yan@sent.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220223043037.715205-1-zi.yan@sent.com>
 References: <20220223043037.715205-1-zi.yan@sent.com>
@@ -118,66 +119,33 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Zi Yan <ziy@nvidia.com>
 
-Now alloc_contig_range() works at pageblock granularity. Change CMA
-allocation, which uses alloc_contig_range(), to use pageblock_order
-alignment.
+alloc_contig_range() now only needs to be aligned to pageblock_order,
+drop virtio_mem size requirement that it needs to be the max of
+pageblock_order and MAX_ORDER.
 
 Signed-off-by: Zi Yan <ziy@nvidia.com>
 ---
- include/linux/cma.h    | 4 ++--
- include/linux/mmzone.h | 5 +----
- mm/page_alloc.c        | 4 ++--
- 3 files changed, 5 insertions(+), 8 deletions(-)
+ drivers/virtio/virtio_mem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/cma.h b/include/linux/cma.h
-index 90fd742fd1ef..22fa94231dfe 100644
---- a/include/linux/cma.h
-+++ b/include/linux/cma.h
-@@ -21,11 +21,11 @@
- #define CMA_MAX_NAME 64
+diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
+index e7d6b679596d..e07486f01999 100644
+--- a/drivers/virtio/virtio_mem.c
++++ b/drivers/virtio/virtio_mem.c
+@@ -2476,10 +2476,10 @@ static int virtio_mem_init_hotplug(struct virtio_mem *vm)
+ 				      VIRTIO_MEM_DEFAULT_OFFLINE_THRESHOLD);
  
- /*
-- * TODO: once the buddy -- especially pageblock merging and alloc_contig_range()
-+ *  the buddy -- especially pageblock merging and alloc_contig_range()
-  * -- can deal with only some pageblocks of a higher-order page being
-  *  MIGRATE_CMA, we can use pageblock_nr_pages.
-  */
--#define CMA_MIN_ALIGNMENT_PAGES MAX_ORDER_NR_PAGES
-+#define CMA_MIN_ALIGNMENT_PAGES pageblock_nr_pages
- #define CMA_MIN_ALIGNMENT_BYTES (PAGE_SIZE * CMA_MIN_ALIGNMENT_PAGES)
- 
- struct cma;
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 3fff6deca2c0..da38c8436493 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -54,10 +54,7 @@ enum migratetype {
- 	 *
- 	 * The way to use it is to change migratetype of a range of
- 	 * pageblocks to MIGRATE_CMA which can be done by
--	 * __free_pageblock_cma() function.  What is important though
--	 * is that a range of pageblocks must be aligned to
--	 * MAX_ORDER_NR_PAGES should biggest page be bigger than
--	 * a single pageblock.
-+	 * __free_pageblock_cma() function.
+ 	/*
+-	 * TODO: once alloc_contig_range() works reliably with pageblock
+-	 * granularity on ZONE_NORMAL, use pageblock_nr_pages instead.
++	 * alloc_contig_range() works reliably with pageblock
++	 * granularity on ZONE_NORMAL, use pageblock_nr_pages.
  	 */
- 	MIGRATE_CMA,
- #endif
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 038e044c5a80..90281e33e20a 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -9077,8 +9077,8 @@ int __alloc_contig_migrate_range(struct compact_control *cc,
-  *			be either of the two.
-  * @gfp_mask:	GFP mask to use during compaction
-  *
-- * The PFN range does not have to be pageblock or MAX_ORDER_NR_PAGES
-- * aligned.  The PFN range must belong to a single zone.
-+ * The PFN range does not have to be pageblock aligned. The PFN range must
-+ * belong to a single zone.
-  *
-  * The first thing this routine does is attempt to MIGRATE_ISOLATE all
-  * pageblocks in the range.  Once isolated, the pageblocks should not
+-	sb_size = PAGE_SIZE * MAX_ORDER_NR_PAGES;
++	sb_size = PAGE_SIZE * pageblock_nr_pages;
+ 	sb_size = max_t(uint64_t, vm->device_block_size, sb_size);
+ 
+ 	if (sb_size < memory_block_size_bytes() && !force_bbm) {
 -- 
 2.34.1
 
