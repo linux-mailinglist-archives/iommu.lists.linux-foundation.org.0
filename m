@@ -1,64 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EA84C4070
-	for <lists.iommu@lfdr.de>; Fri, 25 Feb 2022 09:48:14 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88644C445E
+	for <lists.iommu@lfdr.de>; Fri, 25 Feb 2022 13:10:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 816AA61269;
-	Fri, 25 Feb 2022 08:48:10 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6CE7B61301;
+	Fri, 25 Feb 2022 12:10:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AJjc7SpMR-Mi; Fri, 25 Feb 2022 08:48:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EEC406127A;
-	Fri, 25 Feb 2022 08:48:07 +0000 (UTC)
+	with ESMTP id EwaUhFWPoJwS; Fri, 25 Feb 2022 12:10:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9967861300;
+	Fri, 25 Feb 2022 12:10:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6D75C007D;
-	Fri, 25 Feb 2022 08:48:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7410BC007A;
+	Fri, 25 Feb 2022 12:10:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1C629C001A
- for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 08:48:04 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5C550C001A
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 09:32:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id DD48340211
- for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 08:48:03 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4343A41651
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 09:32:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Bome4AsNN5G7 for <iommu@lists.linux-foundation.org>;
- Fri, 25 Feb 2022 08:48:03 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C336940265
- for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 08:48:02 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 364BF68AA6; Fri, 25 Feb 2022 09:47:56 +0100 (CET)
-Date: Fri, 25 Feb 2022 09:47:55 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Subject: Re: cleanup swiotlb initialization
-Message-ID: <20220225084755.GA29630@lst.de>
-References: <20220222153514.593231-1-hch@lst.de>
- <09cb4ad3-88e7-3744-b4b8-a6d745ecea9e@oracle.com>
- <20220224155854.GA30938@lst.de>
- <206ba6a3-770a-70ad-96bc-76c6380da988@oracle.com>
- <20220224163943.GA32088@lst.de>
- <8ffd8587-7eb3-d5b6-eab0-b86df5c0ebbd@oracle.com>
+ with ESMTP id g7mZE0e-lw18 for <iommu@lists.linux-foundation.org>;
+ Fri, 25 Feb 2022 09:32:43 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 861D64163F
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 09:32:43 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m13-20020a7bca4d000000b00380e379bae2so1286912wml.3
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Feb 2022 01:32:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/Anr/HpsJ2V3LE7H1qAJzQqqWy2ZK47ULNqlFEib6tU=;
+ b=P7ly3xMyPOrr3B0325E0teDM/lnRIOn9XJo7vDUt6oM76ogcTuQmAW6QSIVXm06n6x
+ clY6WFc+TmNkhiQfhXRr8z+8+GnhlhufGuUcCpWy72mXjFb/viNp1REsO6MooFRkqJKW
+ LiKPKOSqw2QbIhK8uF5COvxCOU35Ijtfx4xyKac9cRmg7dMheotudn9S9JZ3N7Tn7SyF
+ 7Dz20E21T8NXyZywwDBROSordMx0mgKNb9BsZ3K4K7lDo/5eowmZTV2onhx2j37l5Ond
+ fYQvlVkhQXEtA1WzjBBIhYtMWPIIrs+qS4YVXWl27BzzfOPOQwSa5ZBSDUWT2SW3Pkd/
+ Wtuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/Anr/HpsJ2V3LE7H1qAJzQqqWy2ZK47ULNqlFEib6tU=;
+ b=IqlnOCfLd8zjNyr64cUtJDYHn7tDgXfP0BMwPDshUND+mUNPvorwvLitYRFkNTSq00
+ 41utqpsQFRT2KkQirLw3XGf8VPAoZhlY7i0tdQ8EPUP8OzDfrHDzERPt2G4I+F6h5NMg
+ KzD3XDby8v83VwzCgUbqWOBk0sGJ+YPgQiVERRoHlQlYcSGqTJxT0cvj5Qt8MVek4kiV
+ 1dWqDws3tjqT9aWk0URz7/qX8l5jgwSuzHDOBGRyGgxza8FYVC/NsFF+RQMi0RrdhEE3
+ 8Z+cSPrAFavLNX70QHVZVVj3SGt3UMwi1mKStzU4pDHLuiBUrVz8tXU5YzuFX+fYS4/2
+ KyGw==
+X-Gm-Message-State: AOAM531Bdi37Ys2U2wKsuq8Yvu3C8hh8GmolfdDyE4blB14e5oOsOfnS
+ GhxWSBGSVK82NWvDNxIoTMs=
+X-Google-Smtp-Source: ABdhPJwoCKrFbFoCIBMTdfn2qSE6TEQIPQ9CT9XkwjlSqgeqEjqMCQ0M7IbjTCUATIRzbiSlEcckPw==
+X-Received: by 2002:a05:600c:20b:b0:381:263:b5d6 with SMTP id
+ 11-20020a05600c020b00b003810263b5d6mr1904829wmi.73.1645781561681; 
+ Fri, 25 Feb 2022 01:32:41 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ x2-20020a7bc762000000b00380fd1ba4ebsm7733046wmk.9.2022.02.25.01.32.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Feb 2022 01:32:21 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu/arm-smmu: remove redundant assignment to variable res
+Date: Fri, 25 Feb 2022 09:32:05 +0000
+Message-Id: <20220225093205.170973-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8ffd8587-7eb3-d5b6-eab0-b86df5c0ebbd@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Juergen Gross <jgross@suse.com>, linux-s390@vger.kernel.org,
- linux-hyperv@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
- linux-ia64@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- x86@kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- iommu@lists.linux-foundation.org, tboot-devel@lists.sourceforge.net,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-riscv@lists.infradead.org, David Woodhouse <dwmw2@infradead.org>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+X-Mailman-Approved-At: Fri, 25 Feb 2022 12:10:34 +0000
+Cc: llvm@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,85 +101,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Feb 24, 2022 at 12:07:26PM -0500, Boris Ostrovsky wrote:
->>> Just to be clear: this crashes only as dom0. Boots fine as baremetal.
->> Ah.  I can gues what this might be.  On Xen the hypervisor controls the
->> IOMMU and we should never end up initializing it in Linux, right?
->
->
-> Right, we shouldn't be in that code path.
+The variable res is being assigned a value that isn't being read
+later. The assignment is redundant and can be removed.
 
-Can you try the patch below on top of the series?
+Cleans up clang scan warning:
+drivers/iommu/arm/arm-smmu/arm-smmu.c:2109:10: warning: Although the
+value stored to 'res' is used in the enclosing expression, the value
+is never actually read from 'res' [deadcode.DeadStores]
 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
-index b849f11a756d0..f88c9a4a5ed12 100644
---- a/arch/x86/kernel/pci-dma.c
-+++ b/arch/x86/kernel/pci-dma.c
-@@ -47,22 +47,6 @@ static unsigned int x86_swiotlb_flags;
-  */
- static void __init pci_swiotlb_detect_4gb(void)
- {
--#ifdef CONFIG_SWIOTLB_XEN
--	if (xen_pv_domain()) {
--		if (xen_initial_domain())
--			x86_swiotlb_enable = true;
--
--		if (x86_swiotlb_enable) {
--			dma_ops = &xen_swiotlb_dma_ops;
--#ifdef CONFIG_PCI
--			/* Make sure ACS will be enabled */
--			pci_request_acs();
--#endif
--		}
--		return;
--	}
--#endif /* CONFIG_SWIOTLB_XEN */
--
- 	/* don't initialize swiotlb if iommu=off (no_iommu=1) */
- 	if (!no_iommu && max_possible_pfn > MAX_DMA32_PFN)
- 		x86_swiotlb_enable = true;
-@@ -82,16 +66,36 @@ static inline void __init pci_swiotlb_detect_4gb(void)
- }
- #endif /* CONFIG_SWIOTLB */
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index 4bc75c4ce402..f83d2c32b5a9 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -2106,7 +2106,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+ 		return PTR_ERR(smmu);
  
-+#ifdef CONFIG_SWIOTLB_XEN
-+static void __init xen_swiotlb_init(void)
-+{
-+	if (!xen_initial_domain() && !x86_swiotlb_enable)
-+		return;
-+	x86_swiotlb_enable = true;
-+	dma_ops = &xen_swiotlb_dma_ops;
-+#ifdef CONFIG_PCI
-+	/* Make sure ACS will be enabled */
-+	pci_request_acs();
-+#endif
-+	swiotlb_init_remap(true, x86_swiotlb_flags, xen_swiotlb_fixup);
-+}
-+#else
-+static inline void __init xen_swiotlb_init(void)
-+{
-+}
-+#endif /* CONFIG_SWIOTLB_XEN */
-+
- void __init pci_iommu_alloc(void)
- {
-+	if (xen_pv_domain()) {
-+		xen_swiotlb_init();
-+		return;
-+	}
- 	pci_swiotlb_detect_4gb();
- 	gart_iommu_hole_init();
- 	amd_iommu_detect();
- 	detect_intel_iommu();
--#ifdef CONFIG_SWIOTLB
--	swiotlb_init_remap(x86_swiotlb_enable, x86_swiotlb_flags,
--			   xen_pv_domain() ? xen_swiotlb_fixup : NULL);
--#endif
-+	swiotlb_init(x86_swiotlb_enable, x86_swiotlb_flags);
- }
- 
- /*
+ 	num_irqs = 0;
+-	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, num_irqs))) {
++	while (platform_get_resource(pdev, IORESOURCE_IRQ, num_irqs)) {
+ 		num_irqs++;
+ 		if (num_irqs > smmu->num_global_irqs)
+ 			smmu->num_context_irqs++;
+-- 
+2.34.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
