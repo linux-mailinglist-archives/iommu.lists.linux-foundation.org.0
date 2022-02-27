@@ -1,61 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AEA4C5BF3
-	for <lists.iommu@lfdr.de>; Sun, 27 Feb 2022 15:31:14 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D604C5BF5
+	for <lists.iommu@lfdr.de>; Sun, 27 Feb 2022 15:31:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 5552D408FA;
-	Sun, 27 Feb 2022 14:31:10 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4DE9340500;
+	Sun, 27 Feb 2022 14:31:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lq-YpyKAWnbg; Sun, 27 Feb 2022 14:31:09 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qRIwL8YCL179; Sun, 27 Feb 2022 14:31:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 680FE408F6;
-	Sun, 27 Feb 2022 14:31:09 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 018BE40519;
+	Sun, 27 Feb 2022 14:31:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 348CAC001A;
-	Sun, 27 Feb 2022 14:31:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D0F3CC001A;
+	Sun, 27 Feb 2022 14:31:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C02AC0070
- for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1FF7C001A
+ for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 465A160BCF
- for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:07 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id A0DD960D79
+ for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=infradead.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uLfk1w35D5K3 for <iommu@lists.linux-foundation.org>;
- Sun, 27 Feb 2022 14:31:06 +0000 (UTC)
+ with ESMTP id Dwk07W3W90nj for <iommu@lists.linux-foundation.org>;
+ Sun, 27 Feb 2022 14:31:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 4A5D160BAD
- for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:06 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 19F7260BCF
+ for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=+WiBOXA0MRDZn1kqTV3ww0Ba1VAfcBaU/VHzqZHaxWQ=; b=UcMvfw8PmtRTqsFC3KR7eGE16Z
- ScdqwnvCgitmv45Q5ry3OAtO9pAZicvl9XYX8rtjmHIqsoPld+fqpCFXgiJWUTVNQXrtRr5+gJ7G9
- zNDGvmhjJvotR5KJmi+LerfiLBEJ8+g/DV8hmCvfEcASMbpdUSh3+Ys0hMCj0wzEo22LHDc5AFJm3
- 460k5swhB+imd2zecCUtx/NDpMxrE8s8/T/tQZp56g/hNMchq2zBI1AwK8BJ9KguClDyChdet3gjn
- MlZpKgk5YExrCKU0+vtPE1aDMIW2Hw5Nk4N8c/3a/rZIJTo3dD7J9ofdhbwHjFQZ6o6APbGFVdnMk
- lx+LUO+Q==;
+ bh=S8rL5r6CVieQSVcTz72mVZA1dTrwukBQ7UxroweHdXM=; b=TmJNvjFSewtYWBr07EHo8a1WwA
+ 8e4I78/K50tproBTCfhYD6iRK1G6UAv1A6Rup/LoZsEsEUQE9OdlHXx4jz7jhRyNzXaQtiVFKlupt
+ a2hGvZ4aqXvIr1yj57HcCRUt65RO1+Y5wozGU5i4Z+jrTVcR/2s9BDbFJzUITh9decsl8OkwX+TI4
+ xyhztZrj+xPANoAVZ61PdUT+mxMalQcYiDsCn0GIahnvB1rVuihkl2a5cyicVFHeMavSBVSpLMnz6
+ VHxJC+B1OeUcyn68Iz+B0pyY23J2t7U4tBFoigOIWko50r9hiWnG0mBx9qZO6X4rJTVWF8zxJf5B5
+ y/jM9GUQ==;
 Received: from [213.208.157.39] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nOKZk-009NuE-Cz; Sun, 27 Feb 2022 14:31:04 +0000
+ id 1nOKZq-009Nur-9E; Sun, 27 Feb 2022 14:31:10 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 02/11] swiotlb: make swiotlb_exit a no-op if SWIOTLB_FORCE is
- set
-Date: Sun, 27 Feb 2022 15:30:46 +0100
-Message-Id: <20220227143055.335596-3-hch@lst.de>
+Subject: [PATCH 03/11] swiotlb: simplify swiotlb_max_segment
+Date: Sun, 27 Feb 2022 15:30:47 +0100
+Message-Id: <20220227143055.335596-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220227143055.335596-1-hch@lst.de>
 References: <20220227143055.335596-1-hch@lst.de>
@@ -89,27 +88,105 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-If force bouncing is enabled we can't release the buffers.
+Remove the bogus Xen override that was usually larger than the actual
+size and just calculate the value on demand.  Note that
+swiotlb_max_segment still doesn't make sense as an interface and should
+eventually be removed.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- kernel/dma/swiotlb.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/xen/swiotlb-xen.c |  2 --
+ include/linux/swiotlb.h   |  1 -
+ kernel/dma/swiotlb.c      | 20 +++-----------------
+ 3 files changed, 3 insertions(+), 20 deletions(-)
 
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index 47aebd98f52f5..485cd06ed39e7 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -202,7 +202,6 @@ int xen_swiotlb_init(void)
+ 	rc = swiotlb_late_init_with_tbl(start, nslabs);
+ 	if (rc)
+ 		return rc;
+-	swiotlb_set_max_segment(PAGE_SIZE);
+ 	return 0;
+ error:
+ 	if (nslabs > 1024 && repeat--) {
+@@ -254,7 +253,6 @@ void __init xen_swiotlb_init_early(void)
+ 
+ 	if (swiotlb_init_with_tbl(start, nslabs, true))
+ 		panic("Cannot allocate SWIOTLB buffer");
+-	swiotlb_set_max_segment(PAGE_SIZE);
+ }
+ #endif /* CONFIG_X86 */
+ 
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index f6c3638255d54..9fb3a568f0c51 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -164,7 +164,6 @@ static inline void swiotlb_adjust_size(unsigned long size)
+ #endif /* CONFIG_SWIOTLB */
+ 
+ extern void swiotlb_print_info(void);
+-extern void swiotlb_set_max_segment(unsigned int);
+ 
+ #ifdef CONFIG_DMA_RESTRICTED_POOL
+ struct page *swiotlb_alloc(struct device *dev, size_t size);
 diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index f1e7ea160b433..36fbf1181d285 100644
+index 36fbf1181d285..519e363097190 100644
 --- a/kernel/dma/swiotlb.c
 +++ b/kernel/dma/swiotlb.c
-@@ -378,6 +378,9 @@ void __init swiotlb_exit(void)
- 	unsigned long tbl_vaddr;
- 	size_t tbl_size, slots_size;
+@@ -75,12 +75,6 @@ struct io_tlb_mem io_tlb_default_mem;
  
-+	if (swiotlb_force == SWIOTLB_FORCE)
-+		return;
-+
- 	if (!mem->nslabs)
- 		return;
+ phys_addr_t swiotlb_unencrypted_base;
+ 
+-/*
+- * Max segment that we can provide which (if pages are contingous) will
+- * not be bounced (unless SWIOTLB_FORCE is set).
+- */
+-static unsigned int max_segment;
+-
+ static unsigned long default_nslabs = IO_TLB_DEFAULT_SIZE >> IO_TLB_SHIFT;
+ 
+ static int __init
+@@ -104,18 +98,12 @@ early_param("swiotlb", setup_io_tlb_npages);
+ 
+ unsigned int swiotlb_max_segment(void)
+ {
+-	return io_tlb_default_mem.nslabs ? max_segment : 0;
++	if (!io_tlb_default_mem.nslabs)
++		return 0;
++	return rounddown(io_tlb_default_mem.nslabs << IO_TLB_SHIFT, PAGE_SIZE);
+ }
+ EXPORT_SYMBOL_GPL(swiotlb_max_segment);
+ 
+-void swiotlb_set_max_segment(unsigned int val)
+-{
+-	if (swiotlb_force == SWIOTLB_FORCE)
+-		max_segment = 1;
+-	else
+-		max_segment = rounddown(val, PAGE_SIZE);
+-}
+-
+ unsigned long swiotlb_size_or_default(void)
+ {
+ 	return default_nslabs << IO_TLB_SHIFT;
+@@ -267,7 +255,6 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+ 
+ 	if (verbose)
+ 		swiotlb_print_info();
+-	swiotlb_set_max_segment(mem->nslabs << IO_TLB_SHIFT);
+ 	return 0;
+ }
+ 
+@@ -368,7 +355,6 @@ swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
+ 	swiotlb_init_io_tlb_mem(mem, virt_to_phys(tlb), nslabs, true);
+ 
+ 	swiotlb_print_info();
+-	swiotlb_set_max_segment(mem->nslabs << IO_TLB_SHIFT);
+ 	return 0;
+ }
  
 -- 
 2.30.2
