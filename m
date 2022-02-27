@@ -1,82 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1F34C5441
-	for <lists.iommu@lfdr.de>; Sat, 26 Feb 2022 07:42:30 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A654C5BF2
+	for <lists.iommu@lfdr.de>; Sun, 27 Feb 2022 15:31:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A395B84BE5;
-	Sat, 26 Feb 2022 06:42:28 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 84C6760BAD;
+	Sun, 27 Feb 2022 14:31:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MDk67L_mA-vq; Sat, 26 Feb 2022 06:42:27 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qj77onCXvnwY; Sun, 27 Feb 2022 14:31:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A280383EF8;
-	Sat, 26 Feb 2022 06:42:27 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 98EB060D4C;
+	Sun, 27 Feb 2022 14:31:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 702C3C0078;
-	Sat, 26 Feb 2022 06:42:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 67A6CC001A;
+	Sun, 27 Feb 2022 14:31:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 65FFEC001A
- for <iommu@lists.linux-foundation.org>; Sat, 26 Feb 2022 06:42:25 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 689A9C001A
+ for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4CB01402B1
- for <iommu@lists.linux-foundation.org>; Sat, 26 Feb 2022 06:42:25 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 51365408F6
+ for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SN-5ycxXNqa7 for <iommu@lists.linux-foundation.org>;
- Sat, 26 Feb 2022 06:42:24 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E02E9400FF
- for <iommu@lists.linux-foundation.org>; Sat, 26 Feb 2022 06:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645857743; x=1677393743;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=RsNdK8sgWWEesCkV2+XUeuGZXYHubEdfQev8t+XfkrU=;
- b=an6A+IwRugZxRKQsUPeR2FBuzDSzpyraEZb9EQNyhUKv0r39FzirA3pO
- PfA+F28X0fuQ9JMa45w71gaECSuSPnKd4rNxnDD6O4ABr5VJy7IgR241e
- 0U/yyHarM+v8V8wXlJ9p3Hkp9zdqIKBhi5L26LMd6so02k6hzblbflpdB
- pDCi3liOpGACyME+Ug5KKuCEIr7hPUC72fCmK2ZyU0iNhx4G/Qzh4ujf3
- dFWbS+47LL3fx0Fxx78UxdugK89Z3f3IFoOFgW5iUA7w+xzz5EkGr5PcB
- DvFJAuxsuSvZ/mX+NHTEkeCiJE43X66wTXyQ0Ae3pCG72vdNGlo/0Ouxb w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="313355694"
-X-IronPort-AV: E=Sophos;i="5.90,138,1643702400"; d="scan'208";a="313355694"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 22:42:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,138,1643702400"; d="scan'208";a="533838874"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
- ([10.239.159.118])
- by orsmga007.jf.intel.com with ESMTP; 25 Feb 2022 22:42:16 -0800
-Message-ID: <30755cb5-d366-6c24-3025-ce1d94e82a8d@linux.intel.com>
-Date: Sat, 26 Feb 2022 14:40:45 +0800
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=infradead.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jE0XUuBrCcFx for <iommu@lists.linux-foundation.org>;
+ Sun, 27 Feb 2022 14:31:02 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0DA11408F4
+ for <iommu@lists.linux-foundation.org>; Sun, 27 Feb 2022 14:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=A05LVfYU2PEONzsS8Gc05/y0YX3f/s4+nAdtFiYFaPA=; b=MYjz99MEZpXYXZ+u/hPXwH/5VL
+ VfsjwWWbuKCw7zshSoI+auf/yLifEcY/XE1DJRFtz3VxuS31UllEfuuBvuYyI0R62c4l0m9SjGj0a
+ WGByXvlVvb4GlpMZgQZ/bHMpyjRMYTs0vyxZOS1rHRz9lghF2LWQbtukyT+tPh4vCHeGeC/AcmY98
+ WuPu16zN8JjBDp4ZENXRc9jSpBUvW+n6Sq1vNfMv9rubVC7W2JwfnAylwXOQV0dZC32gjZLT10dhi
+ Ws7JHUh8ywEv+8gXM1ulZ+IZIGPfH8AiNbDzJ4upQZLKpO5YOSuave3h2BfqRd4XiSg8EOVVaK+3v
+ hog6QeMw==;
+Received: from [213.208.157.39] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nOKZe-009NtN-G3; Sun, 27 Feb 2022 14:30:58 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: iommu@lists.linux-foundation.org
+Subject: cleanup swiotlb initialization v2
+Date: Sun, 27 Feb 2022 15:30:44 +0100
+Message-Id: <20220227143055.335596-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] iommu/vt-d: Add RPLS to quirk list to skip TE disabling
-Content-Language: en-US
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "Surendrakumar Upadhyay, TejaskumarX"
- <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-References: <20220223062957.31797-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <8dcb852f-ef40-5b93-3713-a2d701d90320@linux.intel.com>
- <2eb4e522d6294a6ade91b89ea1c5cc7c8dac1e51.camel@intel.com>
- <9a3d9767-e63b-0bcc-99a9-5e1cf9c31493@linux.intel.com>
- <f398077ff925fd8ed5697c777fa674157977dce6.camel@intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-In-Reply-To: <f398077ff925fd8ed5697c777fa674157977dce6.camel@intel.com>
-Cc: "Talla, RavitejaX Goud" <ravitejax.goud.talla@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Juergen Gross <jgross@suse.com>, linux-s390@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
+ linux-ia64@vger.kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Robin Murphy <robin.murphy@arm.com>, x86@kernel.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ tboot-devel@lists.sourceforge.net, linux-pci@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ David Woodhouse <dwmw2@infradead.org>, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,91 +81,78 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2/25/22 10:12 PM, Vivi, Rodrigo wrote:
-> On Fri, 2022-02-25 at 10:20 +0800, Lu Baolu wrote:
->> On 2/24/22 9:39 PM, Vivi, Rodrigo wrote:
->>> On Thu, 2022-02-24 at 13:42 +0800, Lu Baolu wrote:
->>>> On 2/23/22 2:29 PM, Tejas Upadhyay wrote:
->>>>> The VT-d spec requires (10.4.4 Global Command Register, TE
->>>>> field) that:
->>>>>
->>>>> Hardware implementations supporting DMA draining must drain
->>>>> any in-flight DMA read/write requests queued within the
->>>>> Root-Complex before completing the translation enable
->>>>> command and reflecting the status of the command through
->>>>> the TES field in the Global Status register.
->>>>>
->>>>> Unfortunately, some integrated graphic devices fail to do
->>>>> so after some kind of power state transition. As the
->>>>> result, the system might stuck in iommu_disable_translati
->>>>> on(), waiting for the completion of TE transition.
->>>>>
->>>>> This adds RPLS to a quirk list for those devices and skips
->>>>> TE disabling if the qurik hits.
->>>>>
->>>>> Fixes:https://gitlab.freedesktop.org/drm/intel/-/issues/4898
->>>>> Fixes: LCK-10789
->>>> Remove this please.
->>> good catch. Wrong use of Fixes tag.
->>> "Fixes:" should only be used for patches fixing other patches and
->>> mentioning the commit id.
->> This is still a fix patch, right? If so,
->>
->> Fixes: b1012ca8dc4f9 "iommu/vt-d: Skip TE disabling on quirky gfx
->> dedicated iommu"
->> Cc:stable@vger.kernel.org
-> hm... you have a point, but I'm not comfortable with this because
-> for me it is like an addition of a pci id of a new platform.
-> Older kernels won't have the support for that anyway.
-> and if for every new platform we add here we need to blame this
-> b1012ca8dc4f9 (which did the right time when it was created)
-> it doesn't look fair to me.
+Hi all,
 
-I have no idea about the graphic roadmap. So I'd like you to decide it.
+this series tries to clean up the swiotlb initialization, including
+that of swiotlb-xen.  To get there is also removes the x86 iommu table
+infrastructure that massively obsfucates the initialization path.
 
-> 
->>> Baolu,
->>> could you mind if we use
->>>
->>> Closes:https://gitlab.freedesktop.org/drm/intel/-/issues/4898
->>>
->>> or maybe
->>>
->>> References:https://gitlab.freedesktop.org/drm/intel/-/issues/4898
->>>
->>> This last one seems to be the one use in drivers/iommu
->>> and the Closes is what we use in drm-intel, hence the one used
->>> with gitlab.freedesktop links in general.
->> How about "Link:"?
->>
->> As Documentation/process/submitting-patches.rst states:
->>
->> If related discussions or any other background information behind the
->> change
->> can be found on the web, add 'Link:' tags pointing to it. In case
->> your patch
->> fixes a bug, for example, add a tag with a URL referencing the report
->> in the
->> mailing list archives or a bug tracker; if the patch is a result of
->> some
->> earlier mailing list discussion or something documented on the web,
->> point to
->> it.
-> yeap, "Link:" works well too.
-> 
-> With these changes could we get your ack to merge to drm-intel?
+Git tree:
 
-This change in VT-d driver looks good to me.
+    git://git.infradead.org/users/hch/misc.git swiotlb-init-cleanup
 
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Gitweb:
 
-Best regards,
-baolu
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/swiotlb-init-cleanup
+
+Changes since v1:
+ - skip IOMMU initialization on Xen PV kernels
+ - various small whitespace / typo fixes
+
+Diffstat:
+ arch/ia64/include/asm/iommu_table.h      |    7 -
+ arch/x86/include/asm/iommu_table.h       |  102 -------------------
+ arch/x86/include/asm/swiotlb.h           |   30 -----
+ arch/x86/kernel/pci-iommu_table.c        |   77 --------------
+ arch/x86/kernel/pci-swiotlb.c            |   77 --------------
+ arch/x86/xen/pci-swiotlb-xen.c           |   96 ------------------
+ b/arch/arm/mm/init.c                     |    6 -
+ b/arch/arm/xen/mm.c                      |   23 ++--
+ b/arch/arm64/mm/init.c                   |    6 -
+ b/arch/ia64/mm/init.c                    |    4 
+ b/arch/mips/cavium-octeon/dma-octeon.c   |   15 --
+ b/arch/mips/loongson64/dma.c             |    2 
+ b/arch/mips/pci/pci-octeon.c             |    2 
+ b/arch/mips/sibyte/common/dma.c          |    2 
+ b/arch/powerpc/include/asm/svm.h         |    4 
+ b/arch/powerpc/include/asm/swiotlb.h     |    1 
+ b/arch/powerpc/mm/mem.c                  |    6 -
+ b/arch/powerpc/platforms/pseries/setup.c |    3 
+ b/arch/powerpc/platforms/pseries/svm.c   |   26 ----
+ b/arch/riscv/mm/init.c                   |    8 -
+ b/arch/s390/mm/init.c                    |    3 
+ b/arch/x86/include/asm/dma-mapping.h     |   12 --
+ b/arch/x86/include/asm/gart.h            |    5 
+ b/arch/x86/include/asm/iommu.h           |    8 +
+ b/arch/x86/include/asm/xen/page.h        |    5 
+ b/arch/x86/include/asm/xen/swiotlb-xen.h |    2 
+ b/arch/x86/kernel/Makefile               |    2 
+ b/arch/x86/kernel/amd_gart_64.c          |    5 
+ b/arch/x86/kernel/aperture_64.c          |   14 --
+ b/arch/x86/kernel/cpu/mshyperv.c         |    8 -
+ b/arch/x86/kernel/pci-dma.c              |  109 ++++++++++++++++----
+ b/arch/x86/kernel/tboot.c                |    1 
+ b/arch/x86/kernel/vmlinux.lds.S          |   12 --
+ b/arch/x86/mm/mem_encrypt_amd.c          |    3 
+ b/arch/x86/pci/sta2x11-fixup.c           |    2 
+ b/arch/x86/xen/Makefile                  |    2 
+ b/drivers/iommu/amd/init.c               |    6 -
+ b/drivers/iommu/amd/iommu.c              |    5 
+ b/drivers/iommu/intel/dmar.c             |    6 -
+ b/drivers/xen/swiotlb-xen.c              |  132 -------------------------
+ b/include/linux/dmar.h                   |    6 -
+ b/include/linux/swiotlb.h                |   22 ++--
+ b/include/trace/events/swiotlb.h         |   29 +----
+ b/include/xen/arm/page.h                 |    1 
+ b/include/xen/swiotlb-xen.h              |    8 +
+ b/kernel/dma/direct.h                    |    2 
+ b/kernel/dma/swiotlb.c                   |  163 +++++++++++++++----------------
+ 47 files changed, 253 insertions(+), 817 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
