@@ -2,108 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063E34C8D37
-	for <lists.iommu@lfdr.de>; Tue,  1 Mar 2022 15:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB80D4C8FF8
+	for <lists.iommu@lfdr.de>; Tue,  1 Mar 2022 17:15:49 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9019A60773;
-	Tue,  1 Mar 2022 14:01:41 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id BA6DD60EB3;
+	Tue,  1 Mar 2022 16:15:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V-C1bcRIqLyl; Tue,  1 Mar 2022 14:01:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 95BA86079E;
-	Tue,  1 Mar 2022 14:01:40 +0000 (UTC)
+	with ESMTP id JBmKZmZ9sTDb; Tue,  1 Mar 2022 16:15:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B359860EA8;
+	Tue,  1 Mar 2022 16:15:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E1B0C007B;
-	Tue,  1 Mar 2022 14:01:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9030DC0033;
+	Tue,  1 Mar 2022 16:15:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5DEBDC001A
- for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 14:01:39 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 23C3FC001A
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 16:15:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3D07B4044D
- for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 14:01:39 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 1ABF74041C
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 16:15:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
+ dkim=pass (2048-bit key) header.d=kapsi.fi
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JRwXsKFMxItn for <iommu@lists.linux-foundation.org>;
- Tue,  1 Mar 2022 14:01:38 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 89EC64019E
- for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 14:01:38 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id o8so14466472pgf.9
- for <iommu@lists.linux-foundation.org>; Tue, 01 Mar 2022 06:01:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=F/G/xOe5a6nu2fkfw8uYGgqkNpKpcFX9OCeRV8lAMEA=;
- b=M/WZf0dAladje4iv4F/hGYw9kuGhDb1eMm48tQLJEnoRzblIt/aaanhWYp0t9h/V3M
- SuaN66brC8T6KHk+R352mSC/VcYpyj2kjP8Ez3Pql0l0SR3cJnKqcNDtz3DeI3ap70EY
- Dw9fSmqgFY6SnfEnzJTOVO/8sM7qM+TG8qri/2MqjQvfLBNT2Eg+xxxc18Rs2QnPbwVe
- nyT3fQITL+d+iJXkZ/aLWAK6khTJABVSLpet4naIZNrsJC8rk6DSCLvu0OE0mcsJNfqz
- q5Wv//Jl1c/DV9aXHGm0x0OOLuU9+/G4Z6Paou3BJS59ZU0TiD78jiaA9ZFpmpiSMOk6
- /JDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=F/G/xOe5a6nu2fkfw8uYGgqkNpKpcFX9OCeRV8lAMEA=;
- b=slpo870ogpsyPPbBdyuZ+9xI4nW+KPWykFHpIlMKll/SMpC99X8v/kILQ6ytGu12gb
- zdLoLG0sXfS7TmZFhpNVDOI3y6Imz2KM/sddJ4moUBOsaQm94RDpweHKqinTIynCO9zE
- UFWB6+5UW3iSpOvFbTj5qOMnIHAKE70dP86rrwGLvUfUmc5saw/RX7HwLCh8YNRXI6VD
- cXslh/RLkubDie/K10k6c89l6JOfOSaMX7/MmI96SKeMitbxuw5i5s9DmyhhIxNRm3ki
- lmyDk16zxDDY3h7VnMYARUuolDeJxQM3CfObQ3N7QAWfXoshqt0qUDkZ/5Yp0bXL9cPy
- rcyA==
-X-Gm-Message-State: AOAM533BAy515oLHqzLfkkkyX/ZI9sfHcf478tEQzbZrO0w3OQK+PINQ
- H57BUu0iyt7a0AIJrNyTMPM=
-X-Google-Smtp-Source: ABdhPJxvTIlnU3gMQxETAVp/xnqA49sq44Qij7ZknsOWr166EOYo94ZbcpGEHGEGivB+qWQ6chrIaQ==
-X-Received: by 2002:a63:b06:0:b0:374:5e1a:150a with SMTP id
- 6-20020a630b06000000b003745e1a150amr21702994pgl.137.1646143297904; 
- Tue, 01 Mar 2022 06:01:37 -0800 (PST)
-Received: from ?IPV6:2404:f801:0:5:8000::754? ([2404:f801:9000:18:efec::754])
- by smtp.gmail.com with ESMTPSA id
- v14-20020a056a00148e00b004e1cee6f6b4sm17730734pfu.47.2022.03.01.06.01.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 06:01:37 -0800 (PST)
-Message-ID: <f76c15c5-9ee4-a825-73c8-223564a26d74@gmail.com>
-Date: Tue, 1 Mar 2022 22:01:27 +0800
+ with ESMTP id NmSv_56KX_63 for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Mar 2022 16:15:42 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id E90F540116
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 16:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=VGbStSHHARqJktrOgniVFQ6u0YwBTQjRQ0LEmnlIFkk=; b=IGDQmo+alZXTaMgomNyLpt9hOp
+ RpRfQKGalr145FjoQqtQsOfL0gL723d/LvXjlKaftAggH2uEPmGCY8o1ZgSQDSlcd/oO8f9ouw8rl
+ e64D/b+z1RNubnT4aeNXTRH/kfN4GJ0voe5AkBq58ziumHy5WTyWnReXt5IwjGhoyn5o+gSYYZ1Ya
+ Jp9nIN17ohV73LcDbtqdW2jIf9x8w+yQhCxKbQmNSx0px19iOqreuBfln8TeGuPjV+DvejSaeeyqU
+ 9ooN3s3wnAQ2qpLtJOMkLeyWf+8dG8dxtYVQLY5ub3XtuzaatMqVW8fy6m0hi11EMGTmX6rolKY8f
+ JBQ21oJA==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1nP59q-0003Z8-EU; Tue, 01 Mar 2022 18:15:26 +0200
+From: cyndis@kapsi.fi
+To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+ will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
+ krzysztof.kozlowski@canonical.com
+Subject: [PATCH v4 0/9] Host1x context isolation support
+Date: Tue,  1 Mar 2022 18:14:46 +0200
+Message-Id: <20220301161455.4037062-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH V2 1/2] Swiotlb: Add swiotlb_alloc_from_low_pages switch
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-References: <20220214081919.GA18337@lst.de>
- <4f433f07-05be-f81f-43e8-55c3f1af23b3@gmail.com>
- <20220214135834.GA30150@lst.de>
- <8d052867-ccff-f00f-7c89-cc26a4bfa347@gmail.com>
- <23f4a64d-5977-1816-8faa-fe7691ace2ff@gmail.com>
- <20220222080543.GA5412@lst.de>
- <00112505-4999-ac41-877e-49c4cc45312e@gmail.com>
- <20220222160039.GA13380@lst.de>
- <40f91949-58fa-4be2-5b01-ea34dda58670@gmail.com>
- <a80a7efa-f15d-3649-f39f-c24820f9ef2b@gmail.com>
- <20220301115340.GA3077@lst.de>
-From: Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <20220301115340.GA3077@lst.de>
-Cc: linux-hyperv@vger.kernel.org, brijesh.singh@amd.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, kys@microsoft.com,
- wei.liu@kernel.org, Andi Kleen <ak@linux.intel.com>, sthemmin@microsoft.com,
- x86@kernel.org, decui@microsoft.com, michael.h.kelley@microsoft.com,
- mingo@redhat.com, parri.andrea@gmail.com, thomas.lendacky@amd.com,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, konrad.wilk@oracle.com,
- haiyangz@microsoft.com, bp@alien8.de,
- "krish.sadhukhan@oracle.com" <krish.sadhukhan@oracle.com>, tglx@linutronix.de,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- vkuznets@redhat.com, robin.murphy@arm.com,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,31 +81,110 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 3/1/2022 7:53 PM, Christoph Hellwig wrote:
-> On Fri, Feb 25, 2022 at 10:28:54PM +0800, Tianyu Lan wrote:
->>       One more perspective is that one device may have multiple queues and
->> each queues should have independent swiotlb bounce buffer to avoid spin
->> lock overhead. The number of queues is only available in the device
->> driver. This means new API needs to be called in the device driver
->> according to queue number.
-> 
-> Well, given how hell bent people are on bounce buffering we might
-> need some scalability work there anyway.
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-According to my test on the local machine with two VMs, Linux guest 
-without swiotlb bounce buffer or with the fix patch from Andi Kleen can
-achieve about 40G/s throughput but it's just 24-25G/s with current 
-swiotlb code. Otherwise, the spinlock contention also consumes more cpu 
-usage.
+***
+New in v4:
 
+Addressed review comments. See individual patches.
+***
 
+***
+New in v3:
 
+Added device tree bindings for new property.
+***
 
+***
+New in v2:
+
+Added support for Tegra194
+Use standard iommu-map property instead of custom mechanism
+***
+
+This series adds support for Host1x 'context isolation'. Since
+when programming engines through Host1x, userspace can program in
+any addresses it wants, we need some way to isolate the engines'
+memory spaces. Traditionally this has either been done imperfectly
+with a single shared IOMMU domain, or by copying and verifying the
+programming command stream at submit time (Host1x firewall).
+
+Since Tegra186 there is a privileged (only usable by kernel)
+Host1x opcode that allows setting the stream ID sent by the engine
+to the SMMU. So, by allocating a number of context banks and stream
+IDs for this purpose, and using this opcode at the beginning of
+each job, we can implement isolation. Due to the limited number of
+context banks only each process gets its own context, and not
+each channel.
+
+This feature also allows sharing engines among multiple VMs when
+used with Host1x's hardware virtualization support - up to 8 VMs
+can be configured with a subset of allowed stream IDs, enforced
+at hardware level.
+
+To implement this, this series adds a new host1x context bus, which
+will contain the 'struct device's corresponding to each context
+bank / stream ID, changes to device tree and SMMU code to allow
+registering the devices and using the bus, as well as the Host1x
+stream ID programming code and support in TegraDRM.
+
+-------------
+Merging notes
+-------------
+
+The changes to DT bindings should be applied on top of Thierry's patch
+'dt-bindings: display: tegra: Convert to json-schema'.
+
+Thanks,
+Mikko
+
+Mikko Perttunen (9):
+  dt-bindings: host1x: Add iommu-map property
+  gpu: host1x: Add context bus
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  iommu/arm-smmu: Attach to host1x context device bus
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: falcon: Set DMACTX field on DMA transactions
+  drm/tegra: Support context isolation
+  drm/tegra: vic: Implement get_streamid_offset
+
+ .../display/tegra/nvidia,tegra20-host1x.yaml  |   5 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  11 ++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  11 ++
+ drivers/gpu/Makefile                          |   3 +-
+ drivers/gpu/drm/tegra/drm.h                   |   2 +
+ drivers/gpu/drm/tegra/falcon.c                |   8 +
+ drivers/gpu/drm/tegra/falcon.h                |   1 +
+ drivers/gpu/drm/tegra/submit.c                |  21 ++-
+ drivers/gpu/drm/tegra/uapi.c                  |  45 ++++-
+ drivers/gpu/drm/tegra/vic.c                   |  68 +++++++-
+ drivers/gpu/host1x/Kconfig                    |   5 +
+ drivers/gpu/host1x/Makefile                   |   2 +
+ drivers/gpu/host1x/context.c                  | 160 ++++++++++++++++++
+ drivers/gpu/host1x/context.h                  |  27 +++
+ drivers/gpu/host1x/context_bus.c              |  31 ++++
+ drivers/gpu/host1x/dev.c                      |  12 +-
+ drivers/gpu/host1x/dev.h                      |   2 +
+ drivers/gpu/host1x/hw/channel_hw.c            |  52 +++++-
+ drivers/gpu/host1x/hw/host1x06_hardware.h     |  10 ++
+ drivers/gpu/host1x/hw/host1x07_hardware.h     |  10 ++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 ++
+ include/linux/host1x.h                        |  22 +++
+ include/linux/host1x_context_bus.h            |  15 ++
+ 23 files changed, 518 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+ create mode 100644 drivers/gpu/host1x/context_bus.c
+ create mode 100644 include/linux/host1x_context_bus.h
+
+-- 
+2.35.0
 
 _______________________________________________
 iommu mailing list
