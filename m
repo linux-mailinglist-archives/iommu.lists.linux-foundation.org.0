@@ -1,64 +1,212 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A484C8A12
-	for <lists.iommu@lfdr.de>; Tue,  1 Mar 2022 11:56:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7F99B82542;
-	Tue,  1 Mar 2022 10:56:17 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GD4t59FDjEgo; Tue,  1 Mar 2022 10:56:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5B0A282444;
-	Tue,  1 Mar 2022 10:56:16 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 39DCCC001A;
-	Tue,  1 Mar 2022 10:56:16 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E1646C001A
- for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 10:56:14 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974444C8B14
+	for <lists.iommu@lfdr.de>; Tue,  1 Mar 2022 12:46:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C13FA410D7
- for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 10:56:14 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 26D0941507;
+	Tue,  1 Mar 2022 11:46:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5Bp5LhMpUkit for <iommu@lists.linux-foundation.org>;
- Tue,  1 Mar 2022 10:56:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id DA95F410D5
- for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 10:56:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F7FBED1;
- Tue,  1 Mar 2022 02:56:13 -0800 (PST)
-Received: from [10.57.39.47] (unknown [10.57.39.47])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 701873F73D;
- Tue,  1 Mar 2022 02:56:10 -0800 (PST)
-Message-ID: <4e4bb61a-377e-1ec9-5998-214055ef0a78@arm.com>
-Date: Tue, 1 Mar 2022 10:56:05 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v7 0/7] arm64: Default to 32-bit wide ZONE_DMA
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id A4a67cxu-NAS; Tue,  1 Mar 2022 11:46:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 2905041511;
+	Tue,  1 Mar 2022 11:46:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E763EC007B;
+	Tue,  1 Mar 2022 11:46:42 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D2590C001A
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 11:46:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id B1FEA60B19
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 11:46:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=citrix.com header.b="E41fHOgi";
+ dkim=pass (1024-bit key) header.d=citrix.onmicrosoft.com
+ header.b="ikhNENNh"
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Yc0h1irHFloK for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Mar 2022 11:46:40 +0000 (UTC)
+X-Greylist: delayed 00:07:06 by SQLgrey-1.8.0
+Received: from esa2.hc3370-68.iphmx.com (esa2.hc3370-68.iphmx.com
+ [216.71.145.153])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E106E60B18
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Mar 2022 11:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1646135200;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=YkxE1f2Bzj1X7jPJQvSSRXnaMkgU9fY9NDuKWHA4v4Q=;
+ b=E41fHOgirbPOpgB/6fCrscg2/EpBF2sxedncgGCplcibPXAnyvKLePMb
+ qH7KMBJ6L6NNY0BLMCI/ePnTgmfkIri3iFvp2YracmP+i8y0GYy/VvzZu
+ j1bUuM8H1uphUKmmLRupxAuuLGhYcP1fGlNEfEEPylihCsfDAWpjY/z0N o=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
+ dkim=pass (signature verified)
+ header.i=@citrix.onmicrosoft.com
+X-SBRS: 5.1
+X-MesageID: 65208004
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:bn3jqa3mM61RMjrMjvbD5eJ3kn2cJEfYwER7XKvMYLTBsI5bp2QCz
+ TNMDWrVbPjZMGP3fN93Pd6yoU4Du5XRmINlSApvpC1hF35El5HIVI+TRqvS04J+DSFhoGZPt
+ Zh2hgzodZhsJpPkjk7xdOCn9xGQ7InQLlbGILes1htZGEk1EE/NtTo5w7Rj2tUw2IDga++wk
+ YiaT/P3aQfNNwFcagr424rbwP+4lK2v0N+wlgVWicFj5DcypVFMZH4sDfjZw0/DaptVBoaHq
+ 9Prl9lVyI97EyAFUbtJmp6jGqEDryW70QKm0hK6UID66vROS7BbPg/W+5PwZG8O4whlkeydx
+ /1kuayBRF4XD5bMnc0ZSjBpOB1gY/F/reqvzXiX6aR/zmXDenrohf5vEFs3LcsT/eMf7WNmr
+ KJCbmpXN1ba2rzwkOnTpupE36zPKOHCOo8Ft24m5jbeFfs8GrjIQrnQ5M8e1zA17ixLNaiDP
+ ZJJMWIzBPjGS00RHGYlFY0PoOmhhCfHcxhT9nykl4NitgA/yyQuieOwYbI5YOeiQcRTg1bdp
+ 2uYo0znDRwAct+S0zyI9jSrnOCntSf6Xp8CUbi57uVCnlKe3CoQBQcQWF/9puO24mauVtQaJ
+ 0EK9y4Gqakp6FftXtT7Rwe/onOPolgbQdU4O/c94gCLjK/J+R6ZF0ANVDsHY9sj3OcyRDo3x
+ hqAhdasBjF1trCRYXac7auP6zK0NzIcIWILaWkDVwRty93ippwjlgrEC9puDoaxj8bpAnf30
+ TSDpjN4gK8c5eYX3aK84RXLjiyhorDNTxUp/UPMWX+/5Q53Y5Sqasqu5ESzxfJBKpuJC0GKv
+ VAalMWEquMDF5eAkGqKWuplNLWo4euVdT3NmVN1AbE/+Dm3vX2uZ4Zd5Hd5PkgBGsIFfyL5J
+ VXSoghPzJtSJ2exK65xbZi4B8kjwe7nD9uNfvTVaMdeJ4MqJVev4i5jfwiT0nrrnUxqlrswU
+ b+ReMGoEDAeFIxjzTyrV6Ec16MmwmY1wma7bZn91BS61LOYIn2VQLEJLVKKRukj6eWPpwC92
+ 8pfMM6D0FNbXevyayLU4KYaKFxMJn8+bbjm+5J/deOZJAdiXmY7BJf5wbghU4h+g+JZm4/g/
+ 3a4X1JwzFvkmWaBLQSMd2AmZrTyW5p2sXM8O2orJ1nA83skZ5ym4OEAdp80Vb49/ednwLh/S
+ PxtU8eHGPNnGj7W5zkGK57no+RKeAuumlimPiyrejEzcpdsAQvT9bfMfAT18zIVJjGqrsZ4q
+ LqlvivAWoYKTQlmCMfQadqswkm3sHxbn/h9N2PCJcNSYwPr65RwLDLqje4fJNsFIhHOgDCd0
+ m6r7Qww/LeX5dVvqZ+Q2P7C/9zB//ZC8lRyNmXr3LvvCxjh/m+KxZZpYc20Y26BbTahkEm9X
+ tl9w/b5OfwBuV9FtYtgDrpmpZ4DC8vTS6xylVo9QiiSB7i/IvY5eyTdg5ET3kFY7uIB4WOLt
+ lSzFs620FljEOfsCxYvKQUsdYxvPtlEy2CJvZzZzKgXjRKbHYZrs20PZ3FgawQHddOZ1b/JJ
+ 8974Kb6DCTl13IX3i6u1Hw8yoh1BiVov18bnp8bGpT3rQEg10tPZ5fRYgevvs3RM4oXbBVze
+ 2bF7EYnu1i67hCZG5bUPSKQtdexeLxU4EwapLP8Dw7hdiX5ag8fg0QKrGVfovV9xRRbyeNjU
+ lWHxGUuTZhiCwxA3ZAZN0j1QlkpLETApiTZlgtY/EWEHhLAfjGccwUA1ROloRlxH5R0JWMAo
+ tl1CQ/NDF7XQS0G9nBqCB499qe6FoQZG8+rsJnPIvlp1qISOFLNqqSveXAJu13gB8Ywj1fAv
+ u5k4KB7bqiTCMLai/dT51WyvVjIdC25GQ==
+IronPort-HdrOrdr: A9a23:fW7ZVautmpH1osJiNB1AaJrn7skC2IMji2hC6mlwRA09TyXGra
+ +TdaUguSMc1gx9ZJh5o6H8BEGBKUmskKKceeEqTPiftXrdyReVxeZZnMXfKlzbamHDH4tmu5
+ uIHJIOceEYYWIK7voSpTPIaerIo+P3sZxA592ut0uFJDsCA8oLjmdE40SgYzZLrWF9dMEE/f
+ Gnl656Tk+bCBIqh7OAdx44tob41r/2vaOjRSRDKw8s6QGIgz/twqX9CQKk0hAXVC4K6as+8E
+ De+jaJppmLgrWe8FvxxmXT55NZlJ/K0d1YHvGBjcATN3HFlhuoXoJ8QLeP1QpF491HqWxa0u
+ UkkS1Qe/ib2EmhOV1dZiGdnTUI5QxerkMKD2Xo2EcL7/aJHA7SQPAx+r6xOiGplXbI+usMip
+ 6jlljpx6a+R3n77VXAzsmNWBdwmkWup30+1eYVknxESIMbLKRctIoF4SpuYdw99Q/Bmcka+d
+ NVfYnhDTdtACenRmGcunMqzM2nX3w1EBvDSk8eutaN2zwTmHxi1UMXyMEWg39FrfsGOtR5zv
+ WBNr4tmKBFT8cQY644DOAdQdGvAmiIRR7XKmqdLVnuCalCMXPQrJz85qkz+YiRCdY15Yp3nI
+ 6EXEJTtGY0dU6rAcqS3IdT+hSIW2m5VSSF8LAp23G4gMyKeFPGC1zwdLl1qbrSnxw2OLyvZ8
+ qO
+X-IronPort-AV: E=Sophos;i="5.90,145,1643691600"; d="scan'208";a="65208004"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rrjyn4HlQnEHcuIqGpcs28ooDKC34t9cILAgwXLCdmdfJpSTuFHzlcCkkfGGFyV1CTbcB3+bXYogyKiXIkXGT/peo5Ruqu2bXChvG29LUdpJose1gilGWZqS0ZLDxECaUWkQ8RaErEkbaMWdVpfVWAV+Tcx8zwnaDEE7kyCLGptCHg61BRltbpg2VRzpKeGtx5nhC3Vbpxb/s8OLOWYsJvUgOQcHBc5fvlYbtftx4AGmCZY+Ld21GnZNUwhoqVnsAPYDD7pjDeT7qpbZuW2z7V2dHhZeklYK9EtuDuu1CX/PXkl90i8Qyj8ANPIGT458qqfjgnlgA1iheabbBHy7qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YkxE1f2Bzj1X7jPJQvSSRXnaMkgU9fY9NDuKWHA4v4Q=;
+ b=PN0XQDeHFqDPlEUM2KLVxdx6hxfe3b+6KiTEz/XrFrtWo5e1HmsInVdXUDTpQWeZ1LvUDhc31E7xFn6p2JPpi7b92tjBHryXabyvcdNFgd95377zUjORYqJyvo7gQhvava5IhRpHwbK1Pv0NACUMTzzPSWQno0TVtgVEo9yKMLdZRV6an+mRTHDgpYBALTAqB02KUSm8q4lH6wZ6q7ud/VbW9DSrDPn/leVuRiBadGkfj6mZvv5qfCy64yoeqoNGDVpgvhMFOQo00bx3gMWl5j6f6btmZ4ackCPGwt00Ovs85azCoKc1xL69cvdkJyHkH2lmx0xhAE3HTSoQK/cNbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
+ dkim=pass header.d=citrix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YkxE1f2Bzj1X7jPJQvSSRXnaMkgU9fY9NDuKWHA4v4Q=;
+ b=ikhNENNh/YG4IYUOOWYwB9BS6DStnY3cvmx+NVkB+LWJP6FsKhTYrvhH6hyWVoERAHMEzUt53/2Jj4qARu4cRjbGraKRnFSup3kQepXg6bDEOLs2SjQvH9iZybYfmrxq/3x6qLKHxM78e5N5BMPjdfutOjfDSkJDm15c2eucLGw=
+To: Christoph Hellwig <hch@lst.de>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>
+Subject: Re: [PATCH 08/12] x86: centralize setting SWIOTLB_FORCE when guest
+ memory encryption is enabled
+Thread-Topic: [PATCH 08/12] x86: centralize setting SWIOTLB_FORCE when guest
+ memory encryption is enabled
+Thread-Index: AQHYLVsO0esfCi4ktkCl+GWHal7mDKyqZ0+A
+Date: Tue, 1 Mar 2022 11:39:29 +0000
+Message-ID: <8e623a11-d809-4fab-401c-2ce609a9fc14@citrix.com>
+References: <20220301105311.885699-1-hch@lst.de>
+ <20220301105311.885699-9-hch@lst.de>
+In-Reply-To: <20220301105311.885699-9-hch@lst.de>
+Accept-Language: en-GB, en-US
 Content-Language: en-GB
-To: Matt Flax <flatmax@gmail.com>, nsaenzjulienne@suse.de
-References: <20201119175400.9995-1-nsaenzjulienne@suse.de>
- <20220301030031.4025282-1-flatmax@flatmax.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220301030031.4025282-1-flatmax@flatmax.com>
-Cc: devicetree@vger.kernel.org, linux-mm@kvack.org, catalin.marinas@arm.com,
- Matt Flax <flatmax@flatmax.com>, linux-kernel@vger.kernel.org,
- jeremy.linton@arm.com, ardb@kernel.org, linux-acpi@vger.kernel.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- linux-rpi-kernel@lists.infradead.org, guohanjun@huawei.com,
- linux-riscv@lists.infradead.org, will@kernel.org, hch@lst.de,
- linux-arm-kernel@lists.infradead.org
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c374ea50-179c-4ab3-e28f-08d9fb7825f5
+x-ms-traffictypediagnostic: BYAPR03MB4135:EE_
+x-microsoft-antispam-prvs: <BYAPR03MB413527F2015C0D815369F9A1BA029@BYAPR03MB4135.namprd03.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eqr1nj/ADPfeq9PVCJBr+xjKZqtUjR5u30OY6zkNoUAZL+/B4yliVPv4iJCsQQtWhlsplDdoapbqyAZmz8RG+x4PgMjdulajurymsHBmp0mm2kWSATBllOis9nkoKfbjut8aMybKD5sA8GrZ72QfM3mShxhKQ66MAQ7VbwuhFLL4tVL0Awm0Q3R+7pu97dT/4sWhyXSlJiwsKvqXgt83GJKc27XlHmho9KAO6aBi9vMw7SE6WeLXJ2E3X32OAHVTYRKfujpdDZ9Bog0pde30SgcMFuyUljEk9poXhy2w7OL4ydDTfTbWSm8jc/b+/dIEiquExy06y7f9n5Eb0ruOHP0epECNITbR2sESxyFul/TL9V8K+wZT6BLg3UqKjYW7rCca0hevDx3qk3Ien2nCv/U07Y+gfhUJ0p/gQ/dReQFPSnQ3WZeOpFHgmmlWFzZRrVoBfbz/cbK5tQbMM7FU75RYxG1rJyDsAyHKbHSvC5VnaW50UPUnm76LtWH6+k2ooG5p9eo6rbD9rD2Rjxajg1mPSqxyQqlGvP4p+ZEj2yZMR951JFrcEhE8Ri5bOON9GMGgkhFhvGE0IMg7fMHFMBe7TqBlNBFdzHnhl8w3cfgFjWi99Yi2BSsfDeLENMvDgcqa6N/M9l0XZAc1bjfh+QMXFJ3BTL2TZJb0baPQGJbK1K1Y7G51bczEgGjXSb0ulD7WHNj7bty0g38lVkaaJ+p9+D1VDWi33gehc4DY35kG0VYIwqhj0vGPK1WP6piaywpGilNedp2rVu7CGk1Qqw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR03MB3623.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(508600001)(8936002)(4744005)(71200400001)(2616005)(6486002)(54906003)(8676002)(4326008)(91956017)(31686004)(66556008)(66446008)(64756008)(76116006)(66946007)(66476007)(36756003)(2906002)(7416002)(5660300002)(316002)(26005)(110136005)(38100700002)(82960400001)(83380400001)(53546011)(122000001)(6506007)(6512007)(38070700005)(31696002)(86362001)(186003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?V29KQUxGQ3Z1eE9uZzlEN1JXSHNJRUZxZEV1bU5PbDRnS3ZpckxTTTdJekpl?=
+ =?utf-8?B?bTZHdmNGMWFmajdVd3dIajgxSjIwVmJ1bC9oZUtNSU1hVGppY3BSd2NVWHUy?=
+ =?utf-8?B?RU9VOWE5VnJXM2dHaUFDdTJUMnpMZDBzdnJHYjBhV2VoT2hqZ0ZDbjdTN2Jv?=
+ =?utf-8?B?aTdvci92ZHY3SXhNK0dmNTQvL2MzaTViYWN6bkJodStHcGJHVTBhV0xFcGZR?=
+ =?utf-8?B?Zzl4SVpVajVKVkZ4ek0vaVRtZHovUms1bnQxT0UwVzRJc21wTEpiVzRzL3NC?=
+ =?utf-8?B?clR4ckRTVWlZNDNaa0RQU3R3TmNJTjBEZE85em5JOVZFcU5NN3A0eFFpbmgz?=
+ =?utf-8?B?Q2QvdTdjdmlvOXVPWG5OWjBJbDBsMmFTdTRybjI0S0ROakF6MlIxWnJNelFU?=
+ =?utf-8?B?T3F0ZWdXRFI2V2R0amxwckVBTjB1WkliMmVCTVlTQW1DRHRmUVRCYTgxMStS?=
+ =?utf-8?B?a3VBeU56dnBxUTF4UGtodEZHU09PMVNkc2ZGK2dyZkJCT2lKZ2xGOUJnRWRi?=
+ =?utf-8?B?NmdsVHkwdDBUZGl4UFRXbGRuL2Y2T3k3ZXQ2UGllczZWdThPY1dObTRaSEg5?=
+ =?utf-8?B?ZHIwbVJ5dFhOL0hZRnczbERnMFJjK1BWZktLamhVVkZuN1VmYUdpZnVOdnY1?=
+ =?utf-8?B?ejByN01ITmdyMUZYZkRCVk9Lc3o4V3diSVJWWnNqL0xmUkh0WUorU3YrWFJZ?=
+ =?utf-8?B?di85UGZHbHBVSENWai9NTlJOSFlzbEQ1NjNXeC9aRGhLZ1IvaWovMER0S3RR?=
+ =?utf-8?B?amdLQ3hsMHpIWjhQMkZhUS9xNFNWK2tkb3JVMmZkSTI0WUU5a3dBd0pnRlds?=
+ =?utf-8?B?SXBPUHpVZHV2Ym5zNUJDdkJwdUxRcDJKaTZ4RktUL2VDUFpGTkk0UFR6UFVZ?=
+ =?utf-8?B?SXhycDVyVlRXQ1c0WTVhSVpHMkNsRE5YYjk3cDNWdUY2UUlGSDNBMHRUamRk?=
+ =?utf-8?B?bFdEYUFnZmk5dUk2UWhjcUUxcTFTSEJDcE9ZdGFNbDNJQUFsdmVVaEJ1NnYx?=
+ =?utf-8?B?TWU1THhRY2tNS3NSUWJDNkZrN3J6cEtVNCtMdno0ekhLTXVPSEdKUGlKTldq?=
+ =?utf-8?B?SVN2YTF3b0lMRUZaRFBzMWlRdW1iZGYvdDlGK3NRb25Cek9FWXFab1dJUm9H?=
+ =?utf-8?B?eFdwY1ZwWFpaQVg5UmR5cXJYbnZHbEpJUHAvRDRiYXorWXQ0aGs0dG5hVVhN?=
+ =?utf-8?B?ekllUS9HbUxPaUoyYnY1ajAyUEV4WlJvaE51bXpXYkFiWjQ4MnBKN1E1Vzg1?=
+ =?utf-8?B?TnRGY09ybWt3cUorR0ltbk1UR1haQkJFYUx2T2ZITzJxOFNFZEl2Y2IxT2x5?=
+ =?utf-8?B?bWE2cjJwMFNJVEY1NGtqR01xSWM2TFlraUR1SjRMM0V5YkRSKzZxUjBsakp0?=
+ =?utf-8?B?ajdycmovMzRYc3pncERnczUxTzlIUWZ2ZDNQWHU1dVNqNmVudDhnRVo3VmJo?=
+ =?utf-8?B?OG5HdlcrSy9vNEpiSy9WVjk2YmRFZGpMZGNZS09mWXJ6TjlkYVRIWGJTRFdH?=
+ =?utf-8?B?UFgycnZzZDI3WnExY0k0eHVnSVRpQ2FsQ0RaakRMWHNWeHRrTXBoam1NVzdx?=
+ =?utf-8?B?ZjBGZE1mekw2RFBvd1R4dDBpeG5vemhlUDdyOWhIZHV3NHNSclVjOTRtcVFJ?=
+ =?utf-8?B?MXRMQmsyelZudU5SaThBQnBTZ1R3Z0lUOVFVeDcyZjk5S21DS0hSZkE1MjZV?=
+ =?utf-8?B?YTJja3htenErTEpLdmtTUVRqcWlJcHpocDFuWDFoS2lLdGZ0dzhRSU1IQ2Zp?=
+ =?utf-8?B?aEJ1R1lJaHd0ZzZaeWZPK3o0b1FyNEQ0TXZUSGtyU25Ja0FWc28wRFJiRm9M?=
+ =?utf-8?B?ZlRXS2drbXlLL3NQOEZKTzFnRXhnQ0Nqa1c4QkVsUmZZRlJxTjhmdzFPZVN0?=
+ =?utf-8?B?cGVzOE5DRGw4cjhVbG11aWwvdER6UlllOHAxUStjNENaVWxhRndudmhvS1Vm?=
+ =?utf-8?B?RS9iQnNYZzhqT2VWbDJZMkNqYjZxMUtOSWJVVmp4cENrTWllVWpuWXdybndx?=
+ =?utf-8?B?anM3a1hsWWNvbXVldWlBUzVhU3ArRHZKMlcwYkRCQTFHV2NieGR6ZHlWZTQ2?=
+ =?utf-8?B?NTFPQ3dENFd2alBJSG5ZUXJTVzNDd3k2Q2xUSHljMVE0cW40c1lVcW8wZlk2?=
+ =?utf-8?B?Z1NBVzZGQndUUjNlRHBRdnpaTWJKdnB5TFduL202dm45bHdSMDJrdVU0NjlU?=
+ =?utf-8?B?d0RBWmI4ZFFpdzZHVlp2UGtrZzdWNTh4OHRSc0xpV1MyajM0R3p6WTR2T05i?=
+ =?utf-8?B?SDR6OHlqZjlEUVZVcTRxVy9oQW1RPT0=?=
+Content-ID: <B90F7ECC334C094D98FBB04318ADC72A@namprd03.prod.outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR03MB3623.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c374ea50-179c-4ab3-e28f-08d9fb7825f5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2022 11:39:29.9592 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 335836de-42ef-43a2-b145-348c2ee9ca5b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cn7CjesrcGKBpaPLehKxWy78J7QftlA2WxBhsLzq3mibgMd/ZVh1iPL1bNoyD8clO3N3VBw2CneavMhSmbRjE7aIiZ88WgnHvaEqDuwU2Sw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4135
+X-OriginatorOrg: citrix.com
+Cc: Juergen Gross <jgross@suse.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, Konrad
+ Rzeszutek Wilk <konrad.wilk@oracle.com>, Robin
+ Murphy <robin.murphy@arm.com>, "x86@kernel.org" <x86@kernel.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "tboot-devel@lists.sourceforge.net" <tboot-devel@lists.sourceforge.net>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, David
+ Woodhouse <dwmw2@infradead.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,111 +219,27 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+From: Andrew Cooper via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Andrew Cooper <Andrew.Cooper3@citrix.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Matt,
-
-On 2022-03-01 03:00, Matt Flax wrote:
-> Hi All,
-> 
-> It seems that the ZONE_DMA changes have broken the operation of Rochip rk3399 chipsets from v5.10.22 onwards.
-> 
-> It isn't clear what needs to be changed to get any of these boards up and running again. Any pointers on how/what to change ?
-
-Your firmware/bootloader setup is mismatched. If you're using the 
-downstream Rockchip blob for BL31, you need to reserve or remove the 
-memory range 0x8400000-0x9600000 to match the behaviour of the original 
-Android BSP U-Boot. The downstream firmware firewalls this memory off 
-for the Secure world such that any attempt to touch it from Linux 
-results in a fatal SError fault as below. Any apparent correlation with 
-the ZONE_DMA changes will simply be because they've affected the 
-behaviour of the page allocator, such that it's more likely to reach 
-into the affected range of memory.
-
-Cheers,
-Robin.
-
-> An easy test for debugging is to run stress :
-> 
-> stress --cpu 4 --io 4 --vm 2 --vm-bytes 128M
-> 
-> stress: info: [255] dispatching hogs: 4 cpu, 4 io, 2 vm, 0 hdd
-> [    8.070280] SError Interrupt on CPU4, code 0xbf000000 -- SError
-> [    8.070286] CPU: 4 PID: 261 Comm: stress Not tainted 5.10.21 #1
-> [    8.070289] Hardware name: FriendlyElec NanoPi M4 (DT)
-> [    8.070293] pstate: 00000005 (nzcv daif -PAN -UAO -TCO BTYPE=--)
-> [    8.070296] pc : clear_page+0x14/0x28
-> [    8.070298] lr : clear_subpage+0x50/0x90
-> [    8.070302] sp : ffff800012abbc40
-> [    8.070305] x29: ffff800012abbc40 x28: ffff000000f68000
-> [    8.070313] x27: 0000000000000000 x26: ffff000001f38e40
-> [    8.070320] x25: ffff8000114fd000 x24: 0000000000000000
-> [    8.070326] x23: 0000000000000000 x22: 0000000000001000
-> [    8.070334] x21: 0000ffffa7e00000 x20: fffffe0000010000
-> [    8.070341] x19: ffff000000f68000 x18: 0000000000000000
-> [    8.070348] x17: 0000000000000000 x16: 0000000000000000
-> [    8.070354] x15: 0000000000000002 x14: 0000000000000001
-> [    8.070361] x13: 0000000000075879 x12: 00000000000000c0
-> [    8.070368] x11: ffff80006c46a000 x10: 0000000000000200
-> [    8.070374] x9 : 0000000000000000 x8 : 0000000000000010
-> [    8.070381] x7 : ffff00007db800a0 x6 : ffff800011b899c0
-> [    8.070387] x5 : 0000000000000000 x4 : ffff00007db800f7
-> [    8.070394] x3 : 0000020000200000 x2 : 0000000000000004
-> [    8.070401] x1 : 0000000000000040 x0 : ffff0000085ff4c0
-> [    8.070409] Kernel panic - not syncing: Asynchronous SError Interrupt
-> [    8.070412] CPU: 4 PID: 261 Comm: stress Not tainted 5.10.21 #1
-> [    8.070415] Hardware name: FriendlyElec NanoPi M4 (DT)
-> [    8.070418] Call trace:
-> [    8.070420]  dump_backtrace+0x0/0x1b0
-> [    8.070423]  show_stack+0x18/0x70
-> [    8.070425]  dump_stack+0xd0/0x12c
-> [    8.070428]  panic+0x16c/0x334
-> [    8.070430]  nmi_panic+0x8c/0x90
-> [    8.070433]  arm64_serror_panic+0x78/0x84
-> [    8.070435]  do_serror+0x64/0x70
-> [    8.070437]  el1_error+0x88/0x108
-> [    8.070440]  clear_page+0x14/0x28
-> [    8.070443]  clear_huge_page+0x74/0x210
-> [    8.070445]  do_huge_pmd_anonymous_page+0x1b0/0x7c0
-> [    8.070448]  handle_mm_fault+0xdac/0x1290
-> [    8.070451]  do_page_fault+0x130/0x3a0
-> [    8.070453]  do_translation_fault+0xb0/0xc0
-> [    8.070456]  do_mem_abort+0x44/0xb0
-> [    8.070458]  el0_da+0x28/0x40
-> [    8.070461]  el0_sync_handler+0x168/0x1b0
-> [    8.070464]  el0_sync+0x174/0x180
-> [    8.070508] SError Interrupt on CPU0, code 0xbf000000 -- SError
-> [    8.070511] CPU: 0 PID: 258 Comm: stress Not tainted 5.10.21 #1
-> [    8.070515] Hardware name: FriendlyElec NanoPi M4 (DT)
-> [    8.070518] pstate: 80000000 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
-> [    8.070520] pc : 0000aaaacec22e98
-> [    8.070523] lr : 0000aaaacec22d84
-> [    8.070525] sp : 0000ffffe67a8620
-> [    8.070528] x29: 0000ffffe67a8620 x28: 0000000000000003
-> [    8.070534] x27: 0000aaaacec34000 x26: 0000ffffaeb42610
-> [    8.070541] x25: 0000ffffa69af010 x24: 0000aaaacec23a98
-> [    8.070547] x23: 0000aaaacec35010 x22: 0000aaaacec35000
-> [    8.070554] x21: 0000000000001000 x20: ffffffffffffffff
-> [    8.070560] x19: 0000000008000000 x18: 0000000000000000
-> [    8.070567] x17: 0000000000000000 x16: 0000000000000000
-> [    8.070573] x15: 0000000000000000 x14: 0000000000000000
-> [    8.070580] x13: 0000000000008000 x12: 0000000000000000
-> [    8.070587] x11: 0000000000000020 x10: 0000000000000030
-> [    8.070593] x9 : 000000000000000a x8 : 00000000000000de
-> [    8.070599] x7 : 0000000000200000 x6 : 000000000000021b
-> [    8.070606] x5 : 0000000000000000 x4 : ffffffffffffffff
-> [    8.070613] x3 : 0000000000000000 x2 : 0000ffffaeb47000
-> [    8.070619] x1 : 000000000000005a x0 : 0000000000a58000
-> [    8.070629] SMP: stopping secondary CPUs
-> [    8.070632] Kernel Offset: disabled
-> [    8.070634] CPU features: 0x0240022,6100600c
-> [    8.070637] Memory Limit: none
-> 
-> 
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMDEvMDMvMjAyMiAxMDo1MywgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IGRpZmYgLS1n
+aXQgYS9hcmNoL3g4Ni9rZXJuZWwvcGNpLWRtYS5jIGIvYXJjaC94ODYva2VybmVsL3BjaS1kbWEu
+Yw0KPiBpbmRleCAyYWMwZWY5YzJmYjc2Li43YWI3MDAyNzU4Mzk2IDEwMDY0NA0KPiAtLS0gYS9h
+cmNoL3g4Ni9rZXJuZWwvcGNpLWRtYS5jDQo+ICsrKyBiL2FyY2gveDg2L2tlcm5lbC9wY2ktZG1h
+LmMNCj4gQEAgLTUzLDYgKzUzLDEzIEBAIHN0YXRpYyB2b2lkIF9faW5pdCBwY2lfc3dpb3RsYl9k
+ZXRlY3Qodm9pZCkNCj4gIAlpZiAoY2NfcGxhdGZvcm1faGFzKENDX0FUVFJfSE9TVF9NRU1fRU5D
+UllQVCkpDQo+ICAJCXg4Nl9zd2lvdGxiX2VuYWJsZSA9IHRydWU7DQo+ICANCj4gKwkvKg0KPiAr
+CSAqIEd1ZXN0IHdpdGggZ3Vlc3QgbWVtb3J5IGVuY3J5cHRpb24gbXVzdCBhbHdheXMgZG8gSS9P
+IHRocm91Z2ggYQ0KPiArCSAqIGJvdW5jZSBidWZmZXIgYXMgdGhlIGh5cGVydmlzb3IgY2FuJ3Qg
+YWNjZXNzIGFyYml0cmFyeSBWTSBtZW1vcnkuDQoNClRoaXMgaXNuJ3QgcmVhbGx5ICJtdXN0Ii7C
+oCBUaGUgZ3Vlc3QgaXMgcGVyZmVjdGx5IGNhcGFibGUgb2Ygc2hhcmluZw0KbWVtb3J5IHdpdGgg
+dGhlIGh5cGVydmlzb3IuDQoNCkl0J3MganVzdCB0aGF0IGZvciBub3csIGJvdW5jZSBidWZmZXJp
+bmcgaXMgYWxsZWdlZGx5IGZhc3RlciwgYW5kIHRoZQ0Kc2ltcGxlIHdheSBvZiBnZXR0aW5nIGl0
+IHdvcmtpbmcuDQoNCn5BbmRyZXcNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0
+aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5m
+by9pb21tdQ==
