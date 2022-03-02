@@ -1,65 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2DE4C9EFA
-	for <lists.iommu@lfdr.de>; Wed,  2 Mar 2022 09:15:15 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27294CA123
+	for <lists.iommu@lfdr.de>; Wed,  2 Mar 2022 10:47:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CDEBA60B2E;
-	Wed,  2 Mar 2022 08:15:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7A094415AD;
+	Wed,  2 Mar 2022 09:47:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BcXLez3i0Edi; Wed,  2 Mar 2022 08:15:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EE7D960AC0;
-	Wed,  2 Mar 2022 08:15:12 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7WOEvxhxU7rJ; Wed,  2 Mar 2022 09:47:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8E6ED415AC;
+	Wed,  2 Mar 2022 09:47:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BB982C0085;
-	Wed,  2 Mar 2022 08:15:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 57894C0085;
+	Wed,  2 Mar 2022 09:47:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98EF8C000B
- for <iommu@lists.linux-foundation.org>; Wed,  2 Mar 2022 08:15:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B0134C000B
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Mar 2022 09:18:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7107D40396
- for <iommu@lists.linux-foundation.org>; Wed,  2 Mar 2022 08:15:10 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id AC81A402CA
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Mar 2022 09:18:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FWDL66vPRuFP for <iommu@lists.linux-foundation.org>;
- Wed,  2 Mar 2022 08:15:09 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 8ECB540136
- for <iommu@lists.linux-foundation.org>; Wed,  2 Mar 2022 08:15:09 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 527A368BEB; Wed,  2 Mar 2022 09:15:01 +0100 (CET)
-Date: Wed, 2 Mar 2022 09:15:00 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Stefano Stabellini <sstabellini@kernel.org>
-Subject: Re: [PATCH 11/12] swiotlb: merge swiotlb-xen initialization into
- swiotlb
-Message-ID: <20220302081500.GB23075@lst.de>
-References: <20220301105311.885699-1-hch@lst.de>
- <20220301105311.885699-12-hch@lst.de>
- <alpine.DEB.2.22.394.2203011720150.3261@ubuntu-linux-20-04-desktop>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fga6Cyu4FyqD for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Mar 2022 09:18:40 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id EE788401DF
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Mar 2022 09:18:39 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id r13so2335950ejd.5
+ for <iommu@lists.linux-foundation.org>; Wed, 02 Mar 2022 01:18:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4LuLQynsRS5ZDdiypHmCRhWOSK0fPQgMoxmBubsA8FA=;
+ b=YwA2Tp9/WRHVf+AhpCscraLQ5YZMBIbTnjRD9qXALixvArniZHwws+D5eKFYJ4w9RG
+ r5YPECm/lP0oAUKfe9WRJhv6+FML2S+XIXHKeVDBXWzTRzpq8V5VyDtMBBLt+RgC4uif
+ rGbJjiYJ+RaebcdTWE+lgavU2sjB3KE2oYMSI2g0SnLEMM8BFRLk6tjS00Xev2qK5BZV
+ 5Ssf9EZ0tsmaxYSBGN+JYRBhKcBJnRtyUIj9fj+nmKF1+vj7CNwKABPlCEiIkg4HqhVl
+ prjve+Nrt6ySEZf00Hzlz9gQ4nrt4ykYynGeggVTPypi2WOB4Q0/x8pbTwKWJmRWzNiw
+ F8UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4LuLQynsRS5ZDdiypHmCRhWOSK0fPQgMoxmBubsA8FA=;
+ b=dVVd5iYRlpC6xxPcG7wbNTpTvmRweTMrTF9igzKmf2IjKfh7pQaXOXzUAIkPIXHwj5
+ ZNyxHfLaHPO2FJ95pwYqJ0dzVACTlygqMf+GQ//6K01tSlfMlcfoQeG99S+moJzS71XJ
+ baf4y7vLQSYg0V30Sr4D5QnqSLnxvah156Mt+J3rsGb9aOhfGxdsxUHAKCKM+Bo+NMCi
+ FgzuWDJJpINdPVPjoF0959+Y9RPFYU2jPKjK4BgMNRzZG8a3Lo0pkm3pJQ3BI7hJY68I
+ aS+0Nly/2jn5fhMUTZ/wYhoxtvtdRpHD+UF4yuFRfYa4V1A9KHvJjbF8I1ANg2VlBE+k
+ c7bg==
+X-Gm-Message-State: AOAM530j+NgrnT3ovxLhWqbYgo4tgwp4HuMaaepJrL9WbFsbQMWHmRwp
+ r33VJxkCXpaqRk1OzXcokh6Rtl0TJfb22hO8G6c=
+X-Google-Smtp-Source: ABdhPJxefZcxfzkkMgbjOK8FTIKDUrSjhwIhlbq76ukZRP/HPSQoF7TsleylqvSIE+LRhSKcwrjAT6lGtFvgDJjKhNk=
+X-Received: by 2002:a17:906:9f06:b0:6ce:36da:8247 with SMTP id
+ fy6-20020a1709069f0600b006ce36da8247mr21813101ejc.651.1646212718008; Wed, 02
+ Mar 2022 01:18:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2203011720150.3261@ubuntu-linux-20-04-desktop>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-hyperv@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+References: <20220227143055.335596-1-hch@lst.de>
+ <20220227143055.335596-8-hch@lst.de>
+In-Reply-To: <20220227143055.335596-8-hch@lst.de>
+From: Anatoly Pugachev <matorola@gmail.com>
+Date: Wed, 2 Mar 2022 12:18:26 +0300
+Message-ID: <CADxRZqxrjp4erFNorH+XqubZWLRNjw2E14z7vOW537no1eKnhw@mail.gmail.com>
+Subject: Re: [PATCH 07/11] x86: remove the IOMMU table infrastructure
+To: Christoph Hellwig <hch@lst.de>
+X-Mailman-Approved-At: Wed, 02 Mar 2022 09:47:37 +0000
+Cc: Juergen Gross <jgross@suse.com>, linux-s390 <linux-s390@vger.kernel.org>,
+ linux-hyperv@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
+ linux-ia64@vger.kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- tboot-devel@lists.sourceforge.net, xen-devel@lists.xenproject.org,
- David Woodhouse <dwmw2@infradead.org>, Tom Lendacky <thomas.lendacky@amd.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, x86@kernel.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ iommu@lists.linux-foundation.org, tboot-devel@lists.sourceforge.net,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
  Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-mips@vger.kernel.org,
- iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org
+ David Woodhouse <dwmw2@infradead.org>, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,47 +101,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Mar 01, 2022 at 06:55:47PM -0800, Stefano Stabellini wrote:
-> Unrelated to this specific patch series: now that I think about it, if
-> io_tlb_default_mem.nslabs is already allocated by the time xen_mm_init
-> is called, wouldn't we potentially have an issue with the GFP flags used
-> for the earlier allocation (e.g. GFP_DMA32 not used)? Maybe something
-> for another day.
+On Sun, Feb 27, 2022 at 7:31 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> The IOMMU table tries to separate the different IOMMUs into different
+> backends, but actually requires various cross calls.
+>
+> Rewrite the code to do the generic swiotlb/swiotlb-xen setup directly
+> in pci-dma.c and then just call into the IOMMU drivers.
+...
+> --- a/arch/x86/include/asm/iommu_table.h
+> +++ /dev/null
+> @@ -1,102 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#ifndef _ASM_X86_IOMMU_TABLE_H
+> -#define _ASM_X86_IOMMU_TABLE_H
+> -
+> -#include <asm/swiotlb.h>
+> -
+> -/*
+> - * History lesson:
+> - * The execution chain of IOMMUs in 2.6.36 looks as so:
+> - *
+> - *            [xen-swiotlb]
+> - *                 |
+> - *         +----[swiotlb *]--+
+> - *        /         |         \
+> - *       /          |          \
+> - *    [GART]     [Calgary]  [Intel VT-d]
+> - *     /
+> - *    /
+> - * [AMD-Vi]
+> - *
+> - * *: if SWIOTLB detected 'iommu=soft'/'swiotlb=force' it would skip
+> - * over the rest of IOMMUs and unconditionally initialize the SWIOTLB.
+> - * Also it would surreptitiously initialize set the swiotlb=1 if there were
+> - * more than 4GB and if the user did not pass in 'iommu=off'. The swiotlb
+> - * flag would be turned off by all IOMMUs except the Calgary one.
+> - *
+> - * The IOMMU_INIT* macros allow a similar tree (or more complex if desired)
+> - * to be built by defining who we depend on.
+> - *
+> - * And all that needs to be done is to use one of the macros in the IOMMU
+> - * and the pci-dma.c will take care of the rest.
+> - */
 
-swiotlb_init allocates low memory from meblock, which is roughly
-equivalent to GFP_DMA allocations, so we'll be fine.
+Christoph,
 
-> > @@ -143,10 +141,15 @@ static int __init xen_mm_init(void)
-> >  	if (!xen_swiotlb_detect())
-> >  		return 0;
-> >  
-> > -	rc = xen_swiotlb_init();
-> >  	/* we can work with the default swiotlb */
-> > -	if (rc < 0 && rc != -EEXIST)
-> > -		return rc;
-> > +	if (!io_tlb_default_mem.nslabs) {
-> > +		if (!xen_initial_domain())
-> > +			return -EINVAL;
-> 
-> I don't think we need this xen_initial_domain() check. It is all
-> already sorted out by the xen_swiotlb_detect() check above.
+Is it possible to keep documentation comments in source files? Or are
+they completely irrelevant now?
 
-Is it?
-
-static inline int xen_swiotlb_detect(void)
-{
-	if (!xen_domain())
-		return 0;
-	if (xen_feature(XENFEAT_direct_mapped))
-		return 1;
-	/* legacy case */
-	if (!xen_feature(XENFEAT_not_direct_mapped) && xen_initial_domain())
-		return 1;
-	return 0;
-}
-
-I think I'd keep it as-is for now, as my planned next step would be to
-fold xen-swiotlb into swiotlb entirely.
+Thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
