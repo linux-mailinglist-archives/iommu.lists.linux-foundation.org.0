@@ -1,66 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254434CBBD9
-	for <lists.iommu@lfdr.de>; Thu,  3 Mar 2022 11:57:28 +0100 (CET)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6594CBC02
+	for <lists.iommu@lfdr.de>; Thu,  3 Mar 2022 11:59:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 95F2360D69;
-	Thu,  3 Mar 2022 10:57:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tTyXtEiLzEqE; Thu,  3 Mar 2022 10:57:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B7C2760F24;
-	Thu,  3 Mar 2022 10:57:23 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 848D6C000B;
-	Thu,  3 Mar 2022 10:57:23 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EB2EDC000B
- for <iommu@lists.linux-foundation.org>; Thu,  3 Mar 2022 10:57:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D83C4415E2
- for <iommu@lists.linux-foundation.org>; Thu,  3 Mar 2022 10:57:21 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id ECE3F41583;
+	Thu,  3 Mar 2022 10:59:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eCE6wStWD_6h for <iommu@lists.linux-foundation.org>;
- Thu,  3 Mar 2022 10:57:21 +0000 (UTC)
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 089WkS5lEnik; Thu,  3 Mar 2022 10:59:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 226BB4098C;
+	Thu,  3 Mar 2022 10:59:39 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E0A3AC000B;
+	Thu,  3 Mar 2022 10:59:38 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 774E0C000B
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Mar 2022 10:59:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5746382883
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Mar 2022 10:59:37 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Eum7S6JkyXft for <iommu@lists.linux-foundation.org>;
+ Thu,  3 Mar 2022 10:59:37 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0094D415E1
- for <iommu@lists.linux-foundation.org>; Thu,  3 Mar 2022 10:57:20 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C915F827C6
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Mar 2022 10:59:36 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C476A68AFE; Thu,  3 Mar 2022 11:57:14 +0100 (CET)
-Date: Thu, 3 Mar 2022 11:57:14 +0100
+ id DB58D68AFE; Thu,  3 Mar 2022 11:59:31 +0100 (CET)
+Date: Thu, 3 Mar 2022 11:59:31 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+To: Stefano Stabellini <sstabellini@kernel.org>
 Subject: Re: [PATCH 11/12] swiotlb: merge swiotlb-xen initialization into
  swiotlb
-Message-ID: <20220303105714.GB15103@lst.de>
+Message-ID: <20220303105931.GA15137@lst.de>
 References: <20220301105311.885699-1-hch@lst.de>
  <20220301105311.885699-12-hch@lst.de>
  <alpine.DEB.2.22.394.2203011720150.3261@ubuntu-linux-20-04-desktop>
- <ca748512-12bb-7d75-13f1-8d5ec9703e26@oracle.com>
+ <20220302081500.GB23075@lst.de>
+ <alpine.DEB.2.22.394.2203021709470.3261@ubuntu-linux-20-04-desktop>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <ca748512-12bb-7d75-13f1-8d5ec9703e26@oracle.com>
+In-Reply-To: <alpine.DEB.2.22.394.2203021709470.3261@ubuntu-linux-20-04-desktop>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-hyperv@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
  Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
  tboot-devel@lists.sourceforge.net, xen-devel@lists.xenproject.org,
  David Woodhouse <dwmw2@infradead.org>, Tom Lendacky <thomas.lendacky@amd.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
  linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
- linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+ Robin Murphy <robin.murphy@arm.com>, linux-mips@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,18 +79,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Mar 02, 2022 at 08:15:03AM -0500, Boris Ostrovsky wrote:
-> Not for me, I fail to boot with
->
-> [   52.202000] bnxt_en 0000:31:00.0: swiotlb buffer is full (sz: 256 bytes), total 0 (slots), used 0 (slots)
->
-> (this is iscsi root so I need the NIC).
->
->
-> I bisected it to "x86: remove the IOMMU table infrastructure" but haven't actually looked at the code yet.
+On Wed, Mar 02, 2022 at 05:25:10PM -0800, Stefano Stabellini wrote:
+> Thinking more about it we actually need to drop the xen_initial_domain()
+> check otherwise some cases won't be functional (Dom0 not 1:1 mapped, or
+> DomU 1:1 mapped).
 
-Thanks. Looks like the sizing is going wrong.  Just to confirm, this is
-dom0 on x86 and no special command line options?
+Hmm, but that would be the case even before this series, right?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
