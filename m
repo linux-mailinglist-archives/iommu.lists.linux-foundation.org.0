@@ -1,91 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBCE4D0108
-	for <lists.iommu@lfdr.de>; Mon,  7 Mar 2022 15:22:05 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B59694D0088
+	for <lists.iommu@lfdr.de>; Mon,  7 Mar 2022 14:56:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7C7B281D0C;
-	Mon,  7 Mar 2022 14:22:03 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5FAC6405E3;
+	Mon,  7 Mar 2022 13:56:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MOQjtT-dTDEG; Mon,  7 Mar 2022 14:22:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 39A9081D9F;
-	Mon,  7 Mar 2022 14:22:02 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vv5z5C0qTCfU; Mon,  7 Mar 2022 13:56:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A5AD84011B;
+	Mon,  7 Mar 2022 13:56:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05748C008B;
-	Mon,  7 Mar 2022 14:22:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B6ECC000B;
+	Mon,  7 Mar 2022 13:56:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0087DC000B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:53:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 04A56C000B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:56:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id E123F400F3
- for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:53:16 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id E6486400F3
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:56:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=benyossef-com.20210112.gappssmtp.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dGTte6KBp_gu for <iommu@lists.linux-foundation.org>;
- Mon,  7 Mar 2022 13:53:14 +0000 (UTC)
+ with ESMTP id iFbTtKbYfdx3 for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Mar 2022 13:56:25 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 99EB540004
- for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:53:14 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2d6d0cb5da4so164385757b3.10
- for <iommu@lists.linux-foundation.org>; Mon, 07 Mar 2022 05:53:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=benyossef-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1vBHSzQpDZJuR8gHdni4PcNfyaBiG3OKVZ7bLQ+ezPU=;
- b=Ntk3qKxSmFi1zeCMCrnNB5LcEDoR/KHOSFxxKRn0s0I0N7bUBOWmOA6junni30hyiO
- FBgkxmG5gk11vtHjCteHaaopGrJ9VgV0c5kvHcxo5QNYyo6JSvL4icE6kXWF7qT/zqg7
- 2/KXlLWOMSQMAHC8LyC1N/AGKOSxQFEi5I8fNgzDCm1OlcY3xdIvZYbjyc3p3SVNNqVp
- K2wbuoXghblqWBDkj94hea6wOLiyUNQZ1AyVJdmQja+19KRG9/gBryLIo2k8/cHY0hOM
- BYzvoQOCsCIAwA4I0hw0uibDY5RXkI1VE9aKxgdMWIMHIXJVrx4nbWIGJck6iZGedWfo
- OwVw==
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 365EA40004
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:56:25 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id j26so13048914wrb.1
+ for <iommu@lists.linux-foundation.org>; Mon, 07 Mar 2022 05:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=dOWHiNiW1gr75BNGnyFXSXkC6oa3oOMnwuKYpwVf/zg=;
+ b=RaPfV/UsQxEg5bWCmVlslKdDwz6ZY0Zvenpban7wYG9mlFG+j7bdGoTMGNN/W8n354
+ /ia3shXKCrWRm74NAwLqrHFxy0fL1OCkSXtvRTFcXwvvRFyR42AINNU4CpLK/lpG5SUK
+ SYTe1Ho8aMmsr3ndRsJHY58SzIeiWon2/ny7ik4Ru8ob2vWtlOZTr5wMZh03plEpVT6e
+ JOYOxTyfD/F/bqLsym9s/t5X9DrH9OtOJPmjmHOUb3s97dslG1sXRfCuXxh206Gx1yz0
+ l1i52Glt6NGbb1f4SaA04BPvz9qL5yqmNnSX0eoYmiVISE1D+4D9Yte5H7VXWF0vi5DZ
+ gd6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1vBHSzQpDZJuR8gHdni4PcNfyaBiG3OKVZ7bLQ+ezPU=;
- b=v4KD8caR31bRIdAbcQeUZVofZiqxOnt1SoDxHThSvmi1LtreU652+CpC+6L0NuGtqY
- tE6HdiAOKS1FBxmPD18MkOKvyImDhqamXhCnmKv0zUO+nzt4FT8QFtuUtvBghUklqemt
- piJT4WkjsaAQHWyLdbAtCY4SLNjAig8G3PM/Cv8s2/jImvj3E5qGOxQi0+D01aYO+8o8
- RZxXMUUKDmt0dsSle1VZkYwGL6CJRPL23Vwetvlf71ZNyfiIhBXPN8kElyED10eNM1s5
- JrvVUQk4Y8U9n8jnlJVT4IyjHEPnc0tPzyRlx95r3UHy5nJNd8I5tjMgnN6NiVEngKrd
- VkPw==
-X-Gm-Message-State: AOAM53334J2B65QdeTdZd4SoFiOtT1ovFhk3BZHmpnqEjVFhmWKeJD9t
- WWDKPWVu36Zh6gJJGZA6/wEJI+4/hAS8V5sHQZOwew==
-X-Google-Smtp-Source: ABdhPJziAfQmfsJkXKMPmaM4hi8gNJ1VigzmyArsZQZMzEA/VVbUCV/TBH9l0ZErglct5rExtHUMFdBWb8M+lUQ3TZ0=
-X-Received: by 2002:a81:e343:0:b0:2db:58be:a8c7 with SMTP id
- w3-20020a81e343000000b002db58bea8c7mr8601455ywl.138.1646661193328; Mon, 07
- Mar 2022 05:53:13 -0800 (PST)
-MIME-Version: 1.0
-References: <YhKV55t90HWm6bhv@Red>
- <CAOtvUMdRU4wnRCXsC+U5XBDp+b+u8w7W7JCUKW2+ohuJz3PVhQ@mail.gmail.com>
- <YhOcEQEjIKBrbMIZ@Red>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=dOWHiNiW1gr75BNGnyFXSXkC6oa3oOMnwuKYpwVf/zg=;
+ b=cgF/Vwn2WxVG78ASs+CK8Pvav/xOlZAFlrudd4kxu/jnapj4EH1zQ/0XZpecCq8AE5
+ Mh9dcyQOwxhxrUPA7YdrI3RbKNcXiWIPqOG7adbZDfNQKmPeschhhG84VPdb8FxS2brO
+ 7CKI/tB4+rBf62+3lQrf0d2CUcuFoltBgRA1INAJ3hkYGf0/DQxoJeneK5HBKNjPMlTA
+ 4U5TCm2Yg3zuL6UwB7Zp4nN1XyBSc4mS6EuwonT+3BaJwy4Fix0gnUVrgOnOGVwbj8/E
+ Yr3N0++RWjOFQmNHISOzHWpNgtZ1FDwvN3jYBU64NmigSXGmZlAasNNMju+Da7DlGATQ
+ VRug==
+X-Gm-Message-State: AOAM5318a7ibUWLjXMJUa7ZToroLASRsaUhokBC33YOva/92f4Bb92Q6
+ +0SaknMGii09ZRPweh3UxHY=
+X-Google-Smtp-Source: ABdhPJyHF69crih2bQZgeoDk9AFEi+v+pd0yO3k4wwr/m/iYgpOSvZl8QMgfjJCcXC1BszPAFF1bvA==
+X-Received: by 2002:a05:6000:168e:b0:1f1:faee:f1c4 with SMTP id
+ y14-20020a056000168e00b001f1faeef1c4mr2494524wrd.173.1646661383296; 
+ Mon, 07 Mar 2022 05:56:23 -0800 (PST)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+ by smtp.googlemail.com with ESMTPSA id
+ p22-20020a1c5456000000b00389a558670fsm2820409wmi.11.2022.03.07.05.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 05:56:22 -0800 (PST)
+Date: Mon, 7 Mar 2022 14:56:21 +0100
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: Gilad Ben-Yossef <gilad@benyossef.com>
+Subject: Re: [BUG] crypto: ccree: driver does not handle case where cryptlen
+ = authsize =0
+Message-ID: <YiYPBdRIi4+HYsmW@Red>
+References: <YhOcEQEjIKBrbMIZ@Red>
  <CAOtvUMfN8U4+eG-TEVW4bSE6kOzuOSsJE4dOYGXYuWQKNzv7wQ@mail.gmail.com>
  <CAOtvUMeRb=j=NDrc88x8aB-3=D1mxZ_-aA1d4FfvJmj7Jrbi4w@mail.gmail.com>
  <YiIUXtxd44ut5uzV@Red> <YiUsWosH+MKMF7DQ@gondor.apana.org.au>
  <CAOtvUMcudG3ySU+VeE7hfneDVWGLKFTnws-xjhq4hgFYSj0qOg@mail.gmail.com>
- <YiXjCcXXk0f18FDL@Red> <aca4117c-b7a5-f7eb-eb03-4e1f1a93a730@arm.com>
+ <YiXjCcXXk0f18FDL@Red>
+ <aca4117c-b7a5-f7eb-eb03-4e1f1a93a730@arm.com>
  <YiYMeFf+Lsa9y4ss@Red>
-In-Reply-To: <YiYMeFf+Lsa9y4ss@Red>
-From: Gilad Ben-Yossef <gilad@benyossef.com>
-Date: Mon, 7 Mar 2022 15:53:02 +0200
-Message-ID: <CAOtvUMccCai9gFrTv6CZB-U56UtCPtmnZUyW5WmUr=+6YiUHZg@mail.gmail.com>
-Subject: Re: [BUG] crypto: ccree: driver does not handle case where cryptlen =
- authsize =0
-To: Corentin Labbe <clabbe.montjoie@gmail.com>
-X-Mailman-Approved-At: Mon, 07 Mar 2022 14:21:57 +0000
+ <CAOtvUMccCai9gFrTv6CZB-U56UtCPtmnZUyW5WmUr=+6YiUHZg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAOtvUMccCai9gFrTv6CZB-U56UtCPtmnZUyW5WmUr=+6YiUHZg@mail.gmail.com>
 Cc: Herbert Xu <herbert@gondor.apana.org.au>,
  Linux kernel mailing list <linux-kernel@vger.kernel.org>,
  iommu@lists.linux-foundation.org,
@@ -103,193 +105,268 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gTW9uLCBNYXIgNywgMjAyMiBhdCAzOjQ1IFBNIENvcmVudGluIExhYmJlIDxjbGFiYmUubW9u
-dGpvaWVAZ21haWwuY29tPiB3cm90ZToKPgo+IExlIE1vbiwgTWFyIDA3LCAyMDIyIGF0IDExOjE0
-OjE2QU0gKzAwMDAsIFJvYmluIE11cnBoeSBhIMOpY3JpdCA6Cj4gPiBPbiAyMDIyLTAzLTA3IDEw
-OjQ4LCBDb3JlbnRpbiBMYWJiZSB3cm90ZToKPiA+ID4gTGUgTW9uLCBNYXIgMDcsIDIwMjIgYXQg
-MDk6NTk6MjlBTSArMDIwMCwgR2lsYWQgQmVuLVlvc3NlZiBhIMOvwr/CvWNyaXQgOgo+ID4gPj4g
-T24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMTo0OSBQTSBIZXJiZXJ0IFh1IDxoZXJiZXJ0QGdvbmRv
-ci5hcGFuYS5vcmcuYXU+IHdyb3RlOgo+ID4gPj4+Cj4gPiA+Pj4gT24gRnJpLCBNYXIgMDQsIDIw
-MjIgYXQgMDI6MzA6MDZQTSArMDEwMCwgQ29yZW50aW4gTGFiYmUgd3JvdGU6Cj4gPiA+Pj4+Cj4g
-PiA+Pj4+IEhlbGxvCj4gPiA+Pj4+Cj4gPiA+Pj4+IEkgZ290Ogo+ID4gPj4+PiBbICAgMTcuNTYz
-NzkzXSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KPiA+ID4+Pj4gWyAgIDE3
-LjU2ODQ5Ml0gRE1BLUFQSTogY2NyZWUgZTY2MDEwMDAuY3J5cHRvOiBkZXZpY2UgZHJpdmVyIGZy
-ZWVzIERNQSBtZW1vcnkgd2l0aCBkaWZmZXJlbnQgZGlyZWN0aW9uIFtkZXZpY2UgYWRkcmVzcz0w
-eDAwMDAwMDAwNzhmZTU4MDBdIFtzaXplPTggYnl0ZXNdIFttYXBwZWQgd2l0aCBETUFfVE9fREVW
-SUNFXSBbdW5tYXBwZWQgd2l0aCBETUFfQklESVJFQ1RJT05BTF0KPiA+ID4+Pgo+ID4gPj4+IFRo
-ZSBkaXJlY3Rpb24gYXJndW1lbnQgZHVyaW5nIHVubWFwIG11c3QgbWF0Y2ggd2hhdGV2ZXIgZGly
-ZWN0aW9uCj4gPiA+Pj4geW91IHVzZWQgZHVyaW5nIHRoZSBvcmlnaW5hbCBtYXAgY2FsbC4KPiA+
-ID4+Cj4gPiA+Pgo+ID4gPj4gWWVzLCBvZiBjb3Vyc2UuIEkgY2hhbmdlZCBvbmUgYnV0IGZvcmdv
-dCB0aGUgb3RoZXIuCj4gPiA+Pgo+ID4gPj4gQ29yZW50aW4sIGNvdWxkIHlvdSBiZSBraW5kIGFu
-ZCBjaGVjayB0aGF0IHRoaXMgc29sdmVzIHRoZSBvcmlnaW5hbAo+ID4gPj4gcHJvYmxlbSBhbmQg
-ZG9lcyBub3QgcHJvZHVjZSBuZXcgd2FybmluZ3M/Cj4gPiA+Pgo+ID4gPj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvY3J5cHRvL2NjcmVlL2NjX2J1ZmZlcl9tZ3IuYwo+ID4gPj4gYi9kcml2ZXJzL2Ny
-eXB0by9jY3JlZS9jY19idWZmZXJfbWdyLmMKPiA+ID4+IGluZGV4IDExZTAyNzhjODYzMS4uMzFj
-ZmUwMTQ5MjJlIDEwMDY0NAo+ID4gPj4gLS0tIGEvZHJpdmVycy9jcnlwdG8vY2NyZWUvY2NfYnVm
-ZmVyX21nci5jCj4gPiA+PiArKysgYi9kcml2ZXJzL2NyeXB0by9jY3JlZS9jY19idWZmZXJfbWdy
-LmMKPiA+ID4+IEBAIC0zNTYsMTIgKzM1NiwxNCBAQCB2b2lkIGNjX3VubWFwX2NpcGhlcl9yZXF1
-ZXN0KHN0cnVjdCBkZXZpY2UgKmRldiwKPiA+ID4+IHZvaWQgKmN0eCwKPiA+ID4+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICByZXFfY3R4LT5tbGxpX3BhcmFtcy5tbGxpX2RtYV9hZGRy
-KTsKPiA+ID4+ICAgICAgICAgIH0KPiA+ID4+Cj4gPiA+PiAtICAgICAgIGRtYV91bm1hcF9zZyhk
-ZXYsIHNyYywgcmVxX2N0eC0+aW5fbmVudHMsIERNQV9CSURJUkVDVElPTkFMKTsKPiA+ID4+IC0g
-ICAgICAgZGV2X2RiZyhkZXYsICJVbm1hcHBlZCByZXEtPnNyYz0lcEtcbiIsIHNnX3ZpcnQoc3Jj
-KSk7Cj4gPiA+PiAtCj4gPiA+PiAgICAgICAgICBpZiAoc3JjICE9IGRzdCkgewo+ID4gPj4gLSAg
-ICAgICAgICAgICAgIGRtYV91bm1hcF9zZyhkZXYsIGRzdCwgcmVxX2N0eC0+b3V0X25lbnRzLCBE
-TUFfQklESVJFQ1RJT05BTCk7Cj4gPiA+PiArICAgICAgICAgICAgICAgZG1hX3VubWFwX3NnKGRl
-diwgc3JjLCByZXFfY3R4LT5pbl9uZW50cywgRE1BX1RPX0RFVklDRSk7Cj4gPiA+PiArICAgICAg
-ICAgICAgICAgZG1hX3VubWFwX3NnKGRldiwgZHN0LCByZXFfY3R4LT5vdXRfbmVudHMsIERNQV9G
-Uk9NX0RFVklDRSk7Cj4gPiA+PiAgICAgICAgICAgICAgICAgIGRldl9kYmcoZGV2LCAiVW5tYXBw
-ZWQgcmVxLT5kc3Q9JXBLXG4iLCBzZ192aXJ0KGRzdCkpOwo+ID4gPj4gKyAgICAgICAgICAgICAg
-IGRldl9kYmcoZGV2LCAiVW5tYXBwZWQgcmVxLT5zcmM9JXBLXG4iLCBzZ192aXJ0KHNyYykpOwo+
-ID4gPj4gKyAgICAgICB9IGVsc2Ugewo+ID4gPj4gKyAgICAgICAgICAgICAgIGRtYV91bm1hcF9z
-ZyhkZXYsIHNyYywgcmVxX2N0eC0+aW5fbmVudHMsIERNQV9CSURJUkVDVElPTkFMKTsKPiA+ID4+
-ICsgICAgICAgICAgICAgICBkZXZfZGJnKGRldiwgIlVubWFwcGVkIHJlcS0+c3JjPSVwS1xuIiwg
-c2dfdmlydChzcmMpKTsKPiA+ID4+ICAgICAgICAgIH0KPiA+ID4+ICAgfQo+ID4gPj4KPiA+ID4+
-IEBAIC0zNzcsNiArMzc5LDcgQEAgaW50IGNjX21hcF9jaXBoZXJfcmVxdWVzdChzdHJ1Y3QgY2Nf
-ZHJ2ZGF0YQo+ID4gPj4gKmRydmRhdGEsIHZvaWQgKmN0eCwKPiA+ID4+ICAgICAgICAgIHUzMiBk
-dW1teSA9IDA7Cj4gPiA+PiAgICAgICAgICBpbnQgcmMgPSAwOwo+ID4gPj4gICAgICAgICAgdTMy
-IG1hcHBlZF9uZW50cyA9IDA7Cj4gPiA+PiArICAgICAgIGludCBzcmNfZGlyZWN0aW9uID0gKHNy
-YyAhPSBkc3QgPyBETUFfVE9fREVWSUNFIDogRE1BX0JJRElSRUNUSU9OQUwpOwo+ID4gPj4KPiA+
-ID4+ICAgICAgICAgIHJlcV9jdHgtPmRtYV9idWZfdHlwZSA9IENDX0RNQV9CVUZfRExMSTsKPiA+
-ID4+ICAgICAgICAgIG1sbGlfcGFyYW1zLT5jdXJyX3Bvb2wgPSBOVUxMOwo+ID4gPj4gQEAgLTM5
-OSw3ICs0MDIsNyBAQCBpbnQgY2NfbWFwX2NpcGhlcl9yZXF1ZXN0KHN0cnVjdCBjY19kcnZkYXRh
-Cj4gPiA+PiAqZHJ2ZGF0YSwgdm9pZCAqY3R4LAo+ID4gPj4gICAgICAgICAgfQo+ID4gPj4KPiA+
-ID4+ICAgICAgICAgIC8qIE1hcCB0aGUgc3JjIFNHTCAqLwo+ID4gPj4gLSAgICAgICByYyA9IGNj
-X21hcF9zZyhkZXYsIHNyYywgbmJ5dGVzLCBETUFfQklESVJFQ1RJT05BTCwgJnJlcV9jdHgtPmlu
-X25lbnRzLAo+ID4gPj4gKyAgICAgICByYyA9IGNjX21hcF9zZyhkZXYsIHNyYywgbmJ5dGVzLCBz
-cmNfZGlyZWN0aW9uLCAmcmVxX2N0eC0+aW5fbmVudHMsCj4gPiA+PiAgICAgICAgICAgICAgICAg
-ICAgICAgICBMTElfTUFYX05VTV9PRl9EQVRBX0VOVFJJRVMsICZkdW1teSwgJm1hcHBlZF9uZW50
-cyk7Cj4gPiA+PiAgICAgICAgICBpZiAocmMpCj4gPiA+PiAgICAgICAgICAgICAgICAgIGdvdG8g
-Y2lwaGVyX2V4aXQ7Cj4gPiA+PiBAQCAtNDE2LDcgKzQxOSw3IEBAIGludCBjY19tYXBfY2lwaGVy
-X3JlcXVlc3Qoc3RydWN0IGNjX2RydmRhdGEKPiA+ID4+ICpkcnZkYXRhLCB2b2lkICpjdHgsCj4g
-PiA+PiAgICAgICAgICAgICAgICAgIH0KPiA+ID4+ICAgICAgICAgIH0gZWxzZSB7Cj4gPiA+PiAg
-ICAgICAgICAgICAgICAgIC8qIE1hcCB0aGUgZHN0IHNnICovCj4gPiA+PiAtICAgICAgICAgICAg
-ICAgcmMgPSBjY19tYXBfc2coZGV2LCBkc3QsIG5ieXRlcywgRE1BX0JJRElSRUNUSU9OQUwsCj4g
-PiA+PiArICAgICAgICAgICAgICAgcmMgPSBjY19tYXBfc2coZGV2LCBkc3QsIG5ieXRlcywgRE1B
-X0ZST01fREVWSUNFLAo+ID4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmcmVx
-X2N0eC0+b3V0X25lbnRzLCBMTElfTUFYX05VTV9PRl9EQVRBX0VOVFJJRVMsCj4gPiA+PiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICZkdW1teSwgJm1hcHBlZF9uZW50cyk7Cj4gPiA+
-PiAgICAgICAgICAgICAgICAgIGlmIChyYykKPiA+ID4+Cj4gPiA+Pgo+ID4gPgo+ID4gPiBIZWxs
-bwo+ID4gPgo+ID4gPiBJIHN0aWxsIGdldCB0aGUgd2FybmluZzoKPiA+ID4gWyAgNDMzLjQwNjIz
-MF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tCj4gPiA+IFsgIDQzMy40MDYz
-MjZdIERNQS1BUEk6IGNjcmVlIGU2NjAxMDAwLmNyeXB0bzogY2FjaGVsaW5lIHRyYWNraW5nIEVF
-WElTVCwgb3ZlcmxhcHBpbmcgbWFwcGluZ3MgYXJlbid0IHN1cHBvcnRlZAo+ID4gPiBbICA0MzMu
-NDA2Mzg2XSBXQVJOSU5HOiBDUFU6IDcgUElEOiAzMTA3NCBhdCAvaG9tZS9jbGFiYmUvbGludXgt
-bmV4dC9rZXJuZWwvZG1hL2RlYnVnLmM6NTcxIGFkZF9kbWFfZW50cnkrMHgxZDAvMHgyODgKPiA+
-ID4gWyAgNDMzLjQwNjQzNF0gTW9kdWxlcyBsaW5rZWQgaW46Cj4gPiA+IFsgIDQzMy40MDY0NThd
-IENQVTogNyBQSUQ6IDMxMDc0IENvbW06IGtjYXBpIE5vdCB0YWludGVkIDUuMTcuMC1yYzYtbmV4
-dC0yMDIyMDMwMy0wMDEzMC1nMzAwNDJlNDdlZTQ3LWRpcnR5ICM1NAo+ID4gPiBbICA0MzMuNDA2
-NDczXSBIYXJkd2FyZSBuYW1lOiBSZW5lc2FzIFNhbHZhdG9yLVggYm9hcmQgYmFzZWQgb24gcjhh
-Nzc5NTAgKERUKQo+ID4gPiBbICA0MzMuNDA2NDg0XSBwc3RhdGU6IDQwMDAwMDA1IChuWmN2IGRh
-aWYgLVBBTiAtVUFPIC1UQ08gLURJVCAtU1NCUyBCVFlQRT0tLSkKPiA+ID4gWyAgNDMzLjQwNjQ5
-OF0gcGMgOiBhZGRfZG1hX2VudHJ5KzB4MWQwLzB4Mjg4Cj4gPiA+IFsgIDQzMy40MDY1MTBdIGxy
-IDogYWRkX2RtYV9lbnRyeSsweDFkMC8weDI4OAo+ID4gPiBbICA0MzMuNDA2NTIyXSBzcCA6IGZm
-ZmY4MDAwMTVkYTM2OTAKPiA+ID4gWyAgNDMzLjQwNjUzMV0geDI5OiBmZmZmODAwMDE1ZGEzNjkw
-IHgyODogMDAwMDAwMDAwMDAwMDAwMCB4Mjc6IDAwMDAwMDAwMDAwMDAwMDAKPiA+ID4gWyAgNDMz
-LjQwNjU2Ml0geDI2OiAwMDAwMDAwMDAwMDAwMDAwIHgyNTogZmZmZjgwMDAwYjRjN2JjMCB4MjQ6
-IGZmZmY4MDAwMGI0YzcwMDAKPiA+ID4gWyAgNDMzLjQwNjU5M10geDIzOiAwMDAwMDAwMDAwMDAw
-MDAwIHgyMjogMDAwMDAwMDBmZmZmZmZlZiB4MjE6IGZmZmY4MDAwMGE5YjYwMDAKPiA+ID4gWyAg
-NDMzLjQwNjYyM10geDIwOiBmZmZmMDAwNGMwYWY1YzAwIHgxOTogZmZmZjgwMDAwYjQyMDAwMCB4
-MTg6IGZmZmZmZmZmZmZmZmZmZmYKPiA+ID4gWyAgNDMzLjQwNjY1M10geDE3OiA2YzcyNjU3NjZm
-MjAyYzU0IHgxNjogNTM0OTU4NDU0NTIwNjc2ZSB4MTU6IDAwMDAwMDAwMDAwMDAyMmUKPiA+ID4g
-WyAgNDMzLjQwNjY4M10geDE0OiBmZmZmODAwMDE1ZGEzMzgwIHgxMzogMDAwMDAwMDBmZmZmZmZl
-YSB4MTI6IGZmZmY4MDAwMGI0YmUwMTAKPiA+ID4gWyAgNDMzLjQwNjcxM10geDExOiAwMDAwMDAw
-MDAwMDAwMDAxIHgxMDogMDAwMDAwMDAwMDAwMDAwMSB4OSA6IGZmZmY4MDAwMGI0YTYwMjgKPiA+
-ID4gWyAgNDMzLjQwNjc0M10geDggOiBjMDAwMDAwMGZmZmZlZmZmIHg3IDogMDAwMDAwMDAwMDAx
-N2ZlOCB4NiA6IGZmZmY4MDAwMGI0YTVmZDAKPiA+ID4gWyAgNDMzLjQwNjc3M10geDUgOiBmZmZm
-MDAwNmZmNzk1YzQ4IHg0IDogMDAwMDAwMDAwMDAwMDAwMCB4MyA6IDAwMDAwMDAwMDAwMDAwMjcK
-PiA+ID4gWyAgNDMzLjQwNjgwMl0geDIgOiAwMDAwMDAwMDAwMDAwMDIzIHgxIDogOGNhNGU0ZmJm
-NGI4NzkwMCB4MCA6IDAwMDAwMDAwMDAwMDAwMDAKPiA+ID4gWyAgNDMzLjQwNjgzM10gQ2FsbCB0
-cmFjZToKPiA+ID4gWyAgNDMzLjQwNjg0MV0gIGFkZF9kbWFfZW50cnkrMHgxZDAvMHgyODgKPiA+
-ID4gWyAgNDMzLjQwNjg1NF0gIGRlYnVnX2RtYV9tYXBfc2crMHgxNTAvMHgzOTgKPiA+ID4gWyAg
-NDMzLjQwNjg2OV0gIF9fZG1hX21hcF9zZ19hdHRycysweDljLzB4MTA4Cj4gPiA+IFsgIDQzMy40
-MDY4ODldICBkbWFfbWFwX3NnX2F0dHJzKzB4MTAvMHgyOAo+ID4gPiBbICA0MzMuNDA2OTA0XSAg
-Y2NfbWFwX3NnKzB4ODAvMHgxMDAKPiA+ID4gWyAgNDMzLjQwNjkyNF0gIGNjX21hcF9jaXBoZXJf
-cmVxdWVzdCsweDE3OC8weDNjOAo+ID4gPiBbICA0MzMuNDA2OTM5XSAgY2NfY2lwaGVyX3Byb2Nl
-c3MrMHgyMTAvMHhiNTgKPiA+ID4gWyAgNDMzLjQwNjk1M10gIGNjX2NpcGhlcl9lbmNyeXB0KzB4
-MmMvMHgzOAo+ID4gPiBbICA0MzMuNDA2OTY3XSAgY3J5cHRvX3NrY2lwaGVyX2VuY3J5cHQrMHg0
-NC8weDc4Cj4gPiA+IFsgIDQzMy40MDY5ODZdICBza2NpcGhlcl9yZWN2bXNnKzB4MzZjLzB4NDIw
-Cj4gPiA+IFsgIDQzMy40MDcwMDNdICBfX19fc3lzX3JlY3Ztc2crMHg5MC8weDI4MAo+ID4gPiBb
-ICA0MzMuNDA3MDI0XSAgX19fc3lzX3JlY3Ztc2crMHg4OC8weGQwCj4gPiA+IFsgIDQzMy40MDcw
-MzhdICBfX3N5c19yZWN2bXNnKzB4NmMvMHhkMAo+ID4gPiBbICA0MzMuNDA3MDQ5XSAgX19hcm02
-NF9zeXNfcmVjdm1zZysweDI0LzB4MzAKPiA+ID4gWyAgNDMzLjQwNzA2MV0gIGludm9rZV9zeXNj
-YWxsKzB4NDQvMHgxMDAKPiA+ID4gWyAgNDMzLjQwNzA4Ml0gIGVsMF9zdmNfY29tbW9uLmNvbnN0
-cHJvcC4zKzB4OTAvMHgxMjAKPiA+ID4gWyAgNDMzLjQwNzA5Nl0gIGRvX2VsMF9zdmMrMHgyNC8w
-eDg4Cj4gPiA+IFsgIDQzMy40MDcxMTBdICBlbDBfc3ZjKzB4NGMvMHgxMDAKPiA+ID4gWyAgNDMz
-LjQwNzEzMV0gIGVsMHRfNjRfc3luY19oYW5kbGVyKzB4OTAvMHhiOAo+ID4gPiBbICA0MzMuNDA3
-MTQ1XSAgZWwwdF82NF9zeW5jKzB4MTcwLzB4MTc0Cj4gPiA+IFsgIDQzMy40MDcxNjBdIGlycSBl
-dmVudCBzdGFtcDogNTYyNAo+ID4gPiBbICA0MzMuNDA3MTY4XSBoYXJkaXJxcyBsYXN0ICBlbmFi
-bGVkIGF0ICg1NjIzKTogWzxmZmZmODAwMDA4MTJmNmE4Pl0gX191cF9jb25zb2xlX3NlbSsweDYw
-LzB4OTgKPiA+ID4gWyAgNDMzLjQwNzE5MV0gaGFyZGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoNTYy
-NCk6IFs8ZmZmZjgwMDAwOWM5YTA2MD5dIGVsMV9kYmcrMHgyOC8weDkwCj4gPiA+IFsgIDQzMy40
-MDcyMDhdIHNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDU1NzApOiBbPGZmZmY4MDAwMDk3ZTYy
-Zjg+XSBsb2NrX3NvY2tfbmVzdGVkKzB4ODAvMHhhMAo+ID4gPiBbICA0MzMuNDA3MjI2XSBzb2Z0
-aXJxcyBsYXN0IGRpc2FibGVkIGF0ICg1NTY4KTogWzxmZmZmODAwMDA5N2U2MmQ4Pl0gbG9ja19z
-b2NrX25lc3RlZCsweDYwLzB4YTAKPiA+ID4gWyAgNDMzLjQwNzI0MV0gLS0tWyBlbmQgdHJhY2Ug
-MDAwMDAwMDAwMDAwMDAwMCBdLS0tCj4gPiA+IFsgIDQzMy40MDczODFdIERNQS1BUEk6IE1hcHBl
-ZCBhdDoKPiA+ID4gWyAgNDMzLjQwNzM5Nl0gIGRlYnVnX2RtYV9tYXBfc2crMHgxNmMvMHgzOTgK
-PiA+ID4gWyAgNDMzLjQwNzQxNl0gIF9fZG1hX21hcF9zZ19hdHRycysweDljLzB4MTA4Cj4gPiA+
-IFsgIDQzMy40MDc0MzZdICBkbWFfbWFwX3NnX2F0dHJzKzB4MTAvMHgyOAo+ID4gPiBbICA0MzMu
-NDA3NDU1XSAgY2NfbWFwX3NnKzB4ODAvMHgxMDAKPiA+ID4gWyAgNDMzLjQwNzQ3NV0gIGNjX21h
-cF9jaXBoZXJfcmVxdWVzdCsweDE3OC8weDNjOAo+ID4gPgo+ID4gPgo+ID4gPiBCVVQgSSBzdGFy
-dCB0byB0aGluZyB0aGlzIGlzIGEgYnVnIGluIERNQS1BUEkgZGVidWcuCj4gPiA+Cj4gPiA+Cj4g
-PiA+IE15IHN1bjhpLXNzIGRyaXZlciBoaXQgdGhlIHNhbWUgd2FybmluZzoKPiA+ID4gWyAgMTQy
-LjQ1ODM1MV0gV0FSTklORzogQ1BVOiAxIFBJRDogOTAgYXQga2VybmVsL2RtYS9kZWJ1Zy5jOjU5
-NyBhZGRfZG1hX2VudHJ5KzB4MmVjLzB4NGNjCj4gPiA+IFsgIDE0Mi40NTg0MjldIERNQS1BUEk6
-IHN1bjhpLXNzIDFjMTUwMDAuY3J5cHRvOiBjYWNoZWxpbmUgdHJhY2tpbmcgRUVYSVNULCBvdmVy
-bGFwcGluZyBtYXBwaW5ncyBhcmVuJ3Qgc3VwcG9ydGVkCj4gPiA+IFsgIDE0Mi40NTg0NTVdIE1v
-ZHVsZXMgbGlua2VkIGluOiBjY20gYWxnaWZfYWVhZCB4dHMgY21hYwo+ID4gPiBbICAxNDIuNDU4
-NTYzXSBDUFU6IDEgUElEOiA5MCBDb21tOiAxYzE1MDAwLmNyeXB0by0gTm90IHRhaW50ZWQgNS4x
-Ny4wLXJjNi1uZXh0LTIwMjIwMzA3LTAwMTMyLWczOWRhZDU2OGQyMGEtZGlydHkgIzIyMwo+ID4g
-PiBbICAxNDIuNDU4NTgxXSBIYXJkd2FyZSBuYW1lOiBBbGx3aW5uZXIgQTgzdCBib2FyZAo+ID4g
-PiBbICAxNDIuNDU4NTk2XSAgdW53aW5kX2JhY2t0cmFjZSBmcm9tIHNob3dfc3RhY2srMHgxMC8w
-eDE0Cj4gPiA+IFsgIDE0Mi40NTg2MjddICBzaG93X3N0YWNrIGZyb20gMHhmMGFiZGQxYwo+ID4g
-PiBbICAxNDIuNDU4NjQ2XSBpcnEgZXZlbnQgc3RhbXA6IDMxNzQ3Cj4gPiA+IFsgIDE0Mi40NTg2
-NjBdIGhhcmRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDMxNzUzKTogWzxjMDE5MzE2Yz5dIF9fdXBf
-Y29uc29sZV9zZW0rMHg1MC8weDYwCj4gPiA+IFsgIDE0Mi40NTg2ODhdIGhhcmRpcnFzIGxhc3Qg
-ZGlzYWJsZWQgYXQgKDMxNzU4KTogWzxjMDE5MzE1OD5dIF9fdXBfY29uc29sZV9zZW0rMHgzYy8w
-eDYwCj4gPiA+IFsgIDE0Mi40NTg3MTBdIHNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDMxNjAw
-KTogWzxjMDY5OTBjOD5dIHN1bjhpX3NzX2hhbmRsZV9jaXBoZXJfcmVxdWVzdCsweDMwMC8weDhi
-OAo+ID4gPiBbICAxNDIuNDU4NzM4XSBzb2Z0aXJxcyBsYXN0IGRpc2FibGVkIGF0ICgzMTU4MCk6
-IFs8YzA2OTkwYzg+XSBzdW44aV9zc19oYW5kbGVfY2lwaGVyX3JlcXVlc3QrMHgzMDAvMHg4YjgK
-PiA+ID4gWyAgMTQyLjQ1ODc1OF0gLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0t
-Cj4gPiA+IFsgIDE0Mi40NTg3NzFdIERNQS1BUEk6IE1hcHBlZCBhdDoKPiA+ID4KPiA+ID4gWWVz
-IHRoZSBtYXBwZWQgYXQgaXMgZW1wdHkganVzdCBhZnRlci4KPiA+ID4KPiA+ID4gQW5kIHRoZSBz
-ZXF1ZW5jZSBvZiBETUEgb3BlcmF0aW9ucyBpbiBteSBkcml2ZXIgaXMgc2ltcGxlLCBzbyBJIGNh
-bm5vdCBzZWUgaG93IGFueSBvdmVybGFwIGNvdWxkIG9jY3VyLgo+ID4KPiA+IFRoZSAib3Zlcmxh
-cCIgaXMgaW4gdGhlIHNlbnNlIG9mIGhhdmluZyBtb3JlIHRoYW4gb25lIG1hcHBpbmcgd2l0aGlu
-IHRoZQo+ID4gc2FtZSBjYWNoZWxpbmU6Cj4gPgo+ID4gWyAgMTQyLjQ1ODEyMF0gRE1BLUFQSTog
-YWRkX2RtYV9lbnRyeSBzdGFydCBQPWJhNzlmMjAwIE49YmE3OWYKPiA+IEQ9YmE3OWYyMDAgTD0x
-MCBETUFfRlJPTV9ERVZJQ0UgYXR0cnM9MAo+ID4gWyAgMTQyLjQ1ODE1Nl0gRE1BLUFQSTogYWRk
-X2RtYV9lbnRyeSBzdGFydCBQPTQ0NWRjMDEwIE49NDQ1ZGMKPiA+IEQ9NDQ1ZGMwMTAgTD0xMCBE
-TUFfVE9fREVWSUNFIGF0dHJzPTAKPiA+IFsgIDE0Mi40NTgxNzhdIHN1bjhpLXNzIDFjMTUwMDAu
-Y3J5cHRvOiBTUkMgMC8xLzEgNDQ1ZGMwMDAgbGVuPTE2IGJpPTAKPiA+IFsgIDE0Mi40NTgyMTVd
-IHN1bjhpLXNzIDFjMTUwMDAuY3J5cHRvOiBEU1QgMC8xLzEgYmE3OWYyMDAgbGVuPTE2IGJpPTAK
-PiA+IFsgIDE0Mi40NTgyMzRdIERNQS1BUEk6IGFkZF9kbWFfZW50cnkgc3RhcnQgUD1iYTc5ZjIx
-MCBOPWJhNzlmCj4gPiBEPWJhNzlmMjEwIEw9MTAgRE1BX0ZST01fREVWSUNFIGF0dHJzPTAKPiA+
-Cj4gPiBUaGlzIGFjdHVhbGx5IGlsbHVzdHJhdGVzIGV4YWN0bHkgdGhlIHJlYXNvbiB3aHkgdGhp
-cyBpcyB1bnN1cHBvcnRhYmxlLgo+ID4gYmE3OWYyMDAgaXMgbWFwcGVkIGZvciBETUFfRlJPTV9E
-RVZJQ0UsIHRoZXJlZm9yZSBzdWJzZXF1ZW50bHkgbWFwcGluZwo+ID4gYmE3OWYyMTAgZm9yIERN
-QV9UT19ERVZJQ0UgbWF5IGNhdXNlIHRoZSBjYWNoZWxpbmUgY292ZXJpbmcgdGhlIHJhbmdlCj4g
-PiBiYTc5ZjIwMC1iYTc5ZjIzZiB0byBiZSB3cml0dGVuIGJhY2sgb3ZlciB0aGUgdG9wIG9mIGRh
-dGEgdGhhdCB0aGUKPiA+IGRldmljZSBoYXMgYWxyZWFkeSBzdGFydGVkIHRvIHdyaXRlIHRvIG1l
-bW9yeS4gSGVsbG8gZGF0YSBjb3JydXB0aW9uLgo+ID4KPiA+IFNlcGFyYXRlIERNQSBtYXBwaW5n
-cyBzaG91bGQgYmUgZnJvbSBzZXBhcmF0ZSBtZW1vcnkgYWxsb2NhdGlvbnMsCj4gPiByZXNwZWN0
-aW5nIEFSQ0hfRE1BX01JTkFMSUdOLgo+ID4KPgo+IEkganVzdCBzYXcgc29tZXRoaW5nIHN0cmFu
-Z2UsIG9ubHkgb25lIFNHIGlzIGludm9sdmVkLCBhbmQgSSBkb250IHNlZSBhbnkgRE1BX1RPX0RF
-VklDRSBmb3IgYmE3OWYyMTAuCj4gSSBzZWUgMiBETUFfRlJPTV9ERVZJQ0UgKGJhNzlmMjAwIGFu
-ZCBiYTc5ZjIxMCksIGJ1dCBvbmx5IG9uZSBzaG91bGQgYmUgZG9uZS4KPiBXaHkgMiBGUk9NIG1h
-cHBpbmdzIGFyZSBhZGRlZCB3aXRoIG9ubHkgb25lIHNnID8KPgoKVGhlIHRoaW5nIHRoYXQgZG9l
-cyB0aGUgbWVtb3J5IGFsbG9jYXRpb24gb2YgdXNlciBjYWxscyBmcm9tIGxpYmtjYXBpCnRlc3Rz
-IGlzIHRoZSBjcnlwdG8vYWZfYWxnLmMgY29kZSAuLi4KCkkgYXNzdW1lIHRoZSBzZ2xpc3QgaGFz
-IHR3byBidWZmZXJzPyBjb3VsZCBpdCBiZSB0aGF0IHNvbWVob3cgdGhleSBhcmUKbm90IERNQSBh
-bGlnbmVkPyB0aGF0IHdvdWxkIGJlIHdlaXJkIGluZGVlZC4uLgoKCi0tIApHaWxhZCBCZW4tWW9z
-c2VmCkNoaWVmIENvZmZlZSBEcmlua2VyCgp2YWx1ZXMgb2YgzrIgd2lsbCBnaXZlIHJpc2UgdG8g
-ZG9tIQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21t
-dSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9s
-aXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+Le Mon, Mar 07, 2022 at 03:53:02PM +0200, Gilad Ben-Yossef a =E9crit :
+> On Mon, Mar 7, 2022 at 3:45 PM Corentin Labbe <clabbe.montjoie@gmail.com>=
+ wrote:
+> >
+> > Le Mon, Mar 07, 2022 at 11:14:16AM +0000, Robin Murphy a =E9crit :
+> > > On 2022-03-07 10:48, Corentin Labbe wrote:
+> > > > Le Mon, Mar 07, 2022 at 09:59:29AM +0200, Gilad Ben-Yossef a =EF=BF=
+=BDcrit :
+> > > >> On Sun, Mar 6, 2022 at 11:49 PM Herbert Xu <herbert@gondor.apana.o=
+rg.au> wrote:
+> > > >>>
+> > > >>> On Fri, Mar 04, 2022 at 02:30:06PM +0100, Corentin Labbe wrote:
+> > > >>>>
+> > > >>>> Hello
+> > > >>>>
+> > > >>>> I got:
+> > > >>>> [   17.563793] ------------[ cut here ]------------
+> > > >>>> [   17.568492] DMA-API: ccree e6601000.crypto: device driver fre=
+es DMA memory with different direction [device address=3D0x0000000078fe5800=
+] [size=3D8 bytes] [mapped with DMA_TO_DEVICE] [unmapped with DMA_BIDIRECTI=
+ONAL]
+> > > >>>
+> > > >>> The direction argument during unmap must match whatever direction
+> > > >>> you used during the original map call.
+> > > >>
+> > > >>
+> > > >> Yes, of course. I changed one but forgot the other.
+> > > >>
+> > > >> Corentin, could you be kind and check that this solves the original
+> > > >> problem and does not produce new warnings?
+> > > >>
+> > > >> diff --git a/drivers/crypto/ccree/cc_buffer_mgr.c
+> > > >> b/drivers/crypto/ccree/cc_buffer_mgr.c
+> > > >> index 11e0278c8631..31cfe014922e 100644
+> > > >> --- a/drivers/crypto/ccree/cc_buffer_mgr.c
+> > > >> +++ b/drivers/crypto/ccree/cc_buffer_mgr.c
+> > > >> @@ -356,12 +356,14 @@ void cc_unmap_cipher_request(struct device *=
+dev,
+> > > >> void *ctx,
+> > > >>                                req_ctx->mlli_params.mlli_dma_addr);
+> > > >>          }
+> > > >>
+> > > >> -       dma_unmap_sg(dev, src, req_ctx->in_nents, DMA_BIDIRECTIONA=
+L);
+> > > >> -       dev_dbg(dev, "Unmapped req->src=3D%pK\n", sg_virt(src));
+> > > >> -
+> > > >>          if (src !=3D dst) {
+> > > >> -               dma_unmap_sg(dev, dst, req_ctx->out_nents, DMA_BID=
+IRECTIONAL);
+> > > >> +               dma_unmap_sg(dev, src, req_ctx->in_nents, DMA_TO_D=
+EVICE);
+> > > >> +               dma_unmap_sg(dev, dst, req_ctx->out_nents, DMA_FRO=
+M_DEVICE);
+> > > >>                  dev_dbg(dev, "Unmapped req->dst=3D%pK\n", sg_virt=
+(dst));
+> > > >> +               dev_dbg(dev, "Unmapped req->src=3D%pK\n", sg_virt(=
+src));
+> > > >> +       } else {
+> > > >> +               dma_unmap_sg(dev, src, req_ctx->in_nents, DMA_BIDI=
+RECTIONAL);
+> > > >> +               dev_dbg(dev, "Unmapped req->src=3D%pK\n", sg_virt(=
+src));
+> > > >>          }
+> > > >>   }
+> > > >>
+> > > >> @@ -377,6 +379,7 @@ int cc_map_cipher_request(struct cc_drvdata
+> > > >> *drvdata, void *ctx,
+> > > >>          u32 dummy =3D 0;
+> > > >>          int rc =3D 0;
+> > > >>          u32 mapped_nents =3D 0;
+> > > >> +       int src_direction =3D (src !=3D dst ? DMA_TO_DEVICE : DMA_=
+BIDIRECTIONAL);
+> > > >>
+> > > >>          req_ctx->dma_buf_type =3D CC_DMA_BUF_DLLI;
+> > > >>          mlli_params->curr_pool =3D NULL;
+> > > >> @@ -399,7 +402,7 @@ int cc_map_cipher_request(struct cc_drvdata
+> > > >> *drvdata, void *ctx,
+> > > >>          }
+> > > >>
+> > > >>          /* Map the src SGL */
+> > > >> -       rc =3D cc_map_sg(dev, src, nbytes, DMA_BIDIRECTIONAL, &req=
+_ctx->in_nents,
+> > > >> +       rc =3D cc_map_sg(dev, src, nbytes, src_direction, &req_ctx=
+->in_nents,
+> > > >>                         LLI_MAX_NUM_OF_DATA_ENTRIES, &dummy, &mapp=
+ed_nents);
+> > > >>          if (rc)
+> > > >>                  goto cipher_exit;
+> > > >> @@ -416,7 +419,7 @@ int cc_map_cipher_request(struct cc_drvdata
+> > > >> *drvdata, void *ctx,
+> > > >>                  }
+> > > >>          } else {
+> > > >>                  /* Map the dst sg */
+> > > >> -               rc =3D cc_map_sg(dev, dst, nbytes, DMA_BIDIRECTION=
+AL,
+> > > >> +               rc =3D cc_map_sg(dev, dst, nbytes, DMA_FROM_DEVICE,
+> > > >>                                 &req_ctx->out_nents, LLI_MAX_NUM_O=
+F_DATA_ENTRIES,
+> > > >>                                 &dummy, &mapped_nents);
+> > > >>                  if (rc)
+> > > >>
+> > > >>
+> > > >
+> > > > Hello
+> > > >
+> > > > I still get the warning:
+> > > > [  433.406230] ------------[ cut here ]------------
+> > > > [  433.406326] DMA-API: ccree e6601000.crypto: cacheline tracking E=
+EXIST, overlapping mappings aren't supported
+> > > > [  433.406386] WARNING: CPU: 7 PID: 31074 at /home/clabbe/linux-nex=
+t/kernel/dma/debug.c:571 add_dma_entry+0x1d0/0x288
+> > > > [  433.406434] Modules linked in:
+> > > > [  433.406458] CPU: 7 PID: 31074 Comm: kcapi Not tainted 5.17.0-rc6=
+-next-20220303-00130-g30042e47ee47-dirty #54
+> > > > [  433.406473] Hardware name: Renesas Salvator-X board based on r8a=
+77950 (DT)
+> > > > [  433.406484] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSB=
+S BTYPE=3D--)
+> > > > [  433.406498] pc : add_dma_entry+0x1d0/0x288
+> > > > [  433.406510] lr : add_dma_entry+0x1d0/0x288
+> > > > [  433.406522] sp : ffff800015da3690
+> > > > [  433.406531] x29: ffff800015da3690 x28: 0000000000000000 x27: 000=
+0000000000000
+> > > > [  433.406562] x26: 0000000000000000 x25: ffff80000b4c7bc0 x24: fff=
+f80000b4c7000
+> > > > [  433.406593] x23: 0000000000000000 x22: 00000000ffffffef x21: fff=
+f80000a9b6000
+> > > > [  433.406623] x20: ffff0004c0af5c00 x19: ffff80000b420000 x18: fff=
+fffffffffffff
+> > > > [  433.406653] x17: 6c7265766f202c54 x16: 534958454520676e x15: 000=
+000000000022e
+> > > > [  433.406683] x14: ffff800015da3380 x13: 00000000ffffffea x12: fff=
+f80000b4be010
+> > > > [  433.406713] x11: 0000000000000001 x10: 0000000000000001 x9 : fff=
+f80000b4a6028
+> > > > [  433.406743] x8 : c0000000ffffefff x7 : 0000000000017fe8 x6 : fff=
+f80000b4a5fd0
+> > > > [  433.406773] x5 : ffff0006ff795c48 x4 : 0000000000000000 x3 : 000=
+0000000000027
+> > > > [  433.406802] x2 : 0000000000000023 x1 : 8ca4e4fbf4b87900 x0 : 000=
+0000000000000
+> > > > [  433.406833] Call trace:
+> > > > [  433.406841]  add_dma_entry+0x1d0/0x288
+> > > > [  433.406854]  debug_dma_map_sg+0x150/0x398
+> > > > [  433.406869]  __dma_map_sg_attrs+0x9c/0x108
+> > > > [  433.406889]  dma_map_sg_attrs+0x10/0x28
+> > > > [  433.406904]  cc_map_sg+0x80/0x100
+> > > > [  433.406924]  cc_map_cipher_request+0x178/0x3c8
+> > > > [  433.406939]  cc_cipher_process+0x210/0xb58
+> > > > [  433.406953]  cc_cipher_encrypt+0x2c/0x38
+> > > > [  433.406967]  crypto_skcipher_encrypt+0x44/0x78
+> > > > [  433.406986]  skcipher_recvmsg+0x36c/0x420
+> > > > [  433.407003]  ____sys_recvmsg+0x90/0x280
+> > > > [  433.407024]  ___sys_recvmsg+0x88/0xd0
+> > > > [  433.407038]  __sys_recvmsg+0x6c/0xd0
+> > > > [  433.407049]  __arm64_sys_recvmsg+0x24/0x30
+> > > > [  433.407061]  invoke_syscall+0x44/0x100
+> > > > [  433.407082]  el0_svc_common.constprop.3+0x90/0x120
+> > > > [  433.407096]  do_el0_svc+0x24/0x88
+> > > > [  433.407110]  el0_svc+0x4c/0x100
+> > > > [  433.407131]  el0t_64_sync_handler+0x90/0xb8
+> > > > [  433.407145]  el0t_64_sync+0x170/0x174
+> > > > [  433.407160] irq event stamp: 5624
+> > > > [  433.407168] hardirqs last  enabled at (5623): [<ffff80000812f6a8=
+>] __up_console_sem+0x60/0x98
+> > > > [  433.407191] hardirqs last disabled at (5624): [<ffff800009c9a060=
+>] el1_dbg+0x28/0x90
+> > > > [  433.407208] softirqs last  enabled at (5570): [<ffff8000097e62f8=
+>] lock_sock_nested+0x80/0xa0
+> > > > [  433.407226] softirqs last disabled at (5568): [<ffff8000097e62d8=
+>] lock_sock_nested+0x60/0xa0
+> > > > [  433.407241] ---[ end trace 0000000000000000 ]---
+> > > > [  433.407381] DMA-API: Mapped at:
+> > > > [  433.407396]  debug_dma_map_sg+0x16c/0x398
+> > > > [  433.407416]  __dma_map_sg_attrs+0x9c/0x108
+> > > > [  433.407436]  dma_map_sg_attrs+0x10/0x28
+> > > > [  433.407455]  cc_map_sg+0x80/0x100
+> > > > [  433.407475]  cc_map_cipher_request+0x178/0x3c8
+> > > >
+> > > >
+> > > > BUT I start to thing this is a bug in DMA-API debug.
+> > > >
+> > > >
+> > > > My sun8i-ss driver hit the same warning:
+> > > > [  142.458351] WARNING: CPU: 1 PID: 90 at kernel/dma/debug.c:597 ad=
+d_dma_entry+0x2ec/0x4cc
+> > > > [  142.458429] DMA-API: sun8i-ss 1c15000.crypto: cacheline tracking=
+ EEXIST, overlapping mappings aren't supported
+> > > > [  142.458455] Modules linked in: ccm algif_aead xts cmac
+> > > > [  142.458563] CPU: 1 PID: 90 Comm: 1c15000.crypto- Not tainted 5.1=
+7.0-rc6-next-20220307-00132-g39dad568d20a-dirty #223
+> > > > [  142.458581] Hardware name: Allwinner A83t board
+> > > > [  142.458596]  unwind_backtrace from show_stack+0x10/0x14
+> > > > [  142.458627]  show_stack from 0xf0abdd1c
+> > > > [  142.458646] irq event stamp: 31747
+> > > > [  142.458660] hardirqs last  enabled at (31753): [<c019316c>] __up=
+_console_sem+0x50/0x60
+> > > > [  142.458688] hardirqs last disabled at (31758): [<c0193158>] __up=
+_console_sem+0x3c/0x60
+> > > > [  142.458710] softirqs last  enabled at (31600): [<c06990c8>] sun8=
+i_ss_handle_cipher_request+0x300/0x8b8
+> > > > [  142.458738] softirqs last disabled at (31580): [<c06990c8>] sun8=
+i_ss_handle_cipher_request+0x300/0x8b8
+> > > > [  142.458758] ---[ end trace 0000000000000000 ]---
+> > > > [  142.458771] DMA-API: Mapped at:
+> > > >
+> > > > Yes the mapped at is empty just after.
+> > > >
+> > > > And the sequence of DMA operations in my driver is simple, so I can=
+not see how any overlap could occur.
+> > >
+> > > The "overlap" is in the sense of having more than one mapping within =
+the
+> > > same cacheline:
+> > >
+> > > [  142.458120] DMA-API: add_dma_entry start P=3Dba79f200 N=3Dba79f
+> > > D=3Dba79f200 L=3D10 DMA_FROM_DEVICE attrs=3D0
+> > > [  142.458156] DMA-API: add_dma_entry start P=3D445dc010 N=3D445dc
+> > > D=3D445dc010 L=3D10 DMA_TO_DEVICE attrs=3D0
+> > > [  142.458178] sun8i-ss 1c15000.crypto: SRC 0/1/1 445dc000 len=3D16 b=
+i=3D0
+> > > [  142.458215] sun8i-ss 1c15000.crypto: DST 0/1/1 ba79f200 len=3D16 b=
+i=3D0
+> > > [  142.458234] DMA-API: add_dma_entry start P=3Dba79f210 N=3Dba79f
+> > > D=3Dba79f210 L=3D10 DMA_FROM_DEVICE attrs=3D0
+> > >
+> > > This actually illustrates exactly the reason why this is unsupportabl=
+e.
+> > > ba79f200 is mapped for DMA_FROM_DEVICE, therefore subsequently mapping
+> > > ba79f210 for DMA_TO_DEVICE may cause the cacheline covering the range
+> > > ba79f200-ba79f23f to be written back over the top of data that the
+> > > device has already started to write to memory. Hello data corruption.
+> > >
+> > > Separate DMA mappings should be from separate memory allocations,
+> > > respecting ARCH_DMA_MINALIGN.
+> > >
+> >
+> > I just saw something strange, only one SG is involved, and I dont see a=
+ny DMA_TO_DEVICE for ba79f210.
+> > I see 2 DMA_FROM_DEVICE (ba79f200 and ba79f210), but only one should be=
+ done.
+> > Why 2 FROM mappings are added with only one sg ?
+> >
+> =
+
+> The thing that does the memory allocation of user calls from libkcapi
+> tests is the crypto/af_alg.c code ...
+> =
+
+> I assume the sglist has two buffers? could it be that somehow they are
+> not DMA aligned? that would be weird indeed...
+> =
+
+
+The SGlist has only one SG, so only one buffer, it is why I dont understand=
+ the double call to add_dma_entry().
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
