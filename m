@@ -1,73 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783AF4D010C
-	for <lists.iommu@lfdr.de>; Mon,  7 Mar 2022 15:22:10 +0100 (CET)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBD74CFF75
+	for <lists.iommu@lfdr.de>; Mon,  7 Mar 2022 14:03:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C98794062A;
-	Mon,  7 Mar 2022 14:22:03 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 055E540470;
+	Mon,  7 Mar 2022 13:03:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v4_OKoQWwdae; Mon,  7 Mar 2022 14:22:01 +0000 (UTC)
+	with ESMTP id 8Zri1kGQ-WER; Mon,  7 Mar 2022 13:03:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 146BC4061F;
-	Mon,  7 Mar 2022 14:22:01 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id AC48B405E6;
+	Mon,  7 Mar 2022 13:03:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1F2DC0073;
-	Mon,  7 Mar 2022 14:21:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C99EC0073;
+	Mon,  7 Mar 2022 13:03:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DAF0CC000B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 12:47:36 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AB6B1C000B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:03:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B76CE410C8
- for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 12:47:36 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8E53E80C46
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:03:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=benyossef-com.20210112.gappssmtp.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u-PnE4ZNxmo1 for <iommu@lists.linux-foundation.org>;
- Mon,  7 Mar 2022 12:47:35 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 44A55408F2
- for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 12:47:35 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id u3so30660113ybh.5
- for <iommu@lists.linux-foundation.org>; Mon, 07 Mar 2022 04:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=benyossef-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eFuv1CZ1FCJvRh23WLfkSzv/heaOZIC7c/13FaNc3Wo=;
- b=2TAsd6PKCXUlgIYEC6sOsRFGGOkyw4qtPi3sHqqzwqVeNt8xoIqr4ya+hu98UH+oZp
- 9nStNtbMrEplhF7ylmE7V8+iGZ0D/g8UktjAXaXEK5Ef7u7l0BW6wUluEX6bcH44IB5a
- QSA8dd5KHnfphZ2xnrUU3qmNHWJDYfdUagRgyUc7WT+Y9+Dl7r6hG+jh5cWBlKcg6VOi
- 3zv9gy5eEFkjVnHXKBudMe8eA6JKj7hcc86GrBfVsOIT3NBM94YOoYPRTeLflTLhOIA/
- XAerpQxZdma6VuD/ALzQzgvqOzgEDApXsGzBsxOOXG345TY7QqTC4kNJMdYK69quy70W
- kYCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eFuv1CZ1FCJvRh23WLfkSzv/heaOZIC7c/13FaNc3Wo=;
- b=NOT3+0gcWzJlQRNNsjDTutxklSQiLWTIgYYp4ykSru+Yiue04wz1X3ub95sCk9Jadz
- UCeN+vCCKSTCGQBjT3PuQ3OoipDkkgPFOxUQ55DuqWaAA9LjYj/kVpNJrN3xhpwR/QIw
- LwkWyc2iGDqbElx3tyDl6fptvEmnhhpxnO/tp8TcrNiKmH6PfMUaAjcZ6LH1kK1+wd4S
- Byfnzs4XhPuilJ0jmn/wHiYv5B3QoQdjUUos5YA+5rym01/G4/KYHE80U4t5qbnlp3yO
- 4bQY8BhN+sBn38xYpOq939F8VDGvstSnsbwFEL7cy1T5dAl6rYtdO3390C8Boq0EFahk
- JnPg==
-X-Gm-Message-State: AOAM532OLoYwktwfIW11bK4ZXL+wafqZ7ahKIn5IJ+oDrdWUsrakfKeT
- JkvZGN0TBThg68Jur7CuPjYBoZCmJtgYPDOgNIQ60g==
-X-Google-Smtp-Source: ABdhPJy7A9l6pgeT9iD8kwzothv8rOOmhOR5TCpERcX/K56cv0Decwr3OQIeVGeijmRGnFQO/VzxBFXZqGXRiun68q0=
-X-Received: by 2002:a25:5509:0:b0:622:1c12:4230 with SMTP id
- j9-20020a255509000000b006221c124230mr7750645ybb.416.1646657253810; Mon, 07
- Mar 2022 04:47:33 -0800 (PST)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 596pHg-uR8fX for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Mar 2022 13:03:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp1.osuosl.org (Postfix) with ESMTP id C0D8C80C39
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Mar 2022 13:03:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02A4BD6E;
+ Mon,  7 Mar 2022 05:03:37 -0800 (PST)
+Received: from [10.57.39.47] (unknown [10.57.39.47])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 195CE3F66F;
+ Mon,  7 Mar 2022 05:03:34 -0800 (PST)
+Message-ID: <371ef3f2-883d-91ab-ed96-da8921efb465@arm.com>
+Date: Mon, 7 Mar 2022 13:03:28 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [BUG] crypto: ccree: driver does not handle case where cryptlen =
+ authsize =0
+Content-Language: en-GB
+To: Gilad Ben-Yossef <gilad@benyossef.com>
 References: <CAOtvUMeoYcVm7OQdqXd1V5iPSXW_BkVxx6TA6nF7zTLVeHe0Ww@mail.gmail.com>
  <CAOtvUMfy1fF35B2sfbOMui8n9Q4iCke9rgn5TiYMUMjd8gqHsA@mail.gmail.com>
  <YhKV55t90HWm6bhv@Red>
@@ -80,14 +61,9 @@ References: <CAOtvUMeoYcVm7OQdqXd1V5iPSXW_BkVxx6TA6nF7zTLVeHe0Ww@mail.gmail.com>
  <YiXjCcXXk0f18FDL@Red> <aca4117c-b7a5-f7eb-eb03-4e1f1a93a730@arm.com>
  <CAOtvUMePFR4e2jgHZKOvs3J3Xt4NzRbzD_=vr_49Qgs5HTrvHw@mail.gmail.com>
  <6cf91f43-df23-3ac9-e9b5-958d99d37422@arm.com>
-In-Reply-To: <6cf91f43-df23-3ac9-e9b5-958d99d37422@arm.com>
-From: Gilad Ben-Yossef <gilad@benyossef.com>
-Date: Mon, 7 Mar 2022 14:47:23 +0200
-Message-ID: <CAOtvUMedqSNKx9Aah0R_aAyjKO0pn4K75MrCnbh_zX+Zw9vRQA@mail.gmail.com>
-Subject: Re: [BUG] crypto: ccree: driver does not handle case where cryptlen =
- authsize =0
-To: Robin Murphy <robin.murphy@arm.com>
-X-Mailman-Approved-At: Mon, 07 Mar 2022 14:21:57 +0000
+ <CAOtvUMedqSNKx9Aah0R_aAyjKO0pn4K75MrCnbh_zX+Zw9vRQA@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CAOtvUMedqSNKx9Aah0R_aAyjKO0pn4K75MrCnbh_zX+Zw9vRQA@mail.gmail.com>
 Cc: Herbert Xu <herbert@gondor.apana.org.au>,
  Linux kernel mailing list <linux-kernel@vger.kernel.org>,
  iommu@lists.linux-foundation.org, Corentin Labbe <clabbe.montjoie@gmail.com>,
@@ -105,54 +81,70 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gTW9uLCBNYXIgNywgMjAyMiBhdCAyOjM2IFBNIFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5
-QGFybS5jb20+IHdyb3RlOgo+Cj4gT24gMjAyMi0wMy0wNyAxMjoxNywgR2lsYWQgQmVuLVlvc3Nl
-ZiB3cm90ZToKPiA+IE9uIE1vbiwgTWFyIDcsIDIwMjIgYXQgMToxNCBQTSBSb2JpbiBNdXJwaHkg
-PHJvYmluLm11cnBoeUBhcm0uY29tPiB3cm90ZToKPiA+Cj4gPj4gVGhlICJvdmVybGFwIiBpcyBp
-biB0aGUgc2Vuc2Ugb2YgaGF2aW5nIG1vcmUgdGhhbiBvbmUgbWFwcGluZyB3aXRoaW4gdGhlCj4g
-Pj4gc2FtZSBjYWNoZWxpbmU6Cj4gPj4KPiA+PiBbICAxNDIuNDU4MTIwXSBETUEtQVBJOiBhZGRf
-ZG1hX2VudHJ5IHN0YXJ0IFA9YmE3OWYyMDAgTj1iYTc5Zgo+ID4+IEQ9YmE3OWYyMDAgTD0xMCBE
-TUFfRlJPTV9ERVZJQ0UgYXR0cnM9MAo+ID4+IFsgIDE0Mi40NTgxNTZdIERNQS1BUEk6IGFkZF9k
-bWFfZW50cnkgc3RhcnQgUD00NDVkYzAxMCBOPTQ0NWRjCj4gPj4gRD00NDVkYzAxMCBMPTEwIERN
-QV9UT19ERVZJQ0UgYXR0cnM9MAo+ID4+IFsgIDE0Mi40NTgxNzhdIHN1bjhpLXNzIDFjMTUwMDAu
-Y3J5cHRvOiBTUkMgMC8xLzEgNDQ1ZGMwMDAgbGVuPTE2IGJpPTAKPiA+PiBbICAxNDIuNDU4MjE1
-XSBzdW44aS1zcyAxYzE1MDAwLmNyeXB0bzogRFNUIDAvMS8xIGJhNzlmMjAwIGxlbj0xNiBiaT0w
-Cj4gPj4gWyAgMTQyLjQ1ODIzNF0gRE1BLUFQSTogYWRkX2RtYV9lbnRyeSBzdGFydCBQPWJhNzlm
-MjEwIE49YmE3OWYKPiA+PiBEPWJhNzlmMjEwIEw9MTAgRE1BX0ZST01fREVWSUNFIGF0dHJzPTAK
-PiA+Pgo+ID4+IFRoaXMgYWN0dWFsbHkgaWxsdXN0cmF0ZXMgZXhhY3RseSB0aGUgcmVhc29uIHdo
-eSB0aGlzIGlzIHVuc3VwcG9ydGFibGUuCj4gPj4gYmE3OWYyMDAgaXMgbWFwcGVkIGZvciBETUFf
-RlJPTV9ERVZJQ0UsIHRoZXJlZm9yZSBzdWJzZXF1ZW50bHkgbWFwcGluZwo+ID4+IGJhNzlmMjEw
-IGZvciBETUFfVE9fREVWSUNFIG1heSBjYXVzZSB0aGUgY2FjaGVsaW5lIGNvdmVyaW5nIHRoZSBy
-YW5nZQo+ID4+IGJhNzlmMjAwLWJhNzlmMjNmIHRvIGJlIHdyaXR0ZW4gYmFjayBvdmVyIHRoZSB0
-b3Agb2YgZGF0YSB0aGF0IHRoZQo+ID4+IGRldmljZSBoYXMgYWxyZWFkeSBzdGFydGVkIHRvIHdy
-aXRlIHRvIG1lbW9yeS4gSGVsbG8gZGF0YSBjb3JydXB0aW9uLgo+ID4+Cj4gPj4gU2VwYXJhdGUg
-RE1BIG1hcHBpbmdzIHNob3VsZCBiZSBmcm9tIHNlcGFyYXRlIG1lbW9yeSBhbGxvY2F0aW9ucywK
-PiA+PiByZXNwZWN0aW5nIEFSQ0hfRE1BX01JTkFMSUdOLgo+ID4KPiA+IGhtbS4uLiBJIGtub3cg
-SSdtIG1pc3Npbmcgc29tZXRoaW5nIGhlcmUsIGJ1dCBob3cgZG9lcyB0aGlzIGFsaWduIHdpdGgK
-PiA+IHRoZSBmb2xsb3dpbmcgZnJvbSBhY3RpdmVfY2FjaGVsaW5lX2luc2VydCgpIGluIGtlcm5l
-bC9kbWEvZGVidWcuYyA/Cj4gPgo+ID4gICAgICAgICAgLyogSWYgdGhlIGRldmljZSBpcyBub3Qg
-d3JpdGluZyBtZW1vcnkgdGhlbiB3ZSBkb24ndCBoYXZlIGFueQo+ID4gICAgICAgICAgICogY29u
-Y2VybnMgYWJvdXQgdGhlIGNwdSBjb25zdW1pbmcgc3RhbGUgZGF0YS4gIFRoaXMgbWl0aWdhdGVz
-Cj4gPiAgICAgICAgICAgKiBsZWdpdGltYXRlIHVzYWdlcyBvZiBvdmVybGFwcGluZyBtYXBwaW5n
-cy4KPiA+ICAgICAgICAgICAqLwo+ID4gICAgICAgICAgaWYgKGVudHJ5LT5kaXJlY3Rpb24gPT0g
-RE1BX1RPX0RFVklDRSkKPiA+ICAgICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4KPiBJdCdzIE9L
-IHRvIGhhdmUgbXVsdGlwbGUgbWFwcGluZ3MgdGhhdCBhcmUgKmFsbCogRE1BX1RPX0RFVklDRSwg
-d2hpY2gKPiBsb29rcyB0byBiZSB0aGUgY2FzZSB0aGF0IHRoaXMgY2hlY2sgd2FzIGludGVuZGVk
-IHRvIGFsbG93LiBIb3dldmVyIEkKPiB0aGluayB5b3UncmUgcmlnaHQgdGhhdCBpdCBzaG91bGQg
-c3RpbGwgYWN0dWFsbHkgY2hlY2sgZm9yIGNvbmZsaWN0aW5nCj4gZGlyZWN0aW9ucyBiZXR3ZWVu
-IHRoZSBuZXcgZW50cnkgYW5kIGFueSBleGlzdGluZyBvbmVzLCBvdGhlcndpc2UgaXQKPiBlbmRz
-IHVwIGEgYml0IHRvbyBsZW5pZW50Lgo+Cj4gQ2hlZXJzLAo+IFJvYmluLgoKSSB1bmRlcnN0YW5k
-IHdoYXQgeW91IGFyZSBzYXlpbmcgYWJvdXQgd2h5IGNoZWNraW5nIGZvciBjb25mbGljdGluZwpk
-aXJlY3Rpb25zIG1heSBiZSBhIGdvb2QgdGhpbmcsIGJ1dCBnaXZlbiB0aGF0IHRoZSBjb2RlIGlz
-IGFzIGl0IGlzCnJpZ2h0IG5vdywgaG93IGFyZSB3ZSBzZWVpbmcgdGhlIHdhcm5pbmcgZm9yIHR3
-byBtYXBwaW5nIHRoYXQgb25lIG9mCnRoZW0gaXMgRE1BX1RPX0RFVklDRT8KCkdpbGFkCgoKLS0g
-CkdpbGFkIEJlbi1Zb3NzZWYKQ2hpZWYgQ29mZmVlIERyaW5rZXIKCnZhbHVlcyBvZiDOsiB3aWxs
-IGdpdmUgcmlzZSB0byBkb20hCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
-Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
-b21tdQ==
+On 2022-03-07 12:47, Gilad Ben-Yossef wrote:
+> On Mon, Mar 7, 2022 at 2:36 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>>
+>> On 2022-03-07 12:17, Gilad Ben-Yossef wrote:
+>>> On Mon, Mar 7, 2022 at 1:14 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>>>
+>>>> The "overlap" is in the sense of having more than one mapping within the
+>>>> same cacheline:
+>>>>
+>>>> [  142.458120] DMA-API: add_dma_entry start P=ba79f200 N=ba79f
+>>>> D=ba79f200 L=10 DMA_FROM_DEVICE attrs=0
+>>>> [  142.458156] DMA-API: add_dma_entry start P=445dc010 N=445dc
+>>>> D=445dc010 L=10 DMA_TO_DEVICE attrs=0
+>>>> [  142.458178] sun8i-ss 1c15000.crypto: SRC 0/1/1 445dc000 len=16 bi=0
+>>>> [  142.458215] sun8i-ss 1c15000.crypto: DST 0/1/1 ba79f200 len=16 bi=0
+>>>> [  142.458234] DMA-API: add_dma_entry start P=ba79f210 N=ba79f
+>>>> D=ba79f210 L=10 DMA_FROM_DEVICE attrs=0
+>>>>
+>>>> This actually illustrates exactly the reason why this is unsupportable.
+>>>> ba79f200 is mapped for DMA_FROM_DEVICE, therefore subsequently mapping
+>>>> ba79f210 for DMA_TO_DEVICE may cause the cacheline covering the range
+>>>> ba79f200-ba79f23f to be written back over the top of data that the
+>>>> device has already started to write to memory. Hello data corruption.
+>>>>
+>>>> Separate DMA mappings should be from separate memory allocations,
+>>>> respecting ARCH_DMA_MINALIGN.
+>>>
+>>> hmm... I know I'm missing something here, but how does this align with
+>>> the following from active_cacheline_insert() in kernel/dma/debug.c ?
+>>>
+>>>           /* If the device is not writing memory then we don't have any
+>>>            * concerns about the cpu consuming stale data.  This mitigates
+>>>            * legitimate usages of overlapping mappings.
+>>>            */
+>>>           if (entry->direction == DMA_TO_DEVICE)
+>>>                   return 0;
+>>
+>> It's OK to have multiple mappings that are *all* DMA_TO_DEVICE, which
+>> looks to be the case that this check was intended to allow. However I
+>> think you're right that it should still actually check for conflicting
+>> directions between the new entry and any existing ones, otherwise it
+>> ends up a bit too lenient.
+>>
+>> Cheers,
+>> Robin.
+> 
+> I understand what you are saying about why checking for conflicting
+> directions may be a good thing, but given that the code is as it is
+> right now, how are we seeing the warning for two mapping that one of
+> them is DMA_TO_DEVICE?
+
+Because it's the second one that isn't. The warning is triggered by 
+adding the DMA_FROM_DEVICE entry, which *is* checked, and finds the 
+DMA_TO_DEVICE entry already present. What's not great is that if those 
+two mappings happened to be made in the opposite order then it would be 
+missed entirely.
+
+Robin.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
