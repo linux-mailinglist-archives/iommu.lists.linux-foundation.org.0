@@ -1,68 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF9F4D5ECA
-	for <lists.iommu@lfdr.de>; Fri, 11 Mar 2022 10:51:28 +0100 (CET)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 462504D5ED0
+	for <lists.iommu@lfdr.de>; Fri, 11 Mar 2022 10:52:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F073640590;
-	Fri, 11 Mar 2022 09:51:26 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id EAF4C611E7;
+	Fri, 11 Mar 2022 09:51:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hu06Go1d5_p2; Fri, 11 Mar 2022 09:51:25 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MWgpMXrQg7wn; Fri, 11 Mar 2022 09:51:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8A7BC405A6;
-	Fri, 11 Mar 2022 09:51:25 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B66A3611D9;
+	Fri, 11 Mar 2022 09:51:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D74BC000B;
-	Fri, 11 Mar 2022 09:51:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D6EADC0087;
+	Fri, 11 Mar 2022 09:51:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 47624C000B
- for <iommu@lists.linux-foundation.org>; Fri, 11 Mar 2022 09:51:24 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8E690C000B
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Mar 2022 09:51:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3411B611CD
- for <iommu@lists.linux-foundation.org>; Fri, 11 Mar 2022 09:51:24 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7E065401C1
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Mar 2022 09:51:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=amd.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OJKpAnB4pqxb for <iommu@lists.linux-foundation.org>;
- Fri, 11 Mar 2022 09:51:23 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id izfIub_9olYK for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Mar 2022 09:51:54 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2061a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5b::61a])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 023B9611C6
- for <iommu@lists.linux-foundation.org>; Fri, 11 Mar 2022 09:51:22 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2060d.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8b::60d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5A2A941868
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Mar 2022 09:51:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gKhcdnJrv7FEbvJ93vHfyjHP2ln7OtMDkGpry4tpUGczewbuWILf+rfqJqJdP0KfU1TpZ4yzfELwIs3raMxZ8RQmvQTE4IoNbvl269BjTgdkqjzo380lhK0akMGv8gyfB8tOTKatB9Br2lp4awjWFIrGfIah8nzOMRD8xnhvj6Fxk9zcKUByrjkyp6ii7NeuSI1OnPicDN4xZlilvFmAylGNs45adlBz2H+2/eAc7Z4g2zNEjtnp0XZlyIx+P/FJNtU/J6xZR8w8kng7c5BzkTWov/2GT7+K109FnsMeTaA/C2+NtQAC0HPbjzA8I7F3eH3/iyKEj+lY7CrqW64x8g==
+ b=LdHXlgGEnf5ntHy/Yq6nuCYzpGxQMgm5+OVjf8QEHDGy261//DHQ1yoZti8w4D6B6OUdp3Q03X94qQ7/4SR/u+v8sdx/9iqP9ax8HOn9d+0GjYT2pmvfttrEA9o2HqYQRrw4hcpSmtF7fy+ON0aUUj5S943vgRJNQUa9UfFYnVLDEs+yiZUcx3fwxjoNzUVeKzahawIcvrXad+SuYw4ZGsOaJxv+crqI2vSKPjH6hbWZXbVZH21Ft7oCc47F5sj+SrY/33muzUln+/YAFEM0fu9mYvjE/hDzNQFTTNUNoGj8UOnDToq8G+8bpT7NCWaJoieDiJQ4C167HiZ6mMOW5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7rG89MrNJn2HgqhwfMpAzxcehzR0K0nP+MKmP0Ps9q4=;
- b=GixW39HigkAi346Eos7C6+La8wuWxEiP9Eg6oSOzWu/eF6XYhz8fo9bIxZLSmhvc88eFS6j/MFIBTV3q89dLoQ6CAMVbuFxtzwZ2SB9zQW9i0O40FDtPTNRuQhN/16xhwAYbMpk6myv/lVb9j0CG8gvMWPWLN+mHWjm7p8egVqlS4p78j6p1oEMgIwt8rQ2E8VvHZ0aqLIPL5shT6GMKTu3ineZuORRbkec6mv27XqgQrKjwSCUg1RkmiAUW04K85sAE7qbVj3KgTYn1fwmNYuFpiK04r/gyi5w3D7l6h53jjcYgr0AdcOi4SGTFWMyi+s1ATfqtT6D9+LoSJe4W3w==
+ bh=A5G4/4LgT2jyOGUSZW49b2tDjpbmNGSVBh2roFcgEK0=;
+ b=bJ2Djvv3Xg2AbJDfiOtybcjB8ZSUVWLkblJVzXU4lzH+1pFiP5KS2Ww4g8tFtwLL9QAnJ3/OjPubPgU4Kdbdp/7tapmVARd9JeUfSa1MbEj1PbuAB0MO+N/aHVmGMVVzitURrOByhD5kRcgZXBke8/UhFLeqeP0dIPUEgpH9gcMFdtLE5JbGw18jjzbqctwDmt1fOsqEwRLzP4lsNaL7Sy8xVnpb2JG3LLLy9KRWb9dwNa9/zyQyT4jcLUFX8M0wfeUQKRU4C07NNTE99LY6JT/Y5sdsdObDvkuqJJh3eyptHn/NFqskGgbDTGSLepzMO9h+b9odJqEya8VXdop0fA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.linux-foundation.org
  smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7rG89MrNJn2HgqhwfMpAzxcehzR0K0nP+MKmP0Ps9q4=;
- b=ni1tagpT1U1ZN+44P21HhoWHBhcEgKJBZ7Fjprces6JxY+L4WHsdlbh3/5bps3IwPxVOGomIkAF9AM4sIzrGBjj8b0VXUpB67qWXW5pO1DVa7hRPkYnHnIrKN+2dsiTwKjwo+UKie/4US9yW+JujsHGgE1rzV5a3jewb1XJC9kE=
-Received: from BN6PR20CA0069.namprd20.prod.outlook.com (2603:10b6:404:151::31)
- by CH0PR12MB5059.namprd12.prod.outlook.com (2603:10b6:610:e2::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 11 Mar
- 2022 09:51:19 +0000
-Received: from BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:151:cafe::82) by BN6PR20CA0069.outlook.office365.com
- (2603:10b6:404:151::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.24 via Frontend
- Transport; Fri, 11 Mar 2022 09:51:19 +0000
+ bh=A5G4/4LgT2jyOGUSZW49b2tDjpbmNGSVBh2roFcgEK0=;
+ b=bTAcOeSZ4V6YtKX8QeJ5HC4hmibN+3XkPREbrgIoQgBwgeKZE8YT9SuL9761vSqARyftak33MYAkYJjGoF2N1XSJk52aZ7ibhW7cLMMDnB/vGjJg+CyDFAp8ip24+LpKB7Eetr82QBLcKdPmfKtMR0YHST8vebgjCpTwn4wtwxg=
+Received: from BN6PR1101CA0006.namprd11.prod.outlook.com
+ (2603:10b6:405:4a::16) by BN6PR12MB1747.namprd12.prod.outlook.com
+ (2603:10b6:404:106::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21; Fri, 11 Mar
+ 2022 09:51:44 +0000
+Received: from BN8NAM11FT060.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:405:4a:cafe::a9) by BN6PR1101CA0006.outlook.office365.com
+ (2603:10b6:405:4a::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.23 via Frontend
+ Transport; Fri, 11 Mar 2022 09:51:44 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -70,17 +70,17 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT064.mail.protection.outlook.com (10.13.176.160) with Microsoft SMTP
+ BN8NAM11FT060.mail.protection.outlook.com (10.13.177.211) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5061.22 via Frontend Transport; Fri, 11 Mar 2022 09:51:18 +0000
+ 15.20.5061.22 via Frontend Transport; Fri, 11 Mar 2022 09:51:44 +0000
 Received: from kali.amdval.net (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 11 Mar
- 2022 03:51:07 -0600
+ 2022 03:51:23 -0600
 To: <iommu@lists.linux-foundation.org>, <joro@8bytes.org>
-Subject: [RFC PATCH 06/36] iommu/amd: Introduce per PCI segment old_dev_tbl_cpy
-Date: Fri, 11 Mar 2022 15:18:24 +0530
-Message-ID: <20220311094854.31595-7-vasant.hegde@amd.com>
+Subject: [RFC PATCH 07/36] iommu/amd: Introduce per PCI segment alias_table
+Date: Fri, 11 Mar 2022 15:18:25 +0530
+Message-ID: <20220311094854.31595-8-vasant.hegde@amd.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220311094854.31595-1-vasant.hegde@amd.com>
 References: <20220311094854.31595-1-vasant.hegde@amd.com>
@@ -90,27 +90,27 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9261e5f5-11f1-42e6-3fd2-08da0344b095
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5059:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR12MB5059A39C385E7A8C02F1E10B870C9@CH0PR12MB5059.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 898be4b9-5a96-43c3-39de-08da0344c01c
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1747:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR12MB174750ADBFDB8EEDF8A88E01870C9@BN6PR12MB1747.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uyhj3R/6f8pdEQR6uxZlOztU7ADKsN4eIZHow91XXotM+tHTfQ8H+ApVfqWo0+fLT6pvluyKe6K7w/z+PudbcARggdwUdV6OLD37QMjals7m3TePsdV4DZy/iv4IaUim2PKiRf1qgHP2XPwCNMNG8Z0uRnlcV3TZBKQB0wKveh0itK5gYFvo3KKSHFDx6NN+fDvJ05APccjgxoVxu1ybM6AD+bI/BKGpfIfGyO6RtCc8+8AdCaWwPAfvsKSCghu5x75uHgm2LkOk5+iEk5MGF4czRwhSSDYb4cbMs34tOZMeJL6QF4Pqm6PaSelxWQK2O4jq/VJlv2aSZpBH/bmV3SchkHX8ZcI+85XPiAzjvjuZzR3H803YKm6PEonhw1Ndz5ObSA4vfzIAFY/uCt5tZdiln1ni2jgUBqdcHDTXwOLVrS9fBRuNpDx1yYZkWDoda6XnrGlBQ6W2Kyis5kiyTpijSNuVD0w2/FahsJ6V99dB6EQr+U5Xlg22KebCViUXYsOTuhcN7DIhA4dg5cWovvee6wRNGxPAtKt9JWf/8AUdzrPcUXEG5Of830QGL76tE2Ke/hhzDrKUv0s17kQx/jux6S0ReM7mJCwSAQD7u1LII4hDssvU+tSWBHr8wUprinR0FpsO6z6EI4De16IqwMvMtf+2NPfwqOfggNebXZoPlq3byuRAEBy4a2QHCDR5yu3yj/YgZdinMJqTZ+ZgVA==
+X-Microsoft-Antispam-Message-Info: 48BYe0JVDfrDvITIPRaXR5mlDwFAfLjPsAOg1Ol3IjXubREc7A7gSdm7gYPRpuPVLsuJvnn1/67MdyycgivwPeDyG4mT8t93HMZaP3Ma0zRPWxkDEfmRyxHrTWxVx46SSvJA4GvN0AlMU8Qpw+rq3qgB3nNONRl/MAQU53O4nHxYLUl+RZoyuq2ptgBkbi+Cbp3GMu1qPvnpBZSx0TnyzNRd+Na0Nn9NHJyhQE+KBTZa7AlfCeI+bm2sGrWZZGUOBNoo7gmYMadBW9rfP3ravKBHpTylhqqI837J1wfFMIow903hZzTLYahYP+501yU9Fb7UbaQscxuCeaSbST8E+EZTeGsr7eyqh0JOhmRISLQknenxiGYcXyd9mRCWcx+WpV/2fuTTy1uyFta5PAC4dnUynxMbubFdqJ+8gJfTbqhOmSV72IUtYKKSYAmf5Q44DyAfsLR8xAopgKyHXAiIEjQJbF0dWXFoUEeLzlQxOg4oWfwZ9fNyDyqudxnML3niVb/Alq2jUWM8NXKWaZXHh/tTdIdmUAjq2WBi84zkrVKDkyPOoTEs39YS767oRrzbWXg0hflnAY9RkyDsg1xSvrMasgK99YR0/vgpBVu4KkFPnoHjYauFnEvARzIVtiN6j+7vmMb2qHCVOTcTWyZ6avWmO8XXkANGWUpWp689uJJYyoWn8NTQw8n/qXctmvx41aHQ/tWwgfqKQnDLc3afYQ==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(508600001)(47076005)(6666004)(70586007)(70206006)(82310400004)(8676002)(4326008)(86362001)(110136005)(54906003)(316002)(36860700001)(16526019)(1076003)(26005)(186003)(336012)(426003)(81166007)(356005)(40460700003)(83380400001)(2616005)(2906002)(36756003)(8936002)(5660300002)(44832011)(36900700001);
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(316002)(47076005)(26005)(8676002)(70586007)(70206006)(4326008)(36756003)(83380400001)(36860700001)(2906002)(186003)(336012)(40460700003)(16526019)(5660300002)(8936002)(44832011)(2616005)(1076003)(426003)(86362001)(356005)(508600001)(81166007)(82310400004)(110136005)(54906003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2022 09:51:18.0952 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9261e5f5-11f1-42e6-3fd2-08da0344b095
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2022 09:51:44.1300 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 898be4b9-5a96-43c3-39de-08da0344c01c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT060.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5059
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1747
 Cc: Vasant Hegde <vasant.hegde@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -133,229 +133,306 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 
-It will remove global old_dev_tbl_cpy. Also update copy_device_table()
-copy device table for all PCI segments.
+This will replace global alias table (amd_iommu_alias_table).
 
 Co-developed-by: Vasant Hegde <vasant.hegde@amd.com>
 Signed-off-by: Vasant Hegde <vasant.hegde@amd.com>
 Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 ---
- drivers/iommu/amd/amd_iommu_types.h |   6 ++
- drivers/iommu/amd/init.c            | 109 ++++++++++++++++------------
- 2 files changed, 70 insertions(+), 45 deletions(-)
+ drivers/iommu/amd/amd_iommu_types.h |  7 +++++
+ drivers/iommu/amd/init.c            | 41 ++++++++++++++++++++++-------
+ drivers/iommu/amd/iommu.c           | 41 ++++++++++++++++++-----------
+ 3 files changed, 64 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 31ae5a73604c..aca4f32d06f8 100644
+index aca4f32d06f8..0fcbf71ab35b 100644
 --- a/drivers/iommu/amd/amd_iommu_types.h
 +++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -566,6 +566,12 @@ struct amd_iommu_pci_seg {
- 	 * device id quickly.
+@@ -572,6 +572,13 @@ struct amd_iommu_pci_seg {
+ 	 * will be copied to. It's only be used in kdump kernel.
  	 */
- 	struct irq_remap_table **irq_lookup_table;
+ 	struct dev_table_entry *old_dev_tbl_cpy;
 +
 +	/*
-+	 * Pointer to a device table which the content of old device table
-+	 * will be copied to. It's only be used in kdump kernel.
++	 * The alias table is a driver specific data structure which contains the
++	 * mappings of the PCI device ids to the actual requestor ids on the IOMMU.
++	 * More than one device can share the same requestor id.
 +	 */
-+	struct dev_table_entry *old_dev_tbl_cpy;
++	u16 *alias_table;
  };
  
  /*
 diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 27785a558d9c..af413738da01 100644
+index af413738da01..fe31de6e764c 100644
 --- a/drivers/iommu/amd/init.c
 +++ b/drivers/iommu/amd/init.c
-@@ -193,11 +193,6 @@ bool amd_iommu_force_isolation __read_mostly;
-  * page table root pointer.
-  */
- struct dev_table_entry *amd_iommu_dev_table;
--/*
-- * Pointer to a device table which the content of old device table
-- * will be copied to. It's only be used in kdump kernel.
-- */
--static struct dev_table_entry *old_dev_tbl_cpy;
- 
- /*
-  * The alias table is a driver specific data structure which contains the
-@@ -990,39 +985,27 @@ static int get_dev_entry_bit(u16 devid, u8 bit)
+@@ -698,6 +698,31 @@ static inline void free_irq_lookup_table(struct amd_iommu_pci_seg *pci_seg)
+ 	pci_seg->irq_lookup_table = NULL;
  }
  
- 
--static bool copy_device_table(void)
-+static bool __copy_device_table(struct amd_iommu *iommu)
- {
--	u64 int_ctl, int_tab_len, entry = 0, last_entry = 0;
-+	u64 int_ctl, int_tab_len, entry = 0;
++static int __init alloc_alias_table(struct amd_iommu_pci_seg *pci_seg)
++{
++	int i;
++
++	pci_seg->alias_table = (void *)__get_free_pages(GFP_KERNEL,
++						    get_order(alias_table_size));
++	if (!pci_seg->alias_table)
++		return -ENOMEM;
++
++	/*
++	 * let all alias entries point to itself
++	 */
++	for (i = 0; i <= amd_iommu_last_bdf; ++i)
++		pci_seg->alias_table[i] = i;
++
++	return 0;
++}
++
++static void __init free_alias_table(struct amd_iommu_pci_seg *pci_seg)
++{
++	free_pages((unsigned long)pci_seg->alias_table,
++		   get_order(alias_table_size));
++	pci_seg->alias_table = NULL;
++}
++
+ /*
+  * Allocates the command buffer. This buffer is per AMD IOMMU. We can
+  * write commands to that buffer later and the IOMMU will execute them
+@@ -1266,6 +1291,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 	u32 dev_i, ext_flags = 0;
+ 	bool alias = false;
+ 	struct ivhd_entry *e;
 +	struct amd_iommu_pci_seg *pci_seg = iommu->pci_seg;
- 	struct dev_table_entry *old_devtb = NULL;
- 	u32 lo, hi, devid, old_devtb_size;
- 	phys_addr_t old_devtb_phys;
--	struct amd_iommu *iommu;
- 	u16 dom_id, dte_v, irq_v;
- 	gfp_t gfp_flag;
- 	u64 tmp;
+ 	u32 ivhd_size;
+ 	int ret;
  
--	if (!amd_iommu_pre_enabled)
--		return false;
+@@ -1347,7 +1373,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 			devid_to = e->ext >> 8;
+ 			set_dev_entry_from_acpi(iommu, devid   , e->flags, 0);
+ 			set_dev_entry_from_acpi(iommu, devid_to, e->flags, 0);
+-			amd_iommu_alias_table[devid] = devid_to;
++			pci_seg->alias_table[devid] = devid_to;
+ 			break;
+ 		case IVHD_DEV_ALIAS_RANGE:
+ 
+@@ -1405,7 +1431,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 			devid = e->devid;
+ 			for (dev_i = devid_start; dev_i <= devid; ++dev_i) {
+ 				if (alias) {
+-					amd_iommu_alias_table[dev_i] = devid_to;
++					pci_seg->alias_table[dev_i] = devid_to;
+ 					set_dev_entry_from_acpi(iommu,
+ 						devid_to, flags, ext_flags);
+ 				}
+@@ -1540,6 +1566,8 @@ static struct amd_iommu_pci_seg *__init alloc_pci_segment(u16 id)
+ 
+ 	if (alloc_dev_table(pci_seg))
+ 		return NULL;
++	if (alloc_alias_table(pci_seg))
++		return NULL;
+ 	if (alloc_rlookup_table(pci_seg))
+ 		return NULL;
+ 
+@@ -1566,6 +1594,7 @@ static void __init free_pci_segment(void)
+ 		list_del(&pci_seg->list);
+ 		free_irq_lookup_table(pci_seg);
+ 		free_rlookup_table(pci_seg);
++		free_alias_table(pci_seg);
+ 		free_dev_table(pci_seg);
+ 		kfree(pci_seg);
+ 	}
+@@ -2838,7 +2867,7 @@ static void __init ivinfo_init(void *ivrs)
+ static int __init early_amd_iommu_init(void)
+ {
+ 	struct acpi_table_header *ivrs_base;
+-	int i, remap_cache_sz, ret;
++	int remap_cache_sz, ret;
+ 	acpi_status status;
+ 
+ 	if (!amd_iommu_detected)
+@@ -2909,12 +2938,6 @@ static int __init early_amd_iommu_init(void)
+ 	if (amd_iommu_pd_alloc_bitmap == NULL)
+ 		goto out;
+ 
+-	/*
+-	 * let all alias entries point to itself
+-	 */
+-	for (i = 0; i <= amd_iommu_last_bdf; ++i)
+-		amd_iommu_alias_table[i] = i;
 -
--	pr_warn("Translation is already enabled - trying to copy translation structures\n");
--	for_each_iommu(iommu) {
--		/* All IOMMUs should use the same device table with the same size */
--		lo = readl(iommu->mmio_base + MMIO_DEV_TABLE_OFFSET);
--		hi = readl(iommu->mmio_base + MMIO_DEV_TABLE_OFFSET + 4);
--		entry = (((u64) hi) << 32) + lo;
--		if (last_entry && last_entry != entry) {
--			pr_err("IOMMU:%d should use the same dev table as others!\n",
--				iommu->index);
--			return false;
--		}
--		last_entry = entry;
-+	/* Each IOMMU use separate device table with the same size */
-+	lo = readl(iommu->mmio_base + MMIO_DEV_TABLE_OFFSET);
-+	hi = readl(iommu->mmio_base + MMIO_DEV_TABLE_OFFSET + 4);
-+	entry = (((u64) hi) << 32) + lo;
- 
--		old_devtb_size = ((entry & ~PAGE_MASK) + 1) << 12;
--		if (old_devtb_size != dev_table_size) {
--			pr_err("The device table size of IOMMU:%d is not expected!\n",
--				iommu->index);
--			return false;
--		}
-+	old_devtb_size = ((entry & ~PAGE_MASK) + 1) << 12;
-+	if (old_devtb_size != dev_table_size) {
-+		pr_err("The device table size of IOMMU:%d is not expected!\n",
-+			iommu->index);
-+		return false;
- 	}
- 
  	/*
-@@ -1045,31 +1028,31 @@ static bool copy_device_table(void)
- 		return false;
+ 	 * never allocate domain 0 because its used as the non-allocated and
+ 	 * error value placeholder
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index a9cd64ab6b1e..e84a59b1f22f 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -243,7 +243,7 @@ static int clone_alias(struct pci_dev *pdev, u16 alias, void *data)
+ 	return 0;
+ }
  
- 	gfp_flag = GFP_KERNEL | __GFP_ZERO | GFP_DMA32;
--	old_dev_tbl_cpy = (void *)__get_free_pages(gfp_flag,
--				get_order(dev_table_size));
--	if (old_dev_tbl_cpy == NULL) {
-+	pci_seg->old_dev_tbl_cpy = (void *)__get_free_pages(gfp_flag,
-+						    get_order(dev_table_size));
-+	if (pci_seg->old_dev_tbl_cpy == NULL) {
- 		pr_err("Failed to allocate memory for copying old device table!\n");
- 		memunmap(old_devtb);
- 		return false;
- 	}
+-static void clone_aliases(struct pci_dev *pdev)
++static void clone_aliases(struct amd_iommu *iommu, struct pci_dev *pdev)
+ {
+ 	if (!pdev)
+ 		return;
+@@ -253,14 +253,15 @@ static void clone_aliases(struct pci_dev *pdev)
+ 	 * part of the PCI DMA aliases if it's bus differs
+ 	 * from the original device.
+ 	 */
+-	clone_alias(pdev, amd_iommu_alias_table[pci_dev_id(pdev)], NULL);
++	clone_alias(pdev, iommu->pci_seg->alias_table[pci_dev_id(pdev)], NULL);
  
- 	for (devid = 0; devid <= amd_iommu_last_bdf; ++devid) {
--		old_dev_tbl_cpy[devid] = old_devtb[devid];
-+		pci_seg->old_dev_tbl_cpy[devid] = old_devtb[devid];
- 		dom_id = old_devtb[devid].data[1] & DEV_DOMID_MASK;
- 		dte_v = old_devtb[devid].data[0] & DTE_FLAG_V;
+ 	pci_for_each_dma_alias(pdev, clone_alias, NULL);
+ }
  
- 		if (dte_v && dom_id) {
--			old_dev_tbl_cpy[devid].data[0] = old_devtb[devid].data[0];
--			old_dev_tbl_cpy[devid].data[1] = old_devtb[devid].data[1];
-+			pci_seg->old_dev_tbl_cpy[devid].data[0] = old_devtb[devid].data[0];
-+			pci_seg->old_dev_tbl_cpy[devid].data[1] = old_devtb[devid].data[1];
- 			__set_bit(dom_id, amd_iommu_pd_alloc_bitmap);
- 			/* If gcr3 table existed, mask it out */
- 			if (old_devtb[devid].data[0] & DTE_FLAG_GV) {
- 				tmp = DTE_GCR3_VAL_B(~0ULL) << DTE_GCR3_SHIFT_B;
- 				tmp |= DTE_GCR3_VAL_C(~0ULL) << DTE_GCR3_SHIFT_C;
--				old_dev_tbl_cpy[devid].data[1] &= ~tmp;
-+				pci_seg->old_dev_tbl_cpy[devid].data[1] &= ~tmp;
- 				tmp = DTE_GCR3_VAL_A(~0ULL) << DTE_GCR3_SHIFT_A;
- 				tmp |= DTE_FLAG_GV;
--				old_dev_tbl_cpy[devid].data[0] &= ~tmp;
-+				pci_seg->old_dev_tbl_cpy[devid].data[0] &= ~tmp;
- 			}
- 		}
+-static struct pci_dev *setup_aliases(struct device *dev)
++static struct pci_dev *setup_aliases(struct amd_iommu *iommu, struct device *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev);
++	struct amd_iommu_pci_seg *pci_seg = iommu->pci_seg;
+ 	u16 ivrs_alias;
  
-@@ -1084,7 +1067,7 @@ static bool copy_device_table(void)
- 				return false;
- 			}
+ 	/* For ACPI HID devices, there are no aliases */
+@@ -271,12 +272,12 @@ static struct pci_dev *setup_aliases(struct device *dev)
+ 	 * Add the IVRS alias to the pci aliases if it is on the same
+ 	 * bus. The IVRS table may know about a quirk that we don't.
+ 	 */
+-	ivrs_alias = amd_iommu_alias_table[pci_dev_id(pdev)];
++	ivrs_alias = pci_seg->alias_table[pci_dev_id(pdev)];
+ 	if (ivrs_alias != pci_dev_id(pdev) &&
+ 	    PCI_BUS_NUM(ivrs_alias) == pdev->bus->number)
+ 		pci_add_dma_alias(pdev, ivrs_alias & 0xff, 1);
  
--		        old_dev_tbl_cpy[devid].data[2] = old_devtb[devid].data[2];
-+			pci_seg->old_dev_tbl_cpy[devid].data[2] = old_devtb[devid].data[2];
- 		}
- 	}
- 	memunmap(old_devtb);
-@@ -1092,6 +1075,33 @@ static bool copy_device_table(void)
+-	clone_aliases(pdev);
++	clone_aliases(iommu, pdev);
+ 
+ 	return pdev;
+ }
+@@ -370,7 +371,7 @@ static bool check_device(struct device *dev)
  	return true;
  }
  
-+static bool copy_device_table(void)
-+{
-+	struct amd_iommu *iommu;
-+	struct amd_iommu_pci_seg *pci_seg;
-+
-+	if (!amd_iommu_pre_enabled)
-+		return false;
-+
-+	pr_warn("Translation is already enabled - trying to copy translation structures\n");
-+
-+	/*
-+	 * All IOMMUs within PCI segment shares common device table.
-+	 * Hence copy device table only once per PCI segment.
-+	 */
-+	for_each_pci_segment(pci_seg) {
-+		for_each_iommu(iommu) {
-+			if (pci_seg->id != iommu->pci_seg->id)
-+				continue;
-+			if (!__copy_device_table(iommu))
-+				return false;
-+			break;
-+		}
-+	}
-+
-+	return true;
-+}
-+
- void amd_iommu_apply_erratum_63(u16 devid)
+-static int iommu_init_device(struct device *dev)
++static int iommu_init_device(struct amd_iommu *iommu, struct device *dev)
  {
- 	int sysmgt;
-@@ -2587,7 +2597,7 @@ static void early_enable_iommu(struct amd_iommu *iommu)
- static void early_enable_iommus(void)
+ 	struct iommu_dev_data *dev_data;
+ 	int devid;
+@@ -386,7 +387,7 @@ static int iommu_init_device(struct device *dev)
+ 	if (!dev_data)
+ 		return -ENOMEM;
+ 
+-	dev_data->pdev = setup_aliases(dev);
++	dev_data->pdev = setup_aliases(iommu, dev);
+ 
+ 	/*
+ 	 * By default we use passthrough mode for IOMMUv2 capable device.
+@@ -407,7 +408,7 @@ static int iommu_init_device(struct device *dev)
+ 	return 0;
+ }
+ 
+-static void iommu_ignore_device(struct device *dev)
++static void iommu_ignore_device(struct amd_iommu *iommu, struct device *dev)
+ {
+ 	int devid;
+ 
+@@ -418,7 +419,7 @@ static void iommu_ignore_device(struct device *dev)
+ 	amd_iommu_rlookup_table[devid] = NULL;
+ 	memset(&amd_iommu_dev_table[devid], 0, sizeof(struct dev_table_entry));
+ 
+-	setup_aliases(dev);
++	setup_aliases(iommu, dev);
+ }
+ 
+ static void amd_iommu_uninit_device(struct device *dev)
+@@ -1287,6 +1288,7 @@ static int device_flush_dte_alias(struct pci_dev *pdev, u16 alias, void *data)
+ static int device_flush_dte(struct iommu_dev_data *dev_data)
  {
  	struct amd_iommu *iommu;
--
 +	struct amd_iommu_pci_seg *pci_seg;
+ 	u16 alias;
+ 	int ret;
  
- 	if (!copy_device_table()) {
- 		/*
-@@ -2597,9 +2607,14 @@ static void early_enable_iommus(void)
- 		 */
- 		if (amd_iommu_pre_enabled)
- 			pr_err("Failed to copy DEV table from previous kernel.\n");
--		if (old_dev_tbl_cpy != NULL)
--			free_pages((unsigned long)old_dev_tbl_cpy,
--					get_order(dev_table_size));
-+
-+		for_each_pci_segment(pci_seg) {
-+			if (pci_seg->old_dev_tbl_cpy != NULL) {
-+				free_pages((unsigned long)pci_seg->old_dev_tbl_cpy,
-+						get_order(dev_table_size));
-+				pci_seg->old_dev_tbl_cpy = NULL;
-+			}
-+		}
+@@ -1300,7 +1302,8 @@ static int device_flush_dte(struct iommu_dev_data *dev_data)
+ 	if (ret)
+ 		return ret;
  
- 		for_each_iommu(iommu) {
- 			clear_translation_pre_enabled(iommu);
-@@ -2607,9 +2622,13 @@ static void early_enable_iommus(void)
- 		}
+-	alias = amd_iommu_alias_table[dev_data->devid];
++	pci_seg = iommu->pci_seg;
++	alias = pci_seg->alias_table[dev_data->devid];
+ 	if (alias != dev_data->devid) {
+ 		ret = iommu_flush_dte(iommu, alias);
+ 		if (ret)
+@@ -1616,7 +1619,7 @@ static void do_attach(struct iommu_dev_data *dev_data,
+ 	/* Update device table */
+ 	set_dte_entry(dev_data->devid, domain,
+ 		      ats, dev_data->iommu_v2);
+-	clone_aliases(dev_data->pdev);
++	clone_aliases(iommu, dev_data->pdev);
+ 
+ 	device_flush_dte(dev_data);
+ }
+@@ -1632,7 +1635,7 @@ static void do_detach(struct iommu_dev_data *dev_data)
+ 	dev_data->domain = NULL;
+ 	list_del(&dev_data->list);
+ 	clear_dte_entry(dev_data->devid);
+-	clone_aliases(dev_data->pdev);
++	clone_aliases(iommu, dev_data->pdev);
+ 
+ 	/* Flush the DTE entry */
+ 	device_flush_dte(dev_data);
+@@ -1815,12 +1818,12 @@ static struct iommu_device *amd_iommu_probe_device(struct device *dev)
+ 	if (dev_iommu_priv_get(dev))
+ 		return &iommu->iommu;
+ 
+-	ret = iommu_init_device(dev);
++	ret = iommu_init_device(iommu, dev);
+ 	if (ret) {
+ 		if (ret != -ENOTSUPP)
+ 			dev_err(dev, "Failed to initialize - trying to proceed anyway\n");
+ 		iommu_dev = ERR_PTR(ret);
+-		iommu_ignore_device(dev);
++		iommu_ignore_device(iommu, dev);
  	} else {
- 		pr_info("Copied DEV table from previous kernel.\n");
--		free_pages((unsigned long)amd_iommu_dev_table,
--				get_order(dev_table_size));
--		amd_iommu_dev_table = old_dev_tbl_cpy;
+ 		amd_iommu_set_pci_msi_domain(dev, iommu);
+ 		iommu_dev = &iommu->iommu;
+@@ -1871,9 +1874,13 @@ static void update_device_table(struct protection_domain *domain)
+ 	struct iommu_dev_data *dev_data;
+ 
+ 	list_for_each_entry(dev_data, &domain->dev_list, list) {
++		struct amd_iommu *iommu = rlookup_amd_iommu(&dev_data->pdev->dev);
 +
-+		for_each_pci_segment(pci_seg) {
-+			free_pages((unsigned long)pci_seg->dev_table,
-+				   get_order(dev_table_size));
-+			pci_seg->dev_table = pci_seg->old_dev_tbl_cpy;
-+		}
-+
- 		for_each_iommu(iommu) {
- 			iommu_disable_command_buffer(iommu);
- 			iommu_disable_event_buffer(iommu);
++		if (!iommu)
++			continue;
+ 		set_dte_entry(dev_data->devid, domain,
+ 			      dev_data->ats.enabled, dev_data->iommu_v2);
+-		clone_aliases(dev_data->pdev);
++		clone_aliases(iommu, dev_data->pdev);
+ 	}
+ }
+ 
+@@ -2774,6 +2781,7 @@ static struct irq_remap_table *alloc_irq_table(u16 devid, struct pci_dev *pdev)
+ {
+ 	struct irq_remap_table *table = NULL;
+ 	struct irq_remap_table *new_table = NULL;
++	struct amd_iommu_pci_seg *pci_seg;
+ 	struct amd_iommu *iommu;
+ 	unsigned long flags;
+ 	u16 alias;
+@@ -2784,11 +2792,12 @@ static struct irq_remap_table *alloc_irq_table(u16 devid, struct pci_dev *pdev)
+ 	if (!iommu)
+ 		goto out_unlock;
+ 
++	pci_seg = iommu->pci_seg;
+ 	table = irq_lookup_table[devid];
+ 	if (table)
+ 		goto out_unlock;
+ 
+-	alias = amd_iommu_alias_table[devid];
++	alias = pci_seg->alias_table[devid];
+ 	table = irq_lookup_table[alias];
+ 	if (table) {
+ 		set_remap_table_entry(iommu, devid, table);
 -- 
 2.27.0
 
