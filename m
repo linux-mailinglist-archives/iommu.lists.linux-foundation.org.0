@@ -2,81 +2,124 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128C44D9FAE
-	for <lists.iommu@lfdr.de>; Tue, 15 Mar 2022 17:11:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5464DA02A
+	for <lists.iommu@lfdr.de>; Tue, 15 Mar 2022 17:35:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A352D814A0;
-	Tue, 15 Mar 2022 16:11:08 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B958983E68;
+	Tue, 15 Mar 2022 16:35:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v2eOmPTLoIzx; Tue, 15 Mar 2022 16:11:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A060F81464;
-	Tue, 15 Mar 2022 16:11:07 +0000 (UTC)
+	with ESMTP id 3NxTmrdHO-ze; Tue, 15 Mar 2022 16:35:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8F6C784275;
+	Tue, 15 Mar 2022 16:35:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DBD6C0033;
-	Tue, 15 Mar 2022 16:11:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56BD6C000B;
+	Tue, 15 Mar 2022 16:35:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DDD31C000B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 16:11:05 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62EA2C000B
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 16:26:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id B7045814A0
- for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 16:11:05 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5D7E440414
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 16:26:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FIEJtZWVTzzZ for <iommu@lists.linux-foundation.org>;
- Tue, 15 Mar 2022 16:11:01 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6FCF381464
- for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 16:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647360661; x=1678896661;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mYoawQt8/mjlKy6DboqveGnemw0SfDUDHd8XG2dieWM=;
- b=mQp/8dfF4NXRQck3+CNIJS0TvOmbAdEldG2QOPKy3l8OcG5rGy58TmXZ
- SZHK0ZZsET1twA0VXFiQ5xiggLhtSNSLIzdGEwYxCLQ24IxGoR+K6T652
- owz6fhQlK1/mIlHBMgq1D5x+YTeJ/mU+Uez2VCJwWWRNaus0xjGCKASkn
- /KKtremobwPMfPoVRH59aDnRHKrDmJ4Rbs17ywojhlbhjXhbNri/1EG/q
- /wugcKlZ9SS37Ln3u8NMlQ6/ZGDx+h28cftTXQB6PlaMQ0KJ0WQDhPgpk
- oRst1UrJxEZSPsmgmuRxqY+Buh2pMoCUTk3u5ynmk3mIUVp5CUawCLZ4F w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256298396"
-X-IronPort-AV: E=Sophos;i="5.90,184,1643702400"; d="scan'208";a="256298396"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 09:08:00 -0700
-X-IronPort-AV: E=Sophos;i="5.90,184,1643702400"; d="scan'208";a="540497258"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.198.157])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 09:08:00 -0700
-Date: Tue, 15 Mar 2022 09:11:16 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH v2 2/8] iommu: Add attach/detach_dev_pasid domain ops
-Message-ID: <20220315091116.26e10b1b@jacob-builder>
-In-Reply-To: <BN9PR11MB5276D5B88C05B509C2C790A98C109@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220315050713.2000518-1-jacob.jun.pan@linux.intel.com>
- <20220315050713.2000518-3-jacob.jun.pan@linux.intel.com>
- <YjB4AyrgsnbUrlLe@myrica>
- <BN9PR11MB5276D5B88C05B509C2C790A98C109@BN9PR11MB5276.namprd11.prod.outlook.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=amd.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1RoyXue96v-k for <iommu@lists.linux-foundation.org>;
+ Tue, 15 Mar 2022 16:26:03 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20619.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaa::619])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 6CE4540012
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 16:26:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RMgMSQJLXt0Vl2NjzSXsmFQqs499zl+vL9WReVvnrkEhDYhJCTzABT6bmhtKoRWHCygAaCWs+t4GGEoqTDJhuKbr4OTRFBRyQrU27XRdLFzAGAC00rjFjgFMcDF0KfI0petCW40z4s/w9mdf/o10xYWvmtDruXGWwchgKj6Il977rxB1uRKe1d2CxUSfrEyikbT9IqjuvRDybzNaK5oez+TvhF0JYUxXRHUsJTZnyPuW6zTKzTw2npGg9RPLJvpojnS0wHHGwqlnGZT8PLTXDOnjQuKcXICrEIpXrgKNH9P7rxnKMX9r/nep25/TfqTjXz/n6e/jUL9tMMJJYSh+gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+m/EbSAiPbDEaxNu0wtIWJ+F42c77FY9wowyWQLqUz4=;
+ b=SbTVd5F3hpjvoXrt+InYOYL62ZDuZkrCp/uevuMx+FW8DNkdGYgQF3psT50jJPq6Zr6NilhKxJuPvVn1nX0VqM/VuICnFhe+fjNUeiMxSpPsUMgKkqIRVLiYRkaHgM8q5qpD6kurrKw6yR1Gop8xkBFktulj9DtscaCEQ00UB3oJOJGxopkPtYYdfOxkhxU1eBxo1PeIH45os28KibvGCeWEbn/5wHmaW7bB6Ex1/uGgMU76Ui6V/htvSc6oQKZ0x/YDtpkkF5Qee7fvFEcsQjPoncdpBaLbsFNZoT25FbHBybN0lotUzv5HDlTX+8AX82EkEXpERb0ekxrj4IykCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=8bytes.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+m/EbSAiPbDEaxNu0wtIWJ+F42c77FY9wowyWQLqUz4=;
+ b=SbEwupqRxeo4BjB67TYTa7bIQ5VrzT9iTReCW8B+clVePXpVshm2gMXoei5GLWnjiM4PcNXihfMq4o6hIWuBygyhAAamGcSjLvcArXmzqz34/2bmiW9z+zZJnKygF0F02Ouvem5zkSZ34b+qLAveNDN8FKX9HZ7/OjY1QOpMBXk=
+Received: from CO2PR04CA0082.namprd04.prod.outlook.com (2603:10b6:102:1::50)
+ by SA0PR12MB4559.namprd12.prod.outlook.com (2603:10b6:806:9e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Tue, 15 Mar
+ 2022 16:26:00 +0000
+Received: from CO1NAM11FT035.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:102:1:cafe::5b) by CO2PR04CA0082.outlook.office365.com
+ (2603:10b6:102:1::50) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22 via Frontend
+ Transport; Tue, 15 Mar 2022 16:25:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT035.mail.protection.outlook.com (10.13.175.36) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5061.22 via Frontend Transport; Tue, 15 Mar 2022 16:25:59 +0000
+Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 15 Mar
+ 2022 11:25:53 -0500
+To: Joerg Roedel <joro@8bytes.org>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/2] iommu/amd: Add support to indicate whether DMA remap
+ support is enabled
+Date: Tue, 15 Mar 2022 11:24:54 -0500
+Message-ID: <20220315162455.5190-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Luck,
- Tony" <tony.luck@intel.com>, "Jiang, Dave" <dave.jiang@intel.com>, "Raj,
- Ashok" <ashok.raj@intel.com>, "Zanussi, Tom" <tom.zanussi@intel.com>, "Kumar,
- Sanjay K" <sanjay.k.kumar@intel.com>, LKML <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
- Jacob jun" <jacob.jun.pan@intel.com>, Jason
- Gunthorpe <jgg@nvidia.com>, "Williams, Dan J" <dan.j.williams@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c7cf218c-92d3-4b8b-ef47-08da06a07d3c
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4559:EE_
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4559CAC249F1F1735C174955E2109@SA0PR12MB4559.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AhYCtwhwOlNc0y/Ff8usjF7VwDlMOGgdcjoXR44haGMnrdKD8PcohntRutEpHM0ZpM7ZzGYWlj5+vkRinePuIe3Bu4cWZIsV4nG0qoRR4RNTcEkeRI2oq0d0c64gPCHlqoL5HieiZQZSzPXsQVZEDenqhIpa7r68Bl2riAZL8atTWeHQhHZtfaP2d/Svaj2dZHe6njFXcBPcLbZM5Fl6z1AKS7MyPrL5HomNUyA93ZMktExJgbb3ThWIokes0dBQDHGTc9GlzoR9stTiZuS+2A2NKdreUX/R0J3yZGC/0n2vrU4tVOFS76psXn80axneCwtI0OWGJzZL4+zL4SdD5BWrEcRkbxfXsEyjdHOuWeh+0LxxjHxKwfnDj+7EIGwQyO4hjoardnnSHsGIppTwi62iaWRIZPr5mRaAk4nJU9JMizonj2jEaVIFLPPA9+9PtYp/ahSZA4lOfUkBMP5qE0OxxPvAf5L28fB+HyHGdNmDAmsw5ryB1VvHS5cM8ipD8QDMVH/ru5ldd+/qHwKEiF0z8P6dTNQhbHR1V3yDwAsS5E25NL8Ogfq2y4ZJKxds+AM4UWoW45UxuK4WKvUS0vtw32B4E2Xhqkm7V4zmwCR7QqU7My3ZlnblVva/dxkfO6iB4MJc11Ybrh2DFuhxs9HhJbmzpo85rz+2oqYdSwrR5z19UT21L/FaBXqCxVkOC46knFuNacZBNcPIPQXxOAySB199N4RLd4B+r3LuFvgOWrp41Zo8E6pLE4WzHf3TckAvNaJ0qRXEu0jY6kRNnGtKPvABUFlEmNz/5A2268g=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(26005)(186003)(110136005)(16526019)(54906003)(7696005)(82310400004)(508600001)(966005)(2906002)(4326008)(8676002)(70206006)(70586007)(316002)(356005)(1076003)(81166007)(2616005)(44832011)(47076005)(36860700001)(5660300002)(40460700003)(8936002)(83380400001)(86362001)(426003)(336012)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2022 16:25:59.0151 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7cf218c-92d3-4b8b-ef47-08da06a07d3c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT035.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4559
+X-Mailman-Approved-At: Tue, 15 Mar 2022 16:35:04 +0000
+Cc: Michael Jamet <michael.jamet@intel.com>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ "open list:AMD IOMMU \(AMD-VI\)" <iommu@lists.linux-foundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Andreas Noever <andreas.noever@gmail.com>, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,108 +132,106 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Mario Limonciello via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Mario Limonciello <mario.limonciello@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Kevin,
+Bit 1 of the IVFS IVInfo field indicates that IOMMU has been used for
+pre-boot DMA protection.  Export this information to the kernel to
+allow other drivers to use it.
 
-On Tue, 15 Mar 2022 11:49:57 +0000, "Tian, Kevin" <kevin.tian@intel.com>
-wrote:
+Link: https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/iommu/amd/amd_iommu_types.h |  1 +
+ drivers/iommu/amd/init.c            | 18 ++++++++++++++++++
+ include/linux/amd-iommu.h           |  5 +++++
+ 3 files changed, 24 insertions(+)
 
-> > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > Sent: Tuesday, March 15, 2022 7:27 PM
-> > 
-> > On Mon, Mar 14, 2022 at 10:07:06PM -0700, Jacob Pan wrote:  
-> > > From: Lu Baolu <baolu.lu@linux.intel.com>
-> > >
-> > > An IOMMU domain represents an address space which can be attached by
-> > > devices that perform DMA within a domain. However, for platforms with
-> > > PASID capability the domain attachment needs be handled at
-> > > device+PASID level. There can be multiple PASIDs within a device and
-> > > multiple devices attached to a given domain.
-> > > This patch introduces a new IOMMU op which support device, PASID, and
-> > > IOMMU domain attachment. The immediate use case is for PASID capable
-> > > devices to perform DMA under DMA APIs.
-> > >
-> > > Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> > > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > > ---
-> > >  include/linux/iommu.h | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > >
-> > > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > > index 369f05c2a4e2..fde5b933dbe3 100644
-> > > --- a/include/linux/iommu.h
-> > > +++ b/include/linux/iommu.h
-> > > @@ -227,6 +227,8 @@ struct iommu_iotlb_gather {
-> > >   * @aux_get_pasid: get the pasid given an aux-domain
-> > >   * @sva_bind: Bind process address space to device
-> > >   * @sva_unbind: Unbind process address space from device
-> > > + * @attach_dev_pasid: attach an iommu domain to a pasid of device
-> > > + * @detach_dev_pasid: detach an iommu domain from a pasid of device  
-> > 
-> > Isn't that operation "assign a PASID to a domain" instead?  In patch 5,
-> > the domain is already attached to the device, so set_domain_pasid()
-> > might be clearer and to the point. If the IOMMU driver did the
-> > allocation we could also avoid patch 1.
-I agree, we could let vendor driver do the allocation inside this op. On
-the other side, we could also keep the flexibility such that this op can be
-used for guest PASID bind, with a SVA domain.
-> 
-> iiuc this API can also work for future SIOV usage where each mdev attached
-> to the domain has its own pasid. "assigning a PASID to a domain" sounds
-> like going back to the previous aux domain approach which has one PASID
-> per domain and that PASID is used on all devices attached to the aux
-> domain...
-> 
-yes, that is the intention. I plan to lift the requirement in patch 5 such
-that device attachment will not be a prerequisite. That would be after mdev
-adoption.
+diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+index 47108ed44fbb..68e51213f119 100644
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -407,6 +407,7 @@
+ /* IOMMU IVINFO */
+ #define IOMMU_IVINFO_OFFSET     36
+ #define IOMMU_IVINFO_EFRSUP     BIT(0)
++#define IOMMU_IVINFO_DMA_REMAP  BIT(1)
+ 
+ /* IOMMU Feature Reporting Field (for IVHD type 10h */
+ #define IOMMU_FEAT_GASUP_SHIFT	6
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 7bfe37e52e21..e9b669592dfc 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -182,6 +182,7 @@ u32 amd_iommu_max_pasid __read_mostly = ~0;
+ 
+ bool amd_iommu_v2_present __read_mostly;
+ static bool amd_iommu_pc_present __read_mostly;
++static bool amdr_ivrs_remap_support __read_mostly;
+ 
+ bool amd_iommu_force_isolation __read_mostly;
+ 
+@@ -326,6 +327,8 @@ static void __init early_iommu_features_init(struct amd_iommu *iommu,
+ {
+ 	if (amd_iommu_ivinfo & IOMMU_IVINFO_EFRSUP)
+ 		iommu->features = h->efr_reg;
++	if (amd_iommu_ivinfo & IOMMU_IVINFO_DMA_REMAP)
++		amdr_ivrs_remap_support = true;
+ }
+ 
+ /* Access to l1 and l2 indexed register spaces */
+@@ -3269,6 +3272,21 @@ struct amd_iommu *get_amd_iommu(unsigned int idx)
+ 	return NULL;
+ }
+ 
++/*
++ * ivrs_remap_support - Is %IOMMU_IVINFO_DMA_REMAP set in IVRS table
++ *
++ * Returns true if the platform has %IOMMU_IVINFO_DMA_REMAP% set in the IOMMU
++ * IVRS IVInfo field.
++ * Presence of this flag indicates to the OS/HV that the IOMMU is used for
++ * Preboot DMA protection and device accessed memory should be remapped after
++ * the OS has loaded.
++ */
++bool amd_ivrs_remap_support(void)
++{
++	return amdr_ivrs_remap_support;
++}
++EXPORT_SYMBOL_GPL(amd_ivrs_remap_support);
++
+ /****************************************************************************
+  *
+  * IOMMU EFR Performance Counter support functionality. This code allows
+diff --git a/include/linux/amd-iommu.h b/include/linux/amd-iommu.h
+index 58e6c3806c09..d07b9fed6474 100644
+--- a/include/linux/amd-iommu.h
++++ b/include/linux/amd-iommu.h
+@@ -170,6 +170,7 @@ amd_iommu_update_ga(int cpu, bool is_run, void *data);
+ 
+ extern int amd_iommu_activate_guest_mode(void *data);
+ extern int amd_iommu_deactivate_guest_mode(void *data);
++extern bool amd_ivrs_remap_support(void);
+ 
+ #else /* defined(CONFIG_AMD_IOMMU) && defined(CONFIG_IRQ_REMAP) */
+ 
+@@ -194,6 +195,10 @@ static inline int amd_iommu_deactivate_guest_mode(void *data)
+ {
+ 	return 0;
+ }
++static inline bool amd_ivrs_remap_support(void)
++{
++	return false;
++}
+ #endif /* defined(CONFIG_AMD_IOMMU) && defined(CONFIG_IRQ_REMAP) */
+ 
+ int amd_iommu_get_num_iommus(void);
+-- 
+2.34.1
 
-> > 
-> > If I understand correctly this series is not about a generic PASID API
-> > that allows drivers to manage multiple DMA address spaces, because there
-> > still doesn't seem to be any interest in that. It's about the specific
-> > IDXD use-case, so let's focus on that. We can introduce a specialized
-> > call such as (iommu|dma)_set_device_pasid(), which will be easy to
-> > consolidate later into a more generic "dma_enable_pasid()" API if that
-> > ever seems useful.
-> > 
-Right, at the moment it is still a single address space. i.e. the current
-domain of the device/group.
-
-But this limitation is at the driver facing API layer not limited in the
-IOMMU ops.
-
-> > Thanks,
-> > Jean
-> >   
-> > >   * @sva_get_pasid: Get PASID associated to a SVA handle
-> > >   * @page_response: handle page request response
-> > >   * @cache_invalidate: invalidate translation caches
-> > > @@ -296,6 +298,10 @@ struct iommu_ops {
-> > >  	struct iommu_sva *(*sva_bind)(struct device *dev, struct
-> > > mm_struct  
-> > *mm,  
-> > >  				      void *drvdata);
-> > >  	void (*sva_unbind)(struct iommu_sva *handle);
-> > > +	int (*attach_dev_pasid)(struct iommu_domain *domain,
-> > > +				struct device *dev, ioasid_t id);
-> > > +	void (*detach_dev_pasid)(struct iommu_domain *domain,
-> > > +				 struct device *dev, ioasid_t id);
-> > >  	u32 (*sva_get_pasid)(struct iommu_sva *handle);
-> > >
-> > >  	int (*page_response)(struct device *dev,
-> > > --
-> > > 2.25.1
-> > >  
-
-
-Thanks,
-
-Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
