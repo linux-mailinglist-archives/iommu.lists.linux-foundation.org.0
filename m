@@ -2,57 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A3E4D937B
-	for <lists.iommu@lfdr.de>; Tue, 15 Mar 2022 06:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542434D9383
+	for <lists.iommu@lfdr.de>; Tue, 15 Mar 2022 06:04:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 05495401F2;
-	Tue, 15 Mar 2022 05:04:03 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8B76C402E7;
+	Tue, 15 Mar 2022 05:04:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eJIpcPff52Rx; Tue, 15 Mar 2022 05:04:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 014B64040B;
-	Tue, 15 Mar 2022 05:04:02 +0000 (UTC)
+	with ESMTP id myVHTQ1-J44l; Tue, 15 Mar 2022 05:04:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 94CC241675;
+	Tue, 15 Mar 2022 05:04:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C775BC000B;
-	Tue, 15 Mar 2022 05:04:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DB94BC0087;
+	Tue, 15 Mar 2022 05:04:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 065F2C000B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 05:04:00 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 092F5C0033
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 05:04:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id EC6A041609
- for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 05:03:59 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5C879402E7
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 05:04:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xqyHeAs0K1Dl for <iommu@lists.linux-foundation.org>;
+ with ESMTP id ZYKp3d-9aIV5 for <iommu@lists.linux-foundation.org>;
  Tue, 15 Mar 2022 05:03:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1C351401F1
- for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 05:03:58 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5F6C2401F2
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Mar 2022 05:03:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1647320639; x=1678856639;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tpMOnF3L21oRMXjbylyNzJFTycaw/Dvgw48xE8xN/vo=;
- b=g7Aev1bzxapFOQ1AHM1I1PnVqNXrQD5oHrZuUpYAAxp9jvc01mofu+hi
- zLmh9aSd7oaAleQv4pjcz7wdRlxPoWRvdq3Lp9LQhf1Qewf4DnLrsj9yb
- w4Juzh126k3jEgnDSS5XpI7hI202RXPmo9r1U+doqhBMFGFwMIlhgjXUM
- UDSxVhQxgKMoOAODm7Nfso4a6O9xJhkQ0tLsVD1VByht15WzBu0G0B/ap
- Hbje13FHWkA8PpifXLBJxW8E52HQx/TnIEOcj1SpRv/jRLVfvtEYN76OF
- wjFr0afJAd8QYHLU7RcsdIkfNgzI5f2dbMcR/cBbKaPrlp2p3eWI0PehS A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="342640145"
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="342640145"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ekgMTzrt4B/E5Ajgcaoa3ieo7uw7tCFXNnm15MECQas=;
+ b=j3tFWjjbJXQZXqaPeqGqSofo4rdP7SE9wTatfAfzaDkQjzXWzbIHM+Ya
+ /pT2oo4EDx6KGF22yPenV1VcJI/KINW0TfR2mZdNuuGz40J2cKGuKPY4L
+ O5JhsNiPHkZxKIP6C9B1e6GQrxIx/128/iRBMRa4cA7xMpJIX0ww+e/JZ
+ qasmJ9q4jc84xM7hUzlh1kewbnM773FmzAT0Wu00HoEFdj7DNHcaD8upa
+ VZSItOWJAZlGUWVW3/nFm0UQkm35FKtVUG2FSnG8Hv6RJ5D8KqtJfZFCn
+ 6WB/Wvs+AJmcqaGuMkB8J7R+ub0q6tX+1vknYHuVvq2SewFYHeaLpdQUU w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="342640146"
+X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="342640146"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Mar 2022 22:03:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="580383563"
+X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="580383567"
 Received: from otc-wp-03.jf.intel.com (HELO jacob-builder.jf.intel.com)
  ([10.54.39.79])
  by orsmga001.jf.intel.com with ESMTP; 14 Mar 2022 22:03:58 -0700
@@ -62,10 +62,12 @@ To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  "Christoph Hellwig" <hch@infradead.org>,
  "Lu Baolu" <baolu.lu@linux.intel.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH v2 0/8] Enable PASID for DMA API users
-Date: Mon, 14 Mar 2022 22:07:04 -0700
-Message-Id: <20220315050713.2000518-1-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v2 1/8] iommu: Assign per device max PASID
+Date: Mon, 14 Mar 2022 22:07:05 -0700
+Message-Id: <20220315050713.2000518-2-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220315050713.2000518-1-jacob.jun.pan@linux.intel.com>
+References: <20220315050713.2000518-1-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
 Cc: "Tian, Kevin" <kevin.tian@intel.com>, Tony Luck <tony.luck@intel.com>,
  Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>, "Zanussi,
@@ -88,87 +90,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Some modern accelerators such as Intel's Data Streaming Accelerator (DSA)
-require PASID in DMA requests to be operational. Specifically, the work
-submissions with ENQCMD on shared work queues require PASIDs. The use cases
-include both user DMA with shared virtual addressing (SVA) and in-kernel
-DMA similar to legacy DMA w/o PASID. Here we address the latter.
+From: Lu Baolu <baolu.lu@linux.intel.com>
 
-DMA mapping API is the de facto standard for in-kernel DMA. However, it
-operates on a per device or Requester ID(RID) basis which is not
-PASID-aware. To leverage DMA API for devices relies on PASIDs, this
-patchset introduces the following APIs
+PCIe spec defines Max PASID Width per-device.  Since a PASID is only
+used with IOMMU enabled, this patch introduces a PASID max variable on
+the per-device IOMMU data. It will be used for limiting PASID allocation
+in that PASID table is per-device.
 
-1. A driver facing API that enables DMA API PASID usage:
-iommu_enable_pasid_dma(struct device *dev, ioasid_t &pasid);
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+---
+ drivers/iommu/intel/iommu.c |  4 +++-
+ include/linux/iommu.h       | 13 +++++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-2. An IOMMU op that allows attaching device-domain-PASID generically (will
-be used beyond DMA API PASID support)
-
-Once PASID DMA is enabled and attached to the appropriate IOMMU domain,
-device drivers can continue to use DMA APIs as-is. There is no difference
-in terms of mapping in dma_handle between without PASID and with PASID.
-The DMA mapping performed by IOMMU will be identical for both requests, let
-it be IOVA or PA in case of pass-through.
-
-In addition, this set converts DSA driver in-kernel DMA with PASID from SVA
-lib to DMA API. There have been security and functional issues with the
-kernel SVA approach:
-(https://lore.kernel.org/linux-iommu/20210511194726.GP1002214@nvidia.com/)
-The highlights are as the following:
- - The lack of IOTLB synchronization upon kernel page table updates.
-   (vmalloc, module/BPF loading, CONFIG_DEBUG_PAGEALLOC etc.)
- - Other than slight more protection, using kernel virtual address (KVA)
-has little advantage over physical address. There are also no use cases yet
-where DMA engines need kernel virtual addresses for in-kernel DMA.
-
-Subsequently, cleanup is done around the usage of sva_bind_device() for
-in-kernel DMA. Removing special casing code in VT-d driver and tightening
-SVA lib API.
-
-This work and idea behind it is a collaboration with many people, many
-thanks to Baolu Lu, Jason Gunthorpe, Dave Jiang, and others.
-
-
-ChangeLog:
-v2
-	- Do not reserve a special PASID for DMA API usage. Use IOASID
-	  allocation instead.
-	- Introduced a generic device-pasid-domain attachment IOMMU op.
-	  Replaced the DMA API only IOMMU op.
-	- Removed supervisor SVA support in VT-d
-	- Removed unused sva_bind_device parameters
-	- Use IOMMU specific data instead of struct device to store PASID
-	  info
-
-Jacob Pan (6):
-  iommu/vt-d: Implement device_pasid domain attach ops
-  iommu/vt-d: Use device_pasid attach op for RID2PASID
-  iommu: Add PASID support for DMA mapping API users
-  dmaengine: idxd: Use DMA API for in-kernel DMA with PASID
-  iommu/vt-d: Delete supervisor/kernel SVA
-  iommu: Remove unused driver data in sva_bind_device
-
-Lu Baolu (2):
-  iommu: Assign per device max PASID
-  iommu: Add attach/detach_dev_pasid domain ops
-
- drivers/dma/idxd/cdev.c                       |   2 +-
- drivers/dma/idxd/idxd.h                       |   1 -
- drivers/dma/idxd/init.c                       |  34 +--
- drivers/dma/idxd/sysfs.c                      |   7 -
- .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |   2 +-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   5 +-
- drivers/iommu/dma-iommu.c                     |  65 ++++++
- drivers/iommu/intel/iommu.c                   | 214 ++++++++++++++++--
- drivers/iommu/intel/svm.c                     |  51 +----
- drivers/iommu/iommu.c                         |   4 +-
- drivers/misc/uacce/uacce.c                    |   2 +-
- include/linux/dma-iommu.h                     |   7 +
- include/linux/intel-iommu.h                   |  15 +-
- include/linux/iommu.h                         |  37 ++-
- 14 files changed, 338 insertions(+), 108 deletions(-)
-
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 50666d250b36..881f8361eca2 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -2602,8 +2602,10 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
+ 		if (sm_supported(iommu)) {
+ 			if (pasid_supported(iommu)) {
+ 				int features = pci_pasid_features(pdev);
+-				if (features >= 0)
++				if (features >= 0) {
+ 					info->pasid_supported = features | 1;
++					iommu_set_dev_pasid_max(&pdev->dev, pci_max_pasids(pdev));
++				}
+ 			}
+ 
+ 			if (info->ats_supported && ecap_prs(iommu->ecap) &&
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index de0c57a567c8..369f05c2a4e2 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -364,6 +364,7 @@ struct iommu_fault_param {
+  * @fwspec:	 IOMMU fwspec data
+  * @iommu_dev:	 IOMMU device this device is linked to
+  * @priv:	 IOMMU Driver private data
++ * @pasid_max	 Max PASID value supported by this device
+  *
+  * TODO: migrate other per device data pointers under iommu_dev_data, e.g.
+  *	struct iommu_group	*iommu_group;
+@@ -375,8 +376,20 @@ struct dev_iommu {
+ 	struct iommu_fwspec		*fwspec;
+ 	struct iommu_device		*iommu_dev;
+ 	void				*priv;
++	unsigned int			pasid_max;
+ };
+ 
++static inline void iommu_set_dev_pasid_max(struct device *dev,
++					    unsigned int max)
++{
++	struct dev_iommu *param = dev->iommu;
++
++	if (WARN_ON(!param))
++		return;
++
++	param->pasid_max = max;
++}
++
+ int iommu_device_register(struct iommu_device *iommu,
+ 			  const struct iommu_ops *ops,
+ 			  struct device *hwdev);
 -- 
 2.25.1
 
