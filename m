@@ -1,89 +1,134 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555694DDCBE
-	for <lists.iommu@lfdr.de>; Fri, 18 Mar 2022 16:25:06 +0100 (CET)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 388774DDFDE
+	for <lists.iommu@lfdr.de>; Fri, 18 Mar 2022 18:27:57 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0CCC041905;
-	Fri, 18 Mar 2022 15:25:05 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BA41084893;
+	Fri, 18 Mar 2022 17:27:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X0cgkQ_qYDoT; Fri, 18 Mar 2022 15:25:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 22FF3418D1;
-	Fri, 18 Mar 2022 15:25:04 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EEmmafJ07ef9; Fri, 18 Mar 2022 17:27:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8641684894;
+	Fri, 18 Mar 2022 17:27:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E51A5C0082;
-	Fri, 18 Mar 2022 15:25:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 887B0C008A;
+	Fri, 18 Mar 2022 17:27:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9DB60C0012
- for <iommu@lists.linux-foundation.org>; Fri, 18 Mar 2022 15:25:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 11484C0012
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Mar 2022 17:27:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 8B6D360A4F
- for <iommu@lists.linux-foundation.org>; Fri, 18 Mar 2022 15:25:02 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 81E7941A0F
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Mar 2022 17:27:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S7CXGZt4kCKb for <iommu@lists.linux-foundation.org>;
- Fri, 18 Mar 2022 15:25:02 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DA42B60812
- for <iommu@lists.linux-foundation.org>; Fri, 18 Mar 2022 15:25:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647617101; x=1679153101;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=LlOEVehLpDxPQcChYnPKlnsRrBtAlMMFuCk3HXvGY80=;
- b=infSTjNUm4FmXdG6QRIoH2SKdqfyp4RqBTY/IAQuZnWd0rW17qVG1004
- xUkAeLOPgqasPXCoKiA3P22/os7E6uyjdFal67R/OTucJ8dsO1zqrs+w7
- hzUCDEr4JjVPx4+djZmuAurHX3XbO4Hd1DLA002xT1Uzazt6tTgcMKp/c
- MvN/NfxwuIrDR11SW09yf2trspe6MO1Wvo4rSqvfLMC/SUvbxPefpnJR7
- ze4JudalDs2xDgLE+9FINMMC/Ds9gg6K2TuwXqv45PBuaq2doZc1F4S6w
- gd/t1GqRWtuxQBGhHm1dKavUIA4JzI7K6jChgIJMy1n6BagGSz5QNX6J/ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="317871579"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="317871579"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 08:25:01 -0700
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="715521623"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 08:24:57 -0700
-Received: by lahna (sSMTP sendmail emulation); Fri, 18 Mar 2022 17:23:45 +0200
-Date: Fri, 18 Mar 2022 17:23:45 +0200
-From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] thunderbolt: Make iommu_dma_protection more accurate
-Message-ID: <YjSkAcxLDFmVdhEq@lahna>
-References: <2d01fa50c2650c730b0244929097737918e302e7.1647533152.git.robin.murphy@arm.com>
- <BL1PR12MB515783C0F998169D49D92A55E2129@BL1PR12MB5157.namprd12.prod.outlook.com>
- <BL1PR12MB51573F55B3C2B3922BAAA7F1E2129@BL1PR12MB5157.namprd12.prod.outlook.com>
- <YjRvMk1kcbMwJvx+@lahna>
- <65207fdf-c4ab-5165-dbda-8ab55b51adb7@arm.com>
- <YjSCWaq7Ej/2iJPp@lahna>
- <78fc0426-c22a-ec62-f92b-0019bea5947e@arm.com>
- <YjSbfScU0Ssuca3y@lahna>
- <73e25ee3-c2f3-0a72-e5cc-04e51f650f2e@arm.com>
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=nvidia.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jzYWq4D-R2Fm for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Mar 2022 17:27:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20607.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::607])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 613E941A18
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Mar 2022 17:27:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ejDs+sDJjtuMd8VREClzs1pMcgfXV++8drItxxT8lGk8eSM0S40rubUSZoFZFMeOtEHdV9wG114kgrckXcFMrAo/v+LYmTqDad+y/m5m93ECJewVvSv+ARRQexqBcMI4kJQpl8Tkf7TnsRgLNaUMhRGUn7hw1u9NzXY7A9NNWw3cOjYfh1lNElRPBYNO3WtrZq5UCWO/M/oz3KqR0fX5kZFVg6jLmIEoBXaApecQWDSzkdkQPL4j1G9qSRYOgTViw6xsudGzlj1dD1QspwwEozPiSr7f2H1xt4weTHIYuVXh2Q5I+XsOTZw1kkOO4QU4L8WMEB/071II2xqUM55e0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G+NIYmZvEuR2qPslGCgHBcIaYAVqGDq9BpbRITMn+Ig=;
+ b=WhZAipCh3ljmWhNqJiY5XnNGtCL19JGjhQxurI316mYRSQ0wzqM1L4bXhki3e0LLbA39HfZsYXx5koh5sg4KLErtRj0thy0euZYnhkCA4hXy1vt71oBQk9MWNz7dTuoGOvHv87chgNjcAL9U1Qw4M9phSS1wWlVoaiVoY/zUkqKDm5TCsyTzqqGKzbmD5A9STRMZhDkrBVV5AFzxOhVQuh1t7dbMaWfeMWGGHR3iGNIMKAoFqRM33aLqgjJew2m77NohBKRUzs7q3/3KSyhIwBSjlyt0AoI9zaneBNzRoX568rnIScnPzKOsIY8qASU/IslGc32PkOT4uYJ08rptiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G+NIYmZvEuR2qPslGCgHBcIaYAVqGDq9BpbRITMn+Ig=;
+ b=k2FhgqcvHX6YIRMxlHAfJvbzI4pWMlXzqi1IiXJcvDSOjpp0FJWRSliymipD2irXBAni9pC6yHB6/RktQfmVaQJGSsSoY9caUPFPT3jW3WiRJpHhBm3TrHp0Gj712ikKvIsIXvOvnpugq2bS7gz9SeqMF7LqvO7W95hOoM6sPrtt4GLiAjZDCrvgbqYxLftTaaeCl+fbDR76QpDGxDsJfpS1Ggb+I2WsJDDxoPaa68YG6+CmbDMYePrU8Lnela33X+JGOikjf2nK0SxpyA8tqUBsSgn1ffPNHb7z7l+PY4Pbo54zhuZ4ZaSSfQSj/1/+5r3aEbyNN9NG9K/aN5jmUA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MN2PR12MB3951.namprd12.prod.outlook.com (2603:10b6:208:16b::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Fri, 18 Mar
+ 2022 17:27:43 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::11a0:970a:4c24:c70c]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::11a0:970a:4c24:c70c%5]) with mapi id 15.20.5081.018; Fri, 18 Mar 2022
+ 17:27:43 +0000
+To: 
+Subject: [PATCH RFC 00/12] IOMMUFD Generic interface
+Date: Fri, 18 Mar 2022 14:27:25 -0300
+Message-Id: <0-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com>
+X-ClientProxiedBy: MN2PR15CA0012.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::25) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <73e25ee3-c2f3-0a72-e5cc-04e51f650f2e@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: "michael.jamet@intel.com" <michael.jamet@intel.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "andreas.noever@gmail.com" <andreas.noever@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 54c6f11d-2246-445b-8d2a-08da09049a56
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3951:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB395101FDB0E52134C2E8CC7FC2139@MN2PR12MB3951.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ypX54g1u3HImMjoOBomYp0LWJcZSeZmK5Do3XrlYEtzV7lfN9gmUR5bjYdtrk8/IOt3If56pqurcnlXjCJdG0EEgiF9fDflj8WcMWSY67xM2A4HWd+ziKt9EI/rJpZ9q+CodG9aaUz/VGvQHm1ITHOoVUM61hvaeobOzmbrjsi5PC+O8/04l5yea9grSUu7EUzxXzI3B0HGonY8YJfz2BTwsvZroWv5k6M/cvLdCDspi5hQVvgNak37CBlW2DwXGDjpeRgHSZH/OVyH77BxL5xi/YSNRWRh606s2GIIqLYh0zGJRxLnMhColnhQzkES5kzRGx50f6m/NvZt8e5+UQ6Q7ogSo0ks2CoBC+bzUEovew2ieQI9C+gY7P9WRBNJL0fhjzIrRWC1JQ+U3PbW5RUNiCnY1KJ7queqcRwEMeWebRcqy+gDe0nIUitX+vCIaPT/Q2n60JW5gW0Ry7eDE4o/B1aurPA+3qXGzlQcFbSYi7AK5r/HMEIFW5Cc1Hy2irMnJMRG2qyfpHmWxTwGWc5gBZuhJSoXWC8sWMmpPloq+4716z+COESOrlaAa3Ru8660VbUUEFPkeip9H4VLOJdnKzn9L7DXjjh2OUhnxl20G3WvGgSCQCKZp5NZhIwsDwqbcFWi+QImunlTzR83O91oH4LG5q49pK7bx9rckP9g1eue8BSPJo2liWnLd5uzli03MJMHdk9QlxSnm27y6Qw53cIyTmRv9LvCjrjdAzhlYr9T2QlMd9WAAKW759y/9Tv+MFZN36WD9KJN3ujiWegluZ+eeE1IhirNQ9NtC3snEbXPiyR5f9O5tHR+jNlvxtlN5yf061FGMR2i9grg5CYfN3bXNzrDCPYRCKQx3V4M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(7416002)(4326008)(2906002)(86362001)(508600001)(8676002)(6512007)(6506007)(6666004)(5660300002)(8936002)(109986005)(66946007)(26005)(66476007)(186003)(316002)(66556008)(2616005)(36756003)(966005)(38100700002)(6486002)(54906003)(4216001)(266003)(41533002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jqq1kx4cVjn2ithiqQYGW670zg4Ce93Mo+HQMOq+vg7iIALyOVM7dthowZSW?=
+ =?us-ascii?Q?/XU4kADuSb8tn4Ge2IQdVpBBo1NUXq3U5ZFNUmlS0rgf57wSM+qGhnpZG7Xy?=
+ =?us-ascii?Q?fylVW6DvRcF901bwHymVUZFnIo1nxy1g85GcShnkObV5YvzkGEM0gBcens5k?=
+ =?us-ascii?Q?4dCLqXiWJRKYGhqkE8Ji5FAgTXxpzyBe9Q42+U3k1bnZBfVix9qZ6gfUZgie?=
+ =?us-ascii?Q?0l1gajTCksQ4fxwJWzQeuE8LuSpfjeaccqgxDDzu+vvTJVz1NITjfMBqXYIu?=
+ =?us-ascii?Q?G76Ez26+3hP512sQcV7++20luMMBEFCN1bHq3xtlJ0cdQ0kUJik2cBEJMYS2?=
+ =?us-ascii?Q?WwzlR7TJpbmjxm6U/DlBx4e6qgOLYN9G7VuE/cYIqgCDR1zC+yOYVKQvbONJ?=
+ =?us-ascii?Q?88pX1hUN9IknYeV4PZg6fXAlXht9orBnTZWUhhyB47GR+Y4UqFYeHBh0X0VX?=
+ =?us-ascii?Q?iZeSwWL/kOWF2lJ2EBmbC3OLQILJUae4cAW1+dLTtnUBsx5f3pipi2MskYru?=
+ =?us-ascii?Q?WgHtT2SuUaMbn5out8YQyzveWIsmL48K36KvJYBdlrNOVLb70yNUq/tZ/Kj/?=
+ =?us-ascii?Q?s+3BSghy8koK2ymV8hiV7FbDIAfmNCprdp368QaoGCDKHLbzwQmvw/FHvWh9?=
+ =?us-ascii?Q?dBFDD4g1N8d15YG98DPu0Zbs5T1ELgg/nlaJ6Phyi4150565m4AOHHkPe1eN?=
+ =?us-ascii?Q?4TII1eVBF3fogY+A+a7BY4+kEknlEMXJBa4fKdmfY0l+xPTzTZeLF4JH4LO/?=
+ =?us-ascii?Q?FvNTBIVci1imECL1GpCtTC74wC/vNdSioDYDDIRAIigrO3N5nDkLz2FIHXrI?=
+ =?us-ascii?Q?XeCixm2DDwJxeZZvsba1Y4n7c29Op8B6WZuTb7vqzWXqWzGGO4gcFHYRn8Hf?=
+ =?us-ascii?Q?EkoG2j4j0qpbP3cYyFZFuxM5pV3oUhAgrODw8LNbdTkZi3AmmxF+1EZqjc0p?=
+ =?us-ascii?Q?fvmHiAp7VCdllZSleGotH3LFqWMcIL8ILoev0cipR7bskQ8GHX6R6poIF+CY?=
+ =?us-ascii?Q?/0inaRm41ebirM2039UYZG+g60JEcyC+7t06SscAIDKnkoFOyNnrUAnv5vjK?=
+ =?us-ascii?Q?JTQgIZdit1socte6/1TnsOkUdB9mpgaYTupSBgRJ1OjHh8ReoBOzLTZPN1L0?=
+ =?us-ascii?Q?/OUT4tsFa0DKF1APnIRIFNmU8KWUzHsXsUQF1TB25vwS9k4XoLk5y2qFFGQy?=
+ =?us-ascii?Q?WKW1tWEx5A/0ZQ30/mWUNJGOPar8/qDwXdsktgdOe/jVfGSIIuMUFzld83Bx?=
+ =?us-ascii?Q?6BcpCkHG859MYYUEQWcWt9GabE7b11PxKAAr1AJgIp/zQO6JLLIFjs2RaAHc?=
+ =?us-ascii?Q?w6bkLYILULlVbNGJQbaVT/EJWQMUdxQQb4m7jShCikNp/+NNpBqqykthYWy7?=
+ =?us-ascii?Q?8gOAcKL4pJEdjNWM9otQnyh0ZjDjvv4pl70bFtG2cSPpBH3YGrXZd0597LHj?=
+ =?us-ascii?Q?Krvkt7ihFbT/n80lMLaIIcuVuVhvdxyr?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54c6f11d-2246-445b-8d2a-08da09049a56
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2022 17:27:40.1947 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fsTle1cAnrtPKo2lq/mrnLUfJbz/1VeQ4VoxXKaGJiG1zmi5/XYvwe7xk1PsgcEg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3951
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
+ iommu@lists.linux-foundation.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,32 +141,193 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Robin,
+iommufd is the user API to control the IOMMU subsystem as it relates to
+managing IO page tables that point at user space memory.
 
-On Fri, Mar 18, 2022 at 03:15:19PM +0000, Robin Murphy wrote:
-> > IMHO we should just trust the firmare provided information here
-> > (otherwise we are screwed anyway as there is no way to tell if the
-> > devices connected prior the OS can still do DMA), and use the external
-> > facing port indicator to idenfity the ports that need DMA protection.
-> 
-> Indeed that's exactly what I want to do, but it begs the question of how we
-> *find* the firmware-provided information in the first place!
+It takes over from drivers/vfio/vfio_iommu_type1.c (aka the VFIO
+container) which is the VFIO specific interface for a similar idea.
 
-Oh, right :) Its the combination of ACPI _DSD "ExternalFacingPort"
-(which we already set, dev->external_facing, dev->untrusted for the
-devices behind these ports IIRC) and the DMAR opt-in bit. All these are
-already read by the kernel.
+We see a broad need for extended features, some being highly IOMMU device
+specific:
+ - Binding iommu_domain's to PASID/SSID
+ - Userspace page tables, for ARM, x86 and S390
+ - Kernel bypass'd invalidation of user page tables
+ - Re-use of the KVM page table in the IOMMU
+ - Dirty page tracking in the IOMMU
+ - Runtime Increase/Decrease of IOPTE size
+ - PRI support with faults resolved in userspace
 
-> I seem to have already started writing the dumb version that will walk the
-> whole PCI segment and assume the presence of any external-facing port
-> implies that we're good. Let me know if I should stop ;)
+As well as a need to access these features beyond just VFIO, VDPA for
+instance, but other classes of accelerator HW are touching on these areas
+now too.
 
-That sounds good to me, so don't stop just yet ;-)
+The v1 series proposed re-using the VFIO type 1 data structure, however it
+was suggested that if we are doing this big update then we should also
+come with a data structure that solves the limitations that VFIO type1
+has. Notably this addresses:
+
+ - Multiple IOAS/'containers' and multiple domains inside a single FD
+
+ - Single-pin operation no matter how many domains and containers use
+   a page
+
+ - A fine grained locking scheme supporting user managed concurrency for
+   multi-threaded map/unmap
+
+ - A pre-registration mechanism to optimize vIOMMU use cases by
+   pre-pinning pages
+
+ - Extended ioctl API that can manage these new objects and exposes
+   domains directly to user space
+
+ - domains are sharable between subsystems, eg VFIO and VDPA
+
+The bulk of this code is a new data structure design to track how the
+IOVAs are mapped to PFNs.
+
+iommufd intends to be general and consumable by any driver that wants to
+DMA to userspace. From a driver perspective it can largely be dropped in
+in-place of iommu_attach_device() and provides a uniform full feature set
+to all consumers.
+
+As this is a larger project this series is the first step. This series
+provides the iommfd "generic interface" which is designed to be suitable
+for applications like DPDK and VMM flows that are not optimized to
+specific HW scenarios. It is close to being a drop in replacement for the
+existing VFIO type 1.
+
+This is part two of three for an initial sequence:
+ - Move IOMMU Group security into the iommu layer
+   https://lore.kernel.org/linux-iommu/20220218005521.172832-1-baolu.lu@linux.intel.com/
+ * Generic IOMMUFD implementation
+ - VFIO ability to consume IOMMUFD
+   An early exploration of this is available here:
+    https://github.com/luxis1999/iommufd/commits/iommufd-v5.17-rc6
+
+Various parts of the above extended features are in WIP stages currently
+to define how their IOCTL interface should work.
+
+At this point, using the draft VFIO series, unmodified qemu has been
+tested to operate using iommufd on x86 and ARM systems.
+
+Several people have contributed directly to this work: Eric Auger, Kevin
+Tian, Lu Baolu, Nicolin Chen, Yi L Liu. Many more have participated in the
+discussions that lead here, and provided ideas. Thanks to all!
+
+This is on github: https://github.com/jgunthorpe/linux/commits/iommufd
+
+# S390 in-kernel page table walker
+Cc: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>
+# AMD Dirty page tracking
+Cc: Joao Martins <joao.m.martins@oracle.com>
+# ARM SMMU Dirty page tracking
+Cc: Keqian Zhu <zhukeqian1@huawei.com>
+Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+# ARM SMMU nesting
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+# Map/unmap performance
+Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+# VDPA
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+# Power
+Cc: David Gibson <david@gibson.dropbear.id.au>
+# vfio
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: kvm@vger.kernel.org
+# iommu
+Cc: iommu@lists.linux-foundation.org
+# Collaborators
+Cc: "Chaitanya Kulkarni" <chaitanyak@nvidia.com>
+Cc: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Yi Liu <yi.l.liu@intel.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Jason Gunthorpe (11):
+  interval-tree: Add a utility to iterate over spans in an interval tree
+  iommufd: File descriptor, context, kconfig and makefiles
+  kernel/user: Allow user::locked_vm to be usable for iommufd
+  iommufd: PFN handling for iopt_pages
+  iommufd: Algorithms for PFN storage
+  iommufd: Data structure to provide IOVA to PFN mapping
+  iommufd: IOCTLs for the io_pagetable
+  iommufd: Add a HW pagetable object
+  iommufd: Add kAPI toward external drivers
+  iommufd: vfio container FD ioctl compatibility
+  iommufd: Add a selftest
+
+Kevin Tian (1):
+  iommufd: Overview documentation
+
+ Documentation/userspace-api/index.rst         |    1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |    1 +
+ Documentation/userspace-api/iommufd.rst       |  224 +++
+ MAINTAINERS                                   |   10 +
+ drivers/iommu/Kconfig                         |    1 +
+ drivers/iommu/Makefile                        |    2 +-
+ drivers/iommu/iommufd/Kconfig                 |   22 +
+ drivers/iommu/iommufd/Makefile                |   13 +
+ drivers/iommu/iommufd/device.c                |  274 ++++
+ drivers/iommu/iommufd/hw_pagetable.c          |  142 ++
+ drivers/iommu/iommufd/io_pagetable.c          |  890 +++++++++++
+ drivers/iommu/iommufd/io_pagetable.h          |  170 +++
+ drivers/iommu/iommufd/ioas.c                  |  252 ++++
+ drivers/iommu/iommufd/iommufd_private.h       |  231 +++
+ drivers/iommu/iommufd/iommufd_test.h          |   65 +
+ drivers/iommu/iommufd/main.c                  |  346 +++++
+ drivers/iommu/iommufd/pages.c                 | 1321 +++++++++++++++++
+ drivers/iommu/iommufd/selftest.c              |  495 ++++++
+ drivers/iommu/iommufd/vfio_compat.c           |  401 +++++
+ include/linux/interval_tree.h                 |   41 +
+ include/linux/iommufd.h                       |   50 +
+ include/linux/sched/user.h                    |    2 +-
+ include/uapi/linux/iommufd.h                  |  223 +++
+ kernel/user.c                                 |    1 +
+ lib/interval_tree.c                           |   98 ++
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/iommu/.gitignore      |    2 +
+ tools/testing/selftests/iommu/Makefile        |   11 +
+ tools/testing/selftests/iommu/config          |    2 +
+ tools/testing/selftests/iommu/iommufd.c       | 1225 +++++++++++++++
+ 30 files changed, 6515 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/userspace-api/iommufd.rst
+ create mode 100644 drivers/iommu/iommufd/Kconfig
+ create mode 100644 drivers/iommu/iommufd/Makefile
+ create mode 100644 drivers/iommu/iommufd/device.c
+ create mode 100644 drivers/iommu/iommufd/hw_pagetable.c
+ create mode 100644 drivers/iommu/iommufd/io_pagetable.c
+ create mode 100644 drivers/iommu/iommufd/io_pagetable.h
+ create mode 100644 drivers/iommu/iommufd/ioas.c
+ create mode 100644 drivers/iommu/iommufd/iommufd_private.h
+ create mode 100644 drivers/iommu/iommufd/iommufd_test.h
+ create mode 100644 drivers/iommu/iommufd/main.c
+ create mode 100644 drivers/iommu/iommufd/pages.c
+ create mode 100644 drivers/iommu/iommufd/selftest.c
+ create mode 100644 drivers/iommu/iommufd/vfio_compat.c
+ create mode 100644 include/linux/iommufd.h
+ create mode 100644 include/uapi/linux/iommufd.h
+ create mode 100644 tools/testing/selftests/iommu/.gitignore
+ create mode 100644 tools/testing/selftests/iommu/Makefile
+ create mode 100644 tools/testing/selftests/iommu/config
+ create mode 100644 tools/testing/selftests/iommu/iommufd.c
+
+
+base-commit: d1c716ed82a6bf4c35ba7be3741b9362e84cd722
+-- 
+2.35.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
