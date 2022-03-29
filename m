@@ -1,86 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4079F4EA78A
-	for <lists.iommu@lfdr.de>; Tue, 29 Mar 2022 07:53:35 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFC74EAADB
+	for <lists.iommu@lfdr.de>; Tue, 29 Mar 2022 11:56:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E18E4415E5;
-	Tue, 29 Mar 2022 05:53:33 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1D99640AD7;
+	Tue, 29 Mar 2022 09:56:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2jSOwAMzEUkK; Tue, 29 Mar 2022 05:53:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A6454415D4;
-	Tue, 29 Mar 2022 05:53:32 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MXLIvCsXqLOE; Tue, 29 Mar 2022 09:56:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3C1B640ABB;
+	Tue, 29 Mar 2022 09:56:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D78FC0073;
-	Tue, 29 Mar 2022 05:53:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09ACDC0073;
+	Tue, 29 Mar 2022 09:56:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1979AC0012
- for <iommu@lists.linux-foundation.org>; Tue, 29 Mar 2022 05:53:31 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2FC79C0012
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Mar 2022 06:38:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id E5C2A404D3
- for <iommu@lists.linux-foundation.org>; Tue, 29 Mar 2022 05:53:30 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1E4F1605A3
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Mar 2022 06:38:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 28Dfpiqnvt0m for <iommu@lists.linux-foundation.org>;
- Tue, 29 Mar 2022 05:53:30 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Gbf6v9NMFoaS for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Mar 2022 06:38:35 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 472E640377
- for <iommu@lists.linux-foundation.org>; Tue, 29 Mar 2022 05:53:30 +0000 (UTC)
-Received: by mail-qk1-x732.google.com with SMTP id w141so13034381qkb.6
- for <iommu@lists.linux-foundation.org>; Mon, 28 Mar 2022 22:53:30 -0700 (PDT)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A8A88605A0
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Mar 2022 06:38:35 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id h19so14037570pfv.1
+ for <iommu@lists.linux-foundation.org>; Mon, 28 Mar 2022 23:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=z0ES53g0OOqsPoiGi2d2Co81xUcv6Z1BfsAHsJmc4I4=;
- b=RlMWCaOrAo5dN1BiL6EVuuy1RvRkHVnOIIbStddIbRL5Tff3uKYocdMkA+X90v6Fp6
- q61Ck7S19m2JKbIxic+yoY97H1FNks/88LSGlKfUWzPRfdNrUa4koSZn2i8z9XOxU7Y4
- JoECdrQIT8aOikMti6FwwT1MMczrwysp7zevGR8L97OMkJ5RwafEOZGEWHgjWkAPrNm8
- 2hagbnApe8/dJ7jwkppFVBWFWS4pjXfbddsBMdUocBkc4w+uZtBGml7Xaqu+iqPLxz0s
- I4d3z93wekZmLNdVuSz+LaySzuN7N5OXi6jV8X5bPqeCivCAH4GlhqcqFu91MEB0ERPs
- wzFA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=cih9eRaSIxbxmILbyn2YR4alicmKyfBJFHiUkf3CDZk=;
+ b=mcH+8nMY6FAMeK9TDj5Og3uT7XJOfTq2a+8r/uAmhySpfieb2bx+P3UjRNU/mGrHss
+ 43KZkCTLh7Iovpi3+enSGNqZwJHmTniXBUGyOU+7swz9qxfCS950DYfTj+5jmQcLBMHM
+ gG1Ju6nCyOUlLfeWpTUJ7iH2xc0wzlAd+0tsptRGA46pgcMONpp3iPYO19WbfEMHPX3u
+ T25XLls5oIG6KtLY5EN0obzi24MtfEqgx+dJFIg/SO2m+bs4NmxpFFq2hwUvRGIa5lrN
+ WRNDkmNFpgt05anwQfbcVHsbWBMJv5U3TjNuGDm0Dj2VEcapcdknVuaaiJRaRAWMxzGV
+ dCHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=z0ES53g0OOqsPoiGi2d2Co81xUcv6Z1BfsAHsJmc4I4=;
- b=377sqND5tK7faIP+z7UsmqDrXJMEk1c0shxHfOkQmEXYorrzIAoRlopurwBZWJEhvM
- NWxHwHcrrgENUjABNW1o44psXTMhY9Q7pk4A9e2mIHoOe6kmf95lNmQqV//FyYVvsYFg
- kq2AzeSw4SUzThM0eJibbgAaZIqTl34Ziypr+2syDcGzLSVbFS1HOgqjHh2SXufpVK7r
- 2/Dv/P7J08buDeileff+J0QWLnnZ3qFNGs+GSF67ksF/H3g72b3C6Yb2jlsAOkZe7CDN
- LUg1jA43asJOu+lcfgMo+BtgzjaF6l7xgD9WtkSn7g4YaQ5Q/dJaekOgJc6dKRCTbsem
- fkZg==
-X-Gm-Message-State: AOAM533m1pZKBdIkZoY48GPLIpejMrFcEwKsbLxgVOrV49Uapi2NhA/p
- G49c0cJOMbqgRu/Z/PisKnM=
-X-Google-Smtp-Source: ABdhPJzx5EMjqNBolLzGQPqTHbHt0diMdH9y1Q1vkoKXBy0Bq3/cBK5s99yJKHmDbeOjCWuRtwLKkw==
-X-Received: by 2002:a05:620a:4491:b0:67d:9929:ddb6 with SMTP id
- x17-20020a05620a449100b0067d9929ddb6mr18554334qkp.47.1648533209079; 
- Mon, 28 Mar 2022 22:53:29 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- h8-20020ac87d48000000b002e1c6faae9csm14153307qtb.28.2022.03.28.22.53.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 22:53:28 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To: joro@8bytes.org
-Subject: [PATCH] iommu: add null pointer check
-Date: Tue, 29 Mar 2022 05:53:22 +0000
-Message-Id: <20220329055322.2375563-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ bh=cih9eRaSIxbxmILbyn2YR4alicmKyfBJFHiUkf3CDZk=;
+ b=qX4hGq/12XAU8yneEHFAE77I8xLzZ+BimSyRZ+nWGd4+rbGMm2qzZ2qvJQKReXauW5
+ QUT11xZM26DWLXbsa5d9HJ8HqPOf6tEOBUgOGc9nai5miUAWfLa3llieBW9wVxQ1vS7j
+ CipWEZfmcuskI2S/4Hd0sgnl4KNICM1juMc+MS3BLd3kr4TDZ4vZbzo6G0BN0LKSEF83
+ DoXfkJMlm/E1Tx+BnTk/g6XX4APYpQUtuLYooPw7IDrlb3WC04t4BUt6I9uPzhdHfljg
+ nqS9ocZ9HRV10iyGk0n2i477uJHT1nblt6N9afnA4DZZ552pI0qIe8UC5s+VS2Ut7yZC
+ cLnw==
+X-Gm-Message-State: AOAM533QR+dMVuU2xosLteuQ4nN5ajz+3tcyQBchWRLTmzMFQY2+pNeX
+ Rdn9ALVLLqPAL83QN1lTyvs=
+X-Google-Smtp-Source: ABdhPJwW8ERIPKusBttDrjsrixouKMZeP5JnAJ4YeR9XngS5sp2SqudKSmkChfNpARzLmo8eQFWzSA==
+X-Received: by 2002:a63:214c:0:b0:381:1a27:fe1 with SMTP id
+ s12-20020a63214c000000b003811a270fe1mr918595pgm.328.1648535915132; 
+ Mon, 28 Mar 2022 23:38:35 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-80.three.co.id.
+ [180.214.232.80]) by smtp.gmail.com with ESMTPSA id
+ 96-20020a17090a09e900b001c6dc775159sm1504349pjo.46.2022.03.28.23.38.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Mar 2022 23:38:34 -0700 (PDT)
+Message-ID: <57f74780-6520-f2a4-8551-74c4b0986ac6@gmail.com>
+Date: Tue, 29 Mar 2022 13:38:26 +0700
 MIME-Version: 1.0
-Cc: Lv Ruyi <lv.ruyi@zte.com.cn>, iommu@lists.linux-foundation.org,
- Zeal Robot <zealci@zte.com.cn>, will@kernel.org, linux-kernel@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH V3 2/2] Documentation: x86: Clarify Intel IOMMU
+ documentation
+Content-Language: en-US
+To: Alex Deucher <alexander.deucher@amd.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, corbet@lwn.net, hpa@zytor.com, x86@kernel.org,
+ dave.hansen@linux.intel.com, bp@alien8.de, mingo@redhat.com,
+ tglx@linutronix.de, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+ will@kernel.org, iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ vasant.hegde@amd.com
+References: <20220328172829.718235-1-alexander.deucher@amd.com>
+ <20220328172829.718235-3-alexander.deucher@amd.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220328172829.718235-3-alexander.deucher@amd.com>
+X-Mailman-Approved-At: Tue, 29 Mar 2022 09:56:43 +0000
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,41 +103,21 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+On 29/03/22 00.28, Alex Deucher wrote:
+> Based on feedback from Robin on the initial AMD IOMMU
+> documentation, fix up the Intel documentation to
+> clarify IOMMU vs device and modern DMA API.
+> 
 
-kmem_cache_zalloc is a memory allocation function which can return NULL
-when some internal memory errors happen. Add null pointer check to avoid
-dereferencing null pointer.
+Maybe we can squash into [1/2]?
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
----
- drivers/iommu/fsl_pamu_domain.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
-index 69a4a62dc3b9..43849c027298 100644
---- a/drivers/iommu/fsl_pamu_domain.c
-+++ b/drivers/iommu/fsl_pamu_domain.c
-@@ -152,6 +152,10 @@ static void attach_device(struct fsl_dma_domain *dma_domain, int liodn, struct d
- 	}
- 
- 	info = kmem_cache_zalloc(iommu_devinfo_cache, GFP_ATOMIC);
-+	if (!info) {
-+		spin_unlock_irqrestore(&device_domain_lock, flags);
-+		return;
-+	}
- 
- 	info->dev = dev;
- 	info->liodn = liodn;
 -- 
-2.25.1
-
+An old man doll... just what I always wanted! - Clara
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
