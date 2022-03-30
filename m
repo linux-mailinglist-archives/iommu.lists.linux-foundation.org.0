@@ -1,89 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D444EBEEA
-	for <lists.iommu@lfdr.de>; Wed, 30 Mar 2022 12:37:32 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D82F4EC005
+	for <lists.iommu@lfdr.de>; Wed, 30 Mar 2022 13:47:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 97D0B61040;
-	Wed, 30 Mar 2022 10:37:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 144B2611E1;
+	Wed, 30 Mar 2022 11:47:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QhAR8nAjtUq6; Wed, 30 Mar 2022 10:37:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C119460BFC;
-	Wed, 30 Mar 2022 10:37:28 +0000 (UTC)
+	with ESMTP id 6Pk4zHq8woQD; Wed, 30 Mar 2022 11:47:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 41A48611DE;
+	Wed, 30 Mar 2022 11:47:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 99629C0082;
-	Wed, 30 Mar 2022 10:37:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 735A9C0087;
+	Wed, 30 Mar 2022 11:47:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C95ACC0012
- for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 10:37:27 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8A853C0012
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 11:47:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A73EE41C2D
- for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 10:37:27 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 76FCB611E1
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 11:47:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z1GXweVARHvA for <iommu@lists.linux-foundation.org>;
- Wed, 30 Mar 2022 10:37:26 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2D9F441C2B
- for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 10:37:26 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id r23so23905591edb.0
- for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 03:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=zk0PakqhMYo2nFjmrTKxunyt2MpesAgQERWC2WnfNEk=;
- b=qtB20WeQ8TqlA5Az/Y82F+D7x/DnDTFKbEzzFPSMBk0QRxFPiiRUGmWElNr2kbE9vD
- Gfcy3Q9HTiwvBsb7+8eSkCqzWmPE42L6sDxbqqgDapgUufsDVmdujlzTukO+yeqnpMxS
- hs+XySx0uq4x20C9bpF/3udDDwX7Hw1+hV2eQlBYHNd99uNHRN+BlLksKbOnjnXykiG/
- UU3JwQ+f6jKnjIp37pISID9iryLk7UfNteJgXzLMNvnjAyyPC+fH+oADq0eC0J0Ebhr1
- ZR5ZC4PM1hMfCWp96oIF4tDmHrETVbhAeZJim8Z1X4WJ/CinwApkMzeozj7SKZQlhUtC
- /faA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=zk0PakqhMYo2nFjmrTKxunyt2MpesAgQERWC2WnfNEk=;
- b=xEpTHr4OP8vwQFNZa/3FbXVrYlhT4Mhzrve7+Ds+/qu/Ti7Yv4trww9q+fVGaaL9AD
- duPccEqKR/V4if3jl/dtUNoUQ6qvcCm9LCq7eaU2FCJ3A8YFL+YaSc4ksaRNLCcFYVhZ
- He8TZPFhH4gwQG4/b4f1RGPqqjKwJsMwLmxbBW/KF2AsYd7W8kip9zJiZZGep+axpoBC
- b5h5VfkQ5K7ECpv8h3+9E3I5D8oXFhYs29L180WtLan67z1VH6ufJi4SBbbMUbDYV+sM
- mIl7imZ4ct2RxzyPS2TQhMfg2OPWWQkV2rrJnMri8PxZH2hbY0HH7dctOpHSEFhdGH7u
- iv8w==
-X-Gm-Message-State: AOAM532i03KFttwCQm7EFsd1Tcty6z8ztc+ObHU2nU8isGC1ZYZNq/6B
- NsNnUGuCAt6LND3aNMTPkpk=
-X-Google-Smtp-Source: ABdhPJw9D+m3ZJO4IlSutzipSpKEnO5i52pnHm9z5H4lL7rXz7bfI7kYfdoWNGgI3f6lSq8FklVM3A==
-X-Received: by 2002:a50:8707:0:b0:41a:68df:1a6e with SMTP id
- i7-20020a508707000000b0041a68df1a6emr9756964edb.31.1648636644169; 
- Wed, 30 Mar 2022 03:37:24 -0700 (PDT)
-Received: from orome ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- h14-20020a056402280e00b0041957289726sm10438767ede.79.2022.03.30.03.37.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 03:37:23 -0700 (PDT)
-Date: Wed, 30 Mar 2022 12:37:21 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [Patch v1] iommu: arm-smmu: Use arm-smmu-nvidia impl for Tegra234
-Message-ID: <YkQy4W07fe+PlcT/@orome>
-References: <20220329044436.27732-1-amhetre@nvidia.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 55f28YuRqr1z for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Mar 2022 11:47:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3CD50611D8
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Mar 2022 11:47:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 67604B81C28;
+ Wed, 30 Mar 2022 11:47:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF2EC34112;
+ Wed, 30 Mar 2022 11:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648640825;
+ bh=or7vMsAJ5qPVBHGYQ8AZJOSb3BRjqMrEX/v6pBzhP1A=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=CxX03L89TSoBxONZnPq1dWY2lUOs+WFCfvVAOp5gHwu67xMjF86suY9bf9x3TXag3
+ JdwcUKRAN+5Xtab7hU1W5DA2Cp0+33/d6Q0eZJg86qI7V4WCBQdZAPjvDZgkuPSSFz
+ v2/QPCH5sqknvcpK85d+3F7enSRTnR8Sz0BYJbSzJXm99rVj1h74/ifZm/nD6P1C80
+ qsHZlJdStBzF2nPiLnscIBo0dtcaG+dS1/3bmUWk79XWtWbb0tK+DjhGyRev7fllJ/
+ arEsopXvmnc+jxEXboRIndEMoRhKzqUh80FYTe6VyJOSNa0QmYmcLQwzrL6wbZDXx5
+ SBAl4dMgwB1/w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 11/66] media: iommu/mediatek-v1: Free the existed
+ fwspec if the master dev already has
+Date: Wed, 30 Mar 2022 07:45:50 -0400
+Message-Id: <20220330114646.1669334-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220330114646.1669334-1-sashal@kernel.org>
+References: <20220330114646.1669334-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20220329044436.27732-1-amhetre@nvidia.com>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
-Cc: Snikam@nvidia.com, linux-kernel@vger.kernel.org,
- Ashish Mhetre <amhetre@nvidia.com>, robin.murphy@arm.com,
- iommu@lists.linux-foundation.org, jonathanh@nvidia.com,
- linux-tegra@vger.kernel.org, mperttunen@nvidia.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org
+X-stable: review
+X-Patchwork-Hint: Ignore
+Cc: Sasha Levin <sashal@kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Frank Wunderlich <frank-w@public-files.de>, matthias.bgg@gmail.com,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,81 +82,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1415243909569756473=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+From: Yong Wu <yong.wu@mediatek.com>
 
---===============1415243909569756473==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="/KyzvAGB3/jpeRiy"
-Content-Disposition: inline
+[ Upstream commit 822a2ed8c606caf6a11b1a180b8e46292bd77d71 ]
 
+When the iommu master device enters of_iommu_xlate, the ops may be
+NULL(iommu dev is defered), then it will initialize the fwspec here:
 
---/KyzvAGB3/jpeRiy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[<c0c9c5bc>] (dev_iommu_fwspec_set) from [<c06bda80>]
+(iommu_fwspec_init+0xbc/0xd4)
+[<c06bd9c4>] (iommu_fwspec_init) from [<c06c0db4>]
+(of_iommu_xlate+0x7c/0x12c)
+[<c06c0d38>] (of_iommu_xlate) from [<c06c10e8>]
+(of_iommu_configure+0x144/0x1e8)
 
-On Tue, Mar 29, 2022 at 10:14:36AM +0530, Ashish Mhetre wrote:
-> Tegra234 has 2 pairs of ARM MMU-500 instances. Each pair is used
-> together and should be programmed identically.
-> Add compatible string of Tegra234 iommu nodes in arm_smmu_impl_init()
-> so that arm-smmu-nvidia implementation will be used for programming
-> these SMMU instances.
->=20
-> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
-> ---
->  drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+BUT the mtk_iommu_v1.c only supports arm32, the probing flow still is a bit
+weird. We always expect create the fwspec internally. otherwise it will
+enter here and return fail.
 
-I already sent out this patch a couple of months ago, though I realize
-that it still hasn't been applied:
+static int mtk_iommu_create_mapping(struct device *dev,
+				    struct of_phandle_args *args)
+{
+        ...
+	if (!fwspec) {
+	        ....
+	} else if (dev_iommu_fwspec_get(dev)->ops != &mtk_iommu_ops) {
+                >>>>>>>>>>Enter here. return fail.<<<<<<<<<<<<
+		return -EINVAL;
+	}
+	...
+}
 
-	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D276030
+Thus, Free the existed fwspec if the master device already has fwspec.
 
-Joerg, any chance we can still get that series into v5.18? I've already
-applied patch 4 given that Rob had acked the DT bindings changes. I know
-it's a bit late, but this has been on the list for a couple of months
-and has Rob's Reviewed-by on the bindings and Will's Acked-by on the ARM
-SMMU driver patches.
+This issue is reported at:
+https://lore.kernel.org/linux-mediatek/trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01/
 
-If it's too late for v5.18, is there anything else you're waiting for so
-that this can go into v5.19?
+Reported-by: Frank Wunderlich <frank-w@public-files.de>
+Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Acked-by: Joerg Roedel <jroedel@suse.de>
+Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/iommu/mtk_iommu_v1.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Thanks,
-Thierry
-
---/KyzvAGB3/jpeRiy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJEMuEACgkQ3SOs138+
-s6HlOg//TjNJ4z0WyKy0AxRsqlIcw2z3MucsPxsaWi4GkY7aRO7MwWwkFgO47mZZ
-eQ+C5Jqy6la7Z9jWrpjDqKUDS7LqNIHq0u5sC+i2eEmmk+97aejtm5LwguwOp1qv
-3zq88Yy8OjA+sfH8wwQ3stqmnNNHMS56eqAgNlItBbiDkreYsR75TtAOhu7zrJZa
-UABYC3Uhl4fYAJUiWI9Acf/ggrvCk8q6h/XNL0eRzxXY4s7nvOBWkTJHDqiGlTUG
-TsqGx9w3T5IVbB+gkYMy/vW24HbeE19eYCgSxXXcR2sbBCB/eFXdG9SsfIQiUT37
-KR6nriHdNNmR4mrGQPWfhj1Myo5DW59aRNliWvJWE7lpNpUo1OvIrX7s1WPYIvLn
-ooc7da5IFZgFsD6QQX6DaM58pZeYvMmgzwB2dtbq5D/6UEDlsiSFb4nunHkfVuZO
-yQT+7Xh2ck0kxnugqvEij9UzGXBjLZkeBlUGhs7+0KIUFUekRuh/ppbL1ZtijQNA
-Um4IeRw425O7qRDbBwl/T9sxeKIJif//QbUKrNHCeXaiyRApf54DnQOTbY3YbTdE
-9bTHNbC1Q+fUS92lRe+DpFVUPVvjZeti5lUcFqyfMDrqEumIa7zK9vorP4w6/QQK
-LTCzBjImHuiI7mrEuRkRGFfM6a6emMdmPrVHyyHY4BrM0c8D1tc=
-=8a7i
------END PGP SIGNATURE-----
-
---/KyzvAGB3/jpeRiy--
-
---===============1415243909569756473==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+index be22fcf988ce..1467ba1e4417 100644
+--- a/drivers/iommu/mtk_iommu_v1.c
++++ b/drivers/iommu/mtk_iommu_v1.c
+@@ -425,6 +425,15 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+ 	struct mtk_iommu_data *data;
+ 	int err, idx = 0;
+ 
++	/*
++	 * In the deferred case, free the existed fwspec.
++	 * Always initialize the fwspec internally.
++	 */
++	if (fwspec) {
++		iommu_fwspec_free(dev);
++		fwspec = dev_iommu_fwspec_get(dev);
++	}
++
+ 	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
+ 					   "#iommu-cells",
+ 					   idx, &iommu_spec)) {
+-- 
+2.34.1
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============1415243909569756473==--
