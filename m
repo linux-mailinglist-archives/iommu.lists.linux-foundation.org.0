@@ -1,61 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D484EDB12
-	for <lists.iommu@lfdr.de>; Thu, 31 Mar 2022 16:04:22 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 308044EDC2E
+	for <lists.iommu@lfdr.de>; Thu, 31 Mar 2022 16:55:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8F5FB60B85;
-	Thu, 31 Mar 2022 14:04:19 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C66BF6131B;
+	Thu, 31 Mar 2022 14:55:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LUow-PpJdpDA; Thu, 31 Mar 2022 14:04:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id A94BA61311;
-	Thu, 31 Mar 2022 14:04:18 +0000 (UTC)
+	with ESMTP id lYnam-wLCMW9; Thu, 31 Mar 2022 14:55:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D38A761315;
+	Thu, 31 Mar 2022 14:55:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BB691C0086;
-	Thu, 31 Mar 2022 14:04:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B49EC0073;
+	Thu, 31 Mar 2022 14:55:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DF2BAC0012
- for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 07:11:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7647CC0012
+ for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 14:55:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C7D42415F1
- for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 07:11:07 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6EF436131B
+ for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 14:55:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uCKfW71o12mN for <iommu@lists.linux-foundation.org>;
- Thu, 31 Mar 2022 07:11:04 +0000 (UTC)
-X-Greylist: delayed 00:19:07 by SQLgrey-1.8.0
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A57184054A
- for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 07:11:04 +0000 (UTC)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149]
- helo=[192.168.66.200]); authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1nZoeu-00019N-LQ; Thu, 31 Mar 2022 08:51:53 +0200
-Message-ID: <9e3c47e0-6807-081d-feb7-ed7c5fe1d1f1@leemhuis.info>
-Date: Thu, 31 Mar 2022 08:51:51 +0200
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id z4RxoYAy3xqS for <iommu@lists.linux-foundation.org>;
+ Thu, 31 Mar 2022 14:55:46 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A985C61315
+ for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 14:55:46 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id v13so19920139qkv.3
+ for <iommu@lists.linux-foundation.org>; Thu, 31 Mar 2022 07:55:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=N7LizCHnjlNbTA7L5oo06xRIVouidWsWp/Muu8IQBaI=;
+ b=bbuvSgDp27kFRs5kUzXlzygSwI7UT/O0wqkGn5Nc8LhaA2AECwG/JssJQabxdos/4d
+ HaWXO9broK+ktqf3/iD4ocQd1QR805aj1GyXgmoXlryjP/ctlK9v99kDJrInxmNmzaOy
+ RgiGwf6lZ69twj0tu2VynkLbE11gXaL07HNMRwrIBJLufXB95vgs7J7fjuOMt2zz7xe9
+ vktnW0aPLuLc1X9bXkZSHjtzoifZgPG9N49S+ptKRAUq12u3CwtKK/YoJc/UlVP7kDZ+
+ VQd1D95r4SCX8k7rqsNe2VAxmOCqsRZk/jr7YQ3wQ+Zo60KAn81MyYqbHvQ8nQtCXU0s
+ pQfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=N7LizCHnjlNbTA7L5oo06xRIVouidWsWp/Muu8IQBaI=;
+ b=t/g3SguQ1p18er7EJLmkPIhxgDgXbB8jFklO8b44K80TQeV9TUF0Kt+8bXlpheDR9f
+ g8Ti/9aTWbQYKbOieGvXDVSEY7NKcHuhkIhKZgteQODSibOzJqxHftVUyzsJMkfq2dRX
+ B2279j4jtqGyaGvBCmqqmkgvWYvOX0owLGoKLF19WNwKAIJ9z3WieyYm500J1b83LsMO
+ rMTKCfRwQT/zIVKOo0x9Car61/mvWqjZXuzQTzrgvMPZswwH2yCXlWzkj4K/hX++f34a
+ Bd4wB1aUKzl3hYE/OFWcNxqQOQcvgnQn4XxsSWzTGTZ2YBIIiIu1BA7yVFcsxahVGapf
+ NgEg==
+X-Gm-Message-State: AOAM5319u1amkVOZv/a2N3xWBfrTaUbBdphP2JGRuvmDdHiVCJcIBd3W
+ u85Xq/sBvEPTHExz91tYHnMH5w==
+X-Google-Smtp-Source: ABdhPJy5034ceSRr34bKxO0lTD6+//Dl0Iw4VbZPHrTjnUkOt1ayzWxy1rlNeo/zszGJibqXu6Y5xA==
+X-Received: by 2002:a05:620a:22cf:b0:67e:e43:239d with SMTP id
+ o15-20020a05620a22cf00b0067e0e43239dmr3636919qki.299.1648738545555; 
+ Thu, 31 Mar 2022 07:55:45 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129]) by smtp.gmail.com with ESMTPSA id
+ h8-20020ac87d48000000b002e1c6faae9csm19564317qtb.28.2022.03.31.07.55.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 07:55:44 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1nZwD9-009v5U-0t; Thu, 31 Mar 2022 11:55:43 -0300
+Date: Thu, 31 Mar 2022 11:55:43 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCH] iommu/omap: Fix regression in probe for NULL pointer
+ dereference
+Message-ID: <20220331145543.GN64706@ziepe.ca>
+References: <20220331062301.24269-1-tony@atomide.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To: regressions@lists.linux.dev
-References: <1648659326.eabkokyuym.none.ref@localhost>
- <1648659326.eabkokyuym.none@localhost>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: "dma-mapping: remove CONFIG_DMA_REMAP" causes AMD SME boot fail
-In-Reply-To: <1648659326.eabkokyuym.none@localhost>
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1648710664;f09be885;
-X-HE-SMSGID: 1nZoeu-00019N-LQ
-X-Mailman-Approved-At: Thu, 31 Mar 2022 14:04:15 +0000
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20220331062301.24269-1-tony@atomide.com>
+Cc: linux-omap@vger.kernel.org, Drew Fustini <dfustini@baylibre.com>,
+ iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,41 +102,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-[TLDR: I'm adding the regression report below to regzbot, the Linux
-kernel regression tracking bot; all text you find below is compiled from
-a few templates paragraphs you might have encountered already already
-from similar mails.]
-
-Hi, this is your Linux kernel regression tracker. Sending this just to
-the lists, as it's already handled.
-
-On 30.03.22 19:51, Alex Xu (Hello71) wrote:
+On Thu, Mar 31, 2022 at 09:23:01AM +0300, Tony Lindgren wrote:
+> Commit 3f6634d997db ("iommu: Use right way to retrieve iommu_ops") started
+> triggering a NULL pointer dereference for some omap variants:
 > 
-> After a recent kernel update, booting one of my machines causes it to 
-> hang on a black screen. Pressing Lock keys on the USB keyboard does not 
-> turn on the indicators, and the machine does not appear on the Ethernet 
-> network. I don't have a serial port on this machine. I didn't try 
-> netconsole, but I suspect it won't work.
+> __iommu_probe_device from probe_iommu_group+0x2c/0x38
+> probe_iommu_group from bus_for_each_dev+0x74/0xbc
+> bus_for_each_dev from bus_iommu_probe+0x34/0x2e8
+> bus_iommu_probe from bus_set_iommu+0x80/0xc8
+> bus_set_iommu from omap_iommu_init+0x88/0xcc
+> omap_iommu_init from do_one_initcall+0x44/0x24
 > 
-> Setting mem_encrypt=0 seems to resolve the issue. Reverting f5ff79fddf0e 
-> ("dma-mapping: remove CONFIG_DMA_REMAP") also appears to resolve the 
-> issue.
+> This is caused by omap iommu probe returning 0 instead of ERR_PTR(-ENODEV)
+> as noted by Jason Gunthorpe <jgg@ziepe.ca>.
 > 
-> The machine in question has an AMD Ryzen 5 1600 and ASRock B450 Pro4.
+> Looks like the regression already happened with an earlier commit
+> 6785eb9105e3 ("iommu/omap: Convert to probe/release_device() call-backs")
+> that changed the function return type and missed converting one place.
+> 
+> Cc: Drew Fustini <dfustini@baylibre.com>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Cc: Suman Anna <s-anna@ti.com>
+> Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
+> Fixes: 6785eb9105e3 ("iommu/omap: Convert to probe/release_device() call-backs")
+> Fixes: 3f6634d997db ("iommu: Use right way to retrieve iommu_ops")
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+> ---
+>  drivers/iommu/omap-iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-To be sure below issue doesn't fall through the cracks unnoticed, I'm
-adding it to regzbot, my Linux kernel regression tracking bot:
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-#regzbot ^introduced f5ff79fddf0e
-#regzbot title dma: "dma-mapping: remove CONFIG_DMA_REMAP" causes AMD
-SME boot fail
-#regzbot ignore-activity
-
-If it turns out this isn't a regression, free free to remove it from the
-tracking by sending a reply to this thread containing a paragraph like
-"#regzbot invalid: reason why this is invalid" (without the quotes).
-
-Ciao, Thorsten
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
