@@ -1,61 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46E84F0E7F
-	for <lists.iommu@lfdr.de>; Mon,  4 Apr 2022 07:06:15 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7134F0E81
+	for <lists.iommu@lfdr.de>; Mon,  4 Apr 2022 07:06:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 51F3C408E0;
-	Mon,  4 Apr 2022 05:06:14 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A826060FA8;
+	Mon,  4 Apr 2022 05:06:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YAafTfvqXYPM; Mon,  4 Apr 2022 05:06:13 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MeJRMpCZp-X5; Mon,  4 Apr 2022 05:06:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 78D7C40510;
-	Mon,  4 Apr 2022 05:06:13 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DB7B160F8D;
+	Mon,  4 Apr 2022 05:06:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 41A0EC002C;
-	Mon,  4 Apr 2022 05:06:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A840BC0012;
+	Mon,  4 Apr 2022 05:06:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 39C22C0012
- for <iommu@lists.linux-foundation.org>; Mon,  4 Apr 2022 05:06:11 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1384FC0012
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Apr 2022 05:06:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2125760F82
- for <iommu@lists.linux-foundation.org>; Mon,  4 Apr 2022 05:06:11 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id E792460F82
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Apr 2022 05:06:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rbq0GqsH4zZ8 for <iommu@lists.linux-foundation.org>;
- Mon,  4 Apr 2022 05:06:09 +0000 (UTC)
+ with ESMTP id 3THzXS89qINd for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Apr 2022 05:06:14 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp3.osuosl.org (Postfix) with ESMTPS id AF65760B98
- for <iommu@lists.linux-foundation.org>; Mon,  4 Apr 2022 05:06:09 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6B46F60A91
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Apr 2022 05:06:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=fpYq2gch6ejmPkcFKPjSyDr7OAs4OQSLe0uyAoUEPa0=; b=PaIuEfkhd/fM6UAW/lkkUPAGUw
- 7D5xF0SVLHLn6WNNOsXP6C40xAJZcMJAp3la1OozTUK8mwJu3uWuRjEtjLg4M6bNDA86tDasdvIYU
- bo3JyS8R6vbX1G4c2tiWI6Gz3lv5HpsNhObISRr0qguR9mlnwpLVqospUKY7NcL04521npcDEwcir
- XEwLaaZPWonss1WY91g4Xlb0lxWmrYXxqGad6j85yvjhLRJu2pOsDzHuWiW+JffLV5HBKLJr+yHQT
- Dt5YABuyfjeH7DMGRPGA1eHB833fjns0mquYYUVQlHIlLbJdGUQ4POXbeGqKn3Z3w179g12ahwlLj
- L25e2fIw==;
+ bh=3bKOwa/vIjXDTctiHR3yrY0M3Nyf9zVmyxkMzvumqG8=; b=EB7gLsK0UvHav6B4abhaPvjJm4
+ FSQhyO6o0EYvmijqssvR2Q1Gs9e9b7dbZYgZENsl7+jB7rWSFCNAlCbR1TzAA8Q1NVRTUwZMhXAYN
+ +T/3Yc95IAf59JX6BzJyzdXMEVJ81KmzgtXkS84pkf42p/XCgBb24+Pe6oBHh6kTieMTt7Nj5y23Z
+ wylVK+JE2wcAm+tlJTJmpJJ11tUpLjiTBDIjrztXtkuVK6/+I8gAYxYGF0MZhZA3St6JQ6dVe7QQT
+ 4i4Fld7CnHSKQSuWGvKwAQtoK98Bi5BCZne67U1mZDxrdJZA+51OSEmE/tuOtZVdA7Qu782BgN/Y9
+ QNbBls1g==;
 Received: from 089144211060.atnat0020.highway.a1.net ([89.144.211.60]
  helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbEuk-00D8oG-Qt; Mon, 04 Apr 2022 05:06:07 +0000
+ id 1nbEuq-00D8ox-50; Mon, 04 Apr 2022 05:06:13 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 01/15] dma-direct: use is_swiotlb_active in dma_direct_map_page
-Date: Mon,  4 Apr 2022 07:05:45 +0200
-Message-Id: <20220404050559.132378-2-hch@lst.de>
+Subject: [PATCH 02/15] swiotlb: make swiotlb_exit a no-op if SWIOTLB_FORCE is
+ set
+Date: Mon,  4 Apr 2022 07:05:46 +0200
+Message-Id: <20220404050559.132378-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220404050559.132378-1-hch@lst.de>
 References: <20220404050559.132378-1-hch@lst.de>
@@ -90,28 +89,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use the more specific is_swiotlb_active check instead of checking the
-global swiotlb_force variable.
+If force bouncing is enabled we can't release the buffers.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- kernel/dma/direct.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/dma/swiotlb.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-index 4632b0f4f72eb..4dc16e08c7e1a 100644
---- a/kernel/dma/direct.h
-+++ b/kernel/dma/direct.h
-@@ -91,7 +91,7 @@ static inline dma_addr_t dma_direct_map_page(struct device *dev,
- 		return swiotlb_map(dev, phys, size, dir, attrs);
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 73a41cec9e386..98bb0eb44a7bf 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -369,6 +369,9 @@ void __init swiotlb_exit(void)
+ 	unsigned long tbl_vaddr;
+ 	size_t tbl_size, slots_size;
  
- 	if (unlikely(!dma_capable(dev, dma_addr, size, true))) {
--		if (swiotlb_force != SWIOTLB_NO_FORCE)
-+		if (is_swiotlb_active(dev))
- 			return swiotlb_map(dev, phys, size, dir, attrs);
++	if (swiotlb_force == SWIOTLB_FORCE)
++		return;
++
+ 	if (!mem->nslabs)
+ 		return;
  
- 		dev_WARN_ONCE(dev, 1,
 -- 
 2.30.2
 
