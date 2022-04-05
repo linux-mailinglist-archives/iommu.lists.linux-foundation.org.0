@@ -1,79 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64984F2F72
-	for <lists.iommu@lfdr.de>; Tue,  5 Apr 2022 14:16:02 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3394F2F64
+	for <lists.iommu@lfdr.de>; Tue,  5 Apr 2022 14:12:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5C0404056F;
-	Tue,  5 Apr 2022 12:16:01 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D295A8272A;
+	Tue,  5 Apr 2022 12:12:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WRHruF8Wjc4C; Tue,  5 Apr 2022 12:16:00 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WQgtRlto_5lp; Tue,  5 Apr 2022 12:12:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D40164055F;
-	Tue,  5 Apr 2022 12:15:59 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 15D2A82725;
+	Tue,  5 Apr 2022 12:12:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A20AEC0012;
-	Tue,  5 Apr 2022 12:15:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D1D01C0073;
+	Tue,  5 Apr 2022 12:12:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 044A2C0012
- for <iommu@lists.linux-foundation.org>; Tue,  5 Apr 2022 12:15:58 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 13717C0012
+ for <iommu@lists.linux-foundation.org>; Tue,  5 Apr 2022 12:12:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D534540265
- for <iommu@lists.linux-foundation.org>; Tue,  5 Apr 2022 12:15:57 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id E5F94400F1
+ for <iommu@lists.linux-foundation.org>; Tue,  5 Apr 2022 12:12:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H9d01dktliXp for <iommu@lists.linux-foundation.org>;
- Tue,  5 Apr 2022 12:15:56 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 38wPtJ7Ah0ie for <iommu@lists.linux-foundation.org>;
+ Tue,  5 Apr 2022 12:11:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A0FD040255
- for <iommu@lists.linux-foundation.org>; Tue,  5 Apr 2022 12:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649160956; x=1680696956;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eLlXIWgzT4jg7igfmDa9mpSj+r1W/DMEJ9zt2e+BDk4=;
- b=BROFxVoaMdJ9K3TW78g89ECva9COhsR+KZdSIpNuB+CplyS31FqpO7KS
- f+Zm8dbgsvviWO1GUchRhbsi/1kokykUjP1y4U/EyTtDEw42dYU75wCu3
- 3X5Ptdp6q1WLlWcrqBe32i5YI1H9KD68oIkJLwql2cLkbqBSRi8mKkK6b
- 0nPcCcdUzoSG91pJYUKZu161QQ24tTkQX3sZC+RlsRxN/PZKY9fh7QPq0
- IVsopk/QFZ/K/+32GBkMd1ifAu9XYmQE9/ioSSCBc+yzhWPhx500Ml1cR
- NMAMur2fpbInQJex6lxim03Np6JG9U1SrmDYabBz4JwP8nZf9+TN1ntpT g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="241320006"
-X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; d="scan'208";a="241320006"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 05:15:56 -0700
-X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; d="scan'208";a="505260917"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 05:15:51 -0700
-Received: by lahna (sSMTP sendmail emulation); Tue, 05 Apr 2022 15:09:07 +0300
-Date: Tue, 5 Apr 2022 15:09:07 +0300
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v3 3/4] thunderbolt: Make iommu_dma_protection more
- accurate
-Message-ID: <YkwxY59ACqFF9jer@lahna>
-References: <cover.1649089693.git.robin.murphy@arm.com>
- <b1f89ea2ad38221e0b75783357b9afb53087061d.1649089693.git.robin.murphy@arm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp2.osuosl.org (Postfix) with ESMTP id BCC0A4055F
+ for <iommu@lists.linux-foundation.org>; Tue,  5 Apr 2022 12:11:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 077B5D6E;
+ Tue,  5 Apr 2022 05:11:59 -0700 (PDT)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3680E3F5A1;
+ Tue,  5 Apr 2022 05:11:58 -0700 (PDT)
+From: Robin Murphy <robin.murphy@arm.com>
+To: alex.williamson@redhat.com
+Subject: [PATCH] vfio: Stop using iommu_present()
+Date: Tue,  5 Apr 2022 13:11:54 +0100
+Message-Id: <537103bbd7246574f37f2c88704d7824a3a889f2.1649160714.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b1f89ea2ad38221e0b75783357b9afb53087061d.1649089693.git.robin.murphy@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: michael.jamet@intel.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, YehezkelShB@gmail.com,
- iommu@lists.linux-foundation.org, mario.limonciello@amd.com,
- andreas.noever@gmail.com, hch@lst.de
+Cc: iommu@lists.linux-foundation.org, cohuck@redhat.com,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,34 +67,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Apr 05, 2022 at 11:41:03AM +0100, Robin Murphy wrote:
-> Between me trying to get rid of iommu_present() and Mario wanting to
-> support the AMD equivalent of DMAR_PLATFORM_OPT_IN, scrutiny has shown
-> that the iommu_dma_protection attribute is being far too optimistic.
-> Even if an IOMMU might be present for some PCI segment in the system,
-> that doesn't necessarily mean it provides translation for the device(s)
-> we care about. Furthermore, all that DMAR_PLATFORM_OPT_IN really does
-> is tell us that memory was protected before the kernel was loaded, and
-> prevent the user from disabling the intel-iommu driver entirely. While
-> that lets us assume kernel integrity, what matters for actual runtime
-> DMA protection is whether we trust individual devices, based on the
-> "external facing" property that we expect firmware to describe for
-> Thunderbolt ports.
-> 
-> It's proven challenging to determine the appropriate ports accurately
-> given the variety of possible topologies, so while still not getting a
-> perfect answer, by putting enough faith in firmware we can at least get
-> a good bit closer. If we can see that any device near a Thunderbolt NHI
-> has all the requisites for Kernel DMA Protection, chances are that it
-> *is* a relevant port, but moreover that implies that firmware is playing
-> the game overall, so we'll use that to assume that all Thunderbolt ports
-> should be correctly marked and thus will end up fully protected.
-> 
-> CC: Mario Limonciello <mario.limonciello@amd.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+IOMMU groups have been mandatory for some time now, so a device without
+one is necessarily a device without any usable IOMMU, therefore the
+iommu_present() check is redundant (or at best unhelpful).
 
-Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+ drivers/vfio/vfio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
+index a4555014bd1e..7b0a7b85e77e 100644
+--- a/drivers/vfio/vfio.c
++++ b/drivers/vfio/vfio.c
+@@ -745,11 +745,11 @@ static struct vfio_group *vfio_group_find_or_alloc(struct device *dev)
+ 
+ 	iommu_group = iommu_group_get(dev);
+ #ifdef CONFIG_VFIO_NOIOMMU
+-	if (!iommu_group && noiommu && !iommu_present(dev->bus)) {
++	if (!iommu_group && noiommu) {
+ 		/*
+ 		 * With noiommu enabled, create an IOMMU group for devices that
+-		 * don't already have one and don't have an iommu_ops on their
+-		 * bus.  Taint the kernel because we're about to give a DMA
++		 * don't already have one, implying no IOMMU hardware/driver
++		 * exists.  Taint the kernel because we're about to give a DMA
+ 		 * capable device to a user without IOMMU protection.
+ 		 */
+ 		group = vfio_noiommu_group_alloc(dev, VFIO_NO_IOMMU);
+-- 
+2.28.0.dirty
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
