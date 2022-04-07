@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85674F78AF
-	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 10:00:36 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABA84F78B2
+	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 10:00:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7102B83E8C;
-	Thu,  7 Apr 2022 08:00:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0FC7060F45;
+	Thu,  7 Apr 2022 08:00:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 59Js0tsIBD47; Thu,  7 Apr 2022 08:00:34 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gYjoppY7ZSgU; Thu,  7 Apr 2022 08:00:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8B0D083F22;
-	Thu,  7 Apr 2022 08:00:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 337E5611CD;
+	Thu,  7 Apr 2022 08:00:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64F39C0012;
-	Thu,  7 Apr 2022 08:00:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AE14C0012;
+	Thu,  7 Apr 2022 08:00:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 96E5CC0012
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 08:00:33 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86319C0012
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 08:00:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 84CA2611C9
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 08:00:33 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 65C46611CD
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 08:00:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rO6FVN_FU97g for <iommu@lists.linux-foundation.org>;
- Thu,  7 Apr 2022 08:00:33 +0000 (UTC)
+ with ESMTP id 5qH5sRojArpB for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Apr 2022 08:00:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by smtp3.osuosl.org (Postfix) with ESMTPS id BA053611C6
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 08:00:32 +0000 (UTC)
-X-UUID: 547bf295ca90413cbad71157bf9b7783-20220407
-X-UUID: 547bf295ca90413cbad71157bf9b7783-20220407
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A43B560F45
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 08:00:44 +0000 (UTC)
+X-UUID: 8b40aef98c394fa2904eb926d82cecb5-20220407
+X-UUID: 8b40aef98c394fa2904eb926d82cecb5-20220407
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
  mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 245473376; Thu, 07 Apr 2022 16:00:28 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 560715155; Thu, 07 Apr 2022 16:00:40 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 7 Apr 2022 16:00:14 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 7 Apr 2022 16:00:22 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 7 Apr 2022 16:00:13 +0800
+ Transport; Thu, 7 Apr 2022 16:00:20 +0800
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
  "Matthias Brugger" <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v6 17/34] iommu/mediatek: Adjust device link when it is
- sub-common
-Date: Thu, 7 Apr 2022 15:57:09 +0800
-Message-ID: <20220407075726.17771-18-yong.wu@mediatek.com>
+Subject: [PATCH v6 18/34] iommu/mediatek: Allow IOMMU_DOMAIN_UNMANAGED for
+ PCIe VFIO
+Date: Thu, 7 Apr 2022 15:57:10 +0800
+Message-ID: <20220407075726.17771-19-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220407075726.17771-1-yong.wu@mediatek.com>
 References: <20220407075726.17771-1-yong.wu@mediatek.com>
@@ -87,54 +87,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-For MM IOMMU, We always add device link between smi-common and IOMMU HW.
-In mt8195, we add smi-sub-common. Thus, if the node is sub-common, we still
-need find again to get smi-common, then do device link.
+Allow the type IOMMU_DOMAIN_UNMANAGED since vfio_iommu_type1.c always call
+iommu_domain_alloc. The PCIe EP works ok when going through vfio.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/iommu/mtk_iommu.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/iommu/mtk_iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index b048986913b9..2746e178d2be 100644
+index 2746e178d2be..b737613e9046 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -834,7 +834,7 @@ static const struct component_master_ops mtk_iommu_com_ops = {
- static int mtk_iommu_mm_dts_parse(struct device *dev, struct component_match **match,
- 				  struct mtk_iommu_data *data)
+@@ -446,7 +446,7 @@ static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
  {
--	struct device_node *larbnode, *smicomm_node;
-+	struct device_node *larbnode, *smicomm_node, *smi_subcomm_node;
- 	struct platform_device *plarbdev;
- 	struct device_link *link;
- 	int i, larb_nr, ret;
-@@ -874,11 +874,21 @@ static int mtk_iommu_mm_dts_parse(struct device *dev, struct component_match **m
- 					    component_compare_of, larbnode);
- 	}
+ 	struct mtk_iommu_domain *dom;
  
--	/* Get smi-common dev from the last larb. */
--	smicomm_node = of_parse_phandle(larbnode, "mediatek,smi", 0);
--	if (!smicomm_node)
-+	/* Get smi-(sub)-common dev from the last larb. */
-+	smi_subcomm_node = of_parse_phandle(larbnode, "mediatek,smi", 0);
-+	if (!smi_subcomm_node)
- 		return -EINVAL;
+-	if (type != IOMMU_DOMAIN_DMA)
++	if (type != IOMMU_DOMAIN_DMA && type != IOMMU_DOMAIN_UNMANAGED)
+ 		return NULL;
  
-+	/*
-+	 * It may have two level smi-common. the node is smi-sub-common if it
-+	 * has a new mediatek,smi property. otherwise it is smi-commmon.
-+	 */
-+	smicomm_node = of_parse_phandle(smi_subcomm_node, "mediatek,smi", 0);
-+	if (smicomm_node)
-+		of_node_put(smi_subcomm_node);
-+	else
-+		smicomm_node = smi_subcomm_node;
-+
- 	plarbdev = of_find_device_by_node(smicomm_node);
- 	of_node_put(smicomm_node);
- 	data->smicomm_dev = &plarbdev->dev;
+ 	dom = kzalloc(sizeof(*dom), GFP_KERNEL);
 -- 
 2.18.0
 
