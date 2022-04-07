@@ -1,70 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105654F7FBF
-	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 15:00:24 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 289524F8011
+	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 15:07:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7CE8140C5E;
-	Thu,  7 Apr 2022 13:00:22 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A617C606CB;
+	Thu,  7 Apr 2022 13:07:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9qhcwlZdTaus; Thu,  7 Apr 2022 13:00:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 64B1B40C3D;
-	Thu,  7 Apr 2022 13:00:21 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8tzti9la9cKu; Thu,  7 Apr 2022 13:07:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DB4E560D5C;
+	Thu,  7 Apr 2022 13:07:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7997BC0087;
-	Thu,  7 Apr 2022 13:00:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0074C0082;
+	Thu,  7 Apr 2022 13:07:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 07D2DC0012
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 13:00:19 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C76FDC0012
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 13:07:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D8CA3404DF
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 13:00:18 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id A726483FF0
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 13:07:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bykg5YCp5MvY for <iommu@lists.linux-foundation.org>;
- Thu,  7 Apr 2022 13:00:18 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ndS-CYVBCnEG for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Apr 2022 13:07:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by smtp2.osuosl.org (Postfix) with ESMTPS id CDFF1404C4
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 13:00:17 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KZ1dy0VVLzgYWM;
- Thu,  7 Apr 2022 20:58:30 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 7 Apr 2022 21:00:14 +0800
-To: <gregkh@linuxfoundation.org>, <helgaas@kernel.org>,
- <alexander.shishkin@linux.intel.com>, <lorenzo.pieralisi@arm.com>,
- <will@kernel.org>, <mark.rutland@arm.com>, <mathieu.poirier@linaro.org>,
- <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <leo.yan@linaro.org>,
- <jonathan.cameron@huawei.com>, <daniel.thompson@linaro.org>,
- <joro@8bytes.org>, <john.garry@huawei.com>,
- <shameerali.kolothum.thodi@huawei.com>, <robin.murphy@arm.com>,
- <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <coresight@lists.linaro.org>, <linux-pci@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <iommu@lists.linux-foundation.org>
-Subject: [PATCH v7 7/7] MAINTAINERS: Add maintainer for HiSilicon PTT driver
-Date: Thu, 7 Apr 2022 20:58:41 +0800
-Message-ID: <20220407125841.3678-8-yangyicong@hisilicon.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220407125841.3678-1-yangyicong@hisilicon.com>
-References: <20220407125841.3678-1-yangyicong@hisilicon.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 91DC283FEF
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 13:07:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4E6712FC;
+ Thu,  7 Apr 2022 06:07:27 -0700 (PDT)
+Received: from [10.57.41.19] (unknown [10.57.41.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 68ACE3F73B;
+ Thu,  7 Apr 2022 06:07:26 -0700 (PDT)
+Message-ID: <06570238-04a9-47ca-e6e2-c69606635446@arm.com>
+Date: Thu, 7 Apr 2022 14:07:21 +0100
 MIME-Version: 1.0
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Cc: zhangshaokun@hisilicon.com, liuqi115@huawei.com, linuxarm@huawei.com,
- prime.zeng@huawei.com, yangyicong@hisilicon.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 2/2] dma-iommu: Check that swiotlb is active before
+ trying to use it
+Content-Language: en-GB
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+References: <20220404204723.9767-1-mario.limonciello@amd.com>
+ <20220404204723.9767-3-mario.limonciello@amd.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220404204723.9767-3-mario.limonciello@amd.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Hegde Vasant <Vasant.Hegde@amd.com>, open list <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,42 +69,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yicong Yang <yangyicong@hisilicon.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add maintainer for driver and documentation of HiSilicon PTT device.
+On 2022-04-04 21:47, Mario Limonciello via iommu wrote:
+> If the IOMMU is in use and an untrusted device is connected to an external
+> facing port but the address requested isn't page aligned will cause the
+> kernel to attempt to use bounce buffers.
+> 
+> If for some reason the bounce buffers have not been allocated this is a
+> problem that should be made apparent to the user.
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fd768d43e048..d30a1698251c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8858,6 +8858,13 @@ F:	Documentation/admin-guide/perf/hisi-pcie-pmu.rst
- F:	Documentation/admin-guide/perf/hisi-pmu.rst
- F:	drivers/perf/hisilicon
- 
-+HISILICON PTT DRIVER
-+M:	Yicong Yang <yangyicong@hisilicon.com>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/trace/hisi-ptt.rst
-+F:	drivers/hwtracing/ptt/
-+
- HISILICON QM AND ZIP Controller DRIVER
- M:	Zhou Wang <wangzhou1@hisilicon.com>
- L:	linux-crypto@vger.kernel.org
--- 
-2.24.0
-
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v1->v2:
+>   * Move error message into the caller
+> 
+>   drivers/iommu/dma-iommu.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 09f6e1c0f9c0..1ca85d37eeab 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -971,6 +971,11 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+>   		void *padding_start;
+>   		size_t padding_size, aligned_size;
+>   
+> +		if (!is_swiotlb_active(dev)) {
+> +			dev_warn_once(dev, "DMA bounce buffers are inactive, unable to map unaligned transaction.\n");
+> +			return DMA_MAPPING_ERROR;
+> +		}
+> +
+>   		aligned_size = iova_align(iovad, size);
+>   		phys = swiotlb_tbl_map_single(dev, phys, size, aligned_size,
+>   					      iova_mask(iovad), dir, attrs);
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
