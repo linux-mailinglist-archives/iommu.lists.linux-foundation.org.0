@@ -1,91 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E764F84CC
-	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 18:21:53 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4564F857C
+	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 19:03:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4588F84093;
-	Thu,  7 Apr 2022 16:21:52 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 78EC740CD3;
+	Thu,  7 Apr 2022 17:03:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id W-bKRnmLyTAw; Thu,  7 Apr 2022 16:21:51 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GoTJdPzVBNFT; Thu,  7 Apr 2022 17:03:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 698658404C;
-	Thu,  7 Apr 2022 16:21:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 5079340CD6;
+	Thu,  7 Apr 2022 17:03:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 34C8EC0012;
-	Thu,  7 Apr 2022 16:21:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C9EBC0082;
+	Thu,  7 Apr 2022 17:03:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8DEEDC0012
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:05:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 81FDEC0012
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 17:03:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7B47281970
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:05:22 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 53F0141840
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 17:03:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IbXljUTJoDhS for <iommu@lists.linux-foundation.org>;
- Thu,  7 Apr 2022 16:05:22 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id ACB1181948
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:05:21 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id d29so8512897wra.10
- for <iommu@lists.linux-foundation.org>; Thu, 07 Apr 2022 09:05:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RwGnOv9tuCS4Glh/q7Oki8zffnkUd/Q0fjECuAqwO7c=;
- b=gmV3yEoVNk48jcao6xPblrNPo2DepjB/cLhPBrWrEehQVu9A8va2bBHzlDCfzHi5sm
- GMGDkHH6ugea546NIYx/mw+RooJuDb2MQNzC9pBuoFhkqem4NjIjUbsVCRPkqusvtGA6
- dVISATNeHRq6Pd2MEN/MqxDOQ+nJCDF/HOzwyZpbPbahgsWgkXaSfp10+g3BndlncXnp
- fKf+wkkD+pzzWTAoJGgzOPdI17YByZWb3bC6+tDxp2qzjzgqJuZgDwnr20OdJZb5HX4M
- +n0afAhNsqjK7zxZ6pc3seudiFD8Q2CqvlqKS4dEKu1H8GAlzeI5qwrvzeAFIYfCyJHt
- WdPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RwGnOv9tuCS4Glh/q7Oki8zffnkUd/Q0fjECuAqwO7c=;
- b=TAScbCjGQX/Zm5dus2Ewy8KgVahP4fo1YSas2jh0aPBPsJA+NK32oDnI6GU7KuOu+S
- LbUFH+S4/V/0+/L2TsDhFHtbvHuK7dEwvntSb4pT6FHdIYwuT5ugaecXVWnPiYchtsTw
- nO5v7pmQx/KjlaDlCWwGcg7qf1o/J6s8q5IssKDP6FFj5s0tf297wo0pomP6WvkWIktm
- XN9bRr97scbUY5DkabY9IGelHdjXrCHtREQ6AfsBa1fZNP2AxQwoH1wnZgBVV4ldCv7s
- /ZSaCXQNBG78olVLAui+zB0uMMOzAvQLTfhGnQb7wXEx1vQo2F8rSv6U9+AQ/a35mBc+
- c1kw==
-X-Gm-Message-State: AOAM533VhaieFgUTp2FP2EwDY3aR7WAKCiK3Ur75Yfactd5Wf5HDZnJ7
- HoNweEpyPFem3VNSEe2fUn8=
-X-Google-Smtp-Source: ABdhPJw5LXgWJ0+mFqcCsIxYkYvOGUsbpwr0rk1MnX3hYB9nf98fHqjiWFS+OJN2YQaf4rPa8l7aAQ==
-X-Received: by 2002:adf:b745:0:b0:205:b8e2:f470 with SMTP id
- n5-20020adfb745000000b00205b8e2f470mr11089350wre.91.1649347519726; 
- Thu, 07 Apr 2022 09:05:19 -0700 (PDT)
-Received: from [192.168.1.122]
- (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a05600c198600b0038cafe3d47dsm8725698wmq.42.2022.04.07.09.05.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 09:05:19 -0700 (PDT)
-Subject: Re: [PATCH net-next] sfc: Stop using iommu_present()
-To: Robin Murphy <robin.murphy@arm.com>, habetsm.xilinx@gmail.com,
- davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com
-References: <7350f957944ecfce6cce90f422e3992a1f428775.1649166055.git.robin.murphy@arm.com>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <296fa369-723f-f9b7-773f-7695b12c9971@gmail.com>
-Date: Thu, 7 Apr 2022 17:05:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Zmp046kyxjsN for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Apr 2022 17:03:46 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id DA89640509
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 17:03:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1156512FC;
+ Thu,  7 Apr 2022 10:03:45 -0700 (PDT)
+Received: from [10.57.41.19] (unknown [10.57.41.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13CC83F5A1;
+ Thu,  7 Apr 2022 10:03:42 -0700 (PDT)
+Message-ID: <f5acf507-b4ef-b393-159c-05ca04feb43d@arm.com>
+Date: Thu, 7 Apr 2022 18:03:37 +0100
 MIME-Version: 1.0
-In-Reply-To: <7350f957944ecfce6cce90f422e3992a1f428775.1649166055.git.robin.murphy@arm.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 0/4] Make the iommu driver no-snoop block feature
+ consistent
 Content-Language: en-GB
-X-Mailman-Approved-At: Thu, 07 Apr 2022 16:21:49 +0000
-Cc: netdev@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org,
+ Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>
+References: <0-v2-f090ae795824+6ad-intel_no_snoop_jgg@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <0-v2-f090ae795824+6ad-intel_no_snoop_jgg@nvidia.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,20 +71,109 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 05/04/2022 14:40, Robin Murphy wrote:
-> Even if an IOMMU might be present for some PCI segment in the system,
-> that doesn't necessarily mean it provides translation for the device
-> we care about. It appears that what we care about here is specifically
-> whether DMA mapping ops involve any IOMMU overhead or not, so check for
-> translation actually being active for our device.
+On 2022-04-07 16:23, Jason Gunthorpe wrote:
+> PCIe defines a 'no-snoop' bit in each the TLP which is usually implemented
+> by a platform as bypassing elements in the DMA coherent CPU cache
+> hierarchy. A driver can command a device to set this bit on some of its
+> transactions as a micro-optimization.
 > 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Acked-by: Edward Cree <ecree.xilinx@gmail.com>
+> However, the driver is now responsible to synchronize the CPU cache with
+> the DMA that bypassed it. On x86 this may be done through the wbinvd
+> instruction, and the i915 GPU driver is the only Linux DMA driver that
+> calls it.
+> 
+> The problem comes that KVM on x86 will normally disable the wbinvd
+> instruction in the guest and render it a NOP. As the driver running in the
+> guest is not aware the wbinvd doesn't work it may still cause the device
+> to set the no-snoop bit and the platform will bypass the CPU cache.
+> Without a working wbinvd there is no way to re-synchronize the CPU cache
+> and the driver in the VM has data corruption.
+> 
+> Thus, we see a general direction on x86 that the IOMMU HW is able to block
+> the no-snoop bit in the TLP. This NOP's the optimization and allows KVM to
+> to NOP the wbinvd without causing any data corruption.
+> 
+> This control for Intel IOMMU was exposed by using IOMMU_CACHE and
+> IOMMU_CAP_CACHE_COHERENCY, however these two values now have multiple
+> meanings and usages beyond blocking no-snoop and the whole thing has
+> become confused. AMD IOMMU has the same feature and same IOPTE bits
+> however it unconditionally blocks no-snoop.
+> 
+> Change it so that:
+>   - IOMMU_CACHE is only about the DMA coherence of normal DMAs from a
+>     device. It is used by the DMA API/VFIO/etc when the user of the
+>     iommu_domain will not be doing manual cache coherency operations.
+> 
+>   - IOMMU_CAP_CACHE_COHERENCY indicates if IOMMU_CACHE can be used with the
+>     device.
+> 
+>   - The new optional domain op enforce_cache_coherency() will cause the
+>     entire domain to block no-snoop requests - ie there is no way for any
+>     device attached to the domain to opt out of the IOMMU_CACHE behavior.
+>     This is permanent on the domain and must apply to any future devices
+>     attached to it.
+> 
+> Ideally an iommu driver should implement enforce_cache_coherency() so that
+> by DMA API domains allow the no-snoop optimization. This leaves it
+> available to kernel drivers like i915. VFIO will call
+> enforce_cache_coherency() before establishing any mappings and the domain
+> should then permanently block no-snoop.
+> 
+> If enforce_cache_coherency() fails VFIO will communicate back through to
+> KVM into the arch code via kvm_arch_register_noncoherent_dma()
+> (only implemented by x86) which triggers a working wbinvd to be made
+> available to the VM.
+> 
+> While other iommu drivers are certainly welcome to implement
+> enforce_cache_coherency(), it is not clear there is any benefit in doing
+> so right now.
+> 
+> This is on github: https://github.com/jgunthorpe/linux/commits/intel_no_snoop
+> 
+> v2:
+>   - Abandon removing IOMMU_CAP_CACHE_COHERENCY - instead make it the cap
+>     flag that indicates IOMMU_CACHE is supported
+>   - Put the VFIO tests for IOMMU_CACHE at VFIO device registration
+>   - In the Intel driver remove the domain->iommu_snooping value, this is
+>     global not per-domain
+
+At a glance, this all looks about the right shape to me now, thanks!
+
+Ideally I'd hope patch #4 could go straight to device_iommu_capable() 
+from my Thunderbolt series, but we can figure that out in a couple of 
+weeks once Joerg starts queueing 5.19 material. I've got another VFIO 
+patch waiting for the DMA ownership series to land anyway, so it's 
+hardly the end of the world if I have to come back to follow up on this 
+one too.
+
+For the series,
+
+Acked-by: Robin Murphy <robin.murphy@arm.com>
+
+> v1: https://lore.kernel.org/r/0-v1-ef02c60ddb76+12ca2-intel_no_snoop_jgg@nvidia.com
+> 
+> Jason Gunthorpe (4):
+>    iommu: Introduce the domain op enforce_cache_coherency()
+>    vfio: Move the Intel no-snoop control off of IOMMU_CACHE
+>    iommu: Redefine IOMMU_CAP_CACHE_COHERENCY as the cap flag for
+>      IOMMU_CACHE
+>    vfio: Require that devices support DMA cache coherence
+> 
+>   drivers/iommu/amd/iommu.c       |  7 +++++++
+>   drivers/iommu/intel/iommu.c     | 17 +++++++++++++----
+>   drivers/vfio/vfio.c             |  7 +++++++
+>   drivers/vfio/vfio_iommu_type1.c | 30 +++++++++++++++++++-----------
+>   include/linux/intel-iommu.h     |  2 +-
+>   include/linux/iommu.h           |  7 +++++--
+>   6 files changed, 52 insertions(+), 18 deletions(-)
+> 
+> 
+> base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
