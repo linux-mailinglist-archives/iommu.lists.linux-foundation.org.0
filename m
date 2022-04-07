@@ -1,61 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F884F7D8F
-	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 13:07:42 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 621884F805E
+	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 15:22:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0765E418CE;
-	Thu,  7 Apr 2022 11:07:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 10993405D0;
+	Thu,  7 Apr 2022 13:22:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id b_84d8WckHUY; Thu,  7 Apr 2022 11:07:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D43A3418A1;
-	Thu,  7 Apr 2022 11:07:39 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SaC2YcwM72wq; Thu,  7 Apr 2022 13:22:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 182AF404DF;
+	Thu,  7 Apr 2022 13:22:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC0EDC0082;
-	Thu,  7 Apr 2022 11:07:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D1C04C0012;
+	Thu,  7 Apr 2022 13:22:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CA67FC0012
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 11:07:37 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8F76C0012
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 06:55:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A1DE783F82
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 11:07:37 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9F760404AF
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 06:55:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 13hFCvGzEQiy for <iommu@lists.linux-foundation.org>;
- Thu,  7 Apr 2022 11:07:36 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.codelabs.ch (mail.codelabs.ch [109.202.192.35])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A5A4F83337
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 11:07:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.codelabs.ch (Postfix) with ESMTP id 8AC6B220002;
- Thu,  7 Apr 2022 13:07:32 +0200 (CEST)
-Received: from mail.codelabs.ch ([127.0.0.1])
- by localhost (fenrir.codelabs.ch [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H1ereBzHd7rt; Thu,  7 Apr 2022 13:07:31 +0200 (CEST)
-Received: from skyhawk.codelabs.ch (unknown
- [IPv6:2a02:168:860f:0:34fa:d8d6:c16a:a546])
- by mail.codelabs.ch (Postfix) with ESMTPSA id 6A8E3220001;
- Thu,  7 Apr 2022 13:07:31 +0200 (CEST)
-From: Reto Buerki <reet@codelabs.ch>
-To: tglx@linutronix.de,
-	dwmw2@infradead.org
-Subject: [PATCH] x86/msi: Fix msi message data shadow struct
-Date: Thu,  7 Apr 2022 13:06:47 +0200
-Message-Id: <20220407110647.67372-1-reet@codelabs.ch>
-In-Reply-To: <87pmltzwtr.ffs@tglx>
-References: <87pmltzwtr.ffs@tglx>
-MIME-Version: 1.0
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
- decui@microsoft.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, maz@misterjones.org, pbonzini@redhat.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xQuHXfkwEdrh for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Apr 2022 06:55:58 +0000 (UTC)
+X-Greylist: delayed 00:09:24 by SQLgrey-1.8.0
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.52])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A6E7A40133
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 06:55:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1649313836;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=H7+9xv89JRCjOioZu+oNk24ZKTOcaRFzOuoirztpIDI=;
+ b=VH6VEmwzugb8k2cwHtpWrQIq5pSGRR88jWGOtMu10YOPF4ZgwCH/VYvsXCr5jt21qF
+ au9sRD9ReVr1s2wmH9MJTXbW5GSxdmm2abE946vxsFhfXP7R0fHrFN8Wa5huEXFkD/7z
+ Tj96+h8yu/WDqH1aU5mJRTjA1Ka/JvpoSq+HG5uXInQSwoMRGbY8bQ+vd/fILHSCFiJC
+ WVpE/BiiPxZUYalpfay/LAovg/5QVsqiwzKS0SrL4vjt2tTQJUfbJXT4fuM/PyzU/FTv
+ bs2pxCf77FOHlZEy9TJiTZoto1J5ASRxcqDN69QNYAnqE4q0jynW2skx1XAW+jw462Tf
+ UJ2g==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8MRqg=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.42.2 DYNA|AUTH)
+ with ESMTPSA id k708cfy376htiMC
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 7 Apr 2022 08:43:55 +0200 (CEST)
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH] iommu/omap: Fix regression in probe for NULL pointer
+ dereference
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <Yk54+S0iaMueWN63@atomide.com>
+Date: Thu, 7 Apr 2022 08:43:54 +0200
+Message-Id: <F4D607DA-EA0E-4044-B700-546CF764CD4D@goldelico.com>
+References: <20220331062301.24269-1-tony@atomide.com>
+ <Yk54+S0iaMueWN63@atomide.com>
+To: Tony Lindgren <tony@atomide.com>
+X-Mailer: Apple Mail (2.3445.104.21)
+X-Mailman-Approved-At: Thu, 07 Apr 2022 13:22:06 +0000
+Cc: linux-omap@vger.kernel.org, Drew Fustini <dfustini@baylibre.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,51 +88,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The x86 MSI message data is 32 bits in total and is either in
-compatibility or remappable format, see Intel Virtualization Technology
-for Directed I/O, section 5.1.2.
+Hi,
 
-Fixes: 6285aa50736 ("x86/msi: Provide msi message shadow structs")
-Co-developed-by: Adrian-Ken Rueegsegger <ken@codelabs.ch>
-Signed-off-by: Adrian-Ken Rueegsegger <ken@codelabs.ch>
-Signed-off-by: Reto Buerki <reet@codelabs.ch>
----
- arch/x86/include/asm/msi.h | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+> Am 07.04.2022 um 07:39 schrieb Tony Lindgren <tony@atomide.com>:
+> 
+> Hi,
+> 
+> * Tony Lindgren <tony@atomide.com> [220331 09:21]:
+>> Commit 3f6634d997db ("iommu: Use right way to retrieve iommu_ops") started
+>> triggering a NULL pointer dereference for some omap variants:
+>> 
+>> __iommu_probe_device from probe_iommu_group+0x2c/0x38
+>> probe_iommu_group from bus_for_each_dev+0x74/0xbc
+>> bus_for_each_dev from bus_iommu_probe+0x34/0x2e8
+>> bus_iommu_probe from bus_set_iommu+0x80/0xc8
+>> bus_set_iommu from omap_iommu_init+0x88/0xcc
+>> omap_iommu_init from do_one_initcall+0x44/0x24
+>> 
+>> This is caused by omap iommu probe returning 0 instead of ERR_PTR(-ENODEV)
+>> as noted by Jason Gunthorpe <jgg@ziepe.ca>.
+>> 
+>> Looks like the regression already happened with an earlier commit
+>> 6785eb9105e3 ("iommu/omap: Convert to probe/release_device() call-backs")
+>> that changed the function return type and missed converting one place.
+> 
+> Can you guys please get this fix into the -rc series? Or ack it so
+> I can pick it up into my fixes branch?
+> 
+> Without this fix booting is failing for a bunch of devices.
 
-diff --git a/arch/x86/include/asm/msi.h b/arch/x86/include/asm/msi.h
-index b85147d75626..d71c7e8b738d 100644
---- a/arch/x86/include/asm/msi.h
-+++ b/arch/x86/include/asm/msi.h
-@@ -12,14 +12,17 @@ int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- /* Structs and defines for the X86 specific MSI message format */
- 
- typedef struct x86_msi_data {
--	u32	vector			:  8,
--		delivery_mode		:  3,
--		dest_mode_logical	:  1,
--		reserved		:  2,
--		active_low		:  1,
--		is_level		:  1;
--
--	u32	dmar_subhandle;
-+	union {
-+		struct {
-+			u32	vector			:  8,
-+				delivery_mode		:  3,
-+				dest_mode_logical	:  1,
-+				reserved		:  2,
-+				active_low		:  1,
-+				is_level		:  1;
-+		};
-+		u32	dmar_subhandle;
-+	};
- } __attribute__ ((packed)) arch_msi_msg_data_t;
- #define arch_msi_msg_data	x86_msi_data
- 
--- 
-2.30.2
+Yes, I can confirm that v5.18-rc1 does not even boot the GTA04 (omap3)
+and OMAP5UEVM to any activity without this patch.
 
+Seems to be an urgent fix.
+
+BR and thanks,
+Nikolaus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
