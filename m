@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987154F84D2
-	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 18:22:01 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 681984F84DC
+	for <lists.iommu@lfdr.de>; Thu,  7 Apr 2022 18:22:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 54A76840D5;
-	Thu,  7 Apr 2022 16:22:00 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 15E1041B73;
+	Thu,  7 Apr 2022 16:22:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V_oF5E1sBLOj; Thu,  7 Apr 2022 16:21:59 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xl3b9zGEmFLg; Thu,  7 Apr 2022 16:22:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 69707840C3;
-	Thu,  7 Apr 2022 16:21:59 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EDAA441A6D;
+	Thu,  7 Apr 2022 16:22:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 42920C0012;
-	Thu,  7 Apr 2022 16:21:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BC59FC0082;
+	Thu,  7 Apr 2022 16:22:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13EC5C0012
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:21:57 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03625C0082
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:22:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1DB186129F
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:21:53 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 49777612AC
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:21:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id odjkD7Y8wHl1 for <iommu@lists.linux-foundation.org>;
- Thu,  7 Apr 2022 16:21:52 +0000 (UTC)
+ with ESMTP id LpYPq0Xgv_8M for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Apr 2022 16:21:58 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 8DDF9612A8
- for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:21:52 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BA4F36129E
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Apr 2022 16:21:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=Nx50PJtvGhphGZXf/1XGmZRg6RGOlaGtqP7f50ukagw=; b=jzm7m5DYH4sfzjYBB8mLijU5Mu
- 8yjfUysXi6ZAqs3yL1ob6tiPOBWuLjowWMQM5MNBbA8fiUTS0HKoMiy3G636mVtT3/1mUfXdEXNv1
- KparX8YnOZmwmCSiKji0FXpI0tFNCrypJrr9n86GpGFizaVlBHqWocqQrQPaV8Fz0a2TQKS2odOKt
- Xlu683AaYUFZ+Cn+nsa8JQCXH7eMVRlcGrJ0/7yTrfVIeVSIxByPcpnPuEDZLoFmQk+JJv+Wkhyoq
- UpAgsJlvYd73eZsD0WtwYOGwrB8dHpNMf8EAMJPmF0hQRhOt1pB+YssSv3tylIT8VYXPVrE5oO0/W
- Pu5YgCfQ==;
+ bh=ynMPFyjctQYmZSaKetGEvfKIotM82q1ISZ1qanr0c8w=; b=VhIgXvEcyj1A/PLDTYzw5XYQWL
+ ARiEaGxvCCJA41jvsk7kg1wMTfovuD3ntVBJrsbf7t9ycUGNGm7MDPZbBT7F9zkLVF4jJ+tCoBUgZ
+ iJM3DNSwzM+51c1dhlXZwuoDAriAeMBz6LcYhb3ZVPfLyLT1Lzvn1U2XjqTc0chjvQ6U11sVpwxJb
+ GFs1/94eKn4QIkXnneT2M5jTgxO641YGfynE71dcLnYU8kg1M25Vqf5EFKpHCbkrOV/LvqJekr91g
+ nFUL1EHBIw637mpoAVVaFgpg7YDOjcKgEnegFXScxw5o2DA9uYrqdAYljF42urPSdfa40ecBAS/TU
+ NL3bwiJA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMJ-002BBh-Mu; Thu, 07 Apr 2022 09:47:44 -0600
+ id 1ncUMJ-002BBg-7F; Thu, 07 Apr 2022 09:47:43 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1ncUME-00022I-Vr; Thu, 07 Apr 2022 09:47:39 -0600
+ id 1ncUMF-00022M-6K; Thu, 07 Apr 2022 09:47:39 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Thu,  7 Apr 2022 09:47:14 -0600
-Message-Id: <20220407154717.7695-19-logang@deltatee.com>
+Date: Thu,  7 Apr 2022 09:47:15 -0600
+Message-Id: <20220407154717.7695-20-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407154717.7695-1-logang@deltatee.com>
 References: <20220407154717.7695-1-logang@deltatee.com>
@@ -75,8 +75,7 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v6 18/21] block: set FOLL_PCI_P2PDMA in
- __bio_iov_iter_get_pages()
+Subject: [PATCH v6 19/21] block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
@@ -110,41 +109,46 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
-iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be passed
-from userspace and enables the O_DIRECT path in iomap based filesystems
-and direct to block devices.
+iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be
+passed from userspace and enables the NVMe passthru requests to
+use P2PDMA pages.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- block/bio.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ block/blk-map.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index 3406c0450db3..271a720a6dc1 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1149,6 +1149,7 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 	struct bio_vec *bv = bio->bi_io_vec + bio->bi_vcnt;
- 	struct page **pages = (struct page **)bv;
- 	bool same_page = false;
+diff --git a/block/blk-map.c b/block/blk-map.c
+index c7f71d83eff1..85baf922a0e8 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -234,6 +234,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		gfp_t gfp_mask)
+ {
+ 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
 +	unsigned int flags = 0;
- 	ssize_t size, left;
- 	unsigned len, i;
- 	size_t offset;
-@@ -1161,7 +1162,12 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 	BUILD_BUG_ON(PAGE_PTRS_PER_BVEC < 2);
- 	pages += entries_left * (PAGE_PTRS_PER_BVEC - 1);
+ 	struct bio *bio;
+ 	int ret;
+ 	int j;
+@@ -246,13 +247,17 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		return -ENOMEM;
+ 	bio->bi_opf |= req_op(rq);
  
--	size = iov_iter_get_pages(iter, pages, LONG_MAX, nr_pages, &offset);
-+	if (bio->bi_bdev && bio->bi_bdev->bd_disk &&
-+	    blk_queue_pci_p2pdma(bio->bi_bdev->bd_disk->queue))
++	if (blk_queue_pci_p2pdma(rq->q))
 +		flags |= FOLL_PCI_P2PDMA;
 +
-+	size = iov_iter_get_pages_flags(iter, pages, LONG_MAX, nr_pages,
-+					&offset, flags);
- 	if (unlikely(size <= 0))
- 		return size ? size : -EFAULT;
+ 	while (iov_iter_count(iter)) {
+ 		struct page **pages;
+ 		ssize_t bytes;
+ 		size_t offs, added = 0;
+ 		int npages;
  
+-		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
++		bytes = iov_iter_get_pages_alloc_flags(iter, &pages, LONG_MAX,
++						       &offs, flags);
+ 		if (unlikely(bytes <= 0)) {
+ 			ret = bytes ? bytes : -EFAULT;
+ 			goto out_unmap;
 -- 
 2.30.2
 
