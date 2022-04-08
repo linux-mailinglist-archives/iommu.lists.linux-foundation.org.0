@@ -1,71 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BC14F8EFD
-	for <lists.iommu@lfdr.de>; Fri,  8 Apr 2022 09:06:42 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E9E4F8FF4
+	for <lists.iommu@lfdr.de>; Fri,  8 Apr 2022 09:57:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BA8A14197F;
-	Fri,  8 Apr 2022 07:06:40 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0C91D60AC2;
+	Fri,  8 Apr 2022 07:57:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nSCt_FpBFFPp; Fri,  8 Apr 2022 07:06:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id AF26D41993;
-	Fri,  8 Apr 2022 07:06:38 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Zl82hg9v96MD; Fri,  8 Apr 2022 07:57:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3ADB960B54;
+	Fri,  8 Apr 2022 07:57:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6CE0AC0073;
-	Fri,  8 Apr 2022 07:06:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 03001C0012;
+	Fri,  8 Apr 2022 07:57:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8E22BC0012
- for <iommu@lists.linux-foundation.org>; Fri,  8 Apr 2022 07:06:37 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B77C4C0012
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Apr 2022 07:57:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 73F954012F
- for <iommu@lists.linux-foundation.org>; Fri,  8 Apr 2022 07:06:37 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id A2D0A84128
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Apr 2022 07:57:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zAnM9ZqIH_OG for <iommu@lists.linux-foundation.org>;
- Fri,  8 Apr 2022 07:06:36 +0000 (UTC)
-X-Greylist: delayed 00:19:30 by SQLgrey-1.8.0
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 446094010E
- for <iommu@lists.linux-foundation.org>; Fri,  8 Apr 2022 07:06:36 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nciOb-0003vs-Ed; Fri, 08 Apr 2022 08:47:01 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nciOX-0004QL-RB; Fri, 08 Apr 2022 08:46:57 +0200
-Date: Fri, 8 Apr 2022 08:46:57 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] drm/rockchip: Refactor IOMMU initialisation
-Message-ID: <20220408064657.GN4012@pengutronix.de>
-References: <94eee7ab434fe11eb0787f691e9f1ab03a2e91be.1649168685.git.robin.murphy@arm.com>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qbVQ-WkKPWVf for <iommu@lists.linux-foundation.org>;
+ Fri,  8 Apr 2022 07:57:17 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from theia.8bytes.org (8bytes.org
+ [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id EC52984120
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Apr 2022 07:57:16 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 47ECA2FB; Fri,  8 Apr 2022 09:57:13 +0200 (CEST)
+Date: Fri, 8 Apr 2022 09:57:08 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v8 00/11] Fix BUG_ON in vfio_iommu_group_notifier()
+Message-ID: <Yk/q1BGN8pC5HVZp@8bytes.org>
+References: <20220308054421.847385-1-baolu.lu@linux.intel.com>
+ <20220315002125.GU11336@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <94eee7ab434fe11eb0787f691e9f1ab03a2e91be.1649168685.git.robin.murphy@arm.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:41:25 up 8 days, 19:11, 51 users, load average: 0.08, 0.10, 0.13
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: iommu@lists.linux-foundation.org
-Cc: linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
- hjc@rock-chips.com, dri-devel@lists.freedesktop.org, heiko@sntech.de
+In-Reply-To: <20220315002125.GU11336@nvidia.com>
+Cc: Stuart Yoder <stuyoder@gmail.com>, rafael@kernel.org,
+ David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Will Deacon <will@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ Kevin Tian <kevin.tian@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
+ Jacob jun Pan <jacob.jun.pan@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,37 +78,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Apr 05, 2022 at 03:32:50PM +0100, Robin Murphy wrote:
-> Defer the IOMMU domain setup until after successfully binding
-> components, so we can figure out IOMMU support directly from the VOP
-> devices themselves, rather than manually inferring it from the DT (which
-> also fails to account for whether the IOMMU driver is actually loaded).
-> Although this is somewhat of a logical cleanup, the main motivation is
-> to prepare for a change in the iommu_domain_alloc() interface.
-> 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
-> 
-> Lightly tested on RK3288. This does stand to collide with the in-flight
-> VOP2 driver a little, if only that that will want an equivalent
-> rockchip_drm_dma_init_device() call too be able to use its IOMMU. I'm
-> happy to help sort that out either way, it just depends on what we want
-> to merge first.
+On Mon, Mar 14, 2022 at 09:21:25PM -0300, Jason Gunthorpe wrote:
+> Joerg, are we good for the coming v5.18 merge window now? There are
+> several things backed up behind this series.
 
-I tested it with the VOP2 driver. It needed a little refactoring, I had
-to move the call to rockchip_drm_dma_attach_device() from vop2_bind() to
-vop2_enable(), but then it works as expected.
+I usually don't apply bigger changes like this after -rc7, so it didn't
+make it. Please re-send after -rc3 is out and I will consider it.
 
-Assuming that this patch goes through Heikos tree just like the VOP2
-driver we can merge it first. I'll base the next VOP2 round on it.
+Thanks,
 
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
