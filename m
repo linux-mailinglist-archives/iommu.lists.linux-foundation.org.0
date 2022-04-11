@@ -1,66 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534964FB584
-	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 10:01:10 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9F14FB583
+	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 10:01:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 41455415D8;
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7415460FA3;
 	Mon, 11 Apr 2022 08:01:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D0akrtQZEIVI; Mon, 11 Apr 2022 08:01:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id BEDEE415BA;
-	Mon, 11 Apr 2022 08:01:06 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ofNpa6xwpYJT; Mon, 11 Apr 2022 08:01:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9882960E5B;
+	Mon, 11 Apr 2022 08:01:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B8246C002C;
-	Mon, 11 Apr 2022 08:01:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84896C0087;
+	Mon, 11 Apr 2022 08:01:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D263CC002C
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:18 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0F94C002C
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 797134150F
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:17 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9320341520
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=quicinc.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ke9y5IkeMgIU for <iommu@lists.linux-foundation.org>;
- Mon, 11 Apr 2022 07:02:16 +0000 (UTC)
+ with ESMTP id 4crtx13PLZ9H for <iommu@lists.linux-foundation.org>;
+ Mon, 11 Apr 2022 07:02:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by smtp4.osuosl.org (Postfix) with ESMTPS id CCD5F41513
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:16 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CDE8941515
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649660537; x=1681196537;
+ t=1649660539; x=1681196539;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=aN1KTb9hnCejWsZRGrTW4ZKJH2xj1O2qH1Fk8k6TrPM=;
- b=kJF8FnmsI2ANMLh369U+fRJcDqBDdJ3RvfQkz221ECOpr0t37uDB4Q5S
- qjCCPYFE6JD8pMEUF/WG2uN0gfsDhXC2hBON2hCvxEZwQMpYOPgPJ1KI0
- t5nz/ouJ1w6PjubiIH8x0hAQRxpqM3Qx4y9YXZiG8t7X7OTk4npdw2856 I=;
+ bh=nQG1bLVYjKXaO4pl95NzaFxrNoh/8TEGG6qEbyOTkeU=;
+ b=ww1keeCAkCmsCM9K8CpvKP7R2aOFzbntB56A1z4caoV8szEyeTiYOyAo
+ PvEknExlYDwn2QOx4LEbiI/xkXuJbLxeWiMm/0akxxJfEuP4vqnoNrwPv
+ +JK2XPhGdWaRfGpXCkqgmOt9ZKENmOlln2tn7BBd6bQn/iRFMTC2ysUvj o=;
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 10 Apr 2022 23:56:13 -0700
+ by alexa-out.qualcomm.com with ESMTP; 10 Apr 2022 23:56:15 -0700
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 10 Apr 2022 23:56:12 -0700
+ 10 Apr 2022 23:56:14 -0700
 X-QCInternal: smtphost
 Received: from hu-rohiagar-hyd.qualcomm.com (HELO
  hu-sgudaval-hyd.qualcomm.com) ([10.213.106.138])
  by ironmsg01-blr.qualcomm.com with ESMTP; 11 Apr 2022 12:25:55 +0530
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
- id 3E1BF37D9; Mon, 11 Apr 2022 12:25:54 +0530 (+0530)
+ id DCADE3A9B; Mon, 11 Apr 2022 12:25:54 +0530 (+0530)
 From: Rohit Agarwal <quic_rohiagar@quicinc.com>
 To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
  krzk+dt@kernel.org, ulf.hansson@linaro.org, agross@kernel.org,
  bjorn.andersson@linaro.org
-Subject: [PATCH 6/7] ARM: dts: qcom: sdx65: Add support for TCSR Mutex
-Date: Mon, 11 Apr 2022 12:25:42 +0530
-Message-Id: <1649660143-22400-7-git-send-email-quic_rohiagar@quicinc.com>
+Subject: [PATCH 7/7] ARM: dts: qcom: sdx65: Add Shared memory manager support
+Date: Mon, 11 Apr 2022 12:25:43 +0530
+Message-Id: <1649660143-22400-8-git-send-email-quic_rohiagar@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1649660143-22400-1-git-send-email-quic_rohiagar@quicinc.com>
 References: <1649660143-22400-1-git-send-email-quic_rohiagar@quicinc.com>
@@ -87,8 +89,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add TCSR Mutex node to support Qualcomm Hardware Mutex block
-on SDX65 platform.
+Add smem node to support shared memory manager on SDX65 platform.
 
 Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
 ---
@@ -96,17 +97,17 @@ Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm/boot/dts/qcom-sdx65.dtsi b/arch/arm/boot/dts/qcom-sdx65.dtsi
-index 2481769..5c28c94 100644
+index 5c28c94..b0eec91 100644
 --- a/arch/arm/boot/dts/qcom-sdx65.dtsi
 +++ b/arch/arm/boot/dts/qcom-sdx65.dtsi
-@@ -168,6 +168,12 @@
- 			#interrupt-cells = <2>;
+@@ -174,6 +174,12 @@
+ 			#hwlock-cells = <1>;
  		};
  
-+		tcsr_mutex: hwlock@1f40000 {
-+			compatible = "qcom,tcsr-mutex";
-+			reg = <0x01f40000 0x40000>;
-+			#hwlock-cells = <1>;
++		smem {
++			compatible = "qcom,smem";
++			memory-region = <&smem_mem>;
++			hwlocks = <&tcsr_mutex 3>;
 +		};
 +
  		sdhc_1: sdhci@8804000 {
