@@ -1,77 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BEF4FAFE8
-	for <lists.iommu@lfdr.de>; Sun, 10 Apr 2022 21:52:30 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8099E4FB581
+	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 10:01:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3BA94401D6;
-	Sun, 10 Apr 2022 19:52:29 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 30B6483F5D;
+	Mon, 11 Apr 2022 08:01:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MmrJ7OvdGrai; Sun, 10 Apr 2022 19:52:28 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2d2oLMQLxTbS; Mon, 11 Apr 2022 08:01:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 292C1401D5;
-	Sun, 10 Apr 2022 19:52:28 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4698683E82;
+	Mon, 11 Apr 2022 08:01:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1B07C0088;
-	Sun, 10 Apr 2022 19:52:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C946C008A;
+	Mon, 11 Apr 2022 08:01:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13F14C002C
- for <iommu@lists.linux-foundation.org>; Sun, 10 Apr 2022 19:52:26 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4DF9DC002C
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id DF84D60F80
- for <iommu@lists.linux-foundation.org>; Sun, 10 Apr 2022 19:52:25 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 18AED4150F
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XECsfgJiY43X for <iommu@lists.linux-foundation.org>;
- Sun, 10 Apr 2022 19:52:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by smtp3.osuosl.org (Postfix) with ESMTPS id ED3AA60F77
- for <iommu@lists.linux-foundation.org>; Sun, 10 Apr 2022 19:52:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649620344; x=1681156344;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=EF5s5J7GPdqeiz1pEHQ/PowHu/TjKguTo2H6OD1EN7Q=;
- b=bhO3jBMoQBJj79oZoo3KxdtcY/2c2NeEmQeGhvDmg7ODQ23i15dVKVIY
- jAZopaVTOo8joH5bLaBCDl5IO2p4H5DGz7JpZVNWmBQ+Zw3y/P5CRztDy
- oocY+rjaHz7WNjW67PAomN5AbaovM4U2cfAZyVKJPuNJRjDCKCvZrYIPv
- sB4Cm1miAUQAdjGCVr5WgA82vhAhq9FiSXtSwkNN+2hU5A2yOP7mvi1nB
- ybqoTEzLsE9hrsz3yKleuhmGbiG5yMvIOtYrJQs/t1rj6rxbirVeM2q0h
- TCyXDhc//rkx/FjkilPJdV4o0naS4SsLxRl5A7VrHMEKUknxXqnGIxw4t Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="286998437"
-X-IronPort-AV: E=Sophos;i="5.90,250,1643702400"; d="scan'208";a="286998437"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2022 12:52:23 -0700
-X-IronPort-AV: E=Sophos;i="5.90,250,1643702400"; d="scan'208";a="571814308"
-Received: from silpixa00400314.ir.intel.com (HELO silpixa00400314)
- ([10.237.222.76])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2022 12:52:21 -0700
-Date: Sun, 10 Apr 2022 20:52:14 +0100
-From: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] crypto: qat - stop using iommu_present()
-Message-ID: <YlM1bmo8M80Wjnov@silpixa00400314>
-References: <ef01fbd7d2c60d56a0b8e8847a08ccb3ee5132af.1649161511.git.robin.murphy@arm.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ef01fbd7d2c60d56a0b8e8847a08ccb3ee5132af.1649161511.git.robin.murphy@arm.com>
-Organization: Intel Research and Development Ireland Ltd - Co. Reg. #308263 -
- Collinstown Industrial Park, Leixlip, County Kildare - Ireland
-Cc: herbert@gondor.apana.org.au, qat-linux@intel.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, davem@davemloft.net
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=quicinc.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id mN1hH_NfBlkM for <iommu@lists.linux-foundation.org>;
+ Mon, 11 Apr 2022 07:02:15 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 599BE41513
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649660535; x=1681196535;
+ h=from:to:cc:subject:date:message-id;
+ bh=aRKhlH11BYG4D30HiNuvL9KWitrjNW8cRlhyWm2s6Sg=;
+ b=XJM8Ma1vyM3UV5ztb1WpdHZzOC9qq+H91O2lXdD/T4BcyAer1fTvq56J
+ 6v1n74tmUAyQ+3A7z2/noOHYMwY5RnOJClVB7ShzrT02Y4msWFZPIdc1x
+ Qc+d9/sORhn7Ag3hmcLbxy9PICp/Wev2tNiuLhflL3S3EFA45UkwLtVZ8 4=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 10 Apr 2022 23:56:12 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 10 Apr 2022 23:56:11 -0700
+X-QCInternal: smtphost
+Received: from hu-rohiagar-hyd.qualcomm.com (HELO
+ hu-sgudaval-hyd.qualcomm.com) ([10.213.106.138])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 11 Apr 2022 12:25:51 +0530
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+ id A84B437D9; Mon, 11 Apr 2022 12:25:50 +0530 (+0530)
+From: Rohit Agarwal <quic_rohiagar@quicinc.com>
+To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
+ krzk+dt@kernel.org, ulf.hansson@linaro.org, agross@kernel.org,
+ bjorn.andersson@linaro.org
+Subject: [PATCH 0/7] SDX65 devicetree updates
+Date: Mon, 11 Apr 2022 12:25:36 +0530
+Message-Id: <1649660143-22400-1-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Mon, 11 Apr 2022 08:01:02 +0000
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Rohit Agarwal <quic_rohiagar@quicinc.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,53 +81,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Apr 05, 2022 at 01:25:11PM +0100, Robin Murphy wrote:
-> Even if an IOMMU might be present for some PCI segment in the system,
-> that doesn't necessarily mean it provides translation for the device
-> we care about. Replace iommu_present() with a more appropriate check.
-> 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/crypto/qat/qat_common/adf_sriov.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/crypto/qat/qat_common/adf_sriov.c b/drivers/crypto/qat/qat_common/adf_sriov.c
-> index b960bca1f9d2..7f9c18dc4540 100644
-> --- a/drivers/crypto/qat/qat_common/adf_sriov.c
-> +++ b/drivers/crypto/qat/qat_common/adf_sriov.c
-> @@ -3,7 +3,6 @@
->  #include <linux/workqueue.h>
->  #include <linux/pci.h>
->  #include <linux/device.h>
-> -#include <linux/iommu.h>
->  #include "adf_common_drv.h"
->  #include "adf_cfg.h"
->  #include "adf_pfvf_pf_msg.h"
-> @@ -176,7 +175,7 @@ int adf_sriov_configure(struct pci_dev *pdev, int numvfs)
->  		return -EFAULT;
->  	}
->  
-> -	if (!iommu_present(&pci_bus_type))
-> +	if (!device_iommu_mapped(&pdev->dev))
->  		dev_warn(&pdev->dev, "IOMMU should be enabled for SR-IOV to work correctly\n");
->  
->  	if (accel_dev->pf.vf_info) {
-> -- 
-> 2.28.0.dirty
-> 
-I tried this patch and it appears to work as expected.
+Hello,
 
-Acked-by: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+This series adds devicetree nodes for SDX65. It adds
+reserved memory nodes, SDHCI, smmu and tcsr mutex support.
 
-Regards,
+Thanks,
+Rohit.
+
+Rohit Agarwal (7):
+  ARM: dts: qcom: sdx65: Add reserved memory nodes
+  dt-bindings: mmc: sdhci-msm: Document the SDX65 compatible
+  ARM: dts: qcom: sdx65: Add support for SDHCI controller
+  dt-bindings: arm-smmu: Add binding for SDX65 SMMU
+  ARM: dts: qcom: sdx65: Enable ARM SMMU
+  ARM: dts: qcom: sdx65: Add support for TCSR Mutex
+  ARM: dts: qcom: sdx65: Add Shared memory manager support
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml        |   1 +
+ .../devicetree/bindings/mmc/sdhci-msm.txt          |   1 +
+ arch/arm/boot/dts/qcom-sdx65-mtp.dts               |  21 ++++
+ arch/arm/boot/dts/qcom-sdx65.dtsi                  | 110 +++++++++++++++++++++
+ 4 files changed, 133 insertions(+)
 
 -- 
-Giovanni
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
