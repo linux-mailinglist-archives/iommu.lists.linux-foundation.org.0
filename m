@@ -1,68 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659AA4FB582
-	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 10:01:09 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 278774FB580
+	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 10:01:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0906B40919;
-	Mon, 11 Apr 2022 08:01:08 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 87F88415B5;
+	Mon, 11 Apr 2022 08:01:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pKAoekHUHHvn; Mon, 11 Apr 2022 08:01:07 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1f8TR3r0vLSE; Mon, 11 Apr 2022 08:01:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1643640640;
-	Mon, 11 Apr 2022 08:01:07 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5810D415BD;
+	Mon, 11 Apr 2022 08:01:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F1101C0090;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 15CA5C002C;
 	Mon, 11 Apr 2022 08:01:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F098C002C
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:19 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1DD7CC002C
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id BC48E41513
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:17 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id E561F41515
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=quicinc.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xE1XZ9YqppId for <iommu@lists.linux-foundation.org>;
- Mon, 11 Apr 2022 07:02:17 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+ with ESMTP id dvHq8G1p6sr3 for <iommu@lists.linux-foundation.org>;
+ Mon, 11 Apr 2022 07:02:15 +0000 (UTC)
+X-Greylist: delayed 00:06:04 by SQLgrey-1.8.0
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1244741515
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:16 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2FD234150F
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 07:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649660537; x=1681196537;
+ t=1649660535; x=1681196535;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=4sArmmPqK1fpsAra+ctcw1Mg8/kPFO/JwQ40cELNy00=;
- b=rieruCFPQT/GorhMABhW8l9IPOfcjOyIRKyK+6Rhc14r95Mz67/8k5NL
- nQYfI9D98W7N+hUBLDHxg/WYFwYffiIOvB/ajEcZ/xYYBvLtkEWYzpjjT
- ms/2ue2+vizfszD0F1kxPbHlbYIgwg3ieE8I/pDY0La7OPVn6zJ4hUAwd 0=;
+ bh=SPn7rGfpCdKX5BixSOyXy7nTS1C2Ef91VXqrhvWkrS4=;
+ b=Rii2TtpODJy55EmKo1yNzJiC6mjsJHJRivJXepUEhOoo8RBU+++JEtok
+ I57nmQSnFp7pOhKXPguFR7mp1sbqW+aETkagIDMuvLAef/iBi+0mtNzSb
+ JDlDQTlsnslwMMCBPoJP2AdttXewrblMP1Qopf0KHsQjOQgINl3gJ9EHg g=;
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 10 Apr 2022 23:56:14 -0700
+ by alexa-out.qualcomm.com with ESMTP; 10 Apr 2022 23:56:10 -0700
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 10 Apr 2022 23:56:14 -0700
+ 10 Apr 2022 23:56:10 -0700
 X-QCInternal: smtphost
 Received: from hu-rohiagar-hyd.qualcomm.com (HELO
  hu-sgudaval-hyd.qualcomm.com) ([10.213.106.138])
- by ironmsg01-blr.qualcomm.com with ESMTP; 11 Apr 2022 12:25:53 +0530
+ by ironmsg01-blr.qualcomm.com with ESMTP; 11 Apr 2022 12:25:54 +0530
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
- id BC73C37D9; Mon, 11 Apr 2022 12:25:52 +0530 (+0530)
+ id 4B7773A9B; Mon, 11 Apr 2022 12:25:53 +0530 (+0530)
 From: Rohit Agarwal <quic_rohiagar@quicinc.com>
 To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
  krzk+dt@kernel.org, ulf.hansson@linaro.org, agross@kernel.org,
  bjorn.andersson@linaro.org
-Subject: [PATCH 4/7] dt-bindings: arm-smmu: Add binding for SDX65 SMMU
-Date: Mon, 11 Apr 2022 12:25:40 +0530
-Message-Id: <1649660143-22400-5-git-send-email-quic_rohiagar@quicinc.com>
+Subject: [PATCH 5/7] ARM: dts: qcom: sdx65: Enable ARM SMMU
+Date: Mon, 11 Apr 2022 12:25:41 +0530
+Message-Id: <1649660143-22400-6-git-send-email-quic_rohiagar@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1649660143-22400-1-git-send-email-quic_rohiagar@quicinc.com>
 References: <1649660143-22400-1-git-send-email-quic_rohiagar@quicinc.com>
@@ -89,25 +87,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add devicetree binding for Qualcomm SDX65 SMMU.
+Add a node for the ARM SMMU found in the SDX65.
 
 Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
 ---
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/qcom-sdx65.dtsi | 40 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index da5381c..1f99bff 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -39,6 +39,7 @@ properties:
-               - qcom,sc8180x-smmu-500
-               - qcom,sdm845-smmu-500
-               - qcom,sdx55-smmu-500
-+              - qcom,sdx65-smmu-500
-               - qcom,sm6350-smmu-500
-               - qcom,sm8150-smmu-500
-               - qcom,sm8250-smmu-500
+diff --git a/arch/arm/boot/dts/qcom-sdx65.dtsi b/arch/arm/boot/dts/qcom-sdx65.dtsi
+index 632ac78..2481769 100644
+--- a/arch/arm/boot/dts/qcom-sdx65.dtsi
++++ b/arch/arm/boot/dts/qcom-sdx65.dtsi
+@@ -181,6 +181,46 @@
+ 			status = "disabled";
+ 		};
+ 
++		apps_smmu: iommu@15000000 {
++			compatible = "qcom,sdx65-smmu-500", "arm,mmu-500";
++			reg = <0x15000000 0x40000>;
++			#iommu-cells = <2>;
++			#global-interrupts = <1>;
++			interrupts =	<GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
++		};
++
+ 		pdc: interrupt-controller@b210000 {
+ 			compatible = "qcom,sdx65-pdc", "qcom,pdc";
+ 			reg = <0xb210000 0x10000>;
 -- 
 2.7.4
 
