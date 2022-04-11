@@ -1,66 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4A04FB847
-	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 11:50:55 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4645F4FB84B
+	for <lists.iommu@lfdr.de>; Mon, 11 Apr 2022 11:51:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7F7E883FB2;
-	Mon, 11 Apr 2022 09:50:54 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4789D82951;
+	Mon, 11 Apr 2022 09:50:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id L6cQ7090mXZZ; Mon, 11 Apr 2022 09:50:53 +0000 (UTC)
+	with ESMTP id euGA1PI4cg_b; Mon, 11 Apr 2022 09:50:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8D04082909;
-	Mon, 11 Apr 2022 09:50:53 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 6127283FDD;
+	Mon, 11 Apr 2022 09:50:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53372C002C;
-	Mon, 11 Apr 2022 09:50:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31034C002C;
+	Mon, 11 Apr 2022 09:50:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2524FC008C
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 09:50:50 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 06E74C002C
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 09:50:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EA1FB82951
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 09:50:47 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7625E82909
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 09:50:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pIjT_6H8cUTl for <iommu@lists.linux-foundation.org>;
- Mon, 11 Apr 2022 09:50:47 +0000 (UTC)
+ with ESMTP id C3rPTBrS7WHa for <iommu@lists.linux-foundation.org>;
+ Mon, 11 Apr 2022 09:50:49 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4E83382923
- for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 09:50:47 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id ED02E83F77
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Apr 2022 09:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649670647; x=1681206647;
+ t=1649670649; x=1681206649;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=+xbfqnRznVX2Jfz5mYMD6PsZmXfJrHkCWmv6tLKMjMg=;
- b=Rw/HcaUju14+Q8V2W/d5kCnB8dH+lqHqGGUdIjnUnsa1z452NpUua8HA
- 54+X8I9k+yFMbk1Ov4Dmq+N4NYXoKLK58eUFbNH0/jQnsNu1f1QxIyVi5
- ot3sWDrjBfcGeHXfcUCfGWRhnAHvIw64VxbXtu42uDTO2eBVPJOMlbvLj c=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 11 Apr 2022 02:50:47 -0700
+ bh=6DuQXv0swliwllJVJ21CJYS4OSZ+0fLxCJMDIFN2Mw8=;
+ b=dLr6eWXqP7U7n9D7FOfFz3jdRvmA3gUbsGjeFS6AThV4uN4XPMjsj5oz
+ pxo1cg+vCkXTLoPkjBhhtNK5ELzRmRxoruoHaW9UJRN17HUDVDckUf5Qc
+ f6H8f7ZVBLdXp3mPMxo4UP8qLUTrsMTJn9gmRU3H23G68Cu8okgtlSCuG A=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 11 Apr 2022 02:50:49 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 11 Apr 2022 02:50:46 -0700
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 11 Apr 2022 02:50:47 -0700
 X-QCInternal: smtphost
 Received: from hu-rohiagar-hyd.qualcomm.com (HELO
  hu-sgudaval-hyd.qualcomm.com) ([10.213.106.138])
- by ironmsg02-blr.qualcomm.com with ESMTP; 11 Apr 2022 15:20:24 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 11 Apr 2022 15:20:25 +0530
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
- id C4C0D3AA3; Mon, 11 Apr 2022 15:20:23 +0530 (+0530)
+ id 19D623AA5; Mon, 11 Apr 2022 15:20:24 +0530 (+0530)
 From: Rohit Agarwal <quic_rohiagar@quicinc.com>
 To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
  krzk+dt@kernel.org, ulf.hansson@linaro.org, agross@kernel.org,
  bjorn.andersson@linaro.org
-Subject: [PATCH v2 1/7] ARM: dts: qcom: sdx65: Add reserved memory nodes
-Date: Mon, 11 Apr 2022 15:20:09 +0530
-Message-Id: <1649670615-21268-2-git-send-email-quic_rohiagar@quicinc.com>
+Subject: [PATCH v2 2/7] dt-bindings: mmc: sdhci-msm: Document the SDX65
+ compatible
+Date: Mon, 11 Apr 2022 15:20:10 +0530
+Message-Id: <1649670615-21268-3-git-send-email-quic_rohiagar@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1649670615-21268-1-git-send-email-quic_rohiagar@quicinc.com>
 References: <1649670615-21268-1-git-send-email-quic_rohiagar@quicinc.com>
@@ -86,108 +87,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add reserved memory nodes to the SDX65 dtsi as defined by
-the memory map.
+The SDHCI controller on SDX65 is based on MSM SDHCI v5 IP. Hence,
+document the compatible with "qcom,sdhci-msm-v5" as the fallback.
 
 Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
 ---
- arch/arm/boot/dts/qcom-sdx65-mtp.dts | 21 +++++++++++++++++
- arch/arm/boot/dts/qcom-sdx65.dtsi    | 45 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
+ Documentation/devicetree/bindings/mmc/sdhci-msm.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/qcom-sdx65-mtp.dts b/arch/arm/boot/dts/qcom-sdx65-mtp.dts
-index ad99f56..79dc31a 100644
---- a/arch/arm/boot/dts/qcom-sdx65-mtp.dts
-+++ b/arch/arm/boot/dts/qcom-sdx65-mtp.dts
-@@ -23,6 +23,27 @@
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		mpss_dsm: memory@8c400000 {
-+			no-map;
-+			reg = <0x8c400000 0x3200000>;
-+		};
-+
-+		ipa_fw_mem: memory@8fced000 {
-+			no-map;
-+			reg = <0x8fced000 0x10000>;
-+		};
-+
-+		mpss_adsp_mem: memory@90800000 {
-+			no-map;
-+			reg = <0x90800000 0x10000000>;
-+		};
-+	};
-+
- 	vph_pwr: vph-pwr-regulator {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vph_pwr";
-diff --git a/arch/arm/boot/dts/qcom-sdx65.dtsi b/arch/arm/boot/dts/qcom-sdx65.dtsi
-index 7e2697f..dcc94c2 100644
---- a/arch/arm/boot/dts/qcom-sdx65.dtsi
-+++ b/arch/arm/boot/dts/qcom-sdx65.dtsi
-@@ -61,11 +61,56 @@
- 		#size-cells = <1>;
- 		ranges;
- 
-+		tz_heap_mem: memory@8fcad000 {
-+			no-map;
-+			reg = <0x8fcad000 0x40000>;
-+		};
-+
-+		secdata_mem: memory@8fcfd000 {
-+			no-map;
-+			reg = <0x8fcfd000 0x1000>;
-+		};
-+
-+		hyp_mem: memory@8fd00000 {
-+			no-map;
-+			reg = <0x8fd00000 0x80000>;
-+		};
-+
-+		access_control_mem: memory@8fd80000 {
-+			no-map;
-+			reg = <0x8fd80000 0x80000>;
-+		};
-+
-+		aop_mem: memory@8fe00000 {
-+			no-map;
-+			reg = <0x8fe00000 0x20000>;
-+		};
-+
-+		smem_mem: memory@8fe20000 {
-+			no-map;
-+			reg = <0x8fe20000 0xc0000>;
-+		};
-+
- 		cmd_db: reserved-memory@8fee0000 {
- 			compatible = "qcom,cmd-db";
- 			reg = <0x8fee0000 0x20000>;
- 			no-map;
- 		};
-+
-+		tz_mem: memory@8ff00000 {
-+			no-map;
-+			reg = <0x8ff00000 0x100000>;
-+		};
-+
-+		tz_apps_mem: memory@90000000 {
-+			no-map;
-+			reg = <0x90000000 0x500000>;
-+		};
-+
-+		llcc_tcm_mem: memory@15800000 {
-+			no-map;
-+			reg = <0x15800000 0x800000>;
-+		};
- 	};
- 
- 	soc: soc {
+diff --git a/Documentation/devicetree/bindings/mmc/sdhci-msm.txt b/Documentation/devicetree/bindings/mmc/sdhci-msm.txt
+index 6216ed7..e7dec8a 100644
+--- a/Documentation/devicetree/bindings/mmc/sdhci-msm.txt
++++ b/Documentation/devicetree/bindings/mmc/sdhci-msm.txt
+@@ -25,6 +25,7 @@ Required properties:
+ 		"qcom,sc7280-sdhci", "qcom,sdhci-msm-v5";
+ 		"qcom,sdm845-sdhci", "qcom,sdhci-msm-v5"
+ 		"qcom,sdx55-sdhci", "qcom,sdhci-msm-v5";
++		"qcom,sdx65-sdhci", "qcom,sdhci-msm-v5";
+ 		"qcom,sm8250-sdhci", "qcom,sdhci-msm-v5"
+ 	NOTE that some old device tree files may be floating around that only
+ 	have the string "qcom,sdhci-msm-v4" without the SoC compatible string
 -- 
 2.7.4
 
