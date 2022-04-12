@@ -1,86 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F914FDEA6
-	for <lists.iommu@lfdr.de>; Tue, 12 Apr 2022 13:56:27 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA2D4FDED7
+	for <lists.iommu@lfdr.de>; Tue, 12 Apr 2022 13:58:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 09EBB61011;
-	Tue, 12 Apr 2022 11:56:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 40A7040331;
+	Tue, 12 Apr 2022 11:58:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oukfrBg2hwlY; Tue, 12 Apr 2022 11:56:25 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MAB_-Lqzqsa9; Tue, 12 Apr 2022 11:58:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3ED036100D;
-	Tue, 12 Apr 2022 11:56:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 27F1840257;
+	Tue, 12 Apr 2022 11:58:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05FF4C002C;
-	Tue, 12 Apr 2022 11:56:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 07456C0088;
+	Tue, 12 Apr 2022 11:58:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BB2B1C002C
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:56:23 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5225DC002C
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:58:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9A1938308A
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:56:23 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3F2F440331
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:58:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BmNlbuqsWO4v for <iommu@lists.linux-foundation.org>;
- Tue, 12 Apr 2022 11:56:22 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QVaCsdbJI0MB for <iommu@lists.linux-foundation.org>;
+ Tue, 12 Apr 2022 11:58:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 74D9883089
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:56:22 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6CA7840257
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649764582; x=1681300582;
+ t=1649764732; x=1681300732;
  h=message-id:date:mime-version:cc:subject:to:references:
  from:in-reply-to:content-transfer-encoding;
- bh=L0qUnMQOFRRb2Pk8gqURd8V55DtzojRRl0dzjoOnUPY=;
- b=A6mL7VXFmmLC4J9SdW0jPo68F0khU0bWfNwSqS6fPzDaqpSzLfcBBPtO
- pWFbKhW7c5CRdvcZJqa1eiLhwSGJ3bwdNHDR03jgpOgW3y27lbnpN7tUW
- /rmMbmMKmBugqqrRdJ5gpIrUbI7qqSm3/3CYPIEUfTsUsAWzjBkxOq/jU
- fMI9TMmI09R6U6W3xBkGrXpw1m40Ud3Hwhdz2ELCVT05tEb6jucqRwSIR
- iv2K+SudwhxjIAiQaCThqWtHwaZipoWnKG4Z6WSQfV4/mzeUNqwVWFmYW
- Fo2uNV3qqEPcPOBpXEClQlZOgxuYIWMCIiuuD+ZCiJK/eiRBTe2duIljW A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="259953459"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="259953459"
+ bh=9DfAarcfAzo6JBBqkE0A2OGiOBZ6hr7tyCRuLN5rWe8=;
+ b=F9kk4QG4B+wk2Q93GKen11rFsyDbupA6uPc+R4GONvpWyWPnaNAibCeY
+ xyNMIzC5udlPPq+KS0ffpogv8y8BTMJVxVZU/duS+rxrenpoVm5AFc2vJ
+ s0Y47Yh+CEQM24ySFUmWjWgrUah1cVjoxYrCZUm4BJSEE9wfLYC5uYnxI
+ NQaG1wjZvHq99R3Afc6jryf4TYktv2bQIOR5p+k6y3G2leJrephApNHXa
+ EoJVa5ufcviIz98pSzxAZO7bC1nf6a02bCMw7DUgVRPsId6js6CZP5ElY
+ V9PCDtGVKEtINSvVi8mpuJys19nLiKaUgiDXjHiZ+XaTVxu+elCYty0ac g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="322801875"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="322801875"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 04:56:20 -0700
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="572730132"
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 04:58:51 -0700
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="572730762"
 Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.174])
  ([10.254.210.174])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 04:56:16 -0700
-Message-ID: <317c1d39-13df-2559-dff7-2a5c82630739@linux.intel.com>
-Date: Tue, 12 Apr 2022 19:56:14 +0800
+ 12 Apr 2022 04:58:48 -0700
+Message-ID: <84441673-4cd5-864c-38b5-3c2ce08d438f@linux.intel.com>
+Date: Tue, 12 Apr 2022 19:58:43 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH RFC v3 02/12] iommu: Add a flag to indicate immutable
- singleton group
+Subject: Re: [PATCH RFC v3 04/12] iommu/sva: Basic data structures for SVA
 Content-Language: en-US
-To: Yi Liu <yi.l.liu@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Christoph Hellwig <hch@infradead.org>, "Raj, Ashok" <ashok.raj@intel.com>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+To: "Tian, Kevin" <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ "Raj, Ashok" <ashok.raj@intel.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
 References: <20220410102443.294128-1-baolu.lu@linux.intel.com>
- <20220410102443.294128-3-baolu.lu@linux.intel.com>
- <BN9PR11MB527679E5CE0516B2786F57518CED9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <7c70a136-6871-b48c-8e46-852bb1b62958@linux.intel.com>
- <e8d8d08c-8327-b0ad-6bdd-ef10cd34e212@intel.com>
+ <20220410102443.294128-5-baolu.lu@linux.intel.com>
+ <BN9PR11MB52766016D2FAD092A892E2A58CED9@BN9PR11MB5276.namprd11.prod.outlook.com>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-In-Reply-To: <e8d8d08c-8327-b0ad-6bdd-ef10cd34e212@intel.com>
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
- Jacob jun" <jacob.jun.pan@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+In-Reply-To: <BN9PR11MB52766016D2FAD092A892E2A58CED9@BN9PR11MB5276.namprd11.prod.outlook.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
+ Jacob jun" <jacob.jun.pan@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,31 +93,33 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Yi,
-
-On 2022/4/12 14:34, Yi Liu wrote:
->>>
->>>>
->>>> This adds a flag in the iommu_group struct to indicate an immutable
->>>> singleton group, and uses standard PCI bus topology, isolation 
->>>> features,
->>>> and DMA alias quirks to set the flag. If the device came from DT, 
->>>> assume
->>>> it is static and then the singleton attribute can know from the device
->>>> count in the group.
->>>
->>> where does the assumption come from?
+On 2022/4/12 14:49, Tian, Kevin wrote:
+>> From: Lu Baolu <baolu.lu@linux.intel.com>
+>> Sent: Sunday, April 10, 2022 6:25 PM
 >>
->> Hotplug is the only factor that can dynamically affect the
->> characteristics of IOMMU group singleton as far as I can see. If a
->> device node was created from the DT, it could be treated as static,
->> hence we can judge the singleton in iommu probe phase during boot.
+>> Use below data structures for SVA implementation in the IOMMU core:
+>>
+>> - struct iommu_sva_ioas
+>>    Represent the I/O address space shared with an application CPU address
+>>    space. This structure has a 1:1 relationship with an mm_struct. It
+>>    graps a "mm->mm_count" refcount during creation and drop it on release.
+>>
+>> - struct iommu_domain (IOMMU_DOMAIN_SVA type)
+>>    Represent a hardware pagetable that the IOMMU hardware could use for
+>>    SVA translation. Multiple iommu domains could be bound with an SVA ioas
+>>    and each graps a refcount from ioas in order to make sure ioas could
+>>    only be freed after all domains have been unbound.
+>>
+>> - struct iommu_sva
+>>    Represent a bond relationship between an SVA ioas and an iommu domain.
+>>    If a bond already exists, it's reused and a reference is taken.
+>>
+>> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 > 
-> not sure if hotplug is the only factor. Is it possible that admin modifies
-> the ACS configuration on the bridge?
+> This should be patch07. None of following patches touch those structures
+> until hitting patch08.
 
-Not likely. This will completely change the existing iommu_group
-settings.
+The iommu_sva_domain_mm() helper will be used in the following patches.
 
 Best regards,
 baolu
