@@ -2,72 +2,96 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA064FDDAB
-	for <lists.iommu@lfdr.de>; Tue, 12 Apr 2022 13:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6E84FDEB9
+	for <lists.iommu@lfdr.de>; Tue, 12 Apr 2022 13:56:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 928C48135F;
-	Tue, 12 Apr 2022 11:38:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6620283089;
+	Tue, 12 Apr 2022 11:56:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QGKR6bzfA1Qe; Tue, 12 Apr 2022 11:38:41 +0000 (UTC)
+	with ESMTP id XvO5SkWMBqQT; Tue, 12 Apr 2022 11:56:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BF44181417;
-	Tue, 12 Apr 2022 11:38:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7FD6B83E63;
+	Tue, 12 Apr 2022 11:56:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 801F2C0088;
-	Tue, 12 Apr 2022 11:38:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D335C0088;
+	Tue, 12 Apr 2022 11:56:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33FB0C002C
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:38:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9AE3FC002C
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:54:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 1272640199
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:38:40 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7415560F6B
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:54:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UKn1fcn3n60Z for <iommu@lists.linux-foundation.org>;
- Tue, 12 Apr 2022 11:38:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 6B239400CC
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:38:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649763519; x=1681299519;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=N4WSKTydTrMHsksFWCFFkVf1bcccCKP0eWt9cxX6l5w=;
- b=EL1cr6dOf5VKpLzlVavhz4JvYhQxjgebZ2gjxVALrjTHVGQT5yMZhrDs
- AelVLK+L/OtYjCiHjRAWgelB43/vcLI13GZ1dZHBWzl2muEhl8woBz+kD
- wBNbcuDzPc1COCm+N97MWwiDivBU6g9Q2GIFg9K0zgSB/ul6fau3i0fFL
- hlUSurapAICzNglqAKKUUDSdTfqc7aDbR6E6qR2xQ/AAs+r4xrmy+rs54
- ZzUypMXwyrXpDnmj8pt0ARvMz6bfNtqnpo0fdvAafEDsJ8Aq6tDpxe5s9
- vY3n+ayNfSozEMXxSwKhG9efaTjPO/8GfKMnUO7+gVcmxf3CA8S8xcHLb g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="242942422"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="242942422"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 04:38:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="572723776"
-Received: from spr.sh.intel.com ([10.239.53.23])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 04:38:21 -0700
-From: Chao Gao <chao.gao@intel.com>
-To: linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org
-Subject: [PATCH] dma-direct: avoid redundant memory sync for swiotlb
-Date: Tue, 12 Apr 2022 19:38:05 +0800
-Message-Id: <20220412113805.3210-1-chao.gao@intel.com>
-X-Mailer: git-send-email 2.25.1
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=linaro.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id q8ileE3mNDyA for <iommu@lists.linux-foundation.org>;
+ Tue, 12 Apr 2022 11:54:47 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E916260E61
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:54:46 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id u15so18167394ejf.11
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 04:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=6udN7p84mQQbGIPlPrTSL/PLuG+dh1guReUObCKNXP8=;
+ b=DpJ5xce5z1oKLNoQI5H77n+qFkrR2trfG6eiMK3QQPicwsTlh1LbOMYrgQK2Jwkdwj
+ LK4vOsQSTqEtifdm6tfTeWzv5O6laFEG0jqXYJI8aqW9qc8WznM4Wh4ljvA2WY057Y2X
+ BOGQY5uI3BLeoeBOdfi3C/KNrD9lwiHjVqr88X5WIDgjNizuqzL4SvOf5YrNCrawGh8A
+ sXIlPr21fu2tSAT5DJoGwj0mpoVZPaVDZ20xJ6aJQ94w8uMTA94CkuyR12nglFQ5Ks7w
+ RaEhnkEIVS+j23IO68YdoptMq+MMdR6wiU1zJDTfHdQgmNoaxVKVcknvT8kKsjeHBk2v
+ d0QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6udN7p84mQQbGIPlPrTSL/PLuG+dh1guReUObCKNXP8=;
+ b=a904ODov22rrEBNof3NSjY9BEv+5pplxpGt7SyAH+58ZqnJFZjcbvRotCwC8qBeCmV
+ IhWYvHCxBa6sHbyddLS0xI2aVdZRL4KuyFFA0J1xB6Q22RLCtJ0k9UCOpSOIWl/5PJF8
+ AYJbBYgXg/wM3LGYe3AyZpgFM9OVZw7Lq1S7rLJkJRxGkEtdHiyENP3ipcJw0Ygv1SUb
+ 7LK/SRjZbowtrTaREWsyUaOUQertI3BruRR7sdRdXQ88uF23fN8XtIdadKngd2gIHZuX
+ sEkCLTeGdpBZ1+G7LRPa0W3+OEcRlSxK8Aqfa7UsAKRsaISDoLS17lUevEgbtbZpOjW7
+ ziSA==
+X-Gm-Message-State: AOAM530ztKWqagxXeBQ+Tdiq9wYwfuwSMdFv2ELSfnXz1CVrCRGsneEx
+ SVYQ7N7ONyoxWEzNe2vyO4Ni6Q==
+X-Google-Smtp-Source: ABdhPJyJhJm8ZVPk7tw6VD+la4hCwdTsmQiQ9k85Y+ogd6oPi0J+6g0dtxAMCcJdiZDIn+K32a4jtw==
+X-Received: by 2002:a17:907:1b1b:b0:6e4:7fac:6ce0 with SMTP id
+ mp27-20020a1709071b1b00b006e47fac6ce0mr34100414ejc.617.1649764485066; 
+ Tue, 12 Apr 2022 04:54:45 -0700 (PDT)
+Received: from [192.168.0.195] (xdsl-188-155-201-27.adslplus.ch.
+ [188.155.201.27]) by smtp.gmail.com with ESMTPSA id
+ u4-20020aa7db84000000b004136c2c357csm16632865edt.70.2022.04.12.04.54.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Apr 2022 04:54:44 -0700 (PDT)
+Message-ID: <1b0c00bd-de0e-3096-556d-4d944e5d9b00@linaro.org>
+Date: Tue, 12 Apr 2022 13:54:43 +0200
 MIME-Version: 1.0
-Cc: Kevin Tian <kevin.tian@intel.com>,
- Wang Zhaoyang1 <zhaoyang1.wang@intel.com>, Gao Liang <liang.gao@intel.com>,
- robin.murphy@arm.com, hch@lst.de
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 4/7] dt-bindings: arm-smmu: Add binding for SDX65 SMMU
+Content-Language: en-US
+To: Rohit Agarwal <quic_rohiagar@quicinc.com>, will@kernel.org,
+ robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
+ krzk+dt@kernel.org, ulf.hansson@linaro.org, agross@kernel.org,
+ bjorn.andersson@linaro.org
+References: <1649670615-21268-1-git-send-email-quic_rohiagar@quicinc.com>
+ <1649670615-21268-5-git-send-email-quic_rohiagar@quicinc.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1649670615-21268-5-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailman-Approved-At: Tue, 12 Apr 2022 11:56:46 +0000
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, manivannan.sadhasivam@linaro.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,46 +109,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When we looked into FIO performance with swiotlb enabled in VM, we found
-swiotlb_bounce() is always called one more time than expected for each DMA
-read request.
+On 11/04/2022 11:50, Rohit Agarwal wrote:
+> Add devicetree binding for Qualcomm SDX65 SMMU.
+> 
+> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-It turns out that the bounce buffer is copied to original DMA buffer twice
-after the completion of a DMA request (one is done by in
-dma_direct_sync_single_for_cpu(), the other by swiotlb_tbl_unmap_single()).
-But the content in bounce buffer actually doesn't change between the two
-rounds of copy. So, one round of copy is redundant.
 
-Pass DMA_ATTR_SKIP_CPU_SYNC flag to swiotlb_tbl_unmap_single() to
-skip the memory copy in it.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-This fix increases FIO 64KB sequential read throughput in a guest with
-swiotlb=force by 5.6%.
 
-Reported-by: Wang Zhaoyang1 <zhaoyang1.wang@intel.com>
-Reported-by: Gao Liang <liang.gao@intel.com>
-Signed-off-by: Chao Gao <chao.gao@intel.com>
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
----
- kernel/dma/direct.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-index 4632b0f4f72e..8a6cd53dbe8c 100644
---- a/kernel/dma/direct.h
-+++ b/kernel/dma/direct.h
-@@ -114,6 +114,7 @@ static inline void dma_direct_unmap_page(struct device *dev, dma_addr_t addr,
- 		dma_direct_sync_single_for_cpu(dev, addr, size, dir);
- 
- 	if (unlikely(is_swiotlb_buffer(dev, phys)))
--		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
-+		swiotlb_tbl_unmap_single(dev, phys, size, dir,
-+					 attrs | DMA_ATTR_SKIP_CPU_SYNC);
- }
- #endif /* _KERNEL_DMA_DIRECT_H */
--- 
-2.25.1
-
+Best regards,
+Krzysztof
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
