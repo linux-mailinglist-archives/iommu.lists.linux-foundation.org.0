@@ -1,98 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9B04FDEBA
-	for <lists.iommu@lfdr.de>; Tue, 12 Apr 2022 13:56:51 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F914FDEA6
+	for <lists.iommu@lfdr.de>; Tue, 12 Apr 2022 13:56:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 54E6A40A06;
-	Tue, 12 Apr 2022 11:56:50 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 09EBB61011;
+	Tue, 12 Apr 2022 11:56:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3afDMhbOR43t; Tue, 12 Apr 2022 11:56:49 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oukfrBg2hwlY; Tue, 12 Apr 2022 11:56:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 34A52410A5;
-	Tue, 12 Apr 2022 11:56:49 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3ED036100D;
+	Tue, 12 Apr 2022 11:56:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B9DBC0089;
-	Tue, 12 Apr 2022 11:56:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 05FF4C002C;
+	Tue, 12 Apr 2022 11:56:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E0713C002C
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:54:56 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB2B1C002C
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:56:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id CEC9360F6B
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:54:56 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 9A1938308A
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:56:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vMo6ncfUXe7P for <iommu@lists.linux-foundation.org>;
- Tue, 12 Apr 2022 11:54:56 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 3445260E61
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:54:56 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id s18so14363666ejr.0
- for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 04:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=QHCIwf7uKojCa/2Ev85bnweKYQuMU3PscULOv/3SfH0=;
- b=DD4J/SiIfk70HC7aXDM4XEePvBUKdzzefIcgqBNThjAReDiodJEUxv0NPXpUdN4Kvw
- 5GK38QtWhkafFiYN5PdU1rjp9aro7+WtQivpUph3krYiRej9dnybekWAPqZ7OAw9F8xL
- wNK5tQg9jnGDORnDvGQ8VgkSLX5FYQOqHwx3FAh9Ov0huiJqoLlT2vuI0KfWGVYBqxCW
- 2IWQ1R+ATurd2bGH5iYdmSLgRVFDArfFNifG/UnU14tH8thrH521ohSzxTH0Mb70XYmd
- T8f7UVwyAEgO4OGSy7qDzscYWwIkGggVShOv5zJcBZ/+SU6h/uZEvJujeGPcbML/6rfT
- H1qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QHCIwf7uKojCa/2Ev85bnweKYQuMU3PscULOv/3SfH0=;
- b=nBEsaAW7CngwQ+rqO4YjRSsMb0sGL5ZVBwLUIRwA/W9U/wJXa5d7tffnwmKqM7jlbL
- aLG9v8vgksf/bqo0uM5ihXxpWNOHTXotypHONjB/y6vInnCNlOJyjwDyuXHJ2wB1KnIn
- 0M9n+NNeyAkUaMTWRk0IXYIscm8gW9Nv0dkPOdlybiUDoKO7KATACAyBJmLeGf20kGgK
- R1f075yFnZQX1A1v9wjXZw+Ffl/WHV1lZYsKceApn02chiE11ZCLXyvgITDO3bIZsJzf
- QLUaU3Wk94nlEhGInWX1p2I9ZbhjE1yQdbkoIfUYphUGgvGQjTj+c3ClK/gFMeU4J5JC
- 4jBQ==
-X-Gm-Message-State: AOAM5316vnbSI3ONHYegWwOfTV7WlleWUQUIpn5sX7O/rVHm4vVnTmUY
- pK3bmf2G6SMaOB7Z1qAx7RDEBQ==
-X-Google-Smtp-Source: ABdhPJx9FE2flpben9B2OZUqjC1Vqv352+dinvZFdVtXqGLSmXzCHwsuwcdIhzcf0QGCra4M1rTYbQ==
-X-Received: by 2002:a17:906:e87:b0:6df:8602:5801 with SMTP id
- p7-20020a1709060e8700b006df86025801mr34857117ejf.140.1649764494490; 
- Tue, 12 Apr 2022 04:54:54 -0700 (PDT)
-Received: from [192.168.0.195] (xdsl-188-155-201-27.adslplus.ch.
- [188.155.201.27]) by smtp.gmail.com with ESMTPSA id
- g4-20020a17090613c400b006e843330364sm5568236ejc.122.2022.04.12.04.54.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 04:54:54 -0700 (PDT)
-Message-ID: <2f0ecdb6-97f0-213a-7ee7-d1fe0a7406a8@linaro.org>
-Date: Tue, 12 Apr 2022 13:54:53 +0200
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BmNlbuqsWO4v for <iommu@lists.linux-foundation.org>;
+ Tue, 12 Apr 2022 11:56:22 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 74D9883089
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Apr 2022 11:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649764582; x=1681300582;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=L0qUnMQOFRRb2Pk8gqURd8V55DtzojRRl0dzjoOnUPY=;
+ b=A6mL7VXFmmLC4J9SdW0jPo68F0khU0bWfNwSqS6fPzDaqpSzLfcBBPtO
+ pWFbKhW7c5CRdvcZJqa1eiLhwSGJ3bwdNHDR03jgpOgW3y27lbnpN7tUW
+ /rmMbmMKmBugqqrRdJ5gpIrUbI7qqSm3/3CYPIEUfTsUsAWzjBkxOq/jU
+ fMI9TMmI09R6U6W3xBkGrXpw1m40Ud3Hwhdz2ELCVT05tEb6jucqRwSIR
+ iv2K+SudwhxjIAiQaCThqWtHwaZipoWnKG4Z6WSQfV4/mzeUNqwVWFmYW
+ Fo2uNV3qqEPcPOBpXEClQlZOgxuYIWMCIiuuD+ZCiJK/eiRBTe2duIljW A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="259953459"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="259953459"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 04:56:20 -0700
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="572730132"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.174])
+ ([10.254.210.174])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 04:56:16 -0700
+Message-ID: <317c1d39-13df-2559-dff7-2a5c82630739@linux.intel.com>
+Date: Tue, 12 Apr 2022 19:56:14 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/7] dt-bindings: mmc: sdhci-msm: Document the SDX65
- compatible
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH RFC v3 02/12] iommu: Add a flag to indicate immutable
+ singleton group
 Content-Language: en-US
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>, will@kernel.org,
- robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
- krzk+dt@kernel.org, ulf.hansson@linaro.org, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1649670615-21268-1-git-send-email-quic_rohiagar@quicinc.com>
- <1649670615-21268-3-git-send-email-quic_rohiagar@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1649670615-21268-3-git-send-email-quic_rohiagar@quicinc.com>
-X-Mailman-Approved-At: Tue, 12 Apr 2022 11:56:46 +0000
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, manivannan.sadhasivam@linaro.org,
- linux-arm-kernel@lists.infradead.org
+To: Yi Liu <yi.l.liu@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Christoph Hellwig <hch@infradead.org>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>
+References: <20220410102443.294128-1-baolu.lu@linux.intel.com>
+ <20220410102443.294128-3-baolu.lu@linux.intel.com>
+ <BN9PR11MB527679E5CE0516B2786F57518CED9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <7c70a136-6871-b48c-8e46-852bb1b62958@linux.intel.com>
+ <e8d8d08c-8327-b0ad-6bdd-ef10cd34e212@intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+In-Reply-To: <e8d8d08c-8327-b0ad-6bdd-ef10cd34e212@intel.com>
+Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
+ Jacob jun" <jacob.jun.pan@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,27 +93,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 11/04/2022 11:50, Rohit Agarwal wrote:
-> The SDHCI controller on SDX65 is based on MSM SDHCI v5 IP. Hence,
-> document the compatible with "qcom,sdhci-msm-v5" as the fallback.
+Hi Yi,
+
+On 2022/4/12 14:34, Yi Liu wrote:
+>>>
+>>>>
+>>>> This adds a flag in the iommu_group struct to indicate an immutable
+>>>> singleton group, and uses standard PCI bus topology, isolation 
+>>>> features,
+>>>> and DMA alias quirks to set the flag. If the device came from DT, 
+>>>> assume
+>>>> it is static and then the singleton attribute can know from the device
+>>>> count in the group.
+>>>
+>>> where does the assumption come from?
+>>
+>> Hotplug is the only factor that can dynamically affect the
+>> characteristics of IOMMU group singleton as far as I can see. If a
+>> device node was created from the DT, it could be treated as static,
+>> hence we can judge the singleton in iommu probe phase during boot.
 > 
-> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/mmc/sdhci-msm.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> not sure if hotplug is the only factor. Is it possible that admin modifies
+> the ACS configuration on the bridge?
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Not likely. This will completely change the existing iommu_group
+settings.
 
 Best regards,
-Krzysztof
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
