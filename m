@@ -1,70 +1,135 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF6A500EEB
-	for <lists.iommu@lfdr.de>; Thu, 14 Apr 2022 15:20:41 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5EE501D21
+	for <lists.iommu@lfdr.de>; Thu, 14 Apr 2022 23:07:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 08EAC40C88;
-	Thu, 14 Apr 2022 13:20:40 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E5CCF606F5;
+	Thu, 14 Apr 2022 21:07:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n-ht9v2ef05F; Thu, 14 Apr 2022 13:20:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D16C440C87;
-	Thu, 14 Apr 2022 13:20:38 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M-wDLUHEvC8N; Thu, 14 Apr 2022 21:07:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D75CA607B0;
+	Thu, 14 Apr 2022 21:07:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BEA0C002C;
-	Thu, 14 Apr 2022 13:20:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1F97C0086;
+	Thu, 14 Apr 2022 21:07:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F472C002C
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 13:20:37 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7AFCDC002C
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 21:07:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0E12984138
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 13:20:37 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 681D040B67
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 21:07:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9X82wBg8Q6Wh for <iommu@lists.linux-foundation.org>;
- Thu, 14 Apr 2022 13:20:35 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by smtp1.osuosl.org (Postfix) with ESMTPS id F2CF984135
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 13:20:34 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KfKlz56h8zgYFr;
- Thu, 14 Apr 2022 21:18:39 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 14 Apr 2022 21:20:29 +0800
-Subject: Re: [PATCH v7 0/7] Add support for HiSilicon PCIe Tune and Trace
- device
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20220407125841.3678-1-yangyicong@hisilicon.com>
-Message-ID: <701892ee-de70-e15c-6d9e-083268e94b77@huawei.com>
-Date: Thu, 14 Apr 2022 21:20:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=samsung.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PeDmlmKCS1RO for <iommu@lists.linux-foundation.org>;
+ Thu, 14 Apr 2022 21:07:23 +0000 (UTC)
+X-Greylist: delayed 00:06:51 by SQLgrey-1.8.0
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id DAC5A40146
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 21:07:22 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220414210028euoutp0164df0a9228f27907d496549016476c3c~l3v_hAlOt1205012050euoutp01G
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 21:00:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220414210028euoutp0164df0a9228f27907d496549016476c3c~l3v_hAlOt1205012050euoutp01G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1649970028;
+ bh=1sPEUOenjbwSwEmgb/ae34G8hb7c40f80oqDc56Zjog=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=qV0P2+KA2dSOtefYtMIZJk4GIXIkakqFm8NXcMXXdGi6Rucg0Q5M/bbQigrj/2Jap
+ 7ypGBw+WpSlejEi5Wjr7G0vl5KykkPVLHQaLoB4oamS793RGWoO6bhhfWqmmM/qeD7
+ FNvoqiRFfbBJ2WKeiz1oxmusCLXZ1jw20ufaqNfI=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220414210027eucas1p185f27a902ba36c6fc8dc997ccd841c3e~l3v95CXSX2407624076eucas1p1T;
+ Thu, 14 Apr 2022 21:00:27 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 5D.1F.10260.B6B88526; Thu, 14
+ Apr 2022 22:00:27 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220414210025eucas1p1c3faa4c9c3ce5fd273ba0675e7a2c86a~l3v8ltveF2383323833eucas1p1S;
+ Thu, 14 Apr 2022 21:00:25 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220414210025eusmtrp174e6e526f6ccfdc233a5eaaefc1435cc~l3v8k4KZU2087320873eusmtrp1M;
+ Thu, 14 Apr 2022 21:00:25 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-70-62588b6b0918
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 8D.E8.09522.96B88526; Thu, 14
+ Apr 2022 22:00:25 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220414210025eusmtip19363f4121502594c4e8ce2c783e2eccc~l3v7zLbwE3006330063eusmtip1A;
+ Thu, 14 Apr 2022 21:00:25 +0000 (GMT)
+Message-ID: <2093efb6-e898-9a2f-4d2a-4ec22ae016bd@samsung.com>
+Date: Thu, 14 Apr 2022 23:00:24 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220407125841.3678-1-yangyicong@hisilicon.com>
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Cc: mark.rutland@arm.com, prime.zeng@huawei.com,
- alexander.shishkin@linux.intel.com, linux-pci@vger.kernel.org,
- linuxarm@huawei.com, Yicong Yang <yangyicong@hisilicon.com>, will@kernel.org,
- daniel.thompson@linaro.org, peterz@infradead.org, mingo@redhat.com,
- helgaas@kernel.org, liuqi115@huawei.com, mike.leach@linaro.org,
- suzuki.poulose@arm.com, coresight@lists.linaro.org, acme@kernel.org,
- zhangshaokun@hisilicon.com, linux-arm-kernel@lists.infradead.org,
- mathieu.poirier@linaro.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- iommu@lists.linux-foundation.org, leo.yan@linaro.org, robin.murphy@arm.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.8.0
+Subject: Re: [PATCH 00/13] iommu: Retire bus_set_iommu()
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org, will@kernel.org
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <cover.1649935679.git.robin.murphy@arm.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7djPc7rZ3RFJBr/+8FhsnriVzeJ9c5zF
+ gv3WFg2rL7BadM7ewG6x6fE1VovLu+awWWxYPJvZ4vnCH8wWBz88YbX4c/s/k8XPXfNYLPr2
+ Blm03DG1uD9pM4vF8ge72B0EPJ4cnMfksWbeGkaPnbPusntsWtXJ5nHn2h42jwmLDjB6zDsZ
+ 6LF5Sb3H5BvLGT1aTu5n8ehtfsfm0T+vn8nj8ya5AN4oLpuU1JzMstQifbsEroz1rU1MBUtk
+ K5onfmJsYFwn2sXIySEhYCLxeMJa9i5GLg4hgRWMEgv3nmKFcL4wSpzZdQQq85lR4u7xzWww
+ Ld+6HrNAJJYzStx48oIFJCEk8JFR4uGdQBCbV8BO4k3DVyYQm0VAVaK96SwzRFxQ4uTMJ2D1
+ ogJJEnP33QOLCwtYSOy82QYWZxYQl7j1ZD5Yr4iAp8TZ3h1gJzEL3GWSeDPxM1gRm4ChRNfb
+ LrCLOIGady/+ANUsL7H97RxmkAYJgUucEnunL2PsYuQAclwkHvyPgPhAWOLV8S3sELaMxOnJ
+ PSwQJfkSf2cYQ4QrJK69XsMMYVtL3Dn3iw2khFlAU2L9Ln2IsKNE44fJUJ18EjfeCkIcwCcx
+ adt0Zogwr0RHmxBEtZrErOPr4HYevHCJeQKj0iykMJmF5PdZSF6ZhbB3ASPLKkbx1NLi3PTU
+ YuO81HK94sTc4tK8dL3k/NxNjMDkePrf8a87GFe8+qh3iJGJg/EQowQHs5II783+8CQh3pTE
+ yqrUovz4otKc1OJDjNIcLErivMmZGxKFBNITS1KzU1MLUotgskwcnFINTNs+nund3f88ZmrL
+ r92yXbu/lZrOMVMXmDtv252ilW9/3jPjmqMYq6jk6aXJuenDj+eV8r+zdy5Tkwg7VP/cTzO1
+ qXrhngcZXj8+/zIsK79v8W1Fx9PKZ7GC1yQSBRWYduXxHrLhT/rULtCgdJ591WaukOynhurG
+ /w8v8fA09uy3cumM4BHnZD1ZmH1J7tiGG5vWX0oKFWxxdq1dG7/Z5FuArTFHUpTd08vvjJ73
+ HVvZb+vY4H4tLUWIs9P52IqPhy8d6kvbd5A3jtNDaVv2nzV9sbfMHrMwlH/g9Tasybu4OFB5
+ kuTSp9dP73BM3l1Qliz1VkLshuNaNw+dBx98jvX1L6tLPRHWuuG+e16SEktxRqKhFnNRcSIA
+ CnS3Fv0DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgleLIzCtJLcpLzFFi42I5/e/4Xd3M7ogkg1lPjSw2T9zKZvG+Oc5i
+ wX5ri4bVF1gtOmdvYLfY9Pgaq8XlXXPYLDYsns1s8XzhD2aLgx+esFr8uf2fyeLnrnksFn17
+ gyxa7pha3J+0mcVi+YNd7A4CHk8OzmPyWDNvDaPHzll32T02repk87hzbQ+bx4RFBxg95p0M
+ 9Ni8pN5j8o3ljB4tJ/ezePQ2v2Pz6J/Xz+TxeZNcAG+Unk1RfmlJqkJGfnGJrVK0oYWRnqGl
+ hZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsb61iamgiWyFc0TPzE2MK4T7WLk5JAQMJH4
+ 1vWYpYuRi0NIYCmjxKRzfWwQCRmJk9MaWCFsYYk/17rYIIreM0qcWvaVESTBK2An8abhKxOI
+ zSKgKtHedJYZIi4ocXLmExYQW1QgSeLFtudg9cICFhI7b7aBxZkFxCVuPZkP1isi4ClxtncH
+ K8gCZoG7TBInf79lB0kICXQzSnQstQKx2QQMJbredoFdxwk0aPfiD1CDzCS6tnYxQtjyEtvf
+ zmGewCg0C8kds5Dsm4WkZRaSlgWMLKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzECk8K2Yz83
+ 72Cc9+qj3iFGJg7GQ4wSHMxKIrw3+8OThHhTEiurUovy44tKc1KLDzGaAgNjIrOUaHI+MC3l
+ lcQbmhmYGpqYWRqYWpoZK4nzehZ0JAoJpCeWpGanphakFsH0MXFwSjUw7U8yTDhT9l5PZy1H
+ 21xHj2cddy57FtyZ/PlpiuY+cX+fCPFL12atOWqS/3GOQOFlQavbR2z/nQlfNenjjwbLRf4S
+ XMtu5j7fzLB36eHD+lZy2y6yXVxm3nxmg1i6UOWSPlPbmcaJ/5dE/jszqSV4qkMZm3DgS6n/
+ VsXlZ8Kvl3o1qWkURZRGZD7Y1m78LkFwxp+tXDarf6fYO2qocQd9zPa/E7PuSGXvJd5Ff5xt
+ n0r9lxTqEUt24Z2o5evEdajs0VZZDa6m9XMmzJETzix9LJBQwvj9vF+2cuGcb7KyXkWz2r08
+ 2aN8Jy7Z3PtqpeBNq4bazFlX1ubrX2rzEVz666jBfrXpCR1P6/nPG7spsRRnJBpqMRcVJwIA
+ OnM/1ZMDAAA=
+X-CMS-MailID: 20220414210025eucas1p1c3faa4c9c3ce5fd273ba0675e7a2c86a
+X-Msg-Generator: CA
+X-RootMTR: 20220414124252eucas1p1f2d8689ef5d281ea70d619888108d2fe
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220414124252eucas1p1f2d8689ef5d281ea70d619888108d2fe
+References: <CGME20220414124252eucas1p1f2d8689ef5d281ea70d619888108d2fe@eucas1p1.samsung.com>
+ <cover.1649935679.git.robin.murphy@arm.com>
+Cc: jean-philippe@linaro.org, zhang.lyra@gmail.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ thierry.reding@gmail.com, linux-arm-kernel@lists.infradead.org,
+ gerald.schaefer@linux.ibm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,152 +142,99 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yicong Yang <yangyicong@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Bjorn,
+Hi Robin,
 
-Since it's a device about tuning and analyzing PCIe link in your realm and you've given
-helpful comments in RFC and v1 version, looking forward to see your opnion on this
-driver as the user interface has changed to perf. Also to confirm that the hotplug problem
-mentioned in RFC[1] has been resolved in a proper way.
+On 14.04.2022 14:42, Robin Murphy wrote:
+> Hi all,
+>
+> Here's another chapter in my saga of moving to per-instance IOMMU ops -
+> iommu_present() and iommu_capable() cleanups will be ongoing for another
+> cycle or two, while this one is at least self-contained within the
+> subsystem. The next steps after this are making iommu_domain_alloc()
+> instance-aware - which should finish the public API - and pulling the
+> fwnode/of_xlate bits into __iommu_probe_device(). And then making sense
+> of whatever's left :)
+>
+> For ease of review here I split out individual driver patches based on
+> whether there was any non-trivial change or affect on control flow; the
+> straightforward deletions are all lumped together since the whole series
+> needs applying together either way, but I'm happy to split the final
+> patch up further if anyone would like.
+>
+> Patch #3 for AMD is based on Mario's SWIOTLB patch here:
+>
+> https://lore.kernel.org/linux-iommu/20220404204723.9767-1-mario.limonciello@amd.com/
+>
+> since that wants merging first as fix material. The series is also based
+> contextually (but not functionally) on my device_iommu_capable() patches
+> here:
+>
+> https://lore.kernel.org/linux-iommu/cover.1649089693.git.robin.murphy@arm.com/
+>
+> since those are pretty much good to go now (I'll send a slightly-tweaked
+> final version once the iommu/core branch is open).
 
-[1] https://lore.kernel.org/linux-pci/20200710230913.GA90375@bjorn-Precision-5520/
-Thanks.
+Works fine on Samsung Exynos based boards (both, ARM 32bit and 64bit).
 
-On 2022/4/7 20:58, Yicong Yang wrote:
-> HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
-> integrated Endpoint (RCiEP) device, providing the capability
-> to dynamically monitor and tune the PCIe traffic (tune),
-> and trace the TLP headers (trace).
-> 
-> PTT tune is designed for monitoring and adjusting PCIe link parameters.
-> We provide several parameters of the PCIe link. Through the driver,
-> user can adjust the value of certain parameter to affect the PCIe link
-> for the purpose of enhancing the performance in certian situation.
-> 
-> PTT trace is designed for dumping the TLP headers to the memory, which
-> can be used to analyze the transactions and usage condition of the PCIe
-> Link. Users can choose filters to trace headers, by either requester
-> ID, or those downstream of a set of Root Ports on the same core of the
-> PTT device. It's also supported to trace the headers of certain type and
-> of certain direction.
-> 
-> The driver registers a PMU device for each PTT device. The trace can
-> be used through `perf record` and the traced headers can be decoded
-> by `perf report`. The perf command support for the device is also
-> added in this patchset. The tune can be used through the sysfs
-> attributes of related PMU device. See the documentation for the
-> detailed usage.
-> 
-> Change since v6:
-> - Fix W=1 errors reported by lkp test, thanks
-> 
-> Change since v5:
-> - Squash the PMU patch into PATCH 2 suggested by John
-> - refine the commit message of PATCH 1 and some comments
-> Link: https://lore.kernel.org/lkml/20220308084930.5142-1-yangyicong@hisilicon.com/
-> 
-> Change since v4:
-> Address the comments from Jonathan, John and Ma Ca, thanks.
-> - Use devm* also for allocating the DMA buffers
-> - Remove the IRQ handler stub in Patch 2
-> - Make functions waiting for hardware state return boolean
-> - Manual remove the PMU device as it should be removed first
-> - Modifier the orders in probe and removal to make them matched well
-> - Make available {directions,type,format} array const and non-global
-> - Using the right filter list in filters show and well protect the
->   list with mutex
-> - Record the trace status with a boolean @started rather than enum
-> - Optimize the process of finding the PTT devices of the perf-tool
-> Link: https://lore.kernel.org/linux-pci/20220221084307.33712-1-yangyicong@hisilicon.com/
-> 
-> Change since v3:
-> Address the comments from Jonathan and John, thanks.
-> - drop members in the common struct which can be get on the fly
-> - reduce buffer struct and organize the buffers with array instead of list
-> - reduce the DMA reset wait time to avoid long time busy loop
-> - split the available_filters sysfs attribute into two files, for root port
->   and requester respectively. Update the documentation accordingly
-> - make IOMMU mapping check earlier in probe to avoid race condition. Also
->   make IOMMU quirk patch prior to driver in the series
-> - Cleanups and typos fixes from John and Jonathan
-> Link: https://lore.kernel.org/linux-pci/20220124131118.17887-1-yangyicong@hisilicon.com/
-> 
-> Change since v2:
-> - address the comments from Mathieu, thanks.
->   - rename the directory to ptt to match the function of the device
->   - spinoff the declarations to a separate header
->   - split the trace function to several patches
->   - some other comments.
-> - make default smmu domain type of PTT device to identity
->   Drop the RMR as it's not recommended and use an iommu_def_domain_type
->   quirk to passthrough the device DMA as suggested by Robin. 
-> Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyicong@hisilicon.com/
-> 
-> Change since v1:
-> - switch the user interface of trace to perf from debugfs
-> - switch the user interface of tune to sysfs from debugfs
-> - add perf tool support to start trace and decode the trace data
-> - address the comments of documentation from Bjorn
-> - add RMR[1] support of the device as trace works in RMR mode or
->   direct DMA mode. RMR support is achieved by common APIs rather
->   than the APIs implemented in [1].
-> Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-yangyicong@hisilicon.com/
-> [1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali.kolothum.thodi@huawei.com/
-> 
-> Qi Liu (1):
->   perf tool: Add support for HiSilicon PCIe Tune and Trace device driver
-> 
-> Yicong Yang (6):
->   iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device to
->     identity
->   hwtracing: Add trace function support for HiSilicon PCIe Tune and
->     Trace device
->   hisi_ptt: Add support for dynamically updating the filter list
->   hisi_ptt: Add tune function support for HiSilicon PCIe Tune and Trace
->     device
->   docs: Add HiSilicon PTT device driver documentation
->   MAINTAINERS: Add maintainer for HiSilicon PTT driver
-> 
->  Documentation/trace/hisi-ptt.rst              |  303 +++++
->  MAINTAINERS                                   |    7 +
->  drivers/Makefile                              |    1 +
->  drivers/hwtracing/Kconfig                     |    2 +
->  drivers/hwtracing/ptt/Kconfig                 |   12 +
->  drivers/hwtracing/ptt/Makefile                |    2 +
->  drivers/hwtracing/ptt/hisi_ptt.c              | 1161 +++++++++++++++++
->  drivers/hwtracing/ptt/hisi_ptt.h              |  220 ++++
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   16 +
->  tools/perf/arch/arm/util/auxtrace.c           |   76 +-
->  tools/perf/arch/arm/util/pmu.c                |    3 +
->  tools/perf/arch/arm64/util/Build              |    2 +-
->  tools/perf/arch/arm64/util/hisi_ptt.c         |  195 +++
->  tools/perf/util/Build                         |    2 +
->  tools/perf/util/auxtrace.c                    |    4 +
->  tools/perf/util/auxtrace.h                    |    1 +
->  tools/perf/util/hisi-ptt-decoder/Build        |    1 +
->  .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   |  170 +++
->  .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   |   28 +
->  tools/perf/util/hisi_ptt.c                    |  218 ++++
->  tools/perf/util/hisi_ptt.h                    |   28 +
->  21 files changed, 2448 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/trace/hisi-ptt.rst
->  create mode 100644 drivers/hwtracing/ptt/Kconfig
->  create mode 100644 drivers/hwtracing/ptt/Makefile
->  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.c
->  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.h
->  create mode 100644 tools/perf/arch/arm64/util/hisi_ptt.c
->  create mode 100644 tools/perf/util/hisi-ptt-decoder/Build
->  create mode 100644 tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
->  create mode 100644 tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
->  create mode 100644 tools/perf/util/hisi_ptt.c
->  create mode 100644 tools/perf/util/hisi_ptt.h
-> 
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com> # for Exynos 
+relevant changes
+
+
+>
+> Thanks,
+> Robin.
+>
+>
+> Robin Murphy (13):
+>    iommu: Always register bus notifiers
+>    iommu: Move bus setup to IOMMU device registration
+>    iommu/amd: Clean up bus_set_iommu()
+>    iommu/arm-smmu: Clean up bus_set_iommu()
+>    iommu/arm-smmu-v3: Clean up bus_set_iommu()
+>    iommu/dart: Clean up bus_set_iommu()
+>    iommu/exynos: Clean up bus_set_iommu()
+>    iommu/ipmmu-vmsa: Clean up bus_set_iommu()
+>    iommu/mtk: Clean up bus_set_iommu()
+>    iommu/omap: Clean up bus_set_iommu()
+>    iommu/tegra-smmu: Clean up bus_set_iommu()
+>    iommu/virtio: Clean up bus_set_iommu()
+>    iommu: Clean up bus_set_iommu()
+>
+>   drivers/iommu/amd/amd_iommu.h               |   1 -
+>   drivers/iommu/amd/init.c                    |   9 +-
+>   drivers/iommu/amd/iommu.c                   |  21 ----
+>   drivers/iommu/apple-dart.c                  |  30 +-----
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  53 +---------
+>   drivers/iommu/arm/arm-smmu/arm-smmu.c       |  84 +--------------
+>   drivers/iommu/arm/arm-smmu/qcom_iommu.c     |   4 -
+>   drivers/iommu/exynos-iommu.c                |   9 --
+>   drivers/iommu/fsl_pamu_domain.c             |   4 -
+>   drivers/iommu/intel/iommu.c                 |   1 -
+>   drivers/iommu/iommu.c                       | 109 +++++++++-----------
+>   drivers/iommu/ipmmu-vmsa.c                  |  35 +------
+>   drivers/iommu/msm_iommu.c                   |   2 -
+>   drivers/iommu/mtk_iommu.c                   |  13 +--
+>   drivers/iommu/mtk_iommu_v1.c                |  13 +--
+>   drivers/iommu/omap-iommu.c                  |   6 --
+>   drivers/iommu/rockchip-iommu.c              |   2 -
+>   drivers/iommu/s390-iommu.c                  |   6 --
+>   drivers/iommu/sprd-iommu.c                  |   5 -
+>   drivers/iommu/sun50i-iommu.c                |   2 -
+>   drivers/iommu/tegra-smmu.c                  |  29 ++----
+>   drivers/iommu/virtio-iommu.c                |  24 -----
+>   include/linux/iommu.h                       |   1 -
+>   23 files changed, 62 insertions(+), 401 deletions(-)
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
