@@ -1,81 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC5E500E35
-	for <lists.iommu@lfdr.de>; Thu, 14 Apr 2022 14:59:16 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E451500FAE
+	for <lists.iommu@lfdr.de>; Thu, 14 Apr 2022 15:41:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1E66240C82;
-	Thu, 14 Apr 2022 12:59:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JiOjOhmnaePc; Thu, 14 Apr 2022 12:59:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4BF5F404EF;
-	Thu, 14 Apr 2022 12:59:14 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25A52C0085;
-	Thu, 14 Apr 2022 12:59:14 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1FC27C002C
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:59:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id EDF6D60E13
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:59:11 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 94BDD60E29;
+	Thu, 14 Apr 2022 13:41:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yRqfZm-CZB1d for <iommu@lists.linux-foundation.org>;
- Thu, 14 Apr 2022 12:59:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 0D7B960AC0
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:59:10 +0000 (UTC)
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KfKGs19YDz688j4;
- Thu, 14 Apr 2022 20:56:53 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Thu, 14 Apr 2022 14:59:06 +0200
-Received: from [10.47.27.241] (10.47.27.241) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 14 Apr
- 2022 13:59:05 +0100
-Message-ID: <40f03ea6-1690-8a6f-2969-24c47f39c215@huawei.com>
-Date: Thu, 14 Apr 2022 14:00:44 +0100
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id T_MXVjPH66l6; Thu, 14 Apr 2022 13:41:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id AE38A60EC7;
+	Thu, 14 Apr 2022 13:41:11 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DA16C0085;
+	Thu, 14 Apr 2022 13:41:11 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E83EAC002C
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 13:41:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id CFA328413E
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 13:41:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id EiwTKX1ulaEK for <iommu@lists.linux-foundation.org>;
+ Thu, 14 Apr 2022 13:41:09 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 39BDB8413A
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 13:41:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8164E612E6;
+ Thu, 14 Apr 2022 13:41:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 915D3C385A5;
+ Thu, 14 Apr 2022 13:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1649943667;
+ bh=0yqvMpcWaAR3dMtVCzR5hf1l6lIs367xNIC9Ory2ITU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=mZlTzen39KVHMcCSVZdlw1nXEUyDzmpJ4IopP0PbbRh5d7g/x0rVuzbrlfSpDCuXg
+ 62IpU8ab8XfoyrdBcY6eTWWBhOj9N1PmMLxO96CYYHEr9y111lgnDxMt+yIsV8Sjk3
+ AM3Yw5+sVhFNNQwJf60qtgtaSdsoL3WQou3gHmN4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 5.4 238/475] dma-debug: fix return value of __setup handlers
+Date: Thu, 14 Apr 2022 15:10:23 +0200
+Message-Id: <20220414110901.779191925@linuxfoundation.org>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220414110855.141582785@linuxfoundation.org>
+References: <20220414110855.141582785@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v7 5/7] perf tool: Add support for HiSilicon PCIe Tune and
- Trace device driver
-To: Yicong Yang <yangyicong@huawei.com>, Yicong Yang
- <yangyicong@hisilicon.com>, <gregkh@linuxfoundation.org>,
- <helgaas@kernel.org>, <alexander.shishkin@linux.intel.com>,
- <lorenzo.pieralisi@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
- <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
- <mike.leach@linaro.org>, <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>, 
- <daniel.thompson@linaro.org>, <joro@8bytes.org>,
- <shameerali.kolothum.thodi@huawei.com>, <robin.murphy@arm.com>,
- <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <coresight@lists.linaro.org>, <linux-pci@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <iommu@lists.linux-foundation.org>
-References: <20220407125841.3678-1-yangyicong@hisilicon.com>
- <20220407125841.3678-6-yangyicong@hisilicon.com>
- <276c24d2-daf5-5eba-26b9-55edd4a45537@huawei.com>
- <e2b7484b-eb15-029c-b1e1-4831368f61c9@huawei.com>
-In-Reply-To: <e2b7484b-eb15-029c-b1e1-4831368f61c9@huawei.com>
-X-Originating-IP: [10.47.27.241]
-X-ClientProxiedBy: lhreml714-chm.china.huawei.com (10.201.108.65) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: zhangshaokun@hisilicon.com, liuqi115@huawei.com, linuxarm@huawei.com,
- prime.zeng@huawei.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Igor Zhbanov <i.zhbanov@omprussia.ru>,
+ stable@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,23 +77,81 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: John Garry via iommu <iommu@lists.linux-foundation.org>
-Reply-To: John Garry <john.garry@huawei.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMTIvMDQvMjAyMiAwODo0MSwgWWljb25nIFlhbmcgd3JvdGU6Cj4+PiArwqDCoMKgIGhpc2lf
-cHR0X3BtdXMgPSB6YWxsb2Moc2l6ZW9mKHN0cnVjdCBwZXJmX3BtdSAqKSAqICgqbnJfcHR0cykp
-Owo+Pj4gK8KgwqDCoCBpZiAoIWhpc2lfcHR0X3BtdXMpIHsKPj4+ICvCoMKgwqDCoMKgwqDCoCBw
-cl9lcnIoImhpc2lfcHR0IGFsbG9jIGZhaWxlZFxuIik7Cj4+PiArwqDCoMKgwqDCoMKgwqAgKmVy
-ciA9IC1FTk9NRU07Cj4+IHVzaW5nIFBUUl9FUlIgc2VlbXMgYmV0dGVyLCBpZiBwb3NzaWJsZQo+
-Pgo+IG9rIHdpbGwgY2hhbmdlIHRvIHRoYXQuICplcnIgPSAtRU5PTUVNIGlzIHVzZWQgaGVyZSB0
-byBrZWVwIGNvbnNpc3RlbmNlIHdpdGgKPiB3aGF0IHNwZSBkb2VzLgo+IAoKQWgsIEkgc2VlIHRo
-YXQgd2UgYXJlIGNvbnRyYWluZWQgYnkgdGhlIGludGVyZmFjZSBvZiAKYXV4dHJhY2VfcmVjb3Jk
-X2luaXQoKSB0byBwYXNzIGVyciBhcyBhIHBvaW50ZXIsIHNvIEkgc3VwcG9zZSB0aGUgY29kZSAK
-aW4gdGhpcyBwYXRjaCBpcyBvayB0byBmaXQgaW50byB0aGF0LgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlz
-dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+From: Randy Dunlap <rdunlap@infradead.org>
+
+[ Upstream commit 80e4390981618e290616dbd06ea190d4576f219d ]
+
+When valid kernel command line parameters
+  dma_debug=off dma_debug_entries=100
+are used, they are reported as Unknown parameters and added to init's
+environment strings, polluting it.
+
+  Unknown kernel command line parameters "BOOT_IMAGE=/boot/bzImage-517rc5
+    dma_debug=off dma_debug_entries=100", will be passed to user space.
+
+and
+
+ Run /sbin/init as init process
+   with arguments:
+     /sbin/init
+   with environment:
+     HOME=/
+     TERM=linux
+     BOOT_IMAGE=/boot/bzImage-517rc5
+     dma_debug=off
+     dma_debug_entries=100
+
+Return 1 from these __setup handlers to indicate that the command line
+option has been handled.
+
+Fixes: 59d3daafa1726 ("dma-debug: add kernel command line parameters")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: Igor Zhbanov <i.zhbanov@omprussia.ru>
+Link: lore.kernel.org/r/64644a2f-4a20-bab3-1e15-3b2cdd0defe3@omprussia.ru
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: iommu@lists.linux-foundation.org
+Cc: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ kernel/dma/debug.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+index b28665f4d8c7..4dc3bbfd3e3f 100644
+--- a/kernel/dma/debug.c
++++ b/kernel/dma/debug.c
+@@ -980,7 +980,7 @@ static __init int dma_debug_cmdline(char *str)
+ 		global_disable = true;
+ 	}
+ 
+-	return 0;
++	return 1;
+ }
+ 
+ static __init int dma_debug_entries_cmdline(char *str)
+@@ -989,7 +989,7 @@ static __init int dma_debug_entries_cmdline(char *str)
+ 		return -EINVAL;
+ 	if (!get_option(&str, &nr_prealloc_entries))
+ 		nr_prealloc_entries = PREALLOC_DMA_DEBUG_ENTRIES;
+-	return 0;
++	return 1;
+ }
+ 
+ __setup("dma_debug=", dma_debug_cmdline);
+-- 
+2.34.1
+
+
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
