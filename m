@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDFA500DD2
-	for <lists.iommu@lfdr.de>; Thu, 14 Apr 2022 14:43:06 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC8F500DD4
+	for <lists.iommu@lfdr.de>; Thu, 14 Apr 2022 14:43:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CB9A260F46;
-	Thu, 14 Apr 2022 12:43:04 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id EBD8C400D6;
+	Thu, 14 Apr 2022 12:43:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uitK7Qdnwmto; Thu, 14 Apr 2022 12:43:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id DCC7A60BC1;
-	Thu, 14 Apr 2022 12:43:03 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4NR8BZfksVKh; Thu, 14 Apr 2022 12:43:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1C0C440C82;
+	Thu, 14 Apr 2022 12:43:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C71CEC0085;
-	Thu, 14 Apr 2022 12:43:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 057DCC002C;
+	Thu, 14 Apr 2022 12:43:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7418BC002C
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:43:02 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94890C002C
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:43:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 62737401F4
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:43:02 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 81BF140177
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:43:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PP_StQ5QA1hI for <iommu@lists.linux-foundation.org>;
- Thu, 14 Apr 2022 12:43:01 +0000 (UTC)
+ with ESMTP id hIR2QC3ySCag for <iommu@lists.linux-foundation.org>;
+ Thu, 14 Apr 2022 12:43:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 854B7400CF
- for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:43:01 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id B7A3940193
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Apr 2022 12:43:03 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09D2A15DB;
- Thu, 14 Apr 2022 05:43:01 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4ABB0139F;
+ Thu, 14 Apr 2022 05:43:03 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0777C3F70D;
- Thu, 14 Apr 2022 05:42:58 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3CBBC3F70D;
+ Thu, 14 Apr 2022 05:43:01 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: joro@8bytes.org,
 	will@kernel.org
-Subject: [PATCH 06/13] iommu/dart: Clean up bus_set_iommu()
-Date: Thu, 14 Apr 2022 13:42:35 +0100
-Message-Id: <36df696dacfffd52e79b471572de9893b52ad0d9.1649935679.git.robin.murphy@arm.com>
+Subject: [PATCH 07/13] iommu/exynos: Clean up bus_set_iommu()
+Date: Thu, 14 Apr 2022 13:42:36 +0100
+Message-Id: <0ae494b89a0fe9e233d067892caf33938571f599.1649935679.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.28.0.dirty
 In-Reply-To: <cover.1649935679.git.robin.murphy@arm.com>
 References: <cover.1649935679.git.robin.murphy@arm.com>
@@ -73,78 +73,34 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Stop calling bus_set_iommu() since it's now unnecessary, and simplify
-the probe failure path accordingly.
+the init failure path accordingly.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/apple-dart.c | 30 +-----------------------------
- 1 file changed, 1 insertion(+), 29 deletions(-)
+ drivers/iommu/exynos-iommu.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index decafb07ad08..a679e4c02291 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -823,27 +823,6 @@ static irqreturn_t apple_dart_irq(int irq, void *dev)
- 	return IRQ_HANDLED;
- }
+diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
+index 71f2018e23fe..359b255b3924 100644
+--- a/drivers/iommu/exynos-iommu.c
++++ b/drivers/iommu/exynos-iommu.c
+@@ -1356,16 +1356,7 @@ static int __init exynos_iommu_init(void)
+ 		goto err_zero_lv2;
+ 	}
  
--static int apple_dart_set_bus_ops(const struct iommu_ops *ops)
--{
--	int ret;
--
--	if (!iommu_present(&platform_bus_type)) {
--		ret = bus_set_iommu(&platform_bus_type, ops);
--		if (ret)
--			return ret;
+-	ret = bus_set_iommu(&platform_bus_type, &exynos_iommu_ops);
+-	if (ret) {
+-		pr_err("%s: Failed to register exynos-iommu driver.\n",
+-								__func__);
+-		goto err_set_iommu;
 -	}
--#ifdef CONFIG_PCI
--	if (!iommu_present(&pci_bus_type)) {
--		ret = bus_set_iommu(&pci_bus_type, ops);
--		if (ret) {
--			bus_set_iommu(&platform_bus_type, NULL);
--			return ret;
--		}
--	}
--#endif
--	return 0;
--}
 -
- static int apple_dart_probe(struct platform_device *pdev)
- {
- 	int ret;
-@@ -899,14 +878,10 @@ static int apple_dart_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, dart);
- 
--	ret = apple_dart_set_bus_ops(&apple_dart_iommu_ops);
--	if (ret)
--		goto err_free_irq;
--
- 	ret = iommu_device_sysfs_add(&dart->iommu, dev, NULL, "apple-dart.%s",
- 				     dev_name(&pdev->dev));
- 	if (ret)
--		goto err_remove_bus_ops;
-+		goto err_free_irq;
- 
- 	ret = iommu_device_register(&dart->iommu, &apple_dart_iommu_ops, dev);
- 	if (ret)
-@@ -920,8 +895,6 @@ static int apple_dart_probe(struct platform_device *pdev)
- 
- err_sysfs_remove:
- 	iommu_device_sysfs_remove(&dart->iommu);
--err_remove_bus_ops:
--	apple_dart_set_bus_ops(NULL);
- err_free_irq:
- 	free_irq(dart->irq, dart);
- err_clk_disable:
-@@ -936,7 +909,6 @@ static int apple_dart_remove(struct platform_device *pdev)
- 
- 	apple_dart_hw_reset(dart);
- 	free_irq(dart->irq, dart);
--	apple_dart_set_bus_ops(NULL);
- 
- 	iommu_device_unregister(&dart->iommu);
- 	iommu_device_sysfs_remove(&dart->iommu);
+ 	return 0;
+-err_set_iommu:
+-	kmem_cache_free(lv2table_kmem_cache, zero_lv2_table);
+ err_zero_lv2:
+ 	platform_driver_unregister(&exynos_sysmmu_driver);
+ err_reg_driver:
 -- 
 2.28.0.dirty
 
