@@ -1,69 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4903950369B
-	for <lists.iommu@lfdr.de>; Sat, 16 Apr 2022 14:33:39 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BD950369C
+	for <lists.iommu@lfdr.de>; Sat, 16 Apr 2022 14:33:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3E4FA40002;
-	Sat, 16 Apr 2022 12:33:37 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A3DD484099;
+	Sat, 16 Apr 2022 12:33:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eRw1WQQ8DhtU; Sat, 16 Apr 2022 12:33:36 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FzlIPyP851PA; Sat, 16 Apr 2022 12:33:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 268B4409DA;
-	Sat, 16 Apr 2022 12:33:36 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B5C9B840AE;
+	Sat, 16 Apr 2022 12:33:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 457D6C008B;
-	Sat, 16 Apr 2022 12:33:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F7E7C002C;
+	Sat, 16 Apr 2022 12:33:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 22568C002C
- for <iommu@lists.linux-foundation.org>; Sat, 16 Apr 2022 12:33:34 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7CE1EC002C
+ for <iommu@lists.linux-foundation.org>; Sat, 16 Apr 2022 12:33:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1FB4060E74
- for <iommu@lists.linux-foundation.org>; Sat, 16 Apr 2022 12:33:34 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5D2A760E74
+ for <iommu@lists.linux-foundation.org>; Sat, 16 Apr 2022 12:33:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id y0nDZtezgPVh for <iommu@lists.linux-foundation.org>;
- Sat, 16 Apr 2022 12:33:33 +0000 (UTC)
+ with ESMTP id fu8Apt1n0G10 for <iommu@lists.linux-foundation.org>;
+ Sat, 16 Apr 2022 12:33:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 85378607F6
- for <iommu@lists.linux-foundation.org>; Sat, 16 Apr 2022 12:33:33 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C51EC607F6
+ for <iommu@lists.linux-foundation.org>; Sat, 16 Apr 2022 12:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650112413; x=1681648413;
+ t=1650112415; x=1681648415;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tCjF1I4YjEgxSy7zR9vWw2QROF8JK1qkQd4b3h+ujew=;
- b=Gnfuz0w0/RFifaqu8RBqzCjaxKrQ5nj+8f/vg+ttI+1vVmaUg/wEsuSM
- SFcsY7MTbHZVN1IFn6sGJxRKC3yLwQCYdgcURz0ztpavqcTUycOSm4Be+
- w88tloGp3usGZSjejW5J2JhIPWHDSfZeyGTpvehkly56lHCIeTr5qwuXO
- 3mcjzNsp5OTr5WcTAUIcuYcy30oRN9MfD3NxNgMwnT/a7vH/Ys5i4TBg2
- MZhWtkiv/KSS6M4v+fbTUUlR/+JNJcVAKyv/NIP+hHGB7o7JrmMj4a2K3
- s7K/8r8QW9TaM3Ur8d4urexX8jGH9Zls02d8hlx6viVzUmgM3Mg4flmJD w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10318"; a="263045792"
-X-IronPort-AV: E=Sophos;i="5.90,264,1643702400"; d="scan'208";a="263045792"
+ bh=s/nEvl/+FxcEwkLWfzrwaMLflIe37RdxIWhxas3awd4=;
+ b=gMgABO3sWFlcsHehJ2wVh301+E2HKhX5Q9PDOKPOVQwS6x9YN4Omc5JU
+ DTjvX/gf8UjUMW5mM7w93Z/SuIj7uy3QQJBmX520m0ERyuEO3Wz03fbLy
+ eXlVzdbDJbplwgyCFmE1ZBTixf23hitqtkmefCs3DrDfUosq2sTCKJvsz
+ zKPe6rLzuzgSAq8GlBv/mol2D4hA2Yx7XRH51309sv+RsvneV0WUdOvmF
+ RSqWiMkQAYl321tCkaqGu3QNihzY7q/k36sQTt/YnlnBBPPDaEkGq2+FE
+ etM0qF3VM/iO6H99Adcr2JAcuEyOuUj199QdWj60v5ob69XB/zfGmyyHI w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10318"; a="263045795"
+X-IronPort-AV: E=Sophos;i="5.90,264,1643702400"; d="scan'208";a="263045795"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2022 05:33:33 -0700
+ 16 Apr 2022 05:33:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,264,1643702400"; d="scan'208";a="701332465"
+X-IronPort-AV: E=Sophos;i="5.90,264,1643702400"; d="scan'208";a="701332474"
 Received: from allen-box.sh.intel.com ([10.239.159.48])
- by fmsmga001.fm.intel.com with ESMTP; 16 Apr 2022 05:33:31 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 16 Apr 2022 05:33:33 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Jacob jun Pan <jacob.jun.pan@intel.com>, Kevin Tian <kevin.tian@intel.com>,
  Ashok Raj <ashok.raj@intel.com>, Liu Yi L <yi.l.liu@intel.com>
-Subject: [PATCH 1/3] iommu/vt-d: Set PGSNP bit in pasid table entry for sva
- binding
-Date: Sat, 16 Apr 2022 20:30:47 +0800
-Message-Id: <20220416123049.879969-2-baolu.lu@linux.intel.com>
+Subject: [PATCH 2/3] iommu/vt-d: Drop stop marker messages
+Date: Sat, 16 Apr 2022 20:30:48 +0800
+Message-Id: <20220416123049.879969-3-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220416123049.879969-1-baolu.lu@linux.intel.com>
 References: <20220416123049.879969-1-baolu.lu@linux.intel.com>
@@ -86,44 +85,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This field make the requests snoop processor caches irrespective of other
-attributes in the request or other fields in paging structure entries
-used to translate the request. The latest VT-d specification states that
-this field is treated as Reserved(0) for implementations not supporting
-Snoop Control (SC=0 in the Extended Capability Register). Hence add a
-check in the code.
+The VT-d driver explicitly drains the pending page requests when a CPU
+page table (represented by a mm struct) is unbound from a PASID according
+to the procedures defined in the VT-d spec. Hence, there's no need to
+report the stop-marker message in prq_event_thread(). The stop marker
+messages do not need a response. This drops stop marker messages silently
+if any of them is found in the page request queue.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+Reviewed-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/intel/pasid.c | 2 +-
- drivers/iommu/intel/svm.c   | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/iommu/intel/svm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index f8d215d85695..9ca3c67a2058 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -625,7 +625,7 @@ int intel_pasid_setup_first_level(struct intel_iommu *iommu,
- 		}
- 	}
- 
--	if (flags & PASID_FLAG_PAGE_SNOOP)
-+	if ((flags & PASID_FLAG_PAGE_SNOOP) && ecap_sc_support(iommu->ecap))
- 		pasid_set_pgsnp(pte);
- 
- 	pasid_set_domain_id(pte, did);
 diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 23a38763c1d1..d88af37c20ef 100644
+index d88af37c20ef..d1c42dfae6ca 100644
 --- a/drivers/iommu/intel/svm.c
 +++ b/drivers/iommu/intel/svm.c
-@@ -394,6 +394,7 @@ static struct iommu_sva *intel_svm_bind_mm(struct intel_iommu *iommu,
- 	sflags = (flags & SVM_FLAG_SUPERVISOR_MODE) ?
- 			PASID_FLAG_SUPERVISOR_MODE : 0;
- 	sflags |= cpu_feature_enabled(X86_FEATURE_LA57) ? PASID_FLAG_FL5LP : 0;
-+	sflags |= PASID_FLAG_PAGE_SNOOP;
- 	spin_lock_irqsave(&iommu->lock, iflags);
- 	ret = intel_pasid_setup_first_level(iommu, dev, mm->pgd, mm->pasid,
- 					    FLPT_DEFAULT_DID, sflags);
+@@ -758,6 +758,10 @@ static irqreturn_t prq_event_thread(int irq, void *d)
+ 			goto bad_req;
+ 		}
+ 
++		/* Drop Stop Marker message. No need for a response. */
++		if (unlikely(req->lpig && !req->rd_req && !req->wr_req))
++			goto prq_advance;
++
+ 		if (!svm || svm->pasid != req->pasid) {
+ 			/*
+ 			 * It can't go away, because the driver is not permitted
 -- 
 2.25.1
 
