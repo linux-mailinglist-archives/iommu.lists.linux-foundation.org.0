@@ -1,58 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9B2509EAA
-	for <lists.iommu@lfdr.de>; Thu, 21 Apr 2022 13:37:14 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 907B9509EEF
+	for <lists.iommu@lfdr.de>; Thu, 21 Apr 2022 13:49:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7841C40272;
-	Thu, 21 Apr 2022 11:37:12 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FBnNp6hF-r_C; Thu, 21 Apr 2022 11:37:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 94331405BE;
-	Thu, 21 Apr 2022 11:37:11 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 99A62C0033;
-	Thu, 21 Apr 2022 11:37:10 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05FAAC002C
- for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:37:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E87D441B4A
- for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:37:08 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2E0574187E;
+	Thu, 21 Apr 2022 11:49:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yxyt_NVOTu-Z for <iommu@lists.linux-foundation.org>;
- Thu, 21 Apr 2022 11:37:08 +0000 (UTC)
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oz3xmpaB9oGz; Thu, 21 Apr 2022 11:49:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EAB6641B45;
+	Thu, 21 Apr 2022 11:49:22 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C3959C0085;
+	Thu, 21 Apr 2022 11:49:22 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 498CFC002C
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:49:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4459D40272
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:49:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id G-Yq5bfhqNqJ for <iommu@lists.linux-foundation.org>;
+ Thu, 21 Apr 2022 11:49:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0DB9541A68
- for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:37:07 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 145DA400E4
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:49:19 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88B6E1516;
- Thu, 21 Apr 2022 04:37:07 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 89C773F5A1;
- Thu, 21 Apr 2022 04:37:06 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: hch@lst.de,
-	linux@armlinux.org.uk
-Subject: [PATCH 3/3] ARM/dma-mapping: Merge IOMMU ops
-Date: Thu, 21 Apr 2022 12:36:59 +0100
-Message-Id: <394482083c51c7596587a87edf012010f846feb0.1650539846.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.35.3.dirty
-In-Reply-To: <cover.1650539846.git.robin.murphy@arm.com>
-References: <cover.1650539846.git.robin.murphy@arm.com>
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F2B21FB;
+ Thu, 21 Apr 2022 04:49:19 -0700 (PDT)
+Received: from [10.57.41.251] (unknown [10.57.41.251])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACB8A3F5A1;
+ Thu, 21 Apr 2022 04:49:16 -0700 (PDT)
+Message-ID: <9cc46406-0f78-de27-fa0c-65d86ff05561@arm.com>
+Date: Thu, 21 Apr 2022 12:49:11 +0100
 MIME-Version: 1.0
-Cc: arnd@kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [Patch v2] iommu: arm-smmu: disable large page mappings for
+ Nvidia arm-smmu
+Content-Language: en-GB
+To: Ashish Mhetre <amhetre@nvidia.com>, thierry.reding@gmail.com,
+ vdumpa@nvidia.com, will@kernel.org, joro@8bytes.org, jonathanh@nvidia.com,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+References: <20220421081504.24678-1-amhetre@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220421081504.24678-1-amhetre@nvidia.com>
+Cc: Snikam@nvidia.com, Pritesh Raithatha <praithatha@nvidia.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,115 +68,87 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The dma_sync_* operations are now the only difference between the
-coherent and non-coherent IOMMU ops. Some minor tweaks to make those
-safe for coherent devices with minimal overhead, and we can condense
-down to a single set of DMA ops.
+On 2022-04-21 09:15, Ashish Mhetre wrote:
+> Tegra194 and Tegra234 SoCs have the erratum that causes walk cache
+> entries to not be invalidated correctly. The problem is that the walk
+> cache index generated for IOVA is not same across translation and
+> invalidation requests. This is leading to page faults when PMD entry is
+> released during unmap and populated with new PTE table during subsequent
+> map request. Disabling large page mappings avoids the release of PMD
+> entry and avoid translations seeing stale PMD entry in walk cache.
+> Fix this by limiting the page mappings to PAGE_SIZE for Tegra194 and
+> Tegra234 devices. This is recommended fix from Tegra hardware design
+> team.
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- arch/arm/mm/dma-mapping.c | 37 +++++++++++++------------------------
- 1 file changed, 13 insertions(+), 24 deletions(-)
+Acked-by: Robin Murphy <robin.murphy@arm.com>
 
-diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index 10e5e5800d78..dd46cce61579 100644
---- a/arch/arm/mm/dma-mapping.c
-+++ b/arch/arm/mm/dma-mapping.c
-@@ -1341,6 +1341,9 @@ static void arm_iommu_sync_sg_for_cpu(struct device *dev,
- 	struct scatterlist *s;
- 	int i;
- 
-+	if (dev->dma_coherent)
-+		return;
-+
- 	for_each_sg(sg, s, nents, i)
- 		__dma_page_dev_to_cpu(sg_page(s), s->offset, s->length, dir);
- 
-@@ -1360,6 +1363,9 @@ static void arm_iommu_sync_sg_for_device(struct device *dev,
- 	struct scatterlist *s;
- 	int i;
- 
-+	if (dev->dma_coherent)
-+		return;
-+
- 	for_each_sg(sg, s, nents, i)
- 		__dma_page_cpu_to_dev(sg_page(s), s->offset, s->length, dir);
- }
-@@ -1493,12 +1499,13 @@ static void arm_iommu_sync_single_for_cpu(struct device *dev,
- {
- 	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
- 	dma_addr_t iova = handle & PAGE_MASK;
--	struct page *page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
-+	struct page *page;
- 	unsigned int offset = handle & ~PAGE_MASK;
- 
--	if (!iova)
-+	if (dev->dma_coherent || !iova)
- 		return;
- 
-+	page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
- 	__dma_page_dev_to_cpu(page, offset, size, dir);
- }
- 
-@@ -1507,12 +1514,13 @@ static void arm_iommu_sync_single_for_device(struct device *dev,
- {
- 	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
- 	dma_addr_t iova = handle & PAGE_MASK;
--	struct page *page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
-+	struct page *page;
- 	unsigned int offset = handle & ~PAGE_MASK;
- 
--	if (!iova)
-+	if (dev->dma_coherent || !iova)
- 		return;
- 
-+	page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
- 	__dma_page_cpu_to_dev(page, offset, size, dir);
- }
- 
-@@ -1536,22 +1544,6 @@ static const struct dma_map_ops iommu_ops = {
- 	.unmap_resource		= arm_iommu_unmap_resource,
- };
- 
--static const struct dma_map_ops iommu_coherent_ops = {
--	.alloc		= arm_iommu_alloc_attrs,
--	.free		= arm_iommu_free_attrs,
--	.mmap		= arm_iommu_mmap_attrs,
--	.get_sgtable	= arm_iommu_get_sgtable,
--
--	.map_page	= arm_iommu_map_page,
--	.unmap_page	= arm_iommu_unmap_page,
--
--	.map_sg		= arm_iommu_map_sg,
--	.unmap_sg	= arm_iommu_unmap_sg,
--
--	.map_resource	= arm_iommu_map_resource,
--	.unmap_resource	= arm_iommu_unmap_resource,
--};
--
- /**
-  * arm_iommu_create_mapping
-  * @bus: pointer to the bus holding the client device (for IOMMU calls)
-@@ -1750,10 +1742,7 @@ static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 		return;
- 	}
- 
--	if (coherent)
--		set_dma_ops(dev, &iommu_coherent_ops);
--	else
--		set_dma_ops(dev, &iommu_ops);
-+	set_dma_ops(dev, &iommu_ops);
- }
- 
- static void arm_teardown_iommu_dma_ops(struct device *dev)
--- 
-2.35.3.dirty
-
+> Co-developed-by: Pritesh Raithatha <praithatha@nvidia.com>
+> Signed-off-by: Pritesh Raithatha <praithatha@nvidia.com>
+> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+> ---
+> Changes in v2:
+> - Using init_context() to override pgsize_bitmap instead of new function
+> 
+>   drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c | 30 ++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+> index 01e9b50b10a1..87bf522b9d2e 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+> @@ -258,6 +258,34 @@ static void nvidia_smmu_probe_finalize(struct arm_smmu_device *smmu, struct devi
+>   			dev_name(dev), err);
+>   }
+>   
+> +static int nvidia_smmu_init_context(struct arm_smmu_domain *smmu_domain,
+> +				    struct io_pgtable_cfg *pgtbl_cfg,
+> +				    struct device *dev)
+> +{
+> +	struct arm_smmu_device *smmu = smmu_domain->smmu;
+> +	const struct device_node *np = smmu->dev->of_node;
+> +
+> +	/*
+> +	 * Tegra194 and Tegra234 SoCs have the erratum that causes walk cache
+> +	 * entries to not be invalidated correctly. The problem is that the walk
+> +	 * cache index generated for IOVA is not same across translation and
+> +	 * invalidation requests. This is leading to page faults when PMD entry
+> +	 * is released during unmap and populated with new PTE table during
+> +	 * subsequent map request. Disabling large page mappings avoids the
+> +	 * release of PMD entry and avoid translations seeing stale PMD entry in
+> +	 * walk cache.
+> +	 * Fix this by limiting the page mappings to PAGE_SIZE on Tegra194 and
+> +	 * Tegra234.
+> +	 */
+> +	if (of_device_is_compatible(np, "nvidia,tegra234-smmu") ||
+> +	    of_device_is_compatible(np, "nvidia,tegra194-smmu")) {
+> +		smmu->pgsize_bitmap = PAGE_SIZE;
+> +		pgtbl_cfg->pgsize_bitmap = smmu->pgsize_bitmap;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct arm_smmu_impl nvidia_smmu_impl = {
+>   	.read_reg = nvidia_smmu_read_reg,
+>   	.write_reg = nvidia_smmu_write_reg,
+> @@ -268,10 +296,12 @@ static const struct arm_smmu_impl nvidia_smmu_impl = {
+>   	.global_fault = nvidia_smmu_global_fault,
+>   	.context_fault = nvidia_smmu_context_fault,
+>   	.probe_finalize = nvidia_smmu_probe_finalize,
+> +	.init_context = nvidia_smmu_init_context,
+>   };
+>   
+>   static const struct arm_smmu_impl nvidia_smmu_single_impl = {
+>   	.probe_finalize = nvidia_smmu_probe_finalize,
+> +	.init_context = nvidia_smmu_init_context,
+>   };
+>   
+>   struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
