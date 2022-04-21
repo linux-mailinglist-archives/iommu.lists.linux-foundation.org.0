@@ -1,65 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8B5509DD8
-	for <lists.iommu@lfdr.de>; Thu, 21 Apr 2022 12:41:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5B95A408C3;
-	Thu, 21 Apr 2022 10:41:16 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1Hg4tibTR_2K; Thu, 21 Apr 2022 10:41:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 57EA340906;
-	Thu, 21 Apr 2022 10:41:15 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 34B5CC002C;
-	Thu, 21 Apr 2022 10:41:15 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 65E06C002C
- for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 10:41:14 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0547509EC5
+	for <lists.iommu@lfdr.de>; Thu, 21 Apr 2022 13:38:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 452868402E
- for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 10:41:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 25E8483EB3;
+	Thu, 21 Apr 2022 11:38:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Key3Kc9FthBO for <iommu@lists.linux-foundation.org>;
- Thu, 21 Apr 2022 10:41:13 +0000 (UTC)
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EV7kPxXbJf0k; Thu, 21 Apr 2022 11:38:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 19A2083DF6;
+	Thu, 21 Apr 2022 11:38:46 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE2C9C0085;
+	Thu, 21 Apr 2022 11:38:45 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 888FFC002C
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:38:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 6730340592
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:38:45 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PSN3E1fwKzvx for <iommu@lists.linux-foundation.org>;
+ Thu, 21 Apr 2022 11:38:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp1.osuosl.org (Postfix) with ESMTP id 31C918401F
- for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 10:41:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B4941FB;
- Thu, 21 Apr 2022 03:41:12 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54ABA3F5A1;
- Thu, 21 Apr 2022 03:41:10 -0700 (PDT)
-Date: Thu, 21 Apr 2022 11:41:05 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: fully convert arm to use dma-direct
-Message-ID: <20220421114105.4bb06db7@donnerap.cambridge.arm.com>
-In-Reply-To: <20220421074204.1284072-1-hch@lst.de>
-References: <20220421074204.1284072-1-hch@lst.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 438CF40272
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Apr 2022 11:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650541124; x=1682077124;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MVIx/sHIEgO1dkAuJU+YX9nK4jl1uGAeDl15aPmqOWY=;
+ b=k5t7lchb5IpDgdX4mpaOfVK1emWMf8/8YVdtJadKkDHZMCdUk2UsdZ5B
+ cvtpVrZWbBqqJeYpIE1zcVXQobm8bIVURsvUVs+UdpgzzGEsrr2V0wHNC
+ M9dbjZY/uKnAYdo94Mj0DTadtePWxMsFXV31K/tosHVnJJrPmTVJWvYJt
+ rEYG3XpOZcyUs6qmFOWQph02+AMWq45f5b5z6P0vxtLWYOalE84+NnnFM
+ hZy8mbX/xUEPRdF/cwO7xwGo43qmLVNaJbKvgmUf4fwvLv2/IM/JcuNcK
+ KxZCRBy6YZRGvfi43b1I4VUoZPMj1AtOwMRCuOmp+Nu7ATmmuHaLmiWb8 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="263790086"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="263790086"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 04:38:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="703047905"
+Received: from allen-box.sh.intel.com ([10.239.159.48])
+ by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2022 04:38:41 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Jacob jun Pan <jacob.jun.pan@intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, Liu Yi L <yi.l.liu@intel.com>
+Subject: [PATCH v2 0/4] iommu/vt-d: Some fine tuning of SVA
+Date: Thu, 21 Apr 2022 19:35:54 +0800
+Message-Id: <20220421113558.3504874-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: Arnd Bergmann <arnd@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>, linux-usb@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Alan Stern <stern@rowland.harvard.edu>,
- Robin Murphy <robin.murphy@arm.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- linux-arm-kernel@lists.infradead.org,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,50 +83,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 21 Apr 2022 09:41:57 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+Hi folks,
 
-Hi,
+This includes several tunings of Intel SVA implementation. I plan to
+target them for v5.19. Please help to review.
 
-> arm is the last platform not using the dma-direct code for directly
-> mapped DMA.  With the dmaboune removal from Arnd we can easily switch
-> arm to always use dma-direct now (it already does for LPAE configs
-> and nommu).  I'd love to merge this series through the dma-mapping tree
-> as it gives us the opportunity for additional core dma-mapping
-> improvements.
-> 
-> Diffstat:
->  arch/arm/common/dmabounce.c                          |  582 -------------------
->  arch/arm/include/asm/dma-mapping.h                   |  128 ----
->  b/arch/arm/Kconfig                                   |    5 
->  b/arch/arm/common/Kconfig                            |    6 
->  b/arch/arm/common/Makefile                           |    1 
->  b/arch/arm/common/sa1111.c                           |   64 --
->  b/arch/arm/include/asm/device.h                      |    3 
->  b/arch/arm/include/asm/dma-direct.h                  |   49 -
->  b/arch/arm/include/asm/memory.h                      |    2 
->  b/arch/arm/mach-footbridge/Kconfig                   |    1 
->  b/arch/arm/mach-footbridge/common.c                  |   19 
->  b/arch/arm/mach-footbridge/include/mach/dma-direct.h |    8 
->  b/arch/arm/mach-footbridge/include/mach/memory.h     |    4 
->  b/arch/arm/mach-highbank/highbank.c                  |    2 
+Best regards,
+baolu
 
-FWIW, I applied this on top of 5.18-rc3 and pushed my Midway (the Highbank
-successor) a bit with it (scp-ing GBs forth and back to a SATA SSD). Not a
-really conclusive test, but so far it looks all fine.
+Change log:
 
-So for the Highbank part:
-Acked-by: Andre Przywara <andre.przywara@arm.com>
+v2:
+ - Move snoop control capability check into a separated patch.
+ - Return false if the caller opt-in setting PGSNP with a flag.
+ - Add a Fixes tag for "iommu/vt-d: Drop stop marker messages" as it is
+   required by the iopf framework.
 
-Cheers,
-Andre
+v1: initial post
+ - https://lore.kernel.org/linux-iommu/20220416123049.879969-1-baolu.lu@linux.intel.com/ 
 
+Lu Baolu (4):
+  iommu/vt-d: Check before setting PGSNP bit in pasid table entry
+  iommu/vt-d: Set PGSNP bit in pasid table entry for SVA binding
+  iommu/vt-d: Drop stop marker messages
+  iommu/vt-d: Size Page Request Queue to avoid overflow condition
 
->  b/arch/arm/mach-mvebu/coherency.c                    |    2 
->  b/arch/arm/mm/dma-mapping.c                          |  381 ------------
->  b/drivers/usb/core/hcd.c                             |   17 
->  b/drivers/usb/host/ohci-sa1111.c                     |   25 
->  18 files changed, 84 insertions(+), 1215 deletions(-)
+ include/linux/intel-svm.h   |  2 +-
+ drivers/iommu/intel/pasid.c | 13 ++++++++++---
+ drivers/iommu/intel/svm.c   | 13 ++++++++++---
+ 3 files changed, 21 insertions(+), 7 deletions(-)
+
+-- 
+2.25.1
 
 _______________________________________________
 iommu mailing list
