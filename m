@@ -1,65 +1,115 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C71450DD8C
-	for <lists.iommu@lfdr.de>; Mon, 25 Apr 2022 12:03:45 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 919E650DEDC
+	for <lists.iommu@lfdr.de>; Mon, 25 Apr 2022 13:35:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D356660A89;
-	Mon, 25 Apr 2022 10:03:43 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C8EB7402E2;
+	Mon, 25 Apr 2022 11:35:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QQITd0A4aCof; Mon, 25 Apr 2022 10:03:41 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gHgJx6i9nYVt; Mon, 25 Apr 2022 11:35:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AA46860B6A;
-	Mon, 25 Apr 2022 10:03:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 42D8B4028B;
+	Mon, 25 Apr 2022 11:35:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83304C007C;
-	Mon, 25 Apr 2022 10:03:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2727DC007C;
+	Mon, 25 Apr 2022 11:35:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F20E6C002D
- for <iommu@lists.linux-foundation.org>; Mon, 25 Apr 2022 10:03:39 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 53CA0C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Apr 2022 11:35:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EE4E181443
- for <iommu@lists.linux-foundation.org>; Mon, 25 Apr 2022 10:03:39 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3181C60ADD
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Apr 2022 11:35:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fdYK6gl76_RW for <iommu@lists.linux-foundation.org>;
- Mon, 25 Apr 2022 10:03:38 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp1.osuosl.org (Postfix) with ESMTP id A4C3181442
- for <iommu@lists.linux-foundation.org>; Mon, 25 Apr 2022 10:03:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEAF41FB;
- Mon, 25 Apr 2022 03:03:37 -0700 (PDT)
-Received: from [10.57.80.98] (unknown [10.57.80.98])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCEDF3F73B;
- Mon, 25 Apr 2022 03:03:35 -0700 (PDT)
-Message-ID: <9debe3ab-603d-0d30-a6aa-8963b48e83d4@arm.com>
-Date: Mon, 25 Apr 2022 11:03:27 +0100
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=amd.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tBQoXU1QDC3M for <iommu@lists.linux-foundation.org>;
+ Mon, 25 Apr 2022 11:35:07 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2060f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe59::60f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9563860706
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Apr 2022 11:35:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D+0GUNjfufc5ZYA4S7AH1YgbR/t8mSl9LaINsz8TqaZKdETk+7Mf2IxXxx5c3ua2D2x3Q6x7veVr88GxAx7Z6keahOaO1WvB80urh7PZoZ4c6LnLrk2ANVMORSoQtXFil8iBLRo+yK7GFdCFYFo59m3t7G5E/4oACMEvvt3edvNj1fVoiOVw6ZdCUumq+feq53WxXAOwq9Q5sWxrfqycyowsKjRUl3PV4lQhrl/D4Bo6Nh5fzedjsw3fYgwNAeHqxTmgZ5ZIJt3bhlOcaheNLicaz7OWDEbrGR3r/qFwwIbu1J3QM1kIfpGrpP5sJzoGzPrRezc7eo8bO0DJUiT3Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kHCPwliMX4I5wtVXEc6GX4ILb0WrIRqfgiKyLftBOAc=;
+ b=XPCVxGg85Qrmoop1zp+x3k7iQVIQwPjlhCc+Hlx8puhnRTvzzLKRf15XfjmCKBuSpvROp0fU+/W2/39nifzEDzpx3C9eZHIAuMlMfkAiNRdMmVzGgAUBkd5KqBFitwWjGrT4Pk0UULAdx4oR+UVuWk4mOF7FP7C6FJmoy9oFNSu2bBR5VzRGuzrf4ejQdc9/d9gSyLHYIZd3gWmlZQItCSpHeYQgcbnkdmKox/pr9Dap4jE7tY1hUKbKyRYbWcdn+KH/QbCgt1yrWYzX6E1GZ7vGzzo03Ne1QQ2qKMwsjHsRwqifLnNiHAQE5Z4ubRltDMzINrMBv5kiBbJPCJSSbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.linux-foundation.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kHCPwliMX4I5wtVXEc6GX4ILb0WrIRqfgiKyLftBOAc=;
+ b=bVOpWjmLSWf7C6PvRM85mRuz+R3L2K+k14VaNr8R0uAbwzEDIM8x0UtQFFhPAEBcDN3THEKqh194IFTB9kpZSLW+0E4qTVTQtFwE/59Fpkhop95QWPQUhhvPd39J98qjvqCjzpLjMtspMbbF+wIqaSdJQY3CDVAVQxf+LoQ5j6M=
+Received: from BN7PR06CA0038.namprd06.prod.outlook.com (2603:10b6:408:34::15)
+ by SJ1PR12MB6145.namprd12.prod.outlook.com (2603:10b6:a03:45c::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Mon, 25 Apr
+ 2022 11:35:04 +0000
+Received: from BN8NAM11FT030.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:34:cafe::ea) by BN7PR06CA0038.outlook.office365.com
+ (2603:10b6:408:34::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14 via Frontend
+ Transport; Mon, 25 Apr 2022 11:35:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT030.mail.protection.outlook.com (10.13.177.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5186.14 via Frontend Transport; Mon, 25 Apr 2022 11:35:04 +0000
+Received: from kali.amdval.net (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 25 Apr
+ 2022 06:35:02 -0500
+To: <iommu@lists.linux-foundation.org>
+Subject: [PATCH v2 00/37] iommu/amd: Add multiple PCI segments support
+Date: Mon, 25 Apr 2022 17:03:38 +0530
+Message-ID: <20220425113415.24087-1-vasant.hegde@amd.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2] iommu/mediatek: fix NULL pointer dereference when
- printing dev_name
-Content-Language: en-GB
-To: Miles Chen <miles.chen@mediatek.com>, Yong Wu <yong.wu@mediatek.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20220425082449.1821-1-miles.chen@mediatek.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220425082449.1821-1-miles.chen@mediatek.com>
-Cc: iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e5437bdd-7536-42be-5103-08da26afa436
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6145:EE_
+X-Microsoft-Antispam-PRVS: <SJ1PR12MB6145BF67FF72367963B7870387F89@SJ1PR12MB6145.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C26d6ZtiFVFLjunY9+WypCpUuzjiiqj4XmwAH6ZSgE/nZrFxkuATBjjvAqf6vA5YK+zWHAMPtyW2F0l97UAIjinscoDxWfIQhyp0Z5fdvQgxd3PqOQUCCrwJlLyobggS5LEIO5WAZ5zFwX9ni4Cv8NgQP32F77xeUyI0bsXMYqGkdkrBFd+zqF7CJXWM2Q2CFtQm4douv593yq1hf/5361zz49bKa6NviypVQYBk1MlBS6Bp93skkyr5W+1msD1xvjEW4fsK6jFJw+8WLXo8vgIFLx+buM3at712OV+B4BylsE5pMjrt8NlpCbkTT/SJZHsH7acpGUmVvctKMW8xVobBTj7z3bCEOfK3RVMCzZWemOb7HjKhCJIm3pvT1z72h5leYHrlUlHNYzOUn/ljuA7R9ogX5t4keAZa+/FpzOj6ZVCZthP7YWib7BRfLuZkQOl52XDTpQVFyhcHBwf52OuI+cMfw9iuaO0GWwHPaUNfVOyrGNTdAtw+qSveRW4tLx31qC5CUjcmPUt2y8HigZqvomrMabEpvZpeu+RUi2Ivi6hflk0sY31iVqZAtUjqMJqRFRWiysCFzVHBfKYg5MWNfX/qt+O0EKJgmTR/CtWAm9v1zpOL/OXeRC9mE7WQYv+XoRp0vkAUM7b9Au+dlI+Eg/ssLKRNQk9WbdLrgLPXt14rN8Nv9nU7ZQAJsz2tbYIeodd677yqeDZbGHHzN8x1bXxQ9OU8m4YqXCGy08h4x/8zC+tk3CIqDiMsh5BR+a5o4/LMKg1t4baUN5qVTu1LvWBO7QN9aUvB5V1CTn2HZVeRNroXHBYkIpHsRx/w7m4AVnTD56Zv/t4j8KtfbA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(26005)(70206006)(86362001)(2616005)(2906002)(508600001)(6666004)(5660300002)(44832011)(36860700001)(356005)(81166007)(83380400001)(8936002)(966005)(40460700003)(1076003)(16526019)(47076005)(426003)(186003)(336012)(316002)(6916009)(70586007)(4326008)(82310400005)(8676002)(54906003)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2022 11:35:04.1720 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5437bdd-7536-42be-5103-08da26afa436
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT030.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6145
+Cc: Vasant Hegde <vasant.hegde@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,175 +122,116 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Vasant Hegde via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Vasant Hegde <vasant.hegde@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022-04-25 09:24, Miles Chen via iommu wrote:
-> When larbdev is NULL (in the case I hit, the node is incorrectly set
-> iommus = <&iommu NUM>), it will cause device_link_add() fail and
-> kernel crashes when we try to print dev_name(larbdev).
-> 
-> Fix it by adding a NULL pointer check before
-> device_link_add/device_link_remove.
-> 
-> It should work for normal correct setting and avoid the crash caused
-> by my incorrect setting.
-> 
-> Error log:
-> [   18.189042][  T301] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000050
-> [   18.190247][  T301] Mem abort info:
-> [   18.190255][  T301]   ESR = 0x96000005
-> [   18.190263][  T301]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   18.192142][  T301]   SET = 0, FnV = 0
-> [   18.192151][  T301]   EA = 0, S1PTW = 0
-> [   18.194710][  T301]   FSC = 0x05: level 1 translation fault
-> [   18.195424][  T301] Data abort info:
-> [   18.195888][  T301]   ISV = 0, ISS = 0x00000005
-> [   18.196500][  T301]   CM = 0, WnR = 0
-> [   18.196977][  T301] user pgtable: 4k pages, 39-bit VAs, pgdp=0000000104f9e000
-> [   18.197889][  T301] [0000000000000050] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
-> [   18.199220][  T301] Internal error: Oops: 96000005 [#1] PREEMPT SMP
-> [   18.343152][  T301] Kernel Offset: 0x1444080000 from 0xffffffc008000000
-> [   18.343988][  T301] PHYS_OFFSET: 0x40000000
-> [   18.344519][  T301] pstate: a0400005 (NzCv daif +PAN -UAO)
-> [   18.345213][  T301] pc : mtk_iommu_probe_device+0xf8/0x118 [mtk_iommu]
-> [   18.346050][  T301] lr : mtk_iommu_probe_device+0xd0/0x118 [mtk_iommu]
-> [   18.346884][  T301] sp : ffffffc00a5635e0
-> [   18.347392][  T301] x29: ffffffc00a5635e0 x28: ffffffd44a46c1d8
-> [   18.348156][  T301] x27: ffffff80c39a8000 x26: ffffffd44a80cc38
-> [   18.348917][  T301] x25: 0000000000000000 x24: ffffffd44a80cc38
-> [   18.349677][  T301] x23: ffffffd44e4da4c6 x22: ffffffd44a80cc38
-> [   18.350438][  T301] x21: ffffff80cecd1880 x20: 0000000000000000
-> [   18.351198][  T301] x19: ffffff80c439f010 x18: ffffffc00a50d0c0
-> [   18.351959][  T301] x17: ffffffffffffffff x16: 0000000000000004
-> [   18.352719][  T301] x15: 0000000000000004 x14: ffffffd44eb5d420
-> [   18.353480][  T301] x13: 0000000000000ad2 x12: 0000000000000003
-> [   18.354241][  T301] x11: 00000000fffffad2 x10: c0000000fffffad2
-> [   18.355003][  T301] x9 : a0d288d8d7142d00 x8 : a0d288d8d7142d00
-> [   18.355763][  T301] x7 : ffffffd44c2bc640 x6 : 0000000000000000
-> [   18.356524][  T301] x5 : 0000000000000080 x4 : 0000000000000001
-> [   18.357284][  T301] x3 : 0000000000000000 x2 : 0000000000000005
-> [   18.358045][  T301] x1 : 0000000000000000 x0 : 0000000000000000
-> [   18.360208][  T301] Hardware name: MT6873 (DT)
-> [   18.360771][  T301] Call trace:
-> [   18.361168][  T301]  dump_backtrace+0xf8/0x1f0
-> [   18.361737][  T301]  dump_stack_lvl+0xa8/0x11c
-> [   18.362305][  T301]  dump_stack+0x1c/0x2c
-> [   18.362816][  T301]  mrdump_common_die+0x184/0x40c [mrdump]
-> [   18.363575][  T301]  ipanic_die+0x24/0x38 [mrdump]
-> [   18.364230][  T301]  atomic_notifier_call_chain+0x128/0x2b8
-> [   18.364937][  T301]  die+0x16c/0x568
-> [   18.365394][  T301]  __do_kernel_fault+0x1e8/0x214
-> [   18.365402][  T301]  do_page_fault+0xb8/0x678
-> [   18.366934][  T301]  do_translation_fault+0x48/0x64
-> [   18.368645][  T301]  do_mem_abort+0x68/0x148
-> [   18.368652][  T301]  el1_abort+0x40/0x64
-> [   18.368660][  T301]  el1h_64_sync_handler+0x54/0x88
-> [   18.368668][  T301]  el1h_64_sync+0x68/0x6c
-> [   18.368673][  T301]  mtk_iommu_probe_device+0xf8/0x118 [mtk_iommu]
-> [   18.369840][  T301]  __iommu_probe_device+0x12c/0x358
-> [   18.370880][  T301]  iommu_probe_device+0x3c/0x31c
-> [   18.372026][  T301]  of_iommu_configure+0x200/0x274
-> [   18.373587][  T301]  of_dma_configure_id+0x1b8/0x230
-> [   18.375200][  T301]  platform_dma_configure+0x24/0x3c
-> [   18.376456][  T301]  really_probe+0x110/0x504
-> [   18.376464][  T301]  __driver_probe_device+0xb4/0x188
-> [   18.376472][  T301]  driver_probe_device+0x5c/0x2b8
-> [   18.376481][  T301]  __driver_attach+0x338/0x42c
-> [   18.377992][  T301]  bus_add_driver+0x218/0x4c8
-> [   18.379389][  T301]  driver_register+0x84/0x17c
-> [   18.380580][  T301]  __platform_driver_register+0x28/0x38
-> ...
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Fixes: 635319a4a744 ("media: iommu/mediatek: Add device_link between the consumer and the larb devices")
-> Signed-off-by: Miles Chen <miles.chen@mediatek.com>
-> 
-> ---
-> 
-> Change since v1
-> fix a build warning reported by kernel test robot
-> https://lore.kernel.org/lkml/202204231446.IYKdZ674-lkp@intel.com/
-> 
-> ---
->   drivers/iommu/mtk_iommu.c    | 13 ++++++++-----
->   drivers/iommu/mtk_iommu_v1.c | 13 ++++++++-----
->   2 files changed, 16 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index 6fd75a60abd6..03e0133f346a 100644
-> --- a/drivers/iommu/mtk_iommu.c
-> +++ b/drivers/iommu/mtk_iommu.c
-> @@ -581,10 +581,12 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->   		}
->   	}
->   	larbdev = data->larb_imu[larbid].dev;
-> -	link = device_link_add(dev, larbdev,
-> -			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> -	if (!link)
-> -		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-> +	if (larbdev) {
+Newer AMD systems can support multiple PCI segments, where each segment
+contains one or more IOMMU instances. However, an IOMMU instance can only
+support a single PCI segment.
 
-Until the MT8195 infra MMU support lands, is there ever a case where 
-it's actually valid for larbdev to be NULL? If not, I think it would be 
-a lot clearer to explicitly fail the probe here, rather than silently 
-continue and risk fatal errors, hangs, or other weird behaviour if 
-there's no guarantee that the correct LARB is powered up (plus then the 
-release callbacks wouldn't need to worry about it either).
+Current code assumes a system contains only one PCI segment (segment 0)
+and creates global data structures such as device table, rlookup table,
+etc.
 
-Robin.
+This series introduces per-PCI-segment data structure, which contains
+device table, alias table, etc. For each PCI segment, all IOMMUs
+share the same data structure. The series also makes necessary code
+adjustment and logging enhancements. Finally it removes global data
+structures like device table, alias table, etc.
 
-> +		link = device_link_add(dev, larbdev,
-> +				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> +		if (!link)
-> +			dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-> +	}
->   	return &data->iommu;
->   }
->   
-> @@ -601,7 +603,8 @@ static void mtk_iommu_release_device(struct device *dev)
->   	data = dev_iommu_priv_get(dev);
->   	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
->   	larbdev = data->larb_imu[larbid].dev;
-> -	device_link_remove(dev, larbdev);
-> +	if (larbdev)
-> +		device_link_remove(dev, larbdev);
->   
->   	iommu_fwspec_free(dev);
->   }
-> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-> index ecff800656e6..18365c73eeb2 100644
-> --- a/drivers/iommu/mtk_iommu_v1.c
-> +++ b/drivers/iommu/mtk_iommu_v1.c
-> @@ -467,10 +467,12 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->   	}
->   
->   	larbdev = data->larb_imu[larbid].dev;
-> -	link = device_link_add(dev, larbdev,
-> -			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> -	if (!link)
-> -		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-> +	if (larbdev) {
-> +		link = device_link_add(dev, larbdev,
-> +				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> +		if (!link)
-> +			dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-> +	}
->   
->   	return &data->iommu;
->   }
-> @@ -502,7 +504,8 @@ static void mtk_iommu_release_device(struct device *dev)
->   	data = dev_iommu_priv_get(dev);
->   	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
->   	larbdev = data->larb_imu[larbid].dev;
-> -	device_link_remove(dev, larbdev);
-> +	if (larbdev)
-> +		device_link_remove(dev, larbdev);
->   
->   	iommu_fwspec_free(dev);
->   }
+In case of system w/ single PCI segment (e.g. PCI segment ID is zero),
+IOMMU driver allocates one PCI segment data structure, which will
+be shared by all IOMMUs.
+
+Patch 1 Updates struct iommu_dev_data defination.
+
+Patch 2 - 13 introduce new PCI segment structure and allocate per
+data structures, and introduce the amd_iommu.pci_seg pointer to point
+to the corresponded pci_segment structure. Also, we have introduced
+a helper function rlookup_amd_iommu() to reverse-lookup each iommu
+for a particular device.
+
+Patch 14 - 29 adopt to per PCI segment data structure and removes
+global data structure.
+
+Patch 30 fixes flushing logic to flush upto last_bdf.
+
+Patch 31 - 37 convert usages of 16-bit PCI device ID to include
+16-bit segment ID.
+
+
+Changes from v1 -> v2:
+  - Updated patch 1 to include dev_is_pci() check
+
+v1 patchset  : https://lore.kernel.org/linux-iommu/20220404100023.324645-1-vasant.hegde@amd.com/T/#t
+
+Changes from RFC -> v1:
+  - Rebased patches on top of iommu/next tree.
+  - Update struct iommu_dev_data defination
+  - Updated few log message to print segment ID
+  - Fix smatch warnings
+
+RFC patchset : https://lore.kernel.org/linux-iommu/20220311094854.31595-1-vasant.hegde@amd.com/T/#t
+
+Regards,
+Vasant
+
+Suravee Suthikulpanit (21):
+  iommu/amd: Introduce per PCI segment device table
+  iommu/amd: Introduce per PCI segment rlookup table
+  iommu/amd: Introduce per PCI segment old_dev_tbl_cpy
+  iommu/amd: Introduce per PCI segment alias_table
+  iommu/amd: Convert to use rlookup_amd_iommu helper function
+  iommu/amd: Update irq_remapping_alloc to use IOMMU lookup helper function
+  iommu/amd: Introduce struct amd_ir_data.iommu
+  iommu/amd: Update amd_irte_ops functions
+  iommu/amd: Update alloc_irq_table and alloc_irq_index
+  iommu/amd: Update set_dte_entry and clear_dte_entry
+  iommu/amd: Update iommu_ignore_device
+  iommu/amd: Update dump_dte_entry
+  iommu/amd: Update set_dte_irq_entry
+  iommu/amd: Update (un)init_device_table_dma()
+  iommu/amd: Update set_dev_entry_bit() and get_dev_entry_bit()
+  iommu/amd: Remove global amd_iommu_dev_table
+  iommu/amd: Remove global amd_iommu_alias_table
+  iommu/amd: Introduce get_device_sbdf_id() helper function
+  iommu/amd: Include PCI segment ID when initialize IOMMU
+  iommu/amd: Specify PCI segment ID when getting pci device
+  iommu/amd: Add PCI segment support for ivrs_ioapic, ivrs_hpet, ivrs_acpihid commands
+
+Vasant Hegde (16):
+  iommu/amd: Update struct iommu_dev_data defination
+  iommu/amd: Introduce pci segment structure
+  iommu/amd: Introduce per PCI segment irq_lookup_table
+  iommu/amd: Introduce per PCI segment dev_data_list
+  iommu/amd: Introduce per PCI segment unity map list
+  iommu/amd: Introduce per PCI segment last_bdf
+  iommu/amd: Introduce per PCI segment device table size
+  iommu/amd: Introduce per PCI segment alias table size
+  iommu/amd: Introduce per PCI segment rlookup table size
+  iommu/amd: Convert to use per PCI segment irq_lookup_table
+  iommu/amd: Convert to use per PCI segment rlookup_table
+  iommu/amd: Remove global amd_iommu_last_bdf
+  iommu/amd: Flush upto last_bdf only
+  iommu/amd: Print PCI segment ID in error log messages
+  iommu/amd: Update device_state structure to include PCI seg ID
+  iommu/amd: Update amd_iommu_fault structure to include PCI seg ID
+
+ .../admin-guide/kernel-parameters.txt         |  34 +-
+ drivers/iommu/amd/amd_iommu.h                 |  13 +-
+ drivers/iommu/amd/amd_iommu_types.h           | 127 +++-
+ drivers/iommu/amd/init.c                      | 683 +++++++++++-------
+ drivers/iommu/amd/iommu.c                     | 545 ++++++++------
+ drivers/iommu/amd/iommu_v2.c                  |  67 +-
+ drivers/iommu/amd/quirks.c                    |   4 +-
+ 7 files changed, 888 insertions(+), 585 deletions(-)
+
+-- 
+2.27.0
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
