@@ -1,88 +1,91 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EC450FE49
-	for <lists.iommu@lfdr.de>; Tue, 26 Apr 2022 15:06:53 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEC850FF98
+	for <lists.iommu@lfdr.de>; Tue, 26 Apr 2022 15:53:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 99FE460804;
-	Tue, 26 Apr 2022 13:06:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E3A874018D;
+	Tue, 26 Apr 2022 13:52:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PLM6znX386RO; Tue, 26 Apr 2022 13:06:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B6F2660B2E;
-	Tue, 26 Apr 2022 13:06:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iGOwPi8F-KOT; Tue, 26 Apr 2022 13:52:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id EDAF34015F;
+	Tue, 26 Apr 2022 13:52:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 823A2C0081;
-	Tue, 26 Apr 2022 13:06:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BCB3BC002D;
+	Tue, 26 Apr 2022 13:52:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4803DC002D
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 13:06:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E81B7C002D
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 13:52:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 26D3840272
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 13:06:49 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id CD54260F9B
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 13:52:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mahnRL-RJwLU for <iommu@lists.linux-foundation.org>;
- Tue, 26 Apr 2022 13:06:48 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id z0uNCz7G-Xe7 for <iommu@lists.linux-foundation.org>;
+ Tue, 26 Apr 2022 13:52:56 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5730B4019F
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 13:06:48 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id i27so35923880ejd.9
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 06:06:48 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 07B5F60EA9
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 13:52:55 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ bd19-20020a17090b0b9300b001d98af6dcd1so2240640pjb.4
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 06:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mwzH9W7Cu0qz9AyabHpIFVDOQWWOlWSfNGPXeS7fSYg=;
- b=oR6kM84QR4mwVawVtrWWbZAFckuRHFg4rb1d1y9tE+rCoRPyzOjazyqGFToLZnpxUg
- yFTqPNKZzAC9jUWKF7MLSw2fP3SSqQ7RxiWMwhjIQC+sABP4Kdgd+jjnlRVQna9ZbFzk
- zvPDzBxYQ8Gkv8wX4TBBEF4u0EvnKPxRK+ZHkviLVOqFSXPUR4RllIfLBPzODgalTdY6
- x61G8eR5pFJ6ECAPmVok5fUjdvYZyS+vtGkvE5wSDmfLqpeIGth3gqPrTkoIVkUJ/3eL
- VdmVRFHQ7rYoS1us6SSpMTcWprKVYXzI+wRbi36FyZuZxSrMh4UhP/WT8toSmApZjSlq
- CdFA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=uqaZpBljzoZzdXCykxWiGP7rAFt7o+OxvSikZ6TWlp0=;
+ b=QRo5+aMEceoawAqu5WfjfVrACZsEACmr6ImwChCeF1PdQM5x0ZECcVseK61UOnqXWi
+ g1QsxgK7znpLpJTi8lwzXUymH2PE1nSBpzwBlHQ4hEqbsjlSg6iBktMzvTHb61HSQ1Ex
+ yEHdDYxykdw6FSe97RB1xgKrnfOOtitH0zRwjRuOyzWUksq07ABg2KVNaiEeHBDxhRhV
+ SzSXm9X6Wb2A6Bm68Q+RQivNFo0TuqMYKoXgURwGx7KUgY1iobt2+mEvpbZaqywAxUQ3
+ hmqx4596HDYiVxCsYkOq/fzw3cxc6kjXYwy/0rOlP2Mc9tjYctjupGjX718vWlM6AwZt
+ fT7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mwzH9W7Cu0qz9AyabHpIFVDOQWWOlWSfNGPXeS7fSYg=;
- b=KT4T8srgFMVcZiUO3iAg9/1qVk0HxbjhoAC3HQHWTu3nIAeEj/sWmPGqjCRUG5WEQr
- Ac7h7NZSWrmDxaTwE46h6i5IQGd+KfdZs7FANGuOuwpBMsmFcSCmzq2TzYDwHpKxSbMq
- jgHgF1aM9U7hU7icLq5jyGLxa6DbctB2ws/IZGz17C8VsySuQoGRLGykNKnvQst8jq8b
- arfNlq5DIgjFUkeTa+EC52p+8MfVJYPaAgces8V9FyS5b2nPmVW9Ietyabd6PAuhOvvT
- VgK9EJJOD34PGdCsnzIc7VrjG1NWez+INzrfbDqSoxp3NGTcCKRQrakpqEsPVIQahMRq
- wShg==
-X-Gm-Message-State: AOAM530xTGBcF/crPN9y1PBZVYd1Yj4if1xnnqHSYWW4i+rU3WpRZqZh
- SmHxujvYBPDodpPc7UrGJVb4pg==
-X-Google-Smtp-Source: ABdhPJw+GN6xeqt0cVSBsEc4itJjktUzGN3BoV+hsw9ykqiSu/E6RLgQ56rN5zP1W9mTZVIMhDZOWw==
-X-Received: by 2002:a17:907:3f25:b0:6b0:5e9a:83 with SMTP id
- hq37-20020a1709073f2500b006b05e9a0083mr22291890ejc.659.1650978406511; 
- Tue, 26 Apr 2022 06:06:46 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=uqaZpBljzoZzdXCykxWiGP7rAFt7o+OxvSikZ6TWlp0=;
+ b=0omTlR/Ep28lcobYHSwwB7ay39tbnKHUj8PNt+Kgf0qORZ+2lh1v+VQdKsmHa5igyb
+ LVXgSceV76w4RVVj4ZhuwIJqilxoXj7rTiNPa237smJ8CcSgrnCiCoGQ3dAs98PcvxCN
+ n3wxv22NRoiYRI4irl607MJ1I6/Ceu6f7lWOhKfFdgIxY2E4mDDRMRVsaP4N/lhObbVK
+ JPpjyj5K4BaSn1JgqCrlV26hMwGLbJXtv1uPOd/U3MfGSKspvHeHlFPuXo/vfgB34aNH
+ EiyNiBgoAP6tS+1rOwf9xw/HweG/GWxB+/czkhqGu0gketMbvfwZp6PGe8bKqlT10uzH
+ JDtg==
+X-Gm-Message-State: AOAM531AGHOKh2Ofn3asebsf/eG3fr2PQag4XXCvdLOEqCoAThK26Tpn
+ n/Iji3rJAreeoPmO8l+pdZCH2vyOwIJykwrWhF8=
+X-Google-Smtp-Source: ABdhPJxFVynlZ1NgQmJwexRkstCJnMMkaENUYHM695DHlT54hcr0HlyNDYSqjN8iGZCoSFpySdsXXg==
+X-Received: by 2002:a17:902:eb91:b0:15d:1f88:d993 with SMTP id
+ q17-20020a170902eb9100b0015d1f88d993mr7965305plg.17.1650981175127; 
+ Tue, 26 Apr 2022 06:52:55 -0700 (PDT)
+Received: from [10.28.0.90] ([94.177.118.117])
  by smtp.gmail.com with ESMTPSA id
- w14-20020a1709060a0e00b006f01e581668sm4840486ejf.209.2022.04.26.06.06.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 06:06:45 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: will@kernel.org,
-	robin.murphy@arm.com,
-	joro@8bytes.org
-Subject: [PATCH v2] iommu/arm-smmu-v3-sva: Fix mm use-after-free
-Date: Tue, 26 Apr 2022 14:04:45 +0100
-Message-Id: <20220426130444.300556-1-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.35.1
+ p1-20020a056a000a0100b0050ac9c31b7esm16840391pfh.180.2022.04.26.06.52.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 06:52:54 -0700 (PDT)
+Subject: Re: [PATCH v2] iommu/arm-smmu-v3-sva: Fix mm use-after-free
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>, will@kernel.org,
+ robin.murphy@arm.com, joro@8bytes.org
+References: <20220426130444.300556-1-jean-philippe@linaro.org>
+From: Zhangfei Gao <zhangfei.gao@linaro.org>
+Message-ID: <198ae560-dbea-2c92-ec27-ca26b36b250e@linaro.org>
+Date: Tue, 26 Apr 2022 21:52:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: zhangfei.gao@linaro.org, iommu@lists.linux-foundation.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
+In-Reply-To: <20220426130444.300556-1-jean-philippe@linaro.org>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,73 +98,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-We currently call arm64_mm_context_put() without holding a reference to
-the mm, which can result in use-after-free. Call mmgrab()/mmdrop() to
-ensure the mm only gets freed after we unpinned the ASID.
-
-Fixes: 32784a9562fb ("iommu/arm-smmu-v3: Implement iommu_sva_bind/unbind()")
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
-v2: Add missing include
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-index 22ddd05bbdcd..5d029e87c8af 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-@@ -6,6 +6,7 @@
- #include <linux/mm.h>
- #include <linux/mmu_context.h>
- #include <linux/mmu_notifier.h>
-+#include <linux/sched/mm.h>
- #include <linux/slab.h>
- 
- #include "arm-smmu-v3.h"
-@@ -96,9 +97,14 @@ static struct arm_smmu_ctx_desc *arm_smmu_alloc_shared_cd(struct mm_struct *mm)
- 	struct arm_smmu_ctx_desc *cd;
- 	struct arm_smmu_ctx_desc *ret = NULL;
- 
-+	/* Don't free the mm until we release the ASID */
-+	mmgrab(mm);
-+
- 	asid = arm64_mm_context_get(mm);
--	if (!asid)
--		return ERR_PTR(-ESRCH);
-+	if (!asid) {
-+		err = -ESRCH;
-+		goto out_drop_mm;
-+	}
- 
- 	cd = kzalloc(sizeof(*cd), GFP_KERNEL);
- 	if (!cd) {
-@@ -165,6 +171,8 @@ static struct arm_smmu_ctx_desc *arm_smmu_alloc_shared_cd(struct mm_struct *mm)
- 	kfree(cd);
- out_put_context:
- 	arm64_mm_context_put(mm);
-+out_drop_mm:
-+	mmdrop(mm);
- 	return err < 0 ? ERR_PTR(err) : ret;
- }
- 
-@@ -173,6 +181,7 @@ static void arm_smmu_free_shared_cd(struct arm_smmu_ctx_desc *cd)
- 	if (arm_smmu_free_asid(cd)) {
- 		/* Unpin ASID */
- 		arm64_mm_context_put(cd->mm);
-+		mmdrop(cd->mm);
- 		kfree(cd);
- 	}
- }
--- 
-2.35.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+CgpPbiAyMDIyLzQvMjYg5LiL5Y2IOTowNCwgSmVhbi1QaGlsaXBwZSBCcnVja2VyIHdyb3RlOgo+
+IFdlIGN1cnJlbnRseSBjYWxsIGFybTY0X21tX2NvbnRleHRfcHV0KCkgd2l0aG91dCBob2xkaW5n
+IGEgcmVmZXJlbmNlIHRvCj4gdGhlIG1tLCB3aGljaCBjYW4gcmVzdWx0IGluIHVzZS1hZnRlci1m
+cmVlLiBDYWxsIG1tZ3JhYigpL21tZHJvcCgpIHRvCj4gZW5zdXJlIHRoZSBtbSBvbmx5IGdldHMg
+ZnJlZWQgYWZ0ZXIgd2UgdW5waW5uZWQgdGhlIEFTSUQuCj4KPiBGaXhlczogMzI3ODRhOTU2MmZi
+ICgiaW9tbXUvYXJtLXNtbXUtdjM6IEltcGxlbWVudCBpb21tdV9zdmFfYmluZC91bmJpbmQoKSIp
+Cj4gU2lnbmVkLW9mZi1ieTogSmVhbi1QaGlsaXBwZSBCcnVja2VyIDxqZWFuLXBoaWxpcHBlQGxp
+bmFyby5vcmc+CgpUaGFua3MgSmVhbgoKVGVzdGVkLWJ5OiBaaGFuZ2ZlaSBHYW8gPHpoYW5nZmVp
+Lmdhb0BsaW5hcm8ub3JnPgoKCj4gLS0tCj4gdjI6IEFkZCBtaXNzaW5nIGluY2x1ZGUKPiAtLS0K
+PiAgIGRyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLXN2YS5jIHwgMTMg
+KysrKysrKysrKystLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDIgZGVs
+ZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9hcm0vYXJtLXNtbXUtdjMv
+YXJtLXNtbXUtdjMtc3ZhLmMgYi9kcml2ZXJzL2lvbW11L2FybS9hcm0tc21tdS12My9hcm0tc21t
+dS12My1zdmEuYwo+IGluZGV4IDIyZGRkMDViYmRjZC4uNWQwMjllODdjOGFmIDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLXN2YS5jCj4gKysr
+IGIvZHJpdmVycy9pb21tdS9hcm0vYXJtLXNtbXUtdjMvYXJtLXNtbXUtdjMtc3ZhLmMKPiBAQCAt
+Niw2ICs2LDcgQEAKPiAgICNpbmNsdWRlIDxsaW51eC9tbS5oPgo+ICAgI2luY2x1ZGUgPGxpbnV4
+L21tdV9jb250ZXh0Lmg+Cj4gICAjaW5jbHVkZSA8bGludXgvbW11X25vdGlmaWVyLmg+Cj4gKyNp
+bmNsdWRlIDxsaW51eC9zY2hlZC9tbS5oPgo+ICAgI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KPiAg
+IAo+ICAgI2luY2x1ZGUgImFybS1zbW11LXYzLmgiCj4gQEAgLTk2LDkgKzk3LDE0IEBAIHN0YXRp
+YyBzdHJ1Y3QgYXJtX3NtbXVfY3R4X2Rlc2MgKmFybV9zbW11X2FsbG9jX3NoYXJlZF9jZChzdHJ1
+Y3QgbW1fc3RydWN0ICptbSkKPiAgIAlzdHJ1Y3QgYXJtX3NtbXVfY3R4X2Rlc2MgKmNkOwo+ICAg
+CXN0cnVjdCBhcm1fc21tdV9jdHhfZGVzYyAqcmV0ID0gTlVMTDsKPiAgIAo+ICsJLyogRG9uJ3Qg
+ZnJlZSB0aGUgbW0gdW50aWwgd2UgcmVsZWFzZSB0aGUgQVNJRCAqLwo+ICsJbW1ncmFiKG1tKTsK
+PiArCj4gICAJYXNpZCA9IGFybTY0X21tX2NvbnRleHRfZ2V0KG1tKTsKPiAtCWlmICghYXNpZCkK
+PiAtCQlyZXR1cm4gRVJSX1BUUigtRVNSQ0gpOwo+ICsJaWYgKCFhc2lkKSB7Cj4gKwkJZXJyID0g
+LUVTUkNIOwo+ICsJCWdvdG8gb3V0X2Ryb3BfbW07Cj4gKwl9Cj4gICAKPiAgIAljZCA9IGt6YWxs
+b2Moc2l6ZW9mKCpjZCksIEdGUF9LRVJORUwpOwo+ICAgCWlmICghY2QpIHsKPiBAQCAtMTY1LDYg
+KzE3MSw4IEBAIHN0YXRpYyBzdHJ1Y3QgYXJtX3NtbXVfY3R4X2Rlc2MgKmFybV9zbW11X2FsbG9j
+X3NoYXJlZF9jZChzdHJ1Y3QgbW1fc3RydWN0ICptbSkKPiAgIAlrZnJlZShjZCk7Cj4gICBvdXRf
+cHV0X2NvbnRleHQ6Cj4gICAJYXJtNjRfbW1fY29udGV4dF9wdXQobW0pOwo+ICtvdXRfZHJvcF9t
+bToKPiArCW1tZHJvcChtbSk7Cj4gICAJcmV0dXJuIGVyciA8IDAgPyBFUlJfUFRSKGVycikgOiBy
+ZXQ7Cj4gICB9Cj4gICAKPiBAQCAtMTczLDYgKzE4MSw3IEBAIHN0YXRpYyB2b2lkIGFybV9zbW11
+X2ZyZWVfc2hhcmVkX2NkKHN0cnVjdCBhcm1fc21tdV9jdHhfZGVzYyAqY2QpCj4gICAJaWYgKGFy
+bV9zbW11X2ZyZWVfYXNpZChjZCkpIHsKPiAgIAkJLyogVW5waW4gQVNJRCAqLwo+ICAgCQlhcm02
+NF9tbV9jb250ZXh0X3B1dChjZC0+bW0pOwo+ICsJCW1tZHJvcChjZC0+bW0pOwo+ICAgCQlrZnJl
+ZShjZCk7Cj4gICAJfQo+ICAgfQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRp
+b24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2lvbW11
