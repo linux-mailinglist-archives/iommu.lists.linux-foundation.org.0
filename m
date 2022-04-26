@@ -1,78 +1,169 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A829850FCD0
-	for <lists.iommu@lfdr.de>; Tue, 26 Apr 2022 14:21:11 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EEB50FF86
+	for <lists.iommu@lfdr.de>; Tue, 26 Apr 2022 15:50:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 56AB360A8B;
-	Tue, 26 Apr 2022 12:21:10 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2857E82F4F;
+	Tue, 26 Apr 2022 13:50:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pSnVpRm5Igws; Tue, 26 Apr 2022 12:21:09 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pc-OqKE7sgT2; Tue, 26 Apr 2022 13:50:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 77A7C60ADC;
-	Tue, 26 Apr 2022 12:21:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7795982E9C;
+	Tue, 26 Apr 2022 13:50:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53722C0081;
-	Tue, 26 Apr 2022 12:21:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D34AC0081;
+	Tue, 26 Apr 2022 13:50:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4D81DC002D
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 12:21:08 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 25E10C002D
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 12:42:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2C78F607FE
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 12:21:08 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1C7D360B08
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 12:42:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=armh.onmicrosoft.com
+ header.b="0rpaxsfx"; dkim=pass (1024-bit key)
+ header.d=armh.onmicrosoft.com header.b="0rpaxsfx"
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ADSG3nYsP2wS for <iommu@lists.linux-foundation.org>;
- Tue, 26 Apr 2022 12:21:06 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com
- [162.62.58.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id BA1C2605A7
- for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 12:21:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1650975656;
- bh=xlHfVV/WpfjpyQEaevLyX8+2tF55t8eXuS19NIZzbls=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To;
- b=I+ywxQwPCzT0dPfpJJ0iCv90dT0zZrs+5LKmblYowGqYMGwMeMSSPb6ulNIucHG0x
- sSP3jf9nby7pK2lv3tWa+vhBkEfLsqPgkc+q6jYUA072L5GGRtUpHTiP2vI+j5il8d
- iPqvsENSe++olZLVrVLMNsPD3Ie2fi1wt0JX4m/4=
-Received: from [192.168.0.110] ([36.57.135.33])
- by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
- id 535B90EB; Tue, 26 Apr 2022 20:20:53 +0800
-X-QQ-mid: xmsmtpt1650975653tqcwcd372
-Message-ID: <tencent_FAED72B58E26A4B4D706CE8EF4C1B408ED07@qq.com>
-X-QQ-XMAILINFO: NwU0tZNR0OQKIh9JsIaxc2Tp5qBSWIN8rGsi4T3dG7y+R5Nl7NBp8/+iigJVUR
- QmKCVBJWydn8tm6wtu9N0vXaFT5bSucWn45GSn4g9UcwQo2z/5U0qQB56PX9ASgA0a/eYJul2jsC
- CDlwHDDkB+mn79qpTrDQCHF2XAf+0CT8Ma23xpoM/63cPO+0XG6na90VJhsA5h/59HeCzf8jj6IS
- bb29woWRF2CRPaq2Vq2i+Bgz6EHDPT8LoKCd2oAVM8VicD7+wH67N3YhmWPVPwJ5KwSmn0ZVQe2H
- 7Xu/LQx5XnrR1Pvv/Kd55+gmDOUKJAvIDE2iiDA6N29DxVJwYRExC3YbFcPsbQd7xZwLwetE3Ajz
- mAyAPUb6Efqp9Z09KSXhOq1k1H+4YAb+VrAGQm20IZT8/zBVz3+KYVLy7PSw1ykxuZ6xSNoVo3Ys
- XuqcA3AAUwx5PTfTNeh5jX1hMo9V3h+TvBrvazoaA+lqNn7EQBQt22RQiHo/ZeQOz7jwNjtuNjtl
- r8FBrFXMrk1ldKioDwYlfQSAdl78hh61CUIvpZvY8SAxMHOA+gMH8hUSHkUqm1hYOw/RjKYU34G6
- YHsXhm7KGCO/IqHciCxEcvfS8GpLEQA39e2npPDfvTzSI6pH6THxRuAmBU2G5Fuys+PUG5GYYKkg
- kF+p5sut4GJ+qLI5olhtc9FQ3MWfDsv97260eO4Tw6nvIXLW4bwDWSBLQxhBH/cSEA/zGjSExr8c
- Dimxlek2uUVffDwC5PSq5e4J0LRfGOzzWaCnnUkN0nxPUzgjR8b1Q2A/9+UNfCV0mqMRtflbV0t4
- 31sNLq48yhUsCCz9yaFNI02MVnClw0Etva9tTk0q+AY7IGVJfcHyYU8hPdGrAPxrFjpfjeVQsw1V
- /7jHjLzaqeHpnycd1m3GVSbZGQcFRlKgnceRjDT/iwVEkiHbrbQnylNEVtqKIfLg==
-Subject: Re: [PATCH] iommu/arm-smmu-v3-sva: Fix mm use-after-free
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, will@kernel.org,
- robin.murphy@arm.com, joro@8bytes.org
-References: <20220426100400.147482-1-jean-philippe@linaro.org>
-From: "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>
-X-OQ-MSGID: <c8463ed8-888e-4a7a-8db0-e71e5b79c009@foxmail.com>
-Date: Tue, 26 Apr 2022 20:20:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20220426100400.147482-1-jean-philippe@linaro.org>
+ with ESMTP id ke5gy1R5VV2g for <iommu@lists.linux-foundation.org>;
+ Tue, 26 Apr 2022 12:42:21 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur01on060d.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1e::60d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D155060AEB
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Apr 2022 12:42:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MyKzq2UAvrhg15ra8M0T/BGn8DgqfBBRNVgrD6r3Vso=;
+ b=0rpaxsfxgs2ttgQzPHGK1WS17SrlSoR2M/9ocvNArEVePCd7rTB668o0WxtwiUTnlybs3GsJQetKGk8HbzRHZHpqLBefOVlQwfJhp2uQgW6TXXL+3v9fJPG7QcbIUyaGTlKldTO15QYTIxdTw2bEbo0i4/duIEdbp1nNEbFn+rc=
+Received: from AM6P193CA0047.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::24)
+ by DB9PR08MB6667.eurprd08.prod.outlook.com (2603:10a6:10:2af::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 12:42:15 +0000
+Received: from VE1EUR03FT020.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:8e:cafe::44) by AM6P193CA0047.outlook.office365.com
+ (2603:10a6:209:8e::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13 via Frontend
+ Transport; Tue, 26 Apr 2022 12:42:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT020.mail.protection.outlook.com (10.152.18.242) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5186.14 via Frontend Transport; Tue, 26 Apr 2022 12:42:14 +0000
+Received: ("Tessian outbound ac9bb5dd84f6:v118");
+ Tue, 26 Apr 2022 12:42:14 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 63f394be43e7bd14
+X-CR-MTA-TID: 64aa7808
+Received: from e55cec08fd35.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 3BBE8150-544A-4F7F-8436-8981F38CC46D.1; 
+ Tue, 26 Apr 2022 12:42:07 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id e55cec08fd35.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 26 Apr 2022 12:42:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ixc8sclWishHAAEIioee+9Q3p1q9SiWXyv63Yg8xtsioAc0y37BBhoZu66lgyPOkXePWrkT/KI2hPdZLCJzFqazT+4d8SsMyCZHuCnoWRehyUMClxdLFq1Ip24p46yp414ZxJbVnVXcxNUXyRLDFRCEVvcwsLvZ6H8QUoGxvwptX1+Alf9ZfuON1bO2ltJmobsJSIPUy3TF9xKc27FAXFVy9ZUgXhWZLpKOmJ6rlHTN77ATq5P3nQEMYFHRe/IFq2GizyPgErPS38V3MlDUtxfXp7aEkeOlPUb8P7Bh7IZlIicGYGi9GcZCm6iouCUy5b7kOacXMxdlSJC2XFo/Q1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MyKzq2UAvrhg15ra8M0T/BGn8DgqfBBRNVgrD6r3Vso=;
+ b=eauBuKNn/RPhcdm7M7vxoT1XbajmPl2oGyxPwdwt3ENr3srQbK2GpMAsxO9HOynEgv+hgi1JYaBKOad1w+xn2BCHtox7bBmk6mMLDQpsE3ru50WdmhsXHkxmSaHRMAC9h1DjsOvgzYWPc816y4lRJwz3JRMTTuB5ecVn40FMeuSrmvAptT+pdFiyol2hcDBNIDsEcp9EoAs1IQgwYrNY0Li8ouwcEctdiwRcTHcPEpbPopLPLllRx3UDk40yse9rOfeH7hq3lCzEdhHxCIIqbbL/WjLoVhxCnC/nwqHpfb3jOHjj6ZL4XvOEO9Eg9GeXdn+UGaCywcr2UC90tI/c0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MyKzq2UAvrhg15ra8M0T/BGn8DgqfBBRNVgrD6r3Vso=;
+ b=0rpaxsfxgs2ttgQzPHGK1WS17SrlSoR2M/9ocvNArEVePCd7rTB668o0WxtwiUTnlybs3GsJQetKGk8HbzRHZHpqLBefOVlQwfJhp2uQgW6TXXL+3v9fJPG7QcbIUyaGTlKldTO15QYTIxdTw2bEbo0i4/duIEdbp1nNEbFn+rc=
+Received: from AM5PR0801MB2020.eurprd08.prod.outlook.com
+ (2603:10a6:203:4c::14) by DB8PR08MB3930.eurprd08.prod.outlook.com
+ (2603:10a6:10:a7::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 12:42:06 +0000
+Received: from AM5PR0801MB2020.eurprd08.prod.outlook.com
+ ([fe80::9464:cc9:b4b4:bf8]) by AM5PR0801MB2020.eurprd08.prod.outlook.com
+ ([fe80::9464:cc9:b4b4:bf8%4]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 12:42:06 +0000
+From: Rahul Singh <Rahul.Singh@arm.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] swiotlb-xen: fix DMA_ATTR_NO_KERNEL_MAPPING on arm
+Thread-Topic: [PATCH] swiotlb-xen: fix DMA_ATTR_NO_KERNEL_MAPPING on arm
+Thread-Index: AQHYVzWiSClsigwCc0OWmoGO41dp7a0CJ6aA
+Date: Tue, 26 Apr 2022 12:42:06 +0000
+Message-ID: <7124886B-04C8-483E-8062-870D94157DBB@arm.com>
+References: <20220423171422.1831676-1-hch@lst.de>
+In-Reply-To: <20220423171422.1831676-1-hch@lst.de>
+Accept-Language: en-US
 Content-Language: en-US
-Cc: zhangfei.gao@linaro.org, iommu@lists.linux-foundation.org
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-MS-Office365-Filtering-Correlation-Id: c99eefd6-c682-448c-84c4-08da278230fc
+x-ms-traffictypediagnostic: DB8PR08MB3930:EE_|VE1EUR03FT020:EE_|DB9PR08MB6667:EE_
+X-Microsoft-Antispam-PRVS: <DB9PR08MB66670B60621223AF25562409FCFB9@DB9PR08MB6667.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: ofLPT9J5cyDLt1cL18Ae36BiKjcBJ2ww2cxxovInqRWl7I+JanViCGOWzxjQcXvx7yJwyPMVZSQUe18RZ7mdsD6nBoUlI/Qcr/uG1AWLuhmjuJvy6J8x4NwnMFsSdhdW3gtpQw3ayDevrI/+dqIQT4cFYdcrH2u9pHzg3SEtP1idBv3equJTF1xIVFcuAplIjlsKflaQrkMGiKntpal9d630EZxkbbmxQVRNRqqFJ+zCbmDIP4vjqjOAjIIJ2l2dKZt/MtQl4ZF1Sr2ONqCk+axme82jiI6yuGUnj4g9hbH9ypu8OX7YSXfM6ttpxe4tY0U7uEhbseuHZFBYDE+IEWN6vdzCUryNThypbizhenNVrnZZxQUWX5qy0XH4O7EU1apB8UhXSBblYpQ4DtQ3zqdUIEafl1F2HHF7fBwbb1/vW2L8G69jK3ozWJtgNPIWghSzI9iFj7CSfNK2fJLqd36fXcJZJyVE4UOCRhRFJmGo4WkqoTR8l6amVKOPGQNCxc9MX+hJbuA4tC8JRKfoAysVQlNAJbacs7bZkS4gfHuYK4DmiUh7xLY2zwL3UPpN+v2ZslwbJ9yRiKLcR/PBjj/AvGVQDDZL5GNGg68OsVb7UReIJH4VdkZ3QXd1pT47yWpXYD6C2wGkmVqHrEjQ7bCls74acDdEDBNXxP2YHpzbp7bMszW+S9JXhgIeTG0MShvmUC2QXhO4CnKrVBmkwqBK436iEM1bN6d2pr56UCcJnBJDFqleBwjHkoOFzZFw
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM5PR0801MB2020.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(76116006)(66946007)(64756008)(8936002)(8676002)(91956017)(66476007)(66446008)(66556008)(4326008)(33656002)(508600001)(83380400001)(6486002)(6506007)(122000001)(53546011)(86362001)(2906002)(6512007)(2616005)(5660300002)(26005)(38100700002)(54906003)(30864003)(71200400001)(186003)(6916009)(36756003)(316002)(38070700005)(45980500001);
+ DIR:OUT; SFP:1101; 
+Content-ID: <1EF09590D70D2343B591E27DD3C8395A@eurprd08.prod.outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3930
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT020.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 2c177aac-e643-4337-9833-08da27822bd2
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NjAFcE7UK7TJgACrWVQ5nI7/G3O1PsmbMVijNMRwkDeEudsvuDrQWuo4/j0vR1iejt+VsDXdOpkKnF54YEK7FhxioMr8QQ0rla7wB7DMbaRkZ0ME6NpUqQOi2fJVOYSI2apyGgIISQeqfYBDHFc7tVas2lIr2poxwQHwZGb6SzocpWiTRy0AnkSf2j1SHiravZh1pTfABRWzMv2TeXiPF5Iyb3P3jLaJDO7KX5PN2oPmUEelppqagesCfGd5ssqCYhO5kBs+awwCbJYcp3wKNyRkC/TXzt9bZtYrxI158Y92gRMBRQdiEy5O1+Z8ayWIhp12JkwFP3VC1gPBtm+Uqfe+2B1V9NmpnmhqltlW9jtyNns0b0vFiEO1pHDbnMQGQyyKpPQcnoTDD5dpKsDO6uXrtw1nhLiSJVSsGYaFafzVM1AIzViqgIQVPGtGpXXylrE999LIRJRipUDMoovnPFcid9kpYnz1rUm60KuE/0fvO55Fj1BYiQDHSS93pdTbelCHkj7C2v3RbdI2nbFE/rPs188lD3luGlcofUcTQW/zW3ufbcHkFDQGjNOV7IJaqfiKPJjLKZJxjP/uE3/6KZeF+dJpluxQ323JMVlzxGxWnHEDgA+b44+iSTDgkLh5oKha5EIAbv8jOmm5DdBP28ElOSl3qHPbnwg5CTB5C4KPlJwXqDYyykGfKyM0oBJl
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(83380400001)(316002)(6512007)(26005)(8936002)(86362001)(5660300002)(36860700001)(33656002)(47076005)(81166007)(186003)(36756003)(6506007)(53546011)(2616005)(54906003)(30864003)(82310400005)(2906002)(508600001)(6486002)(356005)(40460700003)(8676002)(4326008)(6862004)(70586007)(70206006)(336012);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 12:42:14.6027 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c99eefd6-c682-448c-84c4-08da278230fc
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT020.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6667
+X-Mailman-Approved-At: Tue, 26 Apr 2022 13:50:30 +0000
+Cc: "jgross@suse.com" <jgross@suse.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,51 +176,367 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGksIEplYW4KCk9uIDIwMjIvNC8yNiDkuIvljYg2OjA0LCBKZWFuLVBoaWxpcHBlIEJydWNrZXIg
-d3JvdGU6Cj4gV2UgY3VycmVudGx5IGNhbGwgYXJtNjRfbW1fY29udGV4dF9wdXQoKSB3aXRob3V0
-IGhvbGRpbmcgYSByZWZlcmVuY2UgdG8KPiB0aGUgbW0sIHdoaWNoIGNhbiByZXN1bHQgaW4gdXNl
-LWFmdGVyLWZyZWUuIENhbGwgbW1ncmFiKCkvbW1kcm9wKCkgdG8KPiBlbnN1cmUgdGhlIG1tIG9u
-bHkgZ2V0cyBmcmVlZCBhZnRlciB3ZSB1bnBpbm5lZCB0aGUgQVNJRC4KPgo+IEZpeGVzOiAzMjc4
-NGE5NTYyZmIgKCJpb21tdS9hcm0tc21tdS12MzogSW1wbGVtZW50IGlvbW11X3N2YV9iaW5kL3Vu
-YmluZCgpIikKPiBTaWduZWQtb2ZmLWJ5OiBKZWFuLVBoaWxpcHBlIEJydWNrZXIgPGplYW4tcGhp
-bGlwcGVAbGluYXJvLm9yZz4KPiAtLS0KPiAgIGRyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYz
-L2FybS1zbW11LXYzLXN2YS5jIHwgMTIgKysrKysrKysrKy0tCj4gICAxIGZpbGUgY2hhbmdlZCwg
-MTAgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKTWlzc2luZyArI2luY2x1ZGUgPGxpbnV4
-L3NjaGVkL21tLmg+IGZvciBjb21waWxlLgoKV2Ugc3RpbGwgbmVlZCB0aGUgZml4IG1vdmUgbW1f
-cGFzaWRfZHJvcCBmcm9tIF9fbW1wdXQgdG8gX19tbWRyb3AsIHJpZ2h0PwoKMS4gVGVzdCBPSyB3
-aXRoIHRoZSBtbV9wYXNpZF9kcm9wIHBhdGNoLgoKMi4gVGVzdCBmYWlsIGlmIHJldmVydCB0aGUg
-bW1fcGFzaWRfZHJvcCBwYXRjaCwKdWFjY2VfZm9wc19yZWxlYXNlClVuYWJsZSB0byBoYW5kbGUg
-a2VybmVsIHBhZ2luZyByZXF1ZXN0IGF0IHZpcnR1YWwgYWRkcmVzcyBmZmZmMDAwODNjYzZmZmMw
-CgpCeSB0aGUgd2F5LCB3ZSB1c2UgbW1ncmFiIGluIGJpbmQgYW5kIG1tcHV0IGluIHVuYmluZCBi
-ZWZvcmUsCnRoZW4gdGhlIGZvcHNfcmVsZWFzZSBpcyBub3QgYmUgY2FsbGVkIGlmIGV4aXQgd2l0
-aG91dCBjbG9zZShmZCkuCgpUaGlzIHBhdGNoIGRvZXMgbm90IGhhdmUgdGhpcyBpc3N1ZSwgc3Rp
-bGwgbm90IHVuZGVyc3RhbmQgd2h5LgoKVGhhbmtzCgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lv
-bW11L2FybS9hcm0tc21tdS12My9hcm0tc21tdS12My1zdmEuYyBiL2RyaXZlcnMvaW9tbXUvYXJt
-L2FybS1zbW11LXYzL2FybS1zbW11LXYzLXN2YS5jCj4gaW5kZXggNTgyMTE0Zjk0ZGEwLi5jOTM0
-NzdhMmQ3ZjEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9pb21tdS9hcm0vYXJtLXNtbXUtdjMvYXJt
-LXNtbXUtdjMtc3ZhLmMKPiArKysgYi9kcml2ZXJzL2lvbW11L2FybS9hcm0tc21tdS12My9hcm0t
-c21tdS12My1zdmEuYwo+IEBAIC05OCw5ICs5OCwxNCBAQCBzdGF0aWMgc3RydWN0IGFybV9zbW11
-X2N0eF9kZXNjICphcm1fc21tdV9hbGxvY19zaGFyZWRfY2Qoc3RydWN0IG1tX3N0cnVjdCAqbW0p
-Cj4gICAJc3RydWN0IGFybV9zbW11X2N0eF9kZXNjICpjZDsKPiAgIAlzdHJ1Y3QgYXJtX3NtbXVf
-Y3R4X2Rlc2MgKnJldCA9IE5VTEw7Cj4gICAKPiArCS8qIERvbid0IGZyZWUgdGhlIG1tIHVudGls
-IHdlIHJlbGVhc2UgdGhlIEFTSUQgKi8KPiArCW1tZ3JhYihtbSk7Cj4gKwo+ICAgCWFzaWQgPSBh
-cm02NF9tbV9jb250ZXh0X2dldChtbSk7Cj4gLQlpZiAoIWFzaWQpCj4gLQkJcmV0dXJuIEVSUl9Q
-VFIoLUVTUkNIKTsKPiArCWlmICghYXNpZCkgewo+ICsJCWVyciA9IC1FU1JDSDsKPiArCQlnb3Rv
-IG91dF9kcm9wX21tOwo+ICsJfQo+ICAgCj4gICAJY2QgPSBremFsbG9jKHNpemVvZigqY2QpLCBH
-RlBfS0VSTkVMKTsKPiAgIAlpZiAoIWNkKSB7Cj4gQEAgLTE2Nyw2ICsxNzIsOCBAQCBzdGF0aWMg
-c3RydWN0IGFybV9zbW11X2N0eF9kZXNjICphcm1fc21tdV9hbGxvY19zaGFyZWRfY2Qoc3RydWN0
-IG1tX3N0cnVjdCAqbW0pCj4gICAJa2ZyZWUoY2QpOwo+ICAgb3V0X3B1dF9jb250ZXh0Ogo+ICAg
-CWFybTY0X21tX2NvbnRleHRfcHV0KG1tKTsKPiArb3V0X2Ryb3BfbW06Cj4gKwltbWRyb3AobW0p
-Owo+ICAgCXJldHVybiBlcnIgPCAwID8gRVJSX1BUUihlcnIpIDogcmV0Owo+ICAgfQo+ICAgCj4g
-QEAgLTE3NSw2ICsxODIsNyBAQCBzdGF0aWMgdm9pZCBhcm1fc21tdV9mcmVlX3NoYXJlZF9jZChz
-dHJ1Y3QgYXJtX3NtbXVfY3R4X2Rlc2MgKmNkKQo+ICAgCWlmIChhcm1fc21tdV9mcmVlX2FzaWQo
-Y2QpKSB7Cj4gICAJCS8qIFVucGluIEFTSUQgKi8KPiAgIAkJYXJtNjRfbW1fY29udGV4dF9wdXQo
-Y2QtPm1tKTsKPiArCQltbWRyb3AoY2QtPm1tKTsKPiAgIAkJa2ZyZWUoY2QpOwo+ICAgCX0KPiAg
-IH0KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11
-IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xp
-c3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+Hi Christoph,
+
+> On 23 Apr 2022, at 6:14 pm, Christoph Hellwig <hch@lst.de> wrote:
+> 
+> swiotlb-xen uses very different ways to allocate coherent memory on x86
+> vs arm.  On the former it allocates memory from the page allocator, while
+> on the later it reuses the dma-direct allocator the handles the
+> complexities of non-coherent DMA on arm platforms.
+> 
+> Unfortunately the complexities of trying to deal with the two cases in
+> the swiotlb-xen.c code lead to a bug in the handling of
+> DMA_ATTR_NO_KERNEL_MAPPING on arm.  With the DMA_ATTR_NO_KERNEL_MAPPING
+> flag the coherent memory allocator does not actually allocate coherent
+> memory, but just a DMA handle for some memory that is DMA addressable
+> by the device, but which does not have to have a kernel mapping.  Thus
+> dereferencing the return value will lead to kernel crashed and memory
+> corruption.
+> 
+> Fix this by using the dma-direct allocator directly for arm, which works
+> perfectly fine because on arm swiotlb-xen is only used when the domain is
+> 1:1 mapped, and then simplifying the remaining code to only cater for the
+> x86 case with DMA coherent device.
+> 
+> Reported-by: Rahul Singh <Rahul.Singh@arm.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Reviewed-by: Rahul Singh <rahul.singh@arm.com>
+Tested-by: Rahul Singh <rahul.singh@arm.com>
+
+Regards,
+Rahul
+> ---
+> arch/arm/include/asm/xen/page-coherent.h   |   2 -
+> arch/arm/xen/mm.c                          |  17 ----
+> arch/arm64/include/asm/xen/page-coherent.h |   2 -
+> arch/x86/include/asm/xen/page-coherent.h   |  24 -----
+> arch/x86/include/asm/xen/swiotlb-xen.h     |   5 +
+> drivers/xen/swiotlb-xen.c                  | 106 ++++++++-------------
+> include/xen/arm/page-coherent.h            |  20 ----
+> include/xen/xen-ops.h                      |   7 --
+> 8 files changed, 45 insertions(+), 138 deletions(-)
+> delete mode 100644 arch/arm/include/asm/xen/page-coherent.h
+> delete mode 100644 arch/arm64/include/asm/xen/page-coherent.h
+> delete mode 100644 arch/x86/include/asm/xen/page-coherent.h
+> delete mode 100644 include/xen/arm/page-coherent.h
+> 
+> diff --git a/arch/arm/include/asm/xen/page-coherent.h b/arch/arm/include/asm/xen/page-coherent.h
+> deleted file mode 100644
+> index 27e984977402b..0000000000000
+> --- a/arch/arm/include/asm/xen/page-coherent.h
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#include <xen/arm/page-coherent.h>
+> diff --git a/arch/arm/xen/mm.c b/arch/arm/xen/mm.c
+> index a7e54a087b802..6e603e5fdebb1 100644
+> --- a/arch/arm/xen/mm.c
+> +++ b/arch/arm/xen/mm.c
+> @@ -118,23 +118,6 @@ bool xen_arch_need_swiotlb(struct device *dev,
+> 		!dev_is_dma_coherent(dev));
+> }
+> 
+> -int xen_create_contiguous_region(phys_addr_t pstart, unsigned int order,
+> -				 unsigned int address_bits,
+> -				 dma_addr_t *dma_handle)
+> -{
+> -	if (!xen_initial_domain())
+> -		return -EINVAL;
+> -
+> -	/* we assume that dom0 is mapped 1:1 for now */
+> -	*dma_handle = pstart;
+> -	return 0;
+> -}
+> -
+> -void xen_destroy_contiguous_region(phys_addr_t pstart, unsigned int order)
+> -{
+> -	return;
+> -}
+> -
+> static int __init xen_mm_init(void)
+> {
+> 	struct gnttab_cache_flush cflush;
+> diff --git a/arch/arm64/include/asm/xen/page-coherent.h b/arch/arm64/include/asm/xen/page-coherent.h
+> deleted file mode 100644
+> index 27e984977402b..0000000000000
+> --- a/arch/arm64/include/asm/xen/page-coherent.h
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#include <xen/arm/page-coherent.h>
+> diff --git a/arch/x86/include/asm/xen/page-coherent.h b/arch/x86/include/asm/xen/page-coherent.h
+> deleted file mode 100644
+> index 63cd41b2e17ac..0000000000000
+> --- a/arch/x86/include/asm/xen/page-coherent.h
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#ifndef _ASM_X86_XEN_PAGE_COHERENT_H
+> -#define _ASM_X86_XEN_PAGE_COHERENT_H
+> -
+> -#include <asm/page.h>
+> -#include <linux/dma-mapping.h>
+> -
+> -static inline void *xen_alloc_coherent_pages(struct device *hwdev, size_t size,
+> -		dma_addr_t *dma_handle, gfp_t flags,
+> -		unsigned long attrs)
+> -{
+> -	void *vstart = (void*)__get_free_pages(flags, get_order(size));
+> -	*dma_handle = virt_to_phys(vstart);
+> -	return vstart;
+> -}
+> -
+> -static inline void xen_free_coherent_pages(struct device *hwdev, size_t size,
+> -		void *cpu_addr, dma_addr_t dma_handle,
+> -		unsigned long attrs)
+> -{
+> -	free_pages((unsigned long) cpu_addr, get_order(size));
+> -}
+> -
+> -#endif /* _ASM_X86_XEN_PAGE_COHERENT_H */
+> diff --git a/arch/x86/include/asm/xen/swiotlb-xen.h b/arch/x86/include/asm/xen/swiotlb-xen.h
+> index 66b4ddde77430..558821387808e 100644
+> --- a/arch/x86/include/asm/xen/swiotlb-xen.h
+> +++ b/arch/x86/include/asm/xen/swiotlb-xen.h
+> @@ -10,4 +10,9 @@ extern int pci_xen_swiotlb_init_late(void);
+> static inline int pci_xen_swiotlb_init_late(void) { return -ENXIO; }
+> #endif
+> 
+> +int xen_create_contiguous_region(phys_addr_t pstart, unsigned int order,
+> +				unsigned int address_bits,
+> +				dma_addr_t *dma_handle);
+> +void xen_destroy_contiguous_region(phys_addr_t pstart, unsigned int order);
+> +
+> #endif /* _ASM_X86_SWIOTLB_XEN_H */
+> diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+> index 47aebd98f52f5..557edb9c54879 100644
+> --- a/drivers/xen/swiotlb-xen.c
+> +++ b/drivers/xen/swiotlb-xen.c
+> @@ -36,7 +36,6 @@
+> #include <xen/hvc-console.h>
+> 
+> #include <asm/dma-mapping.h>
+> -#include <asm/xen/page-coherent.h>
+> 
+> #include <trace/events/swiotlb.h>
+> #define MAX_DMA_BITS 32
+> @@ -104,6 +103,7 @@ static int is_xen_swiotlb_buffer(struct device *dev, dma_addr_t dma_addr)
+> 	return 0;
+> }
+> 
+> +#ifdef CONFIG_X86
+> static int xen_swiotlb_fixup(void *buf, unsigned long nslabs)
+> {
+> 	int rc;
+> @@ -129,6 +129,12 @@ static int xen_swiotlb_fixup(void *buf, unsigned long nslabs)
+> 	} while (i < nslabs);
+> 	return 0;
+> }
+> +#else
+> +static int xen_swiotlb_fixup(void *buf, unsigned long nslabs)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> 
+> enum xen_swiotlb_err {
+> 	XEN_SWIOTLB_UNKNOWN = 0,
+> @@ -256,97 +262,60 @@ void __init xen_swiotlb_init_early(void)
+> 		panic("Cannot allocate SWIOTLB buffer");
+> 	swiotlb_set_max_segment(PAGE_SIZE);
+> }
+> -#endif /* CONFIG_X86 */
+> 
+> static void *
+> -xen_swiotlb_alloc_coherent(struct device *hwdev, size_t size,
+> -			   dma_addr_t *dma_handle, gfp_t flags,
+> -			   unsigned long attrs)
+> +xen_swiotlb_alloc_coherent(struct device *dev, size_t size,
+> +		dma_addr_t *dma_handle, gfp_t flags, unsigned long attrs)
+> {
+> -	void *ret;
+> +	u64 dma_mask = dev->coherent_dma_mask;
+> 	int order = get_order(size);
+> -	u64 dma_mask = DMA_BIT_MASK(32);
+> 	phys_addr_t phys;
+> -	dma_addr_t dev_addr;
+> -
+> -	/*
+> -	* Ignore region specifiers - the kernel's ideas of
+> -	* pseudo-phys memory layout has nothing to do with the
+> -	* machine physical layout.  We can't allocate highmem
+> -	* because we can't return a pointer to it.
+> -	*/
+> -	flags &= ~(__GFP_DMA | __GFP_HIGHMEM);
+> +	void *ret;
+> 
+> -	/* Convert the size to actually allocated. */
+> +	/* Align the allocation to the Xen page size */
+> 	size = 1UL << (order + XEN_PAGE_SHIFT);
+> 
+> -	/* On ARM this function returns an ioremap'ped virtual address for
+> -	 * which virt_to_phys doesn't return the corresponding physical
+> -	 * address. In fact on ARM virt_to_phys only works for kernel direct
+> -	 * mapped RAM memory. Also see comment below.
+> -	 */
+> -	ret = xen_alloc_coherent_pages(hwdev, size, dma_handle, flags, attrs);
+> -
+> +	ret = (void *)__get_free_pages(flags, get_order(size));
+> 	if (!ret)
+> 		return ret;
+> -
+> -	if (hwdev && hwdev->coherent_dma_mask)
+> -		dma_mask = hwdev->coherent_dma_mask;
+> -
+> -	/* At this point dma_handle is the dma address, next we are
+> -	 * going to set it to the machine address.
+> -	 * Do not use virt_to_phys(ret) because on ARM it doesn't correspond
+> -	 * to *dma_handle. */
+> -	phys = dma_to_phys(hwdev, *dma_handle);
+> -	dev_addr = xen_phys_to_dma(hwdev, phys);
+> -	if (((dev_addr + size - 1 <= dma_mask)) &&
+> -	    !range_straddles_page_boundary(phys, size))
+> -		*dma_handle = dev_addr;
+> -	else {
+> -		if (xen_create_contiguous_region(phys, order,
+> -						 fls64(dma_mask), dma_handle) != 0) {
+> -			xen_free_coherent_pages(hwdev, size, ret, (dma_addr_t)phys, attrs);
+> -			return NULL;
+> -		}
+> -		*dma_handle = phys_to_dma(hwdev, *dma_handle);
+> +	phys = virt_to_phys(ret);
+> +
+> +	*dma_handle = xen_phys_to_dma(dev, phys);
+> +	if (*dma_handle + size - 1 > dma_mask ||
+> +	    range_straddles_page_boundary(phys, size)) {
+> +		if (xen_create_contiguous_region(phys, order, fls64(dma_mask),
+> +				dma_handle) != 0)
+> +			goto out_free_pages;
+> 		SetPageXenRemapped(virt_to_page(ret));
+> 	}
+> +
+> 	memset(ret, 0, size);
+> 	return ret;
+> +
+> +out_free_pages:
+> +	free_pages((unsigned long)ret, get_order(size));
+> +	return NULL;
+> }
+> 
+> static void
+> -xen_swiotlb_free_coherent(struct device *hwdev, size_t size, void *vaddr,
+> -			  dma_addr_t dev_addr, unsigned long attrs)
+> +xen_swiotlb_free_coherent(struct device *dev, size_t size, void *vaddr,
+> +		dma_addr_t dma_handle, unsigned long attrs)
+> {
+> +	phys_addr_t phys = virt_to_phys(vaddr);
+> 	int order = get_order(size);
+> -	phys_addr_t phys;
+> -	u64 dma_mask = DMA_BIT_MASK(32);
+> -	struct page *page;
+> -
+> -	if (hwdev && hwdev->coherent_dma_mask)
+> -		dma_mask = hwdev->coherent_dma_mask;
+> -
+> -	/* do not use virt_to_phys because on ARM it doesn't return you the
+> -	 * physical address */
+> -	phys = xen_dma_to_phys(hwdev, dev_addr);
+> 
+> 	/* Convert the size to actually allocated. */
+> 	size = 1UL << (order + XEN_PAGE_SHIFT);
+> 
+> -	if (is_vmalloc_addr(vaddr))
+> -		page = vmalloc_to_page(vaddr);
+> -	else
+> -		page = virt_to_page(vaddr);
+> +	if (WARN_ON_ONCE(dma_handle + size - 1 > dev->coherent_dma_mask) ||
+> +	    WARN_ON_ONCE(range_straddles_page_boundary(phys, size)))
+> +	    	return;
+> 
+> -	if (!WARN_ON((dev_addr + size - 1 > dma_mask) ||
+> -		     range_straddles_page_boundary(phys, size)) &&
+> -	    TestClearPageXenRemapped(page))
+> +	if (TestClearPageXenRemapped(virt_to_page(vaddr)))
+> 		xen_destroy_contiguous_region(phys, order);
+> -
+> -	xen_free_coherent_pages(hwdev, size, vaddr, phys_to_dma(hwdev, phys),
+> -				attrs);
+> +	free_pages((unsigned long)vaddr, get_order(size));
+> }
+> +#endif /* CONFIG_X86 */
+> 
+> /*
+>  * Map a single buffer of the indicated size for DMA in streaming mode.  The
+> @@ -549,8 +518,13 @@ xen_swiotlb_dma_supported(struct device *hwdev, u64 mask)
+> }
+> 
+> const struct dma_map_ops xen_swiotlb_dma_ops = {
+> +#ifdef CONFIG_X86
+> 	.alloc = xen_swiotlb_alloc_coherent,
+> 	.free = xen_swiotlb_free_coherent,
+> +#else
+> +	.alloc = dma_direct_alloc,
+> +	.free = dma_direct_free,
+> +#endif
+> 	.sync_single_for_cpu = xen_swiotlb_sync_single_for_cpu,
+> 	.sync_single_for_device = xen_swiotlb_sync_single_for_device,
+> 	.sync_sg_for_cpu = xen_swiotlb_sync_sg_for_cpu,
+> diff --git a/include/xen/arm/page-coherent.h b/include/xen/arm/page-coherent.h
+> deleted file mode 100644
+> index b9cc11e887ed5..0000000000000
+> --- a/include/xen/arm/page-coherent.h
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#ifndef _XEN_ARM_PAGE_COHERENT_H
+> -#define _XEN_ARM_PAGE_COHERENT_H
+> -
+> -#include <linux/dma-mapping.h>
+> -#include <asm/page.h>
+> -
+> -static inline void *xen_alloc_coherent_pages(struct device *hwdev, size_t size,
+> -		dma_addr_t *dma_handle, gfp_t flags, unsigned long attrs)
+> -{
+> -	return dma_direct_alloc(hwdev, size, dma_handle, flags, attrs);
+> -}
+> -
+> -static inline void xen_free_coherent_pages(struct device *hwdev, size_t size,
+> -		void *cpu_addr, dma_addr_t dma_handle, unsigned long attrs)
+> -{
+> -	dma_direct_free(hwdev, size, cpu_addr, dma_handle, attrs);
+> -}
+> -
+> -#endif /* _XEN_ARM_PAGE_COHERENT_H */
+> diff --git a/include/xen/xen-ops.h b/include/xen/xen-ops.h
+> index a3584a357f353..c7c1b46ff4cd4 100644
+> --- a/include/xen/xen-ops.h
+> +++ b/include/xen/xen-ops.h
+> @@ -42,13 +42,6 @@ int xen_setup_shutdown_event(void);
+> 
+> extern unsigned long *xen_contiguous_bitmap;
+> 
+> -#if defined(CONFIG_XEN_PV) || defined(CONFIG_ARM) || defined(CONFIG_ARM64)
+> -int xen_create_contiguous_region(phys_addr_t pstart, unsigned int order,
+> -				unsigned int address_bits,
+> -				dma_addr_t *dma_handle);
+> -void xen_destroy_contiguous_region(phys_addr_t pstart, unsigned int order);
+> -#endif
+> -
+> #if defined(CONFIG_XEN_PV)
+> int xen_remap_pfn(struct vm_area_struct *vma, unsigned long addr,
+> 		  xen_pfn_t *pfn, int nr, int *err_ptr, pgprot_t prot,
+> -- 
+> 2.30.2
+> 
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
