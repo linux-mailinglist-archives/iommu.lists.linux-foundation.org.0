@@ -2,95 +2,91 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FF9512949
-	for <lists.iommu@lfdr.de>; Thu, 28 Apr 2022 04:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CE8512946
+	for <lists.iommu@lfdr.de>; Thu, 28 Apr 2022 04:02:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8E62382F9E;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 390798291A;
 	Thu, 28 Apr 2022 02:02:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OZFgjInt4rob; Thu, 28 Apr 2022 02:02:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 85E5C82F92;
+	with ESMTP id Pb61Y131j67N; Thu, 28 Apr 2022 02:02:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 3BC7A81C6E;
 	Thu, 28 Apr 2022 02:02:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A42AEC0032;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D236C0084;
 	Thu, 28 Apr 2022 02:02:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A10C5C0080
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 880CFC0032
  for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 01:10:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 7BC0D4191C
+ by smtp1.osuosl.org (Postfix) with ESMTP id 6FA9582438
  for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 01:10:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=sholland.org header.b="B27RA3E1";
- dkim=pass (2048-bit key) header.d=messagingengine.com
- header.b="HN2J6N7E"
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1d2vHrJKozmH for <iommu@lists.linux-foundation.org>;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bTLMil3PIN4B for <iommu@lists.linux-foundation.org>;
  Thu, 28 Apr 2022 01:10:47 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2FA154190E
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 844E882468
  for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 01:10:47 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3FE065C0216;
- Wed, 27 Apr 2022 21:04:18 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 5534B5C010B;
+ Wed, 27 Apr 2022 21:04:20 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 Apr 2022 21:04:18 -0400
+ by compute4.internal (MEProxy); Wed, 27 Apr 2022 21:04:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1651107858; x=1651194258; bh=EW
- QuBrshtflaBYZQbOQftY716qHgPAQrgs5xYJD0PZQ=; b=B27RA3E11tPFjhXoZl
- BCXngJ4YKleJDrSbx28eZHU8/vEasIR/rNzdX+0YfcwNkYs22yPGBbBjNktJtMOe
- np3rp6oQ3OLLc5xXlLifCZV4CkCux2q0f0al1x1odNlZniJGqSzPV0YYSEf5Cz39
- a963ajqTtRnxiCeQh2vBRYypvbH0RCUaljLvXP9YoeHUDk3YG40CqnCyYGJikvuj
- AwQbtuMTLbrp7Nmq9PgSb50Dka2xAM6P1CLCurp5QzUpx7AGrq1mM/0LZXnDuW4d
- Y+KhLbeCOBWMMD8spVkuwdyfcAliYIpfwz68yOpsZyOCxuRFGecIyImrHLCoJoC2
- mo2A==
+ :subject:subject:to:to; s=fm2; t=1651107860; x=1651194260; bh=7k
+ KZKeaIzmswO5xe/sMVvmN10M9qpUiXUxMfopwBhII=; b=FzcqGCmKSCcG1573ws
+ wjrHZ9MgBOtt7+W3nlCZwNSbIvNB9iJgBz0Xw71GL//FMsajq+J5lJPUD/Iynl+h
+ hW0vgX+42ZsPjIG/gWQnuTc2M3rWXN3GwxFfBSwq56Jft1QpxeeEhtsboM7s1UAU
+ X/WfpXOQEDvZn3tnmJozIpJTiDmvRl3aq4br1AlXMrwX6H9geeWBLqQN7RDmXZmr
+ aTTGzNHKb7lV+IGskzD4kNYnUJDmZ/M0QlwpJyTJqK6dPj1RPvFYHHR1fGga0Lj6
+ wITbOUkxxwmsGES05YpEHgPzTv4BjfS2O18AdEEuGtk0XcKKDsQ38O+WPos/Jlnx
+ jKwQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1651107858; x=1651194258; bh=EWQuBrshtflaBYZQbOQftY716qHgPAQrgs5
- xYJD0PZQ=; b=HN2J6N7ELnQR3Gy9fUmDvuEk9YlYKp9j7GPM2wWJGOlfvoLRYro
- qPxAJxQXaPAiCFUANedSSSTw6H7d23TRSskiqrtJ+sEsSBq3+a8XHJDBOcJoHFd7
- QUc0TV3p1g7bdK2v9lyV5qA9FcsV+xn8syFJQo8RdXd8iHf/C59/sp5DLVrRmomL
- RebZWUBp3uuLATt8lGTZRx4HRMUI5Fq9kxiLOcZ1BzlkB34tsPzHuND4M9OCPqEX
- gurem5f3Z/74dn2SHEMHIDVkSuqkdCTQJCTZYy8LRl3EV7SVB9z+2aXBkfyGcOtV
- Ve5zqxdiy/bGIjDnOBKmfMTMllDYbEaYB0A==
-X-ME-Sender: <xms:EuhpYiffe1DAaWEuU_68hMUOBvbCoui-fcIL1RS2YG0nVIiGRlauZA>
- <xme:EuhpYsMpJWFJo0J0ehGz_Ii_rQr8oLWQsgQk9ozuccLjyIapi2z0cLOKXiFzGlszg
- eADy8XQY9N25tVVZg>
-X-ME-Received: <xmr:EuhpYjhSfFHsGZ9OUA-7tBa6NWIdm7Icl5arTlUJOxHwV-VGhyRF1QzLUyiCCB8FIcTcUZrp5pCukFkB1F4bWpzEGG9_osOF49FghfEr2aP-_ZdGdojfqyBwn3eS2Uek5Q0Fag>
+ 1651107860; x=1651194260; bh=7kKZKeaIzmswO5xe/sMVvmN10M9qpUiXUxM
+ fopwBhII=; b=LZzqWHfYD2Efj2hch/HZzY2OvSwjH1J+3lKdQ08JNew6snKaNh+
+ 5V66l6Mxn1bsYtau1gcZu70zX5rtW3VvFxvUEqzW69uVJ+p3T/ecKd+0gdnRmhjf
+ ARUWeWI0nu4DgjI87rvqrvtqTY7RZA0wc9u34PU1n3qF0dMjPkuHfQ2zakoUWxWM
+ GeJgfJwfhHaCkVIVFgTJU+lcIV2JnMRduBXwvFJfEQWTXXtjRiz5eEChAtYx2wJ8
+ WRQAG4xnnE/vtEDthrO0lnZdfswjl3xwy/yDp8IC5GbPTpITGb8eNkakwcfsSYED
+ WzE3IPZXkCLefZN2mpBX326hUGLOARqj5FQ==
+X-ME-Sender: <xms:FOhpYryLbjZs5NNFdW38MfOrDz3CuY_wPdQ5ITkz-YhY-M_c9bXd_Q>
+ <xme:FOhpYjSD4p-r5lhDu8Wf45NH1YZCkMOaTV8u4YCgBSGdAE1BzscWsj2SSr-jKNGKv
+ 5pmSFUXdwbEbNld4A>
+X-ME-Received: <xmr:FOhpYlXtophLVL2t1r6XI4wDoUOD2yIbE65kLIWuU20R2xfC9FtFUb1gKLZa45SlonQCmPj2uj9vzzdfJmWpz2natVK8as1fC3JcPM0CID6mdLmP-9mqt93S97Dv1uR0ZIULAA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigdegfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
  lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
  frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
- feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ feeitdevteenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:EuhpYv-9UAS85yEzxjAya6_MNmWfVVLGaDvoLZeI8-PENgg-cMupMg>
- <xmx:EuhpYuvDa-YXf4W-vmvlhT17qVRPnqantOu7Lb8H9GlVebkFWL3ilw>
- <xmx:EuhpYmEpctWVjsxcZdxljjMhExeISxNIc93WvPZSXSBMRyosXrkFWQ>
- <xmx:EuhpYqOvI53ClkFNLgbr8waNRaIs9DQ4WmvEDlRQaI5dyEhshxRHlQ>
+X-ME-Proxy: <xmx:FOhpYljX2COH74lmwoWE0UqfU8ajmbY6N2JjMmqobNnE0GKKekSBaQ>
+ <xmx:FOhpYtCEMCbftEQes56J1ZWFDyTbUA4srfwCxDaCBcTA-rD_dlgnxw>
+ <xmx:FOhpYuIIoiqLX_lD8F0mdIJQjXz8sA_iYcdRU2k_dP97nqO9unVQVw>
+ <xmx:FOhpYnQsPWyDjWUqZu2pBEbDnLXlxe2Cb7h5dC56uRH4ogO4gmhuzw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Apr 2022 21:04:17 -0400 (EDT)
+ 27 Apr 2022 21:04:19 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  iommu@lists.linux-foundation.org
-Subject: [PATCH 2/5] iommu/sun50i: Support variants without an external reset
-Date: Wed, 27 Apr 2022 20:03:57 -0500
-Message-Id: <20220428010401.11323-3-samuel@sholland.org>
+Subject: [PATCH 3/5] iommu/sun50i: Ensure bypass is disabled
+Date: Wed, 27 Apr 2022 20:03:58 -0500
+Message-Id: <20220428010401.11323-4-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220428010401.11323-1-samuel@sholland.org>
 References: <20220428010401.11323-1-samuel@sholland.org>
@@ -121,72 +117,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The IOMMU in the Allwinner D1 SoC does not have an external reset line.
+The H6 variant of the hardware disables bypass by default. The D1
+variant of the hardware enables bypass for all masters by default.
 
-Only attempt to get the reset on hardware variants which should have one
-according to the binding. And switch from the deprecated function to the
-explicit "exclusive" variant.
+Since the driver expects bypass to be disabled, ensure that is the case.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/iommu/sun50i-iommu.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/iommu/sun50i-iommu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index c54ab477b8fd..ec07b60016d3 100644
+index ec07b60016d3..b9e644b93637 100644
 --- a/drivers/iommu/sun50i-iommu.c
 +++ b/drivers/iommu/sun50i-iommu.c
-@@ -92,6 +92,10 @@
- #define NUM_PT_ENTRIES			256
- #define PT_SIZE				(NUM_PT_ENTRIES * PT_ENTRY_SIZE)
+@@ -374,6 +374,8 @@ static int sun50i_iommu_enable(struct sun50i_iommu *iommu)
  
-+struct sun50i_iommu_variant {
-+	bool has_reset;
-+};
+ 	spin_lock_irqsave(&iommu->iommu_lock, flags);
+ 
++	iommu_write(iommu, IOMMU_BYPASS_REG, 0);
 +
- struct sun50i_iommu {
- 	struct iommu_device iommu;
- 
-@@ -905,9 +909,14 @@ static irqreturn_t sun50i_iommu_irq(int irq, void *dev_id)
- 
- static int sun50i_iommu_probe(struct platform_device *pdev)
- {
-+	const struct sun50i_iommu_variant *variant;
- 	struct sun50i_iommu *iommu;
- 	int ret, irq;
- 
-+	variant = of_device_get_match_data(&pdev->dev);
-+	if (!variant)
-+		return -EINVAL;
-+
- 	iommu = devm_kzalloc(&pdev->dev, sizeof(*iommu), GFP_KERNEL);
- 	if (!iommu)
- 		return -ENOMEM;
-@@ -947,7 +956,8 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
- 		goto err_free_group;
- 	}
- 
--	iommu->reset = devm_reset_control_get(&pdev->dev, NULL);
-+	if (variant->has_reset)
-+		iommu->reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 	if (IS_ERR(iommu->reset)) {
- 		dev_err(&pdev->dev, "Couldn't get our reset line.\n");
- 		ret = PTR_ERR(iommu->reset);
-@@ -987,8 +997,12 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
-+static const struct sun50i_iommu_variant sun50i_h6_iommu = {
-+	.has_reset = true,
-+};
-+
- static const struct of_device_id sun50i_iommu_dt[] = {
--	{ .compatible = "allwinner,sun50i-h6-iommu", },
-+	{ .compatible = "allwinner,sun50i-h6-iommu", .data = &sun50i_h6_iommu },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, sun50i_iommu_dt);
+ 	iommu_write(iommu, IOMMU_TTB_REG, sun50i_domain->dt_dma);
+ 	iommu_write(iommu, IOMMU_TLB_PREFETCH_REG,
+ 		    IOMMU_TLB_PREFETCH_MASTER_ENABLE(0) |
 -- 
 2.35.1
 
