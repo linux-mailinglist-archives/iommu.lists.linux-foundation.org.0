@@ -1,55 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD669513517
-	for <lists.iommu@lfdr.de>; Thu, 28 Apr 2022 15:27:50 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9C651353E
+	for <lists.iommu@lfdr.de>; Thu, 28 Apr 2022 15:34:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 66219401C5;
-	Thu, 28 Apr 2022 13:27:49 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 625BC83267;
+	Thu, 28 Apr 2022 13:34:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K5W3Cb0GyOzw; Thu, 28 Apr 2022 13:27:48 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id J2zeCBPLnMyB; Thu, 28 Apr 2022 13:34:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8AB1940B8A;
-	Thu, 28 Apr 2022 13:27:48 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7DE66831AE;
+	Thu, 28 Apr 2022 13:34:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 58BCFC002D;
-	Thu, 28 Apr 2022 13:27:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F3BEC0081;
+	Thu, 28 Apr 2022 13:34:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C4A7C002D
- for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 13:27:46 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 864E8C002D
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 13:34:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0631D40A63
- for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 13:27:46 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 73186401C5
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 13:34:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6uearyVcWU3O for <iommu@lists.linux-foundation.org>;
- Thu, 28 Apr 2022 13:27:45 +0000 (UTC)
+ with ESMTP id 9CUmtQw9vnRu for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Apr 2022 13:34:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 25EBD401C5
- for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 13:27:44 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id C602768C7B; Thu, 28 Apr 2022 15:27:38 +0200 (CEST)
-Date: Thu, 28 Apr 2022 15:27:38 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Stefano Stabellini <sstabellini@kernel.org>
-Subject: Re: [PATCH] swiotlb-xen: fix DMA_ATTR_NO_KERNEL_MAPPING on arm
-Message-ID: <20220428132737.GA13999@lst.de>
-References: <20220423171422.1831676-1-hch@lst.de>
- <alpine.DEB.2.22.394.2204261605420.915916@ubuntu-linux-20-04-desktop>
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7E60E40BAE
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Apr 2022 13:34:18 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 78C7F374; Thu, 28 Apr 2022 15:34:15 +0200 (CEST)
+Date: Thu, 28 Apr 2022 15:34:14 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RESEND PATCH v8 00/11] Fix BUG_ON in vfio_iommu_group_notifier()
+Message-ID: <YmqX1kXee3FGGhXf@8bytes.org>
+References: <20220418005000.897664-1-baolu.lu@linux.intel.com>
+ <YmpfFA1iIQyGBipX@8bytes.org> <20220428115411.GA8364@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2204261605420.915916@ubuntu-linux-20-04-desktop>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: jgross@suse.com, iommu@lists.linux-foundation.org,
- xen-devel@lists.xenproject.org, Rahul Singh <Rahul.Singh@arm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20220428115411.GA8364@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,14 +65,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Apr 26, 2022 at 04:07:45PM -0700, Stefano Stabellini wrote:
-> > Reported-by: Rahul Singh <Rahul.Singh@arm.com>
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> 
-> Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+On Thu, Apr 28, 2022 at 08:54:11AM -0300, Jason Gunthorpe wrote:
+> Can we get this on a topic branch so Alex can pull it? There are
+> conflicts with other VFIO patches
 
-Do you want to take this through the Xen tree or should I pick it up?
-Either way I'd love to see some testing on x86 as well.
+Right, we already discussed this. Moved the patches to a separate topic
+branch. It will appear as 'vfio-notifier-fix' once I pushed the changes.
+
+Regards,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
