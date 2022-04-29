@@ -1,78 +1,192 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FAF514DAE
-	for <lists.iommu@lfdr.de>; Fri, 29 Apr 2022 16:41:14 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C97D1514D3F
+	for <lists.iommu@lfdr.de>; Fri, 29 Apr 2022 16:35:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9900984034;
-	Fri, 29 Apr 2022 14:41:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7AC80416F3;
+	Fri, 29 Apr 2022 14:35:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5RZBic6Zw0Lv; Fri, 29 Apr 2022 14:41:12 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pP5bwI8wVLIx; Fri, 29 Apr 2022 14:35:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B5F5D84029;
-	Fri, 29 Apr 2022 14:41:12 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 52C0C416B6;
+	Fri, 29 Apr 2022 14:35:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A8E7C007C;
-	Fri, 29 Apr 2022 14:41:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 37E55C002D;
+	Fri, 29 Apr 2022 14:35:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 93624C002D
- for <iommu@lists.linux-foundation.org>; Fri, 29 Apr 2022 14:41:10 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DCB7AC002D
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Apr 2022 14:35:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7E88984034
- for <iommu@lists.linux-foundation.org>; Fri, 29 Apr 2022 14:41:09 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id C9E2983FF9
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Apr 2022 14:35:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=oracle.com header.b="bw9U9Xzq";
+ dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com
+ header.b="rj7AM6x0"
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sx3twWccw6jI for <iommu@lists.linux-foundation.org>;
- Fri, 29 Apr 2022 14:41:08 +0000 (UTC)
+ with ESMTP id S2odjTtbshWf for <iommu@lists.linux-foundation.org>;
+ Fri, 29 Apr 2022 14:35:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 861F98402E
- for <iommu@lists.linux-foundation.org>; Fri, 29 Apr 2022 14:41:08 +0000 (UTC)
-X-UUID: cda3e8c13f17461cb2f6e0565da19b56-20220429
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:2b434df3-0d3f-420c-8f28-a5de4d04bc35, OB:0,
- LO
- B:0,IP:0,URL:8,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:-12
-X-CID-META: VersionHash:faefae9, CLOUDID:686afbc6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: cda3e8c13f17461cb2f6e0565da19b56-20220429
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <yf.wang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1742339527; Fri, 29 Apr 2022 22:41:00 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 29 Apr 2022 22:40:59 +0800
-Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Fri, 29 Apr 2022 22:40:58 +0800
-To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>, "Will
- Deacon" <will@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "open
- list:MEDIATEK IOMMU DRIVER" <iommu@lists.linux-foundation.org>, "moderated
- list:MEDIATEK IOMMU DRIVER" <linux-mediatek@lists.infradead.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>, "open
- list" <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] iommu/mediatek: Enable allocating page table in normal
- memory
-Date: Fri, 29 Apr 2022 22:34:10 +0800
-Message-ID: <20220429143411.7640-3-yf.wang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220429143411.7640-1-yf.wang@mediatek.com>
-References: <20220429143411.7640-1-yf.wang@mediatek.com>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2143E83FF8
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Apr 2022 14:35:55 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TEMnh3015535;
+ Fri, 29 Apr 2022 14:34:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=RJmmG3BYjPzHehvknRwjAVB65JKr02OLbd+DCEJgyCU=;
+ b=bw9U9Xzq43Ob+L2vYRqSQmY32/E0Xycl3ZfMHswk1heRkHlCehbHdb1EihRXGHn9Gx7a
+ 4fN+QZ0PJFLQ8VEMB648VO5nb+R/60LC2r8mfpln80KIxS1J7u0MlMwnGkBH9gQcVJNV
+ /279ypqNv8zu7pf0Bzry1Ge7DrlsCDcsZDpc9Bqk6r0tvHajlnoGdH1c8HSdwxKZW/N+
+ amulSOlEzpDRKyYHmmGQCSy+9Ad/9P5X2UKifVmeky1Y62a0yaxFKfJmkAuz0nBkBS8B
+ RXRSp++e2eE5ns45LOsZzFovg9c3IpYfBqVuxsF08Td26N8lJ4T47n6nm1ffng0fs652 Gw== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb9axvmg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Apr 2022 14:34:34 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23TEGHtv008735; Fri, 29 Apr 2022 14:34:33 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fm7w831by-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Apr 2022 14:34:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g8GacELLuUX/ryn7RQhsX5tzRYy4QkutO5L5sgMrUH0f0cXGhdF2+QG0C4EmDglcjalFMKJ/xSOCxCrISys2tLbb9FWQ5LeWewynSJOs/COB9BpZt1iuv4ZhW02+pqTzJA7dtIt6TJbr+W9CqkSIX54kxT6IUPMgiIdVfwj8kPw8vm+VlzE6pD9+d1TJ3qohxZdtnlDjSVpswztjZLIw8zXcM7nJLxjYBvmQtPWNAF6eFcWRUborFpIuTVSA917Lbd73w/zw9m++PVIWwaN7dCZGhpoArvmJCowr5Z2ogo9JSzD9nYGXqDZt0pa32k47N6YjUlW7r0ReRtnfw9lZ4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RJmmG3BYjPzHehvknRwjAVB65JKr02OLbd+DCEJgyCU=;
+ b=mXaFiONb8F4JL1Y821Z6LwY80BYm6zOdach5RsW+qirahHK0ep6mmJs4FUSLiTaai8O/wSu+JO/xnh6OXI8yeJpoBp5UmRR7WHA02Ct9JesSxB0rlmUGhiobi5yFCR1t/X3Z+A+tpmsQpbz37Sz1VwCCBElm0W3aSGp0WnwtzbNnmwfjmcGNTzw7zWlXCOnkN5JQ9oD9fsE8UWcr28y14BhENPspAuI6T73IRIxdPow9LLiCw2ofwy7ZJC0vEjCDIFbmnQc9JpODBHhvWQBVprfTOxDhmjiTgxR9rhqqE2pvNdzWSxCn16MOA3yaGr6R7/+FcVR/EMsvFYQFR/ARbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RJmmG3BYjPzHehvknRwjAVB65JKr02OLbd+DCEJgyCU=;
+ b=rj7AM6x0/2s8EvglFony8su7ui6C40eaQy1/bDMmVPJpcPSpdfR+hdGiEztJ9gPN8Wc1V5wlHbvKt9d1sDGLjGG/dYpSlcPKMi+dAuMP5JppVDJ7O/8dDZrDYlArhxqAct0C8PMlBDaOBVuEpFTsUU/qm5rLWphW71WijNyDE8Y=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by CY4PR10MB1735.namprd10.prod.outlook.com (2603:10b6:910:a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Fri, 29 Apr
+ 2022 14:34:30 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d%5]) with mapi id 15.20.5206.013; Fri, 29 Apr 2022
+ 14:34:30 +0000
+Message-ID: <8fab5fd6-5311-f282-ef59-3325cee0cdb7@oracle.com>
+Date: Fri, 29 Apr 2022 15:34:23 +0100
+Subject: Re: [PATCH RFC 13/19] iommu/arm-smmu-v3: Add feature detection for
+ BBML
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>
+References: <20220428210933.3583-1-joao.m.martins@oracle.com>
+ <20220428210933.3583-14-joao.m.martins@oracle.com>
+ <8e897628-61fa-b3fb-b609-44eeda11b45e@arm.com>
+ <fdb44064-c4ab-9bd1-f984-e3772b539c13@oracle.com>
+ <27dc8d16-5e10-ae13-d91f-bc7826d34af1@arm.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+In-Reply-To: <27dc8d16-5e10-ae13-d91f-bc7826d34af1@arm.com>
+X-ClientProxiedBy: LO4P123CA0155.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:188::16) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-X-MTK: N
-Cc: wsd_upstream@mediatek.com, Libo Kang <Libo.Kang@mediatek.com>,
- Yunfei Wang <yf.wang@mediatek.com>, stable@vger.kernel.org,
- Ning Li <ning.li@mediatek.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3beaf30d-a688-40f8-8003-08da29ed5f0f
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1735:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR10MB1735C36C21C40EABB3D7F0EABBFC9@CY4PR10MB1735.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QWUNRZMY7dJRAyDqBJRr2uyUpogSNRyJjhJcU1Ry7yQoAdq3x1fg5/W3ATty7Iy9e20PIi7QtQsxqv7z7GkNOXdyzjS6aiViu/mNDa3UW2sKdppStQIvRdcfXqzNg0hLJJeSWfc3GgRguWq9b7re/8+E8WYpjNiS4Qf3KWytWJ7EZq3gBXSEQAYI5fm1c2c1zb9bELBJkPCGjCFuTD2+KAaU2RIwTxcDOFk75AaWthI97JxvemizFQPBpULi8QVDTpFAqNhVLinZiIAkiZxby9s49wecXI/IAoBjwLx4/m95ULgYq42lCylbVSy9O1K/WIrKonHoUTfbKdns0lT9agHrRaA84YrFLVnruby8+G6L2GWANlgVmynTpWozQefntnlp8NPh8M11frEQtryPlHBiQ9/BhFlprt17aWCetaitJH3TKnonKasNRitPRUDj+fifvTDU+yY5wNqS21R418Odf1w67crKUu0n2HldFK+lqaVe6aEGDpgVrQT/J75h1j6BeQEux5mk75WfC7gN2hBjL0zCAD4o+rRbYinDvQ7govS42Wf6ma1t0R6ZHxp7klWex5+lU137Vhx/dpFFuH0pIUtonCOVeVTOWYsZoNk6+KDN/k6evf8wzit1B+XUDdYTPsEenlUyzY41T+T26Zsyn8Htjq7vap+49pwQFN0awGqljH9lsJjQ/uGdEa7KN/YzO1RZ+qdRhr6dBo2aoA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6486002)(2906002)(6666004)(38100700002)(31696002)(86362001)(5660300002)(6512007)(83380400001)(26005)(53546011)(7416002)(8936002)(508600001)(6506007)(31686004)(316002)(66556008)(186003)(4326008)(66476007)(8676002)(66946007)(2616005)(6916009)(54906003)(36756003)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qk44bTByTDk3blhFZ3NveEJqQVdVcVZZc2pRQ3lkZm5kMUM4cSttNUFPbDAx?=
+ =?utf-8?B?TEZuYU13d2hHNWdSTU0reGdPMXpFOVZmVW93aURaWmN6cnh2ZTRFa01LOEVI?=
+ =?utf-8?B?bklxUE1lNkVsTHRzb05CRzlFanVPV0VCQWhSS0lpZ1NqaFVaUStkL3JBRUhD?=
+ =?utf-8?B?d3R4Ti8zdUY2QStmVHpoK0Zsb2NyVVRxWnRrOVBxS3pzWnlScHIwM05lSmZm?=
+ =?utf-8?B?QWd0UTBHS2FCNGpERzgyMEQvM3daUE1Jcnd4cW5LOW51dXMrV29WWms4SHRu?=
+ =?utf-8?B?RlVYZGxuNkMvNnBwS3VNdzJJUzBXN0hoK3lTTzVzbTRrVDR2bHNiOFpVVWI1?=
+ =?utf-8?B?RDJrUDFvNzJSRFRZQWNFQ1JyYjRPTDFPT2JRT2NQdHRDNFNnQmFGL1BORkht?=
+ =?utf-8?B?N1hXaEF1cVVKM3B3UWhnRElqdlVnQ3NrNVFXSC9HWE1iNk9EbDVJdWdzNmtP?=
+ =?utf-8?B?QTMyck9wa1hEWUFsN0hqL0ZCcDdZOVNpZVRUYklhZjJEelBtZkZ4Z1J2NHRV?=
+ =?utf-8?B?alY4azZrVTJEUit1aUR4QVozb2NlZWUzOGxLcGVYOHFUd0hCZFVQd2xwdlkv?=
+ =?utf-8?B?SkN2NEJueGNOa0Z4TU5pSlkrNEl0Y25Md1JlSG9iaHp6QnpveWFrb0xBeWMz?=
+ =?utf-8?B?OXUzaXhLaXNsdmtjaEFVQ3FmdWRBaGJSY0E5WUdBL1hpNUNXUVFGMzA1dENx?=
+ =?utf-8?B?RG8ybjV5bHN3QU13dUZUdStMMnZUSXdhTFZnQ2VxT0lad3piaktWcVMrUHBB?=
+ =?utf-8?B?bkozdEhFbVdaVmZyb28xTHRubHhYSTVkYTZZVFJjd0p3ODJiOXkwV2tEakln?=
+ =?utf-8?B?K3RqcjRGSG1UT1dLTWRpb3g3WUJrZ2dETmRBV2ZaRUh6dnNNdVFKQUhMbS92?=
+ =?utf-8?B?VEkvRHl3RHNTNGRqT3V2ZkpOQ2NacWZqUkNSaHJIZFMzRjFCT2dvS3grQk5s?=
+ =?utf-8?B?bjBmbzUvSGZiNElCcUI3NlVrbGgzZ3RZZENFMFFRbVBlS0YyU3JJcFQ3SDND?=
+ =?utf-8?B?RlhRanBFOWlvRE1udkJZdWp4TERYSkEwOVlVM2UwNFo0TkM5Ujd5Y0taL1hQ?=
+ =?utf-8?B?eXAwL2dQcWN3bWNTdFVpRkd5WU1ZU3lCNHgwV281dW1xc0l0NEFzS1hMRGNK?=
+ =?utf-8?B?VitIcG5LQzVlRER4WFZVWldJeWFkdnh3R2t5a2dOYTlxdDdlbno1enF5b3lQ?=
+ =?utf-8?B?QlBENXMrT3ZVdjk1cE1jQzl4YlNnV3F2VFVDb0dwNEMybzhQRjFxVDdsSXYw?=
+ =?utf-8?B?bE9mbUF1TzdGbGhJd0FWbEw1NkprOCtSd3NIRDg0Y3hVaENSMTI4ZEU5b1Ev?=
+ =?utf-8?B?eU5VRTVuNlNOZ0VZU3NkRDNIeWRsaVFGYnJmOE90aUk0TUI5elRRNTFQMDJ4?=
+ =?utf-8?B?TXBYMXd5cFl6eXRyY1haaE1nTGdYcW4rcWJubGtxZmVpVVRxL2ZscFM3WnE0?=
+ =?utf-8?B?eDl5SStRWkhVWTNva1BtLytubE1uSzB6RWFQdHNST2hNSFBzeU80YWVDaTJF?=
+ =?utf-8?B?enRtT3VRdXhhenRuVkE2NzlTemJBUXI0dm9sSmgrMmdQRHBjUHpENmV6cEdJ?=
+ =?utf-8?B?amhaY3pRVUkySmI4TGZkVWJ0STY1Vmd3TG0rYzQvMWpjS2hWS3FUdDVXa1Bw?=
+ =?utf-8?B?ZzAybGNHTzJyVDZrVkYyRnZsRHkrS2FCRHdPNUh0REpLVkhvSnNHR2JzelBI?=
+ =?utf-8?B?bmd6K2QwMUJ2RTViNHVxLys1VFovUktRRGNEdWsyQ1podXFyV1RiWldudlVu?=
+ =?utf-8?B?eHNzaDFRSzltOVFYb0RubUZkVHF0SytDd25hUVI3RnliTjFCN1NMTkVBbFo2?=
+ =?utf-8?B?OEx6aVh5OGxUd0ZENjA1bGVka2FVUzlhNGU0NjFVaGdQNzZyVnQ4SzJJcE5B?=
+ =?utf-8?B?R3pGbzlOdTlabG5jcTA0alBRaHU3WGlyQzBpM3NmT0RxWHFQVnZtVE1ia05K?=
+ =?utf-8?B?QnFKYmRkY0NjVVNBN29tWU4vTXdmZzJsQkQ3TzRNeE81WklvM1UrYi9hWjBX?=
+ =?utf-8?B?WisrbUxpWEtnaFRLYU1DYmF2K04reU1jVnhlT2hETTFjZkZXc1k1SHBNTUFj?=
+ =?utf-8?B?bmRrQ2U5UUc2QmxlTUxSS1Yrb1B5bFZqU2hyZXNURGdZYWkrTndMVUtmM2Vz?=
+ =?utf-8?B?dGRqangwMHhIekVLblhqcXJ5aUJQeVhMKzd3dFFLdnFncW1haDdtOE43L1NT?=
+ =?utf-8?B?QzBYNGRCbGI2b2lRWWR6MmZQQlp4ejhuc0F0NGZoODFRQjVWa3ZrdXA0UCto?=
+ =?utf-8?B?S3cvSGpNaUs3U2svdjI5Q09hMG5GMUoxd3R3aDJLR3pPMEpteE9yMGQxTHJ5?=
+ =?utf-8?B?NDZQcEtKNVcySmZ5LzNuMXZyQ3NoaUo0dXhpUktnZ01ud3Z4YStMa3dVRlFU?=
+ =?utf-8?Q?OlLLl1kdxKMO5Xu8=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3beaf30d-a688-40f8-8003-08da29ed5f0f
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2022 14:34:30.7685 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wPtyzF617AFznJWZjhqBlsnRlWACn3VRL8vUz8kbD6eFON2/UAAMpW/hQ8LrohTCAlDOZ7kcWuNo24VRloQpwiGwHRrVepgadG8qmbN7trs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1735
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
+ definitions=2022-04-29_05:2022-04-28,
+ 2022-04-29 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=999
+ malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204290080
+X-Proofpoint-ORIG-GUID: hvFy4VHRBExNq8VhwPpnq_zwWeMIEQit
+X-Proofpoint-GUID: hvFy4VHRBExNq8VhwPpnq_zwWeMIEQit
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Kevin Tian <kevin.tian@intel.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, iommu@lists.linux-foundation.org,
+ Alex Williamson <alex.williamson@redhat.com>, Will Deacon <will@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,60 +199,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: "yf.wang--- via iommu" <iommu@lists.linux-foundation.org>
-Reply-To: yf.wang@mediatek.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yunfei Wang <yf.wang@mediatek.com>
+On 4/29/22 13:26, Robin Murphy wrote:
+> On 2022-04-29 12:54, Joao Martins wrote:
+>> On 4/29/22 12:11, Robin Murphy wrote:
+>>> On 2022-04-28 22:09, Joao Martins wrote:
+>>>> From: Kunkun Jiang <jiangkunkun@huawei.com>
+>>>>
+>>>> This detects BBML feature and if SMMU supports it, transfer BBMLx
+>>>> quirk to io-pgtable.
+>>>>
+>>>> BBML1 requires still marking PTE nT prior to performing a
+>>>> translation table update, while BBML2 requires neither break-before-make
+>>>> nor PTE nT bit being set. For dirty tracking it needs to clear
+>>>> the dirty bit so checking BBML2 tells us the prerequisite. See SMMUv3.2
+>>>> manual, section "3.21.1.3 When SMMU_IDR3.BBML == 2 (Level 2)" and
+>>>> "3.21.1.2 When SMMU_IDR3.BBML == 1 (Level 1)"
+>>>
+>>> You can drop this, and the dependencies on BBML elsewhere, until you get
+>>> round to the future large-page-splitting work, since that's the only
+>>> thing this represents. Not much point having the feature flags without
+>>> an actual implementation, or any users.
+>>>
+>> OK.
+>>
+>> My thinking was that the BBML2 meant *also* that we don't need that break-before-make
+>> thingie upon switching translation table entries. It seems that from what you
+>> say, BBML2 then just refers to this but only on the context of switching between
+>> hugepages/normal pages (?), not in general on all bits of the PTE (which we woud .. upon
+>> switching from writeable-dirty to writeable-clean with DBM-set).
+> 
+> Yes, BBML is purely about swapping between a block (hugepage) entry and 
+> a table representing the exact equivalent mapping.
+> 
+> A break-before-make procedure isn't required when just changing 
+> permissions, and AFAICS it doesn't apply to changing the DBM bit either, 
+> but as mentioned I think we could probably just not do that anyway.
 
-Add the quirk IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT support, so that
-level 2 page table can allocate in normal memory.
-
-Signed-off-by: Ning Li <ning.li@mediatek.com>
-Signed-off-by: Yunfei Wang <yf.wang@mediatek.com>
-Cc: <stable@vger.kernel.org> # 5.10.*
----
- drivers/iommu/mtk_iommu.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 6fd75a60abd6..27481f562df7 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -118,6 +118,7 @@
- #define WR_THROT_EN			BIT(6)
- #define HAS_LEGACY_IVRP_PADDR		BIT(7)
- #define IOVA_34_EN			BIT(8)
-+#define PGTABLE_L2_PA_35_EN		BIT(9)
- 
- #define MTK_IOMMU_HAS_FLAG(pdata, _x) \
- 		((((pdata)->flags) & (_x)) == (_x))
-@@ -401,6 +402,9 @@ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom,
- 		.iommu_dev = data->dev,
- 	};
- 
-+	if (MTK_IOMMU_HAS_FLAG(data->plat_data, PGTABLE_L2_PA_35_EN))
-+		dom->cfg.quirks |= IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT;
-+
- 	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_4GB_MODE))
- 		dom->cfg.oas = data->enable_4GB ? 33 : 32;
- 	else
-@@ -1038,7 +1042,8 @@ static const struct mtk_iommu_plat_data mt2712_data = {
- 
- static const struct mtk_iommu_plat_data mt6779_data = {
- 	.m4u_plat      = M4U_MT6779,
--	.flags         = HAS_SUB_COMM | OUT_ORDER_WR_EN | WR_THROT_EN,
-+	.flags         = HAS_SUB_COMM | OUT_ORDER_WR_EN | WR_THROT_EN |
-+			 PGTABLE_L2_PA_35_EN,
- 	.inv_sel_reg   = REG_MMU_INV_SEL_GEN2,
- 	.iova_region   = single_domain,
- 	.iova_region_nr = ARRAY_SIZE(single_domain),
--- 
-2.18.0
-
+Interesting, thanks for the clarification.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
