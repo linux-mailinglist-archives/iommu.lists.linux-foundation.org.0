@@ -1,69 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79388516C31
-	for <lists.iommu@lfdr.de>; Mon,  2 May 2022 10:38:22 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6FD516C2F
+	for <lists.iommu@lfdr.de>; Mon,  2 May 2022 10:38:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A2C82404CA;
+	by smtp4.osuosl.org (Postfix) with ESMTP id 72A664086B;
 	Mon,  2 May 2022 08:38:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bWqT0buwbT6Y; Mon,  2 May 2022 08:38:18 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ySggKcUc1n52; Mon,  2 May 2022 08:38:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6CE14403FB;
-	Mon,  2 May 2022 08:38:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3E6F540861;
+	Mon,  2 May 2022 08:38:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2ECA8C002D;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 644BDC0084;
 	Mon,  2 May 2022 08:38:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E27ACC0039
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DBA1DC002D
  for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 08:38:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id DF2C860B86
+ by smtp4.osuosl.org (Postfix) with ESMTP id B9070404F7
  for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 08:38:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=quicinc.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yAp4SQxvaBJ5 for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4DGHGmDJuWbO for <iommu@lists.linux-foundation.org>;
  Mon,  2 May 2022 08:38:14 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 5E92460B62
- for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 08:38:14 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 106824035E
+ for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 08:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
  t=1651480694; x=1683016694;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=O9Bm4+VM0hSsOodPChUSKIHx37h49GrPwg9RzKLBxOY=;
- b=CmQPXA3xEtaU7ZbBNen9K+jEP2mAjbPb4KbUHkC+O84fQ9QC4mJt1M9P
- +hqu35r8axmfDYmli6MtkY1D+FdCKZ42ozpC/PfDzw7raq/j+tZr8ayN7
- owpGo2YRO0Kx/WnQyryV/R1IDm3+GH1uAnJir0kCw/fymOi8oIAzvLL2w U=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 02 May 2022 01:38:14 -0700
+ bh=4sArmmPqK1fpsAra+ctcw1Mg8/kPFO/JwQ40cELNy00=;
+ b=kdglfGdJqDlwkF94djI3Dp5IbVYmLdgQ8212vXhLXDoxIkUSOxgonO9w
+ 13c11J2TIGuie/4buSlqcge9tWcgdNDPH2l6IgVeWjMh5vgYM5tlPd1Mu
+ AQ+C6gdPru8PZfE9kB5rs/HHhtrzlbw3JqNUCx83QoYmDk9MFSl6P7zzs 8=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 02 May 2022 01:38:13 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 02 May 2022 01:38:13 -0700
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 02 May 2022 01:38:12 -0700
 X-QCInternal: smtphost
 Received: from hu-rohiagar-hyd.qualcomm.com (HELO
  hu-sgudaval-hyd.qualcomm.com) ([10.213.106.138])
  by ironmsg02-blr.qualcomm.com with ESMTP; 02 May 2022 14:07:50 +0530
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
- id 3100F3BE8; Mon,  2 May 2022 14:07:49 +0530 (+0530)
+ id 9621E3BE9; Mon,  2 May 2022 14:07:49 +0530 (+0530)
 From: Rohit Agarwal <quic_rohiagar@quicinc.com>
 To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, ulf.hansson@linaro.org,
  agross@kernel.org, bjorn.andersson@linaro.org, adrian.hunter@intel.com,
  bhupesh.sharma@linaro.org
-Subject: [PATCH 2/4] mmc: host/sdhci-msm: Add compatible string check for sdx65
-Date: Mon,  2 May 2022 14:07:43 +0530
-Message-Id: <1651480665-14978-3-git-send-email-quic_rohiagar@quicinc.com>
+Subject: [PATCH 3/4] dt-bindings: arm-smmu: Add binding for SDX65 SMMU
+Date: Mon,  2 May 2022 14:07:44 +0530
+Message-Id: <1651480665-14978-4-git-send-email-quic_rohiagar@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1651480665-14978-1-git-send-email-quic_rohiagar@quicinc.com>
 References: <1651480665-14978-1-git-send-email-quic_rohiagar@quicinc.com>
@@ -89,26 +87,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add sdx65 SoC specific compatible string check inside qcom
-'sdhci-msm' controller driver.
+Add devicetree binding for Qualcomm SDX65 SMMU.
 
 Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
 ---
- drivers/mmc/host/sdhci-msm.c | 1 +
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mmc/host/sdhci-msm.c b/drivers/mmc/host/sdhci-msm.c
-index fd8b4a9..65661ad 100644
---- a/drivers/mmc/host/sdhci-msm.c
-+++ b/drivers/mmc/host/sdhci-msm.c
-@@ -2453,6 +2453,7 @@ static const struct of_device_id sdhci_msm_dt_match[] = {
- 	 */
- 	{.compatible = "qcom,qcs404-sdhci", .data = &sdhci_msm_v5_var},
- 	{.compatible = "qcom,sdx55-sdhci",  .data = &sdhci_msm_v5_var},
-+	{.compatible = "qcom,sdx65-sdhci",  .data = &sdhci_msm_v5_var},
- 	{.compatible = "qcom,sdm630-sdhci", .data = &sdhci_msm_v5_var},
- 	{.compatible = "qcom,sm6125-sdhci", .data = &sdhci_msm_v5_var},
- 	{.compatible = "qcom,sm6350-sdhci", .data = &sdhci_msm_v5_var},
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index da5381c..1f99bff 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -39,6 +39,7 @@ properties:
+               - qcom,sc8180x-smmu-500
+               - qcom,sdm845-smmu-500
+               - qcom,sdx55-smmu-500
++              - qcom,sdx65-smmu-500
+               - qcom,sm6350-smmu-500
+               - qcom,sm8150-smmu-500
+               - qcom,sm8250-smmu-500
 -- 
 2.7.4
 
