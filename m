@@ -1,74 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EFF5174B8
-	for <lists.iommu@lfdr.de>; Mon,  2 May 2022 18:43:58 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1EC517555
+	for <lists.iommu@lfdr.de>; Mon,  2 May 2022 19:04:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 75FD340A9E;
-	Mon,  2 May 2022 16:43:57 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A185A60F08;
+	Mon,  2 May 2022 17:04:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3el8xvp9r06U; Mon,  2 May 2022 16:43:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6FCBF40A79;
-	Mon,  2 May 2022 16:43:56 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id E3SlBodJ0WYF; Mon,  2 May 2022 17:04:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BB4A960F47;
+	Mon,  2 May 2022 17:04:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95E79C0084;
-	Mon,  2 May 2022 16:43:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 67BDEC007E;
+	Mon,  2 May 2022 17:04:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFE5FC0084
- for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 16:43:52 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1BCA8C002D
+ for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 17:04:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5F94740A90
- for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 16:43:51 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id E6E2E40A83
+ for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 17:04:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Urx8uasMzHnd for <iommu@lists.linux-foundation.org>;
- Mon,  2 May 2022 16:43:50 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5ADEB40133
- for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 16:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=cZaNmyA5wUJ1C28stjNbm+l6w8z51K+/m7PND4lK+88=; b=nwYcpRVoU+eYIdeAaVQw3FQw3Z
- ji1Zd+u30eNLLR2pXWT726Ec9iPdOYY+OOAM+AmJ4md2ka60o8HvD6xIyxqvbIcoFcpMcohULqEbJ
- nv2MOjb0Lo7Cpj0ciZFCqFPbl2d2AjCk1+smg94HyXDqhICEiV4Y0kdY9DOE565RpPaBGPVJLDUTw
- 2frLTJBf9t/QKKopXGznCkChsydW2y+kFwkdc7M149xr0oiUh7oQZvdXFhGj3VVsjb6IstHaeiFiv
- ai56Odxu9pkI+21qleyBiKEvHnqFDxMlpIDHG+DidUFnR90av7+kzjFy7e1Wqdnxhxs/7xU6f9uXk
- AJft8n/w==;
-Received: from [8.34.116.185] (helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nlZ99-001kgW-FN; Mon, 02 May 2022 16:43:39 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Russell King <linux@armlinux.org.uk>,
-	Arnd Bergmann <arnd@kernel.org>
-Subject: [PATCH 10/10] ARM/dma-mapping: merge IOMMU ops
-Date: Mon,  2 May 2022 09:43:30 -0700
-Message-Id: <20220502164330.229685-11-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220502164330.229685-1-hch@lst.de>
-References: <20220502164330.229685-1-hch@lst.de>
+ with ESMTP id fc6-AcsaE__h for <iommu@lists.linux-foundation.org>;
+ Mon,  2 May 2022 17:04:30 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
+ [209.85.160.48])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 5B7FB4064D
+ for <iommu@lists.linux-foundation.org>; Mon,  2 May 2022 17:04:30 +0000 (UTC)
+Received: by mail-oa1-f48.google.com with SMTP id
+ 586e51a60fabf-d6e29fb3d7so14824329fac.7
+ for <iommu@lists.linux-foundation.org>; Mon, 02 May 2022 10:04:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sZqvkkRDCdorFRZtCcuZ+8QHBB5xU6cFlN1q+kyC+GU=;
+ b=GGHYsPZhjgYutFAgnUUjRqsqsQTYsZspP3TWE22puTbkZFsePCeJe/Iajp3MJKq9EE
+ LG3cjWaGJY/jsi39x7mFu3j38bcAI2QZePZLUSIzjKkTSLmJR0MxfzMsmq2Oa3PBzthP
+ pUdt1neEmShqk2Rb+iJucKY3qUI/7gcfp+hCf2XjRw1DBqu1Au+Xb6NEN3cp3nK0tjvU
+ vAjELll/4b6SfaeeadPfbmsQcMG18q5MsZ0SwIbq41msvNtKiXV2eugs0dpyAsfjivO0
+ cqvOdVjQCJ7RF2YjDqAPRpYGOQPzFgBh7ZvEXYChAo6jZTt91QxedSrB8gfsWmAb9rdZ
+ bAhw==
+X-Gm-Message-State: AOAM531BZHhoTk5SsrDEnTEB9/HpuY41ryH0MaqbKw0epCvIJRGiD4hN
+ wV/xZex/vMbtY38aiSjQtQ==
+X-Google-Smtp-Source: ABdhPJw4D0yfe3Fz0McLxXba8QUskqPgAj+qjdP3d+lHF74ObtMt4NNeJRgeQ9fSvANifBABZ4ZBiA==
+X-Received: by 2002:a05:6870:4201:b0:e6:47c4:e104 with SMTP id
+ u1-20020a056870420100b000e647c4e104mr32155oac.257.1651511069314; 
+ Mon, 02 May 2022 10:04:29 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ m4-20020a056870194400b000e686d13883sm6038754oak.29.2022.05.02.10.04.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 May 2022 10:04:28 -0700 (PDT)
+Received: (nullmailer pid 1339087 invoked by uid 1000);
+ Mon, 02 May 2022 17:04:27 -0000
+Date: Mon, 2 May 2022 12:04:27 -0500
+From: Rob Herring <robh@kernel.org>
+To: Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: Re: [PATCH 1/4] dt-bindings: mmc: sdhci-msm: Document the SDX65
+ compatible
+Message-ID: <YnAPGwCHA66V6+NW@robh.at.kernel.org>
+References: <1651480665-14978-1-git-send-email-quic_rohiagar@quicinc.com>
+ <1651480665-14978-2-git-send-email-quic_rohiagar@quicinc.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Andrew Lunn <andrew@lunn.ch>, Andre Przywara <andre.przywara@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- linux-arm-kernel@lists.infradead.org,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <1651480665-14978-2-git-send-email-quic_rohiagar@quicinc.com>
+Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
+ bhupesh.sharma@linaro.org, will@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ adrian.hunter@intel.com, iommu@lists.linux-foundation.org, agross@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,113 +96,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Robin Murphy <robin.murphy@arm.com>
+On Mon, 02 May 2022 14:07:42 +0530, Rohit Agarwal wrote:
+> The SDHCI controller on SDX65 is based on MSM SDHCI v5 IP. Hence,
+> document the compatible with "qcom,sdhci-msm-v5" as the fallback.
+> 
+> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/mmc/sdhci-msm.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-The dma_sync_* operations are now the only difference between the
-coherent and non-coherent IOMMU ops. Some minor tweaks to make those
-safe for coherent devices with minimal overhead, and we can condense
-down to a single set of DMA ops.
-
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/arm/mm/dma-mapping.c | 37 +++++++++++++------------------------
- 1 file changed, 13 insertions(+), 24 deletions(-)
-
-diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index 10e5e5800d784..dd46cce61579a 100644
---- a/arch/arm/mm/dma-mapping.c
-+++ b/arch/arm/mm/dma-mapping.c
-@@ -1341,6 +1341,9 @@ static void arm_iommu_sync_sg_for_cpu(struct device *dev,
- 	struct scatterlist *s;
- 	int i;
- 
-+	if (dev->dma_coherent)
-+		return;
-+
- 	for_each_sg(sg, s, nents, i)
- 		__dma_page_dev_to_cpu(sg_page(s), s->offset, s->length, dir);
- 
-@@ -1360,6 +1363,9 @@ static void arm_iommu_sync_sg_for_device(struct device *dev,
- 	struct scatterlist *s;
- 	int i;
- 
-+	if (dev->dma_coherent)
-+		return;
-+
- 	for_each_sg(sg, s, nents, i)
- 		__dma_page_cpu_to_dev(sg_page(s), s->offset, s->length, dir);
- }
-@@ -1493,12 +1499,13 @@ static void arm_iommu_sync_single_for_cpu(struct device *dev,
- {
- 	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
- 	dma_addr_t iova = handle & PAGE_MASK;
--	struct page *page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
-+	struct page *page;
- 	unsigned int offset = handle & ~PAGE_MASK;
- 
--	if (!iova)
-+	if (dev->dma_coherent || !iova)
- 		return;
- 
-+	page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
- 	__dma_page_dev_to_cpu(page, offset, size, dir);
- }
- 
-@@ -1507,12 +1514,13 @@ static void arm_iommu_sync_single_for_device(struct device *dev,
- {
- 	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
- 	dma_addr_t iova = handle & PAGE_MASK;
--	struct page *page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
-+	struct page *page;
- 	unsigned int offset = handle & ~PAGE_MASK;
- 
--	if (!iova)
-+	if (dev->dma_coherent || !iova)
- 		return;
- 
-+	page = phys_to_page(iommu_iova_to_phys(mapping->domain, iova));
- 	__dma_page_cpu_to_dev(page, offset, size, dir);
- }
- 
-@@ -1536,22 +1544,6 @@ static const struct dma_map_ops iommu_ops = {
- 	.unmap_resource		= arm_iommu_unmap_resource,
- };
- 
--static const struct dma_map_ops iommu_coherent_ops = {
--	.alloc		= arm_iommu_alloc_attrs,
--	.free		= arm_iommu_free_attrs,
--	.mmap		= arm_iommu_mmap_attrs,
--	.get_sgtable	= arm_iommu_get_sgtable,
--
--	.map_page	= arm_iommu_map_page,
--	.unmap_page	= arm_iommu_unmap_page,
--
--	.map_sg		= arm_iommu_map_sg,
--	.unmap_sg	= arm_iommu_unmap_sg,
--
--	.map_resource	= arm_iommu_map_resource,
--	.unmap_resource	= arm_iommu_unmap_resource,
--};
--
- /**
-  * arm_iommu_create_mapping
-  * @bus: pointer to the bus holding the client device (for IOMMU calls)
-@@ -1750,10 +1742,7 @@ static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 		return;
- 	}
- 
--	if (coherent)
--		set_dma_ops(dev, &iommu_coherent_ops);
--	else
--		set_dma_ops(dev, &iommu_ops);
-+	set_dma_ops(dev, &iommu_ops);
- }
- 
- static void arm_teardown_iommu_dma_ops(struct device *dev)
--- 
-2.30.2
-
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
