@@ -1,84 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486055184D6
-	for <lists.iommu@lfdr.de>; Tue,  3 May 2022 15:02:35 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9772A5184DD
+	for <lists.iommu@lfdr.de>; Tue,  3 May 2022 15:02:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F117A40202;
-	Tue,  3 May 2022 13:02:33 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 23B1D60EB1;
+	Tue,  3 May 2022 13:02:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id prASBl8nW6k8; Tue,  3 May 2022 13:02:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id DDB10410A3;
-	Tue,  3 May 2022 13:02:32 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jcdfbN0Q1nJL; Tue,  3 May 2022 13:02:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2F7DC60E64;
+	Tue,  3 May 2022 13:02:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B316AC007E;
-	Tue,  3 May 2022 13:02:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 11D09C002D;
+	Tue,  3 May 2022 13:02:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CA9EFC002D
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:30 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D1C97C002D
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A98DB81A4E
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:30 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id BFB86404D8
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id j2VItkVMcvKL for <iommu@lists.linux-foundation.org>;
- Tue,  3 May 2022 13:02:29 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id WfjofNzH8Gsn for <iommu@lists.linux-foundation.org>;
+ Tue,  3 May 2022 13:02:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6EA0D81A6F
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:29 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id a21so19763682edb.1
- for <iommu@lists.linux-foundation.org>; Tue, 03 May 2022 06:02:29 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D4D854013A
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:43 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id gh6so33387727ejb.0
+ for <iommu@lists.linux-foundation.org>; Tue, 03 May 2022 06:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iV4tVGnh7QHG+PfLI7Q0mYHuyjPaEc/xG5BZIpO4pGA=;
- b=vlfeNENfF1eD8fgkOGVOtjFsvzln7tEDY/uEOryyt3IHcK5bc03CduITlrE+RmjT9t
- HkAcbdG/F1yq25CW01RMJG7ZegtpUArT99f7TXV4enR2D5bIaMgR0oSP347XArZCCdpS
- qGSVQMoY0pywrhjAmsy+EyIiVd3XrNGmKpA7wEeUYOj3/GPonpwV6l21NY2iA4ja9oML
- 7h3cupaTpNJ/0caFjvOLT2aAtApxXPpQt20omxMugYYxJRyy81Lq5aRFR8DbbG6dyOnM
- 90GXzqKSr8WPkPU3me/B2ilh5xwXh6CrlYYYdpjNUcY33g6ag+ddd5hhIfNbf8ogTk8i
- v/Lg==
+ bh=wjuyFMi3EftK+wExgb79hTBMB0k+0b/v8BwPvQxw7y4=;
+ b=ewo04wJHjJ26IyHukQuan08cFZWOZ7IDAC+rphPmISbWSJd0i7v3ydWkWRbJ4mr7Ir
+ oZY274wqWX45dwJ5aPdkSSK8pPqMMQo4ZOGhI9o5qQ2aDJ5qP0hdW/BlyBUw8jZwPs3d
+ SOFA6kOq+ru/zHs/BJjJT1nJpDCVqg8mRMSB1EYvyPpQQDymST5pAkIAzQLfhTv+fAwu
+ eThs6VpM6H8m0MkjAdQvsUEzXZa9ss9qkrkJz5tUBqMhJpEx63XHJZ9Z+9xgIwfijEuZ
+ /Fvtj3PsqngNq8kFBbxK0YvvreqgxpWJ5oRc82770+h+mdqefxw4D9hk4YSmX8vYz0fl
+ chIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=iV4tVGnh7QHG+PfLI7Q0mYHuyjPaEc/xG5BZIpO4pGA=;
- b=PuCdS9l7AUUsFOtwRxE0YynmLStuS04HIxjYwilbO8AAmBfzQOwF6VNm9UpJOSovQh
- NGxTGfP1EGMivF4a+wzsckR+d+pB+JWJjsOJku6wRUEx54d7ZRF6yZu9EV5OfyElC44F
- 04wZ7VbS718eSWImKu/9Hk3hh0e7Ql8Aib5TMIU1XxETchXuSRaxj30qO5KJO1y+9Yma
- 5thvDoTIR/xx81Q2XMN4sB0nIo/WeviieLuRZsIeMZzM7YBPd1odI7JvZKkPu8GB5lHO
- aIq0jH4opqKJSNUE7/QdYOGj/CwAesivv5wJ08EmcmX5sQaJX+9i/FoCs5hNE9kcaPu7
- zG8Q==
-X-Gm-Message-State: AOAM533E1Ewn7k/PGyeEpK51mznbbFreflJbjJ66CCxqV2FZYzV2i0WO
- MHYgw5TuldB7Q1GxlaIKx9G56A==
-X-Google-Smtp-Source: ABdhPJwIvyRvYCHNzuAJACjjuKhS9C3I9YB94dUMYFyGqf8a7sXjPP+2fhc+RFrOulXQwqT8A5V5tQ==
-X-Received: by 2002:a05:6402:5107:b0:427:ded9:9234 with SMTP id
- m7-20020a056402510700b00427ded99234mr4223009edd.275.1651582947612; 
- Tue, 03 May 2022 06:02:27 -0700 (PDT)
+ bh=wjuyFMi3EftK+wExgb79hTBMB0k+0b/v8BwPvQxw7y4=;
+ b=Adaw94/fB4q/G9b9MeZlMXtHINImiEim6lMk1bwaV4G1+vzVQyHsm69/2yYMqKId9Z
+ RwhoeAiES4UZFa5TLLNKDFzSsmcvp9fYvTdp0TWwdxw14ZQ/gOSG2GBla7LpgZjkj1qc
+ Wh0eAUUadzvLnZ0pm+GQuCqUtPRmvSdXcgpRDiiSWXupEyijaWW5epGYOjmSyKcb8Nfm
+ Z2qcnk1Rh4GnNAhQWz0WYgB1QxhOJATzncmOCM69YlSMdlcttQM+68ErMU2TKkiBF9nE
+ GnUIVw2Wr353ZcqFvpbfNEnEw94il9+YQKaq6oKtZD/rz5jRLiSOqaUoX3un/B+Zk+Ip
+ /d6g==
+X-Gm-Message-State: AOAM533GSlT8k2qPs8SEhdFD6gGw5iVnIJDrz9bEJ52kM78Gc/Vi7oDo
+ GQ9wUZnFO3ZuS95rFZfRCkQ1YA==
+X-Google-Smtp-Source: ABdhPJxWgTe6ERgukBkZ++ex9vxpB+SWDPBIHrtqfv1/46KOzrlx42JkXeG5wZwA4KLrDpdY8UXEeA==
+X-Received: by 2002:a17:907:c0d:b0:6f3:ed89:d9c with SMTP id
+ ga13-20020a1709070c0d00b006f3ed890d9cmr15463845ejc.502.1651582962080; 
+ Tue, 03 May 2022 06:02:42 -0700 (PDT)
 Received: from [192.168.0.203] (xdsl-188-155-176-92.adslplus.ch.
  [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- hg1-20020a1709072cc100b006f3ef214e72sm4579481ejc.216.2022.05.03.06.02.25
+ hz22-20020a1709072cf600b006f3ef214df2sm4600317ejc.88.2022.05.03.06.02.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 06:02:26 -0700 (PDT)
-Message-ID: <7dec1fb4-1803-838e-291f-10f56b9fe10e@linaro.org>
-Date: Tue, 3 May 2022 15:02:25 +0200
+ Tue, 03 May 2022 06:02:41 -0700 (PDT)
+Message-ID: <5ca8b4d2-5edc-0962-9b26-6701515a26cc@linaro.org>
+Date: Tue, 3 May 2022 15:02:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 4/7] dt-bindings: renesas,rcar-dmac: R-Car V3U is R-Car
- Gen4
+Subject: Re: [PATCH 5/7] dt-bindings: serial: renesas,hscif: R-Car V3U is
+ R-Car Gen4
 Content-Language: en-US
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Rob Herring <robh+dt@kernel.org>,
@@ -92,9 +92,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  <linux@roeck-us.net>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 References: <cover.1651497024.git.geert+renesas@glider.be>
- <e6e4cf701f3a43b061b9c3f7f0adc4d6addd4722.1651497024.git.geert+renesas@glider.be>
+ <dd734aaa4e5e0b32864b038b79eafe72907fb99f.1651497024.git.geert+renesas@glider.be>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <e6e4cf701f3a43b061b9c3f7f0adc4d6addd4722.1651497024.git.geert+renesas@glider.be>
+In-Reply-To: <dd734aaa4e5e0b32864b038b79eafe72907fb99f.1651497024.git.geert+renesas@glider.be>
 Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
  iommu@lists.linux-foundation.org, linux-i2c@vger.kernel.org,
@@ -121,9 +121,6 @@ On 02/05/2022 15:34, Geert Uytterhoeven wrote:
 > family.  Hence move its compatible value to the R-Car Gen4 section.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../devicetree/bindings/dma/renesas,rcar-dmac.yaml     | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
