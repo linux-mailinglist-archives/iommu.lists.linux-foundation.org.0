@@ -1,83 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9E05184BE
-	for <lists.iommu@lfdr.de>; Tue,  3 May 2022 15:01:53 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DEA5184CB
+	for <lists.iommu@lfdr.de>; Tue,  3 May 2022 15:02:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F11B8404D8;
-	Tue,  3 May 2022 13:01:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 79985404D8;
+	Tue,  3 May 2022 13:02:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id isRraujwPhpp; Tue,  3 May 2022 13:01:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0D3CA4013A;
-	Tue,  3 May 2022 13:01:50 +0000 (UTC)
+	with ESMTP id qwIZSW6QDutK; Tue,  3 May 2022 13:02:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 971BE4013A;
+	Tue,  3 May 2022 13:02:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E631DC002D;
-	Tue,  3 May 2022 13:01:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C7B6C002D;
+	Tue,  3 May 2022 13:02:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC26EC002D
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:01:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4AB57C007E
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9A7F841703
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:01:49 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 37E4260D4F
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EJLleESbi7f1 for <iommu@lists.linux-foundation.org>;
- Tue,  3 May 2022 13:01:48 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AVdp1libX7m2 for <iommu@lists.linux-foundation.org>;
+ Tue,  3 May 2022 13:02:05 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 83219416C2
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:01:48 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id t5so9126649edw.11
- for <iommu@lists.linux-foundation.org>; Tue, 03 May 2022 06:01:48 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1109F60D80
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 13:02:04 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id k23so33324272ejd.3
+ for <iommu@lists.linux-foundation.org>; Tue, 03 May 2022 06:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7Ds4LsGaaSrzpA9k9avFD90e+PqgmFVGpadAexhLvgE=;
- b=TdQOH2zo//QPttTudYGt81Z/yDrk3BSGIIjNieyYejqrMODsRAdwkCkxG18RvmueY6
- iHFaaqU2/gYGDutjRihcCZFaaai0E01p24AIiaL8R/CQ4n112uUATO3kkkVoKcptUI1o
- Sn+gCjKas+iRbrUB+31MZeSCs6QnEqo5T0yo0DWpz1TNP0IGP9LTJd26Fg74q/sFQWvX
- uIyzYpKYZZYkVDdC3nuHpXYj/+ApiO3w9x/b+9HpuFzGQOU0z9hI90Ah15PrgqYMaDbq
- BUwq10cb9/Nn050mB+f3Zn8of/wNnGLWFGnXKAgfBOQa17weFRGlsp2Fbxwgy7bU7bDU
- +yWw==
+ bh=wjuyFMi3EftK+wExgb79hTBMB0k+0b/v8BwPvQxw7y4=;
+ b=oOvQhBmRi4yPVLzZLUCYGs+BVsIOuNPmOP7zuAv3LXMD5ryY+jr8t0qhKx9q+F29WQ
+ BFUMY9tC0t8775IV0zq6ZGatAqZ8vb+XQPoD5u8WlFYXY9Uh+p91xkYsKG1i6AMM+dea
+ QjUYneOUmX+FKsXrxfDeRI0ClPGkjLAM7MA2UhERQfXsNikqp61+ZKvyowpZMAVC1kcc
+ IE+J4noOuFayzwmzRnfXx3bb+i4h+LEFOJSnIgygLWD/q1uU/+Jj/KuwQbLrnbyGdnyL
+ bI29AB4FWa5i4EPxR51jt+dA0JJVySxiPs/gI4T72agQLr11VJ9FxB4fZ4IyFzsXoqlV
+ 6vHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7Ds4LsGaaSrzpA9k9avFD90e+PqgmFVGpadAexhLvgE=;
- b=o1wTbO9tIDkU5zcAoVv7bPxbc2vzcEeruvkmz61TaZtccePsmVWNmMsD9KOAp/ys6x
- cwnMd0gO/X4/mk9SDRdHOWELdCsaancX44Db7n2clprgDRBClT1PMmJQOVUrHmBUWLAc
- hPFSEMxLLH5mwfSAJcVAjZmTl9RCAW+urEROuCCdUhm2Wa0nWJ77L2Qjz8tOrf/WkEX7
- Hu2cf71gvLwnnKhCohmY9gWgZ1uOqDh1847Mh/vFW7OBt36bh8F00Oiw08gEdS9Fxk7B
- Gg2K3yVcM41oQ49ZGHVKaulEzU2yR1KR4TlFzCOfanfaiLIA2u5QPZWBRqBB4W1sZDVN
- dTLg==
-X-Gm-Message-State: AOAM5306oRGQE3gzM85RIUf0yrXajnnj6+YA8mdvxA+3BVuiycItwjkT
- 83vprSRgSZnzbf+eYeXPkdvcBQ==
-X-Google-Smtp-Source: ABdhPJzXf9VagfCKbioCX60kpRy8+OaEk9krJsm0GbbDF+wR9UXDeBuW7D0hkkgWHFhOjR95J6X9Hg==
-X-Received: by 2002:a05:6402:e99:b0:41d:11f2:85e0 with SMTP id
- h25-20020a0564020e9900b0041d11f285e0mr17473687eda.339.1651582906512; 
- Tue, 03 May 2022 06:01:46 -0700 (PDT)
+ bh=wjuyFMi3EftK+wExgb79hTBMB0k+0b/v8BwPvQxw7y4=;
+ b=FDtITZHEGAeMe2/3mKkv5L+gUxs0zY/6DpYdY7fT1C3s/C02MxyIi2AiyKkHQGOz34
+ jWk9zKiqb1hnga1XkFYptZ6Sizb3Lxw+wu1HJV33zd1LaMP35khyC64qeVXbfG93Pfd3
+ 4W1AxLVMBvwCz45FPsRdS3ree7pCx8EqYfUdQH+VjVYP/D02S9HIsF4uyfX4PkUIEzTF
+ PhrZsy1MrcMruPUMsZ95WK145YqpSWJxFNbA4py7Qx5z4dbanNAbs3C7xZdl/qSrnhxZ
+ 59OKjwEP+z+FOBEf/KuP2Pcak/5qWZxLg+ho5wjqW7B4/4V1alpIW8hg20596WKLW0qR
+ THGg==
+X-Gm-Message-State: AOAM530722PvOMtCWzS1G1pD4pP0+2rGZjO85C9+7hM/rDDJa33jbjpl
+ T+MovEBuF/bJUPUQ1PHK9LigeA==
+X-Google-Smtp-Source: ABdhPJxwG4sLoDPShcHTI6lbe5nIz0+kudelkrlQymVFFYb3TDP1oKvJEVUWereTSbkBgJoKAqV1MA==
+X-Received: by 2002:a17:907:6e28:b0:6f4:6428:6ee8 with SMTP id
+ sd40-20020a1709076e2800b006f464286ee8mr6584030ejc.608.1651582918486; 
+ Tue, 03 May 2022 06:01:58 -0700 (PDT)
 Received: from [192.168.0.203] (xdsl-188-155-176-92.adslplus.ch.
  [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- e12-20020a170906844c00b006f3ef214e3esm4573792ejy.164.2022.05.03.06.01.44
+ jz26-20020a17090775fa00b006f3ef214e49sm4580080ejc.175.2022.05.03.06.01.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 06:01:45 -0700 (PDT)
-Message-ID: <8adbf80b-f057-c915-954a-12bd07ee7cc8@linaro.org>
-Date: Tue, 3 May 2022 15:01:44 +0200
+ Tue, 03 May 2022 06:01:57 -0700 (PDT)
+Message-ID: <b854c7b1-b0b5-b921-e6bf-ee88472d2f66@linaro.org>
+Date: Tue, 3 May 2022 15:01:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/7] dt-bindings: i2c: renesas,rcar-i2c: R-Car V3U is
+Subject: Re: [PATCH 3/7] dt-bindings: iommu: renesas, ipmmu-vmsa: R-Car V3U is
  R-Car Gen4
 Content-Language: en-US
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -92,9 +92,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  <linux@roeck-us.net>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 References: <cover.1651497024.git.geert+renesas@glider.be>
- <a0402ff46027196953fe9c13f60576d40c5aea4c.1651497024.git.geert+renesas@glider.be>
+ <d351ca12724d5b306119bd8dcd9bfac09ba2a925.1651497024.git.geert+renesas@glider.be>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a0402ff46027196953fe9c13f60576d40c5aea4c.1651497024.git.geert+renesas@glider.be>
+In-Reply-To: <d351ca12724d5b306119bd8dcd9bfac09ba2a925.1651497024.git.geert+renesas@glider.be>
 Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
  iommu@lists.linux-foundation.org, linux-i2c@vger.kernel.org,
@@ -118,14 +118,9 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On 02/05/2022 15:34, Geert Uytterhoeven wrote:
 > Despite the name, R-Car V3U is the first member of the R-Car Gen4
-> family.  I2C on R-Car V3U also supports some extra features (e.g. Slave
-> Clock Stretch Select), which are supported by other R-Car Gen4 SoCs, but
-> not by any other R-Car Gen3 SoC.
-> 
-> Hence move its compatible value to the R-Car Gen4 section.
+> family.  Hence move its compatible value to the R-Car Gen4 section.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
