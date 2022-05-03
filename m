@@ -2,67 +2,64 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9942517E36
-	for <lists.iommu@lfdr.de>; Tue,  3 May 2022 09:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706B1517E38
+	for <lists.iommu@lfdr.de>; Tue,  3 May 2022 09:15:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 52D0B416BC;
-	Tue,  3 May 2022 07:15:40 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C5AA6416B6;
+	Tue,  3 May 2022 07:15:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6vmqApPdDne0; Tue,  3 May 2022 07:15:39 +0000 (UTC)
+	with ESMTP id iGl30lAkC8fJ; Tue,  3 May 2022 07:15:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1D5CB416B6;
-	Tue,  3 May 2022 07:15:39 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9C66E416BE;
+	Tue,  3 May 2022 07:15:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03BD5C002D;
-	Tue,  3 May 2022 07:15:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7551AC007E;
+	Tue,  3 May 2022 07:15:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A94CC002D
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 07:15:37 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 88C2CC002D
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 07:15:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1AFAD81D3A
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 07:15:37 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id BB2BB824CE
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 07:15:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uHHvw3KTgbeH for <iommu@lists.linux-foundation.org>;
- Tue,  3 May 2022 07:15:36 +0000 (UTC)
+ with ESMTP id hg5oliDgthzh for <iommu@lists.linux-foundation.org>;
+ Tue,  3 May 2022 07:15:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5894D81C58
- for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 07:15:36 +0000 (UTC)
-X-UUID: a928551e333d479583edebf8bafc71da-20220503
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0587381D3A
+ for <iommu@lists.linux-foundation.org>; Tue,  3 May 2022 07:15:43 +0000 (UTC)
+X-UUID: 64464b7eb79242ea9b02281a137c1df0-20220503
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:cc1029c6-73b5-4798-bcc4-ab2daf6fa294, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:2aa6db3f-5e30-491f-84ee-de8d59f5a4a3, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
  TION:release,TS:-20
-X-CID-META: VersionHash:faefae9, CLOUDID:bda4822f-6199-437e-8ab4-9920b4bc5b76,
+X-CID-META: VersionHash:faefae9, CLOUDID:fea5822f-6199-437e-8ab4-9920b4bc5b76,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: a928551e333d479583edebf8bafc71da-20220503
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+X-UUID: 64464b7eb79242ea9b02281a137c1df0-20220503
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
  mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1836146778; Tue, 03 May 2022 15:15:22 +0800
-Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 3 May 2022 15:15:21 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1801800832; Tue, 03 May 2022 15:15:30 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 3 May 2022 15:15:21 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 3 May 2022 15:15:28 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 3 May 2022 15:15:19 +0800
+ Transport; Tue, 3 May 2022 15:15:27 +0800
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
  "Matthias Brugger" <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v7 04/36] iommu/mediatek: Fix 2 HW sharing pgtable issue
-Date: Tue, 3 May 2022 15:13:55 +0800
-Message-ID: <20220503071427.2285-5-yong.wu@mediatek.com>
+Subject: [PATCH v7 05/36] iommu/mediatek: Add list_del in mtk_iommu_remove
+Date: Tue, 3 May 2022 15:13:56 +0800
+Message-ID: <20220503071427.2285-6-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220503071427.2285-1-yong.wu@mediatek.com>
 References: <20220503071427.2285-1-yong.wu@mediatek.com>
@@ -96,45 +93,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In the commit 4f956c97d26b ("iommu/mediatek: Move domain_finalise into
-attach_device"), I overlooked the sharing pgtable case.
-After that commit, the "data" in the mtk_iommu_domain_finalise always is
-the data of the current IOMMU HW. Fix this for the sharing pgtable case.
+Lack the list_del in the mtk_iommu_remove, and remove
+bus_set_iommu(*, NULL) since there may be several iommu HWs.
+we can not bus_set_iommu null when one iommu driver unbind.
 
-Only affect mt2712 which is the only SoC that share pgtable currently.
+This could be a fix for mt2712 which support 2 M4U HW and list them.
 
-Fixes: 4f956c97d26b ("iommu/mediatek: Move domain_finalise into attach_device")
+Fixes: 7c3a2ec02806 ("iommu/mediatek: Merge 2 M4U HWs into one iommu domain")
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/iommu/mtk_iommu.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/iommu/mtk_iommu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 6fd75a60abd6..95c82b8bcc35 100644
+index 95c82b8bcc35..e4b4ebbcb73f 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -446,7 +446,7 @@ static void mtk_iommu_domain_free(struct iommu_domain *domain)
- static int mtk_iommu_attach_device(struct iommu_domain *domain,
- 				   struct device *dev)
- {
--	struct mtk_iommu_data *data = dev_iommu_priv_get(dev);
-+	struct mtk_iommu_data *data = dev_iommu_priv_get(dev), *frstdata;
- 	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
- 	struct device *m4udev = data->dev;
- 	int ret, domid;
-@@ -456,7 +456,10 @@ static int mtk_iommu_attach_device(struct iommu_domain *domain,
- 		return domid;
+@@ -955,8 +955,7 @@ static int mtk_iommu_remove(struct platform_device *pdev)
+ 	iommu_device_sysfs_remove(&data->iommu);
+ 	iommu_device_unregister(&data->iommu);
  
- 	if (!dom->data) {
--		if (mtk_iommu_domain_finalise(dom, data, domid))
-+		/* Data is in the frstdata in sharing pgtable case. */
-+		frstdata = mtk_iommu_get_m4u_data();
-+
-+		if (mtk_iommu_domain_finalise(dom, frstdata, domid))
- 			return -ENODEV;
- 		dom->data = data;
- 	}
+-	if (iommu_present(&platform_bus_type))
+-		bus_set_iommu(&platform_bus_type, NULL);
++	list_del(&data->list);
+ 
+ 	clk_disable_unprepare(data->bclk);
+ 	device_link_remove(data->smicomm_dev, &pdev->dev);
 -- 
 2.18.0
 
