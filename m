@@ -1,63 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A51519E96
-	for <lists.iommu@lfdr.de>; Wed,  4 May 2022 13:53:48 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EC8519EA7
+	for <lists.iommu@lfdr.de>; Wed,  4 May 2022 13:57:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 03C6A83EEB;
-	Wed,  4 May 2022 11:53:47 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xR-Xahu8Zplm; Wed,  4 May 2022 11:53:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 27B3483EE8;
-	Wed,  4 May 2022 11:53:46 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 02158C007E;
-	Wed,  4 May 2022 11:53:46 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6CA81C002D
- for <iommu@lists.linux-foundation.org>; Wed,  4 May 2022 11:53:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4B4A740488
- for <iommu@lists.linux-foundation.org>; Wed,  4 May 2022 11:53:45 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id DC08840C07;
+	Wed,  4 May 2022 11:57:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 180NelcwpdIg for <iommu@lists.linux-foundation.org>;
- Wed,  4 May 2022 11:53:44 +0000 (UTC)
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id O1B_qVxNlf5A; Wed,  4 May 2022 11:57:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id BE02E40BF1;
+	Wed,  4 May 2022 11:57:10 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 76996C007E;
+	Wed,  4 May 2022 11:57:10 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E85ABC002D
+ for <iommu@lists.linux-foundation.org>; Wed,  4 May 2022 11:57:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id C869560E1D
+ for <iommu@lists.linux-foundation.org>; Wed,  4 May 2022 11:57:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4ccY8gg_AylV for <iommu@lists.linux-foundation.org>;
+ Wed,  4 May 2022 11:57:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A4B8540157
- for <iommu@lists.linux-foundation.org>; Wed,  4 May 2022 11:53:44 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2DA2E60BDF
+ for <iommu@lists.linux-foundation.org>; Wed,  4 May 2022 11:57:09 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 160893FA; Wed,  4 May 2022 13:53:42 +0200 (CEST)
-Date: Wed, 4 May 2022 13:53:38 +0200
+ id BB1F667B; Wed,  4 May 2022 13:57:06 +0200 (CEST)
+Date: Wed, 4 May 2022 13:57:05 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [bug] NULL pointer deref after 3f6634d997db ("iommu: Use right
- way to retrieve iommu_ops")
-Message-ID: <YnJpQiEJWNjyOyji@8bytes.org>
-References: <20220216025249.3459465-1-baolu.lu@linux.intel.com>
- <20220216025249.3459465-8-baolu.lu@linux.intel.com>
- <20220504075356.GA2361844@janakin.usersys.redhat.com>
- <8d6c30e0-dcf7-56f8-c44b-2d8bdb1dc04c@arm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RESEND PATCH v8 00/11] Fix BUG_ON in vfio_iommu_group_notifier()
+Message-ID: <YnJqER3qbzHucfkx@8bytes.org>
+References: <20220418005000.897664-1-baolu.lu@linux.intel.com>
+ <20220502161204.GA22@qian> <YnI8Xy54M3XQpS0T@8bytes.org>
+ <20220504115135.GA49344@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8d6c30e0-dcf7-56f8-c44b-2d8bdb1dc04c@arm.com>
-Cc: Kevin Tian <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>,
- bgoncalv@redhat.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Jacob jun Pan <jacob.jun.pan@intel.com>, Christoph Hellwig <hch@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Ben Skeggs <bskeggs@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
- Will Deacon <will@kernel.org>, Jan Stancek <jstancek@redhat.com>
+In-Reply-To: <20220504115135.GA49344@nvidia.com>
+Cc: Kevin Tian <kevin.tian@intel.com>, Qian Cai <quic_qiancai@quicinc.com>,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Alex Williamson <alex.williamson@redhat.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,21 +67,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Robin,
+On Wed, May 04, 2022 at 08:51:35AM -0300, Jason Gunthorpe wrote:
+> Nicolin and Eric have been testing with this series on ARM for a long
+> time now, it is not like it is completely broken.
 
-On Wed, May 04, 2022 at 12:14:07PM +0100, Robin Murphy wrote:
-> Oof, this can probably be hit with vfio-noiommu too, and by the look of
-> things, `echo auto > /sys/kernel/iommu_groups/0/type` would likely blow
-> up as well. Does the patch below work for you?
-
-Thanks for the quick patch! I am delaying to send iommu-fixes upstream
-for now in the hope the fix can make it into the branch asap. Please
-send it out as a separate patch as soon as it is successfully tested.
+Yeah, I am also optimistic this can be fixed soon. But the rule is that
+the next branch should only contain patches which I would send to Linus.
+And with a known issue in it I wouldn't, so it is excluded at least from
+my next branch for now. The topic branch is still alive and I will merge
+it again when the fix is in.
 
 Regards,
 
 	Joerg
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
