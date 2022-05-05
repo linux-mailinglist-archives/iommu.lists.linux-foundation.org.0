@@ -1,66 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B19851CD1F
-	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 01:58:07 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555BD51CD0F
+	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 01:57:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 18942610D7;
-	Thu,  5 May 2022 23:58:06 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 691E482F13;
+	Thu,  5 May 2022 23:57:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id karrbkQZoSIS; Thu,  5 May 2022 23:58:05 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WbXX_a2cyfbv; Thu,  5 May 2022 23:57:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0EAEA60D94;
-	Thu,  5 May 2022 23:58:05 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4DDC583E0B;
+	Thu,  5 May 2022 23:57:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC287C002D;
-	Thu,  5 May 2022 23:58:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A98AC0081;
+	Thu,  5 May 2022 23:57:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1674DC002D
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:58:02 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4908BC002D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9EB5760E7E
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:52 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 289F5401D5
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rhi5jfo1sHNN for <iommu@lists.linux-foundation.org>;
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1IhYa64HPEFN for <iommu@lists.linux-foundation.org>;
  Thu,  5 May 2022 23:57:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D3A0360A46
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:45 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7C82B4010C
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651795066; x=1683331066;
+ t=1651795067; x=1683331067;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=gFAa9l6D17AE+FwqBH16mNyyvqzE44nr84f76LNdCPk=;
- b=F/LojuWSq3xkx/+OL09YRl7jAKY/5O7/8bvQpLedmMy8oZobk1l8j1cq
- 9fUJU4d1Hju3Apb9a3iZn2L+EgAoirxw6lbukfRGX8ErGRF7JU+dyIcIK
- /ZKRM0B1IJ9oW+/cVWftQW7+jET+Lf7sh4JTdVR7KUjs4rdaqSx0xhyyF
- 1UwVNJvug389dkAwrg1sQTC0DW0jqM+yvs2gxA7d2uA1H7APjXEwBq05T
- 0RayFMBcKxR0s5H5w2CmRkt1WvG1ENXDV+NZO/g2Aj59pOrOViJEeqJQ2
- BD0M/2GfzsdoE/iYnGBP/wpycyehE9NvpOhvmFaa3Pwywg1O9QB07TbkO w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="328836874"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="328836874"
+ bh=zlyJMMAdck3m7Lj6IAc06Z99mVZqGJ1kJoeEJPS6nAw=;
+ b=LBxqIaTW/leSRqLkSrVGHeVILprjxPQANXNQ5N6/LmSSmQYZVBxRLF8J
+ dIda/WG3zLFdW8Vhl7QyWthYxLt/ZV/vh9lS/z6zGK5l1FhwzMqLWOrsv
+ pb8J0nuRLwlcd6FG1exap14SyKLvxyFVGt9p+iBacYtrShJxAXfIjCxbK
+ xkEsOqT/UvP5THg+MbiexVnorhdqBT/G+yMIqVNF4ZD/I7CQzhpyxd3rD
+ 2JkWUdoAKMnE7u4SGlt38X9zqZAF0OAKX8KQj212kIfmvw6yQOynaYzew
+ BXQNa4/tAYNROWLSkyB8b/kYwzvMEGRvPo4Mx3+1FD1EMGnUxCJZNYl9F Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="328836877"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="328836877"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 16:57:44 -0700
+ 05 May 2022 16:57:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="694914319"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="694914325"
 Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
  by orsmga004.jf.intel.com with ESMTP; 05 May 2022 16:57:44 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	x86@kernel.org
-Subject: [PATCH v6 01/29] irq/matrix: Expose functions to allocate the best
- CPU for new vectors
-Date: Thu,  5 May 2022 16:59:40 -0700
-Message-Id: <20220506000008.30892-2-ricardo.neri-calderon@linux.intel.com>
+Subject: [PATCH v6 02/29] x86/apic: Add irq_cfg::delivery_mode
+Date: Thu,  5 May 2022 16:59:41 -0700
+Message-Id: <20220506000008.30892-3-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
 References: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
@@ -90,12 +91,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Certain types of interrupts, such as NMI, do not have an associated vector.
-They, however, target specific CPUs. Thus, when assigning the destination
-CPU, it is beneficial to select the one with the lowest number of vectors.
-Prepend the functions matrix_find_best_cpu_managed() and
-matrix_find_best_cpu_managed() with the irq_ prefix and expose them for
-IRQ controllers to use when allocating and activating vector-less IRQs.
+Currently, the delivery mode of all interrupts is set to the mode of the
+APIC driver in use. There are no restrictions in hardware to configure the
+delivery mode of each interrupt individually. Also, certain IRQs need to be
+configured with a specific delivery mode (e.g., NMI).
+
+Add a new member, delivery_mode, to struct irq_cfg. Subsequent changesets
+will update every irq_domain to set the delivery mode of each IRQ to that
+specified in its irq_cfg data.
+
+To keep the current behavior, when allocating an IRQ in the root domain
+(i.e., the x86_vector_domain), set the delivery mode of the IRQ as that of
+the APIC driver.
 
 Cc: Andi Kleen <ak@linux.intel.com>
 Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
@@ -103,112 +110,74 @@ Cc: Stephane Eranian <eranian@google.com>
 Cc: iommu@lists.linux-foundation.org
 Cc: linuxppc-dev@lists.ozlabs.org
 Cc: x86@kernel.org
+Reviewed-by: Ashok Raj <ashok.raj@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
 Changes since v5:
- * Introduced this patch.
+ * Updated indentation of the existing members of struct irq_cfg.
+ * Reworded the commit message.
 
 Changes since v4:
- * N/A
+ * Rebased to use new enumeration apic_delivery_modes.
 
 Changes since v3:
- * N/A
+ * None
 
 Changes since v2:
- * N/A
+ * Reduced scope to only add the interrupt delivery mode in
+   struct irq_alloc_info.
 
 Changes since v1:
- * N/A
+ * Introduced this patch.
 ---
- include/linux/irq.h |  4 ++++
- kernel/irq/matrix.c | 32 +++++++++++++++++++++++---------
- 2 files changed, 27 insertions(+), 9 deletions(-)
+ arch/x86/include/asm/hw_irq.h | 5 +++--
+ arch/x86/kernel/apic/vector.c | 9 +++++++++
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/irq.h b/include/linux/irq.h
-index f92788ccdba2..9e674e73d295 100644
---- a/include/linux/irq.h
-+++ b/include/linux/irq.h
-@@ -1223,6 +1223,10 @@ struct irq_matrix *irq_alloc_matrix(unsigned int matrix_bits,
- void irq_matrix_online(struct irq_matrix *m);
- void irq_matrix_offline(struct irq_matrix *m);
- void irq_matrix_assign_system(struct irq_matrix *m, unsigned int bit, bool replace);
-+unsigned int irq_matrix_find_best_cpu(struct irq_matrix *m,
-+				      const struct cpumask *msk);
-+unsigned int irq_matrix_find_best_cpu_managed(struct irq_matrix *m,
-+					      const struct cpumask *msk);
- int irq_matrix_reserve_managed(struct irq_matrix *m, const struct cpumask *msk);
- void irq_matrix_remove_managed(struct irq_matrix *m, const struct cpumask *msk);
- int irq_matrix_alloc_managed(struct irq_matrix *m, const struct cpumask *msk,
-diff --git a/kernel/irq/matrix.c b/kernel/irq/matrix.c
-index 1698e77645ac..810479f608f4 100644
---- a/kernel/irq/matrix.c
-+++ b/kernel/irq/matrix.c
-@@ -125,9 +125,16 @@ static unsigned int matrix_alloc_area(struct irq_matrix *m, struct cpumap *cm,
- 	return area;
- }
+diff --git a/arch/x86/include/asm/hw_irq.h b/arch/x86/include/asm/hw_irq.h
+index d465ece58151..5ac5e6c603ee 100644
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -88,8 +88,9 @@ struct irq_alloc_info {
+ };
  
--/* Find the best CPU which has the lowest vector allocation count */
--static unsigned int matrix_find_best_cpu(struct irq_matrix *m,
--					const struct cpumask *msk)
-+/**
-+ * irq_matrix_find_best_cpu() - Find the best CPU for an IRQ
-+ * @m:		Matrix pointer
-+ * @msk:	On which CPUs the search will be performed
-+ *
-+ * Find the best CPU which has the lowest vector allocation count
-+ * Returns: The best CPU to use
-+ */
-+unsigned int irq_matrix_find_best_cpu(struct irq_matrix *m,
-+				      const struct cpumask *msk)
- {
- 	unsigned int cpu, best_cpu, maxavl = 0;
- 	struct cpumap *cm;
-@@ -146,9 +153,16 @@ static unsigned int matrix_find_best_cpu(struct irq_matrix *m,
- 	return best_cpu;
- }
+ struct irq_cfg {
+-	unsigned int		dest_apicid;
+-	unsigned int		vector;
++	unsigned int			dest_apicid;
++	unsigned int			vector;
++	enum apic_delivery_modes	delivery_mode;
+ };
  
--/* Find the best CPU which has the lowest number of managed IRQs allocated */
--static unsigned int matrix_find_best_cpu_managed(struct irq_matrix *m,
--						const struct cpumask *msk)
-+/**
-+ * irq_matrix_find_best_cpu_managed() - Find the best CPU for a managed IRQ
-+ * @m:		Matrix pointer
-+ * @msk:	On which CPUs the search will be performed
-+ *
-+ * Find the best CPU which has the lowest number of managed IRQs allocated
-+ * Returns: The best CPU to use
-+ */
-+unsigned int irq_matrix_find_best_cpu_managed(struct irq_matrix *m,
-+					      const struct cpumask *msk)
- {
- 	unsigned int cpu, best_cpu, allocated = UINT_MAX;
- 	struct cpumap *cm;
-@@ -292,7 +306,7 @@ int irq_matrix_alloc_managed(struct irq_matrix *m, const struct cpumask *msk,
- 	if (cpumask_empty(msk))
- 		return -EINVAL;
+ extern struct irq_cfg *irq_cfg(unsigned int irq);
+diff --git a/arch/x86/kernel/apic/vector.c b/arch/x86/kernel/apic/vector.c
+index 3e6f6b448f6a..838e220e8860 100644
+--- a/arch/x86/kernel/apic/vector.c
++++ b/arch/x86/kernel/apic/vector.c
+@@ -567,6 +567,7 @@ static int x86_vector_alloc_irqs(struct irq_domain *domain, unsigned int virq,
+ 		irqd->chip_data = apicd;
+ 		irqd->hwirq = virq + i;
+ 		irqd_set_single_target(irqd);
++
+ 		/*
+ 		 * Prevent that any of these interrupts is invoked in
+ 		 * non interrupt context via e.g. generic_handle_irq()
+@@ -577,6 +578,14 @@ static int x86_vector_alloc_irqs(struct irq_domain *domain, unsigned int virq,
+ 		/* Don't invoke affinity setter on deactivated interrupts */
+ 		irqd_set_affinity_on_activate(irqd);
  
--	cpu = matrix_find_best_cpu_managed(m, msk);
-+	cpu = irq_matrix_find_best_cpu_managed(m, msk);
- 	if (cpu == UINT_MAX)
- 		return -ENOSPC;
- 
-@@ -381,13 +395,13 @@ int irq_matrix_alloc(struct irq_matrix *m, const struct cpumask *msk,
- 	struct cpumap *cm;
- 
- 	/*
--	 * Not required in theory, but matrix_find_best_cpu() uses
-+	 * Not required in theory, but irq_matrix_find_best_cpu() uses
- 	 * for_each_cpu() which ignores the cpumask on UP .
- 	 */
- 	if (cpumask_empty(msk))
- 		return -EINVAL;
- 
--	cpu = matrix_find_best_cpu(m, msk);
-+	cpu = irq_matrix_find_best_cpu(m, msk);
- 	if (cpu == UINT_MAX)
- 		return -ENOSPC;
- 
++		/*
++		 * Initialize the delivery mode of this irq to match the
++		 * default delivery mode of the APIC. Children irq domains
++		 * may take the delivery mode from the individual irq
++		 * configuration rather than from the APIC driver.
++		 */
++		apicd->hw_irq_cfg.delivery_mode = apic->delivery_mode;
++
+ 		/*
+ 		 * Legacy vectors are already assigned when the IOAPIC
+ 		 * takes them over. They stay on the same vector. This is
 -- 
 2.17.1
 
