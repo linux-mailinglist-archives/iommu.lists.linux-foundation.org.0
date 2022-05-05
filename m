@@ -1,67 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E216251CD19
-	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 01:58:02 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD5051CD13
+	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 01:57:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 824E940C10;
-	Thu,  5 May 2022 23:58:01 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5EE8083F21;
+	Thu,  5 May 2022 23:57:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OLjKP5Va06L8; Thu,  5 May 2022 23:58:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6290740AC2;
-	Thu,  5 May 2022 23:58:00 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pCfSsi8mamTt; Thu,  5 May 2022 23:57:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2785D83F8E;
+	Thu,  5 May 2022 23:57:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B13F5C0084;
-	Thu,  5 May 2022 23:57:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 30884C0032;
+	Thu,  5 May 2022 23:57:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 117D6C002D
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:57 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 265D5C002D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id AEE5660C07
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:51 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id D5A1660C02
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tqkCwDa7vOHS for <iommu@lists.linux-foundation.org>;
+ with ESMTP id dHWjhuHtj1AZ for <iommu@lists.linux-foundation.org>;
  Thu,  5 May 2022 23:57:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C53F660B6A
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:49 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 437F560BAC
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651795069; x=1683331069;
+ t=1651795070; x=1683331070;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=3xUpwlx5TiZjojK61Skg6W12+8Hy6giKnPG/YThYLqA=;
- b=SzxrFZ4cLiiZSa2YBvH08MIiMgL7bgUpuevRSGTspfiS7BXkeKhEvSXD
- jAChdKkXsEbK28qgPNLpRNYFKypT+60fXllrElSttfQRzj31YHOw80R7u
- wMQtidspo2R3Oso9c65uESa5Ty8LqarAe2UvxGqzIKwINFXsNhDqUzw6t
- 5x+iLnZpJmuCPKISJiIRCRqlZyRbV2xljqO97j65ZkP4FCYzknYIqNhr4
- NW2wgSL/tim/xBy4z7sTBlTFPfXM9y5Jk6ucaCkYzR+thelaetXlp6pod
- W/z1i0iGVpo+2JiXs+wTPcSLEncetDG1mg+YLk8b/IzPkfRsqiE7IqYI/ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293496326"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="293496326"
+ bh=60YeowQrYtVQTC/Y9/6aG1nPAySkU1vh5niJqWVSb28=;
+ b=ZOorTvO9dHQHTMvXBCbVtvybQVKqbF/l/zHOx1faZdvvzGjgY1Qpe5P+
+ tn+ULiwpYAU1U1XSJAg51GlWYle6BbOSqH8TQaScy7+uXeYFf1EQLeM5H
+ HLGTLd+ebGgiOBZWd2ytKWRabLoqPu+KqpSSK1ajwV9uBiD9KOrZ6dCwJ
+ AfOcKCzVb8giY9IVBxjK/QBXCeL4noHnObJks64j3FR525QmcU1TcBc+o
+ kJ5uT5qePp209Ia3R1LX7QJQ+Lpbj/JlHCBCzcyF2XJmHir5luTlriliq
+ q4Q9ThFcq+rYW87W0HJSzCrXin3ta9ZLTCzqjc8waIk/h6hp6ciMewB/k Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293496329"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="293496329"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 16:57:49 -0700
+ 05 May 2022 16:57:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="694914367"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="694914372"
 Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
  by orsmga004.jf.intel.com with ESMTP; 05 May 2022 16:57:49 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	x86@kernel.org
-Subject: [PATCH v6 12/29] iommu/amd: Enable NMIPass when allocating an NMI irq
-Date: Thu,  5 May 2022 16:59:51 -0700
-Message-Id: <20220506000008.30892-13-ricardo.neri-calderon@linux.intel.com>
+Subject: [PATCH v6 13/29] iommu/amd: Compose MSI messages for NMI irqs in
+ non-IR format
+Date: Thu,  5 May 2022 16:59:52 -0700
+Message-Id: <20220506000008.30892-14-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
 References: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
@@ -91,17 +92,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-As per the AMD I/O Virtualization Technology (IOMMU) Specification, the
-AMD IOMMU only remaps fixed and arbitrated MSIs. NMIs are controlled
-by the NMIPass bit of a Device Table Entry. When set, the IOMMU passes
-through NMI interrupt messages unmapped. Otherwise, they are aborted.
+If NMIPass is enabled in a device's DTE, the IOMMU lets NMI interrupt
+messages pass through unmapped. Therefore, the contents of the MSI
+message, not an IRTE, determine how and where the NMI is delivered.
 
-Furthermore, Section 2.2.5 Table 19 states that the IOMMU will also
-abort NMIs when the destination mode is logical.
-
-Update the NMIPass setting of a device's DTE when an NMI irq is being
-allocated. Only do so when the destination mode of the APIC is not
-logical.
+Since the IOMMU driver owns the MSI message of the NMI irq, compose
+it using the non-interrupt-remapping format. Also, let descendant
+irqchips write the MSI as appropriate for the device.
 
 Cc: Andi Kleen <ak@linux.intel.com>
 Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
@@ -128,45 +125,50 @@ Changes since v2:
 Changes since v1:
  * N/A
 ---
- drivers/iommu/amd/iommu.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/iommu/amd/iommu.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index a1ada7bff44e..4d7421b6858d 100644
+index 4d7421b6858d..6e07949b3e2a 100644
 --- a/drivers/iommu/amd/iommu.c
 +++ b/drivers/iommu/amd/iommu.c
-@@ -3156,6 +3156,15 @@ static int irq_remapping_alloc(struct irq_domain *domain, unsigned int virq,
- 	    info->type != X86_IRQ_ALLOC_TYPE_PCI_MSIX)
- 		return -EINVAL;
+@@ -3111,7 +3111,16 @@ static void irq_remapping_prepare_irte(struct amd_ir_data *data,
+ 	case X86_IRQ_ALLOC_TYPE_HPET:
+ 	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
+ 	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
+-		fill_msi_msg(&data->msi_entry, irte_info->index);
++		if (irq_cfg->delivery_mode == APIC_DELIVERY_MODE_NMI)
++			/*
++			 * The IOMMU lets NMIs pass through unmapped. Thus, the
++			 * MSI message, not the IRTE, determines the irq
++			 * configuration. Since we own the MSI message,
++			 * compose it. Descendant irqchips will write it.
++			 */
++			__irq_msi_compose_msg(irq_cfg, &data->msi_entry, true);
++		else
++			fill_msi_msg(&data->msi_entry, irte_info->index);
+ 		break;
  
-+	if (info->flags & X86_IRQ_ALLOC_AS_NMI) {
-+		/* Only one IRQ per NMI */
-+		if (nr_irqs != 1)
-+			return -EINVAL;
-+
-+		/* NMIs are aborted when the destination mode is logical. */
-+		if (apic->dest_mode_logical)
-+			return -EPERM;
-+	}
- 	/*
- 	 * With IRQ remapping enabled, don't need contiguous CPU vectors
- 	 * to support multiple MSI interrupts.
-@@ -3208,6 +3217,15 @@ static int irq_remapping_alloc(struct irq_domain *domain, unsigned int virq,
- 		goto out_free_parent;
- 	}
+ 	default:
+@@ -3509,6 +3518,18 @@ static int amd_ir_set_affinity(struct irq_data *data,
+ 	 */
+ 	send_cleanup_vector(cfg);
  
-+	if (info->flags & X86_IRQ_ALLOC_AS_NMI) {
-+		struct amd_iommu *iommu = amd_iommu_rlookup_table[devid];
++	/*
++	 * When the delivery mode of an irq is NMI, the IOMMU lets the NMI
++	 * interrupt messages pass through unmapped. Hence, changes in the
++	 * destination are to be reflected in the NMI message itself, not the
++	 * IRTE. Thus, descendant irqchips must set the affinity and compose
++	 * write the MSI message.
++	 *
++	 * Also, NMIs do not have an associated vector. No need for cleanup.
++	 */
++	if (cfg->delivery_mode == APIC_DELIVERY_MODE_NMI)
++		return IRQ_SET_MASK_OK;
 +
-+		if (!get_dev_entry_bit(devid, DEV_ENTRY_NMI_PASS)) {
-+			set_dev_entry_bit(devid, DEV_ENTRY_NMI_PASS);
-+			iommu_flush_dte(iommu, devid);
-+		}
-+	}
-+
- 	for (i = 0; i < nr_irqs; i++) {
- 		irq_data = irq_domain_get_irq_data(domain, virq + i);
- 		cfg = irq_data ? irqd_cfg(irq_data) : NULL;
+ 	return IRQ_SET_MASK_OK_DONE;
+ }
+ 
 -- 
 2.17.1
 
