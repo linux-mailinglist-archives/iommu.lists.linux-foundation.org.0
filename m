@@ -1,71 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4B351B4FA
-	for <lists.iommu@lfdr.de>; Thu,  5 May 2022 03:02:32 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0FA351B50F
+	for <lists.iommu@lfdr.de>; Thu,  5 May 2022 03:10:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6277641924;
-	Thu,  5 May 2022 01:02:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5DAD860B18;
+	Thu,  5 May 2022 01:10:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4NCXsq2YJekW; Thu,  5 May 2022 01:02:29 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UJNe1b6QCxUN; Thu,  5 May 2022 01:10:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 44F8B402E0;
-	Thu,  5 May 2022 01:02:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 826DE60ACE;
+	Thu,  5 May 2022 01:10:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07761C007E;
-	Thu,  5 May 2022 01:02:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A8CAC002D;
+	Thu,  5 May 2022 01:10:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15644C0032
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 01:02:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 047BDC002D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 01:10:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id F0D5C41924
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 01:02:26 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id E09E041953
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 01:10:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vUP31WeS8pWh for <iommu@lists.linux-foundation.org>;
- Thu,  5 May 2022 01:02:24 +0000 (UTC)
+ with ESMTP id ckIT-fdSxHo2 for <iommu@lists.linux-foundation.org>;
+ Thu,  5 May 2022 01:10:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 91C3B402E0
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 01:02:24 +0000 (UTC)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KtwKH5ctgzCsWg;
- Thu,  5 May 2022 08:57:39 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 5 May 2022 09:02:20 +0800
-Received: from [10.174.178.247] (10.174.178.247) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 5 May 2022 09:02:19 +0800
-Subject: Re: [PATCH v12 2/9] ACPI/IORT: Make iort_iommu_msi_get_resv_regions()
- return void
-To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-acpi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-References: <20220503163330.509-1-shameerali.kolothum.thodi@huawei.com>
- <20220503163330.509-3-shameerali.kolothum.thodi@huawei.com>
-Message-ID: <2471e99d-9bef-97b2-56f4-ac7ce9ba63e0@huawei.com>
-Date: Thu, 5 May 2022 09:02:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7EA934194D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 01:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651713009; x=1683249009;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=bObumrYm1BRiO8NC7JGkJj5WU3DlBUMAdCew4SD9ic0=;
+ b=J8bb7iBtLkNUf6sIqIkROBwztiAw2ABtRPOkYBT7Q5RVJsjeF3hIj7e+
+ 5hhx2W/Dfy3RQL8tO7gjO2I8yruz78rYZIc+JJO5dA0UGYojkZgi76YQu
+ FjW4JkNRYlQ9+z7zfFcb7pbUyHE6dYl4rl84FMX4PsqitFpuoDw3K1Y5C
+ 3ZbNzRwUSbOmkV3bVsEf9AbUy6BSSvrEN984IgLI7dIdKtEQ76fVGmpvB
+ 7Hy9kq5YLM1XWR2xVnsIpRnlWqSKo74mU8zDjbkiHmqDJL09hQ3+mmCYt
+ MlZJLJzI4nbFwEkcxj0O9N1wMrfohAQrb/Fij/t7l8JIb4mbD3KRtKGTp Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="247857793"
+X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="247857793"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 18:10:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="708713892"
+Received: from allen-box.sh.intel.com ([10.239.159.48])
+ by fmsmga001.fm.intel.com with ESMTP; 04 May 2022 18:10:06 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Kevin Tian <kevin.tian@intel.com>
+Subject: [PATCH v2 0/4] iommu/vt-d: Force snooping improvement
+Date: Thu,  5 May 2022 09:07:06 +0800
+Message-Id: <20220505010710.1477739-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220503163330.509-3-shameerali.kolothum.thodi@huawei.com>
-Content-Language: en-GB
-X-Originating-IP: [10.174.178.247]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
-Cc: robin.murphy@arm.com, jon@solid-run.com, linuxarm@huawei.com,
- steven.price@arm.com, hch@infradead.org, Sami.Mujawar@arm.com, will@kernel.org,
- wanghuiqiang@huawei.com
+Cc: iommu@lists.linux-foundation.org, Jacob jun Pan <jacob.jun.pan@intel.com>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,28 +80,58 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Hanjun Guo via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Hanjun Guo <guohanjun@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022/5/4 0:33, Shameer Kolothum wrote:
-> At present iort_iommu_msi_get_resv_regions() returns the number of
-> MSI reserved regions on success and there are no users for this.
-> The reserved region list will get populated anyway for platforms
-> that require the HW MSI region reservation. Hence, change the
-> function to return void instead.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Tested-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Hi folks,
 
-Reviewed-by: Hanjun Guo <guohanjun@huawei.com>
+Previously, the IOMMU capability of enforcing cache coherency was queried
+through iommu_capable(IOMMU_CAP_CACHE_COHERENCY). This is a global
+capability, hence the IOMMU driver reports support for this capability
+only when all IOMMUs in the system has this support.
 
-Thanks
-Hanjun
+Commit 6043257b1de06 ("iommu: Introduce the domain op
+enforce_cache_coherency()") converts this into a per-domain test-and-set
+option, and the previous iommu_capable(IOMMU_CAP_CACHE_COHERENCY) is
+deprecated.
+
+This is a follow-up series which improves the Intel IOMMU driver to
+support the per-domain scheme better.
+
+Best regards,
+baolu
+
+Change log:
+v2:
+ - Check whether force_snooping has already been set in
+   intel_iommu_enforce_cache_coherency().
+ - Set PGSNP pasid bit field during domain attaching if forcing_snooping
+   is set.
+ - Remove redundant list_empty() checks.
+ - Add dmar_domain->set_pte_snp and set it if force snooping is enforced
+   on a domain with 2nd-level translation.
+
+v1:
+ - https://lore.kernel.org/linux-iommu/20220501112434.874236-1-baolu.lu@linux.intel.com
+ - Initial post.
+
+Lu Baolu (4):
+  iommu/vt-d: Block force-snoop domain attaching if no SC support
+  iommu/vt-d: Check domain force_snooping against attached devices
+  iommu/vt-d: Remove domain_update_iommu_snooping()
+  iommu/vt-d: Remove hard coding PGSNP bit in PASID entries
+
+ include/linux/intel-iommu.h |  1 +
+ drivers/iommu/intel/pasid.h |  2 +
+ drivers/iommu/intel/iommu.c | 88 ++++++++++++++++++++++---------------
+ drivers/iommu/intel/pasid.c | 26 +++++++++--
+ 4 files changed, 78 insertions(+), 39 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
