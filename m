@@ -2,131 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7F051C4F5
-	for <lists.iommu@lfdr.de>; Thu,  5 May 2022 18:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15E251C886
+	for <lists.iommu@lfdr.de>; Thu,  5 May 2022 20:57:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2D7D584023;
-	Thu,  5 May 2022 16:15:51 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4C85782D12;
+	Thu,  5 May 2022 18:57:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DN-LHzgG7ecL; Thu,  5 May 2022 16:15:50 +0000 (UTC)
+	with ESMTP id dDl-3Eo6CpLf; Thu,  5 May 2022 18:57:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 2F4FB8400D;
-	Thu,  5 May 2022 16:15:50 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4C3CE82F32;
+	Thu,  5 May 2022 18:57:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2CC7C0081;
-	Thu,  5 May 2022 16:15:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 19DDAC002D;
+	Thu,  5 May 2022 18:57:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F1BBC002D
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 16:15:48 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39A04C002D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 18:57:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id F33C040412
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 16:15:47 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 12C7A4015A
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 18:57:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=nvidia.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yfSR7gv_IN05 for <iommu@lists.linux-foundation.org>;
- Thu,  5 May 2022 16:15:47 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on20602.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe59::602])
- by smtp2.osuosl.org (Postfix) with ESMTPS id EED964026A
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 16:15:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TBGyMRnUWmDwCC3MR3ydM0hfNeFVAyhUGDY7C17pudoaQXDZR5ew7ermSYFz9oPv7qCuI26/mK77nuyZuQod5khXwr5gI450PI1CQg9Ch077V8Kx7BC6nkIGzejp8Q/Oc7jeHVqUlzjekbynMM4xYoZmkTINGODjlAxEtPOtgb2GcPF/a5B+65Us5OWZH+4j9ScdlAykHmkxAYXXEzMiSJMC8R0ZLJjMlN80NW1rdfjV/Zc1ekesG1Mcdak2wBFpVAwjb+opMUndNFdMJYBnL6eBiMl4GGo9a6A5riGu+pS9TVloeQavOxXLt67a8r+LhahYA/DowUkFFLj/bMK95g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bRjB7/QihmwXfVs2xdIffjD+I1ze9A2du08ikKwXFN8=;
- b=VuP2JipILGMScchliGqalDbSt4zP2QhmSGnV9R3ylNftEn0FSpr4nn/s1pe2m1m1AdUi4pEgAlNAMgfTiXhajdDAeXJlq0WSPmWA6HcCsls1ofzKxPP2b/ZOjB7i3utcwXx9w8fhcjrka7mims9VNiaP+PhOiM2Z7xmlnU7SRkIUbWbNpYzCGuPCPDikHnUDQ3AXROeeRU+AdGjqySs1T/ziAddLokP0O5FnH0c3i5Yxuyo/g2m1USIIN9HGu/jNBie5sf4BxCBHAi4kDNxdhce+t9+oIp/jrEasSNyI3mZPcOtkovWcKrWEsrH2bQnZzQYHgpZkTHNIyTpm24jRVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bRjB7/QihmwXfVs2xdIffjD+I1ze9A2du08ikKwXFN8=;
- b=hICbPXM4/dPelzie33OgoOaChzzxcLnHd24yLavCJL+6WmjGrIeMxPKYTGbpd8cTKLUVx2kU68uNy7arxSbGUhSU77yHVfgGfiv2US/gOX3nSlIg9iAPn9xBxFhECvPcqrr/Vs3QZC0RyJg9M8lYEqkY5U5TYNKvpRExDREF8a4GYKxFb+zpO5aAezuXjT64euc/Xeh1Un9aG7Ex3l2HgbHfhQEukNfzeUeoRceZWDc3cs06t+KwH7Xso93xwgO1y+/R0sH8Cg2m1+RTOC0Z936fL45yhGgU7QfS0ROxDcv++y+esKJZ5xH5TVyyOvThfWDRnCk144DlgHCHnqhT+Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CY4PR1201MB0053.namprd12.prod.outlook.com (2603:10b6:910:23::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Thu, 5 May
- 2022 16:15:42 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5206.027; Thu, 5 May 2022
- 16:15:42 +0000
-To: Lu Baolu <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-Subject: [PATCH] iommu: Reorganize __iommu_attach_group()
-Date: Thu,  5 May 2022 13:15:40 -0300
-Message-Id: <0-v1-9bdc3d71e81c+494-iommu_attach_group_jgg@nvidia.com>
-X-ClientProxiedBy: BL0PR0102CA0070.prod.exchangelabs.com
- (2603:10b6:208:25::47) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+ with ESMTP id eyBGpSxCElG5 for <iommu@lists.linux-foundation.org>;
+ Thu,  5 May 2022 18:57:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp2.osuosl.org (Postfix) with ESMTP id E31464011F
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 18:57:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16C0D106F;
+ Thu,  5 May 2022 11:57:08 -0700 (PDT)
+Received: from [10.57.80.111] (unknown [10.57.80.111])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14E993FA31;
+ Thu,  5 May 2022 11:57:05 -0700 (PDT)
+Message-ID: <1b8bf74a-cafa-822f-8843-0d1caf3f56ac@arm.com>
+Date: Thu, 5 May 2022 19:56:59 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db2a005b-3cbe-4991-6236-08da2eb2802d
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB0053:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR1201MB00538ED4A2EAA64DDBAEAB86C2C29@CY4PR1201MB0053.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hk5FlTCFHWj5FkCIweu51EgzgCwF+6NeEKsWKnbqF2fEeIZuT7RQv4JOYvKsVDKZo/6hToMDIQeJsCPcYJHUvQS2aCoInZoeNx4ozf8/AYvEjVFrxByipvAHTe8+rwQWEDk5HPZRQpwX2YHObYmPlugML7d2MAmiYBcW3Vs6Ebbwfb+uPcjvMsUkmA/IofnjEithhF1KXtX7VYnE/2LH45hD1LZe3mWMjtW26AigEhbzC29y+yLnps/9UiBWUQzlsdEA2QQIC94fY2R+C/lJFNEEvwM6/9phLX2kJrIsrWRdH+MnvjbmKmcGfdraR8Y13BveWiO0BEoZ9mK9p8vPV/G5tG3wF3sfk6RdQOK/CnvggT1/LyxH8xMbNbdpo+dhizCchBAMu2AsHY+bF4kBw1c5PbN5SdY8kpFDJd488DN3tJ6IKE74eCKXKKL/YmwP+iyDVX9Kapcpaeb103JS3zIH/gjGQcQpEawKDkHO17x/nqfhleGvOCHTq1cOVe55n4PVB+TrZ86p2YUTMeBlN3bLj/6CIU//hBXKyJXrF8bT3O8xvFyGZQ5mVjUQqPoMUXNeCSSShpWlUIu71KPecQKmjb7TKhJSbwcKOXSUqIpvaxcKVX0NsgHl8i/uZvQtvXBrM67f01nA+l2dgzDTOLzOG6RyrEuqF5phML0Q7+HM3Po+UAYv+FyCz429e+G/
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(186003)(508600001)(2616005)(36756003)(6486002)(316002)(83380400001)(66476007)(38100700002)(66946007)(66556008)(2906002)(86362001)(26005)(110136005)(6506007)(8676002)(6512007)(4326008)(4216001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N2Lsi+sWkhpNdFydG89yZZET06mdPG9PxTJ3kal2vUIYmoGH9qF01shndHZA?=
- =?us-ascii?Q?WWJEXs3SYF5TyPUaTg5kUAyeiLJHBOE4y6i3kCNANJDhKdPWQbQxj1KvqxKi?=
- =?us-ascii?Q?5aOFAilUJrjk0dIdCihCVrzNRbMgVOsibg3puQZpRQZeDMWo2AcNXkgDmNru?=
- =?us-ascii?Q?wiHWvjqlYTBeC4mnNja/l9nxmu/YXAAMtQG0wN4uG6clMJnOEY8hEqZ3J6rO?=
- =?us-ascii?Q?dxlsoi6xSBg76704OImyTYPEMEnaY66DeugTaojr31iupAms21h3uZWnXIka?=
- =?us-ascii?Q?T+LQgRC2bChahnfIPVjsMYwAX03mcV6F8pvvbDV6QVER08B1sXkG3J5+WdwA?=
- =?us-ascii?Q?7CpOl2XqduPrg/XG12Sra1O9XPMO9W5BifNHceTxgnOxILYnBVfox+9VoxU1?=
- =?us-ascii?Q?EU8/ruprBoEYWgWExN5Id64UomX6WM7JzLPnNlmJ5v1i4Eu5ezNyZaUIshY7?=
- =?us-ascii?Q?Ib1jXri/QL7KhcwKPLQjPwUSiI+agbgCKWUdye2iIvD+ls0fyX7UqodG00nv?=
- =?us-ascii?Q?MRDEOb9F8/F9u6pxYhd/t+Jh7sK21ODqLg7JrIDnil3zYnbloZjIWwr9KeCT?=
- =?us-ascii?Q?BM9MWwtu6sRLdCxdlfrgLQ29sBgO3u0DXw0TqJosYxMfuOncYqtnKhJ/U4ti?=
- =?us-ascii?Q?OrBsIahvjKYkar9a5RCZ1FkXiYmGnyg2fbnRzxCPYGfYHU4jG1N8u55QvTjG?=
- =?us-ascii?Q?RGLg6CRBb/sgIeGhXQxj2H90+DYEhBqLlBp1PAAwWq0b98AB9LEtr5AgGc6B?=
- =?us-ascii?Q?JSPAZswa2bLyX2MfnXaN2fcY+ukzSyPoB2VflwsDp8forKgNfwB9u03/WagD?=
- =?us-ascii?Q?gW4z91NL+8yJ4NH1+rcUB1rSs+55VaaayPho34MQQp0Sfx9xvsxnSCNDEobz?=
- =?us-ascii?Q?PoMmOTP0VxUaDQzMqifUwK2e6c+VvE1Pcikmj0vWlJppFtlARe4lNx3KXmsS?=
- =?us-ascii?Q?BzVxGiAFOS1HqEHsR+DXsG0OppVI8kmcaa0vEq3ywd648QdZKFhYvnVJtxHp?=
- =?us-ascii?Q?V2yDzdWhDS4+FP4upX0XVDhhZsmyGFehqP0id7oR0oPDSvzSh24lj5FmD8CQ?=
- =?us-ascii?Q?0PsZ0bTf32EazS54Hd6mw4Mi3zvE6pSJCl2xEWH7ymQwwjmDed6sfmL7pUIB?=
- =?us-ascii?Q?1KmpWuKvjlDNrBu/FZ2LAHNJVZBMsfFfquM9K4lkgYZAka2wabqrwnmBnZ7A?=
- =?us-ascii?Q?ZkUPbooPECKDufOHr7d+tXXbOci+b3dRejcJUjbYBafWh1CQF+A9rlr5GeRc?=
- =?us-ascii?Q?ciWoWyt3SCz5tMKpq6t+varuxWnSrcPJKi5E+z127Bl1XxFf+EPLENK8M0y6?=
- =?us-ascii?Q?3azYQrxiqgl/U1f17VYMgfRRxnzG5LwKK0RhFqRYvadm2xstvNeXIOt/b8G8?=
- =?us-ascii?Q?9ZrWYHVnwSYtvIA1Tqog4xYcqz15Y304QyAJYTlXSwtfY/qGwBeSJ3VHM8tf?=
- =?us-ascii?Q?zPj2FwvnN1CQAJtgnYq1Ow/aWCh8icnTg3VScqSyEf2fL0RUPV6/903ToG7a?=
- =?us-ascii?Q?sqCdjB/V9Fs2VGYPK8RRNCSumpcMzELQnqg3Tp3sDmf7N8KftF2sbx2wpcZN?=
- =?us-ascii?Q?MVLe1NsYo4TNIONSZNH7Rahs0wBsG9CFyq+mIpg+3fa7ZAhmv9iptdueRsWN?=
- =?us-ascii?Q?YTx3AlN9l1aLQTEMmksFk7vg0j6hNacU87qWkLDLwWliP40Gopg7LuQetNqw?=
- =?us-ascii?Q?5Jkpcgp4bK3PUrB/wKh87WvdmS8jHzirLnyOuCd4OST8ufxslyhpdEhgwsPf?=
- =?us-ascii?Q?FWQjX0TCbQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db2a005b-3cbe-4991-6236-08da2eb2802d
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 16:15:41.9297 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mkI23MMjKv80eHeGHZRkvVcf/r1ZUa/Fia2UhT55Jx/oQY5Ebjd2v+/pCvl2zMf5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0053
-Cc: "Tian, Kevin" <kevin.tian@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] iommu: iommu_group_claim_dma_owner() must always
+ assign a domain
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>, "Tian, Kevin" <kevin.tian@intel.com>
+References: <0-v2-f62259511ac0+6-iommu_dma_block_jgg@nvidia.com>
+ <BN9PR11MB5276504B448C715527AD5F3F8CC29@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220505153320.GS49344@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220505153320.GS49344@nvidia.com>
+Cc: "Rodel, Jorg" <jroedel@suse.de>, Qian Cai <quic_qiancai@quicinc.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -139,125 +69,142 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Call iommu_group_do_attach_device() only from
-__iommu_group_attach_domain() which should be used to attach any domain to
-the group.
+On 2022-05-05 16:33, Jason Gunthorpe wrote:
+> On Thu, May 05, 2022 at 10:56:28AM +0000, Tian, Kevin wrote:
+>>> From: Jason Gunthorpe <jgg@nvidia.com>
+>>> Sent: Thursday, May 5, 2022 3:09 AM
+>>>
+>>> Once the group enters 'owned' mode it can never be assigned back to the
+>>> default_domain or to a NULL domain. It must always be actively assigned to
+>>
+>> worth pointing out that a NULL domain is not always translated to DMA
+>> blocked on all platforms. That was a wrong assumption before this patch.
+> 
+> This is described in a comment blow
+> 
+>>> @@ -2040,7 +2037,8 @@ static int __iommu_attach_group(struct
+>>> iommu_domain *domain,
+>>>   {
+>>>   	int ret;
+>>>
+>>> -	if (group->domain && group->domain != group->default_domain)
+>>> +	if (group->domain && group->domain != group->default_domain &&
+>>> +	    group->domain != group->blocking_domain)
+>>>   		return -EBUSY;
+>>>
+>>>   	ret = __iommu_group_for_each_dev(group, domain,
+>>
+>> Suppose this can be also replaced by __iommu_group_attach_domain()?
+> 
+> It can, but lets do this as a follow patching since it is a bit big
+> 
+>>> @@ -2072,38 +2070,68 @@ static int
+>>> iommu_group_do_detach_device(struct device *dev, void *data)
+>>>   	return 0;
+>>>   }
+>>>
+>>> -static void __iommu_detach_group(struct iommu_domain *domain,
+>>> -				 struct iommu_group *group)
+>>> +static int __iommu_group_attach_domain(struct iommu_group *group,
+>>> +				       struct iommu_domain *new_domain)
+>>>   {
+>>>   	int ret;
+>>>
+>>> +	if (group->domain == new_domain)
+>>> +		return 0;
+>>> +
+>>>   	/*
+>>> -	 * If the group has been claimed already, do not re-attach the default
+>>> -	 * domain.
+>>> +	 * New drivers should support default domains and so the
+>>> detach_dev() op
+>>> +	 * will never be called. Otherwise the NULL domain indicates the
+>>> +	 * translation for the group should be set so it will work with the
+>>
+>> translation should be 'blocked'?
+> 
+> No, not blocked.
+> 
+>>> +	 * platform DMA ops.
+>>
+>> I didn't get the meaning of the last sentence.
+> 
+> It is as discussed with Robin, NULL means to return the group back to
+> some platform defined translation, and in some cases this means
+> returning back to work with the platform's DMA ops - presumably if it
+> isn't using the dma api.
+> 
+>>> +	/*
+>>> +	 * Changing the domain is done by calling attach on the new domain.
+>>> +	 * Drivers should implement this so that DMA is always translated by
+>>
+>> what does 'this' mean?
+> 
+> The code below - attach_dev called in a loop for each dev in the group.
+> 
+>>> +	 * either the new, old, or a blocking domain. DMA should never
+>>
+>> isn't the blocking domain passed in as the new domain?
+> 
+> Soemtimes. This is a statement about the required
+> atomicity. New/old/block are all valid translations during the
+> operation. Identity is not.
+>   
+>>> +	 * untranslated.
+>>> +	 *
+>>> +	 * Note that this is called in error unwind paths, attaching to a
+>>> +	 * domain that has already been attached cannot fail.
+>>
+>> this is called in the normal path. Where does error unwind happen?
+> 
+> Any place that checks the return and does WARN_ON
+> 
+> Also the loop over each dev doesn't error unwind so it assumes that if
+> the first dev succeeds then all subsequent devs will succeed.
+>>>   /**
+>>>    * iommu_group_claim_dma_owner() - Set DMA ownership of a group
+>>>    * @group: The group.
+>>> @@ -3111,9 +3162,15 @@ int iommu_group_claim_dma_owner(struct
+>>> iommu_group *group, void *owner)
+>>>   			goto unlock_out;
+>>>   		}
+>>>
+>>> +		ret = __iommu_group_alloc_blocking_domain(group);
+>>> +		if (ret)
+>>> +			goto unlock_out;
+>>> +
+>>> +		ret = __iommu_group_attach_domain(group,
+>>> +						  group->blocking_domain);
+>>> +		if (ret)
+>>> +			goto unlock_out;
+>>>   		group->owner = owner;
+>>
+>> Here can use __iommu_group_attach_core_domain() if calling it after
+>> setting group->owner.
+> 
+> That is obfuscating. This function must always and only attach the
+> blocking_domain.
+> 
+> So, I'm going to leave this patch as-is since it has been tested now
+> and we need to get the series back into iommu-next ASAP.
 
-The only unique thing __iommu_attach_group() does is to check if the group
-is already attached to some caller specified group. Put this test into
-__iommu_group_is_core_domain(), matching the
-__iommu_group_attach_core_domain() nomenclature.
+Ack to that, there are certainly further improvements to consider once 
+we've got known-working code into a released kernel, but let's not get 
+ahead of ourselves just now.
 
-Change the two callers to directly call __iommu_group_attach_domain() and
-test __iommu_group_is_core_domain().
+(I'm pretty sure we could get away with a single blocking domain per 
+IOMMU instance, rather than per group, but I deliberately saved that one 
+for later - right now one per group to match default domains is simpler 
+to reason about and less churny in the context of the current ownership 
+patches)
 
-iommu_attach_device() should trigger a WARN_ON if the group is attached as
-the caller is using the function wrong.
-
-Suggested-by: "Tian, Kevin" <kevin.tian@intel.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- drivers/iommu/iommu.c | 42 +++++++++++++++++++-----------------------
- 1 file changed, 19 insertions(+), 23 deletions(-)
-
-This goes after "iommu: iommu_group_claim_dma_owner() must always assign a
-domain" and simplifies some of the remaining duplication.
-
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index c1bdec807ea381..09d00be887f924 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -81,9 +81,10 @@ static struct iommu_domain *__iommu_domain_alloc(struct bus_type *bus,
- 						 unsigned type);
- static int __iommu_attach_device(struct iommu_domain *domain,
- 				 struct device *dev);
--static int __iommu_attach_group(struct iommu_domain *domain,
--				struct iommu_group *group);
-+static int __iommu_group_attach_domain(struct iommu_group *group,
-+				       struct iommu_domain *new_domain);
- static void __iommu_group_attach_core_domain(struct iommu_group *group);
-+static bool __iommu_group_is_core_domain(struct iommu_group *group);
- static int iommu_create_device_direct_mappings(struct iommu_group *group,
- 					       struct device *dev);
- static struct iommu_group *iommu_group_get_for_dev(struct device *dev);
-@@ -1938,10 +1939,11 @@ int iommu_attach_device(struct iommu_domain *domain, struct device *dev)
- 	 */
- 	mutex_lock(&group->mutex);
- 	ret = -EINVAL;
--	if (iommu_group_device_count(group) != 1)
-+	if (iommu_group_device_count(group) != 1 ||
-+	    WARN_ON(!__iommu_group_is_core_domain(group)))
- 		goto out_unlock;
- 
--	ret = __iommu_attach_group(domain, group);
-+	ret = __iommu_group_attach_domain(group, domain);
- 
- out_unlock:
- 	mutex_unlock(&group->mutex);
-@@ -2032,31 +2034,19 @@ static int iommu_group_do_attach_device(struct device *dev, void *data)
- 	return __iommu_attach_device(domain, dev);
- }
- 
--static int __iommu_attach_group(struct iommu_domain *domain,
--				struct iommu_group *group)
--{
--	int ret;
--
--	if (group->domain && group->domain != group->default_domain &&
--	    group->domain != group->blocking_domain)
--		return -EBUSY;
--
--	ret = __iommu_group_for_each_dev(group, domain,
--					 iommu_group_do_attach_device);
--	if (ret == 0)
--		group->domain = domain;
--
--	return ret;
--}
--
- int iommu_attach_group(struct iommu_domain *domain, struct iommu_group *group)
- {
- 	int ret;
- 
- 	mutex_lock(&group->mutex);
--	ret = __iommu_attach_group(domain, group);
--	mutex_unlock(&group->mutex);
-+	if (!__iommu_group_is_core_domain(group)) {
-+		ret = -EBUSY;
-+		goto out_unlock;
-+	}
- 
-+	ret = __iommu_group_attach_domain(group, domain);
-+out_unlock:
-+	mutex_unlock(&group->mutex);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(iommu_attach_group);
-@@ -2110,6 +2100,12 @@ static int __iommu_group_attach_domain(struct iommu_group *group,
- 	return 0;
- }
- 
-+static bool __iommu_group_is_core_domain(struct iommu_group *group)
-+{
-+	return !group->domain || group->domain == group->default_domain ||
-+	       group->domain == group->blocking_domain;
-+}
-+
- /*
-  * Put the group's domain back to the appropriate core-owned domain - either the
-  * standard kernel-mode DMA configuration or an all-DMA-blocked domain.
-
-base-commit: f9169ee95787fe691287eeed1a1c269ea72c8fb4
--- 
-2.36.0
-
+Cheers,
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
