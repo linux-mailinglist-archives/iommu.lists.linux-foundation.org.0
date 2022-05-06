@@ -1,68 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4837951CD27
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA2451CD28
 	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 01:58:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E80CD419CE;
-	Thu,  5 May 2022 23:58:14 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7D40240C1D;
+	Thu,  5 May 2022 23:58:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FjYQ60TH0hpT; Thu,  5 May 2022 23:58:13 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JF3cvUZDx_A6; Thu,  5 May 2022 23:58:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B540B4190C;
-	Thu,  5 May 2022 23:58:13 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 794CF40C04;
+	Thu,  5 May 2022 23:58:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C044C002D;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C67D0C0084;
 	Thu,  5 May 2022 23:58:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1ECC5C0084
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:58:10 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1029FC002D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:58:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5426960BCA
+ by smtp3.osuosl.org (Postfix) with ESMTP id B717061102
  for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nEPH66qWpO_c for <iommu@lists.linux-foundation.org>;
- Thu,  5 May 2022 23:57:55 +0000 (UTC)
+ with ESMTP id eVLgVzxGHxej for <iommu@lists.linux-foundation.org>;
+ Thu,  5 May 2022 23:57:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A830860BFE
- for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:55 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1BE62610FD
+ for <iommu@lists.linux-foundation.org>; Thu,  5 May 2022 23:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651795075; x=1683331075;
+ t=1651795076; x=1683331076;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=FvfOUL9RmgV913TUdo/h6z7c9UJ7bF06B9BxDFF6nMg=;
- b=AIGlhy1fAEZ0RguiMn14SUxgOV3dN5gByfFUUlPTIZxnZvYixOijwiTV
- tNIwMpBzOo/qg2aP28j3m2jK0xQux2yetLtVAljcqHKJcDCEZJ7NRyZYS
- 56JsKF5IEnw+RyRlEQi7DNzb7lc1CH9KXjrOSLwtrSmfbsaHZZPASw+Mj
- QdfBcrOtuDbdvJt7Q0/sERZonm4tE5HD94p03cTUFqOuRujgbrO0TPQMH
- By2ED/AQ43U78FPkccKz0ILaWl+67jXURLyJIV8S4X7VODu9F9mRdcaNK
- IlcAoDk5/ovllJmtP9nmUjFMGiyEpTpsuQHAfMimstmR0SEq/ATs71F/n w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293496365"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="293496365"
+ bh=kUyeigYz7qVM6Mrp46t6dkjR9tV464c8drNXHNVDlvU=;
+ b=HyJ7FyoWQs2/bM24H/P4+ztm2ct/dd6TunRdgCk1L49TzEkHjLMlYQvX
+ 3r1xfVMFX3jAMY67D+Mpd2ThaYfLFUjpo+fSJwSWcg4nhBVrxR37eSI3R
+ 3/FdgdGxSx7pKq5rfB3DdOzRBU4wD+QEU/JKzE5XwoR1THBoGEk1PEil7
+ eRcvawisG0ac8m1H2lH51DNFy7B0BuetmnYehIj0i9U9bM+4r0zHnTHRz
+ SViovnVzIlzLVOgS9R9osowIkDN1dq+3JjSYp/XxWuHo6GeJFDm3PmnGD
+ hFRg+r2qMNbOnWbnhLTVt6qPq/mek953p+wzb+Rsr95JZTIBNhoECuSCw Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293496373"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="293496373"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 May 2022 16:57:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="694914437"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="694914442"
 Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
  by orsmga004.jf.intel.com with ESMTP; 05 May 2022 16:57:55 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	x86@kernel.org
-Subject: [PATCH v6 24/29] watchdog/hardlockup: Use parse_option_str() to
- handle "nmi_watchdog"
-Date: Thu,  5 May 2022 17:00:03 -0700
-Message-Id: <20220506000008.30892-25-ricardo.neri-calderon@linux.intel.com>
+Subject: [PATCH v6 25/29] watchdog/hardlockup/hpet: Only enable the HPET
+ watchdog via a boot parameter
+Date: Thu,  5 May 2022 17:00:04 -0700
+Message-Id: <20220506000008.30892-26-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
 References: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
@@ -92,14 +92,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Prepare hardlockup_panic_setup() to handle a comma-separated list of
-options. Thus, it can continue parsing its own command-line options while
-ignoring parameters that are relevant only to specific implementations of
-the hardlockup detector. Such implementations may use an early_param to
-parse their own options.
+Keep the HPET-based hardlockup detector disabled unless explicitly enabled
+via a command-line argument. If such parameter is not given, the
+initialization of the HPET-based hardlockup detector fails and the NMI
+watchdog will fall back to use the perf-based implementation.
+
+Implement the command-line parsing using an early_param, as
+__setup("nmi_watchdog=") only parses generic options.
 
 Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Nicholas Piggin <npiggin@gmail.com>
 Cc: Stephane Eranian <eranian@google.com>
 Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
 Cc: iommu@lists.linux-foundation.org
@@ -107,9 +108,9 @@ Cc: linuxppc-dev@lists.ozlabs.org
 Cc: x86@kernel.org
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
+--
 Changes since v5:
- * Corrected typo in commit message. (Tony)
+ * None
 
 Changes since v4:
  * None
@@ -118,36 +119,76 @@ Changes since v3:
  * None
 
 Changes since v2:
- * Introduced this patch.
+ * Do not imply that using nmi_watchdog=hpet means the detector is
+   enabled. Instead, print a warning in such case.
 
 Changes since v1:
- * None
+ * Added documentation to the function handing the nmi_watchdog
+   kernel command-line argument.
 ---
- kernel/watchdog.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  8 ++++++-
+ arch/x86/kernel/watchdog_hld_hpet.c           | 22 +++++++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index 9166220457bc..6443841a755f 100644
---- a/kernel/watchdog.c
-+++ b/kernel/watchdog.c
-@@ -73,13 +73,13 @@ void __init hardlockup_detector_disable(void)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 269be339d738..89eae950fdb8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3370,7 +3370,7 @@
+ 			Format: [state][,regs][,debounce][,die]
  
- static int __init hardlockup_panic_setup(char *str)
- {
--	if (!strncmp(str, "panic", 5))
-+	if (parse_option_str(str, "panic"))
- 		hardlockup_panic = 1;
--	else if (!strncmp(str, "nopanic", 7))
-+	else if (parse_option_str(str, "nopanic"))
- 		hardlockup_panic = 0;
--	else if (!strncmp(str, "0", 1))
-+	else if (parse_option_str(str, "0"))
- 		nmi_watchdog_user_enabled = 0;
--	else if (!strncmp(str, "1", 1))
-+	else if (parse_option_str(str, "1"))
- 		nmi_watchdog_user_enabled = 1;
- 	return 1;
+ 	nmi_watchdog=	[KNL,BUGS=X86] Debugging features for SMP kernels
+-			Format: [panic,][nopanic,][num]
++			Format: [panic,][nopanic,][num,][hpet]
+ 			Valid num: 0 or 1
+ 			0 - turn hardlockup detector in nmi_watchdog off
+ 			1 - turn hardlockup detector in nmi_watchdog on
+@@ -3381,6 +3381,12 @@
+ 			please see 'nowatchdog'.
+ 			This is useful when you use a panic=... timeout and
+ 			need the box quickly up again.
++			When hpet is specified, the NMI watchdog will be driven
++			by an HPET timer, if available in the system. Otherwise,
++			it falls back to the default implementation (perf or
++			architecture-specific). Specifying hpet has no effect
++			if the NMI watchdog is not enabled (either at build time
++			or via the command line).
+ 
+ 			These settings can be accessed at runtime via
+ 			the nmi_watchdog and hardlockup_panic sysctls.
+diff --git a/arch/x86/kernel/watchdog_hld_hpet.c b/arch/x86/kernel/watchdog_hld_hpet.c
+index 3effdbf29095..4413d5fb94f4 100644
+--- a/arch/x86/kernel/watchdog_hld_hpet.c
++++ b/arch/x86/kernel/watchdog_hld_hpet.c
+@@ -379,6 +379,28 @@ void hardlockup_detector_hpet_start(void)
+ 	enable_timer(hld_data);
  }
+ 
++/**
++ * hardlockup_detector_hpet_setup() - Parse command-line parameters
++ * @str:	A string containing the kernel command line
++ *
++ * Parse the nmi_watchdog parameter from the kernel command line. If
++ * selected by the user, use this implementation to detect hardlockups.
++ */
++static int __init hardlockup_detector_hpet_setup(char *str)
++{
++	if (!str)
++		return -EINVAL;
++
++	if (parse_option_str(str, "hpet"))
++		hardlockup_use_hpet = true;
++
++	if (!nmi_watchdog_user_enabled && hardlockup_use_hpet)
++		pr_err("Selecting HPET NMI watchdog has no effect with NMI watchdog disabled\n");
++
++	return 0;
++}
++early_param("nmi_watchdog", hardlockup_detector_hpet_setup);
++
+ /**
+  * hardlockup_detector_hpet_init() - Initialize the hardlockup detector
+  *
 -- 
 2.17.1
 
