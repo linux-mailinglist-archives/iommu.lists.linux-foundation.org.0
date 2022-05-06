@@ -1,67 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B864951DD00
-	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 18:07:32 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6515951DCFF
+	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 18:07:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 568DF607F2;
-	Fri,  6 May 2022 16:07:31 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 16A23404FD;
+	Fri,  6 May 2022 16:07:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zviqTvIS5KZg; Fri,  6 May 2022 16:07:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6BB0E60C27;
-	Fri,  6 May 2022 16:07:30 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id c31IcKnSGLJe; Fri,  6 May 2022 16:07:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 369BE4052D;
+	Fri,  6 May 2022 16:07:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 46395C0081;
-	Fri,  6 May 2022 16:07:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 215A3C002D;
+	Fri,  6 May 2022 16:07:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B66FAC002D
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 40B09C002D
  for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 16:07:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A5A2160C27
+ by smtp2.osuosl.org (Postfix) with ESMTP id 2000D40502
  for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 16:07:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VjbVuTJKfCfP for <iommu@lists.linux-foundation.org>;
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id D3w5HkClDKLY for <iommu@lists.linux-foundation.org>;
  Fri,  6 May 2022 16:07:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C8C7860D57
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7601E40510
  for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 16:07:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 26DC3B8370C;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B634C61EDF;
  Fri,  6 May 2022 16:07:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9ADC385AC;
- Fri,  6 May 2022 16:07:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE0AC385BD;
+ Fri,  6 May 2022 16:07:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651853243;
- bh=0P7/WGJCYHt435lwImIJcvUvwlWu+QHXkyE1lQQbags=;
+ s=k20201202; t=1651853245;
+ bh=6X2hMLK9syCGnQ6i86SAh139iWBlukYJvCLaWxrJbQU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rKyJZZCmEzRQ4LARqny8I4XWojwmowD0nj/y5A2VC5LR/gplATsWWXhGKYnGBSRft
- kKfJRL3x24JUfZ+g142St1pIMb2msv8PFvo6B77rtWgtA1LHLynlOHPH0AlcY7cWfV
- IxVihBnan1xn6/8+nixYw5ENw4+0zAmY2QPfcHF8mzPq47SJ6OdedwZC5wcNL+1Kml
- uTb1ZEx/F1hYLeziEjfGxVMxJgDDkVrHrjrunQaxjFM+mV7sN6KV5Rx3oXGqJR7mkc
- s4SNDhvOi2ZhluJq4JLvkWL1I0Pi3qwyIt4ot8yWl1K9zuhH8xhODFTAyWUSJN306U
- ZrAjP8NTChY+A==
+ b=ridMCBYtJRjzkSwTQwWivatVkVagzfPJs9AJw64MuOZHRC2MkAFLMTg0mtjkOEI9W
+ Gn08Kniaieg20voYvVhDxYYXck7gP4dke3d1EiGuSAWrGeB1lXhZfdS9R4Lm3WD9hO
+ hi2W7CtP0QoiLvi+rxuTM/eBbuJAF2SQkDzKitZs1SDiwWRi/SQYqzHy1z+pv50arc
+ v46rrqa5TaXsokEO+0XGRIb37M7Q7LlOm/7Qff8AX6gOENIwVmbgw35ynzOj+9aVEZ
+ U0xhtv5sDZRHmaB6PRb2/Bc1FvDu6KTL2RfYbZAQjE6HGFuaumFohZhfOyl8d52W51
+ 71VqTtvx3yLiA==
 From: Will Deacon <will@kernel.org>
-To: Yang Yingliang <yangyingliang@huawei.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] iommu/arm-smmu: fix possible null-ptr-deref in
- arm_smmu_device_probe()
-Date: Fri,  6 May 2022 17:07:05 +0100
-Message-Id: <165185066572.2780646.1953515178264833558.b4-ty@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Yang Yingliang <yangyingliang@huawei.com>, iommu@lists.linux-foundation.org
+Subject: Re: [PATCH] iommu/arm-smmu-v3: check return value after calling
+ platform_get_resource()
+Date: Fri,  6 May 2022 17:07:06 +0100
+Message-Id: <165185069794.2780907.13021484269981123590.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220425114136.2649310-1-yangyingliang@huawei.com>
-References: <20220425114136.2649310-1-yangyingliang@huawei.com>
+In-Reply-To: <20220425114525.2651143-1-yangyingliang@huawei.com>
+References: <20220425114525.2651143-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
 Cc: catalin.marinas@arm.com, kernel-team@android.com, robin.murphy@arm.com,
  Will Deacon <will@kernel.org>
@@ -82,18 +81,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 25 Apr 2022 19:41:36 +0800, Yang Yingliang wrote:
-> It will cause null-ptr-deref when using 'res', if platform_get_resource()
-> returns NULL, so move using 'res' after devm_ioremap_resource() that
-> will check it to avoid null-ptr-deref.
-> And use devm_platform_get_and_ioremap_resource() to simplify code.
+On Mon, 25 Apr 2022 19:45:25 +0800, Yang Yingliang wrote:
+> It will cause null-ptr-deref if platform_get_resource() returns NULL,
+> we need check the return value.
 > 
 > 
 
 Applied to will (for-joerg/arm-smmu/updates), thanks!
 
-[1/1] iommu/arm-smmu: fix possible null-ptr-deref in arm_smmu_device_probe()
-      https://git.kernel.org/will/c/d9ed8af1dee3
+[1/1] iommu/arm-smmu-v3: check return value after calling platform_get_resource()
+      https://git.kernel.org/will/c/b131fa8c1d2a
 
 Cheers,
 -- 
