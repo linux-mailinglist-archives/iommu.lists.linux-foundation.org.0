@@ -1,105 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A3151E107
-	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 23:24:55 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE4C51E0DE
+	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 23:12:32 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CD2C640131;
-	Fri,  6 May 2022 21:24:53 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6015B4058D;
+	Fri,  6 May 2022 21:12:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id E6wV1ARAwjlf; Fri,  6 May 2022 21:24:53 +0000 (UTC)
+	with ESMTP id LmSm3HzHJyBm; Fri,  6 May 2022 21:12:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id EEEB14058D;
-	Fri,  6 May 2022 21:24:52 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3A75F402DC;
+	Fri,  6 May 2022 21:12:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C9468C002D;
-	Fri,  6 May 2022 21:24:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B562C0081;
+	Fri,  6 May 2022 21:12:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A14B5C002D
- for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:09:56 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6176DC002D
+ for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:12:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7ACDE60D79
- for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:09:56 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4A32360B71
+ for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:12:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=redhat.com
+ dkim=pass (2048-bit key) header.d=linutronix.de header.b="oyF7PEmP";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=linutronix.de header.b="9ITl2ylm"
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E0MrAWThVhDo for <iommu@lists.linux-foundation.org>;
- Fri,  6 May 2022 21:09:53 +0000 (UTC)
+ with ESMTP id jGOBQAkZeI-w for <iommu@lists.linux-foundation.org>;
+ Fri,  6 May 2022 21:12:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E8F1960B73
- for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651871391;
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1AD8860B08
+ for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:12:24 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1651871541;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UC8PN3IHksXw4YLUl2DR5j2jd0ER+gWoSOxwPmBpqKg=;
- b=FWoRerSRmffaC1A6NDwhnwcJH3uWoiz+ydt/AUD6a2rTBsK0D5T4eE/V7auFlqyLXLa9ES
- 2rFe/aB7r/G6UE96JYFNwFlLQiDZEnZayGS2JnTlE0OdBYo1tEtqDXcTPDIhjMIItAt3Iz
- 1lfH2gdY4UwpocWTE2xXDT0WfAFsTJE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-kcLRUfvNP-OjoQhMZN-N8w-1; Fri, 06 May 2022 17:09:50 -0400
-X-MC-Unique: kcLRUfvNP-OjoQhMZN-N8w-1
-Received: by mail-qt1-f199.google.com with SMTP id
- x5-20020a05622a000500b002f37cb8b803so7028634qtw.9
- for <iommu@lists.linux-foundation.org>; Fri, 06 May 2022 14:09:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=UC8PN3IHksXw4YLUl2DR5j2jd0ER+gWoSOxwPmBpqKg=;
- b=mLlTU6bgZ1M7pcgg0OnWBQhojvCzweYokBAEfZMj+iVLgsjS7WbtPnRAyoGCTwDp4q
- erHksxf4YO5C5KS+W+TP2EsIayR5e7w179TsEggQhjkgk2PImqLO0ZQeU9NgsyK557IM
- iUdwrnLNyKxC3xpbvgNLCYS+mIkBQLH4Qs/MZuNlHmOptpyOwOa/IUxAKeB5LI4rQbq8
- 6VOFhnDVAUqyOMnkj5bbDUzug+9wKQcyo2rlmEI1hSQ5GURQs/4PPyI5c2HSXWdeEi4k
- uHBMhRifoiDardmhWkhlyudp8/njPhvvB2yFX9zim4Z5rIuO5iHY64ovkpkttuSq4cFS
- 8bLw==
-X-Gm-Message-State: AOAM532/eaXuWfb3Cqaek6BrvpHcrauAAIYz1kLfc3By2rZid3Wev1oP
- zzz1WVFEneb6d/2oxluyAyXZd9+WTa3V1sLzhb2gc2lZETaPk5jJqT2axxih0KTAN2rPSh0HKDL
- 84jkQjLteQ+QjFqFm2zjGxWW3yk+exg==
-X-Received: by 2002:ac8:57d2:0:b0:2f3:b3b0:ecbe with SMTP id
- w18-20020ac857d2000000b002f3b3b0ecbemr4766061qta.29.1651871389817; 
- Fri, 06 May 2022 14:09:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXZnGn2kgpYuxbTXggVBq/gakbuX/nYQzG8wHJicm20zlfTeeC+kYw7imlv4ImNqRIYEC4Og==
-X-Received: by 2002:ac8:57d2:0:b0:2f3:b3b0:ecbe with SMTP id
- w18-20020ac857d2000000b002f3b3b0ecbemr4766041qta.29.1651871389605; 
- Fri, 06 May 2022 14:09:49 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- de27-20020a05620a371b00b0069fe1fc72e7sm3030497qkb.90.2022.05.06.14.09.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 14:09:49 -0700 (PDT)
-Message-ID: <8ec2715e36dbd1fab8a31b4b12660ae83e29303d.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/tegra: Stop using iommu_present()
-From: Lyude Paul <lyude@redhat.com>
-To: Robin Murphy <robin.murphy@arm.com>, bskeggs@redhat.com, kherbst@redhat.com
-Date: Fri, 06 May 2022 17:09:47 -0400
-In-Reply-To: <70d40ea441da3663c2824d54102b471e9a621f8a.1649168494.git.robin.murphy@arm.com>
-References: <70d40ea441da3663c2824d54102b471e9a621f8a.1649168494.git.robin.murphy@arm.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ bh=OR1pmM4x5cpd2mA4k9e/aWIlSPAQ7vdjsY8tgTejLzI=;
+ b=oyF7PEmPteS/Ij/pjSpG2vUJ+F9MWnjT60Q7Em5LJxgEcgdV2Keo97S3wPx7/J5E+txgUk
+ JCojiqTYydfRy2QOfNub+Z6GCtf5iqJ95IrYyVrXU94wRA891K8qGTKu4kMrONDEj3t2xI
+ wCxkleNZMeXe1/LgpV4XvplOoKFaZn2h2Dl1FzoVtMKW2jBHJlfhIWbjQPIGNfO2Pi7uAj
+ DKSr6s0Xz47aEJt6wfPtWXi8IsfQLaSxpHv37/gGewZf4jpFxR8Ho2GkHDTqeBU4A8ImgG
+ SYlksuHxEF3mZZSNUbvq7CwBHaeStS+M10UHzWT6KuBuUylRXxV8qYgVGLXNuQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1651871541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OR1pmM4x5cpd2mA4k9e/aWIlSPAQ7vdjsY8tgTejLzI=;
+ b=9ITl2ylmsUv+bZnup01fSsbtCNbIJHb2Vl+xV5ebZckGAGMVOE04FOZX36z7AudwqlokLy
+ CoePs/joVdcnuxDw==
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>, x86@kernel.org
+Subject: Re: [PATCH v6 05/29] x86/apic/vector: Do not allocate vectors for NMIs
+In-Reply-To: <20220506000008.30892-6-ricardo.neri-calderon@linux.intel.com>
+References: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
+ <20220506000008.30892-6-ricardo.neri-calderon@linux.intel.com>
+Date: Fri, 06 May 2022 23:12:20 +0200
+Message-ID: <87zgjufjrf.ffs@tglx>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-X-Mailman-Approved-At: Fri, 06 May 2022 21:24:51 +0000
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, iommu@lists.linux-foundation.org,
- thierry.reding@gmail.com, linux-tegra@vger.kernel.org
+Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+ Andi Kleen <ak@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
+ Ricardo Neri <ricardo.neri@intel.com>, Stephane Eranian <eranian@google.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Tony Luck <tony.luck@intel.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,37 +86,167 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-V2hvb3BzISBXYXMgZ29pbmcgdGhyb3VnaCBteSB1bnJlYWQgZW1haWxzIGFuZCBub3RpY2VkIEkg
-c29tZWhvdyBtaXNzZWQgdGhpcwpwYXRjaCBsYXN0IG1vbnRoLgoKUmV2aWV3ZWQtYnk6IEx5dWRl
-IFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgpJIHdpbGwgcHVzaCB0aGlzIHRvIGRybS1taXNjLWZp
-eGVzIGluIGEgbGl0dGxlIGJpdCAoYXNzdW1pbmcgSSBkb24ndCBmaW5kIGl0CnRoZXJlIGFscmVh
-ZHkpCgpPbiBUdWUsIDIwMjItMDQtMDUgYXQgMTU6MjEgKzAxMDAsIFJvYmluIE11cnBoeSB3cm90
-ZToKPiBFdmVuIGlmIHNvbWUgSU9NTVUgaGFzIHJlZ2lzdGVyZWQgaXRzZWxmIG9uIHRoZSBwbGF0
-Zm9ybSAiYnVzIiwgdGhhdAo+IGRvZXNuJ3QgbmVjZXNzYXJpbHkgbWVhbiBpdCBwcm92aWRlcyB0
-cmFuc2xhdGlvbiBmb3IgdGhlIGRldmljZSB3ZQo+IGNhcmUgYWJvdXQuIFJlcGxhY2UgaW9tbXVf
-cHJlc2VudCgpIHdpdGggYSBtb3JlIGFwcHJvcHJpYXRlIGNoZWNrLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+Cj4gLS0tCj4gwqBkcml2ZXJz
-L2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvdGVncmEuYyB8IDIgKy0KPiDCoDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvdGVncmEuYwo+
-IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9lbmdpbmUvZGV2aWNlL3RlZ3JhLmMKPiBp
-bmRleCA5OTJjYzI4NWYyZmUuLjJlZDUyOGMwNjVmYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvdGVncmEuYwo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L252a20vZW5naW5lL2RldmljZS90ZWdyYS5jCj4gQEAgLTEyMyw3ICsx
-MjMsNyBAQCBudmttX2RldmljZV90ZWdyYV9wcm9iZV9pb21tdShzdHJ1Y3QgbnZrbV9kZXZpY2Vf
-dGVncmEKPiAqdGRldikKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBtdXRleF9pbml0KCZ0ZGV2LT5p
-b21tdS5tdXRleCk7Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqBpZiAoaW9tbXVfcHJlc2VudCgmcGxh
-dGZvcm1fYnVzX3R5cGUpKSB7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKGRldmljZV9pb21tdV9tYXBw
-ZWQoZGV2KSkgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGRldi0+aW9tbXUu
-ZG9tYWluID0gaW9tbXVfZG9tYWluX2FsbG9jKCZwbGF0Zm9ybV9idXNfdHlwZSk7Cj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIXRkZXYtPmlvbW11LmRvbWFpbikKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGVycm9yOwoK
-LS0gCkNoZWVycywKIEx5dWRlIFBhdWwgKHNoZS9oZXIpCiBTb2Z0d2FyZSBFbmdpbmVlciBhdCBS
-ZWQgSGF0CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpp
-b21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6
-Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+On Thu, May 05 2022 at 16:59, Ricardo Neri wrote:
+> Vectors are meaningless when allocating IRQs with NMI as the delivery
+> mode.
+
+Vectors are not meaningless. NMI has a fixed vector.
+
+The point is that for a fixed vector there is no vector management
+required.
+
+Can you spot the difference?
+
+> In such case, skip the reservation of IRQ vectors. Do it in the lowest-
+> level functions where the actual IRQ reservation takes place.
+>
+> Since NMIs target specific CPUs, keep the functionality to find the best
+> CPU.
+
+Again. What for?
+  
+> +	if (apicd->hw_irq_cfg.delivery_mode == APIC_DELIVERY_MODE_NMI) {
+> +		cpu = irq_matrix_find_best_cpu(vector_matrix, dest);
+> +		apicd->cpu = cpu;
+> +		vector = 0;
+> +		goto no_vector;
+> +	}
+
+Why would a NMI ever end up in this code? There is no vector management
+required and this find cpu exercise is pointless.
+
+>  	vector = irq_matrix_alloc(vector_matrix, dest, resvd, &cpu);
+>  	trace_vector_alloc(irqd->irq, vector, resvd, vector);
+>  	if (vector < 0)
+>  		return vector;
+>  	apic_update_vector(irqd, vector, cpu);
+> +
+> +no_vector:
+>  	apic_update_irq_cfg(irqd, vector, cpu);
+>  
+>  	return 0;
+> @@ -321,12 +330,22 @@ assign_managed_vector(struct irq_data *irqd, const struct cpumask *dest)
+>  	/* set_affinity might call here for nothing */
+>  	if (apicd->vector && cpumask_test_cpu(apicd->cpu, vector_searchmask))
+>  		return 0;
+> +
+> +	if (apicd->hw_irq_cfg.delivery_mode == APIC_DELIVERY_MODE_NMI) {
+> +		cpu = irq_matrix_find_best_cpu_managed(vector_matrix, dest);
+> +		apicd->cpu = cpu;
+> +		vector = 0;
+> +		goto no_vector;
+> +	}
+
+This code can never be reached for a NMI delivery. If so, then it's a
+bug.
+
+This all is special purpose for that particular HPET NMI watchdog use
+case and we are not exposing this to anything else at all.
+
+So why are you sprinkling this NMI nonsense all over the place? Just
+because? There are well defined entry points to all of this where this
+can be fenced off.
+
+If at some day the hardware people get their act together and provide a
+proper vector space for NMIs then we have to revisit that, but then
+there will be a separate NMI vector management too.
+
+What you want is the below which also covers the next patch. Please keep
+an eye on the comments I added/modified.
+
+Thanks,
+
+        tglx
+---
+--- a/arch/x86/kernel/apic/vector.c
++++ b/arch/x86/kernel/apic/vector.c
+@@ -42,6 +42,7 @@ EXPORT_SYMBOL_GPL(x86_vector_domain);
+ static DEFINE_RAW_SPINLOCK(vector_lock);
+ static cpumask_var_t vector_searchmask;
+ static struct irq_chip lapic_controller;
++static struct irq_chip lapic_nmi_controller;
+ static struct irq_matrix *vector_matrix;
+ #ifdef CONFIG_SMP
+ static DEFINE_PER_CPU(struct hlist_head, cleanup_list);
+@@ -451,6 +452,10 @@ static int x86_vector_activate(struct ir
+ 	trace_vector_activate(irqd->irq, apicd->is_managed,
+ 			      apicd->can_reserve, reserve);
+ 
++	/* NMI has a fixed vector. No vector management required */
++	if (apicd->hw_irq_cfg.delivery_mode == APIC_DELIVERY_MODE_NMI)
++		return 0;
++
+ 	raw_spin_lock_irqsave(&vector_lock, flags);
+ 	if (!apicd->can_reserve && !apicd->is_managed)
+ 		assign_irq_vector_any_locked(irqd);
+@@ -472,6 +477,10 @@ static void vector_free_reserved_and_man
+ 	trace_vector_teardown(irqd->irq, apicd->is_managed,
+ 			      apicd->has_reserved);
+ 
++	/* NMI has a fixed vector. No vector management required */
++	if (apicd->hw_irq_cfg.delivery_mode == APIC_DELIVERY_MODE_NMI)
++		return;
++
+ 	if (apicd->has_reserved)
+ 		irq_matrix_remove_reserved(vector_matrix);
+ 	if (apicd->is_managed)
+@@ -568,6 +577,24 @@ static int x86_vector_alloc_irqs(struct
+ 		irqd->hwirq = virq + i;
+ 		irqd_set_single_target(irqd);
+ 
++		if (info->flags & X86_IRQ_ALLOC_AS_NMI) {
++			/*
++			 * NMIs have a fixed vector and need their own
++			 * interrupt chip so nothing can end up in the
++			 * regular local APIC management code except the
++			 * MSI message composing callback.
++			 */
++			irqd->chip = &lapic_nmi_controller;
++			/*
++			 * Don't allow affinity setting attempts for NMIs.
++			 * This cannot work with the regular affinity
++			 * mechanisms and for the intended HPET NMI
++			 * watchdog use case it's not required.
++			 */
++			irqd_set_no_balance(irqd);
++			continue;
++		}
++
+ 		/*
+ 		 * Prevent that any of these interrupts is invoked in
+ 		 * non interrupt context via e.g. generic_handle_irq()
+@@ -921,6 +948,11 @@ static struct irq_chip lapic_controller
+ 	.irq_retrigger		= apic_retrigger_irq,
+ };
+ 
++static struct irq_chip lapic_nmi_controller = {
++	.name			= "APIC-NMI",
++	.irq_compose_msi_msg	= x86_vector_msi_compose_msg,
++};
++
+ #ifdef CONFIG_SMP
+ 
+ static void free_moved_vector(struct apic_chip_data *apicd)
+--- a/include/linux/irq.h
++++ b/include/linux/irq.h
+@@ -261,6 +261,11 @@ static inline bool irqd_is_per_cpu(struc
+ 	return __irqd_to_state(d) & IRQD_PER_CPU;
+ }
+ 
++static inline void irqd_set_no_balance(struct irq_data *d)
++{
++	__irqd_to_state(d) |= IRQD_NO_BALANCING;
++}
++
+ static inline bool irqd_can_balance(struct irq_data *d)
+ {
+ 	return !(__irqd_to_state(d) & (IRQD_PER_CPU | IRQD_NO_BALANCING));
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
