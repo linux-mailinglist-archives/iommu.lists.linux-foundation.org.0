@@ -1,71 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DB351E103
-	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 23:23:31 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BEA51E108
+	for <lists.iommu@lfdr.de>; Fri,  6 May 2022 23:26:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 977B340590;
-	Fri,  6 May 2022 21:23:30 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 515A740593;
+	Fri,  6 May 2022 21:26:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3e__6gVPIzG5; Fri,  6 May 2022 21:23:29 +0000 (UTC)
+	with ESMTP id UAdfopcaDoGg; Fri,  6 May 2022 21:26:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B34384058D;
-	Fri,  6 May 2022 21:23:29 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4A13040590;
+	Fri,  6 May 2022 21:26:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82672C0081;
-	Fri,  6 May 2022 21:23:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D80DC0081;
+	Fri,  6 May 2022 21:26:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0DB5C002D
- for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:23:27 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E67E1C002D
+ for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:26:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 890C682423
- for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:23:27 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id D4AB74058D
+ for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:26:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linutronix.de header.b="1gitIq8F";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=linutronix.de header.b="kbgZs5Io"
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Oc32tbAQ6t6q for <iommu@lists.linux-foundation.org>;
- Fri,  6 May 2022 21:23:27 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CLkybKZ9aS38 for <iommu@lists.linux-foundation.org>;
+ Fri,  6 May 2022 21:26:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id DCFAB823E3
- for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:23:26 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 4774540131
+ for <iommu@lists.linux-foundation.org>; Fri,  6 May 2022 21:26:25 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1651872204;
+ s=2020; t=1651872383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0Qt7CUp/pjOXetxeeCEQTHQJVA1rcx9ZBnwtcdpqF+0=;
- b=1gitIq8FJN+a0xsKA2F9S/IkXhuehmIu/V1V6fDWUg4SgYJ6GNR70nqfi6IKrkT0vv4Yae
- ZCuqm/hYF1OxK74tQBPRc0TS/NELz45bgd73c1EXtOB7GCDM8SKQ7JiVY/gGbu0/kBholF
- JCPN0OvDqROnL3mfI+OVoJn1DJwxkm1w/Y3xe4jMDPcQgffkYct2evhH90bBtQYroQhHVQ
- 9i8FfLmF9G8vaSrdByk6xcyydCReNyG8txnHNUi2JYzjXsYbUvxSIRC6g/Zy35cqfeWuEr
- XMxMC6wWl98ijxGTdbdsJG7bZbtwAoS6+gKor1KCGSBIS1sDipmE+IsdzaWeTw==
+ bh=dnFvEUjYaXkrUWbb6k6bH4W0I42U5bcK4xwKGB/iA1Q=;
+ b=TDgZZgVD6IKft2KB8Wjp08EzKo+lWC4nCxQY6ojpI4H1hUj4ZvLjNxRSX0cZajHu50JwKv
+ S6eyooGuo8RTT0twSIFJzJRx+0XWf4p4QZoC70idfNUEQKDd4JKeiB38aUfRUgTRSl4Ytx
+ J9UOxaYgiNIc/l5TkYWQ0UPuIB3Flgj/r61E4f3wH/jBRPrNNloFPy5HHlEW4paO7xvr6z
+ ucwcH/2OmkHFNT49SvK4W47lcG3kv+jtISDCrBMBmB1LotCwdfAjUujREzm87wctSczMFW
+ nZOJjp1eDlE3hKYW9r1ilgjBXgjXQm0A1xqVryDZVytZbeicQgcQW+OFBPPMhA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1651872204;
+ s=2020e; t=1651872383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0Qt7CUp/pjOXetxeeCEQTHQJVA1rcx9ZBnwtcdpqF+0=;
- b=kbgZs5IojxdNYid2PCX/up8UYQ0YquDeCHiNJom3jcEaJQf4cp68zTUaibdsa1SEQ7jM4L
- U3OxdSYz2NZABvDA==
+ bh=dnFvEUjYaXkrUWbb6k6bH4W0I42U5bcK4xwKGB/iA1Q=;
+ b=WcZEnao8xTtQZ0w7qAuY+S/Xb9SfBJExBnOLNsmkdy8OV6SGqwMvfpax3q411PgaPTVg7X
+ ZEuh2NASqTIUK4Dw==
 To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>, x86@kernel.org
-Subject: Re: [PATCH v6 10/29] iommu/vt-d: Implement minor tweaks for NMI irqs
-In-Reply-To: <20220506000008.30892-11-ricardo.neri-calderon@linux.intel.com>
+Subject: Re: [PATCH v6 12/29] iommu/amd: Enable NMIPass when allocating an
+ NMI irq
+In-Reply-To: <20220506000008.30892-13-ricardo.neri-calderon@linux.intel.com>
 References: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
- <20220506000008.30892-11-ricardo.neri-calderon@linux.intel.com>
-Date: Fri, 06 May 2022 23:23:23 +0200
-Message-ID: <87wneyfj90.ffs@tglx>
+ <20220506000008.30892-13-ricardo.neri-calderon@linux.intel.com>
+Date: Fri, 06 May 2022 23:26:22 +0200
+Message-ID: <87tua2fj41.ffs@tglx>
 MIME-Version: 1.0
 Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
  Andi Kleen <ak@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
@@ -93,57 +90,13 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On Thu, May 05 2022 at 16:59, Ricardo Neri wrote:
-> The Intel IOMMU interrupt remapping driver already programs correctly the
-> delivery mode of individual irqs as per their irq_data. Improve handling
-> of NMIs. Allow only one irq per NMI. Also, it is not necessary to cleanup
-> irq vectors after updating affinity.
-
-Structuring a changelog in paragraphs might make it readable. New lines
-exist for a reason.
-
-> NMIs do not have associated vectors.
-
-Again. NMI has an vector associated, but it is not subject to dynamic
-vector management.
-
-> diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-> index fb2d71bea98d..791a9331e257 100644
-> --- a/drivers/iommu/intel/irq_remapping.c
-> +++ b/drivers/iommu/intel/irq_remapping.c
-> @@ -1198,8 +1198,12 @@ intel_ir_set_affinity(struct irq_data *data, const struct cpumask *mask,
->  	 * After this point, all the interrupts will start arriving
->  	 * at the new destination. So, time to cleanup the previous
->  	 * vector allocation.
-> +	 *
-> +	 * Do it only for non-NMI irqs. NMIs don't have associated
-> +	 * vectors.
-
-See above.
-
->  	 */
-> -	send_cleanup_vector(cfg);
-> +	if (cfg->delivery_mode != APIC_DELIVERY_MODE_NMI)
-> +		send_cleanup_vector(cfg);
-
-So this needs to be replicated for all invocations of
-send_cleanup_vector(), right? Why can't you put it into that function?
-  
->  	return IRQ_SET_MASK_OK_DONE;
->  }
-> @@ -1352,6 +1356,9 @@ static int intel_irq_remapping_alloc(struct irq_domain *domain,
->  	if (info->type == X86_IRQ_ALLOC_TYPE_PCI_MSI)
->  		info->flags &= ~X86_IRQ_ALLOC_CONTIGUOUS_VECTORS;
 >  
-> +	if ((info->flags & X86_IRQ_ALLOC_AS_NMI) && nr_irqs != 1)
-> +		return -EINVAL;
+> +	if (info->flags & X86_IRQ_ALLOC_AS_NMI) {
+> +		/* Only one IRQ per NMI */
+> +		if (nr_irqs != 1)
+> +			return -EINVAL;
 
-This cannot be reached when the vector allocation domain already
-rejected it, but copy & pasta is wonderful and increases the line count.
-
-Thanks,
-
-        tglx
-
+See previous reply.
 
 _______________________________________________
 iommu mailing list
