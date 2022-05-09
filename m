@@ -1,66 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1BA51F44F
-	for <lists.iommu@lfdr.de>; Mon,  9 May 2022 08:16:04 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818B451F451
+	for <lists.iommu@lfdr.de>; Mon,  9 May 2022 08:17:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1026B81770;
-	Mon,  9 May 2022 06:16:03 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 31863409F5;
+	Mon,  9 May 2022 06:17:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hmmXeEF-WyH3; Mon,  9 May 2022 06:16:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 21C628175A;
-	Mon,  9 May 2022 06:16:02 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qJX5OGPeDWJ7; Mon,  9 May 2022 06:17:04 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6614A40600;
+	Mon,  9 May 2022 06:17:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F0C1DC002D;
-	Mon,  9 May 2022 06:16:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ED6AC007E;
+	Mon,  9 May 2022 06:17:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F2F13C002D
- for <iommu@lists.linux-foundation.org>; Mon,  9 May 2022 06:16:00 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9A4D1C002D
+ for <iommu@lists.linux-foundation.org>; Mon,  9 May 2022 06:17:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C6F558175A
- for <iommu@lists.linux-foundation.org>; Mon,  9 May 2022 06:16:00 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 799B340600
+ for <iommu@lists.linux-foundation.org>; Mon,  9 May 2022 06:17:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bpiRph93P3nU for <iommu@lists.linux-foundation.org>;
- Mon,  9 May 2022 06:16:00 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id g7Hda9mm4MHA for <iommu@lists.linux-foundation.org>;
+ Mon,  9 May 2022 06:17:02 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E251B8174A
- for <iommu@lists.linux-foundation.org>; Mon,  9 May 2022 06:15:59 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id E4D2E4028D
+ for <iommu@lists.linux-foundation.org>; Mon,  9 May 2022 06:17:01 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id B429D68D05; Mon,  9 May 2022 08:15:53 +0200 (CEST)
-Date: Mon, 9 May 2022 08:15:52 +0200
+ id 69D2268AFE; Mon,  9 May 2022 08:16:57 +0200 (CEST)
+Date: Mon, 9 May 2022 08:16:57 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH v2 01/26] dma-direct: take dma-ranges/offsets into
- account in resource mapping
-Message-ID: <20220509061552.GA17190@lst.de>
-References: <20220503225104.12108-1-Sergey.Semin@baikalelectronics.ru>
- <20220503225104.12108-2-Sergey.Semin@baikalelectronics.ru>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: fully convert arm to use dma-direct
+Message-ID: <20220509061657.GB17190@lst.de>
+References: <20220421074204.1284072-1-hch@lst.de>
+ <CACRpkdbdKBfmXGdyTm3T-MFAK30N-z4KH0k8eD8F7xaYUbDDhA@mail.gmail.com>
+ <87pmkq7tmx.wl-maz@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220503225104.12108-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <87pmkq7tmx.wl-maz@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Rob Herring <robh@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- linux-pci@vger.kernel.org, Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Frank Li <Frank.Li@nxp.com>, linux-kernel@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Vladimir Murzin <vladimir.murzin@arm.com>,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- iommu@lists.linux-foundation.org, Jingoo Han <jingoohan1@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-usb@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Alan Stern <stern@rowland.harvard.edu>,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,11 +75,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-So I think the big problem pointed out by Robin is that existing DTs
-might not take this into account.  So I think we need to do a little
-research and at least Cc all maintainers and lists for relevant in-tree
-DTs for drivers that use dma_map_resource to discuss this.
+On Fri, May 06, 2022 at 01:06:14PM +0100, Marc Zyngier wrote:
+> > I think Marc Z has a Netwinder that he can test this on. Marc?
+> > I have one too, just not much in my office because of parental leave.
+> 
+> Finally found some time to hook the machine up and throw a new kernel
+> at it. Booted at its usual glacial speed, so FWIW:
+> 
+> Tested-by: Marc Zyngier <maz@kernel.org>
 
+Thanks.  I've not heard anything from Russell and we're pretty late
+in the merge window, so I'm tempted to wait until the next merge
+window.  I'd like to pull in ASAP for that though as I have other
+changes that are just waiting for it.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
