@@ -1,101 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C566522481
-	for <lists.iommu@lfdr.de>; Tue, 10 May 2022 21:07:10 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972ED522607
+	for <lists.iommu@lfdr.de>; Tue, 10 May 2022 23:03:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0896360807;
-	Tue, 10 May 2022 19:07:09 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0D25840472;
+	Tue, 10 May 2022 21:03:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lHEMcB1rZkt5; Tue, 10 May 2022 19:07:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 09CDC60AAA;
-	Tue, 10 May 2022 19:07:08 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iqpQeUvGYRdj; Tue, 10 May 2022 21:03:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id DAEC040390;
+	Tue, 10 May 2022 21:03:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E816AC002D;
-	Tue, 10 May 2022 19:07:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3309C002D;
+	Tue, 10 May 2022 21:03:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0C54DC002D
- for <iommu@lists.linux-foundation.org>; Tue, 10 May 2022 19:07:06 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5651AC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 10 May 2022 21:03:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id EF2E540AF6
- for <iommu@lists.linux-foundation.org>; Tue, 10 May 2022 19:07:05 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 204768305C
+ for <iommu@lists.linux-foundation.org>; Tue, 10 May 2022 21:03:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=hpe.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ilaqX2ALEL-o for <iommu@lists.linux-foundation.org>;
- Tue, 10 May 2022 19:07:04 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YqA3Bguf0kBm for <iommu@lists.linux-foundation.org>;
+ Tue, 10 May 2022 21:03:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com
- [148.163.147.86])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B05E040AAD
- for <iommu@lists.linux-foundation.org>; Tue, 10 May 2022 19:07:04 +0000 (UTC)
-Received: from pps.filterd (m0134420.ppops.net [127.0.0.1])
- by mx0b-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24AJ4gjm012605;
- Tue, 10 May 2022 19:06:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pps0720;
- bh=mhRPpgk7nWGY4A6HlKhZOSFnmi/jRL/Ly0+izj8z7nE=;
- b=aaZc3yZ8lNcPA4E73g1YxILRVqX2LrzMhD0NdW9qfxANqC+gAj5BGBmYGWtWE8ChO/2e
- VG+Vaf6z2LKVf1mYp3ic8y4/x57XAL13d+8E8AsA+yPnd1o3ZIrlgvr80ZRttYiI2kCc
- k8cm+AFw8vVpstT6VM5s04xdypi2nae4oicptWgvKmLAudS58niBKUDwy34c6aBqEMJs
- wMpVPcSA4y46jCByCq6PyaBbvnIPTtbm1E1nbZAzvxnG29OudrHv/3c75uyT6vrHD+V2
- pYkDwqE0zTiw7sAWtu1UBv+sTmmia3HgBdpSu7zOdytfT6IXJVxqsZvjQWSPn61sqs0W Mw== 
-Received: from g4t3427.houston.hpe.com (g4t3427.houston.hpe.com
- [15.241.140.73])
- by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3fypmkvf42-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 May 2022 19:06:41 +0000
-Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net
- [16.220.97.129])
- by g4t3427.houston.hpe.com (Postfix) with ESMTP id 1393C5E;
- Tue, 10 May 2022 19:06:40 +0000 (UTC)
-Received: from swahl-home.5wahls.com (unknown [10.207.233.204])
- by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id 028D04B;
- Tue, 10 May 2022 19:06:37 +0000 (UTC)
-Date: Tue, 10 May 2022 14:06:37 -0500
-From: Steve Wahl <steve.wahl@hpe.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH] iommu/vt-d: Increase DMAR_UNITS_SUPPORTED
-Message-ID: <Ynq3vRhBWZxImPC0@swahl-home.5wahls.com>
-References: <20220505194658.246121-1-steve.wahl@hpe.com>
- <e2afd89c-b1cf-9fde-4ce2-4be3c1fdaf07@linux.intel.com>
- <BN9PR11MB5276F4D5F8AD33293233B9AB8CC59@BN9PR11MB5276.namprd11.prod.outlook.com>
- <636a680eb85aded76dd765ba297347ceadc3d1a4.camel@infradead.org>
- <BL1PR11MB5271099D98542F8A3F877D4E8CC59@BL1PR11MB5271.namprd11.prod.outlook.com>
- <YnU+GuPGiFcBXQJg@swahl-home.5wahls.com>
- <BN9PR11MB52769C9F1BD67185A51F16C28CC99@BN9PR11MB5276.namprd11.prod.outlook.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DA29583046
+ for <iommu@lists.linux-foundation.org>; Tue, 10 May 2022 21:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652216600; x=1683752600;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=T2RqD8DycZnIZwNsICjtUhI+ydkb5hVA3rlyqO1BIDA=;
+ b=oHc/Uib9ePahYFgU02q8P1ye7wE0US8Six/kPXNZ3FoMM7MOtzkJqYyx
+ N2vJHvaydkMgCDzWrNvx9hDHl7uv/DTsw8gU7wqnU5ilpS2y2sTpPF2Nh
+ VuLPfHwN8ySnmNHmvu930S/A7O+9TnsZmh8Z86NCn3do86ebvODuqTOiW
+ b1S6Iv56pWQkGVmxgYSdf3e0qCpU7JYKziMiWcx7GPADaSLhewRKSK6EN
+ LgcTBFfeshdl4j3SgArS+Ok2qHrOXBXYsZQbsw7LtV7pa/qn+yqxjtnXc
+ r9aF/o7bfEP1erCw2e3UbxVNI9A6NZfrxjwf3mm/I5COpvCGueg0IINHU A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="251551567"
+X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="251551567"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 14:03:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="553017093"
+Received: from otc-wp-03.jf.intel.com (HELO jacob-builder.jf.intel.com)
+ ([10.54.39.79])
+ by orsmga002.jf.intel.com with ESMTP; 10 May 2022 14:03:19 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ dmaengine@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ "Lu Baolu" <baolu.lu@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ vkoul@kernel.org, robin.murphy@arm.com, will@kernel.org
+Subject: [PATCH v3 0/4] Enable PASID for DMA API users
+Date: Tue, 10 May 2022 14:07:00 -0700
+Message-Id: <20220510210704.3539577-1-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52769C9F1BD67185A51F16C28CC99@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-Proofpoint-ORIG-GUID: X1gW75lflYtXFEMHNsqGoidFXE8ifggL
-X-Proofpoint-GUID: X1gW75lflYtXFEMHNsqGoidFXE8ifggL
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-10_06,2022-05-10_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- bulkscore=0 phishscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
- impostorscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205100081
-Cc: Dimitri Sivanich <sivanich@hpe.com>, "Rodel, Jorg" <jroedel@suse.de>,
- "Anderson, Russ" <russ.anderson@hpe.com>, Steve Wahl <steve.wahl@hpe.com>,
- Mike Travis <mike.travis@hpe.com>, David Woodhouse <dwmw2@infradead.org>,
- Kyung Min Park <kyung.min.park@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Will Deacon <will@kernel.org>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Raj Ashok <ashok.raj@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,143 +84,98 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 10, 2022 at 01:16:26AM +0000, Tian, Kevin wrote:
-> > From: Steve Wahl <steve.wahl@hpe.com>
-> > Sent: Friday, May 6, 2022 11:26 PM
-> > =
+Some modern accelerators such as Intel's Data Streaming Accelerator (DSA)
+require PASID in DMA requests to be operational. Specifically, the work
+submissions with ENQCMD on shared work queues require PASIDs. The use cases
+include both user DMA with shared virtual addressing (SVA) and in-kernel
+DMA similar to legacy DMA w/o PASID. Here we address the latter.
 
-> > On Fri, May 06, 2022 at 08:12:11AM +0000, Tian, Kevin wrote:
-> > > > From: David Woodhouse <dwmw2@infradead.org>
-> > > > Sent: Friday, May 6, 2022 3:17 PM
-> > > >
-> > > > On Fri, 2022-05-06 at 06:49 +0000, Tian, Kevin wrote:
-> > > > > > From: Baolu Lu <baolu.lu@linux.intel.com>
-> > > > > >
-> > > > > > > --- a/include/linux/dmar.h
-> > > > > > > +++ b/include/linux/dmar.h
-> > > > > > > @@ -19,7 +19,7 @@
-> > > > > > >   struct acpi_dmar_header;
-> > > > > > >
-> > > > > > >   #ifdef	CONFIG_X86
-> > > > > > > -# define	DMAR_UNITS_SUPPORTED	MAX_IO_APICS
-> > > > > > > +# define	DMAR_UNITS_SUPPORTED	640
-> > > > > > >   #else
-> > > > > > >   # define	DMAR_UNITS_SUPPORTED	64
-> > > > > > >   #endif
-> > > > >
-> > > > > ... is it necessary to permanently do 10x increase which wastes m=
-emory
-> > > > > on most platforms which won't have such need.
-> > > >
-> > > > I was just looking at that. It mostly adds about 3=BD KiB to each s=
-truct
-> > > > dmar_domain.
-> > > >
-> > > > I think the only actual static array is the dmar_seq_ids bitmap whi=
-ch
-> > > > grows to 640 *bits* which is fairly negligible, and the main growth=
- is
-> > > > that it adds about 3=BD KiB to each struct dmar_domain for the
-> > > > iommu_refcnt[] and iommu_did[] arrays.
-> > >
-> > > Thanks for the quick experiment! though the added material is
-> > > negligible it's cleaner to me if having a way to configure it as
-> > > discussed below.
-> > >
-> > > >
-> > > > > Does it make more sense to have a configurable approach similar to
-> > > > > CONFIG_NR_CPUS? or even better can we just replace those static
-> > > > > arrays with dynamic allocation so removing this restriction
-> > > > > completely?
-> > > >
-> > > > Hotplug makes that fun, but I suppose you only need to grow the arr=
-ay
-> > > > in a given struct dmar_domain if you actually add a device to it th=
-at's
-> > > > behind a newly added IOMMU. I don't know if the complexity of makin=
-g it
-> > > > fully dynamic is worth it though. We could make it a config option,
-> > > > and/or a command line option (perhaps automatically derived from
-> > > > CONFIG_NR_CPUS).
-> > >
-> > > either config option or command line option is OK to me. Probably
-> > > the former is simpler given no need to dynamically expand the
-> > > static array. btw though deriving from CONFIG_NR_CPUS could work
-> > > in this case it is unclear why tying the two together is necessary in
-> > > concept, e.g. is there guarantee that the number of IOMMUs must
-> > > be smaller than the number of CPUs in a platform?
-> > >
-> > > >
-> > > > If it wasn't for hotplug, I think we'd know the right number by the
-> > > > time we actually need it anyway, wouldn't we? Can we have a heurist=
-ic
-> > > > for how many DMAR units are likely to be hotplugged? Is it as simpl=
-e as
-> > > > the ratio of present to not-yet-present CPUs in MADT?
-> > >
-> > > Probably. But I don't have enough knowledge on DMAR hotplug to
-> > > judge (e.g. whether it's strictly tied to CPU hotplug and if yes whet=
-her
-> > > there could be multiple IOMMUs hotplugged together with a CPU
-> > > socket)...
-> > >
-> > > Thanks
-> > > Kevin
-> > =
+DMA mapping API is the de facto standard for in-kernel DMA. However, it
+operates on a per device or Requester ID(RID) basis which is not
+PASID-aware. To leverage DMA API for devices relies on PASIDs, this
+patchset introduces the following APIs
 
-> > Would anyone be more comfortable if we only increase the limit where
-> > MAXSMP is set?
-> > =
+1. A driver facing API that enables DMA API PASID usage:
+iommu_enable_pasid_dma(struct device *dev, ioasid_t &pasid);
 
-> > i.e.
-> > =
+2. An IOMMU op that allows attaching device-domain-PASID generically (will
+be used beyond DMA API PASID support)
 
-> > #if defined(CONFIG_X86) && defined(CONFIG_MAXSMP)
-> > # define	DMAR_UNITS_SUPPORTED	640
-> > #elif defined(CONFIG_X86)
-> > # define	DMAR_UNITS_SUPPORTED	MAX_IO_APICS
-> > #else
-> > # define	DMAR_UNITS_SUPPORTED	64
-> > #endif
-> > =
+Once PASID DMA is enabled and attached to the appropriate IOMMU domain,
+device drivers can continue to use DMA APIs as-is. There is no difference
+in terms of mapping in dma_handle between without PASID and with PASID.
+The DMA mapping performed by IOMMU will be identical for both requests, let
+it be IOVA or PA in case of pass-through.
 
-> > Thank you all for your time looking at this.
-> > =
+In addition, this set converts DSA driver in-kernel DMA with PASID from SVA
+lib to DMA API. There have been security and functional issues with the
+kernel SVA approach:
+(https://lore.kernel.org/linux-iommu/20210511194726.GP1002214@nvidia.com/)
+The highlights are as the following:
+ - The lack of IOTLB synchronization upon kernel page table updates.
+   (vmalloc, module/BPF loading, CONFIG_DEBUG_PAGEALLOC etc.)
+ - Other than slight more protection, using kernel virtual address (KVA)
+has little advantage over physical address. There are also no use cases yet
+where DMA engines need kernel virtual addresses for in-kernel DMA.
 
-> =
+Subsequently, cleanup is done around the usage of sva_bind_device() for
+in-kernel DMA. Removing special casing code in VT-d driver and tightening
+SVA lib API.
 
-> This works for your own configuration but it's unclear whether other
-> MAXSMP platforms have the exact same requirements (different
-> number of sockets, different ratio of #iommus/#sockets, etc.). In any
-> case since we are at it having a generic way to extend it makes more
-> sense to me.
+This work and idea behind it is a collaboration with many people, many
+thanks to Baolu Lu, Jason Gunthorpe, Dave Jiang, and others.
 
-So, to be clear, what you would like to see would be Kconfig entries
-to create a config option, say "NR_DMARS", set up so the default is:
 
-     MAXSMP?  640
-     X86_64?  128
-     X86_32?  64
-     other    64
+ChangeLog:
+v3
+	- Rebased on "Baolu's SVA and IOPF refactoring" series v5.
+	(https://github.com/LuBaolu/intel-iommu/commits/iommu-sva-refactoring-v5)
+	This version is significantly simplified by leveraging IOMMU domain
+	ops, attach_dev_pasid() op is implemented differently on a DMA domain
+	than on a SVA domain.
+	We currently have no need to support multiple PASIDs per DMA domain.
+	(https://lore.kernel.org/lkml/20220315142216.GV11336@nvidia.com/).
+	Removed PASID-device list from V2, a PASID field is introduced to
+	struct iommu_domain instead. It is intended for DMA requests with
+	PASID by all devices attached to the domain.
 
-And DMAR_UNITS_SUPPORTED gets removed, and everywhere it was used we
-use CONFIG_NR_DMARS in its place?
+v2
+	- Do not reserve a special PASID for DMA API usage. Use IOASID
+	  allocation instead.
+	- Introduced a generic device-pasid-domain attachment IOMMU op.
+	  Replaced the DMA API only IOMMU op.
+	- Removed supervisor SVA support in VT-d
+	- Removed unused sva_bind_device parameters
+	- Use IOMMU specific data instead of struct device to store PASID
+	  info
 
-I can give that a shot but wanted to confirm this is what you'd want
-first.
 
-Thanks,
+Jacob Pan (4):
+  iommu/vt-d: Implement domain ops for attach_dev_pasid
+  iommu: Add PASID support for DMA mapping API users
+  dmaengine: idxd: Use DMA API for in-kernel DMA with PASID
+  iommu/vt-d: Delete unused SVM flag
 
---> Steve
+ drivers/dma/idxd/idxd.h     |   1 -
+ drivers/dma/idxd/init.c     |  34 +++---------
+ drivers/dma/idxd/sysfs.c    |   7 ---
+ drivers/iommu/dma-iommu.c   | 107 ++++++++++++++++++++++++++++++++++++
+ drivers/iommu/intel/iommu.c |  81 ++++++++++++++++++++++++++-
+ drivers/iommu/intel/svm.c   |   2 +-
+ include/linux/dma-iommu.h   |   3 +
+ include/linux/intel-iommu.h |   1 +
+ include/linux/intel-svm.h   |  13 -----
+ include/linux/iommu.h       |   2 +
+ 10 files changed, 202 insertions(+), 49 deletions(-)
 
--- =
+-- 
+2.25.1
 
-Steve Wahl, Hewlett Packard Enterprise
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
