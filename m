@@ -1,84 +1,116 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8297522D0F
-	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 09:21:45 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DE2522D55
+	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 09:28:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 654DF41871;
-	Wed, 11 May 2022 07:21:44 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2525F60BAE;
+	Wed, 11 May 2022 07:28:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VkSbOI9n8cwz; Wed, 11 May 2022 07:21:43 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rqILuogIDbNO; Wed, 11 May 2022 07:28:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 25BB641875;
-	Wed, 11 May 2022 07:21:43 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1C11360BA3;
+	Wed, 11 May 2022 07:28:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5EE9C002D;
-	Wed, 11 May 2022 07:21:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EB873C002D;
+	Wed, 11 May 2022 07:28:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C12FC002D
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 07:21:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3EB60C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 07:28:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 74FD981336
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 07:21:40 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1F64660BAE
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 07:28:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wJhAUt5Pq7aW for <iommu@lists.linux-foundation.org>;
- Wed, 11 May 2022 07:21:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9EE4B81242
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 07:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652253699; x=1683789699;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=WRk+Mj38yZ5XuDxKKjAT+LROx+EdfwdtEsjJvOuTgP4=;
- b=YGO4RNhm4sx7C/hCtxO39BL7+e15xV99wbWNRTj2sfptOxpkNP5wQ2U7
- j22A44u3MWGhAPXvgFVe5jLCDZZHc4kW4IdeINfbDMPSlEbfAat19XX2K
- f1nyHQoJ/FCdYe4J6Ez4AeiAzRLdKiDLrI+6FctXzl7OCsEKmVOX6DN3t
- NqifMeSZNnHC7VWQE9a3athlKzMSULV/5MckJHaaGfoN7OqkqexZofElR
- TaR2vsi2kYcaYa5hD39SmgmJE45AffEsIhiPmNxwfUkUZ+md6ci4mbKmz
- 1ou3qhWhET8nIgLBuUkhKE+dgdd+DTHDK8AQ+OfGziZEDfS+8EWx900wa A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269283801"
-X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="269283801"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 00:21:38 -0700
-X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="542180435"
-Received: from chenji3x-mobl1.ccr.corp.intel.com (HELO [10.255.30.10])
- ([10.255.30.10])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 00:21:35 -0700
-Message-ID: <749a7d62-3e6c-ef5c-beaf-6b7add495740@linux.intel.com>
-Date: Wed, 11 May 2022 15:21:31 +0800
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jloLDAk2d11r for <iommu@lists.linux-foundation.org>;
+ Wed, 11 May 2022 07:28:53 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on20624.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7ea9::624])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 394E66080B
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 07:28:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RB2egKnnGht0uw/naaXNyNk26iTeK3zWb32hWLPON5HpcPPT0l9eECWOejeoTeiM3J5/F1EgJ8QNFYUbXtLrZcgE8NyxnoRO9Se8q6pvo21oBTg/NG/EWhZqVOpjt1IaoWCveoI9gzvdLJJod2PbGkAGge9O6F0ITxW01w7lRvmbDLObKneFUjS6IDNSdnZVgFNKezW+wIZ0iDJzbeBUfBcWV/SxrjKY36QgdcNRddjZUVEqVyDezlaWAYRyw08MypM/BsHuoZ4QnKWu/48jH0bEOXdyosL7sqWfDOXKYL3iONSuokPzpXtw5/jMDMLlT5OSZsaB3F3qCa3WOE1y9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6p4ZC1pHQxPTm5A8vRp6rK1j4385aUOafgAw5qJJO/Q=;
+ b=kprRisJtJYqOCILpdJXQq5sLWB5erGctzP+aiG7SlQfCmKdICtH91OVYFI+P4DPJmUA4kFq5gILgVsAoFO48MMAD0KeWp++lcTWz9uhMg6vcwMVMc3iCDx/5idMSJbJDG3/bSfNgRowUD2t8KpM6Gjwj7dM7Jme6BYYm3NiJPIqtxuKm708Y0iRIJyoUiNAVgxerhPKaIb9lXXlRNDupcICgWzdJ40I8FNtcU2Hlji0lDDp6iUTgNJJ2lyXFTpLIbyrdz8H5Vs0IXH6MGRDGpq04FVfwmwr0Mv1uhSqqkTyuvNtyE5Gu+uWsl3UGY50XbjgBYhiVGRM+TYIPoTJDWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.linux-foundation.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6p4ZC1pHQxPTm5A8vRp6rK1j4385aUOafgAw5qJJO/Q=;
+ b=gf0WUYBl4FuHADmrJ7sToO46Wrw9IUD5FHghk2eAWsta24znIAqH3hgrhRQ4iCxCgTgfuZIPZoeUsFi+gUNbJjJDYxkjAq1p3Dyqi+GBCgtAgG6+17tkuJzYtYlrJYIpYIOxC8Csq3kepMs2x0ljsViCTqTgvNfMWs52zpCYsng=
+Received: from DS7PR05CA0091.namprd05.prod.outlook.com (2603:10b6:8:56::12) by
+ BN8PR12MB2897.namprd12.prod.outlook.com (2603:10b6:408:99::25) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.22; Wed, 11 May 2022 07:28:48 +0000
+Received: from DM6NAM11FT018.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:56:cafe::a2) by DS7PR05CA0091.outlook.office365.com
+ (2603:10b6:8:56::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13 via Frontend
+ Transport; Wed, 11 May 2022 07:28:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT018.mail.protection.outlook.com (10.13.172.110) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5250.13 via Frontend Transport; Wed, 11 May 2022 07:28:48 +0000
+Received: from kali.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 11 May
+ 2022 02:28:45 -0500
+To: <iommu@lists.linux-foundation.org>
+Subject: [PATCH v3 26/35] iommu/amd: Update set_dev_entry_bit() and
+ get_dev_entry_bit()
+Date: Wed, 11 May 2022 12:51:32 +0530
+Message-ID: <20220511072141.15485-27-vasant.hegde@amd.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220511072141.15485-1-vasant.hegde@amd.com>
+References: <20220511072141.15485-1-vasant.hegde@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v6 08/12] iommu/sva: Use attach/detach_pasid_dev in SVA
- interfaces
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <20220510061738.2761430-1-baolu.lu@linux.intel.com>
- <20220510061738.2761430-9-baolu.lu@linux.intel.com>
- <20220510152330.GG49344@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220510152330.GG49344@nvidia.com>
-Cc: Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ashok Raj <ashok.raj@intel.com>, Will Deacon <will@kernel.org>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@infradead.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Vinod Koul <vkoul@kernel.org>, Jacob jun Pan <jacob.jun.pan@intel.com>,
- Robin Murphy <robin.murphy@arm.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3c528a77-2ff3-4708-d9f3-08da331fe3be
+X-MS-TrafficTypeDiagnostic: BN8PR12MB2897:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB289726BB072FF1618D16D74E87C89@BN8PR12MB2897.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IPbyvjGaJm+Bx2fMq13Iw4KEHMP/USqaHaURKS0RKYHTWDcUgrRiG6w9kouFmMmjirHgZUtkbGhGdPmNY9tkZ0GVXnPqxxDXKzvgNhtF7i071zXQdcYs3+B0ZB5uvq1ekj5uwON0Beoir0UOmGQmCAZSr1yNGJh7ouUbFx3JTB8FQw2wlTktMRudajxYLqWvzPuHbQ0jQpKypi08Gwys+tYG5a9bezhvqtyRm6sU8+WKgFcxOndqUBAbQy65/CX/YjY2kyuxTUTovycuj6FizOLeyLsy8PvvorB706s8BJWr8bzRhaXn67f0gqio4G+BHFVi6xJxA2CxzZ26iAofrBkEPV2jdxqB943hFjVUJXtIVNa/NqVHZQLfaKkDvCKWXABFJf6+HfHXMFE2dqD9dYcGsrN/DbClWGAZwONUW0IQ+6uEfBb83A6+4JjFOvNdd6OPp4du/RixCpTA+mUiTk7QXbm3wheRG6IYYZi2uOnEoLmJdzuwCQyyn5l1pbf0Xbe1zxq45HaASOHh86f8ckyISuZWN5J3CA8QuWESbIJ5+GLUyBO5iWVZAmL1uxEab8lRemVOt+AbLi/zexteSeu6lotmKzUC+ri5TrkKToOzcKfdkJvAnfRBJQ3w+nmgLRU7dLt7cRgQ4PGNDw4x+qfBCGvbBmEcVNopAVXvF5eIcOenf2jgU0DpmJgcZaPlZI8Ww45Cm95BtKmAP9uGhQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(83380400001)(36756003)(356005)(44832011)(81166007)(2616005)(82310400005)(8936002)(70586007)(6916009)(4326008)(70206006)(8676002)(54906003)(26005)(36860700001)(47076005)(426003)(336012)(40460700003)(316002)(508600001)(2906002)(5660300002)(16526019)(186003)(6666004)(1076003)(86362001)(7696005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2022 07:28:48.3347 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c528a77-2ff3-4708-d9f3-08da331fe3be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT018.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2897
+Cc: Vasant Hegde <vasant.hegde@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,138 +123,185 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Vasant Hegde via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Vasant Hegde <vasant.hegde@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022/5/10 23:23, Jason Gunthorpe wrote:
-> On Tue, May 10, 2022 at 02:17:34PM +0800, Lu Baolu wrote:
-> 
->> +/**
->> + * iommu_sva_bind_device() - Bind a process address space to a device
->> + * @dev: the device
->> + * @mm: the mm to bind, caller must hold a reference to mm_users
->> + * @drvdata: opaque data pointer to pass to bind callback
->> + *
->> + * Create a bond between device and address space, allowing the device to access
->> + * the mm using the returned PASID. If a bond already exists between @device and
->> + * @mm, it is returned and an additional reference is taken. Caller must call
->> + * iommu_sva_unbind_device() to release each reference.
->> + *
->> + * iommu_dev_enable_feature(dev, IOMMU_DEV_FEAT_SVA) must be called first, to
->> + * initialize the required SVA features.
->> + *
->> + * On error, returns an ERR_PTR value.
->> + */
->> +struct iommu_sva *
->> +iommu_sva_bind_device(struct device *dev, struct mm_struct *mm, void *drvdata)
->> +{
->> +	int ret = -EINVAL;
->> +	struct iommu_sva *handle;
->> +	struct iommu_domain *domain;
->> +
->> +	/*
->> +	 * TODO: Remove the drvdata parameter after kernel PASID support is
->> +	 * enabled for the idxd driver.
->> +	 */
->> +	if (drvdata)
->> +		return ERR_PTR(-EOPNOTSUPP);
-> 
-> Why is this being left behind? Clean up the callers too please.
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 
-Okay, let me try to.
+To include a pointer to per PCI segment device table.
 
-> 
->> +	/* Allocate mm->pasid if necessary. */
->> +	ret = iommu_sva_alloc_pasid(mm, 1, (1U << dev->iommu->pasid_bits) - 1);
->> +	if (ret)
->> +		return ERR_PTR(ret);
->> +
->> +	mutex_lock(&iommu_sva_lock);
->> +	/* Search for an existing bond. */
->> +	handle = xa_load(&dev->iommu->sva_bonds, mm->pasid);
->> +	if (handle) {
->> +		refcount_inc(&handle->users);
->> +		goto out_success;
->> +	}
-> 
-> How can there be an existing bond?
-> 
-> dev->iommu is per-device
-> 
-> The device_group_immutable_singleton() insists on a single device
-> group
-> 
-> Basically 'sva_bonds' is the same thing as the group->pasid_array.
+Also include struct amd_iommu as one of the function parameter to
+amd_iommu_apply_erratum_63() since it is needed when setting up DTE.
 
-Yes, really.
+Co-developed-by: Vasant Hegde <vasant.hegde@amd.com>
+Signed-off-by: Vasant Hegde <vasant.hegde@amd.com>
+Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+---
+ drivers/iommu/amd/amd_iommu.h |  2 +-
+ drivers/iommu/amd/init.c      | 59 +++++++++++++++++++++++------------
+ drivers/iommu/amd/iommu.c     |  2 +-
+ 3 files changed, 41 insertions(+), 22 deletions(-)
 
-> 
-> Assuming we leave room for multi-device groups this logic should just
-> be
-> 
-> 	group = iommu_group_get(dev);
-> 	if (!group)
-> 		return -ENODEV;
-> 
-> 	mutex_lock(&group->mutex);
-> 	domain = xa_load(&group->pasid_array, mm->pasid);
-> 	if (!domain || domain->type != IOMMU_DOMAIN_SVA || domain->mm != mm)
-> 		domain = iommu_sva_alloc_domain(dev, mm);
-> 
-> ?
-
-Agreed. As a helper in iommu core, how about making it more generic like
-below?
-
-+struct iommu_domain *iommu_get_domain_for_dev_pasid(struct device *dev,
-+                                                   iosid_t pasid,
-+                                                   unsigned int type)
+diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
+index 2947239700ce..64c954e168d7 100644
+--- a/drivers/iommu/amd/amd_iommu.h
++++ b/drivers/iommu/amd/amd_iommu.h
+@@ -13,7 +13,7 @@
+ 
+ extern irqreturn_t amd_iommu_int_thread(int irq, void *data);
+ extern irqreturn_t amd_iommu_int_handler(int irq, void *data);
+-extern void amd_iommu_apply_erratum_63(u16 devid);
++extern void amd_iommu_apply_erratum_63(struct amd_iommu *iommu, u16 devid);
+ extern void amd_iommu_restart_event_logging(struct amd_iommu *iommu);
+ extern int amd_iommu_init_devices(void);
+ extern void amd_iommu_uninit_devices(void);
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index ca9131ab745b..2cdce8a3b86e 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -987,22 +987,37 @@ static void iommu_enable_gt(struct amd_iommu *iommu)
+ }
+ 
+ /* sets a specific bit in the device table entry. */
+-static void set_dev_entry_bit(u16 devid, u8 bit)
++static void __set_dev_entry_bit(struct dev_table_entry *dev_table,
++				u16 devid, u8 bit)
+ {
+ 	int i = (bit >> 6) & 0x03;
+ 	int _bit = bit & 0x3f;
+ 
+-	amd_iommu_dev_table[devid].data[i] |= (1UL << _bit);
++	dev_table[devid].data[i] |= (1UL << _bit);
+ }
+ 
+-static int get_dev_entry_bit(u16 devid, u8 bit)
++static void set_dev_entry_bit(struct amd_iommu *iommu, u16 devid, u8 bit)
 +{
-+       struct iommu_domain *domain;
-+       struct iommu_group *group;
++	struct dev_table_entry *dev_table = get_dev_table(iommu);
 +
-+       if (!pasid_valid(pasid))
-+               return NULL;
-+
-+       group = iommu_group_get(dev);
-+       if (!group)
-+               return NULL;
-+
-+       mutex_lock(&group->mutex);
-+       domain = xa_load(&group->pasid_array, pasid);
-+       if (domain && domain->type != type)
-+               domain = NULL;
-+       mutex_unlock(&group->mutex);
-+       iommu_group_put(group);
-+
-+       return domain;
++	return __set_dev_entry_bit(dev_table, devid, bit);
 +}
-
-> 
-> And stick the refcount in the sva_domain
-> 
-> Also, given the current arrangement it might make sense to have a
-> struct iommu_domain_sva given that no driver is wrappering this in
-> something else.
-
-Fair enough. How about below wrapper?
-
-+struct iommu_sva_domain {
-+       /*
-+        * Common iommu domain header, *must* be put at the top
-+        * of the structure.
-+        */
-+       struct iommu_domain domain;
-+       struct mm_struct *mm;
-+       struct iommu_sva bond;
++
++static int __get_dev_entry_bit(struct dev_table_entry *dev_table,
++			       u16 devid, u8 bit)
+ {
+ 	int i = (bit >> 6) & 0x03;
+ 	int _bit = bit & 0x3f;
+ 
+-	return (amd_iommu_dev_table[devid].data[i] & (1UL << _bit)) >> _bit;
++	return (dev_table[devid].data[i] & (1UL << _bit)) >> _bit;
+ }
+ 
++static int get_dev_entry_bit(struct amd_iommu *iommu, u16 devid, u8 bit)
++{
++	struct dev_table_entry *dev_table = get_dev_table(iommu);
++
++	return __get_dev_entry_bit(dev_table, devid, bit);
 +}
+ 
+ static bool __copy_device_table(struct amd_iommu *iommu)
+ {
+@@ -1121,15 +1136,15 @@ static bool copy_device_table(void)
+ 	return true;
+ }
+ 
+-void amd_iommu_apply_erratum_63(u16 devid)
++void amd_iommu_apply_erratum_63(struct amd_iommu *iommu, u16 devid)
+ {
+ 	int sysmgt;
+ 
+-	sysmgt = get_dev_entry_bit(devid, DEV_ENTRY_SYSMGT1) |
+-		 (get_dev_entry_bit(devid, DEV_ENTRY_SYSMGT2) << 1);
++	sysmgt = get_dev_entry_bit(iommu, devid, DEV_ENTRY_SYSMGT1) |
++		 (get_dev_entry_bit(iommu, devid, DEV_ENTRY_SYSMGT2) << 1);
+ 
+ 	if (sysmgt == 0x01)
+-		set_dev_entry_bit(devid, DEV_ENTRY_IW);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_IW);
+ }
+ 
+ /* Writes the specific IOMMU for a device into the rlookup table */
+@@ -1146,21 +1161,21 @@ static void __init set_dev_entry_from_acpi(struct amd_iommu *iommu,
+ 					   u16 devid, u32 flags, u32 ext_flags)
+ {
+ 	if (flags & ACPI_DEVFLAG_INITPASS)
+-		set_dev_entry_bit(devid, DEV_ENTRY_INIT_PASS);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_INIT_PASS);
+ 	if (flags & ACPI_DEVFLAG_EXTINT)
+-		set_dev_entry_bit(devid, DEV_ENTRY_EINT_PASS);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_EINT_PASS);
+ 	if (flags & ACPI_DEVFLAG_NMI)
+-		set_dev_entry_bit(devid, DEV_ENTRY_NMI_PASS);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_NMI_PASS);
+ 	if (flags & ACPI_DEVFLAG_SYSMGT1)
+-		set_dev_entry_bit(devid, DEV_ENTRY_SYSMGT1);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_SYSMGT1);
+ 	if (flags & ACPI_DEVFLAG_SYSMGT2)
+-		set_dev_entry_bit(devid, DEV_ENTRY_SYSMGT2);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_SYSMGT2);
+ 	if (flags & ACPI_DEVFLAG_LINT0)
+-		set_dev_entry_bit(devid, DEV_ENTRY_LINT0_PASS);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_LINT0_PASS);
+ 	if (flags & ACPI_DEVFLAG_LINT1)
+-		set_dev_entry_bit(devid, DEV_ENTRY_LINT1_PASS);
++		set_dev_entry_bit(iommu, devid, DEV_ENTRY_LINT1_PASS);
+ 
+-	amd_iommu_apply_erratum_63(devid);
++	amd_iommu_apply_erratum_63(iommu, devid);
+ 
+ 	set_iommu_for_device(iommu, devid);
+ }
+@@ -2518,8 +2533,8 @@ static void init_device_table_dma(struct amd_iommu_pci_seg *pci_seg)
+ 		return;
+ 
+ 	for (devid = 0; devid <= amd_iommu_last_bdf; ++devid) {
+-		set_dev_entry_bit(devid, DEV_ENTRY_VALID);
+-		set_dev_entry_bit(devid, DEV_ENTRY_TRANSLATION);
++		__set_dev_entry_bit(dev_table, devid, DEV_ENTRY_VALID);
++		__set_dev_entry_bit(dev_table, devid, DEV_ENTRY_TRANSLATION);
+ 	}
+ }
+ 
+@@ -2539,13 +2554,17 @@ static void __init uninit_device_table_dma(struct amd_iommu_pci_seg *pci_seg)
+ 
+ static void init_device_table(void)
+ {
++	struct amd_iommu_pci_seg *pci_seg;
+ 	u32 devid;
+ 
+ 	if (!amd_iommu_irq_remap)
+ 		return;
+ 
+-	for (devid = 0; devid <= amd_iommu_last_bdf; ++devid)
+-		set_dev_entry_bit(devid, DEV_ENTRY_IRQ_TBL_EN);
++	for_each_pci_segment(pci_seg) {
++		for (devid = 0; devid <= amd_iommu_last_bdf; ++devid)
++			__set_dev_entry_bit(pci_seg->dev_table,
++					    devid, DEV_ENTRY_IRQ_TBL_EN);
++	}
+ }
+ 
+ static void iommu_init_flags(struct amd_iommu *iommu)
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index ebae64711691..5361cc1f8b6b 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -1607,7 +1607,7 @@ static void clear_dte_entry(struct amd_iommu *iommu, u16 devid)
+ 	dev_table[devid].data[0]  = DTE_FLAG_V | DTE_FLAG_TV;
+ 	dev_table[devid].data[1] &= DTE_FLAG_MASK;
+ 
+-	amd_iommu_apply_erratum_63(devid);
++	amd_iommu_apply_erratum_63(iommu, devid);
+ }
+ 
+ static void do_attach(struct iommu_dev_data *dev_data,
+-- 
+2.27.0
 
-The refcount is wrapped in bond.
-
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
