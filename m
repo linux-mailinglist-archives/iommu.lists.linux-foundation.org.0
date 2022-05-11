@@ -1,72 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A420552363A
-	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 16:53:53 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08029523791
+	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 17:40:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 562E040B82;
-	Wed, 11 May 2022 14:53:52 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 74C3F83E47;
+	Wed, 11 May 2022 15:40:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4LfOmcSdiNwJ; Wed, 11 May 2022 14:53:51 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bl9TI5Dbg3lA; Wed, 11 May 2022 15:40:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7F60640BA7;
-	Wed, 11 May 2022 14:53:51 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 83D8283E39;
+	Wed, 11 May 2022 15:40:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E37BC002D;
-	Wed, 11 May 2022 14:53:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5564BC002D;
+	Wed, 11 May 2022 15:40:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1545EC002D
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 14:53:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 30E0DC0032
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 15:24:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D863483DF0
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 14:53:49 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0F8FD41725
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 15:24:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oEaI8e0eT5v9 for <iommu@lists.linux-foundation.org>;
- Wed, 11 May 2022 14:53:49 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4E9298302F
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 14:53:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 046961F43060
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652280827;
- bh=1WyfN22iHz/BG50S8N12f95v21eENJ0KQ7lsxiYAPa0=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=WPTJ5MQkqexfsUxUf3R12LwvqtA+Bt47cm59Z/c9iA+4imEBr2vCDN5SR8tE5ujrJ
- bH20okHTLDYIZacsaA+dNIDLoTY1G85XPiQsEbi9Zz53+/z0hOO0LjIIQyQ+6mbO1i
- Vb5J1/apCDDYhMG7Nf9O0Mr1K8b5bezIz1g6UMptqYJSv0eoeJ7+Kjc5CkouR9uof+
- g+6/iV/ufoffrK3O87DInk9RME8PNwGj+fFmZbvVLSuXhFIUi+Qhq7cWR8LrCnTUYZ
- e9uBmaADGjveEfEWKMIBZKvqEmMZUemXG8NWyUmSD1cplxR1p/6Fwt2gYEuVuz60US
- qwdkl+shGQ11w==
-Message-ID: <810e4833-6052-97ca-75df-a1e86daf405a@collabora.com>
-Date: Wed, 11 May 2022 16:53:44 +0200
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=google.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id igUii_L1wzAP for <iommu@lists.linux-foundation.org>;
+ Wed, 11 May 2022 15:24:52 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B9A26416D4
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 15:24:52 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id bv19so4783013ejb.6
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 08:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=seaHCom44uiTs26SOVTHmO+d30N+urihbVnoa7jcBHU=;
+ b=TAsFxKUwFUu/cfHGMVs7euuOOaHKgnj7ofjrXFjp8r9Snf7wiMSBmToMDbll08c4wB
+ B4LGXeld//Q6hfxFtxBMvALlOyKkBrwRlXmA5HUoGvnBrbQ8Z0lf5TiNGHuyMrP5BR63
+ n6ueMhr6dz49B7BTy3DGmj6ZgllDGug3NlmCJzP7cNvRG6GoVu5qS4C3KtiUZlgXFufh
+ GrpfbUWWpQRQYDaaK9aKLJGsmkgEdTsj7LCUFYY8sOi2gz+5yjJCzJ/Cm21z7B6ydRD5
+ Eb6frZ5RtEav3mlIuE5peSrbI9eRPdVtxJETEJRXmlpTKjxCb0r6y2Qp7SoSZumEhuWj
+ rDBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=seaHCom44uiTs26SOVTHmO+d30N+urihbVnoa7jcBHU=;
+ b=AeHf/f88cTQ+JLlvO/wjy2ZpG/rPAu3RecuHSMWJGFyi3QeuUqMTQQogwjKfPIeNxx
+ RRsQyGXO2c+9c27nBZB+kLUBeDhWEvJ8GE4sSyAZyMAnezvuBLbTew09vMyDFUgnbbCs
+ iStmpCwm2JiD2HkG3EjjM/9mRQJN+B9eDS1A/SMtUNkGIie4USVwuANKIVtpd7mNDOvQ
+ umcYuAmat5djCBZ802vzItFVf6NClM5XKqDC9EHbyu4oOh5GhvFBYCzf/bCao7Zu/kzF
+ 4Tw3467bkXEtUxwfEN+BlseAkYtv68vblWex7CK3hgdrsaou9JDDlbdY6BplbHRgILfZ
+ /qpA==
+X-Gm-Message-State: AOAM532CSoOtEexlahUInHgarvC8opgEHSZncoj676X7I93XIoQ+OImL
+ jmDWbs3AuU6Ei62XS5K3sq+QezJ27bfwzcMmyn9tOQ==
+X-Google-Smtp-Source: ABdhPJw5lbZ3f5D9UUxJJpVm5HxR51LIMMyK1ge48NZ+6rLvEM9+7xdSTx82HwOKw4EXjm+P/qHF+QOQPr1ZncyweS8=
+X-Received: by 2002:a17:907:162a:b0:6f4:c53b:fca7 with SMTP id
+ hb42-20020a170907162a00b006f4c53bfca7mr25795243ejc.723.1652282690650; Wed, 11
+ May 2022 08:24:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 1/4] iommu/mediatek: Use dev_err_probe to mute probe_defer
- err log
-To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
 References: <20220511064920.18455-1-yong.wu@mediatek.com>
  <20220511064920.18455-2-yong.wu@mediatek.com>
-Content-Language: en-US
 In-Reply-To: <20220511064920.18455-2-yong.wu@mediatek.com>
+Date: Wed, 11 May 2022 08:24:39 -0700
+Message-ID: <CABXOdTcA1ERGTCMVDhz+cah6GwC3hsNR9W3PYyYZN6uGE5_Rsg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] iommu/mediatek: Use dev_err_probe to mute probe_defer
+ err log
+To: Yong Wu <yong.wu@mediatek.com>
+X-Mailman-Approved-At: Wed, 11 May 2022 15:40:45 +0000
 Cc: anan.sun@mediatek.com, chengci.xu@mediatek.com, xueqi.zhang@mediatek.com,
- yf.wang@mediatek.com, libo.kang@mediatek.com, linux-kernel@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, libo.kang@mediatek.com,
+ yf.wang@mediatek.com, Guenter Roeck <groeck@chromium.org>,
  iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Dan Carpenter <dan.carpenter@oracle.com>, Guenter Roeck <groeck@chromium.org>,
- mingyuan.ma@mediatek.com, linux-arm-kernel@lists.infradead.org
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
+ mingyuan.ma@mediatek.com,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,22 +96,47 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Guenter Roeck via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Guenter Roeck <groeck@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Il 11/05/22 08:49, Yong Wu ha scritto:
+On Tue, May 10, 2022 at 11:49 PM Yong Wu <yong.wu@mediatek.com> wrote:
+>
 > Mute the probe defer log:
-> 
+>
 > [    2.654806] mtk-iommu 14018000.iommu: mm dts parse fail(-517).
 > [    2.656168] mtk-iommu 1c01f000.iommu: mm dts parse fail(-517).
-> 
+>
 > Fixes: d2e9a1102cfc ("iommu/mediatek: Contain MM IOMMU flow with the MM TYPE")
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
+> ---
+> The Fixes tag commit-id is from linux-next.
+> ---
+>  drivers/iommu/mtk_iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index 71b2ace74cd6..0f6ec4a4d9d4 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -1198,7 +1198,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>         if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_MM)) {
+>                 ret = mtk_iommu_mm_dts_parse(dev, &match, data);
+>                 if (ret) {
+> -                       dev_err(dev, "mm dts parse fail(%d).", ret);
+> +                       dev_err_probe(dev, ret, "mm dts parse fail.");
+>                         goto out_runtime_disable;
+>                 }
+>         } else if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_INFRA) &&
+> --
+> 2.18.0
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
