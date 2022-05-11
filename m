@@ -2,60 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F096952337C
-	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 14:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DAD952337E
+	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 14:58:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9115A836E1;
-	Wed, 11 May 2022 12:58:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7DBCA831DA;
+	Wed, 11 May 2022 12:58:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3HcVzmy7OHb7; Wed, 11 May 2022 12:58:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B8A5883478;
-	Wed, 11 May 2022 12:58:14 +0000 (UTC)
+	with ESMTP id B6bYLfCFXWNo; Wed, 11 May 2022 12:58:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 99E7F83478;
+	Wed, 11 May 2022 12:58:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CEA4C002D;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8745C0084;
 	Wed, 11 May 2022 12:58:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A4E2C002D
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 12:58:12 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B48ECC002D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 12:58:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 27E1341731
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 12:58:12 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id A1C15404D5
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 12:58:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n83AcQvhViVZ for <iommu@lists.linux-foundation.org>;
- Wed, 11 May 2022 12:58:10 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id WILiWcrbprGa for <iommu@lists.linux-foundation.org>;
+ Wed, 11 May 2022 12:58:13 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C7DC441615
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 12:58:10 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2A0D64031D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 12:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=lWal7xDNVRaQCdbknsdqk06u/bYAytOsWgd5tBb7T1Y=; b=LNjy6lTfBvzizjreZ/Kd38DWgl
- YtjrtV+/YFkDGXytY2CU/6HhE7eVkT/0LxMdOr5b1rcvgIYatUNxkRyJxMcR45+ZjYkQpr7UK93Ep
- ETfHeve5kT2fyfK78yWgEDPsh9//+hgoc0r3CiGQyiEl8OcIKQ98epke5lKoCTDJH/6NqDsX77v6Y
- lk4dgtnmVGV5j7ujW0bXzgQ5TpA+97iJ0JAllS9c0+ubGjCpKtpJcTHXFaVbleq2tNqJudA7mcVHB
- aKWfBgVn9QnLnBzEO7KPWhoBKa0WoPhE36qrSfXTImqsXATVqX33lIzdY/cdvc9f6kYxAoy04OwOR
- lMsTAFQA==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=VBAca1xXxndzNfh1X1k86JeV9qFeb8QaWGR+x5euRpI=; b=VBMFfZIBGc4yLHRm2Wa5peBxYo
+ L7lkpBKL9qmRp7GdsRzDbo2hOxkLdrUFWSDWJAWKxk7QsvkAo2WDU1HButK/AFoRRG2iI+xRaqzne
+ eJpGCLr8lqE1G4UklNZu5W5Via4KqfQygzftAqjThgZhRiLJT9nOUNEt91aPkno5EGtYNQKITCBm9
+ 0qhtN7kBThU6Wf12wDMqazMp94VKvBm1Bh2nyagV+tLVCyBBcz19ufT9rcxQ1nGaInv4lWj1hvQ9c
+ ORWQ8Tf+T/53asn71Frgu3Zufwh+iDGXlg9wwgJIvAusQNxKo6BMaE2N49S38haolif8C8QpTZGf3
+ yN2fiQ/g==;
 Received: from [2001:4bb8:184:7881:740a:25f7:2c13:ef7a] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noluq-006rdz-Tk; Wed, 11 May 2022 12:58:09 +0000
+ id 1nolut-006reA-JL; Wed, 11 May 2022 12:58:12 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: iommu@lists.linux-foundation.org
-Subject: swiotlb regression fixe
-Date: Wed, 11 May 2022 14:58:02 +0200
-Message-Id: <20220511125805.1377025-1-hch@lst.de>
+Subject: [PATCH 1/3] swiotlb: don't panic when the swiotlb buffer can't be
+ allocated
+Date: Wed, 11 May 2022 14:58:03 +0200
+Message-Id: <20220511125805.1377025-2-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220511125805.1377025-1-hch@lst.de>
+References: <20220511125805.1377025-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -79,12 +82,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi all,
+For historical reasons the switlb code paniced when the metadata could
+not be allocated, but just printed a warning when the actual main
+swiotlb buffer could not be allocated.  Restore this somewhat unexpected
+behavior as changing it caused a boot failure on the Microchip RISC-V
+PolarFire SoC Icicle kit.
 
-attached are a bunch of fixes for regressions in the recent swiotlb
-refactoring.  The first one was reported by Conor, and the other two
-are things I found by code inspections while trying to fix what he
-reported.
+Fixes: 6424e31b1c05 ("swiotlb: remove swiotlb_init_with_tbl and swiotlb_init_late_with_tbl")
+Reported-by: Conor Dooley <Conor.Dooley@microchip.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Tested-by: Conor Dooley <Conor.Dooley@microchip.com>
+---
+ kernel/dma/swiotlb.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index e2ef0864eb1e5..3e992a308c8a1 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -254,8 +254,10 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
+ 		tlb = memblock_alloc(bytes, PAGE_SIZE);
+ 	else
+ 		tlb = memblock_alloc_low(bytes, PAGE_SIZE);
+-	if (!tlb)
+-		panic("%s: failed to allocate tlb structure\n", __func__);
++	if (!tlb) {
++		pr_warn("%s: failed to allocate tlb structure\n", __func__);
++		return;
++	}
+ 
+ 	if (remap && remap(tlb, nslabs) < 0) {
+ 		memblock_free(tlb, PAGE_ALIGN(bytes));
+-- 
+2.30.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
