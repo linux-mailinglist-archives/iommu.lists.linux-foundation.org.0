@@ -1,69 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD74523AFF
-	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 18:58:36 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B858A523B65
+	for <lists.iommu@lfdr.de>; Wed, 11 May 2022 19:21:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D5B7760BD6;
-	Wed, 11 May 2022 16:58:34 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4588841929;
+	Wed, 11 May 2022 17:21:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xxrChDKlCyq7; Wed, 11 May 2022 16:58:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id CB23F60C12;
-	Wed, 11 May 2022 16:58:33 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Wi74eXU1Vft0; Wed, 11 May 2022 17:21:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id F2F9D41927;
+	Wed, 11 May 2022 17:21:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96213C002D;
-	Wed, 11 May 2022 16:58:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B708BC0081;
+	Wed, 11 May 2022 17:21:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 835E7C002D
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 16:58:32 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90C90C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 17:21:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 631D040135
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 16:58:32 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8D14260A84
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 17:21:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Cp8xxIgK4OAz for <iommu@lists.linux-foundation.org>;
- Wed, 11 May 2022 16:58:31 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GlPlQg-VT5V8 for <iommu@lists.linux-foundation.org>;
+ Wed, 11 May 2022 17:21:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D6D79400E4
- for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 16:58:30 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 598E66068D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 May 2022 17:21:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652288311; x=1683824311;
+ t=1652289698; x=1683825698;
  h=date:from:to:cc:subject:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=L+SbLcoPf9zuYRgUS6mcapuzb8rI2aXPD90HpmL4jgs=;
- b=mML3h5lMQEeTfOgGvKVknUu1AOYyGAeUQLy14UyvKsBM7IJ+4dR8qBza
- AQUtEeLTLYEhCSVmBwi8RHTlDdUhl4J5eWMr7aQaOSyTR2uhfk6cire2t
- WpxBhVfxpbXjYkeGcjDc0G7nO+rj/A3ehNCjkpQo9RTcljWyMHqmzrG3d
- B5gMZztzjXqmJNJ68SfOYQ5dHHz3icYIbqNlsE0RNaJLttyp5JEGcBBNm
- JqMerFSv2YUxgEi0qlZX7Vm7zE0U3Y42d/QgB+Zear0BXpZ2NaNVzJyFE
- dByW1jkcUDWpbat9coRznKUK3/MB7c9T187Jvb4ByGK+BKwamYGVn598t g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="332791594"
-X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; d="scan'208";a="332791594"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 09:58:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; d="scan'208";a="520594260"
+ bh=Qy7t1Ypki7j0iCcWaRmk0ORRY2L4RZAMrStqlHAMWPM=;
+ b=fQ9wnn9rzsJ3W07qpex/trYj0pNUTF7TMiG9QaLo4POX6FQ8nZosuokM
+ a59EpU22Dut5n3aMVCOgQbqUsmmqd6xsbaBJyqheFO9gfHi2KLAcATN73
+ XEIUSwjVmT7YQXRTM52bM/Vmvr6z4Eli+Dur8lv12PPOch45PtBI3shiR
+ eXyZh1D5wOiMp2u/5gHJMoJ+61v0EX/kc9xoRoF/CfVqVbiroP/mC2sIy
+ RVSE0wirOcAWafxRjnYw52b3rGRp5ngTeQFZGTm8kHGDkmp1pS0s82MMo
+ NkE3Xn/837alGc17nkaTuoyzKkMOHJYlbJwzKRcsr/oGTTOhQ28Y1fF9K A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="269433412"
+X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; d="scan'208";a="269433412"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 10:21:35 -0700
+X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; d="scan'208";a="553414882"
 Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.198.157])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 09:58:29 -0700
-Date: Wed, 11 May 2022 10:02:16 -0700
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 10:21:35 -0700
+Date: Wed, 11 May 2022 10:25:21 -0700
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Subject: Re: [PATCH v3 1/4] iommu/vt-d: Implement domain ops for
  attach_dev_pasid
-Message-ID: <20220511100216.7615e288@jacob-builder>
-In-Reply-To: <20220511161237.GB49344@nvidia.com>
+Message-ID: <20220511102521.6b7c578c@jacob-builder>
+In-Reply-To: <20220511170025.GF49344@nvidia.com>
 References: <20220510210704.3539577-1-jacob.jun.pan@linux.intel.com>
  <20220510210704.3539577-2-jacob.jun.pan@linux.intel.com>
  <20220510232121.GP49344@nvidia.com>
@@ -71,6 +71,8 @@ References: <20220510210704.3539577-1-jacob.jun.pan@linux.intel.com>
  <20220511115427.GU49344@nvidia.com>
  <20220511082958.79d5d8ee@jacob-builder>
  <20220511161237.GB49344@nvidia.com>
+ <20220511100216.7615e288@jacob-builder>
+ <20220511170025.GF49344@nvidia.com>
 Organization: OTC
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -99,63 +101,66 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Hi Jason,
 
-On Wed, 11 May 2022 13:12:37 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Wed, 11 May 2022 14:00:25 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> On Wed, May 11, 2022 at 08:35:18AM -0700, Jacob Pan wrote:
-> 
-> > > Huh? The intel driver shares the same ops between UNMANAGED and DMA -
-> > > and in general I do not think we should be putting special knowledge
-> > > about the DMA domains in the drivers. Drivers should continue to treat
-> > > them identically to UNMANAGED.
-> > >   
-> > OK, other than SVA domain, the rest domain types share the same default
-> > ops. I agree that the default ops should be the same for UNMANAGED,
-> > IDENTITY, and DMA domain types. Minor detail is that we need to treat
-> > IDENTITY domain slightly different when it comes down to PASID entry
-> > programming.  
-> 
-> I would be happy if IDENTITY had its own ops, if that makes sense
-> 
-I have tried to have its own ops but there are complications around
-checking if a domain has ops. It would be a logic thing to clean up next.
-
-> > If not global, perhaps we could have a list of pasids (e.g. xarray)
-> > attached to the device_domain_info. The TLB flush logic would just go
-> > through the list w/o caring what the PASIDs are for. Does it make sense
-> > to you?  
-> 
-> Sort of, but we shouldn't duplicate xarrays - the group already has
-> this xarray - need to find some way to allow access to it from the
-> driver.
-> 
-I am not following,  here are the PASIDs for devTLB flush which is per
-device. Why group?
-We could retrieve PASIDs from the device PASID table but xa would be more
-efficient.
-
-> > > > Are you suggesting the dma-iommu API should be called
-> > > > iommu_set_dma_pasid instead of iommu_attach_dma_pasid?    
+> On Wed, May 11, 2022 at 10:02:16AM -0700, Jacob Pan wrote:
+> > > > If not global, perhaps we could have a list of pasids (e.g. xarray)
+> > > > attached to the device_domain_info. The TLB flush logic would just
+> > > > go through the list w/o caring what the PASIDs are for. Does it
+> > > > make sense to you?    
 > > > 
-> > > No that API is Ok - the driver ops API should be 'set' not
-> > > attach/detach 
-> > Sounds good, this operation has little in common with
-> > domain_ops.dev_attach_pasid() used by SVA domain. So I will add a new
-> > domain_ops.dev_set_pasid()  
+> > > Sort of, but we shouldn't duplicate xarrays - the group already has
+> > > this xarray - need to find some way to allow access to it from the
+> > > driver.
+> > >   
+> > I am not following,  here are the PASIDs for devTLB flush which is per
+> > device. Why group?  
 > 
-> What? No, their should only be one operation, 'dev_set_pasid' and it
-> is exactly the same as the SVA operation. It configures things so that
-> any existing translation on the PASID is removed and the PASID
-> translates according to the given domain.
-> 
-> SVA given domain or UNMANAGED given domain doesn't matter to the
-> higher level code. The driver should implement per-domain ops as
-> required to get the different behaviors.
-Perhaps some code to clarify, we have
-sva_domain_ops.dev_attach_pasid() = intel_svm_attach_dev_pasid;
-default_domain_ops.dev_attach_pasid() = intel_iommu_attach_dev_pasid;
+> Because group is where the core code stores it.
+I see, with singleton group. I guess I can let dma-iommu code call
 
-Consolidate pasid programming into dev_set_pasid() then called by both
-intel_svm_attach_dev_pasid() and intel_iommu_attach_dev_pasid(), right?
+iommu_attach_dma_pasid {
+	iommu_attach_device_pasid();
+Then the PASID will be stored in the group xa.
+The flush code can retrieve PASIDs from device_domain_info.device -> group
+-> pasid_array.
+Thanks for pointing it out, I missed the new pasid_array.
+> 
+> > We could retrieve PASIDs from the device PASID table but xa would be
+> > more efficient.
+> >   
+> > > > > > Are you suggesting the dma-iommu API should be called
+> > > > > > iommu_set_dma_pasid instead of iommu_attach_dma_pasid?      
+> > > > > 
+> > > > > No that API is Ok - the driver ops API should be 'set' not
+> > > > > attach/detach   
+> > > > Sounds good, this operation has little in common with
+> > > > domain_ops.dev_attach_pasid() used by SVA domain. So I will add a
+> > > > new domain_ops.dev_set_pasid()    
+> > > 
+> > > What? No, their should only be one operation, 'dev_set_pasid' and it
+> > > is exactly the same as the SVA operation. It configures things so that
+> > > any existing translation on the PASID is removed and the PASID
+> > > translates according to the given domain.
+> > > 
+> > > SVA given domain or UNMANAGED given domain doesn't matter to the
+> > > higher level code. The driver should implement per-domain ops as
+> > > required to get the different behaviors.  
+> > Perhaps some code to clarify, we have
+> > sva_domain_ops.dev_attach_pasid() = intel_svm_attach_dev_pasid;
+> > default_domain_ops.dev_attach_pasid() = intel_iommu_attach_dev_pasid;  
+> 
+> Yes, keep that structure
+>  
+> > Consolidate pasid programming into dev_set_pasid() then called by both
+> > intel_svm_attach_dev_pasid() and intel_iommu_attach_dev_pasid(), right?
+> >  
+> 
+> I was only suggesting that really dev_attach_pasid() op is misnamed,
+> it should be called set_dev_pasid() and act like a set, not a paired
+> attach/detach - same as the non-PASID ops.
+> 
+Got it. Perhaps another patch to rename, Baolu?
 
 
 Thanks,
