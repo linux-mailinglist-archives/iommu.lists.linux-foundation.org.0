@@ -1,86 +1,127 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D131D5241E4
-	for <lists.iommu@lfdr.de>; Thu, 12 May 2022 03:16:46 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BDD524387
+	for <lists.iommu@lfdr.de>; Thu, 12 May 2022 05:39:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7C588812CD;
-	Thu, 12 May 2022 01:16:45 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9A62E40B9F;
+	Thu, 12 May 2022 03:39:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x3PeIuuISGgF; Thu, 12 May 2022 01:16:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 76D1E812C1;
-	Thu, 12 May 2022 01:16:44 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aFULGZFGYkK7; Thu, 12 May 2022 03:39:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7387140B6E;
+	Thu, 12 May 2022 03:39:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E03CC007E;
-	Thu, 12 May 2022 01:16:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 40916C002D;
+	Thu, 12 May 2022 03:39:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D183AC002D
- for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 01:16:42 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24886C002D
+ for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 03:39:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id B9D3A60AA8
- for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 01:16:42 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id F19E560BCA
+ for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 03:39:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
+ dkim=pass (1024-bit key) header.d=samsung.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TRKHK4OPmYS2 for <iommu@lists.linux-foundation.org>;
- Thu, 12 May 2022 01:16:42 +0000 (UTC)
+ with ESMTP id HKMgIigPxYJg for <iommu@lists.linux-foundation.org>;
+ Thu, 12 May 2022 03:39:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DCB166058B
- for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 01:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652318201; x=1683854201;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PjnwnCvMOfrROyLyIiruOlckwW/nR8ozbPMZ/HEaMUk=;
- b=PEpq3GWz5KsVz+EB8RO0Z8b1uEmSvxVdvEX3H5Z4dpDoOLGqZD6KZq24
- D0XrnKbNE8fAIswlQwauOi87IeES2bqHb+lpyEsEOjYXiwFC8oRY5h+k1
- VowxXeej/BmiGWfPFnjQEgocF+xDuEB5wVWCkWsiWMJy/wwtVOc8cS8iw
- TSB6ysYQsDDODX2s4AKAnFIyC78QRp/wP+Vt77G2/KaSRAq6oEySOL1uL
- kwZ7kQjyT0xQbePUO8Tgv5lh6dvSwqaJbufAfY1yRNH+0F3sDXVW/4zV8
- UX/yrRH/xo/4tcqgGF6kIqr0b2weDj2PcOU1FeIk9oi0tXCAc+uY1jK1M Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="251907925"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="251907925"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 18:16:23 -0700
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="594415841"
-Received: from hezhu1-mobl1.ccr.corp.intel.com (HELO [10.255.29.168])
- ([10.255.29.168])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 18:16:19 -0700
-Message-ID: <00a972f4-1fe2-2eb0-fcf5-d454f3b9dcc6@linux.intel.com>
-Date: Thu, 12 May 2022 09:16:17 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 1/4] iommu/vt-d: Implement domain ops for
- attach_dev_pasid
-Content-Language: en-US
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <20220510210704.3539577-1-jacob.jun.pan@linux.intel.com>
- <20220510210704.3539577-2-jacob.jun.pan@linux.intel.com>
- <20220510232121.GP49344@nvidia.com> <20220510172309.3c4e7512@jacob-builder>
- <20220511115427.GU49344@nvidia.com> <20220511082958.79d5d8ee@jacob-builder>
- <20220511161237.GB49344@nvidia.com> <20220511100216.7615e288@jacob-builder>
- <20220511170025.GF49344@nvidia.com> <20220511102521.6b7c578c@jacob-builder>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220511102521.6b7c578c@jacob-builder>
-Cc: vkoul@kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- will@kernel.org, Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- dmaengine@vger.kernel.org, robin.murphy@arm.com,
- David Woodhouse <dwmw2@infradead.org>
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 5E4EA60784
+ for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 03:39:14 +0000 (UTC)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220512033911epoutp04e49341cd8977754c5af1a050bab16024~uPmz6Wdjg0644806448epoutp04S
+ for <iommu@lists.linux-foundation.org>; Thu, 12 May 2022 03:39:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220512033911epoutp04e49341cd8977754c5af1a050bab16024~uPmz6Wdjg0644806448epoutp04S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1652326751;
+ bh=/xvg08mm/FdFaeSMWR962Fm009CzGXkQON5XmH+sZS0=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=IVwH/Ub+MSSCEE2ScLiWUVqdp7jx0v6/ILq0ViuzrenYnBBlzNmJEvMBzImwi+w0L
+ HsiDIoWKWheOs9FJKMETzKRiI9I5mZUYtAUF5yJ4nIyDrcr11/wE8BS/mCqUKk90GY
+ 0VkvGSou9gTiqDDwoftdfkdllZoRltA5/+yNBxyU=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220512033909epcas5p2e304c55788557dbc1da7cf9df8346359~uPmy6FGiG2890628906epcas5p26;
+ Thu, 12 May 2022 03:39:09 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4KzHZK3gKWz4x9QC; Thu, 12 May
+ 2022 03:39:05 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 3C.51.10063.9518C726; Thu, 12 May 2022 12:39:05 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220511121425epcas5p256b55554b32dc58566827818a817ac44~uC-YgTXlW1315313153epcas5p2Y;
+ Wed, 11 May 2022 12:14:25 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220511121425epsmtrp1b2d76ae860b697eecdb90578918f70d9~uC-YfZeFg0052800528epsmtrp1B;
+ Wed, 11 May 2022 12:14:24 +0000 (GMT)
+X-AuditID: b6c32a49-4b5ff7000000274f-05-627c8159e2e5
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ D6.0F.11276.0A8AB726; Wed, 11 May 2022 21:14:24 +0900 (KST)
+Received: from Jaguar.sa.corp.samsungelectronics.net (unknown
+ [107.108.73.139]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220511121423epsmtip20cb722f047df63de8dd763a9bec56aee~uC-XD16sg0269902699epsmtip2_;
+ Wed, 11 May 2022 12:14:23 +0000 (GMT)
+From: Ajay Kumar <ajaykumar.rs@samsung.com>
+To: linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org,
+ joro@8bytes.org, will@kernel.org, robin.murphy@arm.com
+Subject: [PATCH V2 0/6] IOMMU-DMA - support DMA_ATTR_LOW_ADDRESS attribute
+Date: Wed, 11 May 2022 17:45:38 +0530
+Message-Id: <20220511121544.5998-1-ajaykumar.rs@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEKsWRmVeSWpSXmKPExsWy7bCmhm5kY02SQcdKGYuvJ36zWRx4f5DF
+ 4sG8bWwWC/ZbW3TO3sBusenxNVaLRVu/sFsc/PCE1aLljqkDp8eTg/OYPNbMW8PosXPWXXaP
+ Tas62Tw2L6n3mHxjOaNH35ZVjAHsUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6hpYW
+ 5koKeYm5qbZKLj4Bum6ZOUCHKSmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIKTAr0
+ ihNzi0vz0vXyUkusDA0MjEyBChOyM2b0WhasFazomv+NtYHxHW8XIyeHhICJxLaVp5i7GLk4
+ hAR2M0p8WbAZyvnEKHHyXx87hPONUeLZ8f1sXYwcYC3tfywh4nsZJa5eWs8E4bQwSWw6f4QV
+ ZC6bgLbEtuk3WUBsEYEWRom50+xBbGaBKolbWyYygdjCAl4ScxZMYwaxWQRUJZ5/nMMIsoBX
+ wEZi1+koiPPkJVZvOAB2kYTAKXaJw+/aWSCOcJE498UTokZY4tXxLewQtpTEy/42KLta4twt
+ kJtBejsYJToeroNK2EscuDIHbA6zgKbE+l36EGFZiamn1jFBnMkn0fv7CRNEnFdixzwQG2St
+ msTWFX4QYRmJMwevQJV4SJzcvRvsEyGBWIkTOy+xTWCUnYWwYAEj4ypGydSC4tz01GLTAsO8
+ 1HJ4LCXn525iBCc2Lc8djHcffNA7xMjEwXiIUYKDWUmEd39fRZIQb0piZVVqUX58UWlOavEh
+ RlNgiE1klhJNzgem1rySeEMTSwMTMzMzE0tjM0Mlcd7T6RsShQTSE0tSs1NTC1KLYPqYODil
+ Gph0X+72qQrvWCV+O+3YpPiD8xdw7gjd2qLx+IPPhBvW01ZPS477mWZXVhkotfX5lSv7rydn
+ WoYdeLthi3Dmrkl/liid43J4d/bhX8N4u3055ZO5LPNZ/2WcEFfZ4r7uTWUD/+I59/+vZfjw
+ R+aSR8gfdSONHB3+wynsC0WYZhiWzPjOPKkkrSnxy3vWb3zalSc8Fp4uFptzzcPrTEL9dwuF
+ 18dSJe+u3vvBOeZIoqRBwTnnRaE/fkitjohVW6sVO2FZ7/znW1uWKoqrTTtq3Lov39ncM3D/
+ IsX1L3duMeC/+iEjbMWlpq0aD52E5jeGfVpxIcHRvUwlMOfANpsPD09tqDyw8/bm3As/M7Ts
+ 703LV2Ipzkg01GIuKk4EABA5rm/1AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnluLIzCtJLcpLzFFi42LZdlhJXnfBiuokg51NJhZfT/xmszjw/iCL
+ xYN529gsFuy3tuicvYHdYtPja6wWi7Z+Ybc4+OEJq0XLHVMHTo8nB+cxeayZt4bRY+esu+we
+ m1Z1snlsXlLvMfnGckaPvi2rGAPYo7hsUlJzMstSi/TtErgyZvRaFqwVrOia/421gfEdbxcj
+ B4eEgIlE+x/LLkYuDiGB3YwS7zsOsXUxcgLFZSSe73jKAmELS6z895wdoqiJSWLm2hNgRWwC
+ 2hLbpt9kAUmICHQxSly9upcVJMEsUCfxdup0RhBbWMBLYs6CacwgNouAqsTzj3MYQTbzCthI
+ 7DodBbFAXmL1hgPMExh5FjAyrGKUTC0ozk3PLTYsMMxLLdcrTswtLs1L10vOz93ECA4zLc0d
+ jNtXfdA7xMjEwXiIUYKDWUmEd39fRZIQb0piZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OFBNIT
+ S1KzU1MLUotgskwcnFINTFN9tpeVbJLV9g6+Pyml8F40+3apb9ZOaUHRr2IvbDduvWVW57p/
+ rUf4FK2tgp0lV1escts3nT1re8+s172Wq2zXp9ickyi8wCeygu2mieUVBr63t3a9Zj0yY+aW
+ eDbOtke6OtkXFwidCCyx5NyvPUm7sO2nTdz1Cy515uy3fVuN+KTz8+W9PS+Kxe76nJ+1yiAz
+ 1v/vLL2dNadfG82OYvmytTHX4rehq4mV8l33VDOXy6UPQk/++TLxUSrft2fbZpSyNR+e6KkX
+ Z33N4PtEPmntlY/Fdh+r2r+lgu2EfVmcj1YF/wH9ZQ/YNv5/neDN516m9fFV+t4WzWjfDxPv
+ nuNt2CvMfqg4d0HtE8EkJZbijERDLeai4kQAyODziaICAAA=
+X-CMS-MailID: 20220511121425epcas5p256b55554b32dc58566827818a817ac44
+X-Msg-Generator: CA
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220511121425epcas5p256b55554b32dc58566827818a817ac44
+References: <CGME20220511121425epcas5p256b55554b32dc58566827818a817ac44@epcas5p2.samsung.com>
+Cc: pankaj.dubey@samsung.com, alim.akhtar@samsung.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,80 +134,76 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022/5/12 01:25, Jacob Pan wrote:
-> Hi Jason,
-> 
-> On Wed, 11 May 2022 14:00:25 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
->> On Wed, May 11, 2022 at 10:02:16AM -0700, Jacob Pan wrote:
->>>>> If not global, perhaps we could have a list of pasids (e.g. xarray)
->>>>> attached to the device_domain_info. The TLB flush logic would just
->>>>> go through the list w/o caring what the PASIDs are for. Does it
->>>>> make sense to you?
->>>>
->>>> Sort of, but we shouldn't duplicate xarrays - the group already has
->>>> this xarray - need to find some way to allow access to it from the
->>>> driver.
->>>>    
->>> I am not following,  here are the PASIDs for devTLB flush which is per
->>> device. Why group?
->>
->> Because group is where the core code stores it.
-> I see, with singleton group. I guess I can let dma-iommu code call
-> 
-> iommu_attach_dma_pasid {
-> 	iommu_attach_device_pasid();
-> Then the PASID will be stored in the group xa.
-> The flush code can retrieve PASIDs from device_domain_info.device -> group
-> -> pasid_array.
-> Thanks for pointing it out, I missed the new pasid_array.
->>
->>> We could retrieve PASIDs from the device PASID table but xa would be
->>> more efficient.
->>>    
->>>>>>> Are you suggesting the dma-iommu API should be called
->>>>>>> iommu_set_dma_pasid instead of iommu_attach_dma_pasid?
->>>>>>
->>>>>> No that API is Ok - the driver ops API should be 'set' not
->>>>>> attach/detach
->>>>> Sounds good, this operation has little in common with
->>>>> domain_ops.dev_attach_pasid() used by SVA domain. So I will add a
->>>>> new domain_ops.dev_set_pasid()
->>>>
->>>> What? No, their should only be one operation, 'dev_set_pasid' and it
->>>> is exactly the same as the SVA operation. It configures things so that
->>>> any existing translation on the PASID is removed and the PASID
->>>> translates according to the given domain.
->>>>
->>>> SVA given domain or UNMANAGED given domain doesn't matter to the
->>>> higher level code. The driver should implement per-domain ops as
->>>> required to get the different behaviors.
->>> Perhaps some code to clarify, we have
->>> sva_domain_ops.dev_attach_pasid() = intel_svm_attach_dev_pasid;
->>> default_domain_ops.dev_attach_pasid() = intel_iommu_attach_dev_pasid;
->>
->> Yes, keep that structure
->>   
->>> Consolidate pasid programming into dev_set_pasid() then called by both
->>> intel_svm_attach_dev_pasid() and intel_iommu_attach_dev_pasid(), right?
->>>   
->>
->> I was only suggesting that really dev_attach_pasid() op is misnamed,
->> it should be called set_dev_pasid() and act like a set, not a paired
->> attach/detach - same as the non-PASID ops.
->>
-> Got it. Perhaps another patch to rename, Baolu?
+This patchset is a rebase of original patches from Marek Szyprowski:
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2321261.html
 
-Yes. I can rename it in my sva series if others are also happy with this
-naming.
+The patches have been rebased on Joro's IOMMU tree "next" branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
 
-Best regards,
-baolu
+This patchset is needed to address the IOVA address dependency issue between
+firmware buffers and other buffers in Samsung s5p-mfc driver.
+
+There have been few discussions in the past on how to find a generic
+soultion for this issue, ranging from adding an entirely new API to choose
+IOVA window[1], to adding a DMA attribute DMA_ATTR_LOW_ADDRESS which handles
+buffer allocation from lower address[2].
+This is a continuation of initial work from Marek for approach [2].
+Patches have been tested with latest version of Samsung s5p-mfc driver.
+
+Changes since V1:
+[PATCH V2 1/6]
+- Rebase on latest tree.
+
+[PATCH V2 2/6]
+- Rebase on latest tree.
+  Added a missing check for iova_pfn in __iova_rcache_get()
+  Discard changes from drivers/iommu/intel/iommu.c which are not necessary
+
+[PATCH V2 3/6]
+- Rebase on latest tree.
+
+[PATCH V2 4/6]
+- Rebase on latest tree
+
+[PATCH V2 5/6]
+- Rebase on latest tree
+
+[PATCH V2 6/6]
+- Rebase on latest tree.
+
+Marek Szyprowski (6):
+  dma-mapping: add DMA_ATTR_LOW_ADDRESS attribute
+  iommu: iova: properly handle 0 as a valid IOVA address
+  iommu: iova: add support for 'first-fit' algorithm
+  iommu: dma-iommu: refactor iommu_dma_alloc_iova()
+  iommu: dma-iommu: add support for DMA_ATTR_LOW_ADDRESS
+  media: platform: s5p-mfc: use DMA_ATTR_LOW_ADDRESS
+
+References:
+[1]
+https://lore.kernel.org/linux-iommu/20200811054912.GA301@infradead.org/
+
+[2]
+https://lore.kernel.org/linux-mm/bff57cbe-2247-05e1-9059-d9c66d64c407@arm.com
+
+ drivers/iommu/dma-iommu.c                     | 77 +++++++++++-----
+ drivers/iommu/iova.c                          | 91 ++++++++++++++++++-
+ .../media/platform/samsung/s5p-mfc/s5p_mfc.c  |  8 +-
+ include/linux/dma-mapping.h                   |  6 ++
+ include/linux/iova.h                          |  3 +
+ 5 files changed, 156 insertions(+), 29 deletions(-)
+
+
+base-commit: faf93cfaadfaaff2a5c35d6301b45aa2f6e4ddb2
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
