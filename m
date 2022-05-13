@@ -1,54 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04AD5262B8
-	for <lists.iommu@lfdr.de>; Fri, 13 May 2022 15:15:52 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7C55262E7
+	for <lists.iommu@lfdr.de>; Fri, 13 May 2022 15:18:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 503EE415D5;
-	Fri, 13 May 2022 13:15:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 62E8D4051D;
+	Fri, 13 May 2022 13:18:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kVXAdkYi0wNq; Fri, 13 May 2022 13:15:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wifHlRw4M_yr; Fri, 13 May 2022 13:18:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 395B7400DE;
-	Fri, 13 May 2022 13:15:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9972B408DD;
+	Fri, 13 May 2022 13:18:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04D4BC0081;
-	Fri, 13 May 2022 13:15:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6F88EC0081;
+	Fri, 13 May 2022 13:18:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 43148C002D
- for <iommu@lists.linux-foundation.org>; Fri, 13 May 2022 13:15:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B2113C002D
+ for <iommu@lists.linux-foundation.org>; Fri, 13 May 2022 13:18:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 1C352415D5
- for <iommu@lists.linux-foundation.org>; Fri, 13 May 2022 13:15:48 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 91CEE60EB1
+ for <iommu@lists.linux-foundation.org>; Fri, 13 May 2022 13:18:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0fgXUhGMYKn1 for <iommu@lists.linux-foundation.org>;
- Fri, 13 May 2022 13:15:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HS0clymxV4P1 for <iommu@lists.linux-foundation.org>;
+ Fri, 13 May 2022 13:18:24 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from theia.8bytes.org (8bytes.org
- [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
- by smtp4.osuosl.org (Postfix) with ESMTPS id CC72A400DE
- for <iommu@lists.linux-foundation.org>; Fri, 13 May 2022 13:15:46 +0000 (UTC)
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F186860EAA
+ for <iommu@lists.linux-foundation.org>; Fri, 13 May 2022 13:18:23 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 81BD94D2; Fri, 13 May 2022 15:15:44 +0200 (CEST)
-Date: Fri, 13 May 2022 15:15:43 +0200
+ id 3B50A4D2; Fri, 13 May 2022 15:18:22 +0200 (CEST)
+Date: Fri, 13 May 2022 15:18:21 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 0/8] [PULL REQUEST] Intel IOMMU updates for Linux v5.19
-Message-ID: <Yn5Z/wHPwVoy+y1O@8bytes.org>
-References: <20220510023407.2759143-1-baolu.lu@linux.intel.com>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [GIT PULL] iommu/arm-smmu: Updates for 5.19
+Message-ID: <Yn5anSKzTBhx8OrD@8bytes.org>
+References: <20220510160106.GA28351@willie-the-truck>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220510023407.2759143-1-baolu.lu@linux.intel.com>
-Cc: Kevin Tian <kevin.tian@intel.com>, iommu@lists.linux-foundation.org,
- Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>,
- Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20220510160106.GA28351@willie-the-truck>
+Cc: kernel-team@android.com, iommu@lists.linux-foundation.org,
+ robin.murphy@arm.com, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,23 +65,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 10, 2022 at 10:33:59AM +0800, Lu Baolu wrote:
-> This includes patches queued for v5.19. It includes:
-> 
->  - Domain force snooping improvement.
->  - Cleanups, no intentional functional changes.
-> 
-> Please consider them for v5.19.
-> 
-> [This series cannot be directly applied to vt-d branch. Some domain
->  force snooping patches have been merged on the core branch. You may
->  also need to add those patches to the vt-d branch, or just merge
->  this series into the core branch.]
+On Tue, May 10, 2022 at 05:01:06PM +0100, Will Deacon wrote:
+>   git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git tags/arm-smmu-updates
 
-Alright, merged the core branch into x86/vt-d and applied these patches
-on-top.
-
-Thanks Baolu.
+Pulled, thanks Will.
 
 _______________________________________________
 iommu mailing list
