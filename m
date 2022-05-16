@@ -1,65 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B126452809E
-	for <lists.iommu@lfdr.de>; Mon, 16 May 2022 11:16:14 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7665280A4
+	for <lists.iommu@lfdr.de>; Mon, 16 May 2022 11:17:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3A4F780CE6;
-	Mon, 16 May 2022 09:16:13 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 16AC261019;
+	Mon, 16 May 2022 09:17:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id L-F2ue-nLUEP; Mon, 16 May 2022 09:16:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4A070819B4;
-	Mon, 16 May 2022 09:16:12 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jNgfXhqv-SYt; Mon, 16 May 2022 09:17:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D7A5760FFE;
+	Mon, 16 May 2022 09:17:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3239EC007C;
-	Mon, 16 May 2022 09:16:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFDAFC002D;
+	Mon, 16 May 2022 09:17:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6C48C002D
- for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 09:16:10 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EB590C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 09:17:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C469540AF7
- for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 09:16:10 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id CB6A640AF1
+ for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 09:17:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kapsi.fi
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E4GPM06G-hvI for <iommu@lists.linux-foundation.org>;
- Mon, 16 May 2022 09:16:10 +0000 (UTC)
+ with ESMTP id X-8dDsvIJ9Cu for <iommu@lists.linux-foundation.org>;
+ Mon, 16 May 2022 09:17:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 279E440AF1
- for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 09:16:10 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D8CB140396
+ for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 09:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=uAYlVlaSKiCol2osSU9jEMs5Zkro7eHEKz4SvQwuMgY=; b=cCYp7Uikdwy4YMIyYFg9ak33VM
- fqrRscO41wzaLajhphHvOMz0bgejJ1Q/EjsjYJXfo17Q9RgxkM+8p8N2BksmBKCZ6hfu4SuKDWeAH
- s+GCMR8khut5BBvOp86/atCC8yOk9RHCzaD2Y94b4B9ZOb0k5Caef8pY/FXDJvxLJBx+zjaoZUpgl
- b5b/3mZc9OytMUowQOt8HvTF6HA6hqKgRK3FxkV20wX5WxgfjOqaq9H70FR2C/w4aaSg2wQJ8wPan
- RR8O/XYPAqM2f7kVCKS5ykOom8V+vA2OIDAke3svSs6n0kyceqcI/RFY3FiSnDvZVeR2RxJXGVmkw
- vTEWB4SA==;
+ bh=yb5ZRXXvSv1MiO+QoygFiVs/3UGGooAnjV7C1vURjL4=; b=UKXpwkOuKqbQb8WJqvURvTqu0u
+ i+yTevqMpk+rG+8zWYO6PaRaLPApk0JpP0yY1eIuX3SaQ/2wnQTjd+Y3SBkxhtyN0v1uAdU6Rq6qZ
+ GXuxh3Rm8TLvcQ3XEIyOyshs56HXPzHjzlW0M4Cl4rTJEOxc7z59j6vx/OSwu9/+s+4TM2A5E9HdC
+ 34Loqt6G4Ob/ACX22DaZEDn0qaSX4Ht7G5IjyO4BBG9G2Zo9kug+keGPhVzdBvKmXQZ0j0Bf4cxVb
+ PBf+KhUcbWHp2AjuNRGlNpoYrHlhtmuXi+sVCPb8PcK/0ceIOtbR78Chac0p6tykiKvm6uAYMQ87C
+ f2pkBx3A==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <cyndis@kapsi.fi>)
- id 1nqWTf-0005fd-2o; Mon, 16 May 2022 11:53:19 +0300
+ id 1nqWTf-0005fd-8s; Mon, 16 May 2022 11:53:19 +0300
 From: cyndis@kapsi.fi
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
  krzysztof.kozlowski@canonical.com
-Subject: [PATCH v5 7/9] drm/tegra: falcon: Set DMACTX field on DMA transactions
-Date: Mon, 16 May 2022 11:52:56 +0300
-Message-Id: <20220516085258.1227691-8-cyndis@kapsi.fi>
+Subject: [PATCH v5 8/9] drm/tegra: Support context isolation
+Date: Mon, 16 May 2022 11:52:57 +0300
+Message-Id: <20220516085258.1227691-9-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220516085258.1227691-1-cyndis@kapsi.fi>
 References: <20220516085258.1227691-1-cyndis@kapsi.fi>
@@ -90,48 +90,228 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-The DMACTX field determines which context, as specified in the
-TRANSCFG register, is used. While during boot it doesn't matter
-which is used, later on it matters and this value is reused by
-the firmware.
+For engines that support context isolation, allocate a context when
+opening a channel, and set up stream ID offset and context fields
+when submitting a job.
+
+As of this commit, the stream ID offset and fallback stream ID
+are not used when context isolation is disabled. However, with
+upcoming patches that enable a full featured job opcode sequence,
+these will be necessary.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/tegra/falcon.c | 8 ++++++++
- drivers/gpu/drm/tegra/falcon.h | 1 +
- 2 files changed, 9 insertions(+)
+v5:
+* On supporting engines, always program stream ID offset and
+  new fallback stream ID.
+* Rename host1x_context to host1x_memory_context
+v4:
+* Separate error and output values in get_streamid_offset API
+* Improve error handling
+* Rename job->context to job->memory_context for clarity
+---
+ drivers/gpu/drm/tegra/drm.h    |  3 +++
+ drivers/gpu/drm/tegra/submit.c | 48 +++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/tegra/uapi.c   | 43 ++++++++++++++++++++++++++++--
+ 3 files changed, 91 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/falcon.c b/drivers/gpu/drm/tegra/falcon.c
-index 3762d87759d9..c0d85463eb1a 100644
---- a/drivers/gpu/drm/tegra/falcon.c
-+++ b/drivers/gpu/drm/tegra/falcon.c
-@@ -48,6 +48,14 @@ static int falcon_copy_chunk(struct falcon *falcon,
- 	if (target == FALCON_MEMORY_IMEM)
- 		cmd |= FALCON_DMATRFCMD_IMEM;
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index fc0a19554eac..2acc8f2948ad 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -80,6 +80,7 @@ struct tegra_drm_context {
  
-+	/*
-+	 * Use second DMA context (i.e. the one for firmware). Strictly
-+	 * speaking, at this point both DMA contexts point to the firmware
-+	 * stream ID, but this register's value will be reused by the firmware
-+	 * for later DMA transactions, so we need to use the correct value.
-+	 */
-+	cmd |= FALCON_DMATRFCMD_DMACTX(1);
+ 	/* Only used by new UAPI. */
+ 	struct xarray mappings;
++	struct host1x_memory_context *memory_context;
+ };
+ 
+ struct tegra_drm_client_ops {
+@@ -91,6 +92,8 @@ struct tegra_drm_client_ops {
+ 	int (*submit)(struct tegra_drm_context *context,
+ 		      struct drm_tegra_submit *args, struct drm_device *drm,
+ 		      struct drm_file *file);
++	int (*get_streamid_offset)(struct tegra_drm_client *client, u32 *offset);
++	int (*can_use_memory_ctx)(struct tegra_drm_client *client, bool *supported);
+ };
+ 
+ int tegra_drm_submit(struct tegra_drm_context *context,
+diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
+index 6d6dd8c35475..b24738bdf3df 100644
+--- a/drivers/gpu/drm/tegra/submit.c
++++ b/drivers/gpu/drm/tegra/submit.c
+@@ -498,6 +498,9 @@ static void release_job(struct host1x_job *job)
+ 	struct tegra_drm_submit_data *job_data = job->user_data;
+ 	u32 i;
+ 
++	if (job->memory_context)
++		host1x_memory_context_put(job->memory_context);
 +
- 	falcon_writel(falcon, offset, FALCON_DMATRFMOFFS);
- 	falcon_writel(falcon, base, FALCON_DMATRFFBOFFS);
- 	falcon_writel(falcon, cmd, FALCON_DMATRFCMD);
-diff --git a/drivers/gpu/drm/tegra/falcon.h b/drivers/gpu/drm/tegra/falcon.h
-index c56ee32d92ee..1955cf11a8a6 100644
---- a/drivers/gpu/drm/tegra/falcon.h
-+++ b/drivers/gpu/drm/tegra/falcon.h
-@@ -50,6 +50,7 @@
- #define FALCON_DMATRFCMD_IDLE			(1 << 1)
- #define FALCON_DMATRFCMD_IMEM			(1 << 4)
- #define FALCON_DMATRFCMD_SIZE_256B		(6 << 8)
-+#define FALCON_DMATRFCMD_DMACTX(v)		(((v) & 0x7) << 12)
+ 	for (i = 0; i < job_data->num_used_mappings; i++)
+ 		tegra_drm_mapping_put(job_data->used_mappings[i].mapping);
  
- #define FALCON_DMATRFFBOFFS			0x0000111c
+@@ -588,11 +591,51 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+ 		goto put_job;
+ 	}
  
++	if (context->client->ops->get_streamid_offset) {
++		err = context->client->ops->get_streamid_offset(
++			context->client, &job->engine_streamid_offset);
++		if (err) {
++			SUBMIT_ERR(context, "failed to get streamid offset: %d", err);
++			goto unpin_job;
++		}
++	}
++
++	if (context->memory_context && context->client->ops->can_use_memory_ctx) {
++		bool supported;
++
++		err = context->client->ops->can_use_memory_ctx(context->client, &supported);
++		if (err) {
++			SUBMIT_ERR(context, "failed to detect if engine can use memory context: %d", err);
++			goto unpin_job;
++		}
++
++		if (supported) {
++			job->memory_context = context->memory_context;
++			host1x_memory_context_get(job->memory_context);
++		}
++	} else if (context->client->ops->get_streamid_offset) {
++#ifdef CONFIG_IOMMU_API
++		struct iommu_fwspec *spec;
++
++		/*
++		 * Job submission will need to temporarily change stream ID,
++		 * so need to tell it what to change it back to.
++		 */
++		spec = dev_iommu_fwspec_get(context->client->base.dev);
++		if (spec && spec->num_ids > 0)
++			job->engine_fallback_streamid = spec->ids[0] & 0xffff;
++		else
++			job->engine_fallback_streamid = 0x7f;
++#else
++		job->engine_fallback_streamid = 0x7f;
++#endif
++	}
++
+ 	/* Boot engine. */
+ 	err = pm_runtime_resume_and_get(context->client->base.dev);
+ 	if (err < 0) {
+ 		SUBMIT_ERR(context, "could not power up engine: %d", err);
+-		goto unpin_job;
++		goto put_memory_context;
+ 	}
+ 
+ 	job->user_data = job_data;
+@@ -627,6 +670,9 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+ 
+ 	goto put_job;
+ 
++put_memory_context:
++	if (job->memory_context)
++		host1x_memory_context_put(job->memory_context);
+ unpin_job:
+ 	host1x_job_unpin(job);
+ put_job:
+diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
+index 9ab9179d2026..a98239cb0e29 100644
+--- a/drivers/gpu/drm/tegra/uapi.c
++++ b/drivers/gpu/drm/tegra/uapi.c
+@@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
+ 	struct tegra_drm_mapping *mapping;
+ 	unsigned long id;
+ 
++	if (context->memory_context)
++		host1x_memory_context_put(context->memory_context);
++
+ 	xa_for_each(&context->mappings, id, mapping)
+ 		tegra_drm_mapping_put(mapping);
+ 
+@@ -72,6 +75,7 @@ static struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra, u
+ 
+ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_file *file)
+ {
++	struct host1x *host = tegra_drm_to_host1x(drm->dev_private);
+ 	struct tegra_drm_file *fpriv = file->driver_priv;
+ 	struct tegra_drm *tegra = drm->dev_private;
+ 	struct drm_tegra_channel_open *args = data;
+@@ -102,10 +106,36 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
+ 		}
+ 	}
+ 
++	/* Only allocate context if the engine supports context isolation. */
++	if (device_iommu_mapped(client->base.dev) && client->ops->can_use_memory_ctx) {
++		bool supported;
++
++		err = client->ops->can_use_memory_ctx(client, &supported);
++		if (err)
++			goto put_channel;
++
++		if (supported)
++			context->memory_context = host1x_memory_context_alloc(
++				host, get_task_pid(current, PIDTYPE_TGID));
++
++		if (IS_ERR(context->memory_context)) {
++			if (PTR_ERR(context->memory_context) != -EOPNOTSUPP) {
++				err = PTR_ERR(context->memory_context);
++				goto put_channel;
++			} else {
++				/*
++				 * OK, HW does not support contexts or contexts
++				 * are disabled.
++				 */
++				context->memory_context = NULL;
++			}
++		}
++	}
++
+ 	err = xa_alloc(&fpriv->contexts, &args->context, context, XA_LIMIT(1, U32_MAX),
+ 		       GFP_KERNEL);
+ 	if (err < 0)
+-		goto put_channel;
++		goto put_memctx;
+ 
+ 	context->client = client;
+ 	xa_init_flags(&context->mappings, XA_FLAGS_ALLOC1);
+@@ -118,6 +148,9 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
+ 
+ 	return 0;
+ 
++put_memctx:
++	if (context->memory_context)
++		host1x_memory_context_put(context->memory_context);
+ put_channel:
+ 	host1x_channel_put(context->channel);
+ free:
+@@ -156,6 +189,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
+ 	struct tegra_drm_mapping *mapping;
+ 	struct tegra_drm_context *context;
+ 	enum dma_data_direction direction;
++	struct device *mapping_dev;
+ 	int err = 0;
+ 
+ 	if (args->flags & ~DRM_TEGRA_CHANNEL_MAP_READ_WRITE)
+@@ -177,6 +211,11 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
+ 
+ 	kref_init(&mapping->ref);
+ 
++	if (context->memory_context)
++		mapping_dev = &context->memory_context->dev;
++	else
++		mapping_dev = context->client->base.dev;
++
+ 	mapping->bo = tegra_gem_lookup(file, args->handle);
+ 	if (!mapping->bo) {
+ 		err = -EINVAL;
+@@ -201,7 +240,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
+ 		goto put_gem;
+ 	}
+ 
+-	mapping->map = host1x_bo_pin(context->client->base.dev, mapping->bo, direction, NULL);
++	mapping->map = host1x_bo_pin(mapping_dev, mapping->bo, direction, NULL);
+ 	if (IS_ERR(mapping->map)) {
+ 		err = PTR_ERR(mapping->map);
+ 		goto put_gem;
 -- 
 2.36.1
 
