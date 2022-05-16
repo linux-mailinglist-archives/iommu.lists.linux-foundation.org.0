@@ -1,81 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79513529497
-	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 01:04:39 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A15435293DB
+	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 00:54:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 146C883123;
-	Mon, 16 May 2022 23:04:38 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C0D5840577;
+	Mon, 16 May 2022 22:54:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qUY3n4zYN4Fr; Mon, 16 May 2022 23:04:37 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bNxx4o2V0Xzj; Mon, 16 May 2022 22:54:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 23BC483118;
-	Mon, 16 May 2022 23:04:37 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E46E14052E;
+	Mon, 16 May 2022 22:54:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4662C0081;
-	Mon, 16 May 2022 23:04:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AEACFC002D;
+	Mon, 16 May 2022 22:54:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BD9D7C002D
- for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 23:04:35 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 97970C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 22:54:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B336C4049C
- for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 23:04:35 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 7655C4052E
+ for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 22:54:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=deltatee.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kaVWfWVI_pEO for <iommu@lists.linux-foundation.org>;
- Mon, 16 May 2022 23:04:34 +0000 (UTC)
-X-Greylist: delayed 00:29:01 by SQLgrey-1.8.0
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A0DBA40131
- for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 23:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
- MIME-Version:Date:Message-ID:content-disposition;
- bh=NpPlI000Df83tLILxBmUWAGtNMcZvLgAm6/3k71RE7c=; b=nbbvOq1l/AOdW8AAdrmqYaX3SU
- +BKP4b1ioPIDOKq5mxiC8mxgQx+PJa8pqsNHrgF9heI1XStQtL1VX0tf8YSfIeC5w751r6d+sGV4m
- YCJFqNXQKwgefLzj15o31jE+GfMK9z76fYxadtGnYb6i1FY8ViSnTzZpTyFZpPgGCEuUhOxKi5nQK
- WJT6Mvc2WszLg5OliMAGH7cR5pd8ttOWl3E9TEyQMAcmT2ojXYYVSMGZ9dYV0NQR93BLhEDhzYmBC
- M1DHMP1xM4/0qw7GLD84zbXyXZ3nZo4nwnI3t7/sGUsGgETlEkwd5jum/jgKn5WGfRo2VcUk4VTcz
- z7jevUug==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <logang@deltatee.com>)
- id 1nqjJC-0009d5-0n; Mon, 16 May 2022 16:35:22 -0600
-Message-ID: <06e36931-33bf-7c3a-9b7f-afdd9686ccc5@deltatee.com>
-Date: Mon, 16 May 2022 16:35:21 -0600
+ with ESMTP id MGz9Izx3QVO0 for <iommu@lists.linux-foundation.org>;
+ Mon, 16 May 2022 22:54:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 98AE04010C
+ for <iommu@lists.linux-foundation.org>; Mon, 16 May 2022 22:54:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652741677; x=1684277677;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=mA98VrZe/rix7Ydo+Yw58bcGuuP+5pWFws31EDCu4pc=;
+ b=GJ2HmiRTfHt0GFd+PBAJpe00m29jlzfTm+RvzPlg12JBkrNFLYegQ4Dh
+ P9ojGH2GHHGrxPVK1BI3UOVUjKyRAk6LJmhRSPs2g7yCeir2SC+Dxn6R1
+ /8KytsGJviOR8xMli4ZAW21TxivtWJJpK8XJOwHrN00lvKOPTA+UlY2zr
+ QldY7H5fI576Ra91f5NoUVoBIVvQVGggr4rqJRxT7Ety0oSMfFtb5Po79
+ NFGjmOdx1lVUvs/5jeVVvuVagyPOlSb7Y6CWDwwrKDe95AUxGiu0szrA2
+ yX9iA95e2mtp62rXvD8CDueVInC7A3RUEqvYLiFkXdpDbx4c3EzrerE/E g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="258548142"
+X-IronPort-AV: E=Sophos;i="5.91,231,1647327600"; d="scan'208";a="258548142"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2022 15:54:34 -0700
+X-IronPort-AV: E=Sophos;i="5.91,231,1647327600"; d="scan'208";a="544585021"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.198.157])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2022 15:54:33 -0700
+Date: Mon, 16 May 2022 15:58:22 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 6/7] x86/boot/tboot: Move tboot_force_iommu() to Intel
+ IOMMU
+Message-ID: <20220516155822.6130dd03@jacob-builder>
+In-Reply-To: <20220516180628.GL1343366@nvidia.com>
+References: <20220514014322.2927339-1-baolu.lu@linux.intel.com>
+ <20220514014322.2927339-7-baolu.lu@linux.intel.com>
+ <20220516180628.GL1343366@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-CA
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-References: <20220407154717.7695-1-logang@deltatee.com>
- <32d5901d-f7d3-0701-0b72-1493897b025e@nvidia.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <32d5901d-f7d3-0701-0b72-1493897b025e@nvidia.com>
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: chaitanyak@nvidia.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- iommu@lists.linux-foundation.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v6 00/21] Userspace P2PDMA with O_DIRECT NVMe devices
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+Cc: Steve Wahl <steve.wahl@hpe.com>, David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Ashok Raj <ashok.raj@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Kevin Tian <kevin.tian@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Ning Sun <ning.sun@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+ Paolo Bonzini <pbonzini@redhat.com>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,15 +96,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Hi Jason,
 
+On Mon, 16 May 2022 15:06:28 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On 2022-05-16 16:31, Chaitanya Kulkarni wrote:
-> Do you have any plans to re-spin this ?
+> Unrelated, but when we are in the special secure IOMMU modes, do we
+> force ATS off? Specifically does the IOMMU reject TLPs that are marked
+> as translated?
+Yes, VT-d context entry has a Device TLB Enable bit, if 0, it means
+"Translation Requests (with or without PASID) and Translated Requests
+received and processed through this scalable-mode context-entry are
+blocked."
 
-I didn't get any feedback this cycle, so there haven't been any changes.
-I'll probably do a rebase and resend after the merge window.
+Thanks,
 
-Logan
+Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
