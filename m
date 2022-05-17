@@ -1,93 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3225852A4B8
-	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 16:23:44 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E81752AB04
+	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 20:38:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 99B6661198;
-	Tue, 17 May 2022 14:23:42 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A626841A23;
+	Tue, 17 May 2022 18:38:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tSspP26qComJ; Tue, 17 May 2022 14:23:41 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Xa65pYkX_3qt; Tue, 17 May 2022 18:38:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id A7DA060E49;
-	Tue, 17 May 2022 14:23:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5450A41A21;
+	Tue, 17 May 2022 18:38:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EBB3C002D;
-	Tue, 17 May 2022 14:23:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D812C0081;
+	Tue, 17 May 2022 18:38:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 23E33C002D
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 14:23:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 602FBC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 18:38:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1269160E49
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 14:23:40 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 54ED341A21
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 18:38:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1NjiD4GGJYe6 for <iommu@lists.linux-foundation.org>;
- Tue, 17 May 2022 14:23:39 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 3180860E3C
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 14:23:39 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id d19so31622555lfj.4
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 07:23:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Lnn8RnWZse55RuB4yg/vu5G7bPymERhSpz38ty/G94A=;
- b=FCgjt+lf9hFi7sB3SJOv43XgmvYxTBFuv1iaHRc4BG+bzmJCFyEIRbbuX7L4KvN6D1
- jZaNpeKuLQIZh/dpKpDJaxcH4kaEHje4Ykc3lHWSRziSPuY8QwGCJud7QM/OoPS6EpVb
- kc5CU3UASpZXUpsJvnh2zCBHk4tAyNZsOcI00zufriY6glGzShgkNNc5ozlAnT5M117f
- WHcVHF+SzeFZ82gNRuZVjqex1jnKBeiVOKRcuk0AxbEqYVEErcSv8AsbQ7LRcMzEw3Qa
- vHWff82Bt/+ba99MkJtVfDbo7fdUDKThMCLfT0oVRAUI1Uc/T7E01TJUepkNX+LO1B4q
- 0h/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Lnn8RnWZse55RuB4yg/vu5G7bPymERhSpz38ty/G94A=;
- b=UbiAIYZXBtP5bcfOIDnIhHJvmyRJRO12DwVfpRJMir5KD09Slh3VRkzgkwtkOIrlaN
- ET2b0nkOHV+MqmGlYoRp17vAWaMeK/WfBkvXZmr6iez1pLxe67F7u/8QqlISvuyyicH2
- fdhD5/HKTQIOJs6URlkqn34XMWrHkPWYBrRb9EfR4VRf/7bQIEf3G0EYc7fLGfpLgDGr
- dyunj6PcKqsWFvf7E5VWH9ffy/ItKnMGCXug0aWIXOlHYUvRemqxPHoJrZ7PJwynax3S
- kchEX7TzQZN6y4pg1Kyt7SKwVhSmNbEt5DCvBgcgF2QX1wWmQ4nCkktuoscrVJWPlBYf
- mtSQ==
-X-Gm-Message-State: AOAM530zdHRyg517YxiFzH/fwjkyG/maQ8iWfgtRy436NxAHsqILlk98
- 8J5K6U7iqd8z7ZX0qyDqIc4NnPwOoQZhnZcO
-X-Google-Smtp-Source: ABdhPJzdrATa4hivK3skT4LaVtlu+jnncbJ7AOzRa56KLicCMPpXG+kCMdTvT8ScBNWmHguDQbZUVw==
-X-Received: by 2002:a05:6512:3c9b:b0:472:60d0:ebb0 with SMTP id
- h27-20020a0565123c9b00b0047260d0ebb0mr17556169lfv.682.1652797417174; 
- Tue, 17 May 2022 07:23:37 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- q23-20020a2e8757000000b0024f3d1daed4sm1892435ljj.92.2022.05.17.07.23.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 07:23:36 -0700 (PDT)
-Message-ID: <669d68ce-959b-5486-8b1e-316aafa7b52a@linaro.org>
-Date: Tue, 17 May 2022 16:23:35 +0200
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Maa4xrTFRa03 for <iommu@lists.linux-foundation.org>;
+ Tue, 17 May 2022 18:38:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 665F941A1B
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 18:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652812693; x=1684348693;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=FTTY9ZFMfeTd8CI19p2u5YEYLQvqFSdIkPKeSEcRj4U=;
+ b=YUuJ/uUKTbiDNFd4y++5VrAtg9TpHLmaQenw1VguwtX41VOsbhYcMRF/
+ +WV0jZz/ovTh+WHJfS7eQRHhBgYjW+E8ObYQgDD0n7CfZOzOp8KeKP4Fe
+ VYbasYy4TvlRO7GunlbYTbiEkFfGWN9jqVa275WZBao3zWJUM6JdUEeGS
+ wwNSrmswYoqYhBDSfdikZlBQtDBiz6ZTjH6SyfPxWhCU/dvRPiBJeUOYZ
+ QGskWD3gpuE6SjUsaml91/F7Ork3NINy/Q9NA4CSxLKovZaGw83ziWULl
+ 8bN9fKRiUZPr3iWIzLVMvNFZs4sWOAi/nUmcbAcNKejAp2N0+8d/tYKlM Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="270974385"
+X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; d="scan'208";a="270974385"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2022 11:38:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; d="scan'208";a="555910452"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+ by orsmga002.jf.intel.com with ESMTP; 17 May 2022 11:38:12 -0700
+Date: Tue, 17 May 2022 11:41:54 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v6 21/29] x86/nmi: Add an NMI_WATCHDOG NMI handler category
+Message-ID: <20220517184154.GA6711@ranerica-svr.sc.intel.com>
+References: <20220506000008.30892-1-ricardo.neri-calderon@linux.intel.com>
+ <20220506000008.30892-22-ricardo.neri-calderon@linux.intel.com>
+ <87a6bqrelv.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 3/8] dt-bindings: iommu: mediatek: Add mediatek,pericfg
- phandle
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- yong.wu@mediatek.com
-References: <20220517132107.195932-1-angelogioacchino.delregno@collabora.com>
- <20220517132107.195932-4-angelogioacchino.delregno@collabora.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220517132107.195932-4-angelogioacchino.delregno@collabora.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, will@kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <87a6bqrelv.ffs@tglx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+ Andi Kleen <ak@linux.intel.com>, linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+ Ricardo Neri <ricardo.neri@intel.com>, Stephane Eranian <eranian@google.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Tony Luck <tony.luck@intel.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,32 +91,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 17/05/2022 15:21, AngeloGioacchino Del Regno wrote:
-> Add property "mediatek,pericfg" to let the mtk_iommu driver retrieve
-> a phandle to the pericfg syscon instead of performing a per-soc
-> compatible lookup, as it was also done with infracfg.
+On Mon, May 09, 2022 at 03:59:40PM +0200, Thomas Gleixner wrote:
+> On Thu, May 05 2022 at 17:00, Ricardo Neri wrote:
+> > Add a NMI_WATCHDOG as a new category of NMI handler. This new category
+> > is to be used with the HPET-based hardlockup detector. This detector
+> > does not have a direct way of checking if the HPET timer is the source of
+> > the NMI. Instead, it indirectly estimates it using the time-stamp counter.
+> >
+> > Therefore, we may have false-positives in case another NMI occurs within
+> > the estimated time window. For this reason, we want the handler of the
+> > detector to be called after all the NMI_LOCAL handlers. A simple way
+> > of achieving this with a new NMI handler category.
+> >
+> > @@ -379,6 +385,10 @@ static noinstr void default_do_nmi(struct pt_regs *regs)
+> >  	}
+> >  	raw_spin_unlock(&nmi_reason_lock);
+> >  
+> > +	handled = nmi_handle(NMI_WATCHDOG, regs);
+> > +	if (handled == NMI_HANDLED)
+> > +		goto out;
+> > +
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+> How is this supposed to work reliably?
 > 
-> diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> index 78c72c22740b..a6cf9678271f 100644
-> --- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> @@ -116,6 +116,10 @@ properties:
->        Refer to bindings/memory-controllers/mediatek,smi-larb.yaml. It must sort
->        according to the local arbiter index, like larb0, larb1, larb2...
->  
-> +  mediatek,pericfg:
-> +    $ref: "/schemas/types.yaml#/definitions/phandle"
+> If perf is active and the HPET NMI and the perf NMI come in around the
+> same time, then nmi_handle(LOCAL) can swallow the NMI and the watchdog
+> won't be checked. Because MSI is strictly edge and the message is only
+> sent once, this can result in a stale watchdog, no?
 
-No need for quotes.
+This is true. Instead, at the end of each NMI I should _also_ check if the TSC
+is within the expected value of the HPET NMI watchdog. In this way, unrelated
+NMIs (e.g., perf NMI) are handled and we don't miss the NMI from the HPET
+channel.
 
-
-Best regards,
-Krzysztof
+Thanks and BR,
+Ricardo
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
