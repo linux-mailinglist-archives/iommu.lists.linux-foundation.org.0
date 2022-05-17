@@ -1,59 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C28F52A321
-	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 15:21:29 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59AA852A323
+	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 15:21:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EA7D780FF8;
-	Tue, 17 May 2022 13:21:27 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C9EAC60FA6;
+	Tue, 17 May 2022 13:21:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f2JB-VJxTHRX; Tue, 17 May 2022 13:21:27 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BktwY1iGM38W; Tue, 17 May 2022 13:21:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 10FD880E46;
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DC8C561190;
 	Tue, 17 May 2022 13:21:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7795AC007A;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B923DC0088;
 	Tue, 17 May 2022 13:21:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 066FBC002D
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 13:21:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95C47C0032
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 13:21:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D8ED641A00
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 13:21:20 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6D95760FA6
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 13:21:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YDqLYPzqfI4X for <iommu@lists.linux-foundation.org>;
- Tue, 17 May 2022 13:21:20 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id V910LUA_qIlG for <iommu@lists.linux-foundation.org>;
+ Tue, 17 May 2022 13:21:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 20417419F2
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 13:21:19 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D7F5761127
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 13:21:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id E218B1F43490
+ (Authenticated sender: kholk11) with ESMTPSA id BEE6B1F433FD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652793678;
- bh=NSHC9jr1SktgRyogww62O4j6dftElLCQcN59dUpsrwQ=;
+ s=mail; t=1652793679;
+ bh=wExmkwG26MlgAOyGVtuHJ9fB7p/HupGT2oLsUu37GPQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mg9vgY26ZsZkR1bhWe/HrA3BhQ0yR740ZsnUBGWgAPNItH3WIG9vIRmfyGM1lrSjX
- Yehh33G3DOMxOp9pEQKx00aIUckLohR2nDQ/pDaTzRxX5Y2lMD1jiywpPKC6P2QHo3
- 9z4V8ABheLJI6wDdFRU8O+B2QVUW+Zpy5+GDwrwKBrTj4ghoKzZV9+KkOBkCt2h6o3
- WxYZm90xyFTqs2VF64tTVsZsJJiYi6VuvxosuFdTGd3CxdF+D3cJ1Oq54RDtErmJUA
- K9T+FZmtN6dV3EIi9w6O4/EA8T9dvV1K+M59ooPWlqqZ2aa4vvD3SLSDbbXx+rWI3K
- xOpU1OaJXYQ7Q==
+ b=aZBoDF7S6WLjXzn71iCMIL/V+Lycg10Qf7ZK8Ug7yKiDvZZ5tyETWVCdqn6xklQJ+
+ CXOSXUk3mZsGhMY/unAz9RgNyzAo7PIM3EB699GyOr0TaimNnoA48fYU8x0SZbt+6B
+ gx2mLb0fQbQJ+mw4kkyzJXv8r5DNPar9Folgy/+CyM4SQe4rRQdpgNSja0B96wxFqh
+ Gry+R2j5QUj5dMUIbszjkpPGKH037OQv8IGSdhWH/HvRcTBikY0/vPlmY5GeaQHmCb
+ NOwxzv7phBvnhQJhpX64+n6enj3E1Gnzq9uTZyi0BJg8kb05E2Rw2r/tq5ItHHRkXo
+ veS3kWTfmVYDg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: yong.wu@mediatek.com
-Subject: [PATCH 7/8] dt-bindings: iommu: mediatek: Require mediatek,
- infracfg for mt2712/8173
-Date: Tue, 17 May 2022 15:21:06 +0200
-Message-Id: <20220517132107.195932-8-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 8/8] dt-bindings: iommu: mediatek: Require mediatek,
+ pericfg for mt8195-infra
+Date: Tue, 17 May 2022 15:21:07 +0200
+Message-Id: <20220517132107.195932-9-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220517132107.195932-1-angelogioacchino.delregno@collabora.com>
 References: <20220517132107.195932-1-angelogioacchino.delregno@collabora.com>
@@ -80,34 +78,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Both MT2712 and MT8173 got a mediatek,infracfg phandle: add that to
-the required properties for these SoCs to deprecate the old way of
-looking for SoC-specific infracfg compatible in the entire devicetree.
+The MT8195 SoC has IOMMU related registers in the pericfg_ao iospace:
+require a phandle to that.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../devicetree/bindings/iommu/mediatek,iommu.yaml    | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+
+Note for Rob: as of now, there's no iommu node in upstream mt8195 devicetrees yet.
+
+ .../devicetree/bindings/iommu/mediatek,iommu.yaml      | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-index a6cf9678271f..17d78b17027a 100644
+index 17d78b17027a..2441c2e8e55d 100644
 --- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
 +++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-@@ -175,6 +175,18 @@ allOf:
+@@ -187,6 +187,16 @@ allOf:
        required:
-         - power-domains
+         - mediatek,infracfg
  
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
-+            enum:
-+              - mediatek,mt2712-m4u
-+              - mediatek,mt8173-m4u
++            const: mediatek,mt8195-iommu-infra
 +
 +    then:
 +      required:
-+        - mediatek,infracfg
++        - mediatek,pericfg
 +
    - if: # The IOMMUs don't have larbs.
        not:
