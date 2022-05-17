@@ -2,157 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362EA52A6EE
-	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 17:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1481152A472
+	for <lists.iommu@lfdr.de>; Tue, 17 May 2022 16:12:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2C05040C72;
-	Tue, 17 May 2022 15:36:30 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BBF4040C9A;
+	Tue, 17 May 2022 14:12:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kAjq0OBC28mO; Tue, 17 May 2022 15:36:29 +0000 (UTC)
+	with ESMTP id JtmYsl3nRI8y; Tue, 17 May 2022 14:12:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1B24040C51;
-	Tue, 17 May 2022 15:36:29 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 16F7E405C8;
+	Tue, 17 May 2022 14:12:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DB115C0081;
-	Tue, 17 May 2022 15:36:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F225BC002D;
+	Tue, 17 May 2022 14:12:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34146C002D
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 08:26:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1DB13C002D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 14:12:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2A33D60D7F
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 08:26:21 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0BD5D60D72
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 14:12:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=primelogicnl.onmicrosoft.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id akMIT1yg-eMx for <iommu@lists.linux-foundation.org>;
- Tue, 17 May 2022 08:26:20 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on20729.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::729])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 20DE760D62
- for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 08:26:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=grWb1x94hnL1Ow/ZN0Fp2aS32m1YMZnP0dK1N5dBkmAGuEnSD7TWb0Y6e+GCfM8oixOukzdIIty/sinBA27Z0sPYqTPdzZNeRgzwhuzh/agvNS22g4F/Yc8v8OWQxPcU3RP8t72T/oawrZN2EsHAjnAIpia0+59xDR9RVQu+YpfvK+R+zCr9lngQneyhk0S6zwLP+lC8hOF9pRFIRsdAnohJblDcMLnpQaCWQ7mti1iwDlBdERNLA0dOtEDhvWrGR9hm2OIaMc6yhdVGM7nXMbbYbQVV9V1aZQnoIAUmnX6BLgFLf4SAB31Nmd2iyaaK3XIGgLw+bmqZYELfJIyAPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JTydxOd4MK01cIS5pHAC0ZEWg2LxoVbuFewDC78x/U4=;
- b=h4MgFCFDQhUtVQiWSyGQ7gv1HfnJdm/eYMRRydODORNKqd7ivInayISj/hVv8Z4cgLQoJ5V/GJeaFXNqROS0ojfEAySmueLeCYa+6xVxie5IAX2bGfTxMQ0kcnooKCKndJcQ6aYWnQF5ZCbm9lHOkR0NtSuWrP4YyRX/RQ3KeAHSK14yGW6DgjZfjIJIMBP9DQR8+8qM46Int9GNAw754Uf8N2gMaxQaDMMmtK+94SRE4z5Fk6mB+9LzjBC4+FuBoTXDlniks/JGpJcR8I5hIrEgldfnxYJh8/bfXbtaqgUCIk2U3hEpt6bgovkUhWMh5MEWaN6vfRfcMq1+WV2WQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=primelogic.nl; dmarc=pass action=none
- header.from=primelogic.nl; dkim=pass header.d=primelogic.nl; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=primelogicnl.onmicrosoft.com; s=selector1-primelogicnl-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JTydxOd4MK01cIS5pHAC0ZEWg2LxoVbuFewDC78x/U4=;
- b=VkWknuAhzDDYpDvP0+4ky5BBl4RDc3Vu4x1ptVJqc7NKg50znFguRPh77P/7MbXlRUwFkdroHmvxNLE8ZSUBDhyMjTmmzh4A0N9HF6EQ4lCwILQZqrK+/Y7TxIv1Nn93+NUi8dVPVtp+dV8Fr2Em9fobpDI0BHTY9BOBLNRQsJg=
-Received: from DU0PR03MB8162.eurprd03.prod.outlook.com (2603:10a6:10:351::22)
- by VI1PR0302MB3184.eurprd03.prod.outlook.com (2603:10a6:803:17::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Tue, 17 May
- 2022 08:26:15 +0000
-Received: from DU0PR03MB8162.eurprd03.prod.outlook.com
- ([fe80::543d:8c49:f7f6:6be0]) by DU0PR03MB8162.eurprd03.prod.outlook.com
- ([fe80::543d:8c49:f7f6:6be0%7]) with mapi id 15.20.5227.023; Tue, 17 May 2022
- 08:26:14 +0000
-From: Mark Ruijter <mruijter@primelogic.nl>
-To: Robin Murphy <robin.murphy@arm.com>, Martin Oliveira
- <Martin.Oliveira@eideticom.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Subject: Re: Error when running fio against nvme-of rdma target (mlx5 driver)
-Thread-Topic: Error when running fio against nvme-of rdma target (mlx5 driver)
-Thread-Index: AQHYHRbxB1j8kCqLyE+mphWtfDRQH6yK53wAgAKPR72AAMXqgICVOjWA
-Date: Tue, 17 May 2022 08:26:14 +0000
-Message-ID: <3F2D3249-79E4-4CE1-940F-E1E0719EFAF0@primelogic.nl>
-References: <MW3PR19MB42505C41C2BA3F425A5CB606E42D9@MW3PR19MB4250.namprd19.prod.outlook.com>
- <62fd851d-564e-e2f3-1a40-b594810d9f01@nvidia.com>
- <MW3PR19MB4250DFC4E2AEB8184299A4BBE42F9@MW3PR19MB4250.namprd19.prod.outlook.com>
- <a0d3b1f7-986f-591d-2675-8ee753d2e7db@arm.com>
-In-Reply-To: <a0d3b1f7-986f-591d-2675-8ee753d2e7db@arm.com>
-Accept-Language: en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=primelogic.nl;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 754e08ad-5ad2-486f-f8b6-08da37dee83a
-x-ms-traffictypediagnostic: VI1PR0302MB3184:EE_
-x-microsoft-antispam-prvs: <VI1PR0302MB318402DF641E2221B8015280D1CE9@VI1PR0302MB3184.eurprd03.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NVSDJPt2YROWAbnDugxzyXk8GCOmpfyBR29lWlaRTJLc0fA0SxN3GF/h+ydfPMDVprwaYTpXqiCGFO7Y28WIYa0AL4ON7/WNXyzjOYnus2TWr7BSK2zJ1hHFIUtONAlw2LRUo/P8uEloNWHFpGIXVhCa4fLkQ6viSlz0aIyc9oZDfsmiw906AHSoZWoqcN4sqwQJC1+3RWG5S+QOmVnjAoKLVskcBjxgkp+O1iXRx94bWaTomUSpTpHIeVtHphvDyy/fPqLvWSOadVMNoerxTH1I7Ha4qBBBVOBtvmA2A4Ii6asGfY89FfUCGVbZ+m+pg8oV483DXS+w1RQKxjGJX+mox8nmWboCZ+lgd9axm+Ua6OyK9Sunif9SFNg4zkj7gZD+gRlB4eU+sgRM/pkryVJwKZ/SqsKZN98DjPhMIB+GiIwALPRPmyl1TifggWnlKiYn6xg4ozoTe0/M01tVJW5kKus1IGwU9rI4gTJXisZagd7FpRicj19YPGzbtKIRvBCH/zlZMtNa2iac5nvA6BgPngdkiKofV6jCMmKNyceGk1o/pCZ0AeunZXsJPF2JAiu1EQg4u+xlkCXcNjF72ajPMXe2lsQqY4Ix3wsqGhw7ONTdK9m8YYEwF3uHWYxeCfway3WWqxb/V9Vkw0Zm3ksw9GGgDrdFmLJFi87fcZuhfCMcCn9DB1lKqEXBY+qDy8gzv8cDw3xpRaNGV0/lg9VWmApWOgF0K1Yr9vXXn9tSxB9eN3PXJ8C9wV1AQqgBIF0Rf5grSfSqtR905xhyAQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU0PR03MB8162.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(136003)(346002)(376002)(396003)(39830400003)(366004)(83380400001)(66946007)(76116006)(64756008)(66556008)(186003)(2616005)(91956017)(8676002)(4326008)(508600001)(41300700001)(53546011)(110136005)(33656002)(6506007)(38070700005)(26005)(86362001)(122000001)(6486002)(71200400001)(2906002)(54906003)(316002)(36756003)(38100700002)(6512007)(66476007)(66446008)(8936002)(5660300002)(45980500001)(505234007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RXIwMzJzYUU4aEovRE5JOGZ6R0dkdXJGN1VCY0gvQjVObFhBNzdoS204TEE3?=
- =?utf-8?B?c2V0RW14TStkVDRQeHk2cysrazBZeVRFU2szTHRLTW5HeWFWaDhIbStNakpN?=
- =?utf-8?B?R3ExY1liVWRaQXlSOGNHK2pRb2QxaU9tQWU1cU9pRXQ5NFJkN25aU2g2eFJy?=
- =?utf-8?B?ZkRtME44QWNNMFYxRWdhY1JTYy9UbkR6QW1FSDhOM2JGNDB3QkFDcmdicWU3?=
- =?utf-8?B?NzAzVFg2TlVGRmpLaGh0eUU5dWxqTFpOL2NIYzBSczlhdzlGUWU1MGFHM0ZW?=
- =?utf-8?B?SEowVVY0NUwxTmF5RHdQNE1KYWlzb0ZMMmhxbmVaT3Q2ZEY4aUJhSm0vUDlq?=
- =?utf-8?B?SVNRUmZDTEhnR3RUc3doOGVFelN5OHhHQk9hNURrOWVqY1hLZlcwSExveTFM?=
- =?utf-8?B?VHNlcVJDTjNkdXp5UE9EdW5Lcm9UeXJhbUF0US9xZmdoNWYvM0RxT2dqamdr?=
- =?utf-8?B?NjVaaEd1MkRXalAxV3Z1am9WbG5YVDVXOFljQlhhU2RZbEoxdFgvZ1ViRnVP?=
- =?utf-8?B?eTRNYURHNHpNN3BYUU5Hc2tRU2RySWpPLzdFdzhwOTR1RkY3M1JvRzA0eGhR?=
- =?utf-8?B?czcva3E2OFgyUWR2ZjdlRjFraUwvYmtiYnZlSm9jaTVBa05NbUZmYjhtNHVT?=
- =?utf-8?B?ODEzYldvL0dvNi9ZTVBsekEvUG81WGc5bVBBa1cydE90dlBGbDB1WVhFVXhB?=
- =?utf-8?B?MHpQZnhvTmJJK3hBaXcxTzBFYWl5ODRmZUJpOXJVWXFJbHNaMGpGSyswdmp0?=
- =?utf-8?B?VXhiU1Y2WlZrS2dCU3lPYkRUSE5jZTN2Q2llTS9CZk5CWm5jbmxVMTVPMHgy?=
- =?utf-8?B?ejhIUlVVbFVXNm96ZDl3RnoxOVg5ak9Ub3BjbFhaUjZ1WmY1RzA5VmFveEt3?=
- =?utf-8?B?aEJkSEh0a0xzNzFXN0FyT3pyak9PYmovRktlUmZtN2lRb0lYa2poY1dITlRH?=
- =?utf-8?B?OUFpczNmS2VNaGR6WTREZyt6RTBORXM5eTdNT2hjdjIrMXVJR2lpb1U3RDNh?=
- =?utf-8?B?a3RrMWE3SW1CVmZKQVhZd0dLTkV6V1hrVEZzbkdEQUdOVkNUSnovQWxFQjcy?=
- =?utf-8?B?K3JObC8rOUY3TTNyZFRjT202TUZYS2VqU2E3OFFmYjNTUDIya0pRTW16RDRj?=
- =?utf-8?B?ZTBnMjBFTGhkcVRJTDBuNVljTTM4Wk5ENHQ1QmlNUmcyaHY0dWlMeU41RlNy?=
- =?utf-8?B?N0FiWS9ReDJYS3YyYk1OYVIrMVMxZlJDeS84UVVZWE93dXJocm1uSDVSRGJx?=
- =?utf-8?B?eWJwaWJCRDZSd2VOM1JsV1IwVzc4QkRvbEVHMjQzeTM5VHRJT3R3bTdQQTV0?=
- =?utf-8?B?U1VtNWk3b3JEWW1ESjhxY1FscGJLbkVXK2lBblgyWjJZaWJOdjkvdzhLb0I3?=
- =?utf-8?B?aHovTGFkY0w2YmZQd2g3K0JYNmhWVEtWQlRLSWxlVTNLeVpOc3lDazdIZURa?=
- =?utf-8?B?RFcrOVBqaVlvSXFycHdIckFwV0c3L2l3Ym4yN3U5c2VvK1ZiL1VEbUFPTytU?=
- =?utf-8?B?WDd5NDk3TXloU2xKbnVkdVVOWnJEbzhYL3JQTkZ4bHJSMnVQaFlWVkExd3pU?=
- =?utf-8?B?T0RPUE0xOW5FMkhmd3djMmgzMGxWek53SVgzcEZsZnE3TkdPazZxN2h6MUQx?=
- =?utf-8?B?bks4T041eE9Bd2Q5YzhuaXYza2kzWE5DamNXUWN3Z3dvS0kyYXZFZjVtSFM2?=
- =?utf-8?B?UDJBWGladW5hS1BKcGZHTmFRdXVid0NRVzRLbmdua2ZXeGVaY3JYRXZtZVls?=
- =?utf-8?B?dWgzTGxKbkV3NDlQRndXQzRYS2ZWOG5OUFpudDJySytibit2VkpxYVdXZFlQ?=
- =?utf-8?B?czJmajZ0WkhQVksyTEYxMytaRXIvdDJ3eGVMbXp1d1o5dU5vVkJya0FXcWZZ?=
- =?utf-8?B?dll5L01rNk5iTUNmeHR2amhqS3VWYTNDUWRiakNpT2dqZUFZU3pZcjBGUHNQ?=
- =?utf-8?B?blErRDVmaC9FOXZsRVRhVEloVDcxTHJJY3NSTjdaMENlU2RNTjQyeVIrZWhW?=
- =?utf-8?B?eVhMR3FqNURpZVpYTnBzRzRlRjlGdCtYeWdXaGhxWlB2TEZNMXgxa3ppR01K?=
- =?utf-8?B?R3lKQ1BKZUc3bVpDVEdIczVha2Q5S2ZuNEdoTmR5aFJRTUt4c0pXTDc1bTQr?=
- =?utf-8?B?T1ptZmlGbTJ5a0pPalhXSXQ3cmViYkp6bHZ0VnFsNnhMbTFYWEFyeE50cTdx?=
- =?utf-8?B?U1k2NTRaTFdiN0RDNkZQSkxxRXhyOTQrNDFGU2ExVWxlcER1UDUwUUJQOFFo?=
- =?utf-8?B?WkVhbDkzS0xkZHFBWm9zcnZEL1lpRlZjakVOVHZ0WkpsZHFjWDllR21QTGpD?=
- =?utf-8?B?ZXFaUmN1UU1NYXEzMHNGeXM4alE4YzdabXZ4Z1Z3SUNldGg1UW1ZL2J2ZnRl?=
- =?utf-8?Q?KrxE6W+L/gmmVr0s=3D?=
-Content-ID: <6B7730CA8DAE734A91E17CA89F392764@eurprd03.prod.outlook.com>
+ with ESMTP id hm7OJLDoxTN3 for <iommu@lists.linux-foundation.org>;
+ Tue, 17 May 2022 14:12:23 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 93A90607C1
+ for <iommu@lists.linux-foundation.org>; Tue, 17 May 2022 14:12:23 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8B2B1042;
+ Tue, 17 May 2022 07:12:22 -0700 (PDT)
+Received: from [10.57.82.55] (unknown [10.57.82.55])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02C113F718;
+ Tue, 17 May 2022 07:12:20 -0700 (PDT)
+Message-ID: <16fb07d9-28d8-5c73-1eb5-ec13544d22e5@arm.com>
+Date: Tue, 17 May 2022 15:12:16 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: primelogic.nl
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR03MB8162.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 754e08ad-5ad2-486f-f8b6-08da37dee83a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2022 08:26:14.4324 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e6f00f2a-c615-4e27-aa0e-cb78655623c8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kNJs/7ntsrPoG4p1mklr+PocUr98wNjRFUifQRxODiJEPjJ6kzyivf+EE++Ri3/eoPy0cUIVpT6d0nRyxOMDPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0302MB3184
-X-Mailman-Approved-At: Tue, 17 May 2022 15:36:27 +0000
-Cc: Kelly Ursenbach <Kelly.Ursenbach@eideticom.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, "Lee,
- Jason" <jasonlee@lanl.gov>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Logan Gunthorpe <Logan.Gunthorpe@eideticom.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/8] iommu: mtk_iommu: Lookup phandle to retrieve syscon
+ to infracfg
+Content-Language: en-GB
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ yong.wu@mediatek.com
+References: <20220517132107.195932-1-angelogioacchino.delregno@collabora.com>
+ <20220517132107.195932-3-angelogioacchino.delregno@collabora.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220517132107.195932-3-angelogioacchino.delregno@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, will@kernel.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -165,62 +70,108 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGkgUm9iaW4sDQoNCkkgcmFuIGludG8gdGhlIGV4YWN0IHNhbWUgcHJvYmxlbSB3aGlsZSB0ZXN0
-aW5nIHdpdGggNCBjb25uZWN0LXg2IGNhcmRzLCBrZXJuZWwgNS4xOC1yYzYuDQoNClsgNDg3OC4y
-NzMwMTZdIG52bWUgbnZtZTA6IFN1Y2Nlc3NmdWxseSByZWNvbm5lY3RlZCAoMyBhdHRlbXB0cykN
-ClsgNDg3OS4xMjIwMTVdIG52bWUgbnZtZTA6IHN0YXJ0aW5nIGVycm9yIHJlY292ZXJ5DQpbIDQ4
-NzkuMTIyMDI4XSBpbmZpbmliYW5kIG1seDVfNDogbWx4NV9oYW5kbGVfZXJyb3JfY3FlOjMzMjoo
-cGlkIDApOiBXQyBlcnJvcjogNCwgTWVzc2FnZTogbG9jYWwgcHJvdGVjdGlvbiBlcnJvcg0KWyA0
-ODc5LjEyMjAzNV0gaW5maW5pYmFuZCBtbHg1XzQ6IGR1bXBfY3FlOjI3MjoocGlkIDApOiBkdW1w
-IGVycm9yIGNxZQ0KWyA0ODc5LjEyMjAzN10gMDAwMDAwMDA6IDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwDQpbIDQ4NzkuMTIyMDM5XSAwMDAwMDAxMDogMDAg
-MDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDANClsgNDg3OS4xMjIw
-NDBdIDAwMDAwMDIwOiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMA0KWyA0ODc5LjEyMjA0MF0gMDAwMDAwMzA6IDAwIDAwIDAwIDAwIGE5IDAwIDU2IDA0IDAw
-IDAwIDAwIGVkIDBkIGRhIGZmIGUyDQpbIDQ4ODEuMDg1NTQ3XSBudm1lIG52bWUzOiBSZWNvbm5l
-Y3RpbmcgaW4gMTAgc2Vjb25kcy4uLg0KDQpJIGFzc3VtZSB0aGlzIG1lYW5zIHRoYXQgdGhlIHBy
-b2JsZW0gaGFzIHN0aWxsIG5vdCBiZWVuIHJlc29sdmVkPw0KSWYgc28sIEknbGwgdHJ5IHRvIGRp
-YWdub3NlIHRoZSBwcm9ibGVtLg0KDQpUaGFua3MsDQoNCi0tTWFyaw0KDQrvu79PbiAxMS8wMi8y
-MDIyLCAxMjozNSwgIkxpbnV4LW52bWUgb24gYmVoYWxmIG9mIFJvYmluIE11cnBoeSIgPGxpbnV4
-LW52bWUtYm91bmNlc0BsaXN0cy5pbmZyYWRlYWQub3JnIG9uIGJlaGFsZiBvZiByb2Jpbi5tdXJw
-aHlAYXJtLmNvbT4gd3JvdGU6DQoNCiAgICBPbiAyMDIyLTAyLTEwIDIzOjU4LCBNYXJ0aW4gT2xp
-dmVpcmEgd3JvdGU6DQogICAgPiBPbiAyLzkvMjIgMTo0MSBBTSwgQ2hhaXRhbnlhIEt1bGthcm5p
-IHdyb3RlOg0KICAgID4+IE9uIDIvOC8yMiA2OjUwIFBNLCBNYXJ0aW4gT2xpdmVpcmEgd3JvdGU6
-DQogICAgPj4+IEhlbGxvLA0KICAgID4+Pg0KICAgID4+PiBXZSBoYXZlIGJlZW4gaGl0dGluZyBh
-biBlcnJvciB3aGVuIHJ1bm5pbmcgSU8gb3ZlciBvdXIgbnZtZS1vZiBzZXR1cCwgdXNpbmcgdGhl
-IG1seDUgZHJpdmVyIGFuZCB3ZSBhcmUgd29uZGVyaW5nIGlmIGFueW9uZSBoYXMgc2VlbiBhbnl0
-aGluZyBzaW1pbGFyL2hhcyBhbnkgc3VnZ2VzdGlvbnMuDQogICAgPj4+DQogICAgPj4+IEJvdGgg
-aW5pdGlhdG9yIGFuZCB0YXJnZXQgYXJlIEFNRCBFUFlDIDc1MDIgbWFjaGluZXMgY29ubmVjdGVk
-IG92ZXIgUkRNQSB1c2luZyBhIE1lbGxhbm94IE1UMjg5MDguIFRhcmdldCBoYXMgMTIgTlZNZSBT
-U0RzIHdoaWNoIGFyZSBleHBvc2VkIGFzIGEgc2luZ2xlIE5WTWUgZmFicmljcyBkZXZpY2UsIG9u
-ZSBwaHlzaWNhbCBTU0QgcGVyIG5hbWVzcGFjZS4NCiAgICA+Pj4NCiAgICA+Pg0KICAgID4+IFRo
-YW5rcyBmb3IgcmVwb3J0aW5nIHRoaXMsIGlmIHlvdSBjYW4gYmlzZWN0IHRoZSBwcm9ibGVtIG9u
-IHlvdXIgc2V0dXANCiAgICA+PiBpdCB3aWxsIGhlbHAgb3RoZXJzIHRvIGhlbHAgeW91IGJldHRl
-ci4NCiAgICA+Pg0KICAgID4+IC1jaw0KICAgID4gDQogICAgPiBIaSBDaGFpdGFueWEsDQogICAg
-PiANCiAgICA+IEkgd2VudCBiYWNrIHRvIGEga2VybmVsIGFzIG9sZCBhcyA0LjE1IGFuZCB0aGUg
-cHJvYmxlbSB3YXMgc3RpbGwgdGhlcmUsIHNvIEkgZG9uJ3Qga25vdyBvZiBhIGdvb2QgY29tbWl0
-IHRvIHN0YXJ0IGZyb20uDQogICAgPiANCiAgICA+IEkgYWxzbyBsZWFybmVkIHRoYXQgSSBjYW4g
-cmVwcm9kdWNlIHRoaXMgd2l0aCBhcyBsaXR0bGUgYXMgMyBjYXJkcyBhbmQgSSB1cGRhdGVkIHRo
-ZSBmaXJtd2FyZSBvbiB0aGUgTWVsbGFub3ggY2FyZHMgdG8gdGhlIGxhdGVzdCB2ZXJzaW9uLg0K
-ICAgID4gDQogICAgPiBJJ2QgYmUgaGFwcHkgdG8gdHJ5IGFueSB0ZXN0cyBpZiBzb21lb25lIGhh
-cyBhbnkgc3VnZ2VzdGlvbnMuDQoNCiAgICBUaGUgSU9NTVUgaXMgcHJvYmFibHkgeW91ciBmcmll
-bmQgaGVyZSAtIG9uZSB0aGluZyB0aGF0IG1pZ2h0IGJlIHdvcnRoIA0KICAgIHRyeWluZyBpcyBj
-YXB0dXJpbmcgdGhlIGlvbW11Om1hcCBhbmQgaW9tbXU6dW5tYXAgdHJhY2Vwb2ludHMgdG8gc2Vl
-IGlmIA0KICAgIHRoZSBhZGRyZXNzIHJlcG9ydGVkIGluIHN1YnNlcXVlbnQgSU9NTVUgZmF1bHRz
-IHdhcyBwcmV2aW91c2x5IG1hcHBlZCBhcyANCiAgICBhIHZhbGlkIERNQSBhZGRyZXNzIChiZSB3
-YXJuZWQgdGhhdCB0aGVyZSB3aWxsIGxpa2VseSBiZSBhICpsb3QqIG9mIA0KICAgIHRyYWNlIGdl
-bmVyYXRlZCkuIFdpdGggNS4xMyBvciBuZXdlciwgYm9vdGluZyB3aXRoICJpb21tdS5mb3JjZWRh
-Yz0xIiANCiAgICBzaG91bGQgYWxzbyBtYWtlIGl0IGVhc2llciB0byB0ZWxsIHJlYWwgRE1BIElP
-VkFzIGZyb20gcm9ndWUgcGh5c2ljYWwgDQogICAgYWRkcmVzc2VzIG9yIG90aGVyIG5vbnNlbnNl
-LCBhcyByZWFsIERNQSBhZGRyZXNzZXMgc2hvdWxkIHRoZW4gbG9vayBtb3JlIA0KICAgIGxpa2Ug
-MHhmZmZmMjRkMDgwMDAuDQoNCiAgICBUaGF0IGNvdWxkIGF0IGxlYXN0IGhlbHAgbmFycm93IGRv
-d24gd2hldGhlciBpdCdzIHNvbWUga2luZCBvZiANCiAgICB1c2UtYWZ0ZXItZnJlZSByYWNlIG9y
-IGEgY29tcGxldGVseSBib2d1cyBhZGRyZXNzIGNyZWVwaW5nIGluIHNvbWVob3cuDQoNCiAgICBS
-b2Jpbi4NCg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0
-cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+On 2022-05-17 14:21, AngeloGioacchino Del Regno wrote:
+> This driver will get support for more SoCs and the list of infracfg
+> compatibles is expected to grow: in order to prevent getting this
+> situation out of control and see a long list of compatible strings,
+> add support to retrieve a handle to infracfg's regmap through a
+> new "mediatek,infracfg" phandle.
+> 
+> In order to keep retrocompatibility with older devicetrees, the old
+> way is kept in place, but also a dev_warn() was added to advertise
+> this change in hope that the user will see it and eventually update
+> the devicetree if this is possible.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>   drivers/iommu/mtk_iommu.c | 40 +++++++++++++++++++++++++--------------
+>   1 file changed, 26 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index 71b2ace74cd6..cfaaa98d2b50 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -1134,22 +1134,34 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>   	data->protect_base = ALIGN(virt_to_phys(protect), MTK_PROTECT_PA_ALIGN);
+>   
+>   	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_4GB_MODE)) {
+> -		switch (data->plat_data->m4u_plat) {
+> -		case M4U_MT2712:
+> -			p = "mediatek,mt2712-infracfg";
+> -			break;
+> -		case M4U_MT8173:
+> -			p = "mediatek,mt8173-infracfg";
+> -			break;
+> -		default:
+> -			p = NULL;
+> +		infracfg = syscon_regmap_lookup_by_phandle(dev->of_node, "mediatek,infracfg");
+> +		if (IS_ERR(infracfg)) {
+> +			dev_warn(dev, "Cannot find phandle to mediatek,infracfg:"
+> +				      " Please update your devicetree.\n");
+
+Is this really a dev_warn-level problem? There's no functional impact, 
+given that we can't stop supporting the original binding any time soon, 
+if ever, so I suspect this is more likely to just annoy users and CI 
+systems than effect any significant change.
+
+> +			/*
+> +			 * Legacy devicetrees will not specify a phandle to
+> +			 * mediatek,infracfg: in that case, we use the older
+> +			 * way to retrieve a syscon to infra.
+> +			 *
+> +			 * This is for retrocompatibility purposes only, hence
+> +			 * no more compatibles shall be added to this.
+> +			 */
+> +			switch (data->plat_data->m4u_plat) {
+> +			case M4U_MT2712:
+> +				p = "mediatek,mt2712-infracfg";
+> +				break;
+> +			case M4U_MT8173:
+> +				p = "mediatek,mt8173-infracfg";
+> +				break;
+> +			default:
+> +				p = NULL;
+> +			}
+> +
+> +			infracfg = syscon_regmap_lookup_by_compatible(p);
+
+Would it not make sense to punt this over to the same mechanism as for 
+pericfg, such that it simplifies down to something like:
+
+	if (IS_ERR(infracfg) && plat_data->infracfg) {
+		infracfg = syscon_regmap_lookup_by_compatible(plat_data->infracfg);
+		...
+	}
+
+?
+
+TBH if we're still going to have a load of per-SoC data in the driver 
+anyway then I don't see that we really gain much by delegating one 
+aspect of it to DT, but meh. I would note that with the phandle 
+approach, you still need some *other* flag in the driver to know whether 
+a phandle is expected to be present or not, whereas a NULL vs. non-NULL 
+string is at least neatly self-describing.
+
+Robin.
+
+> +			if (IS_ERR(infracfg))
+> +				return PTR_ERR(infracfg);
+>   		}
+>   
+> -		infracfg = syscon_regmap_lookup_by_compatible(p);
+> -
+> -		if (IS_ERR(infracfg))
+> -			return PTR_ERR(infracfg);
+> -
+>   		ret = regmap_read(infracfg, REG_INFRA_MISC, &val);
+>   		if (ret)
+>   			return ret;
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
