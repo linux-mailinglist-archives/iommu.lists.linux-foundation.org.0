@@ -1,59 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEE152B68B
-	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 12:05:19 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5039452B691
+	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 12:05:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4143284072;
-	Wed, 18 May 2022 10:05:18 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id BD8CF611F5;
+	Wed, 18 May 2022 10:05:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AxBZZxppu1v1; Wed, 18 May 2022 10:05:17 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QBFmO_8-HGR7; Wed, 18 May 2022 10:05:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6544084049;
-	Wed, 18 May 2022 10:05:17 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D20E3611F7;
+	Wed, 18 May 2022 10:05:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 49567C002D;
-	Wed, 18 May 2022 10:05:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A64BFC0081;
+	Wed, 18 May 2022 10:05:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10368C002D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35724C0032
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id F26A0611EC
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:15 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 73C7C611F1
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aEO-aTlIP2TF for <iommu@lists.linux-foundation.org>;
+ with ESMTP id zCWA9Fzsd7aG for <iommu@lists.linux-foundation.org>;
  Wed, 18 May 2022 10:05:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 98E0760E1E
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9A472611E6
  for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 61ED61F44E08
+ (Authenticated sender: kholk11) with ESMTPSA id 34E7B1F44E09
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1652868312;
- bh=QldET8Tith6XpQTESLUFmBU4bL4nM1vDAby2xnsh/3s=;
+ bh=A5k1VBFcKvGxrzqgH+3j6bGmcr4uqfHwo1Y08EGhiiI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OKHk/q8oiV3Jx3vURxCYvrr6N5xQTM4Rz6VneBa345wqTTsd7cyy706N9/c1Ef0LL
- Uo1pcr/J2bfK7IVi5S9JVpE/Nzf6FstsiVPOvRJl4MlMxGL3Ffaak2NLVO+DSIGoEY
- JuzIue3TVMTOZMsjQrkpI9Klyql3w06eO6Iz1ewjzOf5gReh2QeNyB+tIjoZ01uTu+
- RdSzpYgDrgYJ08oMFOboynMNmbYDJas7zfM/stIogyptfG2a+ilzRJAhVi84l5a61K
- Od5YBOeDWxAzgYZvKUQs10U5B9x8RW2k5FderWzNRBuPsanB3Bl88sZmBErSkoRv4z
- TMN2KNghaK3dA==
+ b=hxNE4pApZ8gh9Nj1TIILgEFkkMYNj8c5ZFBNhdR3LX1qK9xEJqpKrQlj6db7I6LE/
+ xqZGZOlzU3Usnq6zer2AUyTJ0/mNbdFSwaT3/3KxVzrx6Bgpr/4rtXQsawOtTctRwd
+ TG/32fPPLILxUCMYM+SRCUhzpSO1O/+3Iaj1DHLkw6nJ4n5q3qe0gqGtDzTO8z9ZUB
+ KTVgGh9tupltX8Vl0D3HlJZoTculsbCa0yxgSHoqPdBRlfdJsSOOgT9uxveF5vS/FD
+ fHLEh9xGmPR2HWr2kJJQ3iF+IDYFSfyplWGf8nnHKtzK3f2sc8H3kUKcoTvUEkMII6
+ 6rZry0GnZnZaw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: yong.wu@mediatek.com
-Subject: [PATCH v2 1/7] dt-bindings: iommu: mediatek: Add phandles for
- mediatek infra/pericfg
-Date: Wed, 18 May 2022 12:04:57 +0200
-Message-Id: <20220518100503.37279-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 2/7] iommu: mtk_iommu: Lookup phandle to retrieve syscon to
+ infracfg
+Date: Wed, 18 May 2022 12:04:58 +0200
+Message-Id: <20220518100503.37279-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220518100503.37279-1-angelogioacchino.delregno@collabora.com>
 References: <20220518100503.37279-1-angelogioacchino.delregno@collabora.com>
@@ -81,41 +79,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add properties "mediatek,infracfg" and "mediatek,pericfg" to let the
-mtk_iommu driver retrieve phandles to the infracfg and pericfg syscon(s)
-instead of performing a per-soc compatible lookup.
+This driver will get support for more SoCs and the list of infracfg
+compatibles is expected to grow: in order to prevent getting this
+situation out of control and see a long list of compatible strings,
+add support to retrieve a handle to infracfg's regmap through a
+new "mediatek,infracfg" phandle.
+
+In order to keep retrocompatibility with older devicetrees, the old
+way is kept in place, but also a dev_warn() was added to advertise
+this change in hope that the user will see it and eventually update
+the devicetree if this is possible.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../devicetree/bindings/iommu/mediatek,iommu.yaml         | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/iommu/mtk_iommu.c | 40 +++++++++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-index 2ae3bbad7f1a..c4af41947593 100644
---- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-@@ -101,6 +101,10 @@ properties:
-     items:
-       - const: bclk
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index 71b2ace74cd6..d16b95e71ded 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -1134,22 +1134,34 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 	data->protect_base = ALIGN(virt_to_phys(protect), MTK_PROTECT_PA_ALIGN);
  
-+  mediatek,infracfg:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle to the mediatek infracfg syscon
+ 	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_4GB_MODE)) {
+-		switch (data->plat_data->m4u_plat) {
+-		case M4U_MT2712:
+-			p = "mediatek,mt2712-infracfg";
+-			break;
+-		case M4U_MT8173:
+-			p = "mediatek,mt8173-infracfg";
+-			break;
+-		default:
+-			p = NULL;
++		infracfg = syscon_regmap_lookup_by_phandle(dev->of_node, "mediatek,infracfg");
++		if (IS_ERR(infracfg)) {
++			dev_info(dev, "Cannot find phandle to mediatek,infracfg:"
++				      " Please update your devicetree.\n");
++			/*
++			 * Legacy devicetrees will not specify a phandle to
++			 * mediatek,infracfg: in that case, we use the older
++			 * way to retrieve a syscon to infra.
++			 *
++			 * This is for retrocompatibility purposes only, hence
++			 * no more compatibles shall be added to this.
++			 */
++			switch (data->plat_data->m4u_plat) {
++			case M4U_MT2712:
++				p = "mediatek,mt2712-infracfg";
++				break;
++			case M4U_MT8173:
++				p = "mediatek,mt8173-infracfg";
++				break;
++			default:
++				p = NULL;
++			}
 +
-   mediatek,larbs:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     minItems: 1
-@@ -112,6 +116,10 @@ properties:
-       Refer to bindings/memory-controllers/mediatek,smi-larb.yaml. It must sort
-       according to the local arbiter index, like larb0, larb1, larb2...
++			infracfg = syscon_regmap_lookup_by_compatible(p);
++			if (IS_ERR(infracfg))
++				return PTR_ERR(infracfg);
+ 		}
  
-+  mediatek,pericfg:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle to the mediatek pericfg syscon
-+
-   '#iommu-cells':
-     const: 1
-     description: |
+-		infracfg = syscon_regmap_lookup_by_compatible(p);
+-
+-		if (IS_ERR(infracfg))
+-			return PTR_ERR(infracfg);
+-
+ 		ret = regmap_read(infracfg, REG_INFRA_MISC, &val);
+ 		if (ret)
+ 			return ret;
 -- 
 2.35.1
 
