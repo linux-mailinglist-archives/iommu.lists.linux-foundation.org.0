@@ -1,59 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB7352B68D
-	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 12:05:22 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8315F52B68E
+	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 12:05:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 37FB541B3A;
-	Wed, 18 May 2022 10:05:21 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 22B65611F2;
+	Wed, 18 May 2022 10:05:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dwbjYbAarXhO; Wed, 18 May 2022 10:05:20 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BXFvi6RkmG4N; Wed, 18 May 2022 10:05:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0018A41B2C;
-	Wed, 18 May 2022 10:05:19 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 38782611EC;
+	Wed, 18 May 2022 10:05:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C5071C0081;
-	Wed, 18 May 2022 10:05:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 20EB5C0088;
+	Wed, 18 May 2022 10:05:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3EB1DC0081
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:17 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1474BC002D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 99CBC611EE
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:16 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 310A560E1E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=collabora.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 999Er_KHXCOX for <iommu@lists.linux-foundation.org>;
+ with ESMTP id CQjmKCK0rNfK for <iommu@lists.linux-foundation.org>;
  Wed, 18 May 2022 10:05:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by smtp3.osuosl.org (Postfix) with ESMTPS id F2116611E7
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:15 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 96C8D611EC
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 10:05:16 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id D048F1F44E0B
+ (Authenticated sender: kholk11) with ESMTPSA id A22551F44E0C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652868314;
- bh=+xTyEZ131wWMOMNxSY33aVPVZoxl3tqtIBcQv4cQtYw=;
+ s=mail; t=1652868315;
+ bh=CgNYAOaieQLCVcum8jYWv0FFa/H0G4zrGj0sGsj1tXw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D1vp+/AwIas/9dOAytAhqaGYFF/9ac9nRiYcMReBB49LkaAcP31lRYdpULf1VS1SF
- cEjTybeVHaZFAHgwxqh11jciQsrb28ENTeg8dN5Q/7YFOCncRGirCbQGQpDMVg1q0M
- HUZQZcn6afPA0ez9BITloBRac7pIwBiFAEo02wOsBn+jVRBFzUEeMpFoqM9pCp2llZ
- osCTplyIdDD0KUAgaGhqpaRNs4n20bmze5pCBC9YDjnGHNsheMqmDzOa3UvAmA6V24
- uGMk40rfjHouEFuxGi0ku4uD2F9dygsDLroKK1o6+NPYQxLNQEjvW0dzA4VGw6f0wZ
- +8Gj0vRtIV0Yw==
+ b=Lw4BXx+IXXpqyGnKTcZJ+TzvAy2GKcWKGRMwM8M2YBgjEbsWaAOg4nJ9XTSvoLQFA
+ 86oNbpCfeOTV63tQBrWVgimKhCAoTxh3KCT0ag+K0S8XrIwTV8gpvp1sFjuHlTdU9J
+ LuRN81wM2gzOhkGwOiRMIQip2x3PUN2wQOUldy1dUJEIB7dUCYGGp4nu/T8RU2Xsc+
+ 2nQSu8PxGF5c1Qw+hQao48aTBDNpH1z/7nh92whr0Y9M6aloXma0tO9zs+B+ZvYtp2
+ D0GHZaKblsArfMPWeacJF630dsruE4SOeqTh2DaPklTyQBvcGAK7JDQD806SciPc2+
+ 0Vto/RgYVJiHg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: yong.wu@mediatek.com
-Subject: [PATCH v2 4/7] arm64: dts: mediatek: mt8173: Add mediatek,
+Subject: [PATCH v2 5/7] arm64: dts: mediatek: mt2712e: Add mediatek,
  infracfg phandle for IOMMU
-Date: Wed, 18 May 2022 12:05:00 +0200
-Message-Id: <20220518100503.37279-5-angelogioacchino.delregno@collabora.com>
+Date: Wed, 18 May 2022 12:05:01 +0200
+Message-Id: <20220518100503.37279-6-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220518100503.37279-1-angelogioacchino.delregno@collabora.com>
 References: <20220518100503.37279-1-angelogioacchino.delregno@collabora.com>
@@ -92,21 +90,29 @@ the iommu node.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/mediatek/mt2712e.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index 40d7b47fc52e..825a3c670373 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -588,6 +588,7 @@ iommu: iommu@10205000 {
- 			interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_LOW>;
- 			clocks = <&infracfg CLK_INFRA_M4U>;
- 			clock-names = "bclk";
-+			mediatek,infracfg = <&infracfg>;
- 			mediatek,larbs = <&larb0>, <&larb1>, <&larb2>,
- 					 <&larb3>, <&larb4>, <&larb5>;
- 			#iommu-cells = <1>;
+diff --git a/arch/arm64/boot/dts/mediatek/mt2712e.dtsi b/arch/arm64/boot/dts/mediatek/mt2712e.dtsi
+index 623eb3beabf2..4797537cb368 100644
+--- a/arch/arm64/boot/dts/mediatek/mt2712e.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt2712e.dtsi
+@@ -329,6 +329,7 @@ iommu0: iommu@10205000 {
+ 		interrupts = <GIC_SPI 147 IRQ_TYPE_LEVEL_LOW>;
+ 		clocks = <&infracfg CLK_INFRA_M4U>;
+ 		clock-names = "bclk";
++		mediatek,infracfg = <&infracfg>;
+ 		mediatek,larbs = <&larb0>, <&larb1>, <&larb2>,
+ 				 <&larb3>, <&larb6>;
+ 		#iommu-cells = <1>;
+@@ -346,6 +347,7 @@ iommu1: iommu@1020a000 {
+ 		interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_LOW>;
+ 		clocks = <&infracfg CLK_INFRA_M4U>;
+ 		clock-names = "bclk";
++		mediatek,infracfg = <&infracfg>;
+ 		mediatek,larbs = <&larb4>, <&larb5>, <&larb7>;
+ 		#iommu-cells = <1>;
+ 	};
 -- 
 2.35.1
 
