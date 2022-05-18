@@ -1,89 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F4E52C276
-	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 20:39:29 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C9C52C278
+	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 20:43:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 3E30360E9F;
-	Wed, 18 May 2022 18:39:28 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 04AA5409A9;
+	Wed, 18 May 2022 18:43:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id A8fVuuYPnxyB; Wed, 18 May 2022 18:39:27 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZiFvFRvpUG9F; Wed, 18 May 2022 18:43:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5869B60E2D;
-	Wed, 18 May 2022 18:39:27 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E1F074098E;
+	Wed, 18 May 2022 18:43:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2896C002D;
-	Wed, 18 May 2022 18:39:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B963DC007E;
+	Wed, 18 May 2022 18:43:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7370EC002D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:39:26 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6AC19C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:43:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6802240374
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:39:26 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 66D9F4102B
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:43:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Jpq9SJqTg4c0 for <iommu@lists.linux-foundation.org>;
- Wed, 18 May 2022 18:39:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 967DB404ED
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652899165; x=1684435165;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=M/oKhYTcnY4myTpFoegzGHopmAVVEEzgyLwyapl7tQQ=;
- b=CQSOgYvUw1yDpcJEwwu80X6KSW4saCQnUM/lRNCINrNXR86cuSUqbsqw
- 5IyCi4wJ94BK+C0r/Cam1jx12rafFVku9WSDKy6/C/O2nP7zHBnzz/YEK
- YnB5C4lj9KEIM67U3urr6cZN0dNUnO7f9mZiD0oX2zZ9JnThwUZj35Asa
- umJUe/TEbKlWvX9pwoFOBwRIJyscfb2QqA2ElkU//dK96MCZV/Bk7XMVQ
- /bYc3f23jArruiZrZDR8X09+V0rbxa96/KFGAHn2WyiGz+PR+061SbTb1
- 7kMt32zrnYhFy4yGais4hb0wtuRyAXzEptS9HENhcsTY4FILzHPVRAjKs w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="332456934"
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="332456934"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 11:38:14 -0700
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="569686074"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.198.157])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 11:38:14 -0700
-Date: Wed, 18 May 2022 11:42:04 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 1/4] iommu/vt-d: Implement domain ops for
- attach_dev_pasid
-Message-ID: <20220518114204.4d251b41@jacob-builder>
-In-Reply-To: <20220511182908.GK49344@nvidia.com>
-References: <20220510210704.3539577-1-jacob.jun.pan@linux.intel.com>
- <20220510210704.3539577-2-jacob.jun.pan@linux.intel.com>
- <20220510232121.GP49344@nvidia.com>
- <20220510172309.3c4e7512@jacob-builder>
- <20220511115427.GU49344@nvidia.com>
- <20220511082958.79d5d8ee@jacob-builder>
- <20220511161237.GB49344@nvidia.com>
- <20220511100216.7615e288@jacob-builder>
- <20220511170025.GF49344@nvidia.com>
- <20220511102521.6b7c578c@jacob-builder>
- <20220511182908.GK49344@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ with ESMTP id Po0pMQiwoE7h for <iommu@lists.linux-foundation.org>;
+ Wed, 18 May 2022 18:43:42 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 5094840374
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:43:42 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id i66so3713452oia.11
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 11:43:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nSo8w7W+OSVBY2zTRn/yV76t4zc61Jk0JXEwQ0qGoEY=;
+ b=b9X3y8l6tTklfBg1+wcKekMUkbeFnig2ERgHPSt8oPHeYNpii2N6f5tCS86VSQvxVB
+ gFrtlsjbQoKU4q7+oyOnO/ayCcIx9sQrOEIz5TqsVta+jsOAxs1Oa2FE4N/625TbQ8am
+ bwiDm1DeVTFJk20BmdfcAHn6XuRG1j1tRKTtYKWC9qsQX7fM0jnFLYNaYKUHe8meNTix
+ Sta4I4WO+OvV18xkWDutjfcCJp9gD3s1RK1K/SVIgvCu7qfdXv9sdEM0nP3tQkThgcfz
+ wacdz706vxQ+Z3RlfGskX+1RhI+FmuzMELfvpupNJrK6M29nfC/e6R2HYg+EQFvPc3tC
+ omWQ==
+X-Gm-Message-State: AOAM532VD5DDufOdpJNps0UeERsQ/UJ/AKmUQBwO3/QDdveZrtp0vzMD
+ HtZrH+j377I7kM1WrzPWaQ==
+X-Google-Smtp-Source: ABdhPJxURTR1dLIW0z+AO7IFoBsGn5LcndospzqQor1Bg/tjfzW1ykX2baF3rSpYYdFTb74t+ZoaaA==
+X-Received: by 2002:a05:6808:f8e:b0:328:a601:a425 with SMTP id
+ o14-20020a0568080f8e00b00328a601a425mr590558oiw.253.1652899421160; 
+ Wed, 18 May 2022 11:43:41 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ q19-20020a4a8353000000b00333220959b9sm1265718oog.1.2022.05.18.11.43.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 May 2022 11:43:40 -0700 (PDT)
+Received: (nullmailer pid 3669786 invoked by uid 1000);
+ Wed, 18 May 2022 18:43:39 -0000
+Date: Wed, 18 May 2022 13:43:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH 7/8] dt-bindings: iommu: mediatek: Require
+ mediatek,infracfg for mt2712/8173
+Message-ID: <20220518184339.GJ3302100-robh@kernel.org>
+References: <20220517132107.195932-1-angelogioacchino.delregno@collabora.com>
+ <20220517132107.195932-8-angelogioacchino.delregno@collabora.com>
+ <20220518014143.GA2024242-robh@kernel.org>
+ <4ed63c3a-ec47-5801-ab89-b7d1a597c0da@collabora.com>
 MIME-Version: 1.0
-Cc: vkoul@kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- will@kernel.org, David Woodhouse <dwmw2@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- dmaengine@vger.kernel.org, robin.murphy@arm.com,
- Jean-Philippe Brucker <jean-philippe@linaro.com>
+Content-Disposition: inline
+In-Reply-To: <4ed63c3a-ec47-5801-ab89-b7d1a597c0da@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,63 +95,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
-
-On Wed, 11 May 2022 15:29:08 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Wed, May 11, 2022 at 10:25:21AM -0700, Jacob Pan wrote:
-> > Hi Jason,
+On Wed, May 18, 2022 at 10:14:43AM +0200, AngeloGioacchino Del Regno wrote:
+> Il 18/05/22 03:41, Rob Herring ha scritto:
+> > On Tue, May 17, 2022 at 03:21:06PM +0200, AngeloGioacchino Del Regno wrote:
+> > > Both MT2712 and MT8173 got a mediatek,infracfg phandle: add that to
+> > > the required properties for these SoCs to deprecate the old way of
+> > > looking for SoC-specific infracfg compatible in the entire devicetree.
 > > 
-> > On Wed, 11 May 2022 14:00:25 -0300, Jason Gunthorpe <jgg@nvidia.com>
-> > wrote: 
-> > > On Wed, May 11, 2022 at 10:02:16AM -0700, Jacob Pan wrote:  
-> > > > > > If not global, perhaps we could have a list of pasids (e.g.
-> > > > > > xarray) attached to the device_domain_info. The TLB flush logic
-> > > > > > would just go through the list w/o caring what the PASIDs are
-> > > > > > for. Does it make sense to you?      
-> > > > > 
-> > > > > Sort of, but we shouldn't duplicate xarrays - the group already
-> > > > > has this xarray - need to find some way to allow access to it
-> > > > > from the driver.
-> > > > >     
-> > > > I am not following,  here are the PASIDs for devTLB flush which is
-> > > > per device. Why group?    
-> > > 
-> > > Because group is where the core code stores it.  
-> > I see, with singleton group. I guess I can let dma-iommu code call
+> > Wait, what? If there's only one possible node that can match, I prefer
+> > the 'old way'. Until we implemented a phandle cache, searching the
+> > entire tree was how phandle lookups worked too, so not any better.
 > > 
-> > iommu_attach_dma_pasid {
-> > 	iommu_attach_device_pasid();
-> > Then the PASID will be stored in the group xa.  
+> > But if this makes things more consistent,
+> > 
+> > Acked-by: Rob Herring <robh@kernel.org>
 > 
-> Yes, again, the dma-iommu should not be any different from the normal
-> unmanaged path. At this point there is no longer any difference, we
-> should not invent new ones.
 > 
-> > The flush code can retrieve PASIDs from device_domain_info.device ->
-> > group -> pasid_array.  Thanks for pointing it out, I missed the new
-> > pasid_array.  
+> Hello Rob,
 > 
-> Yes.. It seems inefficient to iterate over that xarray multiple times
-> on the flush hot path, but maybe there is little choice. Try to use
-> use the xas iterators under the xa_lock spinlock..
+> This makes things definitely more consistent, as it's done like that on
+> mtk-pm-domains and other mtk drivers as well.
 > 
-xas_for_each takes a max range, here we don't really have one. So I posted
-v4 w/o using the xas advanced API. Please let me know if you have
-suggestions.
-xa_for_each takes RCU read lock, it should be fast for tlb flush, right? The
-worst case maybe over flush when we have stale data but should be very rare.
+> The main reason why this phandle is useful, here and in other drivers, is
+> that we're seeing a list of compatibles that is growing more and more, so
+> you see stuff like (mockup names warning):
+> 
+> switch (some_model)
+> case MT1000:
+> 	p = "mediatek,mt1000-infracfg";
+> 	break;
+> case MT1001:
+> 	p = "mediatek,mt1001-infracfg";
+> 	break;
+> case MT1002:
+> 	p = "mediatek,mt1002-infracfg";
+> 	break;
+> .....add another 20 SoCs, replicate this switch for 4/5 drivers....
 
-> The challenge will be accessing the group xa in the first place, but
-> maybe the core code can gain a function call to return a pointer to
-> that XA or something..
-> 
-I added a helper function to find the matching DMA API PASID in v4.
+This type of property is used for poking random bits in another block 
+(that's usually a collection of random bits). These interfaces don't 
+tend to be that stable across many SoC generations. As there's no 
+abstraction beyond perhaps what the offset is, the client side ends up 
+needing to know the specifics of that block anyways. If the block is 
+that stable, then perhaps it needs a common fallback compatible.
 
+Sometimes these instances are also just places we haven't created a 
+common subsystem for.
 
-Thanks,
+> and this is why I want the mtk_iommu driver to also get that phandle like
+> some other drivers are already doing.
 
-Jacob
+As I said, fine.
+
+Rob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
