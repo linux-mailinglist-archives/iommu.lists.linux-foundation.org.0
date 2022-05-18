@@ -2,59 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE16D52C1FB
-	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 20:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680D852C1FE
+	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 20:17:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 921EC40374;
-	Wed, 18 May 2022 18:17:40 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 936F04101C;
+	Wed, 18 May 2022 18:17:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cYf8l-sTHm2F; Wed, 18 May 2022 18:17:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9BBA840BB1;
-	Wed, 18 May 2022 18:17:39 +0000 (UTC)
+	with ESMTP id AZITK7-dVZbZ; Wed, 18 May 2022 18:17:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 821CE4101B;
+	Wed, 18 May 2022 18:17:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5F45C0084;
-	Wed, 18 May 2022 18:17:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CBB9C007E;
+	Wed, 18 May 2022 18:17:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1092EC002D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:37 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B7DDC007E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E5C32605EA
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:35 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3A52D61243
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5JKpvc4du3xZ for <iommu@lists.linux-foundation.org>;
+ with ESMTP id LMMB4kaVTZmu for <iommu@lists.linux-foundation.org>;
  Wed, 18 May 2022 18:17:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1AAF661247
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 702E761246
  for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1652897855; x=1684433855;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4E0rUsQ0j9aptl5lb7L0UIOwroU6cL8nhCs1ddmoug0=;
- b=fZ3RZtt6lYBvdcyWz4quWa/W5Vlk0WqgbM/fa4UkNZ+8zGFgOs67hyTe
- C6i2lOAnMqhOkBmcj08GYma+Mw6hpAzXuVSBKjS6kvpi/iGzEDetpva2F
- 2YHRW1qRyjF67fOlLuMkrFV2HYSn481iAGejNzKtv5GjtqE/xfXUVgm6O
- RITvTYnUvOMEgto1MbRz1bDZE/vVFMmSaieZW1xga04T42zkzWAUnISaJ
- Ax3KD85fbvwhN+WjUM55gUY0mPaTL3UBDbUDmSfZEYEhlRMsga5QyWFsb
- kEmOeOGmHi6cmB86fdQ99fqwnPbDtb7cBndmkD3TtPM/vOlEXb5RcdGuQ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="259392422"
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="259392422"
+ bh=5VKbTR0g0tlRykbvGSeZDqc/YRgpbo6uTJXWIP5098I=;
+ b=ESBWrZYLM3jAwfBvV9g3LYmjOr7AUy5H0ZxCxOYXOdxTy4o1hJTMOUKO
+ LZFEfGJ4ydgNLnmVNQvCVtKMcDAgYWiWK3X+fXDDW1UJrC/myt4cy17Dv
+ OMbE2zqlZJkIisfF5doOsJKZv3XWwqXzpyFy+UtMgXzZiGkTPULZuXW48
+ MHLz1opG29rpsPODEAnwEq13jEXguLaKbajeIgk/V9HdIK3YfJfmgkZpc
+ ilIykkHrs58XfvQ6UamZ5rvgG+1QK05Q17pHBGE+FOytjgFp0GtimRFJq
+ mPSVAbLzteJWjlQ2lY1E+x/esYDqKTPWJ/fWRbPGQaPVqlpK4J9doa3jS Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="259392426"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="259392426"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 May 2022 11:17:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="639405497"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="639405503"
 Received: from otc-wp-03.jf.intel.com (HELO jacob-builder.jf.intel.com)
  ([10.54.39.79])
  by fmsmga004.fm.intel.com with ESMTP; 18 May 2022 11:17:32 -0700
@@ -66,9 +66,9 @@ To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  "Lu Baolu" <baolu.lu@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
  "Christoph Hellwig" <hch@infradead.org>, vkoul@kernel.org,
  robin.murphy@arm.com, will@kernel.org
-Subject: [PATCH v4 3/6] iommu/vt-d: Implement domain ops for attach_dev_pasid
-Date: Wed, 18 May 2022 11:21:17 -0700
-Message-Id: <20220518182120.1136715-4-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v4 4/6] iommu: Add PASID support for DMA mapping API users
+Date: Wed, 18 May 2022 11:21:18 -0700
+Message-Id: <20220518182120.1136715-5-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220518182120.1136715-1-jacob.jun.pan@linux.intel.com>
 References: <20220518182120.1136715-1-jacob.jun.pan@linux.intel.com>
@@ -92,156 +92,175 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On VT-d platforms with scalable mode enabled, devices issue DMA requests
-with PASID need to attach PASIDs to given IOMMU domains. The attach
-operation involves the following:
-- Programming the PASID into the device's PASID table
-- Tracking device domain and the PASID relationship
-- Managing IOTLB and device TLB invalidations
+DMA mapping API is the de facto standard for in-kernel DMA. It operates
+on a per device/RID basis which is not PASID-aware.
 
-This patch add attach_dev_pasid functions to the default domain ops which
-is used by DMA and identity domain types. It could be extended to support
-other domain types whenever necessary.
+Some modern devices such as Intel Data Streaming Accelerator, PASID is
+required for certain work submissions. To allow such devices use DMA
+mapping API, we need the following functionalities:
+1. Provide device a way to retrieve a PASID for work submission within
+the kernel
+2. Enable the kernel PASID on the IOMMU for the device
+3. Attach the kernel PASID to the device's default DMA domain, let it
+be IOVA or physical address in case of pass-through.
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+This patch introduces a driver facing API that enables DMA API
+PASID usage. Once enabled, device drivers can continue to use DMA APIs as
+is. There is no difference in dma_handle between without PASID and with
+PASID.
+
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/intel/iommu.c | 72 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 70 insertions(+), 2 deletions(-)
+ drivers/iommu/dma-iommu.c | 114 ++++++++++++++++++++++++++++++++++++++
+ include/linux/dma-iommu.h |   3 +
+ 2 files changed, 117 insertions(+)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 1c2c92b657c7..75615c105fdf 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -1556,12 +1556,18 @@ static void __iommu_flush_dev_iotlb(struct device_domain_info *info,
- 				    u64 addr, unsigned int mask)
- {
- 	u16 sid, qdep;
-+	ioasid_t pasid;
- 
- 	if (!info || !info->ats_enabled)
- 		return;
- 
- 	sid = info->bus << 8 | info->devfn;
- 	qdep = info->ats_qdep;
-+	pasid = iommu_get_pasid_from_domain(info->dev, &info->domain->domain);
-+	if (pasid != INVALID_IOASID) {
-+		qi_flush_dev_iotlb_pasid(info->iommu, sid, info->pfsid,
-+					 pasid, qdep, addr, mask);
-+	}
- 	qi_flush_dev_iotlb(info->iommu, sid, info->pfsid,
- 			   qdep, addr, mask);
- }
-@@ -1591,6 +1597,7 @@ static void iommu_flush_iotlb_psi(struct intel_iommu *iommu,
- 	unsigned int mask = ilog2(aligned_pages);
- 	uint64_t addr = (uint64_t)pfn << VTD_PAGE_SHIFT;
- 	u16 did = domain->iommu_did[iommu->seq_id];
-+	struct iommu_domain *iommu_domain = &domain->domain;
- 
- 	BUG_ON(pages == 0);
- 
-@@ -1599,6 +1606,9 @@ static void iommu_flush_iotlb_psi(struct intel_iommu *iommu,
- 
- 	if (domain_use_first_level(domain)) {
- 		qi_flush_piotlb(iommu, did, PASID_RID2PASID, addr, pages, ih);
-+		/* flush additional kernel DMA PASIDs attached */
-+		if (iommu_domain->dma_pasid)
-+			qi_flush_piotlb(iommu, did, iommu_domain->dma_pasid, addr, pages, ih);
- 	} else {
- 		unsigned long bitmask = aligned_pages - 1;
- 
-@@ -4255,6 +4265,7 @@ static void __dmar_remove_one_dev_info(struct device_domain_info *info)
- 	struct dmar_domain *domain;
- 	struct intel_iommu *iommu;
- 	unsigned long flags;
-+	ioasid_t pasid;
- 
- 	assert_spin_locked(&device_domain_lock);
- 
-@@ -4265,10 +4276,15 @@ static void __dmar_remove_one_dev_info(struct device_domain_info *info)
- 	domain = info->domain;
- 
- 	if (info->dev && !dev_is_real_dma_subdevice(info->dev)) {
--		if (dev_is_pci(info->dev) && sm_supported(iommu))
-+		if (dev_is_pci(info->dev) && sm_supported(iommu)) {
- 			intel_pasid_tear_down_entry(iommu, info->dev,
- 					PASID_RID2PASID, false);
--
-+			pasid = iommu_get_pasid_from_domain(info->dev,
-+							    &info->domain->domain);
-+			if (pasid != INVALID_IOASID)
-+				intel_pasid_tear_down_entry(iommu, info->dev,
-+							    pasid, false);
-+		}
- 		iommu_disable_dev_iotlb(info);
- 		domain_context_clear(info);
- 		intel_pasid_free_table(info->dev);
-@@ -4904,6 +4920,56 @@ static void intel_iommu_iotlb_sync_map(struct iommu_domain *domain,
- 	}
- }
- 
-+static int intel_iommu_attach_dev_pasid(struct iommu_domain *domain,
-+					struct device *dev,
-+					ioasid_t pasid)
-+{
-+	struct device_domain_info *info = dev_iommu_priv_get(dev);
-+	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
-+	struct intel_iommu *iommu = info->iommu;
-+	unsigned long flags;
-+	int ret = 0;
-+
-+	if (!sm_supported(iommu) || !info)
-+		return -ENODEV;
-+
-+	if (WARN_ON(pasid == PASID_RID2PASID))
-+		return -EINVAL;
-+
-+	spin_lock_irqsave(&device_domain_lock, flags);
-+	spin_lock(&iommu->lock);
-+	if (hw_pass_through && domain_type_is_si(dmar_domain))
-+		ret = intel_pasid_setup_pass_through(iommu, dmar_domain,
-+						     dev, pasid);
-+	else if (domain_use_first_level(dmar_domain))
-+		ret = domain_setup_first_level(iommu, dmar_domain,
-+					       dev, pasid);
-+	else
-+		ret = intel_pasid_setup_second_level(iommu, dmar_domain,
-+						     dev, pasid);
-+
-+	spin_unlock(&iommu->lock);
-+	spin_unlock_irqrestore(&device_domain_lock, flags);
-+
-+	return ret;
-+}
-+
-+static void intel_iommu_detach_dev_pasid(struct iommu_domain *domain,
-+					struct device *dev,
-+					ioasid_t pasid)
-+{
-+	struct device_domain_info *info = dev_iommu_priv_get(dev);
-+	struct intel_iommu *iommu = info->iommu;
-+	unsigned long flags;
-+
-+	if (pasid != iommu_get_pasid_from_domain(info->dev, &info->domain->domain))
-+		return;
-+
-+	spin_lock_irqsave(&iommu->lock, flags);
-+	intel_pasid_tear_down_entry(iommu, dev, pasid, false);
-+	spin_unlock_irqrestore(&iommu->lock, flags);
-+}
-+
- const struct iommu_ops intel_iommu_ops = {
- 	.capable		= intel_iommu_capable,
- 	.domain_alloc		= intel_iommu_domain_alloc,
-@@ -4932,6 +4998,8 @@ const struct iommu_ops intel_iommu_ops = {
- 		.iova_to_phys		= intel_iommu_iova_to_phys,
- 		.free			= intel_iommu_domain_free,
- 		.enforce_cache_coherency = intel_iommu_enforce_cache_coherency,
-+		.attach_dev_pasid	= intel_iommu_attach_dev_pasid,
-+		.detach_dev_pasid	= intel_iommu_detach_dev_pasid,
- 	}
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 1ca85d37eeab..6ad7ba619ef0 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -34,6 +34,8 @@ struct iommu_dma_msi_page {
+ 	phys_addr_t		phys;
  };
  
++static DECLARE_IOASID_SET(iommu_dma_pasid);
++
+ enum iommu_dma_cookie_type {
+ 	IOMMU_DMA_IOVA_COOKIE,
+ 	IOMMU_DMA_MSI_COOKIE,
+@@ -370,6 +372,118 @@ void iommu_put_dma_cookie(struct iommu_domain *domain)
+ 	domain->iova_cookie = NULL;
+ }
+ 
++/* Protect iommu_domain DMA PASID data */
++static DEFINE_MUTEX(dma_pasid_lock);
++/**
++ * iommu_attach_dma_pasid --Attach a PASID for in-kernel DMA. Use the device's
++ * DMA domain.
++ * @dev: Device to be enabled
++ * @pasid: The returned kernel PASID to be used for DMA
++ *
++ * DMA request with PASID will be mapped the same way as the legacy DMA.
++ * If the device is in pass-through, PASID will also pass-through. If the
++ * device is in IOVA, the PASID will point to the same IOVA page table.
++ *
++ * @return err code or 0 on success
++ */
++int iommu_attach_dma_pasid(struct device *dev, ioasid_t *pasid)
++{
++	struct iommu_domain *dom;
++	ioasid_t id, max;
++	int ret = 0;
++
++	dom = iommu_get_domain_for_dev(dev);
++	if (!dom || !dom->ops || !dom->ops->attach_dev_pasid)
++		return -ENODEV;
++
++	/* Only support domain types that DMA API can be used */
++	if (dom->type == IOMMU_DOMAIN_UNMANAGED ||
++	    dom->type == IOMMU_DOMAIN_BLOCKED) {
++		dev_warn(dev, "Invalid domain type %d", dom->type);
++		return -EPERM;
++	}
++
++	mutex_lock(&dma_pasid_lock);
++	id = dom->dma_pasid;
++	if (!id) {
++		/*
++		 * First device to use PASID in its DMA domain, allocate
++		 * a single PASID per DMA domain is all we need, it is also
++		 * good for performance when it comes down to IOTLB flush.
++		 */
++		max = 1U << dev->iommu->pasid_bits;
++		if (!max) {
++			ret = -EINVAL;
++			goto done_unlock;
++		}
++
++		id = ioasid_alloc(&iommu_dma_pasid, 1, max, dev);
++		if (id == INVALID_IOASID) {
++			ret = -ENOMEM;
++			goto done_unlock;
++		}
++
++		dom->dma_pasid = id;
++		atomic_set(&dom->dma_pasid_users, 1);
++	}
++
++	ret = iommu_attach_device_pasid(dom, dev, id);
++	if (!ret) {
++		*pasid = id;
++		atomic_inc(&dom->dma_pasid_users);
++		goto done_unlock;
++	}
++
++	if (atomic_dec_and_test(&dom->dma_pasid_users)) {
++		ioasid_free(id);
++		dom->dma_pasid = 0;
++	}
++done_unlock:
++	mutex_unlock(&dma_pasid_lock);
++	return ret;
++}
++EXPORT_SYMBOL(iommu_attach_dma_pasid);
++
++/**
++ * iommu_detach_dma_pasid --Disable in-kernel DMA request with PASID
++ * @dev:	Device's PASID DMA to be disabled
++ *
++ * It is the device driver's responsibility to ensure no more incoming DMA
++ * requests with the kernel PASID before calling this function. IOMMU driver
++ * ensures PASID cache, IOTLBs related to the kernel PASID are cleared and
++ * drained.
++ *
++ */
++void iommu_detach_dma_pasid(struct device *dev)
++{
++	struct iommu_domain *dom;
++	ioasid_t pasid;
++
++	dom = iommu_get_domain_for_dev(dev);
++	if (WARN_ON(!dom || !dom->ops || !dom->ops->detach_dev_pasid))
++		return;
++
++	/* Only support DMA API managed domain type */
++	if (WARN_ON(dom->type == IOMMU_DOMAIN_UNMANAGED ||
++		    dom->type == IOMMU_DOMAIN_BLOCKED))
++		return;
++
++	mutex_lock(&dma_pasid_lock);
++	pasid = iommu_get_pasid_from_domain(dev, dom);
++	if (!pasid || pasid == INVALID_IOASID) {
++		dev_err(dev, "No valid DMA PASID attached\n");
++		mutex_unlock(&dma_pasid_lock);
++		return;
++	}
++	iommu_detach_device_pasid(dom, dev, pasid);
++	if (atomic_dec_and_test(&dom->dma_pasid_users)) {
++		ioasid_free(pasid);
++		dom->dma_pasid = 0;
++	}
++	mutex_unlock(&dma_pasid_lock);
++}
++EXPORT_SYMBOL(iommu_detach_dma_pasid);
++
+ /**
+  * iommu_dma_get_resv_regions - Reserved region driver helper
+  * @dev: Device from iommu_get_resv_regions()
+diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
+index 24607dc3c2ac..538650b9cb75 100644
+--- a/include/linux/dma-iommu.h
++++ b/include/linux/dma-iommu.h
+@@ -18,6 +18,9 @@ int iommu_get_dma_cookie(struct iommu_domain *domain);
+ int iommu_get_msi_cookie(struct iommu_domain *domain, dma_addr_t base);
+ void iommu_put_dma_cookie(struct iommu_domain *domain);
+ 
++int iommu_attach_dma_pasid(struct device *dev, ioasid_t *pasid);
++void iommu_detach_dma_pasid(struct device *dev);
++
+ /* Setup call for arch DMA mapping code */
+ void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 dma_limit);
+ int iommu_dma_init_fq(struct iommu_domain *domain);
 -- 
 2.25.1
 
