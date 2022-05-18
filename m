@@ -1,80 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409B152C200
-	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 20:17:47 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D13352C277
+	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 20:42:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D47F5416BF;
-	Wed, 18 May 2022 18:17:45 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0DAFD61254;
+	Wed, 18 May 2022 18:42:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wjmLYgB4ac8x; Wed, 18 May 2022 18:17:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B5DF2416B7;
-	Wed, 18 May 2022 18:17:44 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wZ1U36hJSOAW; Wed, 18 May 2022 18:42:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1438461255;
+	Wed, 18 May 2022 18:42:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C31BC002D;
-	Wed, 18 May 2022 18:17:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CF1D9C002D;
+	Wed, 18 May 2022 18:42:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A917C002D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:41 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83527C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:42:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 001336124D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:37 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7192C61255
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:42:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 79MQmc76pctR for <iommu@lists.linux-foundation.org>;
- Wed, 18 May 2022 18:17:35 +0000 (UTC)
+ with ESMTP id QZRoVC-P7Idp for <iommu@lists.linux-foundation.org>;
+ Wed, 18 May 2022 18:42:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9E3F76124C
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:17:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652897855; x=1684433855;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4MoEi9eIAsQEEnYGbn1gdDfBYv7oO8G4INN9f64CdNo=;
- b=GFTBwnlAfROeBqwQcUDYjdfZyiBAxzXGJ5+9sJPcByMh4H/D1pU97q2p
- gY2UBRG/I4mo/6LH9CpjBUs4xnPls/SnkxCXC8V43sgEaOgjWNYzdkxYI
- Cmq+z4vo+pxp5BhR5S7DZUHRsU8fi7LBZrc1jUwKhv/eDC1hVJ7yq5xxy
- RtJB23TBa98xN85BSW7s4lw5jIt5EjqCxn3pPdeFwkbVmoaJmT7NSxd/M
- EntTh06SawjprN+CjAHjsWRPouiK9WicbzmeJWmU6SfhiNjM2egbCnZNo
- 2gdJ9QZAoW3Z7phM5haLhqZ1yCN9FnZe5t8VxP/5jSEtQKHOadx8GIaST A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="259392430"
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="259392430"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 11:17:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="639405510"
-Received: from otc-wp-03.jf.intel.com (HELO jacob-builder.jf.intel.com)
- ([10.54.39.79])
- by fmsmga004.fm.intel.com with ESMTP; 18 May 2022 11:17:33 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- dmaengine@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- David Woodhouse <dwmw2@infradead.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- "Lu Baolu" <baolu.lu@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- "Christoph Hellwig" <hch@infradead.org>, vkoul@kernel.org,
- robin.murphy@arm.com, will@kernel.org
-Subject: [PATCH v4 6/6] iommu/vt-d: Delete unused SVM flag
-Date: Wed, 18 May 2022 11:21:20 -0700
-Message-Id: <20220518182120.1136715-7-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220518182120.1136715-1-jacob.jun.pan@linux.intel.com>
-References: <20220518182120.1136715-1-jacob.jun.pan@linux.intel.com>
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com
+ [148.163.147.86])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 87C2C61254
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 18:42:12 +0000 (UTC)
+Received: from pps.filterd (m0134422.ppops.net [127.0.0.1])
+ by mx0b-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24IHeIYV031831;
+ Wed, 18 May 2022 18:41:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pps0720; bh=JkdAJp6/nFA0fMkh73Q6AHAhW3P+czhEF0OIA1t5HCg=;
+ b=Qg2AhnHrd3KBRi0DM+Bb3C5HbTo+NMkyfHHtmg++jWG9ug+/mnlUut0DeIcgWTWtI//2
+ HI6OjGG/DUrRPlT32fATsiDynZSEP+I3w0v6l2juXvPIUAPpeADtplpUS+ptlXAG3tFI
+ d+t4fePOEIgxlDSGArqM8HgF2nYdi2nUvcC2nqJrCqM0ypC9/4655ZTL2f9YPksE/jl9
+ Pk3xAGjSmX8pnhrRgS8KClB67yDFV7hx7UFCHMQdsGNdGQJ/6nj1PWHFv/lgNkyS2s5D
+ Y/H7skS6+Wn3n5hPvTuDy+i9B1Wm4vBh0lEx/9u2lMfxgj8ZWjloLXNVjOBm7tCsCmxE fQ== 
+Received: from g4t3427.houston.hpe.com (g4t3427.houston.hpe.com
+ [15.241.140.73])
+ by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3g52ynjr3w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 May 2022 18:41:29 +0000
+Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net
+ [16.208.49.245])
+ by g4t3427.houston.hpe.com (Postfix) with ESMTP id A42CD57;
+ Wed, 18 May 2022 18:41:28 +0000 (UTC)
+Received: from swahl-home.5wahls.com (unknown [10.207.216.251])
+ by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id CAE565B;
+ Wed, 18 May 2022 18:41:25 +0000 (UTC)
+Date: Wed, 18 May 2022 13:41:25 -0500
+From: Steve Wahl <steve.wahl@hpe.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 0/7] iommu/vt-d: Make intel-iommu.h private
+Message-ID: <YoU91f2ncSkJP27T@swahl-home.5wahls.com>
+References: <20220514014322.2927339-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Raj Ashok <ashok.raj@intel.com>
+Content-Disposition: inline
+In-Reply-To: <20220514014322.2927339-1-baolu.lu@linux.intel.com>
+X-Proofpoint-GUID: eeDz9k6Fyio9EZLTXEQmcX-SiAr354e5
+X-Proofpoint-ORIG-GUID: eeDz9k6Fyio9EZLTXEQmcX-SiAr354e5
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-18_06,2022-05-17_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ bulkscore=0 mlxlogscore=648 lowpriorityscore=0 spamscore=0 adultscore=0
+ mlxscore=0 impostorscore=0 clxscore=1011 suspectscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205180108
+Cc: Steve Wahl <steve.wahl@hpe.com>, David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Ashok Raj <ashok.raj@intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Ning Sun <ning.sun@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+ Borislav Petkov <bp@alien8.de>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,41 +103,32 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-U3VwZXJ2aXNvciBQQVNJRCBmb3IgU1ZBL1NWTSBpcyBubyBsb25nZXIgc3VwcG9ydGVkLCBkZWxl
-dGUgdGhlIHVudXNlZApmbGFnLgoKU2lnbmVkLW9mZi1ieTogSmFjb2IgUGFuIDxqYWNvYi5qdW4u
-cGFuQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2lvbW11L2ludGVsL3N2bS5jIHwgIDIg
-Ky0KIGluY2x1ZGUvbGludXgvaW50ZWwtc3ZtLmggfCAxMyAtLS0tLS0tLS0tLS0tCiAyIGZpbGVz
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2lvbW11L2ludGVsL3N2bS5jIGIvZHJpdmVycy9pb21tdS9pbnRlbC9zdm0uYwppbmRl
-eCA0NDMzMWRiMDYwZTQuLjViMjIwZDQ2NDIxOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9pb21tdS9p
-bnRlbC9zdm0uYworKysgYi9kcml2ZXJzL2lvbW11L2ludGVsL3N2bS5jCkBAIC03NTAsNyArNzUw
-LDcgQEAgc3RhdGljIGlycXJldHVybl90IHBycV9ldmVudF90aHJlYWQoaW50IGlycSwgdm9pZCAq
-ZCkKIAkJCSAqIHRvIHVuYmluZCB0aGUgbW0gd2hpbGUgYW55IHBhZ2UgZmF1bHRzIGFyZSBvdXRz
-dGFuZGluZy4KIAkJCSAqLwogCQkJc3ZtID0gcGFzaWRfcHJpdmF0ZV9maW5kKHJlcS0+cGFzaWQp
-OwotCQkJaWYgKElTX0VSUl9PUl9OVUxMKHN2bSkgfHwgKHN2bS0+ZmxhZ3MgJiBTVk1fRkxBR19T
-VVBFUlZJU09SX01PREUpKQorCQkJaWYgKElTX0VSUl9PUl9OVUxMKHN2bSkpCiAJCQkJZ290byBi
-YWRfcmVxOwogCQl9CiAKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvaW50ZWwtc3ZtLmggYi9p
-bmNsdWRlL2xpbnV4L2ludGVsLXN2bS5oCmluZGV4IGIzYjEyNWIzMzJhYS4uNjgzNWE2NjVjMTk1
-IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2ludGVsLXN2bS5oCisrKyBiL2luY2x1ZGUvbGlu
-dXgvaW50ZWwtc3ZtLmgKQEAgLTEzLDE3ICsxMyw0IEBACiAjZGVmaW5lIFBSUV9SSU5HX01BU0sJ
-KCgweDEwMDAgPDwgUFJRX09SREVSKSAtIDB4MjApCiAjZGVmaW5lIFBSUV9ERVBUSAkoKDB4MTAw
-MCA8PCBQUlFfT1JERVIpID4+IDUpCiAKLS8qCi0gKiBUaGUgU1ZNX0ZMQUdfU1VQRVJWSVNPUl9N
-T0RFIGZsYWcgcmVxdWVzdHMgYSBQQVNJRCB3aGljaCBjYW4gYmUgdXNlZCBvbmx5Ci0gKiBmb3Ig
-YWNjZXNzIHRvIGtlcm5lbCBhZGRyZXNzZXMuIE5vIElPVExCIGZsdXNoZXMgYXJlIGF1dG9tYXRp
-Y2FsbHkgZG9uZQotICogZm9yIGtlcm5lbCBtYXBwaW5nczsgaXQgaXMgdmFsaWQgb25seSBmb3Ig
-YWNjZXNzIHRvIHRoZSBrZXJuZWwncyBzdGF0aWMKLSAqIDE6MSBtYXBwaW5nIG9mIHBoeXNpY2Fs
-IG1lbW9yeSDigJQgbm90IHRvIHZtYWxsb2Mgb3IgZXZlbiBtb2R1bGUgbWFwcGluZ3MuCi0gKiBB
-IGZ1dHVyZSBBUEkgYWRkaXRpb24gbWF5IHBlcm1pdCB0aGUgdXNlIG9mIHN1Y2ggcmFuZ2VzLCBi
-eSBtZWFucyBvZiBhbgotICogZXhwbGljaXQgSU9UTEIgZmx1c2ggY2FsbCAoYWtpbiB0byB0aGUg
-RE1BIEFQSSdzIHVubWFwIG1ldGhvZCkuCi0gKgotICogSXQgaXMgdW5saWtlbHkgdGhhdCB3ZSB3
-aWxsIGV2ZXIgaG9vayBpbnRvIGZsdXNoX3RsYl9rZXJuZWxfcmFuZ2UoKSB0bwotICogZG8gc3Vj
-aCBJT1RMQiBmbHVzaGVzIGF1dG9tYXRpY2FsbHkuCi0gKi8KLSNkZWZpbmUgU1ZNX0ZMQUdfU1VQ
-RVJWSVNPUl9NT0RFCUJJVCgwKQotCiAjZW5kaWYgLyogX19JTlRFTF9TVk1fSF9fICovCi0tIAoy
-LjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlv
-bW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczov
-L2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Sat, May 14, 2022 at 09:43:15AM +0800, Lu Baolu wrote:
+> Hi folks,
+> 
+> The include/linux/intel-iommu.h should be private to the Intel IOMMU
+> driver. Other drivers or components should interact with the IOMMU
+> drivers through the kAPIs provided by the iommu core.
+> 
+> This series cleanups all includes of intel-iommu.h outside of the Intel
+> IOMMU driver and move this header from include/linux to
+> drivers/iommu/intel/.
+> 
+> No functional changes intended. Please help to review and suggest.
+
+I went through and examined the changes as well.  These changes make the
+robots complaint against my patch go away, which is great by me!
+
+Reviewed-by: Steve Wahl <steve.wahl@hpe.com>
+
+-- 
+Steve Wahl, Hewlett Packard Enterprise
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
