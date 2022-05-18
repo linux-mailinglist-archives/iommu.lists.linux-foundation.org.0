@@ -1,56 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84B952BB64
-	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 15:14:01 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C574A52BB8C
+	for <lists.iommu@lfdr.de>; Wed, 18 May 2022 15:45:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 84516840BD;
-	Wed, 18 May 2022 13:14:00 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ct4vDkL3eJHE; Wed, 18 May 2022 13:13:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 986BB840C2;
-	Wed, 18 May 2022 13:13:59 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8036FC002D;
-	Wed, 18 May 2022 13:13:59 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7D806C002D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 13:13:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6BBD160E95
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 13:13:58 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5982160AE9;
+	Wed, 18 May 2022 13:45:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id s9IKbZ4Jnvj7 for <iommu@lists.linux-foundation.org>;
- Wed, 18 May 2022 13:13:57 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id BDD9B60E8D
- for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 13:13:57 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 9033A68AFE; Wed, 18 May 2022 15:13:53 +0200 (CEST)
-Date: Wed, 18 May 2022 15:13:53 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jGs8Yp2NGV6I; Wed, 18 May 2022 13:45:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BA40860EAE;
+	Wed, 18 May 2022 13:45:18 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DB16C002D;
+	Wed, 18 May 2022 13:45:18 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E037DC002D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 13:45:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id BF9074067B
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 13:45:16 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AaDqJPMYVRo1 for <iommu@lists.linux-foundation.org>;
+ Wed, 18 May 2022 13:45:15 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 93E924064D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 May 2022 13:45:15 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C350923A;
+ Wed, 18 May 2022 06:45:14 -0700 (PDT)
+Received: from [10.57.82.55] (unknown [10.57.82.55])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EB493F73D;
+ Wed, 18 May 2022 06:45:13 -0700 (PDT)
+Message-ID: <f88ea085-2161-02ff-ee36-a004b9e48338@arm.com>
+Date: Wed, 18 May 2022 14:45:07 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
 Subject: Re: [RFC PATCH] dma-iommu: Add iommu_dma_max_mapping_size()
-Message-ID: <20220518131353.GB26019@lst.de>
+Content-Language: en-GB
+To: Christoph Hellwig <hch@lst.de>
 References: <1652706361-92557-1-git-send-email-john.garry@huawei.com>
  <f5b78c9c-312e-70ab-ecbb-f14623a4b6e3@arm.com>
- <9160031b-50be-6993-5a8e-f238391962c5@huawei.com>
- <8f193bdd-3a0a-f9ed-0726-e6081f374320@arm.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8f193bdd-3a0a-f9ed-0726-e6081f374320@arm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+ <20220518131237.GA26019@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220518131237.GA26019@lst.de>
 Cc: liyihang6@hisilicon.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, will@kernel.org, hch@lst.de
+ iommu@lists.linux-foundation.org, will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -63,25 +67,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 17, 2022 at 01:02:00PM +0100, Robin Murphy wrote:
->> So how to inform the SCSI driver of this caching limit then so that it may 
->> limit the SGL length?
->
-> Driver-specific mechanism; block-layer-specific mechanism; redefine this 
-> whole API to something like dma_opt_mapping_size(), as a limit above which 
-> mappings might become less efficient or start to fail (callback to my 
-> thoughts on [1] as well, I suppose); many options. Just not imposing a 
-> ridiculously low *maximum* on everyone wherein mapping calls "should not be 
-> larger than the returned value" when that's clearly bollocks.
+On 2022-05-18 14:12, Christoph Hellwig wrote:
+> On Tue, May 17, 2022 at 11:40:52AM +0100, Robin Murphy wrote:
+>> Indeed, sorry but NAK for this being nonsense. As I've said at least once
+>> before, if the unnecessary SAC address allocation attempt slows down your
+>> workload, make it not do that in the first place. If you don't like the
+>> existing command-line parameter then fine, there are plenty of other
+>> options, it just needs to be done in a way that doesn't break x86 systems
+>> with dodgy firmware, as my first attempt turned out to.
+> 
+> What broke x86?
 
-Well, for swiotlb it is a hard limit.  So if we want to go down that
-route we need two APIs, one for the optimal size and one for the
-hard limit.
+See the thread at [1] (and in case of curiosity the other IVRS patches I 
+refer to therein were at [2]). Basically, undescribed limitations lead 
+to DMA address truncation once iommu-dma starts allocating from what it 
+thinks is the full usable IOVA range. Your typical desktop PC is 
+unlikely to have enough concurrent DMA-mapped memory to overflow the 
+32-bit IOVA space naturally, so this has probably been hiding an untold 
+multitude of sins over the years.
+
+Robin.
+
+[1] 
+https://lore.kernel.org/linux-iommu/e583fc6dd1fb4ffc90310ff4372ee776f9cc7a3c.1594207679.git.robin.murphy@arm.com/
+[2] 
+https://lore.kernel.org/linux-iommu/20200605145655.13639-1-sebott@amazon.de/
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
