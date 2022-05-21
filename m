@@ -1,121 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF5352F68D
-	for <lists.iommu@lfdr.de>; Sat, 21 May 2022 02:06:28 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A13452F687
+	for <lists.iommu@lfdr.de>; Sat, 21 May 2022 02:04:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 046DD426BB;
-	Sat, 21 May 2022 00:06:25 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D604E411AF;
+	Sat, 21 May 2022 00:04:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5IhfouK4t2_X; Sat, 21 May 2022 00:06:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B11B3426C0;
-	Sat, 21 May 2022 00:06:23 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vg7ZINr7JNrO; Sat, 21 May 2022 00:04:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D3B5A41192;
+	Sat, 21 May 2022 00:04:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2C26C0032;
-	Sat, 21 May 2022 00:06:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E1E0C007E;
+	Sat, 21 May 2022 00:04:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E0D41C002D
- for <iommu@lists.linux-foundation.org>; Fri, 20 May 2022 23:34:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5FF38C002D
+ for <iommu@lists.linux-foundation.org>; Sat, 21 May 2022 00:04:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B6CD1411B4
- for <iommu@lists.linux-foundation.org>; Fri, 20 May 2022 23:34:09 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3E90B426B8
+ for <iommu@lists.linux-foundation.org>; Sat, 21 May 2022 00:04:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=wdc.com header.b="WU5QGbVX";
- dkim=pass (2048-bit key) header.d=opensource.wdc.com
- header.b="IAZfh2N/"
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id A-9QdW0F8tbH for <iommu@lists.linux-foundation.org>;
- Fri, 20 May 2022 23:34:09 +0000 (UTC)
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id liP2fselHLoO for <iommu@lists.linux-foundation.org>;
+ Sat, 21 May 2022 00:04:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B7047411B3
- for <iommu@lists.linux-foundation.org>; Fri, 20 May 2022 23:34:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1653089648; x=1684625648;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=cxD0WkTRuBGs7QMn33plUCWC3KT9kbapNpgQIUmBMA8=;
- b=WU5QGbVXgqoJSzhNmD0ZQxyYaacyb/Ed78b452a9wN95QxdWblf1U4RN
- C6yLFNm52sfJAzzO+yeoEuZL39zb+iLQE8GgXSP1nIH09XTVpEM0ILyfo
- WCByek4HZobNKbDysRkyAU0D/sCncSg70flQ2tGU2kYkdZw7p0nizW1lT
- 4TnZRnpAOXgjbfu2i57q77IKeTDRXsWx59Gj75CO5aqppWURkJbJL4IDS
- DvwJEarG0WhhoGHRVbo6p/soc1qATBAbHgcoT51CQ7wu1vgX0/GToGOEW
- 3wU4gk0X5fUQV5n39vVnDyNXi2O+83znuSUDcJvKyYBaQ1NsM8MH//oaU w==;
-X-IronPort-AV: E=Sophos;i="5.91,240,1647273600"; d="scan'208";a="305178384"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 May 2022 07:34:07 +0800
-IronPort-SDR: 1PsErXo0B4Fnu0qRu58GMor965gPHtBkuLP8A62uNC/Uc7tstjbkb0Ta1zMj5m2sD9eGbedr7K
- sSHm4Gyoxgg7hqnrivrdErGGLFn0k90TM9fVHVVskct87gENtMr3tG7QlTQUz//89yXcEz7dyO
- z/iTUPX7H2MX/Yhq8JIWV8iuC9iuyETskTaWAi0i/ZjnIDGfc673lL08w14g2zQ01JTDKr4In6
- CnX35A7buWLRuIaKqaYlufTCqmNy2vD0IU7LoH4arFkIudfEcFQI8gaM+g5XiRd7FSk2JMLOjM
- 62aPz/CnkFBKAO24OZXoGmwS
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 May 2022 15:59:29 -0700
-IronPort-SDR: HLIknvsiLNy/3TiGqJjE4pDOCDtaLwr9UXuTVlzHqFg38qcKobDcUt4ChYjkW3HeZViVOmaEMO
- tPPko1ffyA/3+UG/RIWXzk+Jn9CcIylbDo8g9XylBXSvqpMMVkJlI5k1L4D7aStNRJpPrCq+uu
- 5vgSnFxhNcYd6f4uxiFWhDqlkJn4cGlSO9taicNJoHHV6i/bkDsbUZpBXtTV6g4NhiQWZzQfkG
- y3RbzDkaB0I6LVh/g/3uVY0FsjfScNOyg+yr0z3e6OrQM7lYVzkzAIjpbz6++nq53Y508AGSdn
- x5U=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 May 2022 16:34:07 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L4jjW0dYgz1SVp4
- for <iommu@lists.linux-foundation.org>; Fri, 20 May 2022 16:34:07 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :in-reply-to:organization:from:references:to:content-language
- :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1653089646; x=1655681647; bh=cxD0WkTRuBGs7QMn33plUCWC3KT9kbapNpg
- QIUmBMA8=; b=IAZfh2N/A1jItIRu6RNK4GCq/n7NLG1+opKeFCVPmNoD3nU4SpR
- bC6akAQHrRKjwDRGh4NXwXV/FMrBCZ6GcNYZcuC2ARib1r2sjAHkGU9Ep1cDFwop
- mDfqvuMSQssge51ujkq7vQ5pCjovouoGBfDz3E5IaM9G2Qqp9uzAo46qFsID7yHl
- Vw6amvteVP/EJl7jEGH7Boh6b3YkUpvvr5IwG9eq9uJub53GSlGzOb852GLfBhb/
- JW5MGlFzL5zQEqnjhAL3oRx/o0N9qjqNC1su+SaebsoCtTk5dX1J8MyoLkNh1FZr
- qCDdMdkk9R1i9CbzUDAwGjlwztQvrlS+5aw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id 7nWrl14zjU-D for <iommu@lists.linux-foundation.org>;
- Fri, 20 May 2022 16:34:06 -0700 (PDT)
-Received: from [10.225.163.51] (unknown [10.225.163.51])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L4jjS0PF4z1Rvlc;
- Fri, 20 May 2022 16:34:03 -0700 (PDT)
-Message-ID: <1a683059-d718-9536-e8fe-d7d47e25e935@opensource.wdc.com>
-Date: Sat, 21 May 2022 08:34:03 +0900
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id D2D12426B7
+ for <iommu@lists.linux-foundation.org>; Sat, 21 May 2022 00:04:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AC14C61E60;
+ Sat, 21 May 2022 00:04:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD1E2C385A9;
+ Sat, 21 May 2022 00:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653091467;
+ bh=umJYlhjK/prAl+rS8TfwbhwwuwhPWyC3JVjsAD5zvpE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ltb5bjO8Srd3+sCNfEL9kHTTgLO5+DkIAp3ksjCQxobHCJWyfNaFivaPrFC/iELf3
+ JRj1u3CPMNSONHhEz55LOcrCxpFc5tnvS/4IEChTxyRHHsKX5eBwwWTYaL+eacNHIZ
+ DZ2g1xc7/TO6SbhzNI6pr0ohJDQS+vbr+gq9Ls2LaLaHkP39947Eu4SR4z8efA1/zk
+ /oFqnblLmLkdgG5ZZEzg7sK+O1ARTKxUVyNEAVoHxlmpASNy3+NlfgFmftZ9C0oGyv
+ BWl3ZfRJ3v7LkkOc0lXf4lCxznEU901s/PbQMqOSYl9aNu7meSBzkEx2o7QVi6wN3e
+ 7b/Z+gSzd5YNQ==
+Date: Fri, 20 May 2022 17:04:24 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Saravana Kannan <saravanak@google.com>
+Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
+ registration
+Message-ID: <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
+References: <20220429220933.1350374-1-saravanak@google.com>
+ <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
+ <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 4/4] libata-scsi: Cap ata_device->max_sectors according to
- shost->max_sectors
-Content-Language: en-US
-To: John Garry <john.garry@huawei.com>, joro@8bytes.org, will@kernel.org,
- jejb@linux.ibm.com, martin.petersen@oracle.com, hch@lst.de,
- m.szyprowski@samsung.com, robin.murphy@arm.com
-References: <1653035003-70312-1-git-send-email-john.garry@huawei.com>
- <1653035003-70312-5-git-send-email-john.garry@huawei.com>
-Organization: Western Digital Research
-In-Reply-To: <1653035003-70312-5-git-send-email-john.garry@huawei.com>
-X-Mailman-Approved-At: Sat, 21 May 2022 00:06:20 +0000
-Cc: linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
- liyihang6@hisilicon.com, linux-kernel@vger.kernel.org,
- linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org
+Content-Disposition: inline
+In-Reply-To: <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-doc@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-s390@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Thierry Reding <treding@nvidia.com>,
+ kernel-team@android.com, linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kevin Hilman <khilman@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ linux-kernel@vger.kernel.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,46 +90,107 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Damien Le Moal via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 5/20/22 17:23, John Garry wrote:
-> ATA devices (struct ata_device) have a max_sectors field which is
-> configured internally in libata. This is then used to (re)configure the
-> associated sdev request queue max_sectors value from how it is earlier set
-> in __scsi_init_queue(). In __scsi_init_queue() the max_sectors value is set
-> according to shost limits, which includes host DMA mapping limits.
+On Fri, May 20, 2022 at 04:49:48PM -0700, Saravana Kannan wrote:
+> On Fri, May 20, 2022 at 4:30 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > Hi Saravana,
+> >
+> > On Fri, Apr 29, 2022 at 03:09:32PM -0700, Saravana Kannan wrote:
+> > > The deferred probe timer that's used for this currently starts at
+> > > late_initcall and runs for driver_deferred_probe_timeout seconds. The
+> > > assumption being that all available drivers would be loaded and
+> > > registered before the timer expires. This means, the
+> > > driver_deferred_probe_timeout has to be pretty large for it to cover the
+> > > worst case. But if we set the default value for it to cover the worst
+> > > case, it would significantly slow down the average case. For this
+> > > reason, the default value is set to 0.
+> > >
+> > > Also, with CONFIG_MODULES=y and the current default values of
+> > > driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
+> > > drivers will cause their consumer devices to always defer their probes.
+> > > This is because device links created by fw_devlink defer the probe even
+> > > before the consumer driver's probe() is called.
+> > >
+> > > Instead of a fixed timeout, if we extend an unexpired deferred probe
+> > > timer on every successful driver registration, with the expectation more
+> > > modules would be loaded in the near future, then the default value of
+> > > driver_deferred_probe_timeout only needs to be as long as the worst case
+> > > time difference between two consecutive module loads.
+> > >
+> > > So let's implement that and set the default value to 10 seconds when
+> > > CONFIG_MODULES=y.
+> > >
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> > > Cc: Rob Herring <robh@kernel.org>
+> > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > Cc: Will Deacon <will@kernel.org>
+> > > Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> > > Cc: Kevin Hilman <khilman@kernel.org>
+> > > Cc: Thierry Reding <treding@nvidia.com>
+> > > Cc: Mark Brown <broonie@kernel.org>
+> > > Cc: Pavel Machek <pavel@ucw.cz>
+> > > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > Cc: linux-gpio@vger.kernel.org
+> > > Cc: linux-pm@vger.kernel.org
+> > > Cc: iommu@lists.linux-foundation.org
+> > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> >
+> > I bisected a boot hang with ARCH=s390 defconfig in QEMU down to this
+> > change as commit 2b28a1a84a0e ("driver core: Extend deferred probe
+> > timeout on driver registration") in next-20220520 (bisect log below).
+> >
+> > $ make -skj"$(nproc)" ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- defconfig bzImage
+> >
+> > $ timeout --foreground 15m stdbuf -oL -eL \
+> > qemu-system-s390x \
+> > -initrd ... \
+> > -M s390-ccw-virtio \
+> > -display none \
+> > -kernel arch/s390/boot/bzImage \
+> > -m 512m \
+> > -nodefaults \
+> > -serial mon:stdio
+> > ...
+> > [    2.077303] In-situ OAM (IOAM) with IPv6
+> > [    2.077639] NET: Registered PF_PACKET protocol family
+> > [    2.078063] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+> > [    2.078795] Key type dns_resolver registered
+> > [    2.079317] cio: Channel measurement facility initialized using format extended (mode autodetected)
+> > [    2.081494] Discipline DIAG cannot be used without z/VM
+> > [  260.626363] random: crng init done
+> > qemu-system-s390x: terminating on signal 15 from pid 3815762 (timeout)
+> >
+> > We have a simple rootfs available if necessary:
+> >
+> > https://github.com/ClangBuiltLinux/boot-utils/raw/bc0d17785eb67f1edd0ee0a134970a807895f741/images/s390/rootfs.cpio.zst
+> >
+> > If there is any other information I can provide, please let me know!
 > 
-> Cap the ata_device max_sectors according to shost->max_sectors to respect
-> this shost limit.
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> ---
->  drivers/ata/libata-scsi.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-> index 06c9d90238d9..25fe89791641 100644
-> --- a/drivers/ata/libata-scsi.c
-> +++ b/drivers/ata/libata-scsi.c
-> @@ -1036,6 +1036,7 @@ int ata_scsi_dev_config(struct scsi_device *sdev, struct ata_device *dev)
->  		dev->flags |= ATA_DFLAG_NO_UNLOAD;
->  
->  	/* configure max sectors */
-> +	dev->max_sectors = min(dev->max_sectors, sdev->host->max_sectors);
->  	blk_queue_max_hw_sectors(q, dev->max_sectors);
->  
->  	if (dev->class == ATA_DEV_ATAPI) {
+> Hmm... strange. Can you please try the following command line options
+> and tell me which of these has the issue and which don't?
 
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Sure thing!
 
--- 
-Damien Le Moal
-Western Digital Research
+> 1) deferred_probe_timeout=0
+
+No issue.
+
+> 2) deferred_probe_timeout=1
+> 3) deferred_probe_timeout=300
+
+Both of these appear to hang in the same way, I let each sit for five
+minutes.
+
+Cheers,
+Nathan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
