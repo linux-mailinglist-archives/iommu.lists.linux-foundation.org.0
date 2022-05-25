@@ -1,67 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94571533594
-	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 05:05:55 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDF05334EA
+	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 03:48:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2552640289;
-	Wed, 25 May 2022 03:05:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 484E7612AE;
+	Wed, 25 May 2022 01:48:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mC01rB2tU1e8; Wed, 25 May 2022 03:05:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 37C5840105;
-	Wed, 25 May 2022 03:05:53 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Cku56TpWIPd4; Wed, 25 May 2022 01:48:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5C4DE612AD;
+	Wed, 25 May 2022 01:48:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F3419C002D;
-	Wed, 25 May 2022 03:05:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C45EC007E;
+	Wed, 25 May 2022 01:48:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1CF59C002D
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:06:58 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D1C13C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 01:47:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0B17F41A2C
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:06:58 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id B97C8612AC
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 01:47:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o8Ms8Z7f-ywk for <iommu@lists.linux-foundation.org>;
- Wed, 25 May 2022 02:06:56 +0000 (UTC)
-X-Greylist: delayed 00:34:22 by SQLgrey-1.8.0
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1516.securemx.jp
- [210.130.202.172])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6398A41825
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:06:56 +0000 (UTC)
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1516) id 24P1Wdmb008710;
- Wed, 25 May 2022 10:32:39 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1515) id 24P1W7TH006843;
- Wed, 25 May 2022 10:32:07 +0900
-X-Iguazu-Qid: 34trSfAbwEbMEl4JJC
-X-Iguazu-QSIG: v=2; s=0; t=1653442327; q=34trSfAbwEbMEl4JJC;
- m=Qsis1jZV/htQxCw0i55V7ARuLBOxVBW6EAOFcn4Oy/w=
-Received: from imx12-a.toshiba.co.jp (imx12-a.toshiba.co.jp [61.202.160.135])
- by relay.securemx.jp (mx-mr1511) id 24P1W6AE039192
- (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 25 May 2022 10:32:06 +0900
-From: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 3/3] MAINTAINERS: Add entries for Toshiba Visconti5 IOMMU
-Date: Wed, 25 May 2022 10:31:47 +0900
-X-TSB-HOP2: ON
-Message-Id: <20220525013147.2215355-4-nobuhiro1.iwamatsu@toshiba.co.jp>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220525013147.2215355-1-nobuhiro1.iwamatsu@toshiba.co.jp>
-References: <20220525013147.2215355-1-nobuhiro1.iwamatsu@toshiba.co.jp>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VBWeOnd0q7De for <iommu@lists.linux-foundation.org>;
+ Wed, 25 May 2022 01:47:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 7D5FE612AA
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 01:47:56 +0000 (UTC)
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4L7DTw0FX7z4xYN; Wed, 25 May 2022 11:47:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1653443268;
+ bh=EGg/NWkhqgS+TYzveXIrYzjI5grJ8CrjMPa5KXIW82M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UWqS+owz8XnLsimncATVeIZPrt+M5FSMuEOwndbyTqNU6V3m9T5RrOiUKdC6M8eJM
+ 96kqlDkNFXOvl8bB75zPZ9bQQnTvg3JmgnjeNIMXE9aPnU5ZigbKTlI2dlqH7NDGdl
+ 4vsah1OhKJGiAQF90Hs01kO2l/gCVEXNy1qBBjtY=
+Date: Wed, 25 May 2022 11:39:39 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH RFC 11/12] iommufd: vfio container FD ioctl compatibility
+Message-ID: <Yo2I2zfDTEg8+PjE@yekko>
+References: <0-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com>
+ <11-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com>
+ <20220323165125.5efd5976.alex.williamson@redhat.com>
+ <20220324003342.GV11336@nvidia.com>
+ <20220324160403.42131028.alex.williamson@redhat.com>
+ <YmqqXHsCTxVb2/Oa@yekko>
+ <67692fa1-6539-3ec5-dcfe-c52dfd1e46b8@ozlabs.ru>
+ <20220524132553.GR1343366@nvidia.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 25 May 2022 03:05:51 +0000
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- yuji2.ishikawa@toshiba.co.jp, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20220524132553.GR1343366@nvidia.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
+ Kevin Tian <kevin.tian@intel.com>, iommu@lists.linux-foundation.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,43 +79,79 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============5265576288384837840=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add entries for Toshiba Visconti5 IOMMU (ATU) binding and driver.
 
-Signed-off-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+--===============5265576288384837840==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="NTotmLiK/VZ5p5fr"
+Content-Disposition: inline
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1f4f4ba84c2e..a43023844c87 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2897,6 +2897,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iwamatsu/linux-visconti.git
- F:	Documentation/devicetree/bindings/arm/toshiba.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pipllct.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pismu.yaml
-+F:	Documentation/devicetree/bindings/iommu/toshiba,visconti-atu.yaml
- F:	Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
- F:	Documentation/devicetree/bindings/gpio/toshiba,gpio-visconti.yaml
- F:	Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
-@@ -2904,6 +2905,7 @@ F:	Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
- F:	Documentation/devicetree/bindings/watchdog/toshiba,visconti-wdt.yaml
- F:	arch/arm64/boot/dts/toshiba/
- F:	drivers/clk/visconti/
-+F:	drivers/iommu/visconti-atu.c
- F:	drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
- F:	drivers/gpio/gpio-visconti.c
- F:	drivers/pci/controller/dwc/pcie-visconti.c
--- 
-2.36.0
 
+--NTotmLiK/VZ5p5fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 24, 2022 at 10:25:53AM -0300, Jason Gunthorpe wrote:
+> On Mon, May 23, 2022 at 04:02:22PM +1000, Alexey Kardashevskiy wrote:
+>=20
+> > Which means the guest RAM does not need to be all mapped in that base I=
+OAS
+> > suggested down this thread as that would mean all memory is pinned and
+> > powervm won't be able to swap it out (yeah, it can do such thing now!).=
+ Not
+> > sure if we really want to support this or stick to a simpler design.
+>=20
+> Huh? How can it swap? Calling GUP is not optional. Either you call GUP
+> at the start and there is no swap, or you call GUP for each vIOMMU
+> hypercall.
+>=20
+> Since everyone says PPC doesn't call GUP during the hypercall - how is
+> it working?
+
+The current implementation does GUP during the pre-reserve.  I think
+Alexey's talking about a new PowerVM (IBM hypervisor) feature; I don't
+know how that works.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--NTotmLiK/VZ5p5fr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmKNiLQACgkQgypY4gEw
+YSLnFRAAhlmoBMol4J9baUS6tCTxZ0TBL5Vbqt8RKLryhFiIIQOrrB6kTU5uyYSX
+vdyI/V7+cC2vjYmEDwUM8hnFi3cTpW+BMj4TeQSxEgIPHJ4tWs0yGuuhboVKhuJV
+9h2iSi/SLdOc5ZELFwWZ5YTJc88EUzeDY+B+l3gL+PTxOW8WuBQmjQs+xw5Oaqhx
+YY24PAoLnL/nmSOJU9jmb+1opQoah0WmziyMp5H/eX+n09XrI+OieVcgAJSvlCQ8
+MJsuVokzY/cvJKJPtJRB+VKxrcavcivF6WWzcCz6e3tzkdcfOzWrEzKjfoo5pFM0
+bpk5iAs34G3n+m+OGQHEKgKpRa5cGTj92Wzdic1IDAA10PRScGwJVKynImWxozKT
+S1C4zjG87inJyYQ15DEYygNvRCrzNMEsbHm4NGlh4H9rTEwJ2s0DZyPUGmxOnf5E
+qG64BxrmR6HhoLvuAehIok7rfEZL0EWK7xLwP8w6Q/G33W/Tpc9PpZT06SdZoKOm
+tD7TFUqjjtIZwGDpggJLCiDZYF8xwaW4qnWwnpgms//pijFkaL41pxE0y/vS4lOA
+uS5ATgjrMtsvaIqvygQg8eUhhUtbn08sHseYoriwWMbCMzBt8KJEXyvQ3wWvUIYp
+K7DQMs+/yPDTXxFo86ZqBWwEFC8MCnVM4V8rs8Fti1k87TrZT3Y=
+=9VPE
+-----END PGP SIGNATURE-----
+
+--NTotmLiK/VZ5p5fr--
+
+--===============5265576288384837840==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============5265576288384837840==--
