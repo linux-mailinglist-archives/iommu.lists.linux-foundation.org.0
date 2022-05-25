@@ -1,59 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2423B533596
-	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 05:05:57 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94571533594
+	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 05:05:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A0F9483134;
-	Wed, 25 May 2022 03:05:55 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jDW4thuePTNh; Wed, 25 May 2022 03:05:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6A177833FB;
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2552640289;
 	Wed, 25 May 2022 03:05:54 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A282C002D;
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mC01rB2tU1e8; Wed, 25 May 2022 03:05:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 37C5840105;
 	Wed, 25 May 2022 03:05:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F3419C002D;
+	Wed, 25 May 2022 03:05:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 77859C002D
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:14:03 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1CF59C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:06:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 56C4A612AE
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:14:03 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0B17F41A2C
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:06:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9fd-gRfFUR73 for <iommu@lists.linux-foundation.org>;
- Wed, 25 May 2022 02:14:02 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1115.securemx.jp
- [210.130.202.174])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 114ED612AA
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:14:00 +0000 (UTC)
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1115) id 24P1WgCC012773;
- Wed, 25 May 2022 10:32:42 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1116) id 24P1W79U014816;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id o8Ms8Z7f-ywk for <iommu@lists.linux-foundation.org>;
+ Wed, 25 May 2022 02:06:56 +0000 (UTC)
+X-Greylist: delayed 00:34:22 by SQLgrey-1.8.0
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1516.securemx.jp
+ [210.130.202.172])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6398A41825
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:06:56 +0000 (UTC)
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1516) id 24P1Wdmb008710;
+ Wed, 25 May 2022 10:32:39 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1515) id 24P1W7TH006843;
  Wed, 25 May 2022 10:32:07 +0900
-X-Iguazu-Qid: 2wHHoRQqLZjpEs969Y
-X-Iguazu-QSIG: v=2; s=0; t=1653442327; q=2wHHoRQqLZjpEs969Y;
- m=Xr7wfXU0P28tQrglBFUkXafUeWb8aRJHHN/nDBBqDyc=
+X-Iguazu-Qid: 34trSfAbwEbMEl4JJC
+X-Iguazu-QSIG: v=2; s=0; t=1653442327; q=34trSfAbwEbMEl4JJC;
+ m=Qsis1jZV/htQxCw0i55V7ARuLBOxVBW6EAOFcn4Oy/w=
 Received: from imx12-a.toshiba.co.jp (imx12-a.toshiba.co.jp [61.202.160.135])
- by relay.securemx.jp (mx-mr1110) id 24P1W605016226
+ by relay.securemx.jp (mx-mr1511) id 24P1W6AE039192
  (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
  Wed, 25 May 2022 10:32:06 +0900
 From: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 2/3] iommu: bindings: Add binding documentation for Toshiba
- Visconti5 IOMMU device
-Date: Wed, 25 May 2022 10:31:46 +0900
+Subject: [PATCH 3/3] MAINTAINERS: Add entries for Toshiba Visconti5 IOMMU
+Date: Wed, 25 May 2022 10:31:47 +0900
 X-TSB-HOP2: ON
-Message-Id: <20220525013147.2215355-3-nobuhiro1.iwamatsu@toshiba.co.jp>
+Message-Id: <20220525013147.2215355-4-nobuhiro1.iwamatsu@toshiba.co.jp>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220525013147.2215355-1-nobuhiro1.iwamatsu@toshiba.co.jp>
 References: <20220525013147.2215355-1-nobuhiro1.iwamatsu@toshiba.co.jp>
@@ -80,82 +79,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add documentation for the binding of Toshiba Visconti5 SoC's IOMMU.
+Add entries for Toshiba Visconti5 IOMMU (ATU) binding and driver.
 
 Signed-off-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 ---
- .../bindings/iommu/toshiba,visconti-atu.yaml  | 62 +++++++++++++++++++
- 1 file changed, 62 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iommu/toshiba,visconti-atu.yaml
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iommu/toshiba,visconti-atu.yaml b/Documentation/devicetree/bindings/iommu/toshiba,visconti-atu.yaml
-new file mode 100644
-index 000000000000..af8d6688fa70
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iommu/toshiba,visconti-atu.yaml
-@@ -0,0 +1,62 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iommu/toshiba,visconti-atu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Toshiba ARM SoC Visconti5 IOMMU (ATU)
-+
-+maintainers:
-+  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-+
-+description: |+
-+  IOMMU (ATU) driver can bse used for Visconti5's multimedia IPs, such as
-+  DCNN (Deep Convolutional Neural Network), VIIF(Video Input), VOIF(Video
-+  output), and others.
-+
-+properties:
-+  compatible:
-+    const: toshiba,visconti-atu
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#iommu-cells":
-+    const: 0
-+
-+  toshiba,max-entry:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The size of entry for address
-+    enum:
-+      - 16
-+      - 32
-+
-+  toshiba,reserved-entry:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The reserve number of entry address.
-+    default: 0
-+    minimum: 0
-+    maximum: 32
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#iommu-cells"
-+  - toshiba,max-entry
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        atu_affine0: iommu@1400f000 {
-+            compatible = "toshiba,visconti-atu";
-+            reg = <0 0x1400F000 0 0x1000>;
-+            toshiba,max-entry = <16>;
-+            toshiba,reserved-entry = <1>;
-+            #iommu-cells = <0>;
-+        };
-+    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f4f4ba84c2e..a43023844c87 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2897,6 +2897,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iwamatsu/linux-visconti.git
+ F:	Documentation/devicetree/bindings/arm/toshiba.yaml
+ F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pipllct.yaml
+ F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pismu.yaml
++F:	Documentation/devicetree/bindings/iommu/toshiba,visconti-atu.yaml
+ F:	Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
+ F:	Documentation/devicetree/bindings/gpio/toshiba,gpio-visconti.yaml
+ F:	Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
+@@ -2904,6 +2905,7 @@ F:	Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
+ F:	Documentation/devicetree/bindings/watchdog/toshiba,visconti-wdt.yaml
+ F:	arch/arm64/boot/dts/toshiba/
+ F:	drivers/clk/visconti/
++F:	drivers/iommu/visconti-atu.c
+ F:	drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
+ F:	drivers/gpio/gpio-visconti.c
+ F:	drivers/pci/controller/dwc/pcie-visconti.c
 -- 
 2.36.0
 
