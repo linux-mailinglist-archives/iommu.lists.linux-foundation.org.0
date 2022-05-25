@@ -1,80 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A58E5336AA
-	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 08:10:57 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 453B85336BC
+	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 08:25:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0F6E140198;
-	Wed, 25 May 2022 06:10:56 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E69036129A;
+	Wed, 25 May 2022 06:25:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7aERtzl-4Pgj; Wed, 25 May 2022 06:10:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7981640499;
-	Wed, 25 May 2022 06:10:54 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WJbA8Iy5m5Wd; Wed, 25 May 2022 06:25:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BB62E6126D;
+	Wed, 25 May 2022 06:25:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38600C007E;
-	Wed, 25 May 2022 06:10:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DFB0C002D;
+	Wed, 25 May 2022 06:25:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7EEBEC002D
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 06:10:52 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EBEF7C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 06:25:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 66EAC8401C
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 06:10:52 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id AD90E84063
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 06:25:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nmYvhbiFVNM8 for <iommu@lists.linux-foundation.org>;
- Wed, 25 May 2022 06:10:48 +0000 (UTC)
+ with ESMTP id a_v4g4AxSawi for <iommu@lists.linux-foundation.org>;
+ Wed, 25 May 2022 06:25:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by smtp1.osuosl.org (Postfix) with ESMTPS id BA3CD8401A
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 06:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653459048; x=1684995048;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Hq9N3fTqQlZUi8YbYUVovOeTq8HUqkTJ8TbwzOCPPeY=;
- b=VxlnBxRUXFgQ9J05knkJFMAiqJ2uIF5+Wyshmv9RYWzB3VBbWVaTJ2s5
- FMnCqbzUIYjBEgkGANmFwbWZO4VKaFcf63x+CHc8/vyjDCvtdLFtfT4v5
- BQNbxC+n4lzlovumrG5WpDeWryIrhKH5bHHt8iegbx60upl4keXi+UoF7
- 6NY0owf44odkvDp+GxDYmzRyIP0f8bYCIp/llsgDJuzF9ScQVlEbherEi
- hAB/xgTUNfIfiy+6gIw63m8zYL9Q4QAPopza3bbFfQDA7dMGA/f2tBGOM
- tmdUnWo6/oLn7b30x5Mj1rOyYvj59mfqMLEN6JUCtV7o1PqP3K7dzcGxs A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="299058304"
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="299058304"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 23:10:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="664277582"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 24 May 2022 23:10:45 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1ntkEG-0002nW-Lq;
- Wed, 25 May 2022 06:10:44 +0000
-Date: Wed, 25 May 2022 14:09:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 1/3] iommu: Add Visconti5 IOMMU driver
-Message-ID: <202205251452.kFXLqhQx-lkp@intel.com>
-References: <20220525013147.2215355-2-nobuhiro1.iwamatsu@toshiba.co.jp>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0EC9884062
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 06:25:48 +0000 (UTC)
+X-UUID: 3c36d3ca9e5344d78943b17b2c10186c-20220525
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:3613b146-b665-4da4-981e-990b996cccb0, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:5
+X-CID-META: VersionHash:2a19b09, CLOUDID:579426b8-3c45-407b-8f66-25095432a27a,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 3c36d3ca9e5344d78943b17b2c10186c-20220525
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <yf.wang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 828095885; Wed, 25 May 2022 14:25:41 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 25 May 2022 14:25:39 +0800
+Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Wed, 25 May 2022 14:25:38 +0800
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
+ Roedel" <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>, Georgi Djakov
+ <quic_c_gdjako@quicinc.com>, Sven Peter <sven@svenpeter.dev>, Yunfei Wang
+ <yf.wang@mediatek.com>, "moderated list:ARM SMMU DRIVERS"
+ <linux-arm-kernel@lists.infradead.org>, "open list:IOMMU DRIVERS"
+ <iommu@lists.linux-foundation.org>, open list <linux-kernel@vger.kernel.org>, 
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v6 1/2] iommu/io-pgtable-arm-v7s: Add a quirk to allow pgtable
+ PA up to 35bit
+Date: Wed, 25 May 2022 14:18:33 +0800
+Message-ID: <20220525061836.30292-2-yf.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220525061836.30292-1-yf.wang@mediatek.com>
+References: <20220525061836.30292-1-yf.wang@mediatek.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220525013147.2215355-2-nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- yuji2.ishikawa@toshiba.co.jp, linux-arm-kernel@lists.infradead.org
+X-MTK: N
+Cc: Ning Li <ning.li@mediatek.com>, Libo Kang <Libo.Kang@mediatek.com>,
+ wsd_upstream@mediatek.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,482 +88,214 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: "yf.wang--- via iommu" <iommu@lists.linux-foundation.org>
+Reply-To: yf.wang@mediatek.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Nobuhiro,
+From: Yunfei Wang <yf.wang@mediatek.com>
 
-I love your patch! Perhaps something to improve:
+The calling to kmem_cache_alloc for level 2 pgtable allocation may run
+in atomic context, and it fails sometimes when DMA32 zone runs out of
+memory.
 
-[auto build test WARNING on joro-iommu/next]
-[also build test WARNING on arm-perf/for-next/perf soc/for-next linus/master v5.18 next-20220524]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Since Mediatek IOMMU hardware support at most 35bit PA in pgtable,
+so add a quirk to allow the PA of pgtables support up to bit35.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nobuhiro-Iwamatsu/Add-Visconti5-IOMMU-driver/20220525-093326
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220525/202205251452.kFXLqhQx-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/69bb4f3c2ef0bb1f65922bc72bb31109897a6393
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nobuhiro-Iwamatsu/Add-Visconti5-IOMMU-driver/20220525-093326
-        git checkout 69bb4f3c2ef0bb1f65922bc72bb31109897a6393
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/iommu/
+Signed-off-by: Ning Li <ning.li@mediatek.com>
+Signed-off-by: Yunfei Wang <yf.wang@mediatek.com>
+---
+ drivers/iommu/io-pgtable-arm-v7s.c | 56 ++++++++++++++++++++++--------
+ include/linux/io-pgtable.h         | 15 +++++---
+ 2 files changed, 52 insertions(+), 19 deletions(-)
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/iommu/visconti-atu.c:47:29: error: field 'iommu' has incomplete type
-      47 |         struct iommu_device iommu;
-         |                             ^~~~~
-   drivers/iommu/visconti-atu.c:62:29: error: field 'io_domain' has incomplete type
-      62 |         struct iommu_domain io_domain;
-         |                             ^~~~~~~~~
-   In file included from include/linux/bits.h:22,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/iommu/visconti-atu.c:12:
-   drivers/iommu/visconti-atu.c: In function 'to_atu_domain':
-   include/linux/compiler_types.h:293:27: error: expression in static assertion is not an integer
-     293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:70:16: note: in expansion of macro 'container_of'
-      70 |         return container_of(domain, struct visconti_atu_domain, io_domain);
-         |                ^~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_attach_device':
-   drivers/iommu/visconti-atu.c:121:43: error: implicit declaration of function 'dev_iommu_priv_get' [-Werror=implicit-function-declaration]
-     121 |         struct visconti_atu_device *atu = dev_iommu_priv_get(dev);
-         |                                           ^~~~~~~~~~~~~~~~~~
->> drivers/iommu/visconti-atu.c:121:43: warning: initialization of 'struct visconti_atu_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_detach_device':
-   drivers/iommu/visconti-atu.c:150:43: warning: initialization of 'struct visconti_atu_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     150 |         struct visconti_atu_device *atu = dev_iommu_priv_get(dev);
-         |                                           ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: At top level:
->> drivers/iommu/visconti-atu.c:196:41: warning: 'struct iommu_iotlb_gather' declared inside parameter list will not be visible outside of this definition or declaration
-     196 |                                  struct iommu_iotlb_gather *iotlb_gather)
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_of_xlate':
-   drivers/iommu/visconti-atu.c:262:17: error: implicit declaration of function 'dev_iommu_priv_set' [-Werror=implicit-function-declaration]
-     262 |                 dev_iommu_priv_set(dev, platform_get_drvdata(pdev));
-         |                 ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_domain_alloc':
-   drivers/iommu/visconti-atu.c:273:21: error: 'IOMMU_DOMAIN_UNMANAGED' undeclared (first use in this function)
-     273 |         if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:273:21: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/visconti-atu.c:273:55: error: 'IOMMU_DOMAIN_DMA' undeclared (first use in this function)
-     273 |         if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
-         |                                                       ^~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_probe_device':
-   drivers/iommu/visconti-atu.c:298:39: error: implicit declaration of function 'dev_iommu_fwspec_get' [-Werror=implicit-function-declaration]
-     298 |         struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-         |                                       ^~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/visconti-atu.c:298:39: warning: initialization of 'struct iommu_fwspec *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/iommu/visconti-atu.c:301:30: error: invalid use of undefined type 'struct iommu_fwspec'
-     301 |         if (!fwspec || fwspec->ops != &visconti_atu_ops)
-         |                              ^~
->> drivers/iommu/visconti-atu.c:304:13: warning: assignment to 'struct visconti_atu_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     304 |         atu = dev_iommu_priv_get(dev);
-         |             ^
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_release_device':
-   drivers/iommu/visconti-atu.c:310:43: warning: initialization of 'struct visconti_atu_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     310 |         struct visconti_atu_device *atu = dev_iommu_priv_get(dev);
-         |                                           ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:315:9: error: implicit declaration of function 'iommu_fwspec_free' [-Werror=implicit-function-declaration]
-     315 |         iommu_fwspec_free(dev);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: At top level:
-   drivers/iommu/visconti-atu.c:318:21: error: variable 'visconti_atu_ops' has initializer but incomplete type
-     318 | static const struct iommu_ops visconti_atu_ops = {
-         |                     ^~~~~~~~~
-   drivers/iommu/visconti-atu.c:319:10: error: 'const struct iommu_ops' has no member named 'domain_alloc'
-     319 |         .domain_alloc = visconti_atu_domain_alloc,
-         |          ^~~~~~~~~~~~
->> drivers/iommu/visconti-atu.c:319:25: warning: excess elements in struct initializer
-     319 |         .domain_alloc = visconti_atu_domain_alloc,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:319:25: note: (near initialization for 'visconti_atu_ops')
-   drivers/iommu/visconti-atu.c:320:10: error: 'const struct iommu_ops' has no member named 'probe_device'
-     320 |         .probe_device = visconti_atu_probe_device,
-         |          ^~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:320:25: warning: excess elements in struct initializer
-     320 |         .probe_device = visconti_atu_probe_device,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:320:25: note: (near initialization for 'visconti_atu_ops')
-   drivers/iommu/visconti-atu.c:321:10: error: 'const struct iommu_ops' has no member named 'release_device'
-     321 |         .release_device = visconti_atu_release_device,
-         |          ^~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:321:27: warning: excess elements in struct initializer
-     321 |         .release_device = visconti_atu_release_device,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:321:27: note: (near initialization for 'visconti_atu_ops')
-   drivers/iommu/visconti-atu.c:322:10: error: 'const struct iommu_ops' has no member named 'device_group'
-     322 |         .device_group = generic_device_group,
-         |          ^~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:322:25: error: 'generic_device_group' undeclared here (not in a function)
-     322 |         .device_group = generic_device_group,
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:322:25: warning: excess elements in struct initializer
-   drivers/iommu/visconti-atu.c:322:25: note: (near initialization for 'visconti_atu_ops')
-   drivers/iommu/visconti-atu.c:323:10: error: 'const struct iommu_ops' has no member named 'of_xlate'
-     323 |         .of_xlate = visconti_atu_of_xlate,
-         |          ^~~~~~~~
-   drivers/iommu/visconti-atu.c:323:21: warning: excess elements in struct initializer
-     323 |         .of_xlate = visconti_atu_of_xlate,
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:323:21: note: (near initialization for 'visconti_atu_ops')
-   drivers/iommu/visconti-atu.c:324:10: error: 'const struct iommu_ops' has no member named 'pgsize_bitmap'
-     324 |         .pgsize_bitmap = ATU_IOMMU_PGSIZE_BITMAP,
-         |          ^~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:41:33: warning: excess elements in struct initializer
-      41 | #define ATU_IOMMU_PGSIZE_BITMAP 0x7ffff000 /* SZ_1G - SZ_4K */
-         |                                 ^~~~~~~~~~
-   drivers/iommu/visconti-atu.c:324:26: note: in expansion of macro 'ATU_IOMMU_PGSIZE_BITMAP'
-     324 |         .pgsize_bitmap = ATU_IOMMU_PGSIZE_BITMAP,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:41:33: note: (near initialization for 'visconti_atu_ops')
-      41 | #define ATU_IOMMU_PGSIZE_BITMAP 0x7ffff000 /* SZ_1G - SZ_4K */
-         |                                 ^~~~~~~~~~
-   drivers/iommu/visconti-atu.c:324:26: note: in expansion of macro 'ATU_IOMMU_PGSIZE_BITMAP'
-     324 |         .pgsize_bitmap = ATU_IOMMU_PGSIZE_BITMAP,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:325:10: error: 'const struct iommu_ops' has no member named 'default_domain_ops'
-     325 |         .default_domain_ops = &(const struct iommu_domain_ops) {
-         |          ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:326:18: error: 'const struct iommu_domain_ops' has no member named 'attach_dev'
-     326 |                 .attach_dev = visconti_atu_attach_device,
-         |                  ^~~~~~~~~~
-   drivers/iommu/visconti-atu.c:326:31: warning: excess elements in struct initializer
-     326 |                 .attach_dev = visconti_atu_attach_device,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:326:31: note: (near initialization for '(anonymous)')
-   drivers/iommu/visconti-atu.c:327:18: error: 'const struct iommu_domain_ops' has no member named 'detach_dev'
-     327 |                 .detach_dev = visconti_atu_detach_device,
-         |                  ^~~~~~~~~~
-   drivers/iommu/visconti-atu.c:327:31: warning: excess elements in struct initializer
-     327 |                 .detach_dev = visconti_atu_detach_device,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:327:31: note: (near initialization for '(anonymous)')
-   drivers/iommu/visconti-atu.c:328:18: error: 'const struct iommu_domain_ops' has no member named 'map'
-     328 |                 .map = visconti_atu_map,
-         |                  ^~~
-   drivers/iommu/visconti-atu.c:328:24: warning: excess elements in struct initializer
-     328 |                 .map = visconti_atu_map,
-         |                        ^~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:328:24: note: (near initialization for '(anonymous)')
-   drivers/iommu/visconti-atu.c:329:18: error: 'const struct iommu_domain_ops' has no member named 'unmap'
-     329 |                 .unmap = visconti_atu_unmap,
-         |                  ^~~~~
-   drivers/iommu/visconti-atu.c:329:26: warning: excess elements in struct initializer
-     329 |                 .unmap = visconti_atu_unmap,
-         |                          ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:329:26: note: (near initialization for '(anonymous)')
-   drivers/iommu/visconti-atu.c:330:18: error: 'const struct iommu_domain_ops' has no member named 'iova_to_phys'
-     330 |                 .iova_to_phys = visconti_atu_iova_to_phys,
-         |                  ^~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:330:33: warning: excess elements in struct initializer
-     330 |                 .iova_to_phys = visconti_atu_iova_to_phys,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:330:33: note: (near initialization for '(anonymous)')
-   drivers/iommu/visconti-atu.c:331:18: error: 'const struct iommu_domain_ops' has no member named 'free'
-     331 |                 .free = visconti_atu_domain_free,
-         |                  ^~~~
-   drivers/iommu/visconti-atu.c:331:25: warning: excess elements in struct initializer
-     331 |                 .free = visconti_atu_domain_free,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:331:25: note: (near initialization for '(anonymous)')
-   drivers/iommu/visconti-atu.c:325:64: error: invalid use of undefined type 'const struct iommu_domain_ops'
-     325 |         .default_domain_ops = &(const struct iommu_domain_ops) {
-         |                                                                ^
-   drivers/iommu/visconti-atu.c:325:31: warning: excess elements in struct initializer
-     325 |         .default_domain_ops = &(const struct iommu_domain_ops) {
-         |                               ^
-   drivers/iommu/visconti-atu.c:325:31: note: (near initialization for 'visconti_atu_ops')
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_probe':
-   drivers/iommu/visconti-atu.c:366:22: error: implicit declaration of function 'iommu_group_alloc' [-Werror=implicit-function-declaration]
-     366 |         atu->group = iommu_group_alloc();
-         |                      ^~~~~~~~~~~~~~~~~
->> drivers/iommu/visconti-atu.c:366:20: warning: assignment to 'struct iommu_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     366 |         atu->group = iommu_group_alloc();
-         |                    ^
-   drivers/iommu/visconti-atu.c:380:15: error: implicit declaration of function 'iommu_device_sysfs_add' [-Werror=implicit-function-declaration]
-     380 |         ret = iommu_device_sysfs_add(&atu->iommu, dev, NULL, dev_name(dev));
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:384:15: error: implicit declaration of function 'iommu_device_register'; did you mean 'of_device_register'? [-Werror=implicit-function-declaration]
-     384 |         ret = iommu_device_register(&atu->iommu, &visconti_atu_ops, dev);
-         |               ^~~~~~~~~~~~~~~~~~~~~
-         |               of_device_register
-   drivers/iommu/visconti-atu.c:388:14: error: implicit declaration of function 'iommu_present'; did you mean 'pmd_present'? [-Werror=implicit-function-declaration]
-     388 |         if (!iommu_present(&platform_bus_type))
-         |              ^~~~~~~~~~~~~
-         |              pmd_present
-   drivers/iommu/visconti-atu.c:389:17: error: implicit declaration of function 'bus_set_iommu' [-Werror=implicit-function-declaration]
-     389 |                 bus_set_iommu(&platform_bus_type, &visconti_atu_ops);
-         |                 ^~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:395:9: error: implicit declaration of function 'iommu_device_sysfs_remove' [-Werror=implicit-function-declaration]
-     395 |         iommu_device_sysfs_remove(&atu->iommu);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c: In function 'visconti_atu_remove':
-   drivers/iommu/visconti-atu.c:405:9: error: implicit declaration of function 'iommu_device_unregister'; did you mean 'of_device_unregister'? [-Werror=implicit-function-declaration]
-     405 |         iommu_device_unregister(&atu->iommu);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         of_device_unregister
-   drivers/iommu/visconti-atu.c: At top level:
-   drivers/iommu/visconti-atu.c:318:31: error: storage size of 'visconti_atu_ops' isn't known
-     318 | static const struct iommu_ops visconti_atu_ops = {
-         |                               ^~~~~~~~~~~~~~~~
-   drivers/iommu/visconti-atu.c:318:31: error: storage size of 'visconti_atu_ops' isn't known
-   cc1: some warnings being treated as errors
-
-
-vim +121 drivers/iommu/visconti-atu.c
-
-   116	
-   117	static int visconti_atu_attach_device(struct iommu_domain *io_domain,
-   118					      struct device *dev)
-   119	{
-   120		struct visconti_atu_domain *domain = to_atu_domain(io_domain);
- > 121		struct visconti_atu_device *atu = dev_iommu_priv_get(dev);
-   122		int ret = 0;
-   123	
-   124		if (!atu) {
-   125			dev_err(dev, "Cannot attach to ATU\n");
-   126			return -ENXIO;
-   127		}
-   128	
-   129		mutex_lock(&domain->mutex);
-   130	
-   131		if (!domain->atu) {
-   132			domain->atu = atu;
-   133		} else if (domain->atu != atu) {
-   134			dev_err(dev, "Can't attach ATU %s to domain on ATU %s\n",
-   135				dev_name(atu->dev), dev_name(domain->atu->dev));
-   136			ret = -EINVAL;
-   137		} else {
-   138			dev_warn(dev, "Reusing ATU context\n");
-   139		}
-   140	
-   141		mutex_unlock(&domain->mutex);
-   142	
-   143		return ret;
-   144	}
-   145	
-   146	static void visconti_atu_detach_device(struct iommu_domain *io_domain,
-   147					       struct device *dev)
-   148	{
-   149		struct visconti_atu_domain *domain = to_atu_domain(io_domain);
-   150		struct visconti_atu_device *atu = dev_iommu_priv_get(dev);
-   151	
-   152		if (domain->atu != atu)
-   153			return;
-   154	
-   155		domain->atu = NULL;
-   156	}
-   157	
-   158	static int visconti_atu_map(struct iommu_domain *io_domain,
-   159				    unsigned long iova,
-   160				    phys_addr_t paddr,
-   161				    size_t size, int prot, gfp_t gfp)
-   162	{
-   163		struct visconti_atu_domain *domain = to_atu_domain(io_domain);
-   164		struct visconti_atu_device *atu = domain->atu;
-   165		unsigned long flags;
-   166		unsigned int i;
-   167	
-   168		if (!domain)
-   169			return -ENODEV;
-   170	
-   171		spin_lock_irqsave(&atu->lock, flags);
-   172		for (i = 0; i < atu->num_map_entry; i++) {
-   173			if (!(atu->enable_entry & BIT(i))) {
-   174				atu->enable_entry |= BIT(i);
-   175				atu->iova[i] = iova;
-   176				atu->paddr[i] = paddr;
-   177				atu->size[i] = size;
-   178	
-   179				visconti_atu_enable_entry(atu, i);
-   180				break;
-   181			}
-   182		}
-   183		spin_unlock_irqrestore(&atu->lock, flags);
-   184	
-   185		if (i == atu->num_map_entry) {
-   186			dev_err(atu->dev, "map: not enough entry.\n");
-   187			return -ENOMEM;
-   188		}
-   189	
-   190		return 0;
-   191	}
-   192	
-   193	static size_t visconti_atu_unmap(struct iommu_domain *io_domain,
-   194					 unsigned long iova,
-   195					 size_t size,
- > 196					 struct iommu_iotlb_gather *iotlb_gather)
-   197	{
-   198		struct visconti_atu_domain *domain = to_atu_domain(io_domain);
-   199		struct visconti_atu_device *atu = domain->atu;
-   200		size_t tmp_size = size;
-   201		unsigned long flags;
-   202		unsigned int i;
-   203	
-   204		spin_lock_irqsave(&atu->lock, flags);
-   205	
-   206		while (tmp_size != 0) {
-   207			for (i = 0; i < atu->num_map_entry; i++) {
-   208				if (atu->iova[i] != iova)
-   209					continue;
-   210	
-   211				atu->enable_entry &= ~BIT(i);
-   212				iova += atu->size[i];
-   213				tmp_size -= atu->size[i];
-   214	
-   215				visconti_atu_disable_entry(atu);
-   216	
-   217				break;
-   218			}
-   219			if (i == atu->num_map_entry) {
-   220				dev_err(atu->dev, "unmap: not found entry.\n");
-   221				size = 0;
-   222				goto out;
-   223			}
-   224		}
-   225	
-   226		if (!atu->num_map_entry)
-   227			visconti_atu_write(atu, ATU_AT_EN, 0);
-   228	out:
-   229		spin_unlock_irqrestore(&atu->lock, flags);
-   230		return size;
-   231	}
-   232	
-   233	static phys_addr_t visconti_atu_iova_to_phys(struct iommu_domain *io_domain,
-   234						     dma_addr_t iova)
-   235	{
-   236		struct visconti_atu_domain *domain = to_atu_domain(io_domain);
-   237		struct visconti_atu_device *atu = domain->atu;
-   238		phys_addr_t paddr = 0;
-   239		unsigned int i;
-   240	
-   241		for (i = 0; i < atu->num_map_entry; i++) {
-   242			if (!(atu->enable_entry & BIT(i)))
-   243				continue;
-   244			if (atu->iova[i] <= iova && iova < (atu->iova[i] + atu->size[i])) {
-   245				paddr = atu->paddr[i];
-   246				paddr += iova & (atu->size[i] - 1);
-   247				break;
-   248			}
-   249		}
-   250	
-   251		dev_dbg(atu->dev, "iova_to_phys: %llx -> %llx\n", iova, paddr);
-   252	
-   253		return paddr;
-   254	}
-   255	
-   256	static int visconti_atu_of_xlate(struct device *dev, struct of_phandle_args *args)
-   257	{
-   258		if (!dev_iommu_priv_get(dev)) {
-   259			struct platform_device *pdev;
-   260	
-   261			pdev = of_find_device_by_node(args->np);
-   262			dev_iommu_priv_set(dev, platform_get_drvdata(pdev));
-   263			platform_device_put(pdev);
-   264		}
-   265	
-   266		return 0;
-   267	}
-   268	
-   269	static struct iommu_domain *visconti_atu_domain_alloc(unsigned int type)
-   270	{
-   271		struct visconti_atu_domain *domain;
-   272	
-   273		if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
-   274			return NULL;
-   275	
-   276		domain = kzalloc(sizeof(*domain), GFP_KERNEL);
-   277		if (!domain)
-   278			return NULL;
-   279	
-   280		mutex_init(&domain->mutex);
-   281	
-   282		domain->io_domain.geometry.aperture_start = 0;
-   283		domain->io_domain.geometry.aperture_end = DMA_BIT_MASK(32);
-   284		domain->io_domain.geometry.force_aperture = true;
-   285	
-   286		return &domain->io_domain;
-   287	}
-   288	
-   289	static void visconti_atu_domain_free(struct iommu_domain *io_domain)
-   290	{
-   291		struct visconti_atu_domain *domain = to_atu_domain(io_domain);
-   292	
-   293		kfree(domain);
-   294	}
-   295	
-   296	static struct iommu_device *visconti_atu_probe_device(struct device *dev)
-   297	{
- > 298		struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-   299		struct visconti_atu_device *atu;
-   300	
-   301		if (!fwspec || fwspec->ops != &visconti_atu_ops)
-   302			return ERR_PTR(-ENODEV);
-   303	
- > 304		atu = dev_iommu_priv_get(dev);
-   305		return &atu->iommu;
-   306	}
-   307	
-   308	static void visconti_atu_release_device(struct device *dev)
-   309	{
-   310		struct visconti_atu_device *atu = dev_iommu_priv_get(dev);
-   311	
-   312		if (!atu)
-   313			return;
-   314	
-   315		iommu_fwspec_free(dev);
-   316	}
-   317	
-   318	static const struct iommu_ops visconti_atu_ops = {
- > 319		.domain_alloc = visconti_atu_domain_alloc,
-   320		.probe_device = visconti_atu_probe_device,
-   321		.release_device = visconti_atu_release_device,
-   322		.device_group = generic_device_group,
-   323		.of_xlate = visconti_atu_of_xlate,
-   324		.pgsize_bitmap = ATU_IOMMU_PGSIZE_BITMAP,
-   325		.default_domain_ops = &(const struct iommu_domain_ops) {
-   326			.attach_dev = visconti_atu_attach_device,
-   327			.detach_dev = visconti_atu_detach_device,
-   328			.map = visconti_atu_map,
-   329			.unmap = visconti_atu_unmap,
-   330			.iova_to_phys = visconti_atu_iova_to_phys,
-   331			.free = visconti_atu_domain_free,
-   332		}
-   333	};
-   334	
-
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index be066c1503d3..d6e0afddcbfd 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -149,6 +149,10 @@
+ #define ARM_V7S_TTBR_IRGN_ATTR(attr)					\
+ 	((((attr) & 0x1) << 6) | (((attr) & 0x2) >> 1))
+ 
++/* Mediatek extend ttbr bits[2:0] for PA bits[34:32] */
++#define ARM_V7S_TTBR_35BIT_PA(ttbr, pa)					\
++	((ttbr & ((u32)(~0U << 3))) | ((pa & GENMASK_ULL(34, 32)) >> 32))
++
+ #ifdef CONFIG_ZONE_DMA32
+ #define ARM_V7S_TABLE_GFP_DMA GFP_DMA32
+ #define ARM_V7S_TABLE_SLAB_FLAGS SLAB_CACHE_DMA32
+@@ -182,14 +186,8 @@ static bool arm_v7s_is_mtk_enabled(struct io_pgtable_cfg *cfg)
+ 		(cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_EXT);
+ }
+ 
+-static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
+-				    struct io_pgtable_cfg *cfg)
++static arm_v7s_iopte to_iopte_mtk(phys_addr_t paddr, arm_v7s_iopte pte)
+ {
+-	arm_v7s_iopte pte = paddr & ARM_V7S_LVL_MASK(lvl);
+-
+-	if (!arm_v7s_is_mtk_enabled(cfg))
+-		return pte;
+-
+ 	if (paddr & BIT_ULL(32))
+ 		pte |= ARM_V7S_ATTR_MTK_PA_BIT32;
+ 	if (paddr & BIT_ULL(33))
+@@ -199,6 +197,17 @@ static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
+ 	return pte;
+ }
+ 
++static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
++				    struct io_pgtable_cfg *cfg)
++{
++	arm_v7s_iopte pte = paddr & ARM_V7S_LVL_MASK(lvl);
++
++	if (!arm_v7s_is_mtk_enabled(cfg))
++		return pte;
++
++	return to_iopte_mtk(paddr, pte);
++}
++
+ static phys_addr_t iopte_to_paddr(arm_v7s_iopte pte, int lvl,
+ 				  struct io_pgtable_cfg *cfg)
+ {
+@@ -234,6 +243,7 @@ static arm_v7s_iopte *iopte_deref(arm_v7s_iopte pte, int lvl,
+ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
+ 				   struct arm_v7s_io_pgtable *data)
+ {
++	gfp_t gfp_l1 = __GFP_ZERO | ARM_V7S_TABLE_GFP_DMA;
+ 	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+ 	struct device *dev = cfg->iommu_dev;
+ 	phys_addr_t phys;
+@@ -241,9 +251,11 @@ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
+ 	size_t size = ARM_V7S_TABLE_SIZE(lvl, cfg);
+ 	void *table = NULL;
+ 
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		gfp_l1 = GFP_KERNEL | __GFP_ZERO;
++
+ 	if (lvl == 1)
+-		table = (void *)__get_free_pages(
+-			__GFP_ZERO | ARM_V7S_TABLE_GFP_DMA, get_order(size));
++		table = (void *)__get_free_pages(gfp_l1, get_order(size));
+ 	else if (lvl == 2)
+ 		table = kmem_cache_zalloc(data->l2_tables, gfp);
+ 
+@@ -251,7 +263,8 @@ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
+ 		return NULL;
+ 
+ 	phys = virt_to_phys(table);
+-	if (phys != (arm_v7s_iopte)phys) {
++	if (phys != (arm_v7s_iopte)phys &&
++	    !(cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)) {
+ 		/* Doesn't fit in PTE */
+ 		dev_err(dev, "Page table does not fit in PTE: %pa", &phys);
+ 		goto out_free;
+@@ -457,9 +470,14 @@ static arm_v7s_iopte arm_v7s_install_table(arm_v7s_iopte *table,
+ 					   arm_v7s_iopte curr,
+ 					   struct io_pgtable_cfg *cfg)
+ {
++	phys_addr_t phys = virt_to_phys(table);
+ 	arm_v7s_iopte old, new;
+ 
+-	new = virt_to_phys(table) | ARM_V7S_PTE_TYPE_TABLE;
++	new = phys | ARM_V7S_PTE_TYPE_TABLE;
++
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		new = to_iopte_mtk(phys, new);
++
+ 	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS)
+ 		new |= ARM_V7S_ATTR_NS_TABLE;
+ 
+@@ -778,7 +796,9 @@ static phys_addr_t arm_v7s_iova_to_phys(struct io_pgtable_ops *ops,
+ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 						void *cookie)
+ {
++	slab_flags_t slab_flag = ARM_V7S_TABLE_SLAB_FLAGS;
+ 	struct arm_v7s_io_pgtable *data;
++	phys_addr_t paddr;
+ 
+ 	if (cfg->ias > (arm_v7s_is_mtk_enabled(cfg) ? 34 : ARM_V7S_ADDR_BITS))
+ 		return NULL;
+@@ -788,7 +808,8 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 
+ 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
+ 			    IO_PGTABLE_QUIRK_NO_PERMS |
+-			    IO_PGTABLE_QUIRK_ARM_MTK_EXT))
++			    IO_PGTABLE_QUIRK_ARM_MTK_EXT |
++			    IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT))
+ 		return NULL;
+ 
+ 	/* If ARM_MTK_4GB is enabled, the NO_PERMS is also expected. */
+@@ -801,10 +822,12 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 		return NULL;
+ 
+ 	spin_lock_init(&data->split_lock);
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		slab_flag = 0;
+ 	data->l2_tables = kmem_cache_create("io-pgtable_armv7s_l2",
+ 					    ARM_V7S_TABLE_SIZE(2, cfg),
+ 					    ARM_V7S_TABLE_SIZE(2, cfg),
+-					    ARM_V7S_TABLE_SLAB_FLAGS, NULL);
++					    slab_flag, NULL);
+ 	if (!data->l2_tables)
+ 		goto out_free_data;
+ 
+@@ -850,12 +873,17 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 	wmb();
+ 
+ 	/* TTBR */
+-	cfg->arm_v7s_cfg.ttbr = virt_to_phys(data->pgd) | ARM_V7S_TTBR_S |
++	paddr = virt_to_phys(data->pgd);
++	cfg->arm_v7s_cfg.ttbr = paddr | ARM_V7S_TTBR_S |
+ 				(cfg->coherent_walk ? (ARM_V7S_TTBR_NOS |
+ 				 ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_WBWA) |
+ 				 ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_WBWA)) :
+ 				(ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_NC) |
+ 				 ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_NC)));
++
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		cfg->arm_v7s_cfg.ttbr =
++			ARM_V7S_TTBR_35BIT_PA(cfg->arm_v7s_cfg.ttbr, paddr);
+ 	return &data->iop;
+ 
+ out_free_data:
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index 86af6f0a00a2..7ed15ad4710c 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -74,17 +74,22 @@ struct io_pgtable_cfg {
+ 	 *	to support up to 35 bits PA where the bit32, bit33 and bit34 are
+ 	 *	encoded in the bit9, bit4 and bit5 of the PTE respectively.
+ 	 *
++	 * IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT: (ARM v7s format) MediaTek IOMMUs
++	 *	extend the translation table support up to 35 bits PA, the
++	 *	encoding format is same with IO_PGTABLE_QUIRK_ARM_MTK_EXT.
++	 *
+ 	 * IO_PGTABLE_QUIRK_ARM_TTBR1: (ARM LPAE format) Configure the table
+ 	 *	for use in the upper half of a split address space.
+ 	 *
+ 	 * IO_PGTABLE_QUIRK_ARM_OUTER_WBWA: Override the outer-cacheability
+ 	 *	attributes set in the TCR for a non-coherent page-table walker.
+ 	 */
+-	#define IO_PGTABLE_QUIRK_ARM_NS		BIT(0)
+-	#define IO_PGTABLE_QUIRK_NO_PERMS	BIT(1)
+-	#define IO_PGTABLE_QUIRK_ARM_MTK_EXT	BIT(3)
+-	#define IO_PGTABLE_QUIRK_ARM_TTBR1	BIT(5)
+-	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA	BIT(6)
++	#define IO_PGTABLE_QUIRK_ARM_NS			BIT(0)
++	#define IO_PGTABLE_QUIRK_NO_PERMS		BIT(1)
++	#define IO_PGTABLE_QUIRK_ARM_MTK_EXT		BIT(3)
++	#define IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT	BIT(4)
++	#define IO_PGTABLE_QUIRK_ARM_TTBR1		BIT(5)
++	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA		BIT(6)
+ 	unsigned long			quirks;
+ 	unsigned long			pgsize_bitmap;
+ 	unsigned int			ias;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.18.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
