@@ -1,87 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46078533563
-	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 04:38:36 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4E05335CF
+	for <lists.iommu@lfdr.de>; Wed, 25 May 2022 05:28:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id EB3A960AAC;
-	Wed, 25 May 2022 02:38:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3A98C60BD5;
+	Wed, 25 May 2022 03:28:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LoHh23PKV2PA; Wed, 25 May 2022 02:38:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id F14EC605A1;
-	Wed, 25 May 2022 02:38:33 +0000 (UTC)
+	with ESMTP id 7vXgG036e9_9; Wed, 25 May 2022 03:28:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3A62460B14;
+	Wed, 25 May 2022 03:28:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7BF6C007E;
-	Wed, 25 May 2022 02:38:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B2E1C007E;
+	Wed, 25 May 2022 03:28:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 86E6BC002D
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:38:32 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 361B9C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 03:28:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 63E174090B
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:38:32 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1041F8349A
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 03:28:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=intel.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u9yroiQVZKlQ for <iommu@lists.linux-foundation.org>;
- Wed, 25 May 2022 02:38:31 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MHEfNgEfNFUa for <iommu@lists.linux-foundation.org>;
+ Wed, 25 May 2022 03:28:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2690E40905
- for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 02:38:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653446311; x=1684982311;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SdlZnAu2OMh5vWqWaY7d/SJjgLMefXlumhmFyk3EdaY=;
- b=DCuV0cLHDPBXNIahy2SHIJoGKEvYhir58Nqklh1pvzRONt6CpUVdI46I
- NowPvKMwr55h2HPbu7FHOlUdv+c5pIkJqOndIjbSjl2jpVitp1KblLrF8
- kxgiBmGuiXFPJMLQXcUB96RPIhca7TsouvYxHfcWoCLypHdxDWkoukwQl
- aOYyg6VbKbZ5xuK4Fr4i16Y39jb8bThuFo+8qtXU6LKgfdrN01No/BB6l
- q/zPpOSs7T6okpW7FMyw3xfNDB/NxGrbHCmXueH3HHkavzUqTce0cSo6J
- 99Y9u3Pk/5Oe3rsdTk8/p2wl0XqkfTESvuhcuGVkQy+BP4AwJoUFMMl6C g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="273426049"
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="273426049"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 19:38:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="601611754"
-Received: from jwang96-mobl.ccr.corp.intel.com (HELO [10.255.29.139])
- ([10.255.29.139])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 19:38:26 -0700
-Message-ID: <5d1e2178-ac4c-a864-59b4-d297a3366f6a@linux.intel.com>
-Date: Wed, 25 May 2022 10:38:24 +0800
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DB30C82FA2
+ for <iommu@lists.linux-foundation.org>; Wed, 25 May 2022 03:28:22 +0000 (UTC)
+X-UUID: 01a910ce870243ac929270e8b9848174-20220525
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:c4016c45-e276-4a22-b8f1-b1a8da546e26, OB:10,
+ L
+ OB:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:56
+X-CID-INFO: VERSION:1.1.5, REQID:c4016c45-e276-4a22-b8f1-b1a8da546e26, OB:10,
+ LOB
+ :0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:56
+X-CID-META: VersionHash:2a19b09, CLOUDID:b7f01fb8-3c45-407b-8f66-25095432a27a,
+ C
+ OID:bf78fb8f7416,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:0,BEC:nil
+X-UUID: 01a910ce870243ac929270e8b9848174-20220525
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <yf.wang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1293842912; Wed, 25 May 2022 11:28:13 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 25 May 2022 11:28:12 +0800
+Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Wed, 25 May 2022 11:28:10 +0800
+To: <miles.chen@mediatek.com>
+Subject: Re: [PATCH v5 1/2] iommu/io-pgtable-arm-v7s: Add a quirk to allow
+ pgtable PA up to 35bit
+Date: Wed, 25 May 2022 11:21:33 +0800
+Message-ID: <20220525032133.29053-1-yf.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220519062756.14447-1-miles.chen@mediatek.com>
+References: <20220519062756.14447-1-miles.chen@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v7 03/10] iommu/sva: Add iommu_sva_domain support
-Content-Language: en-US
-To: "Tian, Kevin" <kevin.tian@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <20220519072047.2996983-1-baolu.lu@linux.intel.com>
- <20220519072047.2996983-4-baolu.lu@linux.intel.com>
- <BN9PR11MB5276982C37DFF0FEFC45BDD68CD79@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220524133839.GS1343366@nvidia.com>
- <BN9PR11MB52767C320271EC422B1D55228CD69@BN9PR11MB5276.namprd11.prod.outlook.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <BN9PR11MB52767C320271EC422B1D55228CD69@BN9PR11MB5276.namprd11.prod.outlook.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Jiang,
- Dave" <dave.jiang@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Will Deacon <will@kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Vinod Koul <vkoul@kernel.org>, "Pan, Jacob jun" <jacob.jun.pan@intel.com>,
- Robin Murphy <robin.murphy@arm.com>
+X-MTK: N
+Cc: isaacm@codeaurora.org, wsd_upstream@mediatek.com, will@kernel.org,
+ linux-kernel@vger.kernel.org, Libo.Kang@mediatek.com,
+ iommu@lists.linux-foundation.org, yf.wang@mediatek.com,
+ linux-mediatek@lists.infradead.org, ning.li@mediatek.com,
+ matthias.bgg@gmail.com, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,79 +88,71 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: "yf.wang--- via iommu" <iommu@lists.linux-foundation.org>
+Reply-To: yf.wang@mediatek.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022/5/25 08:44, Tian, Kevin wrote:
->> From: Jason Gunthorpe <jgg@nvidia.com>
->> Sent: Tuesday, May 24, 2022 9:39 PM
->>
->> On Tue, May 24, 2022 at 09:39:52AM +0000, Tian, Kevin wrote:
->>>> From: Lu Baolu <baolu.lu@linux.intel.com>
->>>> Sent: Thursday, May 19, 2022 3:21 PM
->>>>
->>>> The iommu_sva_domain represents a hardware pagetable that the
->> IOMMU
->>>> hardware could use for SVA translation. This adds some infrastructure
->>>> to support SVA domain in the iommu common layer. It includes:
->>>>
->>>> - Add a new struct iommu_sva_domain and new IOMMU_DOMAIN_SVA
->>>> domain
->>>>    type.
->>>> - Add a new domain ops pointer in iommu_ops. The IOMMU drivers that
->>>>    support SVA should provide the callbacks.
->>>> - Add helpers to allocate and free an SVA domain.
->>>> - Add helpers to set an SVA domain to a device and the reverse
->>>>    operation.
->>>>
->>>> Some buses, like PCI, route packets without considering the PASID value.
->>>> Thus a DMA target address with PASID might be treated as P2P if the
->>>> address falls into the MMIO BAR of other devices in the group. To make
->>>> things simple, the attach/detach interfaces only apply to devices
->>>> belonging to the singleton groups, and the singleton is immutable in
->>>> fabric i.e. not affected by hotplug.
->>>>
->>>> The iommu_set/block_device_pasid() can be used for other purposes,
->>>> such as kernel DMA with pasid, mediation device, etc. Hence, it is put
->>>> in the iommu.c.
->>>
->>> usually we have 'set/clear' pair or 'allow/block'. Having 'set' paired
->>> with 'block' doesn't read very clearly.
->>
->> I thought we agreed we'd use the blocking domain for this? Why did it
->> go back to an op?
->>
+On Thu, 2022-05-19 at 14:27 +0800, Miles Chen wrote:
+> Hi Yunfei,
 > 
-> Probably it's based on following discussion:
+> > The calling to kmem_cache_alloc for level 2 pgtable allocation may
+> > run
+> > in atomic context, and it fails sometimes when DMA32 zone runs out
+> > of
+> > memory.
+> > 
+> > Since Mediatek IOMMU hardware support at most 35bit PA in pgtable,
+> > so add a quirk to allow the PA of pgtables support up to bit35.
+> > 
+> > Signed-off-by: Ning Li <ning.li@mediatek.com>
+> > Signed-off-by: Yunfei Wang <yf.wang@mediatek.com>
+> > ---
+> >  drivers/iommu/io-pgtable-arm-v7s.c | 56 ++++++++++++++++++++++--
+> > ------
+> >  include/linux/io-pgtable.h         | 15 +++++---
+> >  2 files changed, 52 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-
+> > pgtable-arm-v7s.c
 > 
-> https://lore.kernel.org/all/c8492b29-bc27-ae12-d5c4-9fbbc797e310@linux.intel.com/
+> ...snip...
 > 
-> --
->> FWIW from my point of view I'm happy with having a .detach_dev_pasid op
->> meaning implicitly-blocked access for now.
+> > +     gfp_t gfp_l1 = __GFP_ZERO | ARM_V7S_TABLE_GFP_DMA;
+> >       struct io_pgtable_cfg *cfg = &data->iop.cfg;
+> >       struct device *dev = cfg->iommu_dev;
+> >       phys_addr_t phys;
+> > @@ -241,9 +251,11 @@ static void *__arm_v7s_alloc_table(int lvl,
+> > gfp_t gfp,
+> >       size_t size = ARM_V7S_TABLE_SIZE(lvl, cfg);
+> >       void *table = NULL;
+> > 
+> > +     if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
+> > +             gfp_l1 = __GFP_ZERO;
 > 
-> If this is the path then lets not call it attach/detach
-> please. 'set_dev_pasid' and 'set_dev_blocking_pasid' are clearer
-> names.
+> __GFP_ZERO is an action modifier, if we do not want
+> ARM_V7S_TABLE_GFP_DMA (GFP_DMA/GFP_DMA32), use gfp_l1 = (GFP_KERNEL |
+> __GFP_ZERO)
+> 
 
-Yes. Learning from above discussion, we are about to implement the
-set_dev_pasid and blocking domain in parallel. We will convert all
-the callback names to set_dev and set_dev_pasid after blocking domain
-support is merged.
+Hi Miles,
+Thanks for the suggestion, we will update it in the next version.
 
-> --
-> 
-> Looks Baolu chooses this path and plans to use the blocking domain
-> later.
+Thanks,
+Yunfei.
 
-Yes. I have already started to implement the blocking domain in Intel
-driver. With it as an example, we can extend it to other possible IOMMU
-drivers.
-
-Best regards,
-baolu
+> > +
+> >       if (lvl == 1)
+> > -             table = (void *)__get_free_pages(
+> > -                     __GFP_ZERO | ARM_V7S_TABLE_GFP_DMA,
+> > get_order(size));
+> > +             table = (void *)__get_free_pages(gfp_l1,
+> > get_order(size));
+> >       else if (lvl == 2)
+> >               table = kmem_cache_zalloc(data->l2_tables, gfp);
+> > 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
