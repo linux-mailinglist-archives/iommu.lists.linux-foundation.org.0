@@ -1,96 +1,164 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04D2534EBC
-	for <lists.iommu@lfdr.de>; Thu, 26 May 2022 14:01:27 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A980B535384
+	for <lists.iommu@lfdr.de>; Thu, 26 May 2022 20:43:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1B0E142569;
-	Thu, 26 May 2022 12:01:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5641642603;
+	Thu, 26 May 2022 18:43:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0r7VhRqAW-5r; Thu, 26 May 2022 12:01:25 +0000 (UTC)
+	with ESMTP id U9eZzc8wNbA9; Thu, 26 May 2022 18:43:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0412742565;
-	Thu, 26 May 2022 12:01:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3989242602;
+	Thu, 26 May 2022 18:43:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BD265C002D;
-	Thu, 26 May 2022 12:01:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EBA0C007E;
+	Thu, 26 May 2022 18:43:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 85039C002D
- for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 12:01:22 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF54CC002D
+ for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 18:43:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 74DCF845EB
- for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 12:01:22 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9389E40476
+ for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 18:43:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qDz1NSZvy5IW for <iommu@lists.linux-foundation.org>;
- Thu, 26 May 2022 12:01:21 +0000 (UTC)
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=microsoft.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id y8gIy-i2cvi8 for <iommu@lists.linux-foundation.org>;
+ Thu, 26 May 2022 18:43:51 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 48831845C7
- for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 12:01:21 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id 137so1161625pgb.5
- for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 05:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oaqG6keHyyCSAVb73eGtDPFdUcregAH3H4j2SG+oYUM=;
- b=kJazciJ8tosHNjEcGmQPRBsvV97CnX70u9eK1RMlJ7V8o0r69g17gCeql6TfT+VBhX
- b4cMWi4Vynnv0NTYxJgk1dNRtzcobgplTF+zC1VmCzXPBsk1NEmKS4IbkpPrA2jw4skU
- uRTzcZEwW/+oVg9UZJUsxMbFQ+rzfMvx6al2/hSBbUmaJq36/1MoI759wCzU4FDN3eib
- ebc0SfzXGHwpq/TsybeSupVrN7GlsXmhFaK7e/hDvHqlV/+epOYsvvATdIW3I8YBpo/g
- 7yDlGNoT9YK7Vyvvew/SrrKf07ENspk3z2GefeXk7ZOA/Abdi/+EuqFzZ9wVtlMpnOP3
- vzJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oaqG6keHyyCSAVb73eGtDPFdUcregAH3H4j2SG+oYUM=;
- b=6GvoPQf0D1zbDshrN5UZ8EXTRC0a9FNsEBIjifYjqPUjTYDPR9VcXNbTfnt+KzI9rA
- YApsio97C98pSdUaSFgmRY8gNgkOJJnBJ3JpNzBwIVhS29ukpFBkyOBWLqVCRIvwhCGy
- EVuI4vs9RpVKJeQUj9k8uHYYnXhkVn36jEznDpH5ZNA8lf8NEftxeOAKVs83DDnMtJYl
- yFuURXVkPNTilx3t6O2dUsAtEJRfcoSvh10Tz72w9h1P3FDzlNcQAH9a6s4klsXKNmQV
- yTENWUpguhjUBSY7zoiPIBpcpHAQpIbvbQvaOYcKZD3DkreDOAWLjOBY4i9z2CZGVR9q
- F4Qg==
-X-Gm-Message-State: AOAM532NEySejghjtO9jRan0k8bfwQe52LxaAD9IB+Mpn+BlVa9uiME6
- lVOtH65H1zT7KwOBKEXY9s8=
-X-Google-Smtp-Source: ABdhPJwX2SpqKU5d/cL5IEDu3OEqy5GvPcCmDcmiNn5GROww05NYfwGcdG7Hd0ARlyh8HFsXeDYNUA==
-X-Received: by 2002:a63:5:0:b0:3c6:dcb2:428 with SMTP id
- 5-20020a630005000000b003c6dcb20428mr32725819pga.73.1653566480747; 
- Thu, 26 May 2022 05:01:20 -0700 (PDT)
-Received: from ubuntu-Virtual-Machine.corp.microsoft.com
- ([2001:4898:80e8:1:45c7:d5e2:7b45:3336])
- by smtp.gmail.com with ESMTPSA id
- bi7-20020a170902bf0700b0015e8d4eb282sm1328190plb.204.2022.05.26.05.01.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 05:01:20 -0700 (PDT)
-From: Tianyu Lan <ltykernel@gmail.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, hch@infradead.org,
- m.szyprowski@samsung.com, robin.murphy@arm.com,
- michael.h.kelley@microsoft.com
-Subject: [RFC PATCH V3 2/2] net: netvsc: Allocate per-device swiotlb bounce
- buffer for netvsc
-Date: Thu, 26 May 2022 08:01:12 -0400
-Message-Id: <20220526120113.971512-3-ltykernel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220526120113.971512-1-ltykernel@gmail.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2072f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eae::72f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8EFA840150
+ for <iommu@lists.linux-foundation.org>; Thu, 26 May 2022 18:43:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E4mQizjsAl+moeJ88aNKUvH7usitH82Tel8wGoJR7v1Ce2E7dmbdiTuylLhLBjNxVIKt0imaEtk5QEbTSJsKPUmdplT9QtaEnFAFEB6+peoUb+SBlKDkqBnfXPVhh4WFCqICzrCgwuAIzi3oeuLN+czUTtLkH3XY+zGvli+dunVJdSq64PGplI9z/tM6WrBcUOe5ozzPN3WKoWD1VTu0hEMlNiwAkeqXaL9b14x8Kp4VQtU4CdEQb7md7vfozSy4LRtes0YAAbzH89S+cEDX8sjJapBrHAsNHGJcgiKesedhpcb03FWFEA4c8hwNRNYKuq7aLYf0F/Xe9g0rloFQSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8ZJUbdOzt9vjIbHWJjpWnO/2y32Mi1Lq93ApYcdiufE=;
+ b=I/dcx15h+Yh1b8O8tFLMAP2VluzFo4fbRsibYEun0MVeJl+p2JmcsYV7NIWfjQ+QPbXZjnDDXv8KjrFPUqaA/YJkQMbUqntYGeIxQ00b3vjsdZL2UYOxZE+XxBlwBTNFr0pkdKzbv6A3ZE5qibnBPaXPQfKyordNGityCj7V88SYDPt5tz1jfZrKJQK6O0JSCKr1z8lShuGM9ySJ70MP1AKyxkELYiCdw72wgNu9Md5ZOl4k+rynICrCzWi9+DasSLU91VAkpBdm650gqElMOtKQpOvFkAgwS+3+ZXg9igm5TLBYw6zOna6fAhh8ckxyqE3BKrrCUVDXAkSP7FXSnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8ZJUbdOzt9vjIbHWJjpWnO/2y32Mi1Lq93ApYcdiufE=;
+ b=YXgcrCnRTsrWqnyPRdmRgujEuIsN8kTLgxuw5Robf2HLXNC2jk0KnEsKrFgA7/c3HEzgz5lArcNqIzudh15DQTDMQKlvLMMIZZjTjlbsu3NQrpitor4Qo8uZoPXLmTcIoBm9ps05XUrSJQul32QuboDvb9BSNJeao8uhaOPX8c4=
+Received: from BYAPR21MB1270.namprd21.prod.outlook.com (2603:10b6:a03:105::15)
+ by BY5PR21MB1459.namprd21.prod.outlook.com (2603:10b6:a03:232::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.6; Thu, 26 May
+ 2022 18:43:47 +0000
+Received: from BYAPR21MB1270.namprd21.prod.outlook.com
+ ([fe80::b4e0:efdb:daf9:ba4e]) by BYAPR21MB1270.namprd21.prod.outlook.com
+ ([fe80::b4e0:efdb:daf9:ba4e%5]) with mapi id 15.20.5314.006; Thu, 26 May 2022
+ 18:43:47 +0000
+To: Tianyu Lan <ltykernel@gmail.com>, KY Srinivasan <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Stephen Hemminger
+ <sthemmin@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
+ <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+ "hch@infradead.org" <hch@infradead.org>, "m.szyprowski@samsung.com"
+ <m.szyprowski@samsung.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Subject: RE: [RFC PATCH V3 2/2] net: netvsc: Allocate per-device swiotlb
+ bounce buffer for netvsc
+Thread-Topic: [RFC PATCH V3 2/2] net: netvsc: Allocate per-device swiotlb
+ bounce buffer for netvsc
+Thread-Index: AQHYcPhTFgvyOX9730i1pET/mIHWX60xfloA
+Date: Thu, 26 May 2022 18:43:47 +0000
+Message-ID: <BYAPR21MB12706372826A3ABAEF42E716BFD99@BYAPR21MB1270.namprd21.prod.outlook.com>
 References: <20220526120113.971512-1-ltykernel@gmail.com>
+ <20220526120113.971512-3-ltykernel@gmail.com>
+In-Reply-To: <20220526120113.971512-3-ltykernel@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=6f7409cc-6851-490c-9045-caf57b4abfcf;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-05-26T18:41:01Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bafcdd98-e920-455c-2dde-08da3f47ab16
+x-ms-traffictypediagnostic: BY5PR21MB1459:EE_
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <BY5PR21MB1459CDFC98DFFC97ABD49A94BFD99@BY5PR21MB1459.namprd21.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5lEXgbmKstaVe0zDImGBSnsCE2DNJ8YVVOwK/40dR0k5rkV0y5Hy7l64xftEqQK8LAVe046YR6eq74zuiIGiDF5FG+wVTWkSijWDKtp6cVT22Qfe9lGhe8EMUK8eUBshRJGadrXJ/usLFqHwt22vqzeTWOw+1t0/aCGdO/cmUuVTqoy6JUudzlgrVLbSM1qhzuVejCihqXw7MSf7WJEXcpV/nLHnm+umZMiBDuol5tMqfdBRvCLxd4qLC3icQVtN5rekMhA1nS4KM2wpxG8F7djjVtrU9BXJ7i2haZPks4j6rK6spxF47OBnntlCcagFp1UtN5uXzsDbwBC2VAEQXocMwPamDAC6ewojNaX4mB9h7fyLCoGUbv28c2Z1D/zeLUU0fKsPQl5pnqr1jI+bWhPkefFVU8HBNAGV4fWBipO97gXd+6Kp7azKMRIQ1SK6nrNL9viH186RL9UodhtDKPjkOBPtdDOgb1rkHLnYA67bxp3ZzpeLA1UVHAx9OHlRy4fTrXTEr0IoHeI1eLdWJQjSfreJkWWNDkOVuRO0uuTxZf5gOUy40si/0Px/edhbRZK7dBZWHgfUXHLZKySlO+dZ64J2NFHjU1HQDWHl7b1IMSYsvdXxDfra9RhuJChPRVBykq/0kff1qy3xHb48LXGiA42EZYWS4yEQgunCQO2cxibjzcfKS7EmykFrkTKQ3hmlkt6wtIzrlhJ14sSQhG6Iqu6+jl3p/z7mXJpDsfKgzHiDzbRd7VvLI2oMTgL5nGQJtBWyfCsYTgRWXjTHmA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR21MB1270.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(451199009)(10290500003)(38100700002)(2906002)(5660300002)(921005)(82960400001)(82950400001)(122000001)(52536014)(8936002)(4744005)(7696005)(6506007)(508600001)(54906003)(7416002)(110136005)(55016003)(6636002)(76116006)(86362001)(8990500004)(316002)(9686003)(4326008)(26005)(66946007)(66476007)(66556008)(66446008)(64756008)(8676002)(33656002)(38070700005)(71200400001)(186003)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ni6cA3TfwxYgEn00f7d+KVVSaskz78zk0vHA6cS6ca6F8WKPsMrUbmSxw7Vd?=
+ =?us-ascii?Q?ww1USAieESqH4iUZzicSW8dobKZECP2+ue+qKhYFJ9M/u1y9bLhOuwoDVq1Q?=
+ =?us-ascii?Q?LH69xEs7N6GLVUPbBN/nTlqG4Ek3aRYfzSdXvc09WRv7UjQMCltBXxW88SwR?=
+ =?us-ascii?Q?iEN4Tr9CqTq31WqGy34IvTVioWnsBmyIZ6LuTgbaYJmLGJlCBlj/LcjxvGzn?=
+ =?us-ascii?Q?gNvBorwATwm7K4UDWAdBjT3W79G/oHYVGq7B25XHFlwrZWvb9llt7KD3ORML?=
+ =?us-ascii?Q?3BY9FeKOeMJ25qvneNLhPkLqeb1PmzEwiwI6UjjV+9KtigDQGYHQiV8YuDf0?=
+ =?us-ascii?Q?hAZRPVxX4X7+6WPDcXY1nek4ckDSxvMTxdhAwFXeoquQEZilu711vT6dgCZR?=
+ =?us-ascii?Q?E7o1Z/euYs32maMIW9KDsWFouyhkHGf/hJdcaJ5gFttjofGn+QNW5f2L6lUt?=
+ =?us-ascii?Q?jINYBEt/zVkqY8FTn0qY1RwSNd3YnEKKfVbiRnv/A8r+ng7btWYGziz4MdiN?=
+ =?us-ascii?Q?UOfHTbaw3APJD2Fzs247EyVlRYgrLi3urR/rtawBH0ICMnZkefzzzixUhFIy?=
+ =?us-ascii?Q?1JJlz3TjQMyefjv47dQXyNJUpI0DRI2i5zceIQwxdZVZMUfjr/4Iq9Au8Yn9?=
+ =?us-ascii?Q?ySsyKmeuoY2muCTa4KtkpyyVoOtevbNYFGH/Jp5CJpM3IHFdHAAF6JNpJm9L?=
+ =?us-ascii?Q?Ch6WuGeZbNavJ/4A7FnZ75jQ2C+nDLwWS9g2SdWRyWTE1ZEiZ9JWwJ1CF6V/?=
+ =?us-ascii?Q?olzN0fdvgOrJhEEacKbKmm8K5Ko9UDLpiEp5/48zFt7i/De+GhAEVJuT9WF6?=
+ =?us-ascii?Q?OsVqUOtN0knqmBgnZpLSUkY0/TSmh9oLUXvNnqJn8W3tcEuMWHkAci+aVvii?=
+ =?us-ascii?Q?ccnTA7Xo2RiYNncQWZFw88w4wTVeHwUM82PINWJ83OfUVYuyoNQC16V7PFby?=
+ =?us-ascii?Q?IVXScuZ9AISnSaC1B9mLZ7Ptb/J0Zfk0FEhQjVx5/6b2PlgdX7GNf6cKQ5wF?=
+ =?us-ascii?Q?k+kbBnvicogCShrC17ZaT1mTvUI8T13hlVFuDZeipk3L6x1u5SgNbj1dCej3?=
+ =?us-ascii?Q?hSfoxFADzRTGiWNAi3HUbcPmTRD1whSO9J3QU6RVCrJZa/Su14uvYc9lsguK?=
+ =?us-ascii?Q?WxP6t4EvsxWfcsqY7ghi14r9ulPmO3nB0vBpSf0xzlIVd2nk8Q9VoKvpOpb+?=
+ =?us-ascii?Q?KN9Ou9EG0o6GSj5e0JvCAT9CK6LSoRQbKKZmLMSLe6f7dCXr2Vg2dDiTtmZI?=
+ =?us-ascii?Q?IzOnn3adCEDLgTdwMsiEjkhf70iSEYNz4IB7l973sm1EW/HESi4wHCbuMfHF?=
+ =?us-ascii?Q?yKssj0D4fx+GsN6pHOVUCrsdQsIlXOxLD0HG1ingb4EN8BZBVkFvphcAzvfA?=
+ =?us-ascii?Q?YKEDZFtPyFa6Ru/v4CJFbwFV+ExxsAl3zSRcrxt7ZWrte3vcW3JXBF1se65W?=
+ =?us-ascii?Q?SDMZhVGMTI2+n9Cz24LfDez9fEDZYd+0G0rtx0kOhdZIOO14hQKOlqBgWIT5?=
+ =?us-ascii?Q?jtIryuU33VBi0SXtgzjW/ZpEsY3l1Iw1TG1V35WtBZdE/PA3hDMhn4THndUL?=
+ =?us-ascii?Q?qdOO+BsffL8d4sBSULt+tbERivVm2mTsg68xA/z4Tt0uJUGr3xl7sN8KzyxR?=
+ =?us-ascii?Q?itBN66Tvxq61eTrXJ4OVzNy71icMSvxhhYaMGazl1lHUTdcmkyOfB6VD5Jvg?=
+ =?us-ascii?Q?xQ/xUjEd+SBti2PglQNfLkWbU82swxv5jGz4hUOE45Oh1mEb97A04v09FQek?=
+ =?us-ascii?Q?GGSzHpPYbA=3D=3D?=
 MIME-Version: 1.0
-Cc: parri.andrea@gmail.com, thomas.lendacky@amd.com,
- linux-hyperv@vger.kernel.org, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- konrad.wilk@oracle.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- kirill.shutemov@intel.com, iommu@lists.linux-foundation.org,
- andi.kleen@intel.com, vkuznets@redhat.com, hch@lst.de
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1270.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bafcdd98-e920-455c-2dde-08da3f47ab16
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2022 18:43:47.1619 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QheGt/E8Sf4MlKLQZLHpkOCMe7Yjcw2MvS4ng+oxKGHNJvaMkANpFACw8ahFDvZEtIX5J4Rw883RFNDblXGkOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR21MB1459
+Cc: "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
+ "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kirill.shutemov" <kirill.shutemov@intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "andi.kleen@intel.com" <andi.kleen@intel.com>, vkuznets <vkuznets@redhat.com>,
+ "hch@lst.de" <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,75 +171,30 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Dexuan Cui via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Dexuan Cui <decui@microsoft.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> From: Tianyu Lan <ltykernel@gmail.com>
+> Sent: Thursday, May 26, 2022 5:01 AM
+> ...
+> @@ -119,6 +124,10 @@ static void netvsc_subchan_work(struct work_struct
+> *w)
+>  			nvdev->max_chn = 1;
+>  			nvdev->num_chn = 1;
+>  		}
+> +
+> +		/* Allocate boucne buffer.*/
+> +		swiotlb_device_allocate(&hdev->device, nvdev->num_chn,
+> +				10 * IO_TLB_BLOCK_UNIT);
+>  	}
 
-Netvsc driver allocates device io tlb mem via calling swiotlb_device_
-allocate() and set child io tlb mem number according to device queue
-number. Child io tlb mem may reduce overhead of single spin lock in
-device io tlb mem among multi device queues.
-
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- drivers/net/hyperv/netvsc.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 9442f751ad3a..26a8f8f84fc4 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -23,6 +23,7 @@
- 
- #include <asm/sync_bitops.h>
- #include <asm/mshyperv.h>
-+#include <linux/swiotlb.h>
- 
- #include "hyperv_net.h"
- #include "netvsc_trace.h"
-@@ -98,6 +99,7 @@ static void netvsc_subchan_work(struct work_struct *w)
- 	struct netvsc_device *nvdev =
- 		container_of(w, struct netvsc_device, subchan_work);
- 	struct rndis_device *rdev;
-+	struct hv_device *hdev;
- 	int i, ret;
- 
- 	/* Avoid deadlock with device removal already under RTNL */
-@@ -108,6 +110,9 @@ static void netvsc_subchan_work(struct work_struct *w)
- 
- 	rdev = nvdev->extension;
- 	if (rdev) {
-+		hdev = ((struct net_device_context *)
-+			netdev_priv(rdev->ndev))->device_ctx;
-+
- 		ret = rndis_set_subchannel(rdev->ndev, nvdev, NULL);
- 		if (ret == 0) {
- 			netif_device_attach(rdev->ndev);
-@@ -119,6 +124,10 @@ static void netvsc_subchan_work(struct work_struct *w)
- 			nvdev->max_chn = 1;
- 			nvdev->num_chn = 1;
- 		}
-+
-+		/* Allocate boucne buffer.*/
-+		swiotlb_device_allocate(&hdev->device, nvdev->num_chn,
-+				10 * IO_TLB_BLOCK_UNIT);
- 	}
- 
- 	rtnl_unlock();
-@@ -769,6 +778,7 @@ void netvsc_device_remove(struct hv_device *device)
- 
- 	/* Release all resources */
- 	free_netvsc_device_rcu(net_device);
-+	swiotlb_device_free(&device->device);
- }
- 
- #define RING_AVAIL_PERCENT_HIWATER 20
--- 
-2.25.1
-
+Looks like swiotlb_device_allocate() is not called if the netvsc device
+has only 1 primary channel and no sub-schannel, e.g. in the case of
+single-vCPU VM?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
