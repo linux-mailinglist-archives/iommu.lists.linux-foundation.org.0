@@ -1,62 +1,100 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7028853689E
-	for <lists.iommu@lfdr.de>; Fri, 27 May 2022 23:39:04 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6DE5368E5
+	for <lists.iommu@lfdr.de>; Sat, 28 May 2022 00:41:32 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DB7FF418F5;
-	Fri, 27 May 2022 21:39:02 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4651D42A6B;
+	Fri, 27 May 2022 22:41:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9Tp7knnKAbON; Fri, 27 May 2022 21:39:01 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lDnM5BJ4NJX3; Fri, 27 May 2022 22:41:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A5C3C41904;
-	Fri, 27 May 2022 21:39:01 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id ED3E642A6A;
+	Fri, 27 May 2022 22:41:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96F20C0088;
-	Fri, 27 May 2022 21:39:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A9444C007E;
+	Fri, 27 May 2022 22:41:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2DCB2C002D
- for <iommu@lists.linux-foundation.org>; Fri, 27 May 2022 21:38:58 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74EACC002D
+ for <iommu@lists.linux-foundation.org>; Fri, 27 May 2022 22:41:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 07F3A6F4BA
- for <iommu@lists.linux-foundation.org>; Fri, 27 May 2022 21:38:58 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4CB3F401FB
+ for <iommu@lists.linux-foundation.org>; Fri, 27 May 2022 22:41:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E9PgF7yswGGg for <iommu@lists.linux-foundation.org>;
- Fri, 27 May 2022 21:38:56 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 215BC6F4B1
- for <iommu@lists.linux-foundation.org>; Fri, 27 May 2022 21:38:56 +0000 (UTC)
-Received: from localhost.localdomain (abxh119.neoplus.adsl.tpnet.pl
- [83.9.1.119])
- by m-r1.th.seeweb.it (Postfix) with ESMTPA id 05FF8206D5;
- Fri, 27 May 2022 23:29:43 +0200 (CEST)
-From: Konrad Dybcio <konrad.dybcio@somainline.org>
-To: ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- bjorn.andersson@linaro.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux-foundation.org
-Subject: [PATCH 6/6] iommu/qcom: Add support for QCIOMMUv2 and QCIOMMU-500
- secured contexts
-Date: Fri, 27 May 2022 23:29:01 +0200
-Message-Id: <20220527212901.29268-7-konrad.dybcio@somainline.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220527212901.29268-1-konrad.dybcio@somainline.org>
-References: <20220527212901.29268-1-konrad.dybcio@somainline.org>
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0cXHDKNYpNA1 for <iommu@lists.linux-foundation.org>;
+ Fri, 27 May 2022 22:41:24 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 4EBF8400D0
+ for <iommu@lists.linux-foundation.org>; Fri, 27 May 2022 22:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+ MIME-Version:Date:Message-ID:content-disposition;
+ bh=o7BqcxOiBncbWbb00d8kbjXH2HBy9dF17WHfCcK75YE=; b=EAbzHprt/T+zp9x4cktS1Vebkz
+ acGerWRT8JwrK+2uOMsK1Ug+v3jDk3VFA3oGyBrAB5tnJc982LKNjrUc7OaItvm44nNV0u44SRokZ
+ a3aMc6P6g3Dcnm/C7JZh3H+ypL4Lq77HricOS8CTumdAFqX1Aw+ck4k9NDPBUvo/JUXfo2O48sjlZ
+ B6VODvxwB+jUS8ODQNaeHmeBG7xIM6MOYhPpYhO4MWHp61N4kl2PD/BEUStcacj0MPalPUobpAs4k
+ 8i9nGqdGEyMJNsRptj6r3IEkDWVRoZ20dgOwLKAA1gwwJGWRT+40bKQkdd59LzJPcXRx1hqlcOwcY
+ /4Z0kVGg==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <logang@deltatee.com>)
+ id 1nuidw-009AgX-Kv; Fri, 27 May 2022 16:41:18 -0600
+Message-ID: <d336cfe8-2451-04c3-a2ce-0e8e47afd1e3@deltatee.com>
+Date: Fri, 27 May 2022 16:41:08 -0600
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
- jamipkettunen@somainline.org, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, martin.botka@somainline.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Will Deacon <will@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-CA
+To: Jason Gunthorpe <jgg@ziepe.ca>
+References: <20220407154717.7695-1-logang@deltatee.com>
+ <20220407154717.7695-21-logang@deltatee.com>
+ <20220527125501.GD2960187@ziepe.ca>
+ <a2590e27-41e8-59dc-3576-b5b8d716a198@deltatee.com>
+ <20220527190307.GG2960187@ziepe.ca>
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20220527190307.GG2960187@ziepe.ca>
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: jgg@ziepe.ca, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
+ dan.j.williams@intel.com, christian.koenig@amd.com, jhubbard@nvidia.com,
+ ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
+ andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jason@jlekstrand.net,
+ dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org,
+ ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
+ ckulkarnilinux@gmail.com, rcampbell@nvidia.com, bhelgaas@google.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v6 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ linux-mm@kvack.org, Jason Ekstrand <jason@jlekstrand.net>,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ linux-block@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,111 +112,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 
-This IOMMU is yet another Qualcomm variant of known IOMMUs, found in
-Family-B SoCs, such as MSM8956, MSM8976, MSM8953, MSM8917 and others,
-and that firmware perfectly adheres to this driver logic.
-This time, though, the catch is that the secure contexts are also
-secured, meaning that these are programmed by the bootloader or TZ
-and their "interesting" registers are locked out, so the hypervisor
-disallows touching them from the non-secure world: in this case
-the OS is supposed to blindly trust the secure configuration of
-these contexts and just use them "as they are".
 
-For this reason, it is necessary to distinguish between the v1 and
-500/v2 secure contexts in this driver in order to adhere to this
-specification. To do this, add a new DT compatible, named
-"qcom,msm-iommu-v2-sec" that will trigger the new behavior.
+On 2022-05-27 13:03, Jason Gunthorpe wrote:
+> On Fri, May 27, 2022 at 09:35:07AM -0600, Logan Gunthorpe wrote:
+>>
+>>
+>> On 2022-05-27 06:55, Jason Gunthorpe wrote:
+>>> On Thu, Apr 07, 2022 at 09:47:16AM -0600, Logan Gunthorpe wrote:
+>>>> +static void pci_p2pdma_unmap_mappings(void *data)
+>>>> +{
+>>>> +	struct pci_dev *pdev = data;
+>>>> +	struct pci_p2pdma *p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
+>>>> +
+>>>> +	/* Ensure no new pages can be allocated in mappings */
+>>>> +	p2pdma->active = false;
+>>>> +	synchronize_rcu();
+>>>> +
+>>>> +	unmap_mapping_range(p2pdma->inode->i_mapping, 0, 0, 1);
+>>>> +
+>>>> +	/*
+>>>> +	 * On some architectures, TLB flushes are done with call_rcu()
+>>>> +	 * so to ensure GUP fast is done with the pages, call synchronize_rcu()
+>>>> +	 * before freeing them.
+>>>> +	 */
+>>>> +	synchronize_rcu();
+>>>> +	pci_p2pdma_free_mappings(p2pdma->inode->i_mapping);
+>>>
+>>> With the series from Felix getting close this should get updated to
+>>> not set pte_devmap and use proper natural refcounting without any of
+>>> this stuff.
+>>
+>> Can you send a link? I'm not sure what you are referring to.
+> 
+> IIRC this is the last part:
+> 
+> https://lore.kernel.org/linux-mm/20220524190632.3304-1-alex.sierra@amd.com/
+> 
+> And the earlier bit with Christoph's pieces looks like it might get
+> merged to v5.19..
+> 
+> The general idea is once pte_devmap is not set then all the
+> refcounting works the way it should. This is what all new ZONE_DEVICE
+> users should do..
 
-For the sake of completeness, also add a "qcom,msm-iommu-v2-ns" so
-that the human eye gets pleased with it when reading the contexts
-in the final SoC DT. Of course, the latter is just cosmetic.
+Ok, I don't actually follow how those patches relate to this.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
----
- .../devicetree/bindings/iommu/qcom,iommu.txt   |  2 ++
- drivers/iommu/arm/arm-smmu/qcom_iommu.c        | 18 ++++++++++++++++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
+Based on your description I guess I don't need to set PFN_DEV and
+perhaps not use vmf_insert_mixed()? And then just use vm_normal_page()?
 
-diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-index 72ae0595efff..861c0cd9c512 100644
---- a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-+++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-@@ -36,6 +36,8 @@ to non-secure vs secure interrupt line.
-   - compatible     : Should be one of:
-         - "qcom,msm-iommu-v1-ns"  : non-secure context bank
-         - "qcom,msm-iommu-v1-sec" : secure context bank
-+        - "qcom,msm-iommu-v2-ns"  : non-secure QSMMUv2/QSMMU500 context bank
-+        - "qcom,msm-iommu-v2-sec" : secure QSMMUv2/QSMMU500 context bank
-   - reg            : Base address and size of context bank within the iommu
-   - interrupts     : The context fault irq.
- 
-diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-index 4fefbab15b71..aa7359ae34a9 100644
---- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-+++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-@@ -60,6 +60,7 @@ struct qcom_iommu_ctx {
- 	struct device		*dev;
- 	void __iomem		*base;
- 	bool			 secure_init;
-+	bool			 secured_ctx;
- 	u8			 asid;      /* asid and ctx bank # are 1:1 */
- 	struct iommu_domain	*domain;
- };
-@@ -309,6 +310,12 @@ static int qcom_iommu_init_domain(struct iommu_domain *domain,
- 			ctx->secure_init = true;
- 		}
- 
-+		/* Secured QSMMU-500/QSMMU-v2 contexts cannot be programmed */
-+		if (ctx->secured_ctx) {
-+			ctx->domain = domain;
-+			break;
-+		}
-+
- 		qcom_iommu_reset_ctx(ctx);
- 
- 
-@@ -751,10 +758,14 @@ static int qcom_iommu_ctx_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return -ENODEV;
- 
-+	if (of_device_is_compatible(dev->of_node, "qcom,msm-iommu-v2-sec"))
-+		ctx->secured_ctx = true;
-+
- 	/* clear IRQs before registering fault handler, just in case the
- 	 * boot-loader left us a surprise:
- 	 */
--	iommu_writel(ctx, ARM_SMMU_CB_FSR, iommu_readl(ctx, ARM_SMMU_CB_FSR));
-+	if (!ctx->secured_ctx)
-+		iommu_writel(ctx, ARM_SMMU_CB_FSR, iommu_readl(ctx, ARM_SMMU_CB_FSR));
- 
- 	ret = devm_request_irq(dev, irq,
- 			       qcom_iommu_fault,
-@@ -796,6 +807,8 @@ static int qcom_iommu_ctx_remove(struct platform_device *pdev)
- static const struct of_device_id ctx_of_match[] = {
- 	{ .compatible = "qcom,msm-iommu-v1-ns" },
- 	{ .compatible = "qcom,msm-iommu-v1-sec" },
-+	{ .compatible = "qcom,msm-iommu-v2-ns" },
-+	{ .compatible = "qcom,msm-iommu-v2-sec" },
- 	{ /* sentinel */ }
- };
- 
-@@ -813,7 +826,8 @@ static bool qcom_iommu_has_secure_context(struct qcom_iommu_dev *qcom_iommu)
- 	struct device_node *child;
- 
- 	for_each_child_of_node(qcom_iommu->dev->of_node, child)
--		if (of_device_is_compatible(child, "qcom,msm-iommu-v1-sec"))
-+		if (of_device_is_compatible(child, "qcom,msm-iommu-v1-sec") ||
-+		    of_device_is_compatible(child, "qcom,msm-iommu-v2-sec"))
- 			return true;
- 
- 	return false;
--- 
-2.36.1
+But the refcounting of the pages seemed like it was already sane to me,
+unless you mean that the code no longer has to synchronize_rcu() before
+returning the pages... that would be spectacular and clean things up a
+lot (plus fix an annoying issue where if you use then free all the
+memory you can't allocate new memory for an indeterminate amount of time).
 
+Logan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
