@@ -1,75 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0619537B5F
-	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 15:24:38 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D06537BF6
+	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 15:29:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 97EC260AE4;
-	Mon, 30 May 2022 13:24:37 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D9A8A40A79;
+	Mon, 30 May 2022 13:28:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id deBUSZYIi4HI; Mon, 30 May 2022 13:24:35 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qfbLLeOfK-FG; Mon, 30 May 2022 13:28:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id DDF2C61199;
-	Mon, 30 May 2022 13:24:34 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E4AD740C42;
+	Mon, 30 May 2022 13:28:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9816EC002D;
-	Mon, 30 May 2022 13:24:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BBD36C0081;
+	Mon, 30 May 2022 13:28:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 886A9C002D
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 13:24:33 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00A76C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 13:28:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 7026741A04
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 13:24:33 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id D434C40C08
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 13:28:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9ScdOkY4_fNr for <iommu@lists.linux-foundation.org>;
- Mon, 30 May 2022 13:24:32 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TX7poKNEgWW9 for <iommu@lists.linux-foundation.org>;
+ Mon, 30 May 2022 13:28:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 49D8B41A21
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 13:24:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 53CE640A79
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 13:28:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 83E8FB80DA7;
- Mon, 30 May 2022 13:24:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17BABC385B8;
- Mon, 30 May 2022 13:24:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 91B8860EA5;
+ Mon, 30 May 2022 13:28:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5283AC3411F;
+ Mon, 30 May 2022 13:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917068;
- bh=v6STE/M7umHmQhXZl5W6Am/3Zz1pQY0LUnmLP5HuXO8=;
- h=From:To:Cc:Subject:Date:From;
- b=PSH1Y5HK/smNoPMvz4Yg5A+BFRA46DwGlSgwBfM3AVYTZulg5alVgvdbLn03ROotT
- hDZrojGNubPP8GSMntc1dji17j4hszFJ/ctOsRpD022Gn29DTLkuxyNMAExaWXvQW8
- 6W7XYfYWklKlXoK/So3Xubh5/LA+xxjO43TxBMoFLHePf42+2CtTity04YMG3+Lkp8
- GseBofE6XQWSSYQDpjXlRVfTvL7dgyRKUSpS4tEO0heFlH6LJ8t5wNckMoJO3T7b+c
- HlH31PfRdhiNp03k89eJWrH5IyuBkwP7jK3NPK52WVdFllnCmat01RrzUgWAaK/NUG
- A/eLeVeCA20Ww==
+ s=k20201202; t=1653917336;
+ bh=7Cf6JB2q1A9OGemJDYVSx1pjXiSzVu0Yuw1kwfazgNM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=N+pmp3iBfoJA77WpsPr8E2WVtbJgfxpkdj6HUxxfIMYdNOLT3RtVI1jdxIvg8oXC6
+ e34YJ4buwHM4PxsAqN/TWd/w/JtRHKY4CN0oFzK6CwQvkfdoAFxeWxyE0wkodNxZz8
+ qjHsFn36JoHqNsiyW7q7N5/0BoLwNJXGOgBwRTcjtVfHnzaLCv4l76cPhsRMdreTYC
+ s1SPZRxAk4KICazhfwPI2JdbWRXIP0fdfxSEg0mQhDxgy5Hle5s1vPmMJJifRI96EK
+ TtCjh2kwEKidl+kXc0ny8EC4Nxi1Efvk0OUGZlNB2SvicjdXDAC1778Ur+8TbUFTs1
+ 1yFq/PGPOJH5w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 001/159] iommu/vt-d: Add RPLS to quirk list to
- skip TE disabling
-Date: Mon, 30 May 2022 09:21:46 -0400
-Message-Id: <20220530132425.1929512-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 100/159] dma-debug: change allocation mode from
+ GFP_NOWAIT to GFP_ATIOMIC
+Date: Mon, 30 May 2022 09:23:25 -0400
+Message-Id: <20220530132425.1929512-100-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
+References: <20220530132425.1929512-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-Cc: Sasha Levin <sashal@kernel.org>,
- Raviteja Goud Talla <ravitejax.goud.talla@intel.com>, will@kernel.org,
- iommu@lists.linux-foundation.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- dwmw2@infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
+ Mikulas Patocka <mpatocka@redhat.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,53 +83,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+From: Mikulas Patocka <mpatocka@redhat.com>
 
-[ Upstream commit 0a967f5bfd9134b89681cae58deb222e20840e76 ]
+[ Upstream commit 84bc4f1dbbbb5f8aa68706a96711dccb28b518e5 ]
 
-The VT-d spec requires (10.4.4 Global Command Register, TE
-field) that:
+We observed the error "cacheline tracking ENOMEM, dma-debug disabled"
+during a light system load (copying some files). The reason for this error
+is that the dma_active_cacheline radix tree uses GFP_NOWAIT allocation -
+so it can't access the emergency memory reserves and it fails as soon as
+anybody reaches the watermark.
 
-Hardware implementations supporting DMA draining must drain
-any in-flight DMA read/write requests queued within the
-Root-Complex before completing the translation enable
-command and reflecting the status of the command through
-the TES field in the Global Status register.
+This patch changes GFP_NOWAIT to GFP_ATOMIC, so that it can access the
+emergency memory reserves.
 
-Unfortunately, some integrated graphic devices fail to do
-so after some kind of power state transition. As the
-result, the system might stuck in iommu_disable_translati
-on(), waiting for the completion of TE transition.
-
-This adds RPLS to a quirk list for those devices and skips
-TE disabling if the qurik hits.
-
-Link: https://gitlab.freedesktop.org/drm/intel/-/issues/4898
-Tested-by: Raviteja Goud Talla <ravitejax.goud.talla@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220302043256.191529-1-tejaskumarx.surendrakumar.upadhyay@intel.com
+Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/intel/iommu.c | 2 +-
+ kernel/dma/debug.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 0ea47e17b379..ba9a63cac47c 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5031,7 +5031,7 @@ static void quirk_igfx_skip_te_disable(struct pci_dev *dev)
- 	ver = (dev->device >> 8) & 0xff;
- 	if (ver != 0x45 && ver != 0x46 && ver != 0x4c &&
- 	    ver != 0x4e && ver != 0x8a && ver != 0x98 &&
--	    ver != 0x9a)
-+	    ver != 0x9a && ver != 0xa7)
- 		return;
- 
- 	if (risky_device(dev))
+diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+index f8ff598596b8..ac740630c79c 100644
+--- a/kernel/dma/debug.c
++++ b/kernel/dma/debug.c
+@@ -448,7 +448,7 @@ void debug_dma_dump_mappings(struct device *dev)
+  * other hand, consumes a single dma_debug_entry, but inserts 'nents'
+  * entries into the tree.
+  */
+-static RADIX_TREE(dma_active_cacheline, GFP_NOWAIT);
++static RADIX_TREE(dma_active_cacheline, GFP_ATOMIC);
+ static DEFINE_SPINLOCK(radix_lock);
+ #define ACTIVE_CACHELINE_MAX_OVERLAP ((1 << RADIX_TREE_MAX_TAGS) - 1)
+ #define CACHELINE_PER_PAGE_SHIFT (PAGE_SHIFT - L1_CACHE_SHIFT)
 -- 
 2.35.1
 
