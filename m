@@ -1,103 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5644A5377CC
-	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 11:47:28 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4297537A7C
+	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 14:14:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EA78C83F31;
-	Mon, 30 May 2022 09:47:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 487EC41A1B;
+	Mon, 30 May 2022 12:14:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JCxmywbrIjOz; Mon, 30 May 2022 09:47:24 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vChJF4UdgrcL; Mon, 30 May 2022 12:14:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1468983F0D;
-	Mon, 30 May 2022 09:47:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8E76E41A0B;
+	Mon, 30 May 2022 12:14:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DFF16C002D;
-	Mon, 30 May 2022 09:47:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 60D21C002D;
+	Mon, 30 May 2022 12:14:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42D90C002D
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 09:47:22 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 874D1C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:14:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1CF4583F0D
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 09:47:22 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 73B54840F0
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:14:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dbOfFv2xhvmf for <iommu@lists.linux-foundation.org>;
- Mon, 30 May 2022 09:47:21 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5842483F0A
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 09:47:21 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id rq11so19765354ejc.4
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 02:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/k2m83LaODmcLsyS0dbBoJk+VKnEiUhqE8c6BRPwNpA=;
- b=HEdtIu9h1Ee4llxxfLUHdT6WXTT7YVh7HuJ1UWwgpaAZEzYcK8Kt18Rc0y6hhxh/pk
- gNEh0cjdDf/DymaC3VMDJfzt8hACMMSArRNFzvgV2rASP/QOIxu5SVhVDBmuBaF6jSqH
- pE7Z+UNUl0L+YpcyxdWHlt+wnBHwJZV6FpL32JVe2MnfNBn8UF1zu7hi0PqUJB5JrUta
- PzgzVuMmyO9cQBNDseiGyFnSevNpMoE0l5EdZjqKzsaGAyssfHObZ+KUH6ErxYptI92w
- d+o7sRvi1EM4ocHQV9T1yTo01whLdcagvrS5NvenSKkHgxAUoXpqgSIjqaOGUKnRw74d
- T+gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/k2m83LaODmcLsyS0dbBoJk+VKnEiUhqE8c6BRPwNpA=;
- b=dsxBDrWGMNhYWXlauKPu1y+FFCldx7IOKCKoMqZSW7K9mNkwvZWfl3d73bXJGWUq0H
- Vp3tghBcN5Upq0p7sVFKXy9352tGA++AWNK6PTRiQ0xrESz3uQIZLortYrUSGJNHcLSg
- omIb3OKCLvfuUyHVy+d/p/FtHaj93AOx82uDDw4TZD+EJE2rew8itK7Az+ITVrPjgUAH
- BGSTTy4YgeaerNXMvcvKbpprHVyKCGRGc2ZIMW04dkQgdtsiziruS8xRmV8+F7hUwPLe
- oIKjo89bR67NcRQJbAd+4N0RRrhO7Y5Rz5c194NWdkAI52UllJFkHM1EeepgPrw8ZioZ
- tBXw==
-X-Gm-Message-State: AOAM532f8jyVpa2TRsfEwMf/Pud+/LOSW88LDV04EWU4eaz2uXIAutoj
- 0m4fwEtuq64kOdpqKomimMyIL9xJa26nxQEJO6M=
-X-Google-Smtp-Source: ABdhPJz2Y4PPvobMreDaaaGYBcFdlzgaDp1D8UrIIx2/xRRkK7/L2BM9dOFFBRp5uNmzREpsNBcvOr4GVqLWfEZBHGw=
-X-Received: by 2002:a17:907:6e04:b0:6f4:d6f3:c72a with SMTP id
- sd4-20020a1709076e0400b006f4d6f3c72amr47585054ejc.636.1653904039317; Mon, 30
- May 2022 02:47:19 -0700 (PDT)
+ with ESMTP id kIvGiPDHd-c7 for <iommu@lists.linux-foundation.org>;
+ Mon, 30 May 2022 12:14:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C72628406E
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:14:37 +0000 (UTC)
+X-UUID: 22fd0f51a2e848de9f119297234c6976-20220530
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:f08fdcd2-853f-44dd-ba56-f596366d4959, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:acf30548-4fb1-496b-8f1d-39e733fed1ea,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 22fd0f51a2e848de9f119297234c6976-20220530
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <yf.wang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 527559544; Mon, 30 May 2022 20:14:31 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 30 May 2022 20:14:30 +0800
+Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Mon, 30 May 2022 20:14:29 +0800
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, "open list:IOMMU DRIVERS"
+ <iommu@lists.linux-foundation.org>, open list <linux-kernel@vger.kernel.org>, 
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
+ support" <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] iommu/dma: Fix race condition during iova_domain
+ initialization
+Date: Mon, 30 May 2022 20:07:45 +0800
+Message-ID: <20220530120748.31733-1-yf.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20220526081550.1089805-1-saravanak@google.com>
- <20220526081550.1089805-8-saravanak@google.com>
-In-Reply-To: <20220526081550.1089805-8-saravanak@google.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 30 May 2022 11:46:43 +0200
-Message-ID: <CAHp75VcJRfQO6oJpVUoGK4JQpr3Wbff9vgkm8+q8fn8cxohQug@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 7/9] driver core: Add fw_devlink_unblock_may_probe()
- helper function
-To: Saravana Kannan <saravanak@google.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Eric Dumazet <edumazet@google.com>,
- John Stultz <jstultz@google.com>, Pavel Machek <pavel@ucw.cz>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Kevin Hilman <khilman@kernel.org>, Russell King <linux@armlinux.org.uk>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Android Kernel Team <kernel-team@android.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Len Brown <lenb@kernel.org>,
- Len Brown <len.brown@intel.com>, Linux PM <linux-pm@vger.kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Ahern <dsahern@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Daniel Scally <djrscally@gmail.com>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, netdev <netdev@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
+X-MTK: N
+Cc: wsd_upstream@mediatek.com, Yunfei Wang <yf.wang@mediatek.com>,
+ Libo Kang <Libo.Kang@mediatek.com>, Miles
+ Chen <miles.chen@mediatek.com>, Ning Li <ning.li@mediatek.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,47 +84,107 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: "yf.wang--- via iommu" <iommu@lists.linux-foundation.org>
+Reply-To: yf.wang@mediatek.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, May 26, 2022 at 1:22 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> This function can be used during the kernel boot sequence to forcefully
-> override fw_devlink=on and unblock the probing of all devices that have
-> a driver.
->
-> It's mainly meant to be called from late_initcall() or
-> late_initcall_sync() where a device needs to probe before the kernel can
-> mount rootfs.
+From: Yunfei Wang <yf.wang@mediatek.com>
 
-...
+When many devices share the same iova domain, iommu_dma_init_domain()
+may be called at the same time. The checking of iovad->start_pfn will
+all get false in iommu_dma_init_domain() and both enter init_iova_domain()
+to do iovad initialization.
 
-> diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
-> index 9a81c4410b9f..0770edda7068 100644
-> --- a/include/linux/fwnode.h
-> +++ b/include/linux/fwnode.h
-> @@ -13,6 +13,7 @@
->  #include <linux/list.h>
->  #include <linux/bits.h>
->  #include <linux/err.h>
-> +#include <linux/init.h>
->
->  struct fwnode_operations;
->  struct device;
-> @@ -199,5 +200,6 @@ extern bool fw_devlink_is_strict(void);
->  int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup);
->  void fwnode_links_purge(struct fwnode_handle *fwnode);
->  void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
-> +void __init fw_devlink_unblock_may_probe(void);
+Fix this by protecting init_iova_domain() with iommu_dma_cookie->mutex.
 
-I don't think you need init.h and __init here. Important is that you
-have it in the C-file. Am I wrong?
+Exception backtrace:
+rb_insert_color(param1=0xFFFFFF80CD2BDB40, param3=1) + 64
+init_iova_domain() + 180
+iommu_setup_dma_ops() + 260
+arch_setup_dma_ops() + 132
+of_dma_configure_id() + 468
+platform_dma_configure() + 32
+really_probe() + 1168
+driver_probe_device() + 268
+__device_attach_driver() + 524
+__device_attach() + 524
+bus_probe_device() + 64
+deferred_probe_work_func() + 260
+process_one_work() + 580
+worker_thread() + 1076
+kthread() + 332
+ret_from_fork() + 16
 
+Signed-off-by: Ning Li <ning.li@mediatek.com>
+Signed-off-by: Yunfei Wang <yf.wang@mediatek.com>
+---
+ drivers/iommu/dma-iommu.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 09f6e1c0f9c0..b38c5041eeab 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -63,6 +63,7 @@ struct iommu_dma_cookie {
+ 
+ 	/* Domain for flush queue callback; NULL if flush queue not in use */
+ 	struct iommu_domain		*fq_domain;
++	struct mutex			mutex;
+ };
+ 
+ static DEFINE_STATIC_KEY_FALSE(iommu_deferred_attach_enabled);
+@@ -309,6 +310,7 @@ int iommu_get_dma_cookie(struct iommu_domain *domain)
+ 	if (!domain->iova_cookie)
+ 		return -ENOMEM;
+ 
++	mutex_init(&domain->iova_cookie->mutex);
+ 	return 0;
+ }
+ 
+@@ -549,26 +551,33 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
+ 	}
+ 
+ 	/* start_pfn is always nonzero for an already-initialised domain */
++	mutex_lock(&cookie->mutex);
+ 	if (iovad->start_pfn) {
+ 		if (1UL << order != iovad->granule ||
+ 		    base_pfn != iovad->start_pfn) {
+ 			pr_warn("Incompatible range for DMA domain\n");
+-			return -EFAULT;
++			ret = -EFAULT;
++			goto done_unlock;
+ 		}
+ 
+-		return 0;
++		ret = 0;
++		goto done_unlock;
+ 	}
+ 
+ 	init_iova_domain(iovad, 1UL << order, base_pfn);
+ 	ret = iova_domain_init_rcaches(iovad);
+ 	if (ret)
+-		return ret;
++		goto done_unlock;
+ 
+ 	/* If the FQ fails we can simply fall back to strict mode */
+ 	if (domain->type == IOMMU_DOMAIN_DMA_FQ && iommu_dma_init_fq(domain))
+ 		domain->type = IOMMU_DOMAIN_DMA;
+ 
+-	return iova_reserve_iommu_regions(dev, domain);
++	ret = iova_reserve_iommu_regions(dev, domain);
++
++done_unlock:
++	mutex_unlock(&cookie->mutex);
++	return ret;
+ }
+ 
+ /**
 -- 
-With Best Regards,
-Andy Shevchenko
+2.18.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
