@@ -1,142 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276E1537A93
-	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 14:22:57 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC4D5383CF
+	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 17:05:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CF04583E46;
-	Mon, 30 May 2022 12:22:55 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 38CA640A8D;
+	Mon, 30 May 2022 15:04:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QFUBmpFRweUS; Mon, 30 May 2022 12:22:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EBF9E83EFA;
-	Mon, 30 May 2022 12:22:54 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8u4GZJH6ebYv; Mon, 30 May 2022 15:04:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3871F40A88;
+	Mon, 30 May 2022 15:04:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A9EF8C002D;
-	Mon, 30 May 2022 12:22:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 078A4C0081;
+	Mon, 30 May 2022 15:04:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C4F50C002D
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:22:53 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 58FAFC002D
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:48:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B23874011A
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:22:53 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 33E1F82B49
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:48:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=nvidia.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CA9Wu1QenrWD for <iommu@lists.linux-foundation.org>;
- Mon, 30 May 2022 12:22:51 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dE1Yfoa3xOj2 for <iommu@lists.linux-foundation.org>;
+ Mon, 30 May 2022 12:48:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20617.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::617])
- by smtp2.osuosl.org (Postfix) with ESMTPS id ADBE6400A8
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:22:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CaQrbp0EdDDTKXGtvEPvy1IcRtxKgOQll2kiT0KBD17KjmCePbyXthuUBfImKF70HU5KBrdRP2QBtUx3YeqO/tsExfW4bvKEFC8JhvPzloElfaj3w7d/IK3LCVW1/116juyzA7WC5LDArx45CJBvTqjTVWqerrGMHqUUWydf4b6f0B9OBDiVYvoYHe0angfkC9Rlc5HHNdH9xFzGogkSvReFgGxaVHkJaDr4ZWi2EX2xxjzq6uxhNV3KwTcUA1rxxJvedziQTCaRaYYeeeP5EJZIQdf/kNwjJnaLjv8z3KaS+d7wwkNZSxvWxVqSHyM28ksKsVAykziAoi2Sxmrc2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Od/PypjkWbYH7Nl+PwR6UpGUx48414rIxRVvISNsXGI=;
- b=fZRRhsK0k3fDcj22LJx2Q50ZkPIzllFB2ucPU5Aensa1+nebfvsPSLB7s8/UgIkdHDh1A5zFDSFEmXvqES7axjA+sQcQMl7Mq4BZKiCeK/e7bqIiHxyzgZnqclQmbfrEFErBWMC3g+wFw2yc2216mwMJ0vWJy6xiwZWBAqGj8ewvC1yA/CCNiA756c5Ct3HQpHFX266ada4gdv9d9GitlJEPeaetXlxakDpsP112cDrH/rde+svwrUT9hUOcML/VPZzIROMQsFH68zGzhgS1PYRm2SkGZffMN5aPR24VlcYPrKYEODpShnSmnQZs0RVK8DoKKMUDlVqK0MlW9dWVjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Od/PypjkWbYH7Nl+PwR6UpGUx48414rIxRVvISNsXGI=;
- b=VPxVra4lw/LOLFQ/r6BxsI5YdeAmYuBTbQ6oAokD8iGghIx2ZuCfpqdsxZyF8FINZKOazFeQOrnzYKOET8qxSYdvCYCdWnd3gPMMtCZipXGvOvnCngqgQ37fnQG8FYuwNoDfnOqz0d3ui15Aw5/KkPpv4FP0iR1t6YuIOzhUifjba5kzxLBNq/ORYprEA1VYzTCYRO4VDbFJECKLQrAuM2di+UCz5mYp+xyBzKMvseHJMaEz87Pe/dcsPGGySVn6SKBlYexqCQ/rlQ6UU7j0UkV1ukkMB5ldT3y/KtPlJSSCfzSvbwa1dGYvPbHN/NUxQGPZwVqO2w8+YMVQGXo50Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by SJ0PR12MB5405.namprd12.prod.outlook.com (2603:10b6:a03:3af::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
- 2022 12:22:49 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::2484:51da:d56f:f1a5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::2484:51da:d56f:f1a5%7]) with mapi id 15.20.5293.019; Mon, 30 May 2022
- 12:22:48 +0000
-Date: Mon, 30 May 2022 09:22:47 -0300
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Subject: Re: [PATCH v4 1/6] iommu: Add a per domain PASID for DMA API
-Message-ID: <20220530122247.GY1343366@nvidia.com>
-References: <20220518182120.1136715-1-jacob.jun.pan@linux.intel.com>
- <20220518182120.1136715-2-jacob.jun.pan@linux.intel.com>
- <20220524135034.GU1343366@nvidia.com>
- <20220524081727.19c2dd6d@jacob-builder>
-Content-Disposition: inline
-In-Reply-To: <20220524081727.19c2dd6d@jacob-builder>
-X-ClientProxiedBy: BL1PR13CA0155.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::10) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 540CB82B2F
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 12:48:20 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id
+ i189-20020a6bb8c6000000b0065e475f5ca9so5447496iof.15
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 05:48:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=fviMwFuCOHUegEvnIFsjn2njt9ZqkztQPMv6YKuPdAA=;
+ b=V3bGPuCOol8kLXXzD7S4A9sJupi/x2zupfwJG5WqWB5zNceKAADmWtk9CPi9dSpim6
+ CV/GN0z0McWUoVhDAFfkHbxQuqaRu+SQndmWhwkIEkJxWXgjh/2PYRNRYUHcIQbdbZPn
+ kXSzP0mgMRqKlQXNM8sz7v9oDYLupF1TDc6/eqWO4INgGlToiZjYKVRRB51bmtKuJQxk
+ OgWtZaehpMV7xi291qG9cibRXKFBuzh3P3WVU9jSHxJhvUzs9h5FYf6se+JX1bC7QOnr
+ gG9Nryj69hbUB2liSy3NcfcUO5vvu7TmiCsoF3Ps6s+khlix+xZzvDNQ5r3fe+YsZPwZ
+ vdxg==
+X-Gm-Message-State: AOAM5300zHD4H0RCXnuuDYyTWvQxlu5E3eYiuuT5wqtZ3adVhHFMZ4Li
+ lqHJ93lBWgK7q3PEsrRp2pLJdOSTtRgGCUX6SFZVqCOmuuLj
+X-Google-Smtp-Source: ABdhPJycnqRf6X1SBHFUkROsgHjQtpBF8Dm7PO+qwNPyD6tzwCY/b/l83ev4fZbc8+AUU6TRX9qmxx5ZaxRAKtUZFRfbJ4Z8oofl
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7bcecfb7-51e0-4259-a781-08da42371c04
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5405:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR12MB5405A9069449EB28EB4C6C6AC2DD9@SJ0PR12MB5405.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PWp/yTmXGm5IK4WJqt3pwY0/rutFh9WkIxoQZvFR4ToB4wJCoSJ0KGqs+SSJTKX+Uo98NpkUuer298Ykj9FIb7DumU67UC3YXOiP7UJ3BnShGMELDgJXyGrAMNm5VHvc2qtGHUtEyqzBfr/HmCsNsBgJ5XCXhfAxBsewA9kZchtbAV4446K0a+iY0DGpSNnrN3n+NXkPg5HGEa/GqokhIxEGmBuXK4NUfRyFgBWwuo+urAw4O0gHoXoXaeKORdcNh9jUwO53b4EV/kkUkmVgBFiZUg2ZFrRx/q7i4c9WEIkMGIT4eligvHrJEmmBYPQcAAGn6P67EcSnEAGDWRKIe9Lm955jqMuT+MBj4jq2QrWzJx9Z5zwOGJwdXt0vNc4HlcHepQ2qYs84/PHIkRJ5mgV/0EigoXuZq09EChghYBSQK/+xm3thzyDLr/WZHgaZZKooNfdLK5AZiDNZu3rtZh1GeuHZZM06J/8/SVi87wt/Xm7xdYlVJwLUvf6soMKFtObyNo6s/CQRAh305nIDk/aEcGCTMDDGEIIYIXN7POcd6T+ylol7Xl0QiDfJ0IuVcoH+z+D5y80Ij+WJR5Znwmi1AOjc8s1Fywgx6U9eXFUqCMPGfO5Qva07eEFyemVwnFtrWigSNENiNcR2JPgjUA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(508600001)(5660300002)(33656002)(6486002)(7416002)(8936002)(6506007)(86362001)(26005)(6512007)(2906002)(66556008)(66946007)(2616005)(38100700002)(186003)(1076003)(83380400001)(6916009)(36756003)(8676002)(316002)(4326008)(54906003)(66476007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EU01j8HHu8b9igd/nNMvMO1GobakerL+yiqauepS2QLwHUaZRHvNeWEt2LZe?=
- =?us-ascii?Q?nDEoHU7CSzEJFHu1B7wx0NOa/lk2tLw1uaGnsgZthvW8Ujj1EWlIgL2p+3jP?=
- =?us-ascii?Q?Nq0W+gU1CJ7mLUUqoYCvtZwd/MI1dOG6cjO3Zh4gizwc3aBWtLAut/N+Fw1n?=
- =?us-ascii?Q?W0IuQ2hDkRXRtqM5M4QU7gXczBJ87Fm7jfwW3d6xYJg07/4brL7d1i7fWaAu?=
- =?us-ascii?Q?b3nMCy80NiUgHrae8r4FSTuB4ZTPX4VIixvtA8QQ6EfbEv1xuXMXZYNslrho?=
- =?us-ascii?Q?tvJwNSg0is0pKpteJMlhD6EClVJq9sbz/AIaNd+HebJ5Wy8gjk9v+3s6mH+z?=
- =?us-ascii?Q?eU26tFSChIVY+voKdwD9eZvEI2OqdUt1dIUXpgPWNIzDOnB48E5x4UxgVB/s?=
- =?us-ascii?Q?Zm2WT7Jiav4X4gawtGMFNYZM35PRVSc27h9+WS5XWP7DZPbSrwQ8KWFzv9ow?=
- =?us-ascii?Q?Xijvgc8Z/AvTYDDhNt9R8L6j6Hk1HstV+QxRGQb94ukQsTS3uX0ExFSeDyaF?=
- =?us-ascii?Q?dod/9ZBcuowzimlwg6fb5WkM1NNnsBV/wM5W8zQE1zpN8GM6G3x8QNHwh9Qg?=
- =?us-ascii?Q?LIS4cEw5ca18wlfd26r+FmrUTRj2lIgm3BGam03dpwOmrlTldpOTQQg73Pzg?=
- =?us-ascii?Q?4OGWhixDZWx37yLOZQW7E1rDJHV57shcoITpi+o8eC+EfIIYHwGdYqGPCty4?=
- =?us-ascii?Q?z2/i47aKf1J+WQariix7YYtZ+1RAy71jf5bFVEbvsZQqkpMiGt1evzXSYtcM?=
- =?us-ascii?Q?I+17QQ/kiVD5Eybnmp7FrK16+lKUZE4126f4zvqyliQNpT/2LW0O4CjAzwvT?=
- =?us-ascii?Q?0Lq7LDw0JJuskhSCBdf8iFv22FqBSHw6kfq9/1VvFiNyturOyWKIlP+Lf+RW?=
- =?us-ascii?Q?9lEwboAc5sRljKAPEGxy8GsUG62LfMfsr5k7LHXw7BIOjVfOlZrIn4KJp+cQ?=
- =?us-ascii?Q?1lVWQNiOC7jnkhC8h+p6on9YaQC013rob7eO/4hL6dHdqYT4Hx53YaWcFaeC?=
- =?us-ascii?Q?gFHwNjvVG20kITao9HeIHRgjbAEOpaOKrt+nhjm+oFqd4SIQLq6TJre+Lsrr?=
- =?us-ascii?Q?rjIBwjqNRR7eMLNlgsRFNtFzxzpDwHJb4ssGx9Cl3+tO2HsWQ++huj78cFP8?=
- =?us-ascii?Q?zDkkn6YUONkzm+QS7bKne3LHgYrz9TOAG4vSUftvR7XDKnoQ65+14TzB+s5M?=
- =?us-ascii?Q?SbU3Cs1hxsWxHe5aYM/e+i3GgtaOY9guzBF3oRxjeG/wvf7OkNpWSRtbBWWT?=
- =?us-ascii?Q?PGKXBjAQRn442XBWYrCVcyYkzGZqmC1Y3bK/nwXMCFEeUdAydm67KkgvoQcM?=
- =?us-ascii?Q?RqB5clSR1677xTmZwtrsxG+m7EukDg7pGHoQWjKbkUkL+RYhjc+zTo6JgU7q?=
- =?us-ascii?Q?W98oCsIAvDxFSPAlt0cQUGqWRLt9UEvKuIE1OOT6GpRU0Dwwele3JjelNGHk?=
- =?us-ascii?Q?0aI/7PHw/e4RmIquZ8BuSWlpL57xyXeQb8tlnHVnuclj2NnHY5fKS2izfZUB?=
- =?us-ascii?Q?hnwAtnIKgWZJNBqmLzVgajufPzKCn+osttji+rhZS781s0v6olnD19QOpBso?=
- =?us-ascii?Q?tOVvfYngzpm+0DKEUyumfMMRHQHlQUsmsRoqbA7Ag+ILiTgan05H3eKd1tb9?=
- =?us-ascii?Q?5RudmYJrjGbQW2HFfi7Nc96OWrdN5oUururTDz4Mi44HIzcAKKhD1vEvJQ+3?=
- =?us-ascii?Q?28nbYCnlcfmTm6gH5I7Nk8Y2N6a1DEe+BO6XibZgUByUnFe7OV5h3HnYVJHQ?=
- =?us-ascii?Q?1Mafh+Cfdw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bcecfb7-51e0-4259-a781-08da42371c04
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2022 12:22:48.9078 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N5ub/F18Yl9kaJ0BGERWihExYDKHqCwBqdiCZqeqj2F03R/fW2DswjcP88jl9KSB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5405
-Cc: vkoul@kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- will@kernel.org, David Woodhouse <dwmw2@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>,
- iommu@lists.linux-foundation.org, dmaengine@vger.kernel.org,
- robin.murphy@arm.com, Jean-Philippe Brucker <jean-philippe@linaro.com>
+X-Received: by 2002:a05:6e02:218b:b0:2d1:1d0c:2e28 with SMTP id
+ j11-20020a056e02218b00b002d11d0c2e28mr28257557ila.216.1653914899437; Mon, 30
+ May 2022 05:48:19 -0700 (PDT)
+Date: Mon, 30 May 2022 05:48:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000011e14605e03a125d@google.com>
+Subject: [syzbot] WARNING in dma_map_sgtable (2)
+From: syzbot <syzbot+3ba551855046ba3b3806@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, hch@lst.de, 
+ iommu@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ m.szyprowski@samsung.com, robin.murphy@arm.com, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com
+X-Mailman-Approved-At: Mon, 30 May 2022 15:04:55 +0000
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -149,59 +79,85 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jason Gunthorpe via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 24, 2022 at 08:17:27AM -0700, Jacob Pan wrote:
-> Hi Jason,
-> 
-> On Tue, 24 May 2022 10:50:34 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > On Wed, May 18, 2022 at 11:21:15AM -0700, Jacob Pan wrote:
-> > > DMA requests tagged with PASID can target individual IOMMU domains.
-> > > Introduce a domain-wide PASID for DMA API, it will be used on the same
-> > > mapping as legacy DMA without PASID. Let it be IOVA or PA in case of
-> > > identity domain.  
-> > 
-> > Huh? I can't understand what this is trying to say or why this patch
-> > makes sense.
-> > 
-> > We really should not have pasid's like this attached to the domains..
-> > 
-> This is the same "DMA API global PASID" you reviewed in v3, I just
-> singled it out as a standalone patch and renamed it. Here is your previous
-> review comment.
-> 
-> > +++ b/include/linux/iommu.h
-> > @@ -105,6 +105,8 @@ struct iommu_domain {
-> >  	enum iommu_page_response_code (*iopf_handler)(struct iommu_fault *fault,
-> >  						      void *data);
-> >  	void *fault_data;
-> > +	ioasid_t pasid;		/* Used for DMA requests with PASID */
-> > +	atomic_t pasid_users;  
-> 
-> These are poorly named, this is really the DMA API global PASID and
-> shouldn't be used for other things.
-> 
-> 
-> 
-> Perhaps I misunderstood, do you mind explaining more?
+Hello,
 
-You still haven't really explained what this is for in this patch,
-maybe it just needs a better commit message, or maybe something is
-wrong.
+syzbot found the following issue on:
 
-I keep saying the DMA API usage is not special, so why do we need to
-create a new global pasid and refcount? Realistically this is only
-going to be used by IDXD, why can't we just allocate a PASID and
-return it to the driver every time a driver asks for DMA API on PASI
-mode? Why does the core need to do anything special?
+HEAD commit:    7e062cda7d90 Merge tag 'net-next-5.19' of git://git.kernel..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=172151d3f00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e9d71d3c07c36588
+dashboard link: https://syzkaller.appspot.com/bug?extid=3ba551855046ba3b3806
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12918503f00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1386fa39f00000
 
-Jason
+Bisection is inconclusive: the issue happens on the oldest tested release.
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14107ee5f00000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=16107ee5f00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=12107ee5f00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3ba551855046ba3b3806@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 3610 at kernel/dma/mapping.c:188 dma_map_sgtable+0x203/0x260 kernel/dma/mapping.c:264
+Modules linked in:
+CPU: 0 PID: 3610 Comm: syz-executor162 Not tainted 5.18.0-syzkaller-04943-g7e062cda7d90 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:__dma_map_sg_attrs kernel/dma/mapping.c:188 [inline]
+RIP: 0010:dma_map_sgtable+0x203/0x260 kernel/dma/mapping.c:264
+Code: 75 15 e8 50 5f 14 00 eb cb e8 49 5f 14 00 eb c4 e8 42 5f 14 00 eb bd e8 3b 5f 14 00 0f 0b bd fb ff ff ff eb af e8 2d 5f 14 00 <0f> 0b 31 ed 48 bb 00 00 00 00 00 fc ff df e9 7b ff ff ff 89 e9 80
+RSP: 0018:ffffc9000305fd40 EFLAGS: 00010293
+RAX: ffffffff81723873 RBX: dffffc0000000000 RCX: ffff88801fbb8000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000002
+RBP: ffff8881487e5408 R08: ffffffff81723743 R09: ffffed1003592c9e
+R10: ffffed1003592c9e R11: 1ffff11003592c9c R12: ffff8881487e5000
+R13: ffff88801ac964e0 R14: 0000000000000000 R15: 0000000000000001
+FS:  0000555556c2a300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000005d84c8 CR3: 000000001f1ef000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ get_sg_table+0xf9/0x150 drivers/dma-buf/udmabuf.c:72
+ begin_cpu_udmabuf+0xf5/0x160 drivers/dma-buf/udmabuf.c:126
+ dma_buf_begin_cpu_access+0xd8/0x170 drivers/dma-buf/dma-buf.c:1172
+ dma_buf_ioctl+0x2a0/0x2f0 drivers/dma-buf/dma-buf.c:363
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x46/0xb0
+RIP: 0033:0x7f8bf9c6dc19
+Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd7cfae1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f8bf9c6dc19
+RDX: 0000000020000100 RSI: 0000000040086200 RDI: 0000000000000006
+RBP: 00007f8bf9c31dc0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f8bf9c31e50
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
