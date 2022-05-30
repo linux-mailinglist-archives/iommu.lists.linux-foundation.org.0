@@ -1,109 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05638537432
-	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 07:00:26 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F455537639
+	for <lists.iommu@lfdr.de>; Mon, 30 May 2022 10:11:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3880841994;
-	Mon, 30 May 2022 05:00:24 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id CF53340C17;
+	Mon, 30 May 2022 08:11:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rEZzx3mLGLum; Mon, 30 May 2022 05:00:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 826B341992;
-	Mon, 30 May 2022 05:00:22 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6_BKdeosGoBb; Mon, 30 May 2022 08:11:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CDD2240C15;
+	Mon, 30 May 2022 08:11:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50155C002D;
-	Mon, 30 May 2022 05:00:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B4655C002D;
+	Mon, 30 May 2022 08:11:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8ABB5C002D
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 05:00:20 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99131C0081
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 08:11:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 77F3941994
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 05:00:20 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 65B5782CF9
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 08:11:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YGYGrHrfZT6O for <iommu@lists.linux-foundation.org>;
- Mon, 30 May 2022 05:00:19 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E864841992
- for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 05:00:18 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id g4so3557732ybf.12
- for <iommu@lists.linux-foundation.org>; Sun, 29 May 2022 22:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=S+03JWP8LqFizkdu8BAr30l+13Hx2X9LWKbjZC6DUoo=;
- b=lw4v6BmxbvzBFhrCE0UETLXyDdPq0f4xwoieXuRfzg4qhI+w8B7o1IohItK3JzWvDu
- lNLGsH36sgnQkJsJuhpN2oo4wrlJeKff8KpxwxnItQQrZlfErA8j8dX1NsE0mn7P4zca
- hjH4QVDEf4cjeXCla+S7g+OtvPd+WIBvWalufpHVA7BN3ru0V8icIhHV1yCp4zvZh5LI
- LgDThkR3HKwwh438shwHrAJmDYIetcHR4u3scAdWu+tJNicj1U66MIzdCJqtWhvSyz4O
- 5PxiJEAU3ApOLX5H3FoYQOmqpkOXQdYLys3ZESIUgSkv4AlDmyWRku5bd6YnlAXqXC/Q
- 3qOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=S+03JWP8LqFizkdu8BAr30l+13Hx2X9LWKbjZC6DUoo=;
- b=uJxX3hOCVc+LJON3MHtvOpg7rCOJ/7dlUCFlM5IPjHHfBaCw6Q3V6cJVx0/2j+IjEV
- MuEbeY1n4Iwm9xrjE6m+pf2U0KEDbuzVNKUW1GGNMGgVM2hi0RZJLtRkuhvMWWCDj3cW
- vFUxIm1TxM4J2AbozxOSflCWPCTddmEBCNzWSJyhI3sxZDlyFGUbIiop89/6rUWXGFBD
- Kf+AU3cRbDAtL4uHXU8RCluAt9WmNE8EYHrLbIAxNkvuXiEjV7hApSmBur6HYyhrf0Ym
- 2CiOiK2Xjw+TlmDS5qo1wCPlOykg7gElLt21sB8nPZ7AdihuQsdjQCFHhhcIVTkZs9Kk
- WgEA==
-X-Gm-Message-State: AOAM532WfYByzuKe74oVSjulHBwqN2vapkSNg33AIpPlatle55sV8Ks/
- afKcAUMKPVuTVqP8e1aEO49vkDolZCscFkDpRVkxSg==
-X-Google-Smtp-Source: ABdhPJwPRUUf5U1aqUPaZTY1gOwSQ19UWn0xveiElXnhR3CF6ZITgEcqC+Ddb+k6yigJAG+0/KxPFQs9KDfrzOte1r4=
-X-Received: by 2002:a25:8d83:0:b0:65c:e76f:a4d7 with SMTP id
- o3-20020a258d83000000b0065ce76fa4d7mr2684932ybl.80.1653886817303; Sun, 29 May
- 2022 22:00:17 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FLGlvjmfTFvt for <iommu@lists.linux-foundation.org>;
+ Mon, 30 May 2022 08:11:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 05991826B0
+ for <iommu@lists.linux-foundation.org>; Mon, 30 May 2022 08:11:32 +0000 (UTC)
+X-UUID: fc6a1d2620db49cea3cfe19b4d3ea7bd-20220530
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:2269cb81-d7cf-40d6-b473-2efc7b87fac4, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:105
+X-CID-INFO: VERSION:1.1.5, REQID:2269cb81-d7cf-40d6-b473-2efc7b87fac4, OB:0,
+ LOB:
+ 0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:105
+X-CID-META: VersionHash:2a19b09, CLOUDID:bbfec0b8-3c45-407b-8f66-25095432a27a,
+ C
+ OID:d548a25b1f57,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:0,BEC:nil
+X-UUID: fc6a1d2620db49cea3cfe19b4d3ea7bd-20220530
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <yf.wang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1463958999; Mon, 30 May 2022 16:11:23 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 30 May 2022 16:11:22 +0800
+Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Mon, 30 May 2022 16:11:21 +0800
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
+ Roedel" <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>, Georgi Djakov
+ <quic_c_gdjako@quicinc.com>, Yunfei Wang <yf.wang@mediatek.com>, Sven Peter
+ <sven@svenpeter.dev>, "moderated list:ARM SMMU DRIVERS"
+ <linux-arm-kernel@lists.infradead.org>, "open list:IOMMU DRIVERS"
+ <iommu@lists.linux-foundation.org>, open list <linux-kernel@vger.kernel.org>, 
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v7 1/2] iommu/io-pgtable-arm-v7s: Add a quirk to allow pgtable
+ PA up to 35bit
+Date: Mon, 30 May 2022 16:04:28 +0800
+Message-ID: <20220530080432.29123-2-yf.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220530080432.29123-1-yf.wang@mediatek.com>
+References: <20220530080432.29123-1-yf.wang@mediatek.com>
 MIME-Version: 1.0
-References: <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
- <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
- <Youleo3Ganxbc1sq@dev-arch.thelio-3990X>
- <CAGETcx-sL08h2toEyxY6ztc6xNuJiPok6iDEeuJ1mOA3nvE+vA@mail.gmail.com>
- <YowHNo4sBjr9ijZr@dev-arch.thelio-3990X>
- <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
- <Yo0KyWx+3oX3cMCS@linutronix.de>
- <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
- <Yo3WvGnNk3LvLb7R@linutronix.de>
- <CAGETcx84ja_w_=vXKDOZnM8EVEcuAg1tX9Kqy57PTkDb1=H4FA@mail.gmail.com>
- <YpMv/QRaY/KV0oxY@x1-carbon>
-In-Reply-To: <YpMv/QRaY/KV0oxY@x1-carbon>
-Date: Sun, 29 May 2022 21:59:41 -0700
-Message-ID: <CAGETcx8+fQsouyg64Af_rdtezAOB6s_Yj2rOG36BwceCDVjYrQ@mail.gmail.com>
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
- registration
-To: Niklas Cassel <Niklas.Cassel@wdc.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- John Stultz <jstultz@google.com>, Pavel Machek <pavel@ucw.cz>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Thierry Reding <treding@nvidia.com>,
- "kernel-team@android.com" <kernel-team@android.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kevin Hilman <khilman@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+X-MTK: N
+Cc: Ning Li <ning.li@mediatek.com>, Libo Kang <Libo.Kang@mediatek.com>,
+ wsd_upstream@mediatek.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,200 +92,203 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Saravana Kannan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Saravana Kannan <saravanak@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: "yf.wang--- via iommu" <iommu@lists.linux-foundation.org>
+Reply-To: yf.wang@mediatek.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gU3VuLCBNYXkgMjksIDIwMjIgYXQgMTozNCBBTSAnTmlrbGFzIENhc3NlbCcgdmlhIGtlcm5l
-bC10ZWFtCjxrZXJuZWwtdGVhbUBhbmRyb2lkLmNvbT4gd3JvdGU6Cj4KPiBPbiBXZWQsIE1heSAy
-NSwgMjAyMiBhdCAxMjo0OTowMFBNIC0wNzAwLCBTYXJhdmFuYSBLYW5uYW4gd3JvdGU6Cj4gPiBP
-biBXZWQsIE1heSAyNSwgMjAyMiBhdCAxMjoxMiBBTSBTZWJhc3RpYW4gQW5kcnplaiBTaWV3aW9y
-Cj4gPiA8YmlnZWFzeUBsaW51dHJvbml4LmRlPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gMjAyMi0w
-NS0yNCAxMDo0Njo0OSBbLTA3MDBdLCBTYXJhdmFuYSBLYW5uYW4gd3JvdGU6Cj4gPiA+ID4gPiBS
-ZW1vdmluZyBwcm9iZV90aW1lb3V0X3dhaXRxdWV1ZSAoYXMgc3VnZ2VzdGVkKSBvciBzZXR0aW5n
-IHRoZSB0aW1lb3V0Cj4gPiA+ID4gPiB0byAwIGF2b2lkcyB0aGUgZGVsYXkuCj4gPiA+ID4KPiA+
-ID4gPiBJbiB5b3VyIGNhc2UsIEkgdGhpbmsgaXQgbWlnaHQgYmUgd29ya2luZyBhcyBpbnRlbmRl
-ZD8gQ3VyaW91cywgd2hhdAo+ID4gPiA+IHdhcyB0aGUgY2FsbCBzdGFjayBpbiB5b3VyIGNhc2Ug
-d2hlcmUgaXQgd2FzIGJsb2NrZWQ/Cj4gPiA+Cj4gPiA+IFdoeSBpcyB0aGVuIHRoZXJlIDEwc2Vj
-IGRlbGF5IGR1cmluZyBib290PyBUaGUgYmFja3RyYWNlIGlzCj4gPiA+IHwtLS0tLS0tLS0tLS1b
-IGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KPiA+ID4gfFdBUk5JTkc6IENQVTogNCBQSUQ6IDEgYXQg
-ZHJpdmVycy9iYXNlL2RkLmM6NzQyIHdhaXRfZm9yX2RldmljZV9wcm9iZSsweDMwLzB4MTEwCj4g
-PiA+IHxNb2R1bGVzIGxpbmtlZCBpbjoKPiA+ID4gfENQVTogNCBQSUQ6IDEgQ29tbTogc3dhcHBl
-ci8wIE5vdCB0YWludGVkIDUuMTguMC1yYzUrICMxNTQKPiA+ID4gfFJJUDogMDAxMDp3YWl0X2Zv
-cl9kZXZpY2VfcHJvYmUrMHgzMC8weDExMAo+ID4gPiB8Q2FsbCBUcmFjZToKPiA+ID4gfCA8VEFT
-Sz4KPiA+ID4gfCBwcmVwYXJlX25hbWVzcGFjZSsweDJiLzB4MTYwCj4gPiA+IHwga2VybmVsX2lu
-aXRfZnJlZWFibGUrMHgyYjMvMHgyZGQKPiA+ID4gfCBrZXJuZWxfaW5pdCsweDExLzB4MTEwCj4g
-PiA+IHwgcmV0X2Zyb21fZm9yaysweDIyLzB4MzAKPiA+ID4gfCA8L1RBU0s+Cj4gPiA+Cj4gPiA+
-IExvb2tpbmcgY2xvc2VyLCBpdCBjYW4ndCBhY2Nlc3MgaW5pdC4gVGhpcyBpbiBwYXJ0aWN1bGFy
-IGJveCBib290cwo+ID4gPiBkaXJlY3RseSB0aGUga2VybmVsIHdpdGhvdXQgYW4gaW5pdHJhbWZz
-IHNvIHRoZSBrZXJuZWwgbGF0ZXIgbW91bnRzCj4gPiA+IC9kZXYvc2RhMSBhbmQgZXZlcnl0aGlu
-ZyBpcyBnb29kLiAgU28gdGhhdCBzZWVtcyB0byBiZSB0aGUgcmVhc29u4oCmCj4gPgo+Cj4gSGVs
-bG8gdGhlcmUsCj4KPiBNeSAoUUVNVSkgYm9vdCB0aW1lcyB3ZXJlIHJlY2VudGx5IGV4dGVuZGVk
-IGJ5IDEwIHNlY29uZHMuCj4gTG9va2luZyBhdCB0aGUgdGltZXN0YW1wcywgaXQgbG9va3MgbGlr
-ZSBub3RoaW5nIGlzIGJlaW5nIGRvbmUgZm9yIDEwIHdob2xlCj4gc2Vjb25kcy4KPgo+IEEgZ2l0
-IGJpc2VjdCBsYW5kZWQgbWUgYXQgdGhlIHBhdGNoIGluICRzdWJqZWN0Ogo+IDJiMjhhMWE4NGEw
-ZSAoImRyaXZlciBjb3JlOiBFeHRlbmQgZGVmZXJyZWQgcHJvYmUgdGltZW91dCBvbiBkcml2ZXIg
-cmVnaXN0cmF0aW9uIikKPgo+IEFkZGluZyBhIFdBUk5fT04oMSkgaW4gd2FpdF9mb3JfZGV2aWNl
-X3Byb2JlKCksIGFzIHJlcXVlc3RlZCBieSB0aGUgcGF0Y2gKPiBhdXRob3IgZnJvbSB0aGUgb3Ro
-ZXJzIHNlZWluZyBhIHJlZ3Jlc3Npb24gd2l0aCB0aGlzIHBhdGNoLCBnaXZlcyB0d28gZGlmZmVy
-ZW50Cj4gc3RhY2t0cmFjZXMgZHVyaW5nIGJvb3Q6CgpUaGFua3MgZm9yIHRoZSByZXBvcnQuIE15
-IHBhdGNoIHdhcyBleHBvc2luZyBhbiBleGlzdGluZyBpc3N1ZS4gSQphbHJlYWR5IHNlbnQgYSBm
-aXggZm9yIHRoYXQgYSBmZXcgZGF5cyBhZ28uIFdhaXRpbmcgZm9yIGl0IHRvIGdldApwaWNrZWQg
-dXAuCgotU2FyYXZhbmEKCj4KPiBbICAgIDAuNDU5NjMzXSBwcmludGs6IGNvbnNvbGUgW25ldGNv
-bjBdIGVuYWJsZWQKPiBbICAgIDAuNDU5NjM2XSBwcmludGs6IGNvbnNvbGUgW25ldGNvbjBdIHBy
-aW50aW5nIHRocmVhZCBzdGFydGVkCj4gWyAgICAwLjQ1OTYzN10gbmV0Y29uc29sZTogbmV0d29y
-ayBsb2dnaW5nIHN0YXJ0ZWQKPiBbICAgIDAuNDU5ODk2XSBjZmc4MDIxMTogTG9hZGluZyBjb21w
-aWxlZC1pbiBYLjUwOSBjZXJ0aWZpY2F0ZXMgZm9yIHJlZ3VsYXRvcnkgZGF0YWJhc2UKPiBbICAg
-IDAuNDYwMjMwXSBrd29ya2VyL3U4OjYgKDEwNSkgdXNlZCBncmVhdGVzdCBzdGFjayBkZXB0aDog
-MTQ3NDQgYnl0ZXMgbGVmdAo+IFsgICAgMC40NjEwMzFdIGNmZzgwMjExOiBMb2FkZWQgWC41MDkg
-Y2VydCAnc2ZvcnNoZWU6IDAwYjI4ZGRmNDdhZWY5Y2VhNycKPiBbICAgIDAuNDYxMDc3XSBwbGF0
-Zm9ybSByZWd1bGF0b3J5LjA6IERpcmVjdCBmaXJtd2FyZSBsb2FkIGZvciByZWd1bGF0b3J5LmRi
-IGZhaWxlZCB3aXRoIGVycm9yIC0yCj4gWyAgICAwLjQ2MTA4NV0gY2ZnODAyMTE6IGZhaWxlZCB0
-byBsb2FkIHJlZ3VsYXRvcnkuZGIKPiBbICAgIDAuNDYxMTEzXSBBTFNBIGRldmljZSBsaXN0Ogo+
-IFsgICAgMC40NjExMTZdICAgTm8gc291bmRjYXJkcyBmb3VuZC4KPiBbICAgIDAuNDYxNjE0XSAt
-LS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KPiBbICAgIDAuNDYxNjE1XSBXQVJO
-SU5HOiBDUFU6IDIgUElEOiAxIGF0IGRyaXZlcnMvYmFzZS9kZC5jOjc0MSB3YWl0X2Zvcl9kZXZp
-Y2VfcHJvYmUrMHgxYS8weDE2MAo+IFsgICAgMC40ODU4MDldIE1vZHVsZXMgbGlua2VkIGluOgo+
-IFsgICAgMC40ODYwODldIENQVTogMiBQSUQ6IDEgQ29tbTogc3dhcHBlci8wIE5vdCB0YWludGVk
-IDUuMTguMC1uZXh0LTIwMjIwNTI2LTAwMDA0LWc3NGY5MzYwMTNiMDgtZGlydHkgIzIwCj4gWyAg
-ICAwLjQ4Njg0Ml0gSGFyZHdhcmUgbmFtZTogUUVNVSBTdGFuZGFyZCBQQyAoUTM1ICsgSUNIOSwg
-MjAwOSksIEJJT1MgcmVsLTEuMTYuMC0wLWdkMjM5NTUyY2U3MjItcHJlYnVpbHQucWVtdS5vcmcg
-MDQvMDEvMjAxNAo+IFsgICAgMC40ODc3MDddIFJJUDogMDAxMDp3YWl0X2Zvcl9kZXZpY2VfcHJv
-YmUrMHgxYS8weDE2MAo+IFsgICAgMC40ODgxMDNdIENvZGU6IDAwIGU4IGZhIGU0IGI1IGZmIDhi
-IDQ0IDI0IDA0IDQ4IDgzIGM0IDA4IDViIGMzIDBmIDFmIDQ0IDAwIDAwIDUzIDQ4IDgzIGVjIDMw
-IDY1IDQ4IDhiIDA0IDI1IDI4IDAwIDAwIDAwIDQ4IDg5IDQ0IDI0IDI4IDMxIGMwIDwwZj4gMGIg
-ZTggMWYgYWMgNTcgMDAgOGIgMTUgZjEgYjMgMjQgMDEgODUgZDIgNzUgM2QgNDggYzcgYzcgNjAg
-MmYKPiBbICAgIDAuNDg5NTM5XSBSU1A6IDAwMDA6ZmZmZjljNzkwMDAxM2VkOCBFRkxBR1M6IDAw
-MDEwMjQ2Cj4gWyAgICAwLjQ4OTk2NV0gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAwMDAw
-MDAwMDAwMDAwOCBSQ1g6IDAwMDAwMDAwMDAwMDBkMDIKPiBbICAgIDAuNDkwNTk3XSBSRFg6IDAw
-MDAwMDAwMDAwMDBjYzIgUlNJOiAwMDAwMDAwMDAwMDAwMDAwIFJESTogMDAwMDAwMDAwMDAyZTk5
-MAo+IFsgICAgMC40OTExODFdIFJCUDogMDAwMDAwMDAwMDAwMDIxNCBSMDg6IDAwMDAwMDAwMDAw
-MDAwMGYgUjA5OiAwMDAwMDAwMDAwMDAwMDY0Cj4gWyAgICAwLjQ5MTc4OF0gUjEwOiBmZmZmOWM3
-OTAwMDEzYzZjIFIxMTogMDAwMDAwMDAwMDAwMDAwMCBSMTI6IGZmZmY4OTY0YzAzNDM2NDAKPiBb
-ICAgIDAuNDkyMzg0XSBSMTM6IGZmZmZmZmZmOWU1MTc5MWMgUjE0OiAwMDAwMDAwMDAwMDAwMDAw
-IFIxNTogMDAwMDAwMDAwMDAwMDAwMAo+IFsgICAgMC40OTI5NjBdIEZTOiAgMDAwMDAwMDAwMDAw
-MDAwMCgwMDAwKSBHUzpmZmZmODk2NjM3ZDAwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAw
-MDAKPiBbICAgIDAuNDkzNjU4XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAw
-MDAwMDgwMDUwMDMzCj4gWyAgICAwLjQ5NDUwMV0gQ1IyOiAwMDAwMDAwMDAwMDAwMDAwIENSMzog
-MDAwMDAwMDFlZDIwYzAwMSBDUjQ6IDAwMDAwMDAwMDAzNzBlZTAKPiBbICAgIDAuNDk1NjIxXSBD
-YWxsIFRyYWNlOgo+IFsgICAgMC40OTYwNTldICA8VEFTSz4KPiBbICAgIDAuNDk2MjY2XSAgPyBp
-bml0X2VhY2Nlc3MrMHgzYi8weDc2Cj4gWyAgICAwLjQ5NjY1N10gIHByZXBhcmVfbmFtZXNwYWNl
-KzB4MzAvMHgxNmEKPiBbICAgIDAuNDk3MDE2XSAga2VybmVsX2luaXRfZnJlZWFibGUrMHgyMDcv
-MHgyMTIKPiBbICAgIDAuNDk3NDA3XSAgPyByZXN0X2luaXQrMHhjMC8weGMwCj4gWyAgICAwLjQ5
-NzcxNF0gIGtlcm5lbF9pbml0KzB4MTYvMHgxMjAKPiBbICAgIDAuNDk4MjUwXSAgcmV0X2Zyb21f
-Zm9yaysweDFmLzB4MzAKPiBbICAgIDAuNDk4ODk4XSAgPC9UQVNLPgo+IFsgICAgMC40OTkzMDdd
-IC0tLVsgZW5kIHRyYWNlIDAwMDAwMDAwMDAwMDAwMDAgXS0tLQo+IFsgICAgMC43NDg0MTNdIGF0
-YTI6IFNBVEEgbGluayB1cCAxLjUgR2JwcyAoU1N0YXR1cyAxMTMgU0NvbnRyb2wgMzAwKQo+IFsg
-ICAgMC43NDkwNTNdIGF0YTE6IFNBVEEgbGluayB1cCAxLjUgR2JwcyAoU1N0YXR1cyAxMTMgU0Nv
-bnRyb2wgMzAwKQo+IFsgICAgMC43NDk0NjFdIGF0YTIuMDA6IEFUQS03OiBRRU1VIEhBUkRESVNL
-LCB2ZXJzaW9uLCBtYXggVURNQS8xMDAKPiBbICAgIDAuNzQ5NDcwXSBhdGEyLjAwOiA3MzIgc2Vj
-dG9ycywgbXVsdGkgMTY6IExCQTQ4IE5DUSAoZGVwdGggMzIpCj4gWyAgICAwLjc0OTQ3OV0gYXRh
-Mi4wMDogYXBwbHlpbmcgYnJpZGdlIGxpbWl0cwo+IFsgICAgMC43NTA5MTVdIGF0YTQ6IFNBVEEg
-bGluayBkb3duIChTU3RhdHVzIDAgU0NvbnRyb2wgMzAwKQo+IFsgICAgMC43NTIxMTBdIGF0YTU6
-IFNBVEEgbGluayBkb3duIChTU3RhdHVzIDAgU0NvbnRyb2wgMzAwKQo+IFsgICAgMC43NTM0MjRd
-IGF0YTY6IFNBVEEgbGluayB1cCAxLjUgR2JwcyAoU1N0YXR1cyAxMTMgU0NvbnRyb2wgMzAwKQo+
-IFsgICAgMC43NTQ4NzddIGF0YTM6IFNBVEEgbGluayBkb3duIChTU3RhdHVzIDAgU0NvbnRyb2wg
-MzAwKQo+IFsgICAgMC43NTUzNDJdIGF0YTEuMDA6IEFUQS03OiBRRU1VIEhBUkRESVNLLCB2ZXJz
-aW9uLCBtYXggVURNQS8xMDAKPiBbICAgIDAuNzU1Mzc3XSBhdGExLjAwOiAyNjg0MzU0NTYgc2Vj
-dG9ycywgbXVsdGkgMTY6IExCQTQ4IE5DUSAoZGVwdGggMzIpCj4gWyAgICAwLjc1NTM4N10gYXRh
-MS4wMDogYXBwbHlpbmcgYnJpZGdlIGxpbWl0cwo+IFsgICAgMC43NTU0ODZdIGF0YTYuMDA6IEFU
-QS03OiBRRU1VIEhBUkRESVNLLCB2ZXJzaW9uLCBtYXggVURNQS8xMDAKPiBbICAgIDAuNzU1NDky
-XSBhdGE2LjAwOiA4Mzg4NjA4IHNlY3RvcnMsIG11bHRpIDE2OiBMQkE0OCBOQ1EgKGRlcHRoIDMy
-KQo+IFsgICAgMC43NTU1MDBdIGF0YTYuMDA6IGFwcGx5aW5nIGJyaWRnZSBsaW1pdHMKPiBbICAg
-IDAuNzU3MzMwXSBhdGExLjAwOiBjb25maWd1cmVkIGZvciBVRE1BLzEwMAo+IFsgICAgMC43NTc0
-NDFdIGF0YTYuMDA6IGNvbmZpZ3VyZWQgZm9yIFVETUEvMTAwCj4gWyAgICAwLjc1NzUwNV0gYXRh
-Mi4wMDogY29uZmlndXJlZCBmb3IgVURNQS8xMDAKPiBbICAgIDAuNzU4MDE1XSBzY3NpIDA6MDow
-OjA6IERpcmVjdC1BY2Nlc3MgICAgIEFUQSAgICAgIFFFTVUgSEFSRERJU0sgICAgaW9uICBQUTog
-MCBBTlNJOiA1Cj4gWyAgICAwLjc2MDU0Ml0gc2QgMDowOjA6MDogQXR0YWNoZWQgc2NzaSBnZW5l
-cmljIHNnMCB0eXBlIDAKPiBbICAgIDAuNzYwNjY5XSBzZCAwOjA6MDowOiBbc2RhXSAyNjg0MzU0
-NTYgNTEyLWJ5dGUgbG9naWNhbCBibG9ja3M6ICgxMzcgR0IvMTI4IEdpQikKPiBbICAgIDAuNzYw
-Nzc4XSBzZCAwOjA6MDowOiBbc2RhXSBXcml0ZSBQcm90ZWN0IGlzIG9mZgo+IFsgICAgMC43NjA3
-ODddIHNkIDA6MDowOjA6IFtzZGFdIE1vZGUgU2Vuc2U6IDAwIDNhIDAwIDAwCj4gWyAgICAwLjc2
-MDg0N10gc2QgMDowOjA6MDogW3NkYV0gV3JpdGUgY2FjaGU6IGVuYWJsZWQsIHJlYWQgY2FjaGU6
-IGVuYWJsZWQsIGRvZXNuJ3Qgc3VwcG9ydCBEUE8gb3IgRlVBCj4gWyAgICAwLjc2MDk4MV0gc2Qg
-MDowOjA6MDogW3NkYV0gUHJlZmVycmVkIG1pbmltdW0gSS9PIHNpemUgNTEyIGJ5dGVzCj4gWyAg
-ICAwLjc2MTMxOV0gc2NzaSAxOjA6MDowOiBEaXJlY3QtQWNjZXNzICAgICBBVEEgICAgICBRRU1V
-IEhBUkRESVNLICAgIGlvbiAgUFE6IDAgQU5TSTogNQo+IFsgICAgMC43NjI4MDhdIHNkIDE6MDow
-OjA6IEF0dGFjaGVkIHNjc2kgZ2VuZXJpYyBzZzEgdHlwZSAwCj4gWyAgICAwLjc2MzAwNF0gc2Qg
-MTowOjA6MDogW3NkYl0gNzMyIDUxMi1ieXRlIGxvZ2ljYWwgYmxvY2tzOiAoMzc1IGtCLzM2NiBL
-aUIpCj4gWyAgICAwLjc2MzY0OV0gc2QgMTowOjA6MDogW3NkYl0gV3JpdGUgUHJvdGVjdCBpcyBv
-ZmYKPiBbICAgIDAuNzYzNjYxXSBzZCAxOjA6MDowOiBbc2RiXSBNb2RlIFNlbnNlOiAwMCAzYSAw
-MCAwMAo+IFsgICAgMC43NjM5NjVdIHNkIDE6MDowOjA6IFtzZGJdIFdyaXRlIGNhY2hlOiBlbmFi
-bGVkLCByZWFkIGNhY2hlOiBlbmFibGVkLCBkb2Vzbid0IHN1cHBvcnQgRFBPIG9yIEZVQQo+IFsg
-ICAgMC43NjQwMjZdIHNkIDE6MDowOjA6IFtzZGJdIFByZWZlcnJlZCBtaW5pbXVtIEkvTyBzaXpl
-IDUxMiBieXRlcwo+IFsgICAgMC43NjU5MjNdIHNjc2kgNTowOjA6MDogRGlyZWN0LUFjY2VzcyAg
-ICAgQVRBICAgICAgUUVNVSBIQVJERElTSyAgICBpb24gIFBROiAwIEFOU0k6IDUKPiBbICAgIDAu
-NzY3OTg3XSBzZCA1OjA6MDowOiBBdHRhY2hlZCBzY3NpIGdlbmVyaWMgc2cyIHR5cGUgMAo+IFsg
-ICAgMC43Njg2MjZdIHNkIDU6MDowOjA6IFtzZGNdIDgzODg2MDggNTEyLWJ5dGUgbG9naWNhbCBi
-bG9ja3M6ICg0LjI5IEdCLzQuMDAgR2lCKQo+IFsgICAgMC43Njk5MDldIHNkIDU6MDowOjA6IFtz
-ZGNdIFdyaXRlIFByb3RlY3QgaXMgb2ZmCj4gWyAgICAwLjc2OTkyMF0gc2QgNTowOjA6MDogW3Nk
-Y10gTW9kZSBTZW5zZTogMDAgM2EgMDAgMDAKPiBbICAgIDAuNzcwNTE1XSBzZCAxOjA6MDowOiBb
-c2RiXSBBdHRhY2hlZCBTQ1NJIGRpc2sKPiBbICAgIDAuNzcwOTAwXSBzZCA1OjA6MDowOiBbc2Rj
-XSBXcml0ZSBjYWNoZTogZW5hYmxlZCwgcmVhZCBjYWNoZTogZW5hYmxlZCwgZG9lc24ndCBzdXBw
-b3J0IERQTyBvciBGVUEKPiBbICAgIDAuNzcxNzgyXSBzZCA1OjA6MDowOiBbc2RjXSBQcmVmZXJy
-ZWQgbWluaW11bSBJL08gc2l6ZSA1MTIgYnl0ZXMKPiBbICAgIDAuNzczOTAwXSAgc2RhOiBzZGEx
-IHNkYTE0IHNkYTE1Cj4gWyAgICAwLjc3NDQ5OV0gc2QgNTowOjA6MDogW3NkY10gQXR0YWNoZWQg
-U0NTSSBkaXNrCj4gWyAgICAwLjc3NDkwN10gc2QgMDowOjA6MDogW3NkYV0gQXR0YWNoZWQgU0NT
-SSBkaXNrCj4gWyAgICAxLjA4NDAxMV0gaW5wdXQ6IEltRXhQUy8yIEdlbmVyaWMgRXhwbG9yZXIg
-TW91c2UgYXMgL2RldmljZXMvcGxhdGZvcm0vaTgwNDIvc2VyaW8xL2lucHV0L2lucHV0Mwo+IFsg
-ICAxMC44ODczNTBdIG1kOiBXYWl0aW5nIGZvciBhbGwgZGV2aWNlcyB0byBiZSBhdmFpbGFibGUg
-YmVmb3JlIGF1dG9kZXRlY3QKPiBbICAgMTAuODg3Mzk1XSBtZDogSWYgeW91IGRvbid0IHVzZSBy
-YWlkLCB1c2UgcmFpZD1ub2F1dG9kZXRlY3QKPiBbICAgMTAuODg3NDQ1XSAtLS0tLS0tLS0tLS1b
-IGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KPiBbICAgMTAuODg3NDQ4XSBXQVJOSU5HOiBDUFU6IDEg
-UElEOiAxIGF0IGRyaXZlcnMvYmFzZS9kZC5jOjc0MSB3YWl0X2Zvcl9kZXZpY2VfcHJvYmUrMHgx
-YS8weDE2MAo+IFsgICAxMC44OTM5ODddIE1vZHVsZXMgbGlua2VkIGluOgo+IFsgICAxMC44OTQz
-MTRdIENQVTogMSBQSUQ6IDEgQ29tbTogc3dhcHBlci8wIFRhaW50ZWQ6IEcgICAgICAgIFcgICAg
-ICAgICA1LjE4LjAtbmV4dC0yMDIyMDUyNi0wMDAwNC1nNzRmOTM2MDEzYjA4LWRpcnR5ICMyMAo+
-IFsgICAxMC44OTUzODldIEhhcmR3YXJlIG5hbWU6IFFFTVUgU3RhbmRhcmQgUEMgKFEzNSArIElD
-SDksIDIwMDkpLCBCSU9TIHJlbC0xLjE2LjAtMC1nZDIzOTU1MmNlNzIyLXByZWJ1aWx0LnFlbXUu
-b3JnIDA0LzAxLzIwMTQKPiBbICAgMTAuODk2NTkwXSBSSVA6IDAwMTA6d2FpdF9mb3JfZGV2aWNl
-X3Byb2JlKzB4MWEvMHgxNjAKPiBbICAgMTAuODk3MjE1XSBDb2RlOiAwMCBlOCBmYSBlNCBiNSBm
-ZiA4YiA0NCAyNCAwNCA0OCA4MyBjNCAwOCA1YiBjMyAwZiAxZiA0NCAwMCAwMCA1MyA0OCA4MyBl
-YyAzMCA2NSA0OCA4YiAwNCAyNSAyOCAwMCAwMCAwMCA0OCA4OSA0NCAyNCAyOCAzMSBjMCA8MGY+
-IDBiIGU4IDFmIGFjIDU3IDAwIDhiIDE1IGYxIGIzIDI0IDAxIDg1IGQyIDc1IDNkIDQ4IGM3IGM3
-IDYwIDJmCj4gWyAgIDEwLjg5OTI2OV0gUlNQOiAwMDAwOmZmZmY5Yzc5MDAwMTNlYzggRUZMQUdT
-OiAwMDAxMDI0Ngo+IFsgICAxMC44OTk3NjJdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IDAw
-MDAwMDAwMDAwMDAwMDggUkNYOiAwMDAwMDAwMDAwMDAwMDAwCj4gWyAgIDEwLjkwMDQyNF0gUkRY
-OiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogZmZmZmZmZmY5ZDk5ODA4OSBSREk6IDAwMDAwMDAwZmZm
-ZmZmZmYKPiBbICAgMTAuOTAxMDYwXSBSQlA6IDAwMDAwMDAwMDAwMDAyMTQgUjA4OiA4MDAwMDAw
-MGZmZmZlMWNhIFIwOTogZmZmZjljNzkwMDAxM2VhOAo+IFsgICAxMC45MDE4MzldIFIxMDogM2Zm
-ZmZmZmZmZmZmZmZmZiBSMTE6IDAwMDAwMDAwMDAwMDAwMDAgUjEyOiBmZmZmODk2NGMwMzQzNjQw
-Cj4gWyAgIDEwLjkwMjYxNV0gUjEzOiBmZmZmZmZmZjllNTE3OTFjIFIxNDogMDAwMDAwMDAwMDAw
-MDAwMCBSMTU6IDAwMDAwMDAwMDAwMDAwMDAKPiBbICAgMTAuOTAzMzcxXSBGUzogIDAwMDAwMDAw
-MDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjg5NjYzN2M4MDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAw
-MDAwMDAwCj4gWyAgIDEwLjkwNDE4OF0gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDog
-MDAwMDAwMDA4MDA1MDAzMwo+IFsgICAxMC45MDQ3MjFdIENSMjogMDAwMDAwMDAwMDAwMDAwMCBD
-UjM6IDAwMDAwMDAxZWQyMGMwMDEgQ1I0OiAwMDAwMDAwMDAwMzcwZWUwCj4gWyAgIDEwLjkwNTM0
-MF0gQ2FsbCBUcmFjZToKPiBbICAgMTAuOTA1NTU4XSAgPFRBU0s+Cj4gWyAgIDEwLjkwNTczOV0g
-IG1kX3J1bl9zZXR1cCsweDNjLzB4NmEKPiBbICAgMTAuOTA2MDM2XSAgcHJlcGFyZV9uYW1lc3Bh
-Y2UrMHgzNS8weDE2YQo+IFsgICAxMC45MDYzOTFdICBrZXJuZWxfaW5pdF9mcmVlYWJsZSsweDIw
-Ny8weDIxMgo+IFsgICAxMC45MDY3NDhdICA/IHJlc3RfaW5pdCsweGMwLzB4YzAKPiBbICAgMTAu
-OTA3MDIxXSAga2VybmVsX2luaXQrMHgxNi8weDEyMAo+IFsgICAxMC45MDczMTJdICByZXRfZnJv
-bV9mb3JrKzB4MWYvMHgzMAo+IFsgICAxMC45MDc2MTddICA8L1RBU0s+Cj4gWyAgIDEwLjkwNzc5
-Nl0gLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tCj4gWyAgIDEwLjkwODE1OV0g
-bWQ6IEF1dG9kZXRlY3RpbmcgUkFJRCBhcnJheXMuCj4gWyAgIDEwLjkwODE2MF0gbWQ6IGF1dG9y
-dW4gLi4uCj4gWyAgIDEwLjkwODE2MF0gbWQ6IC4uLiBhdXRvcnVuIERPTkUuCj4gWyAgIDEwLjkx
-MTMwMV0gRVhUNC1mcyAoc2RhMSk6IElORk86IHJlY292ZXJ5IHJlcXVpcmVkIG9uIHJlYWRvbmx5
-IGZpbGVzeXN0ZW0KPiBbICAgMTAuOTExMzAzXSBFWFQ0LWZzIChzZGExKTogd3JpdGUgYWNjZXNz
-IHdpbGwgYmUgZW5hYmxlZCBkdXJpbmcgcmVjb3ZlcnkKPiBbICAgMTEuMDM4MDAxXSBFWFQ0LWZz
-IChzZGExKTogb3JwaGFuIGNsZWFudXAgb24gcmVhZG9ubHkgZnMKPiBbICAgMTEuMDM4NDY2XSBF
-WFQ0LWZzIChzZGExKTogMiBvcnBoYW4gaW5vZGVzIGRlbGV0ZWQKPiBbICAgMTEuMDM4NDc1XSBF
-WFQ0LWZzIChzZGExKTogcmVjb3ZlcnkgY29tcGxldGUKPiBbICAgMTEuMDUzMDMzXSBFWFQ0LWZz
-IChzZGExKTogbW91bnRlZCBmaWxlc3lzdGVtIHdpdGggb3JkZXJlZCBkYXRhIG1vZGUuIFF1b3Rh
-IG1vZGU6IG5vbmUuCj4gWyAgIDExLjA1MzA3NF0gVkZTOiBNb3VudGVkIHJvb3QgKGV4dDQgZmls
-ZXN5c3RlbSkgcmVhZG9ubHkgb24gZGV2aWNlIDg6MS4KPiBbICAgMTEuMDUzMTc1XSBkZXZ0bXBm
-czogbW91bnRlZAo+IFsgICAxMS4wNjE5MjFdIEZyZWVpbmcgdW51c2VkIGtlcm5lbCBpbWFnZSAo
-aW5pdG1lbSkgbWVtb3J5OiAxNjgwSwo+IFsgICAxMS4wNjE5MzBdIFdyaXRlIHByb3RlY3Rpbmcg
-dGhlIGtlcm5lbCByZWFkLW9ubHkgZGF0YTogMjQ1NzZrCj4gWyAgIDExLjA3MTEwOF0gRnJlZWlu
-ZyB1bnVzZWQga2VybmVsIGltYWdlICh0ZXh0L3JvZGF0YSBnYXApIG1lbW9yeTogMjAzMksKPiBb
-ICAgMTEuMDczNTk2XSBGcmVlaW5nIHVudXNlZCBrZXJuZWwgaW1hZ2UgKHJvZGF0YS9kYXRhIGdh
-cCkgbWVtb3J5OiA5MjRLCj4gWyAgIDExLjA3MzYwOV0gUnVuIC9zYmluL2luaXQgYXMgaW5pdCBw
-cm9jZXNzCj4KPgo+IEtpbmQgcmVnYXJkcywKPiBOaWtsYXMKPgo+IC0tCj4gVG8gdW5zdWJzY3Jp
-YmUgZnJvbSB0aGlzIGdyb3VwIGFuZCBzdG9wIHJlY2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2Vu
-ZCBhbiBlbWFpbCB0byBrZXJuZWwtdGVhbSt1bnN1YnNjcmliZUBhbmRyb2lkLmNvbS4KPgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5n
-IGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51
-eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+From: Yunfei Wang <yf.wang@mediatek.com>
+
+Single memory zone feature will remove ZONE_DMA32 and ZONE_DMA and
+cause pgtable PA size larger than 32bit.
+
+Since Mediatek IOMMU hardware support at most 35bit PA in pgtable,
+so add a quirk to allow the PA of pgtables support up to bit35.
+
+Signed-off-by: Ning Li <ning.li@mediatek.com>
+Signed-off-by: Yunfei Wang <yf.wang@mediatek.com>
+---
+ drivers/iommu/io-pgtable-arm-v7s.c | 48 +++++++++++++++++++++---------
+ include/linux/io-pgtable.h         | 17 +++++++----
+ 2 files changed, 45 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index be066c1503d3..9a7671a89fd7 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -182,14 +182,8 @@ static bool arm_v7s_is_mtk_enabled(struct io_pgtable_cfg *cfg)
+ 		(cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_EXT);
+ }
+ 
+-static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
+-				    struct io_pgtable_cfg *cfg)
++static arm_v7s_iopte to_iopte_mtk(phys_addr_t paddr, arm_v7s_iopte pte)
+ {
+-	arm_v7s_iopte pte = paddr & ARM_V7S_LVL_MASK(lvl);
+-
+-	if (!arm_v7s_is_mtk_enabled(cfg))
+-		return pte;
+-
+ 	if (paddr & BIT_ULL(32))
+ 		pte |= ARM_V7S_ATTR_MTK_PA_BIT32;
+ 	if (paddr & BIT_ULL(33))
+@@ -199,6 +193,17 @@ static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
+ 	return pte;
+ }
+ 
++static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
++				    struct io_pgtable_cfg *cfg)
++{
++	arm_v7s_iopte pte = paddr & ARM_V7S_LVL_MASK(lvl);
++
++	if (!arm_v7s_is_mtk_enabled(cfg))
++		return pte;
++
++	return to_iopte_mtk(paddr, pte);
++}
++
+ static phys_addr_t iopte_to_paddr(arm_v7s_iopte pte, int lvl,
+ 				  struct io_pgtable_cfg *cfg)
+ {
+@@ -234,6 +239,7 @@ static arm_v7s_iopte *iopte_deref(arm_v7s_iopte pte, int lvl,
+ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
+ 				   struct arm_v7s_io_pgtable *data)
+ {
++	gfp_t gfp_l1 = __GFP_ZERO | ARM_V7S_TABLE_GFP_DMA;
+ 	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+ 	struct device *dev = cfg->iommu_dev;
+ 	phys_addr_t phys;
+@@ -241,9 +247,11 @@ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
+ 	size_t size = ARM_V7S_TABLE_SIZE(lvl, cfg);
+ 	void *table = NULL;
+ 
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		gfp_l1 = GFP_KERNEL | __GFP_ZERO;
++
+ 	if (lvl == 1)
+-		table = (void *)__get_free_pages(
+-			__GFP_ZERO | ARM_V7S_TABLE_GFP_DMA, get_order(size));
++		table = (void *)__get_free_pages(gfp_l1, get_order(size));
+ 	else if (lvl == 2)
+ 		table = kmem_cache_zalloc(data->l2_tables, gfp);
+ 
+@@ -251,7 +259,8 @@ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
+ 		return NULL;
+ 
+ 	phys = virt_to_phys(table);
+-	if (phys != (arm_v7s_iopte)phys) {
++	if (phys != (arm_v7s_iopte)phys &&
++	    !(cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)) {
+ 		/* Doesn't fit in PTE */
+ 		dev_err(dev, "Page table does not fit in PTE: %pa", &phys);
+ 		goto out_free;
+@@ -457,9 +466,14 @@ static arm_v7s_iopte arm_v7s_install_table(arm_v7s_iopte *table,
+ 					   arm_v7s_iopte curr,
+ 					   struct io_pgtable_cfg *cfg)
+ {
++	phys_addr_t phys = virt_to_phys(table);
+ 	arm_v7s_iopte old, new;
+ 
+-	new = virt_to_phys(table) | ARM_V7S_PTE_TYPE_TABLE;
++	new = phys | ARM_V7S_PTE_TYPE_TABLE;
++
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		new = to_iopte_mtk(phys, new);
++
+ 	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS)
+ 		new |= ARM_V7S_ATTR_NS_TABLE;
+ 
+@@ -778,7 +792,9 @@ static phys_addr_t arm_v7s_iova_to_phys(struct io_pgtable_ops *ops,
+ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 						void *cookie)
+ {
++	slab_flags_t slab_flag = ARM_V7S_TABLE_SLAB_FLAGS;
+ 	struct arm_v7s_io_pgtable *data;
++	phys_addr_t paddr;
+ 
+ 	if (cfg->ias > (arm_v7s_is_mtk_enabled(cfg) ? 34 : ARM_V7S_ADDR_BITS))
+ 		return NULL;
+@@ -788,7 +804,8 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 
+ 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
+ 			    IO_PGTABLE_QUIRK_NO_PERMS |
+-			    IO_PGTABLE_QUIRK_ARM_MTK_EXT))
++			    IO_PGTABLE_QUIRK_ARM_MTK_EXT |
++			    IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT))
+ 		return NULL;
+ 
+ 	/* If ARM_MTK_4GB is enabled, the NO_PERMS is also expected. */
+@@ -801,10 +818,12 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 		return NULL;
+ 
+ 	spin_lock_init(&data->split_lock);
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT)
++		slab_flag = 0;
+ 	data->l2_tables = kmem_cache_create("io-pgtable_armv7s_l2",
+ 					    ARM_V7S_TABLE_SIZE(2, cfg),
+ 					    ARM_V7S_TABLE_SIZE(2, cfg),
+-					    ARM_V7S_TABLE_SLAB_FLAGS, NULL);
++					    slab_flag, NULL);
+ 	if (!data->l2_tables)
+ 		goto out_free_data;
+ 
+@@ -850,7 +869,8 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 	wmb();
+ 
+ 	/* TTBR */
+-	cfg->arm_v7s_cfg.ttbr = virt_to_phys(data->pgd) | ARM_V7S_TTBR_S |
++	paddr = virt_to_phys(data->pgd);
++	cfg->arm_v7s_cfg.ttbr = paddr | ARM_V7S_TTBR_S |
+ 				(cfg->coherent_walk ? (ARM_V7S_TTBR_NOS |
+ 				 ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_WBWA) |
+ 				 ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_WBWA)) :
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index 86af6f0a00a2..13f564456c9e 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -74,17 +74,22 @@ struct io_pgtable_cfg {
+ 	 *	to support up to 35 bits PA where the bit32, bit33 and bit34 are
+ 	 *	encoded in the bit9, bit4 and bit5 of the PTE respectively.
+ 	 *
++	 * IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT: (ARM v7s format) MediaTek IOMMUs
++	 *	extend the translation table support up to 35 bits PA, the
++	 *	encoding format is same with IO_PGTABLE_QUIRK_ARM_MTK_EXT.
++	 *
+ 	 * IO_PGTABLE_QUIRK_ARM_TTBR1: (ARM LPAE format) Configure the table
+ 	 *	for use in the upper half of a split address space.
+ 	 *
+ 	 * IO_PGTABLE_QUIRK_ARM_OUTER_WBWA: Override the outer-cacheability
+ 	 *	attributes set in the TCR for a non-coherent page-table walker.
+ 	 */
+-	#define IO_PGTABLE_QUIRK_ARM_NS		BIT(0)
+-	#define IO_PGTABLE_QUIRK_NO_PERMS	BIT(1)
+-	#define IO_PGTABLE_QUIRK_ARM_MTK_EXT	BIT(3)
+-	#define IO_PGTABLE_QUIRK_ARM_TTBR1	BIT(5)
+-	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA	BIT(6)
++	#define IO_PGTABLE_QUIRK_ARM_NS			BIT(0)
++	#define IO_PGTABLE_QUIRK_NO_PERMS		BIT(1)
++	#define IO_PGTABLE_QUIRK_ARM_MTK_EXT		BIT(3)
++	#define IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT	BIT(4)
++	#define IO_PGTABLE_QUIRK_ARM_TTBR1		BIT(5)
++	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA		BIT(6)
+ 	unsigned long			quirks;
+ 	unsigned long			pgsize_bitmap;
+ 	unsigned int			ias;
+@@ -122,7 +127,7 @@ struct io_pgtable_cfg {
+ 		} arm_lpae_s2_cfg;
+ 
+ 		struct {
+-			u32	ttbr;
++			u64	ttbr;
+ 			u32	tcr;
+ 			u32	nmrr;
+ 			u32	prrr;
+-- 
+2.18.0
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
