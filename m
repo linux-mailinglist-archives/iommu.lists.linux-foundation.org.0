@@ -1,71 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A015395DF
-	for <lists.iommu@lfdr.de>; Tue, 31 May 2022 20:07:50 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00AA539646
+	for <lists.iommu@lfdr.de>; Tue, 31 May 2022 20:27:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0530183FA1;
-	Tue, 31 May 2022 18:07:49 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id reTBYupQmEpg; Tue, 31 May 2022 18:07:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 720D283F8B;
-	Tue, 31 May 2022 18:07:47 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2F43AC0081;
-	Tue, 31 May 2022 18:07:47 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4CA7DC002D
- for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 18:07:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 372814094D
- for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 18:07:45 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id ABCDB40912;
+	Tue, 31 May 2022 18:27:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eo7tZlJBZKcL for <iommu@lists.linux-foundation.org>;
- Tue, 31 May 2022 18:07:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp4.osuosl.org (Postfix) with ESMTP id 830A540943
- for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 18:07:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77CB023A;
- Tue, 31 May 2022 11:07:40 -0700 (PDT)
-Received: from [10.57.81.38] (unknown [10.57.81.38])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EA0B3F766;
- Tue, 31 May 2022 11:07:38 -0700 (PDT)
-Message-ID: <10f16c13-c50d-892c-a20d-979b2135c953@arm.com>
-Date: Tue, 31 May 2022 19:07:32 +0100
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bDbKP0RQ7Bfw; Tue, 31 May 2022 18:27:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 41E3F41529;
+	Tue, 31 May 2022 18:27:03 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 45BF5C0089;
+	Tue, 31 May 2022 18:27:02 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 79CE0C0081
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 18:27:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 56B3360B67
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 18:27:00 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=cybernetics.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yJv6ZvkXBIqU for <iommu@lists.linux-foundation.org>;
+ Tue, 31 May 2022 18:26:59 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.cybernetics.com (mail.cybernetics.com [173.71.130.66])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 5F23460ACF
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 18:26:59 +0000 (UTC)
+X-ASG-Debug-ID: 1654020677-1cf43917f334afa0001-DtgJuY
+Received: from cybernetics.com ([10.10.4.126]) by mail.cybernetics.com with
+ ESMTP id wbqVFrYsF9UO9ekk; Tue, 31 May 2022 14:11:17 -0400 (EDT)
+X-Barracuda-Envelope-From: tonyb@cybernetics.com
+X-ASG-Whitelist: Client
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=cybernetics.com; s=mail; 
+ bh=QvvHI94cjVSZ3vyzLq0aE4IbkuwCS7vLvfKjrgG4UFU=;
+ h=Content-Transfer-Encoding:Content-Type:Cc:To:Subject:From:Content-Language:
+ MIME-Version:Date:Message-ID; b=cdHo3GAMcWDRJ0VGiCWvXlyIXhHwRhAR44nZK//A1tvRT
+ d2BjwWd9JShX2dFtLN6fSvPzVQCXgXil9PAdI8Wj2ZmL6SkzZRUPpYY3OSL3k3Ip8B7njnzSJgaZg
+ nIQyJjOiw0pjXEOVFlb1XTpA4pOl5WOwRUtj+NTaT5uO9KtoI=
+Received: from [10.157.2.224] (HELO [192.168.200.1])
+ by cybernetics.com (CommuniGate Pro SMTP 7.1.1)
+ with ESMTPS id 11829182; Tue, 31 May 2022 14:11:17 -0400
+Message-ID: <9b08ab7c-b80b-527d-9adf-7716b0868fbc@cybernetics.com>
+Date: Tue, 31 May 2022 14:11:16 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 01/12] iommu/vt-d: Use iommu_get_domain_for_dev() in
- debugfs
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <20220527145910.GQ1343366@nvidia.com>
- <eda4d688-257b-d12a-56c0-0f9d3a10ef8c@linux.intel.com>
- <20220530121412.GX1343366@nvidia.com>
- <42623a73-c288-1c0d-7021-93caff4ffb6f@linux.intel.com>
- <20220531131052.GD1343366@nvidia.com>
- <60318d83-e22f-f922-436f-6c31bce24d59@linux.intel.com>
- <20220531145301.GE1343366@nvidia.com>
- <a7d6d830-cb06-e0d7-0688-028f9af900e5@arm.com>
- <20220531151332.GF1343366@nvidia.com>
- <b66a2e3b-9adc-5150-fe00-d68b141b1c28@arm.com>
- <20220531162152.GH1343366@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220531162152.GH1343366@nvidia.com>
-Cc: Kevin Tian <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>,
- linux-kernel@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
- iommu@lists.linux-foundation.org, Jacob jun Pan <jacob.jun.pan@intel.com>,
- Will Deacon <will@kernel.org>
+Content-Language: en-US
+From: Tony Battersby <tonyb@cybernetics.com>
+Subject: [PATCH 00/10] mpt3sas and dmapool scalability
+To: linux-mm@kvack.org, linux-kernel@vger.kernel.org
+X-ASG-Orig-Subj: [PATCH 00/10] mpt3sas and dmapool scalability
+X-Barracuda-Connect: UNKNOWN[10.10.4.126]
+X-Barracuda-Start-Time: 1654020677
+X-Barracuda-URL: https://10.10.4.122:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at cybernetics.com
+X-Barracuda-Scan-Msg-Size: 3968
+X-Barracuda-BRTS-Status: 1
+Cc: Tony Lindgren <tony@atomide.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Matthew Wilcox <willy@infradead.org>, iommu@lists.linux-foundation.org,
+ Keith Busch <kbusch@kernel.org>, kernel-team@fb.com,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,67 +84,111 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022-05-31 17:21, Jason Gunthorpe wrote:
-> On Tue, May 31, 2022 at 05:01:46PM +0100, Robin Murphy wrote:
-> 
->> The DMA API doesn't need locking, partly since it can trust itself not to do
->> stupid things, and mostly because it's DMA API performance that's
->> fundamentally incompatible with serialisation anyway. Why do you think we
->> have a complicated per-CPU IOVA caching mechanism, if not to support big
->> multi-queue devices with multiple CPU threads mapping/unmapping in different
->> parts of the same DMA domain concurrently?
-> 
-> Well, per-CPU is a form of locking.
+This patch series improves dmapool scalability by replacing linear scans
+with red-black trees.
 
-Right, but that only applies for alloc_iova_fast() itself - once the 
-CPUs have each got their distinct IOVA region, they can then pile into 
-iommu_map() completely unhindered (and the inverse for the unmap path).
+History:
 
-> So what are the actual locking rules here? We can call map/unmap
-> concurrently but not if ... ?
-> 
-> IOVA overlaps?
+In 2018 this patch series made it through 4 versions.  v1 used red-black
+trees; v2 - v4 put the dma pool info directly into struct page and used
+virt_to_page() to get at it.  v4 made a brief appearance in linux-next,
+but it caused problems on non-x86 archs where virt_to_page() doesn't
+work with dma_alloc_coherent, so it was reverted.  I was too busy at the
+time to repost the red-black tree version, and I forgot about it until
+now.  This version is based on the red-black trees of v1, but addressing
+all the review comments I got at the time and with additional cleanup
+patches.
 
-Well, I think the de-facto rule is that you technically *can* make 
-overlapping requests, but one or both may fail, and the final outcome in 
-terms of what ends up mapped in the domain is undefined (especially if 
-they both succeed). The only real benefit of enforcing serialisation 
-would be better failure behaviour in such cases, but it remains 
-fundamentally nonsensical for callers to make contradictory requests 
-anyway, whether concurrently or sequentially, so there doesn't seem much 
-point in spending effort on improving support for nonsense.
+Note that Keith Busch is also working on improving dmapool scalability,
+so for now I would recommend not merging my scalability patches until
+Keith's approach can be evaluated.  In the meantime, my patches can
+serve as a benchmark comparison.  I also have a number of cleanup
+patches in my series that could be useful on their own.
 
-> And we expect the iommu driver to be unable to free page table levels
-> that have IOVA boundaries in them?
+References:
 
-I'm not entirely sure what you mean there, but in general an unmap 
-request is expected to match some previous map request - there isn't a 
-defined API-level behaviour for partial unmaps. They might either unmap 
-the entire region originally mapped, or just the requested part, or 
-might fail entirely (IIRC there was some nasty code in VFIO for 
-detecting a particular behaviour). Similarly for unmapping anything 
-that's already not mapped, some drivers treat that as a no-op, others as 
-an error. But again, this is even further unrelated to concurrency.
+v1
+https://lore.kernel.org/linux-mm/73ec1f52-d758-05df-fb6a-41d269e910d0@cybernetics.com/
 
->> The simpler drivers already serialise on a per-domain lock internally, while
->> the more performance-focused ones implement lock-free atomic pagetable
->> management in a similar style to CPU arch code; either way it should work
->> fine as-is.
-> 
-> The mm has page table locks at every level and generally expects them
-> to be held for a lot of manipulations. There are some lockless cases,
-> but it is not as aggressive as this sounds.
+v2
+https://lore.kernel.org/linux-mm/ec701153-fdc9-37f3-c267-f056159b4606@cybernetics.com/
 
-Oh, I've spent the last couple of weeks hacking up horrible things 
-manipulating entries in init_mm, and never realised that that was 
-actually the special case. Oh well, live and learn.
+v3
+https://lore.kernel.org/linux-mm/d48854ff-995d-228e-8356-54c141c32117@cybernetics.com/
 
-Robin.
+v4
+https://lore.kernel.org/linux-mm/88395080-efc1-4e7b-f813-bb90c86d0745@cybernetics.com/
+
+problem caused by virt_to_page()
+https://lore.kernel.org/linux-kernel/20181206013054.GI6707@atomide.com/
+
+Keith Busch's dmapool performance enhancements
+https://lore.kernel.org/linux-mm/20220428202714.17630-1-kbusch@kernel.org/
+
+Below is my original description of the motivation for these patches.
+
+drivers/scsi/mpt3sas is running into a scalability problem with the
+kernel's DMA pool implementation.  With a LSI/Broadcom SAS 9300-8i
+12Gb/s HBA and max_sgl_entries=256, during modprobe, mpt3sas does the
+equivalent of:
+
+chain_dma_pool = dma_pool_create(size = 128);
+for (i = 0; i < 373959; i++)
+    {
+    dma_addr[i] = dma_pool_alloc(chain_dma_pool);
+    }
+
+And at rmmod, system shutdown, or system reboot, mpt3sas does the
+equivalent of:
+
+for (i = 0; i < 373959; i++)
+    {
+    dma_pool_free(chain_dma_pool, dma_addr[i]);
+    }
+dma_pool_destroy(chain_dma_pool);
+
+With this usage, both dma_pool_alloc() and dma_pool_free() exhibit
+O(n^2) complexity, although dma_pool_free() is much worse due to
+implementation details.  On my system, the dma_pool_free() loop above
+takes about 9 seconds to run.  Note that the problem was even worse
+before commit 74522a92bbf0 ("scsi: mpt3sas: Optimize I/O memory
+consumption in driver."), where the dma_pool_free() loop could take ~30
+seconds.
+
+mpt3sas also has some other DMA pools, but chain_dma_pool is the only
+one with so many allocations:
+
+cat /sys/devices/pci0000:80/0000:80:07.0/0000:85:00.0/pools
+(manually cleaned up column alignment)
+poolinfo - 0.1
+reply_post_free_array pool  1      21     192     1
+reply_free pool             1      1      41728   1
+reply pool                  1      1      1335296 1
+sense pool                  1      1      970272  1
+chain pool                  373959 386048 128     12064
+reply_post_free pool        12     12     166528  12
+
+The patches in this series improve the scalability of the DMA pool
+implementation, which significantly reduces the running time of the
+DMA alloc/free loops.  With the patches applied, "modprobe mpt3sas",
+"rmmod mpt3sas", and system shutdown/reboot with mpt3sas loaded are
+significantly faster.  Here are some benchmarks (of DMA alloc/free
+only, not the entire modprobe/rmmod):
+
+dma_pool_create() + dma_pool_alloc() loop, size = 128, count = 373959
+  original:        350 ms ( 1x)
+  dmapool patches:  18 ms (19x)
+
+dma_pool_free() loop + dma_pool_destroy(), size = 128, count = 373959
+  original:        8901 ms (   1x)
+  dmapool patches:   19 ms ( 477x)
+
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
