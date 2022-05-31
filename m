@@ -1,81 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A0D53995C
-	for <lists.iommu@lfdr.de>; Wed,  1 Jun 2022 00:10:49 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 955E1539968
+	for <lists.iommu@lfdr.de>; Wed,  1 Jun 2022 00:19:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2D08760AEA;
-	Tue, 31 May 2022 22:10:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E5F63408A1;
+	Tue, 31 May 2022 22:19:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fctfXoupEvR2; Tue, 31 May 2022 22:10:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 49F3460BA8;
-	Tue, 31 May 2022 22:10:46 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id G5c7sTfiGfce; Tue, 31 May 2022 22:19:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DA667408E4;
+	Tue, 31 May 2022 22:19:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20BE7C0081;
-	Tue, 31 May 2022 22:10:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5E3CC0081;
+	Tue, 31 May 2022 22:19:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E516CC002D
- for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 22:10:43 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D68AC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 22:19:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id CBEA44172F
- for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 22:10:43 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6D9EB607C0
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 22:19:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=cybernetics.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XheSMfDQ_S0h for <iommu@lists.linux-foundation.org>;
- Tue, 31 May 2022 22:10:41 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.cybernetics.com (mail.cybernetics.com [173.71.130.66])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 81CB14161E
- for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 22:10:40 +0000 (UTC)
-X-ASG-Debug-ID: 1654035038-1cf43917f334d340001-DtgJuY
-Received: from cybernetics.com ([10.10.4.126]) by mail.cybernetics.com with
- ESMTP id pi5n3chlKhW5dG70; Tue, 31 May 2022 18:10:38 -0400 (EDT)
-X-Barracuda-Envelope-From: tonyb@cybernetics.com
-X-ASG-Whitelist: Client
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=cybernetics.com; s=mail; 
- bh=Pscrfy4zfmI9B2/f3RlaAfD71lZsuhWSoCA2Yk9IIwI=;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
- Content-Language:Subject:MIME-Version:Date:Message-ID; b=q5PB8adp564e7QMu+Y67
- rqxW9A2//yQphTVtYoOJzENI1mQv1RQmgvsm7Lip7aY8a7rF+htFUguM3OldCVKcojJicdxPHrfCe
- RfT8TUxLI1Q2o5QHc1BeFYM3K6ctZm0dHzpcsepgcE3x6eZwrBlQGNCsc3NwiuaJ4K8luj2hLA=
-Received: from [10.157.2.224] (HELO [192.168.200.1])
- by cybernetics.com (CommuniGate Pro SMTP 7.1.1)
- with ESMTPS id 11830524; Tue, 31 May 2022 18:10:38 -0400
-Message-ID: <803feeab-b27b-983d-45da-02a0daf0179a@cybernetics.com>
-Date: Tue, 31 May 2022 18:10:38 -0400
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QsB0btlTqnH5 for <iommu@lists.linux-foundation.org>;
+ Tue, 31 May 2022 22:19:46 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A04CC60783
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 22:19:46 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id p19so8739111wmg.2
+ for <iommu@lists.linux-foundation.org>; Tue, 31 May 2022 15:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hg0Ilti18FAQE7cSSj65kaiJUUDYw0qPslbA3HQQNKk=;
+ b=pk+7v8jwxc9qnUvijU0Bs2W142w7XcrD6mmGUUoIB2zJqfw/FLDe0qCku2APYiQsBh
+ rHZS7M3SLTqcI74mnTo0pnYyPbyceYuIwYIpXM2KKE63i+ElxZrKSGZt0HAgb3LG2Sfl
+ VEaTTKgdCrqF/AE7/RjdOauoCGLA2h+nvQnYAnlQMUomBB12RUT5SnAZ36uXx4DPpBb0
+ 9zvZ5npnBKue8wa2GiJn2WEq+ZcH1M7MaWs53s0hR6RsY9xKy05n9SMuFIH5iO42RsIJ
+ Mw02aOJ8jd/IA/gBLGx8U3hOk9sjdQz95ookzg+NT+l4Qh+CiJmyLjIHJZdAUDuSvhhp
+ 42Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hg0Ilti18FAQE7cSSj65kaiJUUDYw0qPslbA3HQQNKk=;
+ b=FtDnvS+aotIancZifLrCq4etS40C9pmukdEMarnMvciwHQUAwHCCqq5ARHXNSdQgpD
+ 0be5GSOwhNHUtKs283vlHB/QQbQAkBMPwTaztgBHBxExmuYeCACBcTOUyWsyJ+WEyQYG
+ BlHVXAd18WJZaUPFLLYBV2JpNVT16oeplkHatz0g1Unksyi50hQUW7njwIIpMxbWFmq8
+ LYHrwqTZ4ci77aA8HQi4ZTQ/ldGuUYmeo/sOwO88lPZxsfbKPVWJyFCAdLhvCgUUhM3N
+ QJ1u5mawJ2D68WgG3CZlutqrlph8jq0Ip/SjHUxnUKjQgrTv+q0h4VXEWNWo1PEJW5Zz
+ sRPQ==
+X-Gm-Message-State: AOAM532nVAiJeDc1OO1lzNrPzeXK5cZ4AfdyT6jRP27mxxVBeIGmPcMz
+ EWOULlQY+RX3A6e/Kt3vlgWN0zl01LfvgRc9eFE=
+X-Google-Smtp-Source: ABdhPJw+pyjdZqhWopEnK7PgvgXcc+sdJo0v04GaqsNX69HfALfqNi2CQOn3upMxMB+y4fWzvrpat4zC3W3e7STVlkk=
+X-Received: by 2002:a05:600c:6011:b0:398:fa3:c02d with SMTP id
+ az17-20020a05600c601100b003980fa3c02dmr19146556wmb.183.1654035584709; Tue, 31
+ May 2022 15:19:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 10/10] dmapool: improve scalability of dma_pool_free
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [PATCH 10/10] dmapool: improve scalability of
- dma_pool_free
-To: Keith Busch <kbusch@kernel.org>
-References: <9b08ab7c-b80b-527d-9adf-7716b0868fbc@cybernetics.com>
- <801335ba-00f3-12ae-59e0-119d7d8fd8cd@cybernetics.com>
- <YpaOj/C1SA8y1VCg@kbusch-mbp.dhcp.thefacebook.com>
-From: Tony Battersby <tonyb@cybernetics.com>
-In-Reply-To: <YpaOj/C1SA8y1VCg@kbusch-mbp.dhcp.thefacebook.com>
-X-Barracuda-Connect: UNKNOWN[10.10.4.126]
-X-Barracuda-Start-Time: 1654035038
-X-Barracuda-URL: https://10.10.4.122:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at cybernetics.com
-X-Barracuda-Scan-Msg-Size: 989
-X-Barracuda-BRTS-Status: 1
-Cc: Tony Lindgren <tony@atomide.com>, iommu@lists.linux-foundation.org,
- Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- kernel-team@fb.com, Robin Murphy <robin.murphy@arm.com>
+References: <20220531215106.192271-1-robdclark@gmail.com>
+ <39d1fa65-8e82-721c-171e-ef36bda1c561@arm.com>
+In-Reply-To: <39d1fa65-8e82-721c-171e-ef36bda1c561@arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 31 May 2022 15:19:45 -0700
+Message-ID: <CAF6AEGuMN23hxe1+PES-F0rgXDnxi48OfbdHKasPGVnbFvQ8rw@mail.gmail.com>
+Subject: Re: [PATCH] dma-debug: Make things less spammy under memory pressure
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,28 +91,55 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gNS8zMS8yMiAxNzo1NCwgS2VpdGggQnVzY2ggd3JvdGU6Cj4gT24gVHVlLCBNYXkgMzEsIDIw
-MjIgYXQgMDI6MjM6NDRQTSAtMDQwMCwgVG9ueSBCYXR0ZXJzYnkgd3JvdGU6Cj4+IGRtYV9wb29s
-X2ZyZWUoKSBzY2FsZXMgcG9vcmx5IHdoZW4gdGhlIHBvb2wgY29udGFpbnMgbWFueSBwYWdlcyBi
-ZWNhdXNlCj4+IHBvb2xfZmluZF9wYWdlKCkgZG9lcyBhIGxpbmVhciBzY2FuIG9mIGFsbCBhbGxv
-Y2F0ZWQgcGFnZXMuICBJbXByb3ZlIGl0cwo+PiBzY2FsYWJpbGl0eSBieSByZXBsYWNpbmcgdGhl
-IGxpbmVhciBzY2FuIHdpdGggYSByZWQtYmxhY2sgdHJlZSBsb29rdXAuCj4+IEluIGJpZyBPIG5v
-dGF0aW9uLCB0aGlzIGltcHJvdmVzIHRoZSBhbGdvcml0aG0gZnJvbSBPKG5eMikgdG8gTyhuICog
-bG9nIG4pLgo+IFRoZSBpbXByb3ZlbWVudCBzaG91bGQgc2F5IE8obikgdG8gTyhsb2cgbiksIHJp
-Z2h0PwoKVGhhdCB3b3VsZCBiZSB0aGUgaW1wcm92ZW1lbnQgZm9yIGEgc2luZ2xlIGNhbGwgdG8g
-ZG1hX3Bvb2xfYWxsb2Mgb3IKZG1hX3Bvb2xfZnJlZSwgYnV0IEkgd2FzIGdvaW5nIHdpdGggdGhl
-IGltcHJvdmVtZW50IGZvciAibiIgY2FsbHMKaW5zdGVhZCwgd2hpY2ggaXMgY29uc2lzdGVudCB3
-aXRoIHRoZSBpbXByb3ZlbWVudCBmb3IgdGhlIGV4YW1wbGUgaW4gdGhlCmNvdmVyIGxldHRlciBm
-b3IgbXB0M3Nhcy7CoCBJIHdvdWxkIGhhdmUgdG8gbG9vayB1cCB0aGUgY29udmVudGlvbiB0byBi
-ZQpzdXJlIG9mIHRoZSBwcm9wZXIgbm90YXRpb24gaW4gYSBzaXR1YXRpb24gbGlrZSB0aGlzLCBi
-dXQgSSB1c3VhbGx5CnRoaW5rICJpbnNlcnRpbmcgTiBpdGVtcyB0YWtlcyBOXjIgdGltZSI7IHRv
-IG1lIGl0IG1ha2VzIGxlc3Mgc2Vuc2UgdG8Kc2F5ICJpbnNlcnRpbmcgMSBpdGVtIHRha2VzIE4g
-dGltZSIsIGJlY2F1c2UgdGhlIE4gc2VlbXMgdG8gY29tZSBvdXQgb2YKbm93aGVyZS4KClRvbnkK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1h
-aWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3Rz
-LmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Tue, May 31, 2022 at 3:00 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 2022-05-31 22:51, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Ratelimit the error msg to avoid flooding the console.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   kernel/dma/debug.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+> > index f8ff598596b8..683966f0247b 100644
+> > --- a/kernel/dma/debug.c
+> > +++ b/kernel/dma/debug.c
+> > @@ -564,7 +564,7 @@ static void add_dma_entry(struct dma_debug_entry *entry, unsigned long attrs)
+> >
+> >       rc = active_cacheline_insert(entry);
+> >       if (rc == -ENOMEM) {
+> > -             pr_err("cacheline tracking ENOMEM, dma-debug disabled\n");
+> > +             pr_err_ratelimited("cacheline tracking ENOMEM, dma-debug disabled\n");
+> >               global_disable = true;
+>
+> Given that it's supposed to disable itself entirely if it ever gets
+> here, just how spammy is it exactly?
+
+um, quite..  tbf that was in the context of a WIP igt test for
+shrinker which was trying to cycle thru ~2x RAM size worth of GEM
+buffers on something like 72 threads.  So it could just be threads
+that had gotten past the dma_debug_disabled() check already before
+global_disable was set to true?
+
+I guess this could be pr_err_once() instead, then?
+
+BR,
+-R
+
+> Thanks,
+> Robin.
+>
+> >       } else if (rc == -EEXIST && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)) {
+> >               err_printk(entry->dev, entry,
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
