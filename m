@@ -1,64 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAD153B2E1
-	for <lists.iommu@lfdr.de>; Thu,  2 Jun 2022 07:15:04 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7299E53B367
+	for <lists.iommu@lfdr.de>; Thu,  2 Jun 2022 08:18:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CA4D78134B;
-	Thu,  2 Jun 2022 05:15:02 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id AF3C14160D;
+	Thu,  2 Jun 2022 06:18:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QGOpw6WYtxGp; Thu,  2 Jun 2022 05:15:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CE58F81348;
-	Thu,  2 Jun 2022 05:15:01 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7TI2DFW06-RQ; Thu,  2 Jun 2022 06:18:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8AC52415EA;
+	Thu,  2 Jun 2022 06:18:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9727FC007E;
-	Thu,  2 Jun 2022 05:15:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6466C002D;
+	Thu,  2 Jun 2022 06:18:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 00D1BC002D
- for <iommu@lists.linux-foundation.org>; Thu,  2 Jun 2022 05:14:59 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E76AC002D
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Jun 2022 06:18:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E08BA81340
- for <iommu@lists.linux-foundation.org>; Thu,  2 Jun 2022 05:14:59 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id F1E6982BE5
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Jun 2022 06:18:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CsWp0_L4Qc6h for <iommu@lists.linux-foundation.org>;
- Thu,  2 Jun 2022 05:14:57 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by smtp1.osuosl.org (Postfix) with ESMTPS id EB4288133E
- for <iommu@lists.linux-foundation.org>; Thu,  2 Jun 2022 05:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=UlSVr1uDMaCntOaDyonU5x8tgqHNztF0K3XUwYC5U9I=; b=13LuI0Mn/6MizkQrsrZ5RYZVdp
- wmeTm7DIwiTyvU5DpG8Ifg7esSLaWkbZ8qqPE0UVN3obUHOTmhIPboo7rFr79eu4xOcaLGsyRsNyZ
- XiCcKuISJAT+xaQ4Rj3AVNUkte6ulrglqJSSAz1bIF3zPoFCB53bRzeE8Np6EEYbsQ8/sdCciMYKo
- tqb01lBF0d2dXG+PilxLmesgTcxgS/nPiY4bEGIK4HsxKTEbf0RdEe4ZrBvvpexQoTfewvg6bCr2+
- P4bK1gs2efJt4GX3CFbSikIiIMPE/9ninc0atAbFEGBRiMvj6S7NfiwosDC6EF3QZMcuT7ceCPCPP
- m+RCHSfQ==;
-Received: from 213-225-2-232.nat.highway.a1.net ([213.225.2.232]
- helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nwdAc-001QBf-MO; Thu, 02 Jun 2022 05:14:55 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH] swiotlb: fix setting ->force_bounce
-Date: Thu,  2 Jun 2022 07:14:52 +0200
-Message-Id: <20220602051452.3698452-1-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
+ with ESMTP id bPV-TE9i9cdE for <iommu@lists.linux-foundation.org>;
+ Thu,  2 Jun 2022 06:18:39 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DD75982BC0
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Jun 2022 06:18:38 +0000 (UTC)
+X-UUID: 1eed4d444bfe48c5abd146ff8529dfa1-20220602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:ed063c35-6848-45de-8eb4-a1723bfda1ba, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:-5
+X-CID-META: VersionHash:2a19b09, CLOUDID:2050920d-3a0d-4bbe-9d72-0e5d26d57423,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 1eed4d444bfe48c5abd146ff8529dfa1-20220602
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 428153746; Thu, 02 Jun 2022 14:18:31 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 2 Jun 2022 14:18:29 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 2 Jun 2022 14:18:29 +0800
+Message-ID: <e970f47d462b0cca9bc6107843721b6b0aabd73a.camel@mediatek.com>
+Subject: Re: [PATCH 2/3] iommu: mtk_iommu: add support for 6-bit encoded
+ port IDs
+To: Fabien Parent <fparent@baylibre.com>
+Date: Thu, 2 Jun 2022 14:18:29 +0800
+In-Reply-To: <20220530180328.845692-2-fparent@baylibre.com>
+References: <20220530180328.845692-1-fparent@baylibre.com>
+ <20220530180328.845692-2-fparent@baylibre.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Nathan Chancellor <nathan@kernel.org>
+X-MTK: N
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, Matthias
+ Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,80 +83,149 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Yong Wu via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Yong Wu <yong.wu@mediatek.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The swiotlb_init refactor messed up assigning ->force_bounce by doing
-it in different places based on what caused the setting of the flag.
+Hi Fabien,
 
-Fix this by passing the SWIOTLB_* flags to swiotlb_init_io_tlb_mem
-and just setting it there.
+Thanks for very much for this patch.
 
-Fixes: c6af2aa9ffc9 ("swiotlb: make the swiotlb_init interface more useful")
-Reported-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
----
- kernel/dma/swiotlb.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Retitle to iommu/mediatek: Xxx
 
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index dfa1de89dc944..cb50f8d383606 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -192,7 +192,7 @@ void __init swiotlb_update_mem_attributes(void)
- }
- 
- static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
--				    unsigned long nslabs, bool late_alloc)
-+		unsigned long nslabs, unsigned int flags, bool late_alloc)
- {
- 	void *vaddr = phys_to_virt(start);
- 	unsigned long bytes = nslabs << IO_TLB_SHIFT, i;
-@@ -203,8 +203,7 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
- 	mem->index = 0;
- 	mem->late_alloc = late_alloc;
- 
--	if (swiotlb_force_bounce)
--		mem->force_bounce = true;
-+	mem->force_bounce = swiotlb_force_bounce || (flags & SWIOTLB_FORCE);
- 
- 	spin_lock_init(&mem->lock);
- 	for (i = 0; i < mem->nslabs; i++) {
-@@ -275,8 +274,7 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
- 		panic("%s: Failed to allocate %zu bytes align=0x%lx\n",
- 		      __func__, alloc_size, PAGE_SIZE);
- 
--	swiotlb_init_io_tlb_mem(mem, __pa(tlb), nslabs, false);
--	mem->force_bounce = flags & SWIOTLB_FORCE;
-+	swiotlb_init_io_tlb_mem(mem, __pa(tlb), nslabs, flags, false);
- 
- 	if (flags & SWIOTLB_VERBOSE)
- 		swiotlb_print_info();
-@@ -348,7 +346,7 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask,
- 
- 	set_memory_decrypted((unsigned long)vstart,
- 			     (nslabs << IO_TLB_SHIFT) >> PAGE_SHIFT);
--	swiotlb_init_io_tlb_mem(mem, virt_to_phys(vstart), nslabs, true);
-+	swiotlb_init_io_tlb_mem(mem, virt_to_phys(vstart), nslabs, 0, true);
- 
- 	swiotlb_print_info();
- 	return 0;
-@@ -835,8 +833,8 @@ static int rmem_swiotlb_device_init(struct reserved_mem *rmem,
- 
- 		set_memory_decrypted((unsigned long)phys_to_virt(rmem->base),
- 				     rmem->size >> PAGE_SHIFT);
--		swiotlb_init_io_tlb_mem(mem, rmem->base, nslabs, false);
--		mem->force_bounce = true;
-+		swiotlb_init_io_tlb_mem(mem, rmem->base, nslabs, SWIOTLB_FORCE,
-+				false);
- 		mem->for_alloc = true;
- 
- 		rmem->priv = mem;
--- 
-2.30.2
+On Mon, 2022-05-30 at 20:03 +0200, Fabien Parent wrote:
+> Until now the port ID was always encoded as a 5-bit data. On MT8365,
+> the port ID is encoded as a 6-bit data. This requires to rework the
+> macros F_MMU_INT_ID_LARB_ID, and F_MMU_INT_ID_PORT_ID in order
+> to support 5-bit and 6-bit encoded port IDs.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> ---
+>  drivers/iommu/mtk_iommu.c | 17 +++++++++++++----
+>  drivers/iommu/mtk_iommu.h |  1 +
+>  2 files changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index 6fd75a60abd6..b692347d8d56 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -103,8 +103,10 @@
+>  #define REG_MMU1_INT_ID				0x154
+>  #define F_MMU_INT_ID_COMM_ID(a)			(((a) >> 9) &
+> 0x7)
+>  #define F_MMU_INT_ID_SUB_COMM_ID(a)		(((a) >> 7) & 0x3)
+> -#define F_MMU_INT_ID_LARB_ID(a)			(((a) >> 7) &
+> 0x7)
+> -#define F_MMU_INT_ID_PORT_ID(a)			(((a) >> 2) &
+> 0x1f)
+> +#define F_MMU_INT_ID_LARB_ID(a, port_width)	\
+> +				((a) >> ((port_width + 2) & 0x7))
+> +#define F_MMU_INT_ID_PORT_ID(a, port_width)	\
+> +				(((a) >> 2) & GENMASK(port_width - 1,
+> 0))
+
+Add () for port_width.
+
+>  
+>  #define MTK_PROTECT_PA_ALIGN			256
+>  
+> @@ -291,12 +293,13 @@ static irqreturn_t mtk_iommu_isr(int irq, void
+> *dev_id)
+>  		fault_pa |= (u64)pa34_32 << 32;
+>  	}
+>  
+> -	fault_port = F_MMU_INT_ID_PORT_ID(regval);
+> +	fault_port = F_MMU_INT_ID_PORT_ID(regval, data->plat_data-
+> >port_width);
+>  	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_SUB_COMM)) {
+>  		fault_larb = F_MMU_INT_ID_COMM_ID(regval);
+>  		sub_comm = F_MMU_INT_ID_SUB_COMM_ID(regval);
+>  	} else {
+> -		fault_larb = F_MMU_INT_ID_LARB_ID(regval);
+> +		fault_larb = F_MMU_INT_ID_LARB_ID(regval,
+> +						  data->plat_data-
+> >port_width);
+>  	}
+>  	fault_larb = data->plat_data-
+> >larbid_remap[fault_larb][sub_comm];
+>  
+> @@ -1034,6 +1037,7 @@ static const struct mtk_iommu_plat_data
+> mt2712_data = {
+>  	.iova_region  = single_domain,
+>  	.iova_region_nr = ARRAY_SIZE(single_domain),
+>  	.larbid_remap = {{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}},
+> +	.port_width   = 5,
+>  };
+>  
+>  static const struct mtk_iommu_plat_data mt6779_data = {
+> @@ -1043,6 +1047,7 @@ static const struct mtk_iommu_plat_data
+> mt6779_data = {
+>  	.iova_region   = single_domain,
+>  	.iova_region_nr = ARRAY_SIZE(single_domain),
+>  	.larbid_remap  = {{0}, {1}, {2}, {3}, {5}, {7, 8}, {10}, {9}},
+> +	.port_width    = 5,
+>  };
+>  
+>  static const struct mtk_iommu_plat_data mt8167_data = {
+> @@ -1052,6 +1057,7 @@ static const struct mtk_iommu_plat_data
+> mt8167_data = {
+>  	.iova_region  = single_domain,
+>  	.iova_region_nr = ARRAY_SIZE(single_domain),
+>  	.larbid_remap = {{0}, {1}, {2}}, /* Linear mapping. */
+> +	.port_width   = 5,
+>  };
+>  
+>  static const struct mtk_iommu_plat_data mt8173_data = {
+> @@ -1062,6 +1068,7 @@ static const struct mtk_iommu_plat_data
+> mt8173_data = {
+>  	.iova_region  = single_domain,
+>  	.iova_region_nr = ARRAY_SIZE(single_domain),
+>  	.larbid_remap = {{0}, {1}, {2}, {3}, {4}, {5}}, /* Linear
+> mapping. */
+> +	.port_width   = 5,
+>  };
+>  
+>  static const struct mtk_iommu_plat_data mt8183_data = {
+> @@ -1071,6 +1078,7 @@ static const struct mtk_iommu_plat_data
+> mt8183_data = {
+>  	.iova_region  = single_domain,
+>  	.iova_region_nr = ARRAY_SIZE(single_domain),
+>  	.larbid_remap = {{0}, {4}, {5}, {6}, {7}, {2}, {3}, {1}},
+> +	.port_width   = 5,
+>  };
+>  
+>  static const struct mtk_iommu_plat_data mt8192_data = {
+> @@ -1082,6 +1090,7 @@ static const struct mtk_iommu_plat_data
+> mt8192_data = {
+>  	.iova_region_nr = ARRAY_SIZE(mt8192_multi_dom),
+>  	.larbid_remap   = {{0}, {1}, {4, 5}, {7}, {2}, {9, 11, 19, 20},
+>  			   {0, 14, 16}, {0, 13, 18, 17}},
+> +	.port_width     = 5,
+>  };
+>  
+>  static const struct of_device_id mtk_iommu_of_ids[] = {
+> diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+> index b742432220c5..84cecaf6d61c 100644
+> --- a/drivers/iommu/mtk_iommu.h
+> +++ b/drivers/iommu/mtk_iommu.h
+> @@ -54,6 +54,7 @@ struct mtk_iommu_plat_data {
+>  	enum mtk_iommu_plat m4u_plat;
+>  	u32                 flags;
+>  	u32                 inv_sel_reg;
+> +	u8                  port_width;
+
+Please help rename to int_id_port_width for more detailed from the
+register name (REG_MMU0_INT_ID).
+
+>  
+>  	unsigned int				iova_region_nr;
+>  	const struct mtk_iommu_iova_region	*iova_region;
+> -- 
+> 2.36.1
+> 
 
 _______________________________________________
 iommu mailing list
