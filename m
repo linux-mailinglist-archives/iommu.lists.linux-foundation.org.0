@@ -1,81 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC4253DE4D
-	for <lists.iommu@lfdr.de>; Sun,  5 Jun 2022 23:13:37 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BD653DF2B
+	for <lists.iommu@lfdr.de>; Mon,  6 Jun 2022 02:55:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 52B6284346;
-	Sun,  5 Jun 2022 21:13:35 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 09C9540142;
+	Mon,  6 Jun 2022 00:55:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8GJAql3LwG35; Sun,  5 Jun 2022 21:13:34 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SeNHFumjLEkc; Mon,  6 Jun 2022 00:55:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6EE6684207;
-	Sun,  5 Jun 2022 21:13:33 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2FB8F41036;
+	Mon,  6 Jun 2022 00:55:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C033CC0081;
-	Sun,  5 Jun 2022 21:13:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F34AEC0081;
+	Mon,  6 Jun 2022 00:55:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13648C002D
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jun 2022 21:13:32 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 60842C002D
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jun 2022 22:13:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id ECDD8417DC
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jun 2022 21:13:31 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 413E38417D
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jun 2022 22:13:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5njER65tlMRa for <iommu@lists.linux-foundation.org>;
- Sun,  5 Jun 2022 21:13:31 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1BE8F41701
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jun 2022 21:13:30 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id az35so2529690qkb.3
- for <iommu@lists.linux-foundation.org>; Sun, 05 Jun 2022 14:13:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KpfFSC1M5yGrSdZeqGTbFQEXLC9iY/J8j0nw6v1d9eA=;
- b=I0Dz7LVcuXLny5E59fUCJ7+1Tq0dzdsTMh00AplzF4m5mk/Pz8F0I91MU700TUONYe
- xg4CBXzu+oCDi6MnooqFBqa/Re/2iBnIxUuWZB8krUmpyeP7jp+Taiaz3K6Se9CI4bae
- ywOq6VG4gIxKik1/wqASH4iArUAombWixFq6BHpMqrJHl3BNCEo/Z2HNq0pWps/umkdr
- D4K2bpGVzd0qYqyEgwQbq8C6eZK3gMuWFPBYJXZbmc8vIgwAq/HKj1vHwZzjPjozFlQV
- J7/BDbuK9zuOqjQCC/UwT2xHDTMp/ew5MzTknstBmeHjt7RBtVwqbMEF3Uo62xjNYr+P
- fmJg==
-X-Gm-Message-State: AOAM530lH6xMp3CeojMQWSg7YAFRIahiSoR+BJGQEM0Wb0+1xecNlCFl
- pio4gOWbDcN28a1ZC8SUyg==
-X-Google-Smtp-Source: ABdhPJxj+kVxZu2//p08PSHYzTQNamVKMAVwaHKls0V8bl/cpaDKySLz6Jed2QcRGNYVSKQw1ooWIA==
-X-Received: by 2002:a37:97c5:0:b0:6a6:8d77:1b5f with SMTP id
- z188-20020a3797c5000000b006a68d771b5fmr11485785qkd.216.1654463609916; 
- Sun, 05 Jun 2022 14:13:29 -0700 (PDT)
-Received: from robh.at.kernel.org ([2607:fb90:ac97:ac63:b5fd:aa9:8d74:9989])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a05620a424f00b006a69d7f390csm6411744qko.103.2022.06.05.14.13.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jun 2022 14:13:29 -0700 (PDT)
-Received: (nullmailer pid 3527763 invoked by uid 1000);
- Sun, 05 Jun 2022 21:13:26 -0000
-Date: Sun, 5 Jun 2022 16:13:26 -0500
-From: Rob Herring <robh@kernel.org>
-To: Fabien Parent <fparent@baylibre.com>
-Subject: Re: [PATCH 1/3] dt-bindings: iommu: mediatek: add binding
- documentation for MT8365 SoC
-Message-ID: <20220605211326.GA3525347-robh@kernel.org>
-References: <20220530180328.845692-1-fparent@baylibre.com>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CW1VpATTNi6U for <iommu@lists.linux-foundation.org>;
+ Sun,  5 Jun 2022 22:13:56 +0000 (UTC)
+X-Greylist: delayed 00:07:31 by SQLgrey-1.8.0
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::162])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E2A258417A
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jun 2022 22:13:55 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 93A3820569;
+ Mon,  6 Jun 2022 00:06:19 +0200 (CEST)
+Date: Mon, 6 Jun 2022 00:06:18 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/6] iommu/qcom: Write TCR before TTBRs to fix ASID
+ access behavior
+Message-ID: <20220605220618.n6rkb6cfdzzgst3j@SoMainline.org>
+References: <20220527212901.29268-1-konrad.dybcio@somainline.org>
+ <20220527212901.29268-3-konrad.dybcio@somainline.org>
+ <20220531155559.GB25502@willie-the-truck>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220530180328.845692-1-fparent@baylibre.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>
+In-Reply-To: <20220531155559.GB25502@willie-the-truck>
+X-Mailman-Approved-At: Mon, 06 Jun 2022 00:55:40 +0000
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, jamipkettunen@somainline.org,
+ iommu@lists.linux-foundation.org, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ angelogioacchino.delregno@somainline.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,47 +78,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, May 30, 2022 at 08:03:26PM +0200, Fabien Parent wrote:
-> Add IOMMU binding documentation for the MT8365 SoC.
+On 2022-05-31 16:55:59, Will Deacon wrote:
+> On Fri, May 27, 2022 at 11:28:57PM +0200, Konrad Dybcio wrote:
+> > From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > 
+> > As also stated in the arm-smmu driver, we must write the TCR before
+> > writing the TTBRs, since the TCR determines the access behavior of
+> > some fields.
 > 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> ---
->  .../bindings/iommu/mediatek,iommu.yaml        |  2 +
->  include/dt-bindings/memory/mt8365-larb-port.h | 96 +++++++++++++++++++
->  2 files changed, 98 insertions(+)
->  create mode 100644 include/dt-bindings/memory/mt8365-larb-port.h
+> Where is this stated in the arm-smmu driver?
 > 
-> diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> index 97e8c471a5e8..5ba688365da5 100644
-> --- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> @@ -77,6 +77,7 @@ properties:
->            - mediatek,mt8173-m4u  # generation two
->            - mediatek,mt8183-m4u  # generation two
->            - mediatek,mt8192-m4u  # generation two
-> +          - mediatek,mt8365-m4u  # generation two
->  
->        - description: mt7623 generation one
->          items:
-> @@ -120,6 +121,7 @@ properties:
->        dt-binding/memory/mt8173-larb-port.h for mt8173,
->        dt-binding/memory/mt8183-larb-port.h for mt8183,
->        dt-binding/memory/mt8192-larb-port.h for mt8192.
-> +      dt-binding/memory/mt8365-larb-port.h for mt8365.
->  
->    power-domains:
->      maxItems: 1
-> diff --git a/include/dt-bindings/memory/mt8365-larb-port.h b/include/dt-bindings/memory/mt8365-larb-port.h
-> new file mode 100644
-> index 000000000000..e7d5637aa38e
-> --- /dev/null
-> +++ b/include/dt-bindings/memory/mt8365-larb-port.h
-> @@ -0,0 +1,96 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> > 
+> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> > ---
+> >  drivers/iommu/arm/arm-smmu/qcom_iommu.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+> > index 1728d4d7fe25..75f353866c40 100644
+> > --- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+> > +++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+> > @@ -273,18 +273,18 @@ static int qcom_iommu_init_domain(struct iommu_domain *domain,
+> >  			ctx->secure_init = true;
+> >  		}
+> >  
+> > -		/* TTBRs */
+> > -		iommu_writeq(ctx, ARM_SMMU_CB_TTBR0,
+> > -				pgtbl_cfg.arm_lpae_s1_cfg.ttbr |
+> > -				FIELD_PREP(ARM_SMMU_TTBRn_ASID, ctx->asid));
+> > -		iommu_writeq(ctx, ARM_SMMU_CB_TTBR1, 0);
+> > -
+> >  		/* TCR */
+> >  		iommu_writel(ctx, ARM_SMMU_CB_TCR2,
+> >  				arm_smmu_lpae_tcr2(&pgtbl_cfg));
+> >  		iommu_writel(ctx, ARM_SMMU_CB_TCR,
+> >  			     arm_smmu_lpae_tcr(&pgtbl_cfg) | ARM_SMMU_TCR_EAE);
+> >  
+> > +		/* TTBRs */
+> > +		iommu_writeq(ctx, ARM_SMMU_CB_TTBR0,
+> > +				pgtbl_cfg.arm_lpae_s1_cfg.ttbr |
+> > +				FIELD_PREP(ARM_SMMU_TTBRn_ASID, ctx->asid));
+> > +		iommu_writeq(ctx, ARM_SMMU_CB_TTBR1, 0);
+> 
+> I'd have thought that SCTLR.M would be clear here, so it shouldn't matter
+> what order we write these in.
 
-Dual license please.
+Having tested the series without this particular patch on 8976 (Sony
+Loire Suzu), it doesn't seem to matter indeed.  I'll ask around if this
+"access behaviour" was observed on a different board/platform.
 
-Rob
+- Marijn
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
