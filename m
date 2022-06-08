@@ -1,58 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC9854327C
-	for <lists.iommu@lfdr.de>; Wed,  8 Jun 2022 16:26:05 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E45543A50
+	for <lists.iommu@lfdr.de>; Wed,  8 Jun 2022 19:26:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4027E41928;
-	Wed,  8 Jun 2022 14:26:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8393B60EA9;
+	Wed,  8 Jun 2022 17:26:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PaHJ1Loz8UoK; Wed,  8 Jun 2022 14:26:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1ED274186D;
-	Wed,  8 Jun 2022 14:26:02 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vbPZ7ceDvZbu; Wed,  8 Jun 2022 17:26:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 957C860EA1;
+	Wed,  8 Jun 2022 17:26:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D832FC0081;
-	Wed,  8 Jun 2022 14:26:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D843C0081;
+	Wed,  8 Jun 2022 17:26:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8A3AC002D
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jun 2022 14:26:00 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 460A2C002D
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jun 2022 17:26:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A5B6360D68
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jun 2022 14:26:00 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3419860E18
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jun 2022 17:26:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jAo9qPNFEPbe for <iommu@lists.linux-foundation.org>;
- Wed,  8 Jun 2022 14:25:58 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp3.osuosl.org (Postfix) with ESMTP id A7D8B60C2F
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jun 2022 14:25:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29DCA143D;
- Wed,  8 Jun 2022 07:25:58 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 152F43F73B;
- Wed,  8 Jun 2022 07:25:56 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: alex.williamson@redhat.com,
-	cohuck@redhat.com
-Subject: [PATCH 2/2] vfio: Use device_iommu_capable()
-Date: Wed,  8 Jun 2022 15:25:50 +0100
-Message-Id: <a2d3d5a12c41cfea751bd364b4c7d1f68f047197.1654697988.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.36.1.dirty
-In-Reply-To: <07c69a27fa5bf9724ea8c9fcfe3ff2e8b68f6bf0.1654697988.git.robin.murphy@arm.com>
-References: <07c69a27fa5bf9724ea8c9fcfe3ff2e8b68f6bf0.1654697988.git.robin.murphy@arm.com>
+ with ESMTP id wOGQpidkkIEe for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Jun 2022 17:26:43 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id AFAC660E13
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jun 2022 17:26:43 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id 184so3581353pga.12
+ for <iommu@lists.linux-foundation.org>; Wed, 08 Jun 2022 10:26:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vdq4x2cK2Kxb7bPLAXT0rRqzYQf9uH8WQ9IJlchFrLc=;
+ b=eSMfA1RhZSB9qedtYN1jRO5LtHzgQ2owH/F5JNmAzWMzw7ZyxbkxdGYbCdjRnXR1Hu
+ PoItjxgTvpSGMi615sH/DD7t1izulT1LpE+o16w5V2pMcv0igfvggARqdoeKgNuvXHo5
+ dCYKGauoaAx7UOLw5oX4pEF1NcfkokAwYELFfM/UvXotaRA5lnBKrhjJsb66eY7rk8zQ
+ fRUykQLQV4+RhYf7AylbtXkC2AVsUDYqU8UvOMjNc3hiSer0Z1ftNLfIDQonzxRLiR7D
+ ZEqe+ilvE/DmGTbRzL+2OChJ9gSQNENh1u7U2tUVvuANu8DQRCRulKxfj/ZZMpiZCF6I
+ qUCQ==
+X-Gm-Message-State: AOAM533IKv5ZapQDdteT6x9JSu/RP6PnLqsX3HXKV/Bh7ziT57+80T7W
+ shy42p5biTFO1H/cTLZVQ/0=
+X-Google-Smtp-Source: ABdhPJy2XkL1wjH+iK3e6e2Hx2QMmfgjTy/wyGK/xCsPzQDJHM5fZRi20ssFAqNOW/TkC9QwcpHNxQ==
+X-Received: by 2002:a05:6a00:1344:b0:51b:ed0d:dbbd with SMTP id
+ k4-20020a056a00134400b0051bed0ddbbdmr26197497pfu.45.1654709202923; 
+ Wed, 08 Jun 2022 10:26:42 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:1cb7:9e5d:5ca4:2a39?
+ ([2620:15c:211:201:1cb7:9e5d:5ca4:2a39])
+ by smtp.gmail.com with ESMTPSA id
+ p5-20020a62d005000000b0050dc762813csm3282490pfg.22.2022.06.08.10.26.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 10:26:42 -0700 (PDT)
+Message-ID: <d7a72f92-15c9-1d58-c711-83c47444094e@acm.org>
+Date: Wed, 8 Jun 2022 10:26:40 -0700
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, jgg@nvidia.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 2/4] dma-iommu: Add iommu_dma_opt_mapping_size()
+Content-Language: en-US
+To: John Garry <john.garry@huawei.com>, damien.lemoal@opensource.wdc.com,
+ joro@8bytes.org, will@kernel.org, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, hch@lst.de, m.szyprowski@samsung.com,
+ robin.murphy@arm.com
+References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
+ <1654507822-168026-3-git-send-email-john.garry@huawei.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <1654507822-168026-3-git-send-email-john.garry@huawei.com>
+Cc: linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
+ liyihang6@hisilicon.com, linux-kernel@vger.kernel.org,
+ linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,49 +91,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use the new interface to check the capabilities for our device
-specifically.
+On 6/6/22 02:30, John Garry via iommu wrote:
+> +unsigned long iova_rcache_range(void)
+> +{
+> +	return PAGE_SIZE << (IOVA_RANGE_CACHE_MAX_SIZE - 1);
+> +}
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/vfio/vfio.c             | 2 +-
- drivers/vfio/vfio_iommu_type1.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+My understanding is that iova cache entries may be smaller than 
+IOVA_RANGE_CACHE_MAX_SIZE and hence that even if code that uses the DMA 
+mapping API respects this limit that a cache miss can still happen.
 
-diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 0b71f3d12e5f..ac2a8d18e2e4 100644
---- a/drivers/vfio/vfio.c
-+++ b/drivers/vfio/vfio.c
-@@ -605,7 +605,7 @@ int vfio_register_group_dev(struct vfio_device *device)
- 	 * VFIO always sets IOMMU_CACHE because we offer no way for userspace to
- 	 * restore cache coherency.
- 	 */
--	if (!iommu_capable(device->dev->bus, IOMMU_CAP_CACHE_COHERENCY))
-+	if (!device_iommu_capable(device->dev, IOMMU_CAP_CACHE_COHERENCY))
- 		return -EINVAL;
- 
- 	return __vfio_register_dev(device,
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 5c19faef90ae..8ddce0e08169 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -2254,7 +2254,7 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 	list_add(&group->next, &domain->group_list);
- 
- 	msi_remap = irq_domain_check_msi_remap() ||
--		    iommu_capable(iommu_api_dev->bus, IOMMU_CAP_INTR_REMAP);
-+		    device_iommu_capable(iommu_api_dev, IOMMU_CAP_INTR_REMAP);
- 
- 	if (!allow_unsafe_interrupts && !msi_remap) {
- 		pr_warn("%s: No interrupt remapping support.  Use the module param \"allow_unsafe_interrupts\" to enable VFIO IOMMU support on this platform\n",
--- 
-2.36.1.dirty
+Thanks,
 
+Bart.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
