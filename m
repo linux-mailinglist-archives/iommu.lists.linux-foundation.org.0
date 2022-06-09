@@ -1,64 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3515442D2
-	for <lists.iommu@lfdr.de>; Thu,  9 Jun 2022 07:05:07 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 247D55442D7
+	for <lists.iommu@lfdr.de>; Thu,  9 Jun 2022 07:06:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A51AC83E15;
-	Thu,  9 Jun 2022 05:05:05 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3E53741C00;
+	Thu,  9 Jun 2022 05:06:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hKqcpjOMlr6i; Thu,  9 Jun 2022 05:05:04 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QZ8U6z0SmM7q; Thu,  9 Jun 2022 05:06:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C39F083E14;
-	Thu,  9 Jun 2022 05:05:04 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3858041C0B;
+	Thu,  9 Jun 2022 05:06:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98747C0084;
-	Thu,  9 Jun 2022 05:05:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C31FC0084;
+	Thu,  9 Jun 2022 05:05:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4D562C002D;
- Thu,  9 Jun 2022 05:05:01 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 516B3C002D;
+ Thu,  9 Jun 2022 05:05:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3510C610C2;
- Thu,  9 Jun 2022 05:05:01 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3114241C00;
+ Thu,  9 Jun 2022 05:05:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CyRIPOS7Gpjf; Thu,  9 Jun 2022 05:04:59 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6aLOTX_jK98J; Thu,  9 Jun 2022 05:05:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B194B610C1;
- Thu,  9 Jun 2022 05:04:59 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0F40541BEB;
+ Thu,  9 Jun 2022 05:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=wu8aFObH2hHSMKYcBRx522Iw5QK4xZIvlYeZFEP3Kk8=; b=AGFJ5yCS6ccyDZaWrHTtIENtg2
- ewgk3wbTcgyJwqkGBn/ECO0YkpnGr1nhlzroXQ0e44S3K0rloI9v7JC83sD3Y+DkscyzxXtRq6seC
- 5BE4mdWoEqX0Vgn4MxsbbkI6XMr8CcpNWB7qMagiEN2yOqELMm7CRGAWlXy+QVLDeK0tjLXFZUb9J
- JzBYTt0lYEem70Oabsxdet520DwMot9ysqcapl0IQqwDDK88mt0arOXL0CrgBrBZzbntk0nnGmXJG
- u1dvlEEXt4AiKYNPte6f6uIgPw4n1FjwNUbg8QzgaLNbbJ2FvoFqCi6bB/hwjUaqIjVN/4DtjsKn3
- waLCjuCA==;
+ bh=lSjKiwGQP2bLdZmsJuNaLJfxZDGjC6fCq2g/NdyMPNA=; b=kyhL2c0fixHav+CSRIiyWMtFN7
+ AtDNsnF/9FvWJ9TIx9fua/CrNv5rR8a9O7oji3ME60GbokDgdhgvD0ea2XdXEW/L1DOT//y9eaYzo
+ JnuI00fO4ezPxNMBvHkQYYI5xIPoHzR9wnf4anfLqVEwyENKdzkr/7GIIOrh15zyrv+YMfLMdP9s5
+ 6Rvc7JdDtTpL7W2pcS0iqoBpYYs8PLlaD0HauJabPoVr7WpXOlJQlGsGN0JStdxSNMixCdQE7blhE
+ RaUJDr2rfJW4kg5HofoJ8jqgC2HUgKr4MOCFxVgU1Mt6OJy/VvcugFl1p5U4yhYTwg9+HBWpohhZ5
+ n20MR6mw==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nzALp-00Gmug-RP; Thu, 09 Jun 2022 05:04:57 +0000
-Date: Wed, 8 Jun 2022 22:04:57 -0700
+ Hat Linux)) id 1nzAMl-00Gn4g-0a; Thu, 09 Jun 2022 05:05:55 +0000
+Date: Wed, 8 Jun 2022 22:05:54 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH RFC v1 1/7] swiotlb: introduce the highmem swiotlb buffer
-Message-ID: <YqF/eZE9eozDURWz@infradead.org>
+Subject: Re: [PATCH RFC v1 4/7] swiotlb: to implement io_tlb_high_mem
+Message-ID: <YqF/sphJj6n+22Si@infradead.org>
 References: <20220609005553.30954-1-dongli.zhang@oracle.com>
- <20220609005553.30954-2-dongli.zhang@oracle.com>
+ <20220609005553.30954-5-dongli.zhang@oracle.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220609005553.30954-2-dongli.zhang@oracle.com>
+In-Reply-To: <20220609005553.30954-5-dongli.zhang@oracle.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: jgross@suse.com, dave.hansen@linux.intel.com, mst@redhat.com,
@@ -85,23 +83,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jun 08, 2022 at 05:55:47PM -0700, Dongli Zhang wrote:
-> @@ -109,6 +109,7 @@ struct io_tlb_mem {
->  	} *slots;
->  };
->  extern struct io_tlb_mem io_tlb_default_mem;
-> +extern struct io_tlb_mem io_tlb_high_mem;
-
-Tis should not be exposed.
-
-> +extern bool swiotlb_high_active(void);
-
-And this should not even exist.
-
-> +static unsigned long high_nslabs;
-
-And I don't think "high" is a good name here to start with.  That
-suggests highmem, which we are not using here.
+All this really needs to be hidden under the hood.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
