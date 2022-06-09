@@ -1,64 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AB45442E5
-	for <lists.iommu@lfdr.de>; Thu,  9 Jun 2022 07:07:33 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 480105442EA
+	for <lists.iommu@lfdr.de>; Thu,  9 Jun 2022 07:09:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 658FF83E18;
-	Thu,  9 Jun 2022 05:07:31 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id DD87540BE1;
+	Thu,  9 Jun 2022 05:08:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q8zldUlmFi4F; Thu,  9 Jun 2022 05:07:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7EF2083E1C;
-	Thu,  9 Jun 2022 05:07:30 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3iCk-Ex1hFWL; Thu,  9 Jun 2022 05:08:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1430D40BE5;
+	Thu,  9 Jun 2022 05:08:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E766C002D;
-	Thu,  9 Jun 2022 05:07:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 06C38C002D;
+	Thu,  9 Jun 2022 05:08:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 43130C002D;
- Thu,  9 Jun 2022 05:07:28 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D7AE2C002D;
+ Thu,  9 Jun 2022 05:08:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 22B0340BE0;
- Thu,  9 Jun 2022 05:07:28 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id D39B541B95;
+ Thu,  9 Jun 2022 05:08:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AkwHeAxMu8o7; Thu,  9 Jun 2022 05:07:27 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Umxccx4P-mdV; Thu,  9 Jun 2022 05:08:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 1397D40BDF;
- Thu,  9 Jun 2022 05:07:27 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2A2F041B72;
+ Thu,  9 Jun 2022 05:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=acG/hWi7Fz9ui2xVxpMoGeBP7vrmuNMLdX3ejzV7aPc=; b=MZhm3nf6mKFSlcr8dK8ijoBLa2
- MBmpr98pFWNa8b6ut+XZouG4H5T08bSJ23S8eyxslIMTr4C/O2zuvnG2/qsMxG0x37tmaxvgijfIb
- lGXyW4Q+2Io60XdLfGcV4rp/RIywa2u5fO9NieV0COBKOJzrFJhvVfmdj+5pSGWt/lb4HHj77Z/qa
- w661jXNSO/l+LgOue5Ca0yCP7G8O+ptXdbp8dSD1Vzdtm86SSvktBkKXYdbPsB22/xE+l3YTcUINL
- 9HMTg+plhTcoM0gRCPZ1oapj04vRnOV9EHBOaOpaoHqGEW+z8Mh7/21uIp1vsKiXFvwHo2LUpgWRB
- KVKRCt6A==;
+ bh=1370MvjFrg636nlGFXu8CpOfBg8+mRgqzhQ7YScZLE8=; b=z4YKvf9NkWQn8P4v8bwSUJFMzO
+ wFYfxYFg0PkZgnD659U4rh7iitXqzKlNSVwWTA1C2nrNn5h07lgmlJhc0ReHis19xaonefaZB6sxZ
+ +V+P9DVDmD/46UTQmN/JjdZTZZAQC5fMv8RMAMMUgf2fXLubCn2cMrYDqfdfylD9qDdZdNi8P/Svh
+ J+9KZ2qoXLt20f3lL7nsIP15svEtGRlcPZ9rH5GjuL/37Zo1WS6wUeHHKMNr3CNoOja+2Q00FXJVs
+ gHmBMVQKXvRtoRkoEQ8E3W/0xik7QAo//cz+ATtxhmw/3yPF5rc4z1d9FC8BroUGeyAeuXFwnjhyj
+ BRV2y6Ug==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nzAOE-00GnS5-8r; Thu, 09 Jun 2022 05:07:26 +0000
-Date: Wed, 8 Jun 2022 22:07:26 -0700
+ Hat Linux)) id 1nzAPe-00Gnin-I4; Thu, 09 Jun 2022 05:08:54 +0000
+Date: Wed, 8 Jun 2022 22:08:54 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH RFC v1 7/7] swiotlb: fix the slot_addr() overflow
-Message-ID: <YqGADnHAP7HYPvRr@infradead.org>
+Subject: Re: [PATCH RFC v1 3/7] swiotlb-xen: support highmem for xen specific
+ code
+Message-ID: <YqGAZoG6/pVX9NqN@infradead.org>
 References: <20220609005553.30954-1-dongli.zhang@oracle.com>
- <20220609005553.30954-8-dongli.zhang@oracle.com>
+ <20220609005553.30954-4-dongli.zhang@oracle.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220609005553.30954-8-dongli.zhang@oracle.com>
+In-Reply-To: <20220609005553.30954-4-dongli.zhang@oracle.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: jgross@suse.com, dave.hansen@linux.intel.com, mst@redhat.com,
@@ -85,11 +86,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jun 08, 2022 at 05:55:53PM -0700, Dongli Zhang wrote:
-> +#define slot_addr(start, idx)	((start) + \
-> +				(((unsigned long)idx) << IO_TLB_SHIFT))
+On Wed, Jun 08, 2022 at 05:55:49PM -0700, Dongli Zhang wrote:
+> @@ -109,19 +110,25 @@ int xen_swiotlb_fixup(void *buf, unsigned long nslabs, bool high)
+>  	int rc;
+>  	unsigned int order = get_order(IO_TLB_SEGSIZE << IO_TLB_SHIFT);
+>  	unsigned int i, dma_bits = order + PAGE_SHIFT;
+> +	unsigned int max_dma_bits = MAX_DMA32_BITS;
+>  	dma_addr_t dma_handle;
+>  	phys_addr_t p = virt_to_phys(buf);
+>  
+>  	BUILD_BUG_ON(IO_TLB_SEGSIZE & (IO_TLB_SEGSIZE - 1));
+>  	BUG_ON(nslabs % IO_TLB_SEGSIZE);
+>  
+> +	if (high) {
+> +		dma_bits = MAX_DMA64_BITS;
+> +		max_dma_bits = MAX_DMA64_BITS;
+> +	}
+> +
 
-Please just convert it to an inline function.
+I think you really want to pass the addressing bits or mask to the
+remap callback and not do magic with a 'high' flag here.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
