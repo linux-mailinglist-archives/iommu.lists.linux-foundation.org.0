@@ -1,62 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5306554CE1D
-	for <lists.iommu@lfdr.de>; Wed, 15 Jun 2022 18:13:20 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B4654CE17
+	for <lists.iommu@lfdr.de>; Wed, 15 Jun 2022 18:13:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 68EA5419AF;
-	Wed, 15 Jun 2022 16:13:10 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 15FD541992;
+	Wed, 15 Jun 2022 16:13:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d3blDg56_t5B; Wed, 15 Jun 2022 16:13:09 +0000 (UTC)
+	with ESMTP id rGWs7ojjlS1r; Wed, 15 Jun 2022 16:13:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id DE61041976;
-	Wed, 15 Jun 2022 16:13:08 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C4D2541968;
+	Wed, 15 Jun 2022 16:13:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D3E97C0087;
-	Wed, 15 Jun 2022 16:13:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F7F1C0084;
+	Wed, 15 Jun 2022 16:13:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33E02C002D
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:13:02 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14ED9C0084
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5044D40896
+ by smtp3.osuosl.org (Postfix) with ESMTP id 533A460F84
  for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id feupMWj3aJmn for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jun 2022 16:12:55 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uRzbZEr0a4Y4 for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jun 2022 16:12:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp4.osuosl.org (Postfix) with ESMTPS id D4B92418C1
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:55 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 491EC60C0E
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=NVweqEcjCecZ0bg5dlWjMJWWbRBpQR845+naXv01S1E=; b=mGlJB+Mc6r6QavYLUJHJ2f6Gcf
- 4KC3tU5HmwUMDyO6T64JnNBflaA1Oaq/889fD31ncukdVXKstY3aDuLUssracQXrTgPh503f7c3Gm
- 9oj+XtAemKDfgOgUrEkOhMLRx7YNuoTdepVnGBAGOZtn7In3FvSV64tzpxAi3mfRaDQNZByACspsC
- XfjfXCXxwzOBwEvK7qOAPCqBKHK80aqj8hMmZYlu9nFhBs4fE1kVcpjRmX6n3I+3TQ0fbrvvOg9Lw
- zNRi3B96PZzbaOrO/k/k6P23XfdlbDDDJPP/i6fydDuKVlrF5ptVyivsSZrkhvrBfWhPjYBHZ1EJC
- Ese8FOBw==;
+ bh=CEsEo1LL0bapP/SgeXBMkHfYqc6Wv4poDHt3UT6FxEg=; b=Nn5f3rDAO5IH26Vm3tZC0/G00z
+ 08nWaGa176sIR0AMP9ufpCFl8dqGInHVEIurBrhZxq8qyYDrYDC/FLwjHaP0xkmUhL0tsPpMFsnzC
+ TrHv4QKvFeifgNV5SXw6bzeBiEo5BMK1Wn4z1hGAMBkF+nRrTHuJRTK9R1MaGtIlhbHed9Xofrf+/
+ /E6cLO35IfpR+c+O/fl3k708ke9cdQ/QBKGT2Ot+27a8SgRnqOwwPWqIzU5BypTjVOfuD2fhybceo
+ a/BKPzddCviQTOWiZgVLC94Cl7+8/HNXYOTzmN6fEQW6XtzPv1NSvwCLPRKV2ZpBid/6o/AbJcz6B
+ VA4O9vnw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1o1VdQ-0084iR-Hv; Wed, 15 Jun 2022 10:12:49 -0600
+ id 1o1VdP-0084iP-Uw; Wed, 15 Jun 2022 10:12:48 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1o1VdI-0004ag-Qo; Wed, 15 Jun 2022 10:12:40 -0600
+ id 1o1VdI-0004ak-WE; Wed, 15 Jun 2022 10:12:41 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Wed, 15 Jun 2022 10:12:27 -0600
-Message-Id: <20220615161233.17527-16-logang@deltatee.com>
+Date: Wed, 15 Jun 2022 10:12:28 -0600
+Message-Id: <20220615161233.17527-17-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220615161233.17527-1-logang@deltatee.com>
 References: <20220615161233.17527-1-logang@deltatee.com>
@@ -72,8 +74,7 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com,
  jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v7 15/21] iov_iter: introduce
- iov_iter_get_pages_[alloc_]flags()
+Subject: [PATCH v7 16/21] block: add check when merging zone device pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
@@ -105,116 +106,76 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add iov_iter_get_pages_flags() and iov_iter_get_pages_alloc_flags()
-which take a flags argument that is passed to get_user_pages_fast().
+Consecutive zone device pages should not be merged into the same sgl
+or bvec segment with other types of pages or if they belong to different
+pgmaps. Otherwise getting the pgmap of a given segment is not possible
+without scanning the entire segment. This helper returns true either if
+both pages are not zone device pages or both pages are zone device
+pages with the same pgmap.
 
-This is so that FOLL_PCI_P2PDMA can be passed when appropriate.
+Add a helper to determine if zone device pages are mergeable and use
+this helper in page_is_mergeable().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- include/linux/uio.h |  6 ++++++
- lib/iov_iter.c      | 25 +++++++++++++++++++------
- 2 files changed, 25 insertions(+), 6 deletions(-)
+ block/bio.c        |  2 ++
+ include/linux/mm.h | 23 +++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 739285fe5a2f..ddf9e4cf4a59 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -232,8 +232,14 @@ void iov_iter_pipe(struct iov_iter *i, unsigned int direction, struct pipe_inode
- void iov_iter_discard(struct iov_iter *i, unsigned int direction, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+ssize_t iov_iter_get_pages_flags(struct iov_iter *i, struct page **pages,
-+		size_t maxsize, unsigned maxpages, size_t *start,
-+		unsigned int gup_flags);
- ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
-+ssize_t iov_iter_get_pages_alloc_flags(struct iov_iter *i,
-+		struct page ***pages, size_t maxsize, size_t *start,
-+		unsigned int gup_flags);
- ssize_t iov_iter_get_pages_alloc(struct iov_iter *i, struct page ***pages,
- 			size_t maxsize, size_t *start);
- int iov_iter_npages(const struct iov_iter *i, int maxpages);
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 6dd5330f7a99..9bf6e3af5120 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1515,9 +1515,9 @@ static struct page *first_bvec_segment(const struct iov_iter *i,
- 	return page;
- }
+diff --git a/block/bio.c b/block/bio.c
+index f92d0223247b..a402a4760457 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -865,6 +865,8 @@ static inline bool page_is_mergeable(const struct bio_vec *bv,
+ 		return false;
+ 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
+ 		return false;
++	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
++		return false;
  
--ssize_t iov_iter_get_pages(struct iov_iter *i,
-+ssize_t iov_iter_get_pages_flags(struct iov_iter *i,
- 		   struct page **pages, size_t maxsize, unsigned maxpages,
--		   size_t *start)
-+		   size_t *start, unsigned int gup_flags)
+ 	*same_page = ((vec_end_addr & PAGE_MASK) == page_addr);
+ 	if (*same_page)
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 0bcb54ea503c..33b2f4d9fd0a 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1108,6 +1108,24 @@ static inline bool is_zone_device_page(const struct page *page)
  {
- 	size_t len;
- 	int n, res;
-@@ -1528,7 +1528,6 @@ ssize_t iov_iter_get_pages(struct iov_iter *i,
- 		return 0;
- 
- 	if (likely(iter_is_iovec(i))) {
--		unsigned int gup_flags = 0;
- 		unsigned long addr;
- 
- 		if (iov_iter_rw(i) != WRITE)
-@@ -1558,6 +1557,13 @@ ssize_t iov_iter_get_pages(struct iov_iter *i,
- 		return iter_xarray_get_pages(i, pages, maxsize, maxpages, start);
- 	return -EFAULT;
+ 	return page_zonenum(page) == ZONE_DEVICE;
  }
-+EXPORT_SYMBOL_GPL(iov_iter_get_pages_flags);
 +
-+ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
-+			   size_t maxsize, unsigned maxpages, size_t *start)
++/*
++ * Consecutive zone device pages should not be merged into the same sgl
++ * or bvec segment with other types of pages or if they belong to different
++ * pgmaps. Otherwise getting the pgmap of a given segment is not possible
++ * without scanning the entire segment. This helper returns true either if
++ * both pages are not zone device pages or both pages are zone device pages
++ * with the same pgmap.
++ */
++static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
++						     const struct page *b)
 +{
-+	return iov_iter_get_pages_flags(i, pages, maxsize, maxpages, start, 0);
++	if (is_zone_device_page(a) != is_zone_device_page(b))
++		return false;
++	if (!is_zone_device_page(a))
++		return true;
++	return a->pgmap == b->pgmap;
 +}
- EXPORT_SYMBOL(iov_iter_get_pages);
- 
- static struct page **get_pages_array(size_t n)
-@@ -1640,9 +1646,9 @@ static ssize_t iter_xarray_get_pages_alloc(struct iov_iter *i,
- 	return actual;
- }
- 
--ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
-+ssize_t iov_iter_get_pages_alloc_flags(struct iov_iter *i,
- 		   struct page ***pages, size_t maxsize,
--		   size_t *start)
-+		   size_t *start, unsigned int gup_flags)
+ extern void memmap_init_zone_device(struct zone *, unsigned long,
+ 				    unsigned long, struct dev_pagemap *);
+ #else
+@@ -1115,6 +1133,11 @@ static inline bool is_zone_device_page(const struct page *page)
  {
- 	struct page **p;
- 	size_t len;
-@@ -1654,7 +1660,6 @@ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
- 		return 0;
- 
- 	if (likely(iter_is_iovec(i))) {
--		unsigned int gup_flags = 0;
- 		unsigned long addr;
- 
- 		if (iov_iter_rw(i) != WRITE)
-@@ -1667,6 +1672,7 @@ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
- 		p = get_pages_array(n);
- 		if (!p)
- 			return -ENOMEM;
-+
- 		res = get_user_pages_fast(addr, n, gup_flags, p);
- 		if (unlikely(res <= 0)) {
- 			kvfree(p);
-@@ -1694,6 +1700,13 @@ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
- 		return iter_xarray_get_pages_alloc(i, pages, maxsize, start);
- 	return -EFAULT;
+ 	return false;
  }
-+EXPORT_SYMBOL_GPL(iov_iter_get_pages_alloc_flags);
-+
-+ssize_t iov_iter_get_pages_alloc(struct iov_iter *i, struct page ***pages,
-+				 size_t maxsize, size_t *start)
++static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
++						     const struct page *b)
 +{
-+	return iov_iter_get_pages_alloc_flags(i, pages, maxsize, start, 0);
++	return true;
 +}
- EXPORT_SYMBOL(iov_iter_get_pages_alloc);
+ #endif
  
- size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum,
+ static inline bool folio_is_zone_device(const struct folio *folio)
 -- 
 2.30.2
 
