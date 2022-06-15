@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B4654CE17
-	for <lists.iommu@lfdr.de>; Wed, 15 Jun 2022 18:13:12 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968FD54CE13
+	for <lists.iommu@lfdr.de>; Wed, 15 Jun 2022 18:13:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 15FD541992;
-	Wed, 15 Jun 2022 16:13:08 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 44B47610A7;
+	Wed, 15 Jun 2022 16:13:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rGWs7ojjlS1r; Wed, 15 Jun 2022 16:13:07 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lOjskQpnLiYP; Wed, 15 Jun 2022 16:13:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C4D2541968;
-	Wed, 15 Jun 2022 16:13:06 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7817961085;
+	Wed, 15 Jun 2022 16:13:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F7F1C0084;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 812BBC0089;
 	Wed, 15 Jun 2022 16:13:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14ED9C0084
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F8E6C0084
  for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 533A460F84
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:58 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9B656418CA
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=deltatee.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uRzbZEr0a4Y4 for <iommu@lists.linux-foundation.org>;
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ByB_qzMVAgy7 for <iommu@lists.linux-foundation.org>;
  Wed, 15 Jun 2022 16:12:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 491EC60C0E
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5823F4190F
  for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=CEsEo1LL0bapP/SgeXBMkHfYqc6Wv4poDHt3UT6FxEg=; b=Nn5f3rDAO5IH26Vm3tZC0/G00z
- 08nWaGa176sIR0AMP9ufpCFl8dqGInHVEIurBrhZxq8qyYDrYDC/FLwjHaP0xkmUhL0tsPpMFsnzC
- TrHv4QKvFeifgNV5SXw6bzeBiEo5BMK1Wn4z1hGAMBkF+nRrTHuJRTK9R1MaGtIlhbHed9Xofrf+/
- /E6cLO35IfpR+c+O/fl3k708ke9cdQ/QBKGT2Ot+27a8SgRnqOwwPWqIzU5BypTjVOfuD2fhybceo
- a/BKPzddCviQTOWiZgVLC94Cl7+8/HNXYOTzmN6fEQW6XtzPv1NSvwCLPRKV2ZpBid/6o/AbJcz6B
- VA4O9vnw==;
+ bh=UO35KE8YVx2v+yNTFMhmKCQE8ptUbM1lG6ODy8MFD4U=; b=TsE9W15o3EM/nOeQHIurouy/XA
+ 2Y3+/BjdySgEMcfs9J9Xr3aFaFURXmsv3E6ylJDixGSN9s7g2SYY6k8/grdKUKTBmAaXttKXHKYId
+ 8Tb8qzTHtupqDS54U8Ua402SNJp9CGGyjD4uUAGFAN4fPKqrYTUUiS57TgSmpYDH1NktW0RN014IT
+ 1aacZVnPSkai9pTda7rEsqYo57R6/USD4Uj1WtQp3fMnHUD6mrnWJjmK6OMB8WlszyclZBg/9qMB0
+ U/N8B4+j8XWxbDNGEOQzbKXjwS85TBLNUeTFC5Ec5ZIE0ZIWESQ/C1jGVncnz+JbORAazZSyWmpZa
+ xZImoPPw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1o1VdP-0084iP-Uw; Wed, 15 Jun 2022 10:12:48 -0600
+ id 1o1VdP-0084iQ-Un; Wed, 15 Jun 2022 10:12:49 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1o1VdI-0004ak-WE; Wed, 15 Jun 2022 10:12:41 -0600
+ id 1o1VdJ-0004ao-5d; Wed, 15 Jun 2022 10:12:41 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Wed, 15 Jun 2022 10:12:28 -0600
-Message-Id: <20220615161233.17527-17-logang@deltatee.com>
+Date: Wed, 15 Jun 2022 10:12:29 -0600
+Message-Id: <20220615161233.17527-18-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220615161233.17527-1-logang@deltatee.com>
 References: <20220615161233.17527-1-logang@deltatee.com>
@@ -74,7 +74,8 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com,
  jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v7 16/21] block: add check when merging zone device pages
+Subject: [PATCH v7 17/21] lib/scatterlist: add check when merging zone device
+ pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Minturn Dave B <dave.b.minturn@intel.com>,
@@ -113,69 +114,86 @@ without scanning the entire segment. This helper returns true either if
 both pages are not zone device pages or both pages are zone device
 pages with the same pgmap.
 
-Add a helper to determine if zone device pages are mergeable and use
-this helper in page_is_mergeable().
+Factor out the check for page mergability into a pages_are_mergable()
+helper and add a check with zone_device_pages_are_mergeable().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- block/bio.c        |  2 ++
- include/linux/mm.h | 23 +++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ lib/scatterlist.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index f92d0223247b..a402a4760457 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -865,6 +865,8 @@ static inline bool page_is_mergeable(const struct bio_vec *bv,
- 		return false;
- 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
- 		return false;
-+	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
-+		return false;
+diff --git a/lib/scatterlist.c b/lib/scatterlist.c
+index d5e82e4a57ad..af53a0984f76 100644
+--- a/lib/scatterlist.c
++++ b/lib/scatterlist.c
+@@ -410,6 +410,15 @@ static struct scatterlist *get_next_sg(struct sg_append_table *table,
+ 	return new_sg;
+ }
  
- 	*same_page = ((vec_end_addr & PAGE_MASK) == page_addr);
- 	if (*same_page)
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 0bcb54ea503c..33b2f4d9fd0a 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1108,6 +1108,24 @@ static inline bool is_zone_device_page(const struct page *page)
- {
- 	return page_zonenum(page) == ZONE_DEVICE;
- }
-+
-+/*
-+ * Consecutive zone device pages should not be merged into the same sgl
-+ * or bvec segment with other types of pages or if they belong to different
-+ * pgmaps. Otherwise getting the pgmap of a given segment is not possible
-+ * without scanning the entire segment. This helper returns true either if
-+ * both pages are not zone device pages or both pages are zone device pages
-+ * with the same pgmap.
-+ */
-+static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
-+						     const struct page *b)
++static bool pages_are_mergeable(struct page *a, struct page *b)
 +{
-+	if (is_zone_device_page(a) != is_zone_device_page(b))
++	if (page_to_pfn(a) != page_to_pfn(b) + 1)
 +		return false;
-+	if (!is_zone_device_page(a))
-+		return true;
-+	return a->pgmap == b->pgmap;
-+}
- extern void memmap_init_zone_device(struct zone *, unsigned long,
- 				    unsigned long, struct dev_pagemap *);
- #else
-@@ -1115,6 +1133,11 @@ static inline bool is_zone_device_page(const struct page *page)
- {
- 	return false;
- }
-+static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
-+						     const struct page *b)
-+{
++	if (!zone_device_pages_have_same_pgmap(a, b))
++		return false;
 +	return true;
 +}
- #endif
++
+ /**
+  * sg_alloc_append_table_from_pages - Allocate and initialize an append sg
+  *                                    table from an array of pages
+@@ -447,6 +456,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
+ 	unsigned int added_nents = 0;
+ 	struct scatterlist *s = sgt_append->prv;
++	struct page *last_pg;
  
- static inline bool folio_is_zone_device(const struct folio *folio)
+ 	/*
+ 	 * The algorithm below requires max_segment to be aligned to PAGE_SIZE
+@@ -460,21 +470,17 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 		return -EOPNOTSUPP;
+ 
+ 	if (sgt_append->prv) {
+-		unsigned long paddr =
+-			(page_to_pfn(sg_page(sgt_append->prv)) * PAGE_SIZE +
+-			 sgt_append->prv->offset + sgt_append->prv->length) /
+-			PAGE_SIZE;
+-
+ 		if (WARN_ON(offset))
+ 			return -EINVAL;
+ 
+ 		/* Merge contiguous pages into the last SG */
+ 		prv_len = sgt_append->prv->length;
+-		while (n_pages && page_to_pfn(pages[0]) == paddr) {
++		last_pg = sg_page(sgt_append->prv);
++		while (n_pages && pages_are_mergeable(last_pg, pages[0])) {
+ 			if (sgt_append->prv->length + PAGE_SIZE > max_segment)
+ 				break;
+ 			sgt_append->prv->length += PAGE_SIZE;
+-			paddr++;
++			last_pg = pages[0];
+ 			pages++;
+ 			n_pages--;
+ 		}
+@@ -488,7 +494,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 	for (i = 1; i < n_pages; i++) {
+ 		seg_len += PAGE_SIZE;
+ 		if (seg_len >= max_segment ||
+-		    page_to_pfn(pages[i]) != page_to_pfn(pages[i - 1]) + 1) {
++		    !pages_are_mergeable(pages[i], pages[i - 1])) {
+ 			chunks++;
+ 			seg_len = 0;
+ 		}
+@@ -504,8 +510,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 		for (j = cur_page + 1; j < n_pages; j++) {
+ 			seg_len += PAGE_SIZE;
+ 			if (seg_len >= max_segment ||
+-			    page_to_pfn(pages[j]) !=
+-			    page_to_pfn(pages[j - 1]) + 1)
++			    !pages_are_mergeable(pages[j], pages[j - 1]))
+ 				break;
+ 		}
+ 
 -- 
 2.30.2
 
