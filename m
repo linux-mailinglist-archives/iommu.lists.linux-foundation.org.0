@@ -2,77 +2,93 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CB754CE68
-	for <lists.iommu@lfdr.de>; Wed, 15 Jun 2022 18:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC9554CE03
+	for <lists.iommu@lfdr.de>; Wed, 15 Jun 2022 18:13:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 96CD640A4B;
-	Wed, 15 Jun 2022 16:19:35 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B9D3540B04;
+	Wed, 15 Jun 2022 16:12:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bjuIzq5ftQ6X; Wed, 15 Jun 2022 16:19:34 +0000 (UTC)
+	with ESMTP id LELzJwxUzPss; Wed, 15 Jun 2022 16:12:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9BF84408DF;
-	Wed, 15 Jun 2022 16:19:34 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CB9AD40AF1;
+	Wed, 15 Jun 2022 16:12:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C970C002D;
-	Wed, 15 Jun 2022 16:19:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 927BDC002D;
+	Wed, 15 Jun 2022 16:12:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7D6F8C002D
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:19:32 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 73A5DC002D
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5DAA482DD9
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:19:32 +0000 (UTC)
+ by smtp3.osuosl.org (Postfix) with ESMTP id 48AE560C0E
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EqHTfTUE186g for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jun 2022 16:19:31 +0000 (UTC)
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=deltatee.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6xZ-A6r8thmd for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jun 2022 16:12:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E274D82B81
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:19:30 +0000 (UTC)
-X-UUID: c6ce86a7e4924f778e3432b46bd114ed-20220616
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:2f619c16-03a1-40cb-8808-48e50f43fe83, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:5
-X-CID-META: VersionHash:b14ad71, CLOUDID:0baf9e48-4c92-421c-ad91-b806c0f58b2a,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: c6ce86a7e4924f778e3432b46bd114ed-20220616
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <yf.wang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1508141498; Thu, 16 Jun 2022 00:19:27 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 16 Jun 2022 00:19:26 +0800
-Received: from mbjsdccf07.mediatek.inc (10.15.20.246) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Thu, 16 Jun 2022 00:19:25 +0800
-To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>, "Will
- Deacon" <will@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "open
- list:MEDIATEK IOMMU DRIVER" <iommu@lists.linux-foundation.org>, "moderated
- list:MEDIATEK IOMMU DRIVER" <linux-mediatek@lists.infradead.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>, "open
- list" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v9 3/3] iommu/mediatek: Allow page table PA up to 35bit
-Date: Thu, 16 Jun 2022 00:12:23 +0800
-Message-ID: <20220615161224.6923-4-yf.wang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220615161224.6923-1-yf.wang@mediatek.com>
-References: <20220615161224.6923-1-yf.wang@mediatek.com>
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9789F60BC1
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jun 2022 16:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Cc:To:From:content-disposition;
+ bh=E3OuyFTlPOMWods4T8GcP7ZVTzRsCfvad0BDfewE94Y=; b=AJS/ErU6QFAY8jbAvFU18GiUtb
+ FTte+z8bIp8Ybx0f1HkqqJWQLLEhJHQSkf9wFfqzXyXbKf5dwaPMl1LBviKkNt2olWFRI7oprrSGf
+ gGYh46EAVGZ2nt+EIgAC+5okqC3czFB/dqIKdWW/Tt/gyfo6kwSyA6Fe29xl9WhYaNarU+3CWR2iA
+ 0gDPP3xxY0uxB3FNnwpiVqBwKsruzoZJktRnXEAKtQfViLsl3OTrpfMz+ABNjywEA1Sz0mjLS6qAr
+ QNiLeSTDIctcyMVy3fSRQG9Afb9tM/qbqK0fXNcvsOcWnLQcZ58rAKXF6O+k1LxW7iIIQU+NL+yBk
+ Un9lmpdg==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1o1VdR-0084iS-3j; Wed, 15 Jun 2022 10:12:50 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
+ 4.94.2) (envelope-from <gunthorp@deltatee.com>)
+ id 1o1VdI-0004aU-Bw; Wed, 15 Jun 2022 10:12:40 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Date: Wed, 15 Jun 2022 10:12:24 -0600
+Message-Id: <20220615161233.17527-13-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220615161233.17527-1-logang@deltatee.com>
+References: <20220615161233.17527-1-logang@deltatee.com>
 MIME-Version: 1.0
-X-MTK: N
-Cc: wsd_upstream@mediatek.com, Yunfei Wang <yf.wang@mediatek.com>,
- Libo Kang <Libo.Kang@mediatek.com>, Miles Chen <miles.chen@mediatek.com>,
- Ning Li <ning.li@mediatek.com>
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
+ jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com,
+ willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
+ dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
+ dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com,
+ robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com,
+ logang@deltatee.com, jhubbard@nvidia.com, rcampbell@nvidia.com, jgg@nvidia.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v7 12/21] RDMA/rw: drop pci_p2pdma_[un]map_sg()
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Robin Murphy <robin.murphy@arm.com>, Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Bjorn Helgaas <helgaas@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Stephen Bates <sbates@raithlin.com>, Ira Weiny <ira.weiny@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Xiong Jianxin <jianxin.xiong@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,87 +101,126 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: "yf.wang--- via iommu" <iommu@lists.linux-foundation.org>
-Reply-To: yf.wang@mediatek.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yunfei Wang <yf.wang@mediatek.com>
+dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
+is no longer necessary and may be dropped. This means the
+rdma_rw_[un]map_sg() helpers are no longer necessary. Remove it all.
 
-Single memory zone feature will remove ZONE_DMA32 and ZONE_DMA. So add
-the quirk IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT to let level 1 and level 2
-pgtable support at most 35bit PA.
-
-Signed-off-by: Ning Li <ning.li@mediatek.com>
-Signed-off-by: Yunfei Wang <yf.wang@mediatek.com>
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/iommu/mtk_iommu.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/infiniband/core/rw.c | 45 ++++++++----------------------------
+ 1 file changed, 9 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 3d62399e8865..4dbc33758711 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -138,6 +138,7 @@
- /* PM and clock always on. e.g. infra iommu */
- #define PM_CLK_AO			BIT(15)
- #define IFA_IOMMU_PCIE_SUPPORT		BIT(16)
-+#define PGTABLE_PA_35_EN		BIT(17)
+diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
+index 4d98f931a13d..8367974b7998 100644
+--- a/drivers/infiniband/core/rw.c
++++ b/drivers/infiniband/core/rw.c
+@@ -274,33 +274,6 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	return 1;
+ }
  
- #define MTK_IOMMU_HAS_FLAG_MASK(pdata, _x, mask)	\
- 				((((pdata)->flags) & (mask)) == (_x))
-@@ -240,6 +241,7 @@ struct mtk_iommu_data {
- struct mtk_iommu_domain {
- 	struct io_pgtable_cfg		cfg;
- 	struct io_pgtable_ops		*iop;
-+	u32				ttbr;
- 
- 	struct mtk_iommu_bank_data	*bank;
- 	struct iommu_domain		domain;
-@@ -596,6 +598,9 @@ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom,
- 		.iommu_dev = data->dev,
+-static void rdma_rw_unmap_sg(struct ib_device *dev, struct scatterlist *sg,
+-			     u32 sg_cnt, enum dma_data_direction dir)
+-{
+-	if (is_pci_p2pdma_page(sg_page(sg)))
+-		pci_p2pdma_unmap_sg(dev->dma_device, sg, sg_cnt, dir);
+-	else
+-		ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
+-}
+-
+-static int rdma_rw_map_sgtable(struct ib_device *dev, struct sg_table *sgt,
+-			       enum dma_data_direction dir)
+-{
+-	int nents;
+-
+-	if (is_pci_p2pdma_page(sg_page(sgt->sgl))) {
+-		if (WARN_ON_ONCE(ib_uses_virt_dma(dev)))
+-			return 0;
+-		nents = pci_p2pdma_map_sg(dev->dma_device, sgt->sgl,
+-					  sgt->orig_nents, dir);
+-		if (!nents)
+-			return -EIO;
+-		sgt->nents = nents;
+-		return 0;
+-	}
+-	return ib_dma_map_sgtable_attrs(dev, sgt, dir, 0);
+-}
+-
+ /**
+  * rdma_rw_ctx_init - initialize a RDMA READ/WRITE context
+  * @ctx:	context to initialize
+@@ -327,7 +300,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
  	};
+ 	int ret;
  
-+	if (MTK_IOMMU_HAS_FLAG(data->plat_data, PGTABLE_PA_35_EN))
-+		dom->cfg.quirks |= IO_PGTABLE_QUIRK_ARM_MTK_TTBR_EXT;
-+
- 	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_4GB_MODE))
- 		dom->cfg.oas = data->enable_4GB ? 33 : 32;
- 	else
-@@ -684,8 +689,8 @@ static int mtk_iommu_attach_device(struct iommu_domain *domain,
- 			goto err_unlock;
- 		}
- 		bank->m4u_dom = dom;
--		writel(dom->cfg.arm_v7s_cfg.ttbr & MMU_PT_ADDR_MASK,
--		       bank->base + REG_MMU_PT_BASE_ADDR);
-+		bank->m4u_dom->ttbr = MTK_IOMMU_ADDR(dom->cfg.arm_v7s_cfg.ttbr);
-+		writel(bank->m4u_dom->ttbr, data->base + REG_MMU_PT_BASE_ADDR);
+-	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
++	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
+ 	if (ret)
+ 		return ret;
+ 	sg_cnt = sgt.nents;
+@@ -366,7 +339,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
+ 	return ret;
  
- 		pm_runtime_put(m4udev);
+ out_unmap_sg:
+-	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
++	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_init);
+@@ -414,12 +387,12 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 		return -EINVAL;
  	}
-@@ -1366,8 +1371,7 @@ static int __maybe_unused mtk_iommu_runtime_resume(struct device *dev)
- 		writel_relaxed(reg->int_control[i], base + REG_MMU_INT_CONTROL0);
- 		writel_relaxed(reg->int_main_control[i], base + REG_MMU_INT_MAIN_CONTROL);
- 		writel_relaxed(reg->ivrp_paddr[i], base + REG_MMU_IVRP_PADDR);
--		writel(m4u_dom->cfg.arm_v7s_cfg.ttbr & MMU_PT_ADDR_MASK,
--		       base + REG_MMU_PT_BASE_ADDR);
-+		writel(m4u_dom->ttbr, base + REG_MMU_PT_BASE_ADDR);
- 	} while (++i < data->plat_data->banks_num);
  
- 	/*
-@@ -1401,7 +1405,7 @@ static const struct mtk_iommu_plat_data mt2712_data = {
- static const struct mtk_iommu_plat_data mt6779_data = {
- 	.m4u_plat      = M4U_MT6779,
- 	.flags         = HAS_SUB_COMM_2BITS | OUT_ORDER_WR_EN | WR_THROT_EN |
--			 MTK_IOMMU_TYPE_MM,
-+			 MTK_IOMMU_TYPE_MM | PGTABLE_PA_35_EN,
- 	.inv_sel_reg   = REG_MMU_INV_SEL_GEN2,
- 	.banks_num    = 1,
- 	.banks_enable = {true},
+-	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
++	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (prot_sg_cnt) {
+-		ret = rdma_rw_map_sgtable(dev, &prot_sgt, dir);
++		ret = ib_dma_map_sgtable_attrs(dev, &prot_sgt, dir, 0);
+ 		if (ret)
+ 			goto out_unmap_sg;
+ 	}
+@@ -486,9 +459,9 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	kfree(ctx->reg);
+ out_unmap_prot_sg:
+ 	if (prot_sgt.nents)
+-		rdma_rw_unmap_sg(dev, prot_sgt.sgl, prot_sgt.orig_nents, dir);
++		ib_dma_unmap_sgtable_attrs(dev, &prot_sgt, dir, 0);
+ out_unmap_sg:
+-	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
++	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_signature_init);
+@@ -621,7 +594,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 		break;
+ 	}
+ 
+-	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy);
+ 
+@@ -649,8 +622,8 @@ void rdma_rw_ctx_destroy_signature(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	kfree(ctx->reg);
+ 
+ 	if (prot_sg_cnt)
+-		rdma_rw_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
+-	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++		ib_dma_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
++	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy_signature);
+ 
 -- 
-2.18.0
+2.30.2
 
 _______________________________________________
 iommu mailing list
