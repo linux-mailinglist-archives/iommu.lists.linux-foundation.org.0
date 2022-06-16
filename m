@@ -1,66 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A55B54D79E
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC01154D79F
 	for <lists.iommu@lfdr.de>; Thu, 16 Jun 2022 03:56:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C3DA441A1C;
-	Thu, 16 Jun 2022 01:56:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5FC1140C84;
+	Thu, 16 Jun 2022 01:56:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uPvWIU8YauY9; Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lx90rvloglT2; Thu, 16 Jun 2022 01:56:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 380C541A20;
-	Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6D32F40C86;
+	Thu, 16 Jun 2022 01:56:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EEB82C0039;
-	Thu, 16 Jun 2022 01:56:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 550DDC002D;
+	Thu, 16 Jun 2022 01:56:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DFF21C002D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:28 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9A9A3C002D
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id CE6EF41A1B
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:28 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7624D83F9A
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Baa-wYgR2Jgn for <iommu@lists.linux-foundation.org>;
- Thu, 16 Jun 2022 01:56:27 +0000 (UTC)
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=amd.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HoPKAPZx4xLb for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2062a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::62a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B305C41A1A
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:27 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20616.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::616])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id A9DAB83FA0
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BTlRlITjbdM21M4RasUBZsGLqMLXBPQZP7PgJ7B/bOrUsR7ppDE8ApylQwo/3xbXTzT9l5cHzpvDR4PPFx+oQ0Hixd8bJnBxYX6xhlkyJ3uIkKa0FPOeqLWQc6kzlZpASdvJkKcNktF3LjgkxheRmPBkCLRqvdzUcuwn/TjF5HxXHTY/oA8c5CvnaQt4zof6BWnCExPjAUajSx+eQjUTjjqm9HBN3lXtEp0P2L7MKluN5QmAd5thf8ESpXLBrH2HZMfryNwnuG/xV1wDU/DMc1gmbkkohO/wf035JAcgkAX5DvdZzd/PbjnKLxsj6Ed9nPq6Kn8+H0WIVSnTvwCDYA==
+ b=LDHXFhvqmj5wEC4pyLpwn7Puz2J68zTjACQHA9mQq30+uQpD2eH2BIbERCRrWZX2XYJYQGuR6caeLq/GSYS3eYxKzNVqVGT4U8RXkCWZXHJODHtotdIma13cdyl4Rvkl44vEroET7kOZBLKEhtZ+FqORxCVAJ89BOkYZx/bjCWRAMVtVlDWFZsOsccVIMTYcHsePxNJd4SPSjumu4Xnc0bA5rHeFSAJfQeo/s4BB+VoLYrlRKStBK6/S1LpbH3dZjr01R0+sb9rbB3K/G+l0CBGgeN+JougSTDi8OAtcfTEUszb+uhgjPQ/EaOtZsXzsPelopIc1fJP2m2LGiJVmTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UIGbfdOxw2SxUQd9xfOv8DA2my2O4uYPD2LCqkA/fyg=;
- b=BF3/CO8ipCJPhZCr3ahXQHTuSdAByZ+JJgUp7j0Yzg3ItnQt2CLh/2No3j9DMg08HynTw5Y8X1ksYIS4N5IFJy+fsp8GH5GE0BoxoMKvSCtRf7NRgRmx/gXXiyYUyUaqFEPkFgjNY1ZhcGv2Nu6FDaAWoRX2eJ6k9Bqghk+6rYeR+duSHcBS0pDGGx8f0MkTSWSwhXkv9YOoDNbIT/nb8/aUJ6fIJ8jtXKInt/2E/9yb2d+Rboas0I7E5IqejRNR40KCDGBqvuRR9NGo9YJV+idUMXK5Xk+kYSZ418QBM8u+qkDQDTNFW1vdDP1P7XV38u6XMktga/yhvmCzpdevJQ==
+ bh=t6yVpFxtkPWJlhdwVx2hjM9OeHJHsycJnst8oFkE+OY=;
+ b=Qf1voM8oRGd3gc5yGxNW2OmMmMF4bp7J/CuRDDA6p3wC5fGUxB/K4WxhnSqeB1dvd/Y/hoBEzJrOjIcVf9Upe0AER6XJvFFl6+J1+q+OGLanRu2AKEJLQE2sMS8zdf7PfXY3oejKaS4uK4lR+CfwPhODUXd2o6A/SSrGXfHXxW/6egD4vca8SmU1IkORSkIWP/AFqkuZm3NYKL3NbKmxKVSldxbCRRNDvlqnnn2V3cFXJmIIRJFl3stQVzpUi+vuNj7+nUQd6KaWlpV+aMZ5//AhzphImNbdLC1kXq1wNzHC/1NK+bY3tXvuw0n+9XX1SIvZp70Kb0hnxJQ0qZWP8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.linux-foundation.org
  smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UIGbfdOxw2SxUQd9xfOv8DA2my2O4uYPD2LCqkA/fyg=;
- b=yoqyEz7t2dOgF0z/yruaQIGfPiUR1mcbs5yDATHmXexGlYTwnVixz40NvRbc9mV5aT+ajNgmedRQg0dMomC8neny8E4a75tV9RbYjpiFtcYtVqMLbgdjNU7e7JP3TtHEyGlvDIDfXva+9Youm1CkcSCnK1130pvyTNdmHWKpQIM=
-Received: from MW4PR04CA0233.namprd04.prod.outlook.com (2603:10b6:303:87::28)
- by LV2PR12MB6014.namprd12.prod.outlook.com (2603:10b6:408:170::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.20; Thu, 16 Jun
- 2022 01:56:24 +0000
-Received: from CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:87:cafe::ad) by MW4PR04CA0233.outlook.office365.com
- (2603:10b6:303:87::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14 via Frontend
- Transport; Thu, 16 Jun 2022 01:56:24 +0000
+ bh=t6yVpFxtkPWJlhdwVx2hjM9OeHJHsycJnst8oFkE+OY=;
+ b=bbhdGmosYpcij1LnADydC4P5Pu2QTuV2UFMldpEdQpi3Vg7T5wgRA2DVRTYFUCuAtdN9mkW3sPGu76v5P9jYvArrTu4xNho0RfSGwCBAVRMgq3ccJP08oJ491JSDFe/eI5aDNsnkxZfLUDPxXpBgwoT7nPEPFzKcPs0SsorNb9Q=
+Received: from MW4PR03CA0034.namprd03.prod.outlook.com (2603:10b6:303:8e::9)
+ by MN2PR12MB4504.namprd12.prod.outlook.com (2603:10b6:208:24f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.15; Thu, 16 Jun
+ 2022 01:56:25 +0000
+Received: from CO1NAM11FT027.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8e:cafe::3) by MW4PR03CA0034.outlook.office365.com
+ (2603:10b6:303:8e::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.14 via Frontend
+ Transport; Thu, 16 Jun 2022 01:56:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -68,17 +70,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT058.mail.protection.outlook.com (10.13.174.164) with Microsoft SMTP
+ CO1NAM11FT027.mail.protection.outlook.com (10.13.174.224) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.5332.12 via Frontend Transport; Thu, 16 Jun 2022 01:56:24 +0000
 Received: from sp5-759chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 15 Jun
- 2022 20:55:54 -0500
+ 2022 20:55:55 -0500
 To: <iommu@lists.linux-foundation.org>
-Subject: [PATCH v2 1/7] iommu/amd: Warn when found inconsistency EFR mask
-Date: Wed, 15 Jun 2022 20:55:35 -0500
-Message-ID: <20220616015541.11207-2-suravee.suthikulpanit@amd.com>
+Subject: [PATCH v2 2/7] iommu/amd: Process all IVHDs before enabling IOMMU
+ features
+Date: Wed, 15 Jun 2022 20:55:36 -0500
+Message-ID: <20220616015541.11207-3-suravee.suthikulpanit@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220616015541.11207-1-suravee.suthikulpanit@amd.com>
 References: <20220616015541.11207-1-suravee.suthikulpanit@amd.com>
@@ -88,27 +91,27 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65ca3df0-f0f9-4ad6-7b6f-08da4f3b6b1e
-X-MS-TrafficTypeDiagnostic: LV2PR12MB6014:EE_
-X-Microsoft-Antispam-PRVS: <LV2PR12MB601455F5E47EA43C94DD1521F3AC9@LV2PR12MB6014.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: a091a841-3ca8-476b-3d27-08da4f3b6b68
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4504:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB450496675091B362E8276263F3AC9@MN2PR12MB4504.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e0jP32XK3I4RMi3y0F12rGMmmiKkZuoOM5rCwTTmTkdp6lZXgoAh7vc6aEdsmDWETRuDpDYvV+kzY2oLFbFAM4Bk0Wqd6QgQPMuC+k5AjmBfkkeKCSbtf5vsSelefbCjryGPAt249PLQv5no2vie62+Nm/g6yBkso07esbJ78S1tc5vUhlDrehQ5d2CjpX4yODWLOC7WKQPk8cwcdAJYJrfX+H74ZLZKOtmENdaT+JK7UH9azuriqUAUD/iDUbMSp1ovZcsCYwDOO3NqKue2QelL+SlLy9/NSTLMIzME1DwwQwow6yWwEo8muF18/8s0rOaK1Ojupuqapiy6LW5aycYX+lMqvKAjDuM0TqxC+JNHJSVXCe7Aqb9ZJO1cKKuawFdRGT/y3YFO781f8BWtHgYQ0DDZXFluvlAk9yr9Kg5d0GPiBlwUlyRAT9lLbBP/JBqM4wDhTNgvWLhLwWcTBy6j+t7cM3r26CNc1v9LLPkEOJyRW2zLHT3jG6JfVzhSpSF0EptPh7VKNiw7iTHfKfJLkTxMU9pxP2eKNQDYxA65KRz23SLgkXrvkvpGy1N/SRuq987yqJ1ev4C4yrE3MNHEIqkYtPSVtlxTG6rXm48sFQoont7BuW3GA9lsOSFrcb2RKyogiTMOu4/s2oRjBVoEhGAok1yucoj8oKRcYXbQaHWr22Mn+gkfJlXLWEzPDS08wjJKqlXjP4idNNik3g==
+X-Microsoft-Antispam-Message-Info: UayTc8ciVZay1ajbulaI4uh5EEkMoAQprtBSbUVzdjVA/nQIQitiYErTHZVrZbnnPpKtj82XGXkWl/zyb28u1T1HBE2KWF2UvhifHZ5UC3JzKGNBNPJGwgiy0k6vfrd5yKFHhqA5igC17V4R3qeNH4jiY7RG2FsHPj820FjSlP2yhkvwnXesQl5saVKJvzzG4YRdhrVwJa29OlkKg5uf17CwgAdqTnCx38RkbZcsnCD4x0ZJQ5XHROhAqpfMl3D40E/pwpMhxtMjrb+6C+PlCqCbpd0Lo51iHfNiizAMLX471SLMHSydZaQaVIMfuoCT3d8OTp9m2Pvwb7cIJi0c/0UmJ6sVF7w4YLW8yummyYMd9VhDyWoWWPtoEpA+LVxoJajXLHXh/6DZM6xIf3rWqHglfXK69WG+heINATDfTxyM+3q4/D1ycM+vPFW8KibyH6lpKwBpuf5U14xZ33c42CuhPvSiG7kjJInNgg8gZCMZ7ox70jSxklozuxa02RRhwHcHvgqWYpaz+E1Yw6CP9MYqkDZz7mpNVRa6bJqUObI6/nLLsK5lw8v2NRkc+An9tk6dWPo7xx/raczUxz2e8ZXh0ZHIG8Jolzvbvh2B/we5HiCKOkdEtMZQNWgI5r44GpgaMoNnb1NlKe56wQQ1vPEfyJZZvldkRxqsjI21LQ2hj2RM8aOs57OTmiTS6c3KiItd3Kxp1F4XERxcCrN48g==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(40470700004)(36840700001)(46966006)(356005)(70586007)(8676002)(508600001)(82310400005)(86362001)(70206006)(426003)(6916009)(8936002)(2616005)(36860700001)(47076005)(336012)(26005)(36756003)(7696005)(40460700003)(83380400001)(4326008)(81166007)(6666004)(5660300002)(16526019)(54906003)(316002)(44832011)(1076003)(2906002)(186003)(36900700001);
+ SFS:(13230016)(4636009)(40470700004)(36840700001)(46966006)(5660300002)(316002)(83380400001)(44832011)(36756003)(36860700001)(70586007)(6916009)(4326008)(2906002)(70206006)(8676002)(54906003)(8936002)(16526019)(6666004)(82310400005)(26005)(47076005)(186003)(508600001)(336012)(426003)(86362001)(2616005)(1076003)(81166007)(356005)(40460700003)(7696005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 01:56:24.3296 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65ca3df0-f0f9-4ad6-7b6f-08da4f3b6b1e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 01:56:24.8129 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a091a841-3ca8-476b-3d27-08da4f3b6b68
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT027.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB6014
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4504
 Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com, vasant.hegde@amd.com,
  robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -130,57 +133,100 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The function check_feature_on_all_iommus() checks to ensure if an IOMMU
-feature support bit is set on the Extended Feature Register (EFR).
-Current logic iterates through all IOMMU, and returns false when it
-found the first unset bit.
+The ACPI IVRS table can contain multiple IVHD blocks. Each block contains
+information used to initialize each IOMMU instance.
 
-To provide more thorough checking, modify the logic to iterate through all
-IOMMUs even when found that the bit is not set, and also throws a FW_BUG
-warning if inconsistency is found.
+Currently, init_iommu_all sequentially process IVHD block and initialize
+IOMMU instance one-by-one. However, certain features require all IOMMUs
+to be configured in the same way system-wide. In case certain IVHD blocks
+contain inconsistent information (most likely FW bugs), the driver needs
+to go through and try to revert settings on IOMMUs that have already been
+configured.
+
+A solution is to split IOMMU initialization into 3 phases:
+
+Phase1 : Processes information of the IVRS table for all IOMMU instances.
+This allow all IVHDs to be processed prior to enabling features.
+
+Phase2 : Early feature support check on all IOMMUs (using information in
+IVHD blocks.
+
+Phase3 : Iterates through all IOMMU instances and enabling features.
 
 Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 ---
- drivers/iommu/amd/init.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/iommu/amd/init.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 3dd0f26039c7..b3e4551ce9dd 100644
+index b3e4551ce9dd..5f86e357dbaa 100644
 --- a/drivers/iommu/amd/init.c
 +++ b/drivers/iommu/amd/init.c
-@@ -261,18 +261,29 @@ int amd_iommu_get_num_iommus(void)
- }
- 
- #ifdef CONFIG_IRQ_REMAP
-+/*
-+ * Iterate through all the IOMMUs to verify if the specified
-+ * EFR bitmask of IOMMU feature are set.
-+ * Warn and return false if found inconsistency.
-+ */
- static bool check_feature_on_all_iommus(u64 mask)
+@@ -1692,7 +1692,6 @@ static int __init init_iommu_one(struct amd_iommu *iommu, struct ivhd_header *h,
+ 				 struct acpi_table_header *ivrs_base)
  {
- 	bool ret = false;
- 	struct amd_iommu *iommu;
+ 	struct amd_iommu_pci_seg *pci_seg;
+-	int ret;
  
- 	for_each_iommu(iommu) {
--		ret = iommu_feature(iommu, mask);
--		if (!ret)
-+		bool tmp = iommu_feature(iommu, mask);
+ 	pci_seg = get_pci_segment(h->pci_seg, ivrs_base);
+ 	if (pci_seg == NULL)
+@@ -1773,6 +1772,13 @@ static int __init init_iommu_one(struct amd_iommu *iommu, struct ivhd_header *h,
+ 	if (!iommu->mmio_base)
+ 		return -ENOMEM;
+ 
++	return init_iommu_from_acpi(iommu, h);
++}
 +
-+		if ((ret != tmp) &&
-+		    !list_is_first(&iommu->list, &amd_iommu_list)) {
-+			pr_err(FW_BUG "Found inconsistent EFR mask (%#llx) on iommu%d (%04x:%02x:%02x.%01x).\n",
-+			       mask, iommu->index, iommu->pci_seg->id, PCI_BUS_NUM(iommu->devid),
-+			       PCI_SLOT(iommu->devid), PCI_FUNC(iommu->devid));
- 			return false;
-+		}
-+		ret = tmp;
- 	}
++static int __init init_iommu_one_late(struct amd_iommu *iommu)
++{
++	int ret;
++
+ 	if (alloc_cwwb_sem(iommu))
+ 		return -ENOMEM;
+ 
+@@ -1794,10 +1800,6 @@ static int __init init_iommu_one(struct amd_iommu *iommu, struct ivhd_header *h,
+ 	if (amd_iommu_pre_enabled)
+ 		amd_iommu_pre_enabled = translation_pre_enabled(iommu);
+ 
+-	ret = init_iommu_from_acpi(iommu, h);
+-	if (ret)
+-		return ret;
 -
--	return true;
-+	return ret;
+ 	if (amd_iommu_irq_remap) {
+ 		ret = amd_iommu_create_irq_domain(iommu);
+ 		if (ret)
+@@ -1808,7 +1810,7 @@ static int __init init_iommu_one(struct amd_iommu *iommu, struct ivhd_header *h,
+ 	 * Make sure IOMMU is not considered to translate itself. The IVRS
+ 	 * table tells us so, but this is a lie!
+ 	 */
+-	pci_seg->rlookup_table[iommu->devid] = NULL;
++	iommu->pci_seg->rlookup_table[iommu->devid] = NULL;
+ 
+ 	return 0;
  }
- #endif
+@@ -1853,6 +1855,7 @@ static int __init init_iommu_all(struct acpi_table_header *table)
+ 	end += table->length;
+ 	p += IVRS_HEADER_LENGTH;
+ 
++	/* Phase 1: Process all IVHD blocks */
+ 	while (p < end) {
+ 		h = (struct ivhd_header *)p;
+ 		if (*p == amd_iommu_target_ivhd_type) {
+@@ -1878,6 +1881,15 @@ static int __init init_iommu_all(struct acpi_table_header *table)
+ 	}
+ 	WARN_ON(p != end);
+ 
++	/* Phase 2 : Early feature support check */
++
++	/* Phase 3 : Enabling IOMMU features */
++	for_each_iommu(iommu) {
++		ret = init_iommu_one_late(iommu);
++		if (ret)
++			return ret;
++	}
++
+ 	return 0;
+ }
  
 -- 
 2.32.0
