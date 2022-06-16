@@ -1,117 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A32154D79D
-	for <lists.iommu@lfdr.de>; Thu, 16 Jun 2022 03:56:37 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D167E54D7FC
+	for <lists.iommu@lfdr.de>; Thu, 16 Jun 2022 04:10:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A556183FA9;
-	Thu, 16 Jun 2022 01:56:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 796B041A03;
+	Thu, 16 Jun 2022 02:10:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f8UPy1-KRTuX; Thu, 16 Jun 2022 01:56:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AD17683FA6;
-	Thu, 16 Jun 2022 01:56:34 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TVuauMVrrad0; Thu, 16 Jun 2022 02:10:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6DB5441A1F;
+	Thu, 16 Jun 2022 02:10:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2645C0081;
-	Thu, 16 Jun 2022 01:56:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 36DDDC0081;
+	Thu, 16 Jun 2022 02:10:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3713CC007C
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99C60C002D;
+ Thu, 16 Jun 2022 02:10:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 00B5183F9C
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTP id 71E6483FA3;
+ Thu, 16 Jun 2022 02:10:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=intel.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aVN0eZ41FQCy for <iommu@lists.linux-foundation.org>;
- Thu, 16 Jun 2022 01:56:30 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on20613.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe59::613])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5715483F99
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HYHQILibu3nljnKs4us0p97gvN9gr9jv5MpAhohJQJMYYLLHFKMUZDfPzFQbDbprwdaNh9iWvw9yLu9UP2mPvoqz7/OiChG3do2zt98Aq3GBqw9W75Lmehf9+rugkDV++kYVVUtqxKZrpt3U2F/lUhERr8aB8WvpM+mJuyV/yXRJ3UiaCYzTa1qxsyKZeOh42b7OCV7sS+CIY7EFIw2yNiTGI0hxVMNAAFnQAi18Sz2OkfrSx4h4t4ygSWuC1KEecXE9gbMq6hSwpCNMKljzkN0qY0RyN639B3b1O7i5erIvkPQA8Q7FbA68P4+hxP5jF6WN0Gpc3pVibZ6GLzy8yA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SSgRIFA0RF+bR6Qcmwr5Sep1iXBGd3+GRmnCKY/eXgg=;
- b=gSX62COBAC92LXorflOjURkLpmJazp4V1hYiSTFj9QOsW5oV34qKpKVSW1aj4WfAzfZ5JGEOfV74qNqtSNnclFIu5ONDQVcc96qciJDl8cIJKGfn5T1Nmbp/A3Cxc80s5Kw5IsERnZC8q4RI2ctrbqUwifSHILdVPFJRRCqEVfhPeda4ry4LhaPsTYbZ0TZUp2JjRnEsUzU4h2n/pnKyAdlovX0HOLADZ2D41sgxY+Qc7TGZoPLnKj2Kf+UNmfZPTyG/Tej91JqPRUT/5H++M45KIzmyL8l/jpyCgCI0/a9gCHsY/9vcpj0D7DcyKi6NF+GKweXPV7I7KT3EBxpGmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.linux-foundation.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SSgRIFA0RF+bR6Qcmwr5Sep1iXBGd3+GRmnCKY/eXgg=;
- b=O8pUUQLBmJdjVSwJUpajlPg1VgujetvlpKLf/f0nZwKwRN2sD0qjT0ip5VN917i1jvRu8MAyoQxujHd+mKjeU21suKXEjVQfWM6XYVNswnI8EUqPnFIFBJ3Xfh9lFo/bQ0g6NtKmKW1hiB6L3DuNQtdjA7mIGwbuRSQBlV+bcPg=
-Received: from MW4PR04CA0219.namprd04.prod.outlook.com (2603:10b6:303:87::14)
- by MN0PR12MB5929.namprd12.prod.outlook.com (2603:10b6:208:37c::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.20; Thu, 16 Jun
- 2022 01:56:27 +0000
-Received: from CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:87:cafe::cf) by MW4PR04CA0219.outlook.office365.com
- (2603:10b6:303:87::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13 via Frontend
- Transport; Thu, 16 Jun 2022 01:56:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT058.mail.protection.outlook.com (10.13.174.164) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5332.12 via Frontend Transport; Thu, 16 Jun 2022 01:56:27 +0000
-Received: from sp5-759chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 15 Jun
- 2022 20:56:21 -0500
-To: <iommu@lists.linux-foundation.org>
-Subject: [PATCH v2 7/7] iommu/amd: Do not support IOMMUv2 APIs when SNP is
- enabled
-Date: Wed, 15 Jun 2022 20:55:41 -0500
-Message-ID: <20220616015541.11207-8-suravee.suthikulpanit@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220616015541.11207-1-suravee.suthikulpanit@amd.com>
-References: <20220616015541.11207-1-suravee.suthikulpanit@amd.com>
+ with ESMTP id W0AfSgvooh3f; Thu, 16 Jun 2022 02:10:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2FA7C83E05;
+ Thu, 16 Jun 2022 02:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655345408; x=1686881408;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=u/polTrCcfTR/bnfvj7XjWWQORpzgrJJNnRIhd6+LYo=;
+ b=P+0A+/iK6GZbUUhqClL+aUDak1HYvB1LI64Nx1kFs1+8X68qK20YevxW
+ 61hCRBfC+52IZrkO2GjKAePw4NYX9wUGBgt7wrHb7Ox3dJE4qV84rd4Od
+ xfBFh2oFTsboFHENTbNDaZ37M15Q9WvH2LCQ+ym7Z8zcKgMzvIlmyLnym
+ ICq6BcsqqJOiTm2BcjHZ98TMRImE++fMqz5mVsjOPDbEVHJV3Mo+lHIl9
+ uQbcEL06QJBS5X8NyS4xoYejzj55Mc6I76McH1Cwc3bGDsBx6umEStczt
+ J82LY4NIN4zZ2hAWj4AwQXe60GG59ViF6pTlFJosDQ40F1bgGxoy1PF/9 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="304584109"
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="304584109"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 19:09:59 -0700
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="831355596"
+Received: from yuefengs-mobl.ccr.corp.intel.com (HELO [10.255.30.105])
+ ([10.255.30.105])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 19:09:51 -0700
+Message-ID: <0c0e6ec8-725d-93e8-44f1-db6c8a673a97@linux.intel.com>
+Date: Thu, 16 Jun 2022 10:09:49 +0800
 MIME-Version: 1.0
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6c2d8bd1-631c-4daf-9838-08da4f3b6cea
-X-MS-TrafficTypeDiagnostic: MN0PR12MB5929:EE_
-X-Microsoft-Antispam-PRVS: <MN0PR12MB5929163A54519D4B0BB5BE7CF3AC9@MN0PR12MB5929.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9Da1TCY5/7iL3aYeaNDf3ngmOKfMAXoWMp25mKbtXAB6SVhGBOKvNFYoU0SeW/rw2hlSFfaH/03wb8k+0BiJz6fdgwmTriVp/5xNdE/q8rlNcxMCodF8KFzHLuxUpx9Qy6swIdgpBTwhJQF9bHc+tY1JMOjibftJ2MifrmIgvLAn7ZY9V2zqrrWDTg7r3LSAITvX8Pvt2SfnZOsFwh1FGm8M9LXQ+WciYDObtQjoYPWmhJcIrm3jiw+Z1lZcBXXVzHPDRe4Fdje6/LDxHXOPPBqD+xeSijRSwVtKHtGaTkJUPnndqiQ+OgxRVBcRUc+pe75BmWX2N+Xb2Qh9/6AaIKLIrW/obb21lUMibkLwaRQrLJ6WKaoCjDD9XZq9IJMeVLfk+Cl3eyJj8/WH1pdmpgM/esYwR9WlgykKyl5I6e/pV204wef6Y820cJB/3vlIgx1egtNnB7qxIQYHC86wGUt/DHHOh3+3/CQhKAX6kasltWaMXOErXk1DJMHqNWhorqdTOs/TVxI4nwHsMgineHq1tlICZrx2XMnkd/v4UZhkZnukEdDJCDxI+Se4xIB77jP5ZuQaIiUzUKkGZcMR0QTrE3RzzV17ZbIxDgigv691rkO1v7XAbM4/Dvaw6NEG+S47ZEIZXWGeXq7JVsD9SWXiZ44cFq7CgP+FUbeqJ75GZD0BvAw/Itc6XUdT4HkkTW9uKimDMPUYq+zqDnduEA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(36840700001)(40470700004)(46966006)(36860700001)(81166007)(356005)(6666004)(2616005)(16526019)(54906003)(336012)(83380400001)(2906002)(186003)(36756003)(82310400005)(47076005)(1076003)(40460700003)(4744005)(8676002)(5660300002)(316002)(70586007)(86362001)(426003)(4326008)(26005)(6916009)(70206006)(44832011)(8936002)(508600001)(7696005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 01:56:27.3450 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c2d8bd1-631c-4daf-9838-08da4f3b6cea
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5929
-Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com, vasant.hegde@amd.com,
- robin.murphy@arm.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 1/5] iommu: Return -EMEDIUMTYPE for incompatible domain
+ and device/group
+Content-Language: en-US
+To: Nicolin Chen <nicolinc@nvidia.com>, joro@8bytes.org, will@kernel.org,
+ marcan@marcan.st, sven@svenpeter.dev, robin.murphy@arm.com,
+ robdclark@gmail.com, matthias.bgg@gmail.com, orsonzhai@gmail.com,
+ baolin.wang7@gmail.com, zhang.lyra@gmail.com, jean-philippe@linaro.org,
+ alex.williamson@redhat.com, jgg@nvidia.com, kevin.tian@intel.com
+References: <20220616000304.23890-1-nicolinc@nvidia.com>
+ <20220616000304.23890-2-nicolinc@nvidia.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20220616000304.23890-2-nicolinc@nvidia.com>
+Cc: jordan@cosmicpenguin.net, thierry.reding@gmail.com, alyssa@rosenzweig.io,
+ linux-s390@vger.kernel.org, saiprakash.ranjan@codeaurora.org,
+ kvm@vger.kernel.org, jonathanh@nvidia.com,
+ linux-arm-kernel@lists.infradead.org, yangyingliang@huawei.com,
+ gerald.schaefer@linux.ibm.com, linux-arm-msm@vger.kernel.org,
+ christophe.jaillet@wanadoo.fr, linux-tegra@vger.kernel.org, tglx@linutronix.de,
+ virtualization@lists.linux-foundation.org, isaacm@codeaurora.org,
+ cohuck@redhat.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,43 +97,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Suravee Suthikulpanit via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The IOMMUv2 APIs (for supporting shared virtual memory with PASID)
-configures the domain with IOMMU v2 page table, and sets DTE[Mode]=0.
-This configuration cannot be supported on SNP-enabled system.
+On 2022/6/16 08:03, Nicolin Chen wrote:
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 44016594831d..0dd13330fe12 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -4323,7 +4323,7 @@ static int prepare_domain_attach_device(struct iommu_domain *domain,
+>   		return -ENODEV;
+>   
+>   	if (dmar_domain->force_snooping && !ecap_sc_support(iommu->ecap))
+> -		return -EOPNOTSUPP;
+> +		return -EMEDIUMTYPE;
+>   
+>   	/* check if this iommu agaw is sufficient for max mapped address */
+>   	addr_width = agaw_to_width(iommu->agaw);
+> @@ -4331,10 +4331,10 @@ static int prepare_domain_attach_device(struct iommu_domain *domain,
+>   		addr_width = cap_mgaw(iommu->cap);
+>   
+>   	if (dmar_domain->max_addr > (1LL << addr_width)) {
+> -		dev_err(dev, "%s: iommu width (%d) is not "
+> +		dev_dbg(dev, "%s: iommu width (%d) is not "
+>   		        "sufficient for the mapped address (%llx)\n",
+>   		        __func__, addr_width, dmar_domain->max_addr);
+> -		return -EFAULT;
+> +		return -EMEDIUMTYPE;
+>   	}
+>   	dmar_domain->gaw = addr_width;
 
-Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
----
- drivers/iommu/amd/init.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Can we simply remove the dev_err()? As the return value has explicitly
+explained the failure reason, putting a print statement won't help much.
 
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index bc008a82c12c..780d6977a331 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -3448,7 +3448,12 @@ __setup("ivrs_acpihid",		parse_ivrs_acpihid);
- 
- bool amd_iommu_v2_supported(void)
- {
--	return amd_iommu_v2_present;
-+	/*
-+	 * Since DTE[Mode]=0 is prohibited on SNP-enabled system
-+	 * (i.e. EFR[SNPSup]=1), IOMMUv2 page table cannot be used without
-+	 * setting up IOMMUv1 page table.
-+	 */
-+	return amd_iommu_v2_present && !amd_iommu_snp_en;
- }
- EXPORT_SYMBOL(amd_iommu_v2_supported);
- 
--- 
-2.32.0
-
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
