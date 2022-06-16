@@ -1,66 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C23254D79A
-	for <lists.iommu@lfdr.de>; Thu, 16 Jun 2022 03:56:34 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E0D54D7A1
+	for <lists.iommu@lfdr.de>; Thu, 16 Jun 2022 03:56:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8246B4031D;
-	Thu, 16 Jun 2022 01:56:32 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 32E5141A1F;
+	Thu, 16 Jun 2022 01:56:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EVSzkdD2chof; Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id X_eDaVwhYfqq; Thu, 16 Jun 2022 01:56:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7BF9940C7B;
-	Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B897941A2C;
+	Thu, 16 Jun 2022 01:56:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ADACC0082;
-	Thu, 16 Jun 2022 01:56:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A8DFC0081;
+	Thu, 16 Jun 2022 01:56:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41549C002D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14DF5C0086
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 21E7B4031D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:29 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTP id E9F4440C86
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=amd.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y5fXD0aG4phg for <iommu@lists.linux-foundation.org>;
- Thu, 16 Jun 2022 01:56:28 +0000 (UTC)
+ with ESMTP id Tz5i4GmXqjm5 for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Jun 2022 01:56:33 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2060e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::60e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5C5CC40194
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:28 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on20620.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eb2::620])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id DDC9440C7B
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jun 2022 01:56:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d1Ghu7H4bqdoHZu0oq8tdez0/IHWc0Tup8KtAJBK+Ga/Bx6K3vkKiW2LkTm0US4Y1u3WF4/K6kFSG2HnBzZLbjX4MJOFJDhoFMETlueWa61YYWvuIrJoBT0DekxYxD2c6+4G1PkE295+WAYyDSRW/ee1Joj5l6f4BAsbQsuD91z/Ymi52IiIjduruniyvxHa8ZR+e0FRH2F8lX3op4ayXQNKEb29+EWmNuQNNzsYWp32eE2WIcfeN6rmjbNuBODawNcwTUJ0NpuiHSUU16SMqKbmdHfOMOl+rMPNlp7DF+WYV/ksiFq6h1Nc5sOQLo86JH4kP3h2I1ciSiRxgu/+DQ==
+ b=RmpoFGjr4QNV7/NjtK/JfPoQskpHz78SyPx7EKTYSfAFWu1VxLFBqwCYPOCSrUi7NFk55B/LxamY6WzF4Gu8KgNpk8PHDgE7tA3C47Xys0h1o5+9yLkNarAXxQJQtT6yuf6vNDW5cVOM0m+E+KmFJdxmmIVW5Z5+QOrYX0pGTLRglwGpy0qJCbuhKjW6BetAjlujSNx+DZClATNpABC7Q6nXQCC7TIL0rt+BAYTOSh3MrdrJsED1X9Znr2dfW2dK52llc15+u8wzHFG9NKxvnNJJuERSzs+cvmOOnTRCEksSZLmkAinB3AMu2HS2RwLcTzDX0oUatPpmYiwLwYDm9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nRfMFSEyT3hc2ryWUHd3NEtyRUkvI43HJ0o8EWPSJsk=;
- b=Il/vK/VWiOt/MFCatWWsGh31N9l10mSm2s3/Ta4OPCT8/4Dk9UO1Q8fzaIiKPPnDVl8Aje11XoEIYHg6+q7L0KzW8a2Tt/7SrXlXouQh1ivCjlb7AG/scXIlXIxRm44QrJI5JNIpXVHfb4/tCQnOoePDbLCKPrYPxFwUSc8yuaReD75gaf736UelZBcwQx+mu7k0FGAbnjVqWYpqATsb1Ki/3MPnfQLPBrIRVrNhi8z4PVdgp9oUgQ/Oha1OWvrh2s7XUmRCcU3iDMOUAgEJdwqKtmbVu3u3mOKNiuEw29/doOHMfScXC4JD9BZbFl8MqQpWt/FFCQVqCdhL6CgXNw==
+ bh=mmQ4k/fsyIGVD1N7jflDRc3dnImvk8e6waeVA8T0JXg=;
+ b=FQyEPpqANDigOmSu0tYDz9uMb+frCNJFwoxwhMBYy6Mja2cSN5XSpQsWE04y56BNADtYkaid5jzNFHcCJafSJ0O0UO8+YnyL8DQ5ahW4yVm9X3JlO416YllcCWQTicldYvvdAN00C7AVzjF11u717mZT5eHT/oLbEZFC4eCzeN5OTk91Jr2cmVEcEiZ0OyaDMmLno75Xps8qdejNEU1aOroqNbdAjtLzrrNIjX2EdlHC0LgP1ykWZ1zLx/RPTUCdSUmPQqpPZScdipZ3CqcEzSScc38Z++EGcdhw0cpUgCtPFaSKGDh799ePJQg23SYW0ucEGhQB/vwzdapKHHawcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.linux-foundation.org
  smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nRfMFSEyT3hc2ryWUHd3NEtyRUkvI43HJ0o8EWPSJsk=;
- b=4qs5ew9fa4fwRxjxLN8iedTPW3dCWbHdeZZvvKqEwpdZWYpb4dG+qszGy2OCyD63wcuruuWd5edigm5+LiiS0l9FsGjMKimXhdzNf9gBrMGR3GUNTRfGz/WCBZ0KNDa6FgaajKw9+Ezz7jsbFN8yRNcxEjL8McWF+zQRVmi6MMo=
-Received: from MW4PR04CA0232.namprd04.prod.outlook.com (2603:10b6:303:87::27)
- by SA1PR12MB5614.namprd12.prod.outlook.com (2603:10b6:806:228::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.22; Thu, 16 Jun
- 2022 01:56:25 +0000
-Received: from CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:87:cafe::dd) by MW4PR04CA0232.outlook.office365.com
- (2603:10b6:303:87::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13 via Frontend
- Transport; Thu, 16 Jun 2022 01:56:25 +0000
+ bh=mmQ4k/fsyIGVD1N7jflDRc3dnImvk8e6waeVA8T0JXg=;
+ b=YdHOKVhOx8uaFs1Pv68DMp6EAybwDYpT+LjBF3fN43IzwmXwwhp0vy0e1bgI2WjJ8KjB5K3NAwol3sANPdrUmNsrUZLl5C4qAePwL/VR1ZgKUGmtv2VtEsPBVPqUj/QBZlbQAvaSXaInkJ87zRNjSNz/xUud3DdkYXg/EdIy6JU=
+Received: from CO2PR18CA0046.namprd18.prod.outlook.com (2603:10b6:104:2::14)
+ by BYAPR12MB3335.namprd12.prod.outlook.com (2603:10b6:a03:dd::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.16; Thu, 16 Jun
+ 2022 01:56:27 +0000
+Received: from CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:2:cafe::e0) by CO2PR18CA0046.outlook.office365.com
+ (2603:10b6:104:2::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15 via Frontend
+ Transport; Thu, 16 Jun 2022 01:56:26 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -68,18 +70,17 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT058.mail.protection.outlook.com (10.13.174.164) with Microsoft SMTP
+ CO1NAM11FT025.mail.protection.outlook.com (10.13.175.232) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5332.12 via Frontend Transport; Thu, 16 Jun 2022 01:56:25 +0000
+ 15.20.5332.12 via Frontend Transport; Thu, 16 Jun 2022 01:56:26 +0000
 Received: from sp5-759chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 15 Jun
  2022 20:55:56 -0500
 To: <iommu@lists.linux-foundation.org>
-Subject: [PATCH v2 3/7] iommu/amd: Introduce an iommu variable for tracking
- SNP support status
-Date: Wed, 15 Jun 2022 20:55:37 -0500
-Message-ID: <20220616015541.11207-4-suravee.suthikulpanit@amd.com>
+Subject: [PATCH v2 4/7] iommu/amd: Introduce function to check and enable SNP
+Date: Wed, 15 Jun 2022 20:55:38 -0500
+Message-ID: <20220616015541.11207-5-suravee.suthikulpanit@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220616015541.11207-1-suravee.suthikulpanit@amd.com>
 References: <20220616015541.11207-1-suravee.suthikulpanit@amd.com>
@@ -89,28 +90,29 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7612ee2-a876-4070-9a36-08da4f3b6ba1
-X-MS-TrafficTypeDiagnostic: SA1PR12MB5614:EE_
-X-Microsoft-Antispam-PRVS: <SA1PR12MB561442631646CD11EA7D9127F3AC9@SA1PR12MB5614.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: e3988cd4-5bd6-4117-dddf-08da4f3b6c73
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3335:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB33350951A510E1363F98A184F3AC9@BYAPR12MB3335.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: o3Y/SkJ4zJy7vaS0GPFxL6CX54KygCelK4MZez6zEs2miWOg3veKHPhM9m+Ieoopza/wVK+dX+4Axkf/o3iObsAbdhJbdlxP/v2tDRp1De4W8rtyGHUfu37TIz1hOKAc5B1eLHh6rcI8qGXSJkR2rlXstszK7JfUjUSaQZi+X86mfkCdF4w+zC+X+4YeNPIhnJLlBqKxUgvXbhh60g7bfW5VOCJ/QmRM72P/LL261Q+TiuSu1taYHzcl3gPmyptjjg1GbEdcPQX/YMyp94M3dpbuUZFFfamerKspT6f7hFYnvzvCkuCuJN2qC7PBTVq/7MRUy0idpQ97Y2+NBZFMTxGXXrzdLEacgvshcc2MW6MOib15lqbcPfdieHYjSo8Z6Ztk8fcBbe1dQzH7swmfUh8sEQ8wTYwWXzYbxBGpunwaaW/yuRdwDxSyfD6qO1+en/tVsC5WqpRU10PUQN3qagxQLxE5RPL+tzQdVGZIDMymExiQYnEZtjqPsqSEwByyRz0jHNjNhJ7ZTeeBHIIYkPegOZ3lLRf1NvgZUHZg8IkOvHK4HDrTSLQLpX/DSwJuUSTkjwsVxpWIxMIqEF7RNWHx5Io/kJ9k7VthHYGCfJEBdYaz4TSyvGf1AQbU8gPD9xk8rUBQW6pQTjHR5M+83MPI8fapfl2gApPQE1lfuexBa4OQXR9dLZGcb6I7MrFWkAd2KMGC8ynI0MHM/yVwjQ==
+X-Microsoft-Antispam-Message-Info: jxwwgy8CbB76vKq+mtPhkTAVPqLurenoD4mOIGh/RGDpBzEGPUDwJCmSRe6UyvMdaqt/oEhBEGRcPUW1bi86O0w6/XU1Amc0mOo2sIoW/VznGGUSfTkswD4VLhqzBvrV1BdNymQ+L6ojjn9lDFBdxr4LrHfNGbMQeYSBJwwgyGoTvWeNMaA9mkLgGpv5udU6sI+quSsLSZlLQffD0036qM1Qfqo2tkXrtbwJk2PbT2wRt38aSWmRQFk5GUgJX+29i60hV/cNUyAAeRJUD7+mN/Pum4hObHIcNgCozV6UAhPedAhYBeHZPy3T16PDMACG4yBijrmpBVcgIbrUUxOJiTonk2PxEZ7Mpg2aShuQMP/i7cO82aXrT1wlmsYwyMYd+Kv8P/xd6sQkLHpW/H/wsrktcTWLxbL8r6+XKnCN5ED9MfXv1rNmx3NVILY2aFOqZsgQAq95JPQgV3GJV+xIHWYgd6OWBW/PNETwPhDVKf5fbK//KTGMnaYIoKh+bK+3kVh2h3pJoHi5CSd4oB4IpJ04x8fI9N3L+cS06+LEd14Z5LUZTYiGPkL4VYOkaQaiIOmaYH1J5G/hhMBTEnGRolDYRfhXgoHH/NjLRMHUA6+ADEZNzGUMFirpFkb6d+C2fInoLJ6jJkxqHmyFOrX9JU/Zw6B+KHwjfJzLGFUF25G8kwmCQDagciKPDlK/TFXN/dskbdGL+da2N/4GDtUv3w==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(36840700001)(40470700004)(46966006)(336012)(426003)(70586007)(70206006)(16526019)(5660300002)(8676002)(186003)(4326008)(83380400001)(47076005)(44832011)(36756003)(8936002)(36860700001)(40460700003)(26005)(1076003)(316002)(356005)(86362001)(2616005)(6916009)(508600001)(81166007)(54906003)(7696005)(6666004)(82310400005)(2906002)(36900700001);
+ SFS:(13230016)(4636009)(46966006)(40470700004)(36840700001)(7696005)(6666004)(47076005)(2906002)(70586007)(426003)(54906003)(83380400001)(316002)(40460700003)(36756003)(86362001)(336012)(82310400005)(5660300002)(70206006)(8936002)(81166007)(356005)(26005)(508600001)(186003)(2616005)(16526019)(36860700001)(1076003)(44832011)(4326008)(6916009)(8676002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 01:56:25.2045 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7612ee2-a876-4070-9a36-08da4f3b6ba1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 01:56:26.5669 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3988cd4-5bd6-4117-dddf-08da4f3b6c73
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5614
-Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com, vasant.hegde@amd.com,
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3335
+Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com,
+ Brijesh Singh <brijesh.singh@amd.com>, vasant.hegde@amd.com,
  robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -131,86 +133,163 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-EFR[SNPSup] needs to be checked early in the boot process, since it is
-used to determine how IOMMU driver configures other IOMMU features
-and data structures. This check can be done as soon as the IOMMU driver
-finishes parsing IVHDs.
+From: Brijesh Singh <brijesh.singh@amd.com>
 
-Introduce a variable for tracking the SNP support status, which is
-initialized before enabling the rest of IOMMU features.
+To support SNP, IOMMU needs to be enabled, and prohibits IOMMU
+configurations where DTE[Mode]=0, which means it cannot be supported with
+IOMMU passthrough domain (a.k.a IOMMU_DOMAIN_IDENTITY),
+and when AMD IOMMU driver is configured to not use the IOMMU host (v1) page
+table. Otherwise, RMP table initialization could cause the system to crash.
 
-Also report IOMMU SNP support information for each IOMMU.
+The request to enable SNP support in IOMMU must be done before PCI
+initialization state of the IOMMU driver because enabling SNP affects
+how IOMMU driver sets up IOMMU data structures (i.e. DTE).
 
+Unlike other IOMMU features, SNP feature does not have an enable bit in
+the IOMMU control register. Instead, the IOMMU driver introduces
+an amd_iommu_snp_en variable to track enabling state of SNP.
+
+Introduce amd_iommu_snp_enable() for other drivers to request enabling
+the SNP support in IOMMU, which checks all prerequisites and determines
+if the feature can be safely enabled.
+
+Please see the IOMMU spec section 2.12 for further details.
+
+Co-developed-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- drivers/iommu/amd/init.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/iommu/amd/amd_iommu_types.h |  5 ++++
+ drivers/iommu/amd/init.c            | 45 +++++++++++++++++++++++++++--
+ drivers/iommu/amd/iommu.c           |  4 +--
+ include/linux/amd-iommu.h           |  6 ++++
+ 4 files changed, 56 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+index 73b729be7410..ce4db2835b36 100644
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -463,6 +463,9 @@ extern bool amd_iommu_irq_remap;
+ /* kmem_cache to get tables with 128 byte alignement */
+ extern struct kmem_cache *amd_iommu_irq_cache;
+ 
++/* SNP is enabled on the system? */
++extern bool amd_iommu_snp_en;
++
+ #define PCI_SBDF_TO_SEGID(sbdf)		(((sbdf) >> 16) & 0xffff)
+ #define PCI_SBDF_TO_DEVID(sbdf)		((sbdf) & 0xffff)
+ #define PCI_SEG_DEVID_TO_SBDF(seg, devid)	((((u32)(seg) & 0xffff) << 16) | \
+@@ -1013,4 +1016,6 @@ extern struct amd_irte_ops irte_32_ops;
+ extern struct amd_irte_ops irte_128_ops;
+ #endif
+ 
++extern struct iommu_ops amd_iommu_ops;
++
+ #endif /* _ASM_X86_AMD_IOMMU_TYPES_H */
 diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 5f86e357dbaa..013c55e3c2f2 100644
+index 013c55e3c2f2..b5d3de327a5f 100644
 --- a/drivers/iommu/amd/init.c
 +++ b/drivers/iommu/amd/init.c
-@@ -166,6 +166,8 @@ static bool amd_iommu_disabled __initdata;
- static bool amd_iommu_force_enable __initdata;
- static int amd_iommu_target_ivhd_type;
+@@ -95,8 +95,6 @@
+  * out of it.
+  */
  
-+static bool amd_iommu_snp_sup;
+-extern const struct iommu_ops amd_iommu_ops;
+-
+ /*
+  * structure describing one IOMMU in the ACPI table. Typically followed by one
+  * or more ivhd_entrys.
+@@ -168,6 +166,9 @@ static int amd_iommu_target_ivhd_type;
+ 
+ static bool amd_iommu_snp_sup;
+ 
++bool amd_iommu_snp_en;
++EXPORT_SYMBOL(amd_iommu_snp_en);
 +
  LIST_HEAD(amd_iommu_pci_seg_list);	/* list of all PCI segments */
  LIST_HEAD(amd_iommu_list);		/* list of all AMD IOMMUs in the
  					   system */
-@@ -260,7 +262,6 @@ int amd_iommu_get_num_iommus(void)
- 	return amd_iommus_present;
+@@ -3549,3 +3550,43 @@ int amd_iommu_pc_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr, u8 fxn, u64
+ 
+ 	return iommu_pc_get_set_reg(iommu, bank, cntr, fxn, value, true);
  }
- 
--#ifdef CONFIG_IRQ_REMAP
- /*
-  * Iterate through all the IOMMUs to verify if the specified
-  * EFR bitmask of IOMMU feature are set.
-@@ -285,7 +286,6 @@ static bool check_feature_on_all_iommus(u64 mask)
- 	}
- 	return ret;
- }
--#endif
- 
- /*
-  * For IVHD type 0x11/0x40, EFR is also available via IVHD.
-@@ -368,7 +368,7 @@ static void iommu_set_cwwb_range(struct amd_iommu *iommu)
- 	u64 start = iommu_virt_to_phys((void *)iommu->cmd_sem);
- 	u64 entry = start & PM_ADDR_MASK;
- 
--	if (!iommu_feature(iommu, FEATURE_SNP))
-+	if (!amd_iommu_snp_sup)
- 		return;
- 
- 	/* Note:
-@@ -783,7 +783,7 @@ static void *__init iommu_alloc_4k_pages(struct amd_iommu *iommu,
- 	void *buf = (void *)__get_free_pages(gfp, order);
- 
- 	if (buf &&
--	    iommu_feature(iommu, FEATURE_SNP) &&
-+	    amd_iommu_snp_sup &&
- 	    set_memory_4k((unsigned long)buf, (1 << order))) {
- 		free_pages((unsigned long)buf, order);
- 		buf = NULL;
-@@ -1882,6 +1882,7 @@ static int __init init_iommu_all(struct acpi_table_header *table)
- 	WARN_ON(p != end);
- 
- 	/* Phase 2 : Early feature support check */
-+	amd_iommu_snp_sup = check_feature_on_all_iommus(FEATURE_SNP);
- 
- 	/* Phase 3 : Enabling IOMMU features */
- 	for_each_iommu(iommu) {
-@@ -2118,6 +2119,9 @@ static void print_iommu_info(void)
- 			if (iommu->features & FEATURE_GAM_VAPIC)
- 				pr_cont(" GA_vAPIC");
- 
-+			if (iommu->features & FEATURE_SNP)
-+				pr_cont(" SNP");
 +
- 			pr_cont("\n");
- 		}
- 	}
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++int amd_iommu_snp_enable(void)
++{
++	/*
++	 * The SNP support requires that IOMMU must be enabled, and is
++	 * not configured in the passthrough mode.
++	 */
++	if (no_iommu || iommu_default_passthrough()) {
++		pr_err("SNP: IOMMU is either disabled or configured in passthrough mode.\n");
++		return -EINVAL;
++	}
++
++	/*
++	 * Prevent enabling SNP after IOMMU_ENABLED state because this process
++	 * affect how IOMMU driver sets up data structures and configures
++	 * IOMMU hardware.
++	 */
++	if (init_state > IOMMU_ENABLED) {
++		pr_err("SNP: Too late to enable SNP for IOMMU.\n");
++		return -EINVAL;
++	}
++
++	amd_iommu_snp_en = amd_iommu_snp_sup;
++	if (!amd_iommu_snp_en)
++		return -EINVAL;
++
++	pr_info("SNP enabled\n");
++
++	/* Enforce IOMMU v1 pagetable when SNP is enabled. */
++	if (amd_iommu_pgtable != AMD_IOMMU_V1) {
++		pr_warn("Force to using AMD IOMMU v1 page table due to SNP\n");
++		amd_iommu_pgtable = AMD_IOMMU_V1;
++		amd_iommu_ops.pgsize_bitmap = AMD_IOMMU_PGSIZES;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(amd_iommu_snp_enable);
++#endif
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index 86045dc50a0f..0792cd618dba 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -71,7 +71,7 @@ LIST_HEAD(acpihid_map);
+  * Domain for untranslated devices - only allocated
+  * if iommu=pt passed on kernel cmd line.
+  */
+-const struct iommu_ops amd_iommu_ops;
++struct iommu_ops amd_iommu_ops;
+ 
+ static ATOMIC_NOTIFIER_HEAD(ppr_notifier);
+ int amd_iommu_max_glx_val = -1;
+@@ -2412,7 +2412,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
+ 	return 0;
+ }
+ 
+-const struct iommu_ops amd_iommu_ops = {
++struct iommu_ops amd_iommu_ops = {
+ 	.capable = amd_iommu_capable,
+ 	.domain_alloc = amd_iommu_domain_alloc,
+ 	.probe_device = amd_iommu_probe_device,
+diff --git a/include/linux/amd-iommu.h b/include/linux/amd-iommu.h
+index 58e6c3806c09..d7bee7f09f92 100644
+--- a/include/linux/amd-iommu.h
++++ b/include/linux/amd-iommu.h
+@@ -206,4 +206,10 @@ int amd_iommu_pc_get_reg(struct amd_iommu *iommu, u8 bank, u8 cntr, u8 fxn,
+ 		u64 *value);
+ struct amd_iommu *get_amd_iommu(unsigned int idx);
+ 
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++int amd_iommu_snp_enable(void);
++#else
++static inline int amd_iommu_snp_enable(void) { return -ENODEV; }
++#endif
++
+ #endif /* _ASM_X86_AMD_IOMMU_H */
 -- 
 2.32.0
 
