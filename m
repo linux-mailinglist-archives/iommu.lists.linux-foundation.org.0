@@ -1,60 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD26552BA1
-	for <lists.iommu@lfdr.de>; Tue, 21 Jun 2022 09:19:00 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DDA552BF9
+	for <lists.iommu@lfdr.de>; Tue, 21 Jun 2022 09:28:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 08A1C8346C;
-	Tue, 21 Jun 2022 07:18:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 08A1C8346C
+	by smtp4.osuosl.org (Postfix) with ESMTP id DE4A7418EE;
+	Tue, 21 Jun 2022 07:28:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DE4A7418EE
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x3oong3V7pMJ; Tue, 21 Jun 2022 07:18:57 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 76op-8BFmjQG; Tue, 21 Jun 2022 07:28:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 075FF8242D;
-	Tue, 21 Jun 2022 07:18:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 075FF8242D
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A7025418EB;
+	Tue, 21 Jun 2022 07:28:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A7025418EB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96D42C0032;
-	Tue, 21 Jun 2022 07:18:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70A54C0081;
+	Tue, 21 Jun 2022 07:28:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC0A7C0081
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jun 2022 07:18:54 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5AA6EC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jun 2022 07:28:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8202740A83
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jun 2022 07:18:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8202740A83
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2718960B48
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jun 2022 07:28:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2718960B48
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zSqHFkoqYdMY for <iommu@lists.linux-foundation.org>;
- Tue, 21 Jun 2022 07:18:54 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C474B40142
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
- by smtp2.osuosl.org (Postfix) with ESMTPS id C474B40142
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jun 2022 07:18:53 +0000 (UTC)
-Received: from coburn.home.jannau.net (p579ad988.dip0.t-ipconnect.de
- [87.154.217.136])
- by soltyk.jannau.net (Postfix) with ESMTPSA id AB4F126ED1D;
- Tue, 21 Jun 2022 09:18:51 +0200 (CEST)
-From: Janne Grunau <j@jannau.net>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH v3 5/5] iommu: dart: Support t6000 variant
-Date: Tue, 21 Jun 2022 09:18:48 +0200
-Message-Id: <20220621071848.14834-6-j@jannau.net>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220621071848.14834-1-j@jannau.net>
-References: <20220621071848.14834-1-j@jannau.net>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id crN8RAo83xVm for <iommu@lists.linux-foundation.org>;
+ Tue, 21 Jun 2022 07:28:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3BCF660B2F
+Received: from muru.com (muru.com [72.249.23.125])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3BCF660B2F
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jun 2022 07:28:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id EC05F809F;
+ Tue, 21 Jun 2022 07:23:46 +0000 (UTC)
+Date: Tue, 21 Jun 2022 10:28:43 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Saravana Kannan <saravanak@google.com>
+Subject: Re: [PATCH v2 1/9] PM: domains: Delete usage of
+ driver_deferred_probe_check_state()
+Message-ID: <YrFzK6EiVvXmzVG6@atomide.com>
+References: <20220601070707.3946847-1-saravanak@google.com>
+ <20220601070707.3946847-2-saravanak@google.com>
 MIME-Version: 1.0
-Cc: linux-arm-kernel@lists.infradead.org, Hector Martin <marcan@marcan.st>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Will Deacon <will@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Content-Disposition: inline
+In-Reply-To: <20220601070707.3946847-2-saravanak@google.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Eric Dumazet <edumazet@google.com>,
+ Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
+ Kevin Hilman <khilman@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, kernel-team@android.com,
+ Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,104 +83,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Sven Peter <sven@svenpeter.dev>
+Hi,
 
-The M1 Pro/Max/Ultra SoCs come with a new variant of DART which
-supports a larger physical address space with a different PTE format.
-Pass through the correct paddr address space size and the PTE format
-to the io-pgtable code which will take care of the rest.
+* Saravana Kannan <saravanak@google.com> [700101 02:00]:
+> Now that fw_devlink=on by default and fw_devlink supports
+> "power-domains" property, the execution will never get to the point
+> where driver_deferred_probe_check_state() is called before the supplier
+> has probed successfully or before deferred probe timeout has expired.
+> 
+> So, delete the call and replace it with -ENODEV.
 
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
+Looks like this causes omaps to not boot in Linux next. With this
+simple-pm-bus fails to probe initially as the power-domain is not
+yet available. On platform_probe() genpd_get_from_provider() returns
+-ENOENT.
 
----
+Seems like other stuff is potentially broken too, any ideas on
+how to fix this?
 
-Changes in v3:
-- apply change to io-pgtable-dart.c
+Regards,
 
-Changes in v2:
-- use APPLE_DART2 PTE format for dart-t6000
+Tony
 
- drivers/iommu/apple-dart.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 8af0242a90d9..e5793c0d08b4 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -81,10 +81,16 @@
- #define DART_TTBR_VALID BIT(31)
- #define DART_TTBR_SHIFT 12
- 
-+struct apple_dart_hw {
-+	u32 oas;
-+	enum io_pgtable_fmt fmt;
-+};
-+
- /*
-  * Private structure associated with each DART device.
-  *
-  * @dev: device struct
-+ * @hw: SoC-specific hardware data
-  * @regs: mapped MMIO region
-  * @irq: interrupt number, can be shared with other DARTs
-  * @clks: clocks associated with this DART
-@@ -98,6 +104,7 @@
-  */
- struct apple_dart {
- 	struct device *dev;
-+	const struct apple_dart_hw *hw;
- 
- 	void __iomem *regs;
- 
-@@ -421,13 +428,13 @@ static int apple_dart_finalize_domain(struct iommu_domain *domain,
- 	pgtbl_cfg = (struct io_pgtable_cfg){
- 		.pgsize_bitmap = dart->pgsize,
- 		.ias = 32,
--		.oas = 36,
-+		.oas = dart->hw->oas,
- 		.coherent_walk = 1,
- 		.iommu_dev = dart->dev,
- 	};
- 
- 	dart_domain->pgtbl_ops =
--		alloc_io_pgtable_ops(APPLE_DART, &pgtbl_cfg, domain);
-+		alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg, domain);
- 	if (!dart_domain->pgtbl_ops) {
- 		ret = -ENOMEM;
- 		goto done;
-@@ -858,6 +865,7 @@ static int apple_dart_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	dart->dev = dev;
-+	dart->hw = of_device_get_match_data(dev);
- 	spin_lock_init(&dart->lock);
- 
- 	dart->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-@@ -946,8 +954,18 @@ static int apple_dart_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct apple_dart_hw apple_dart_hw_t8103 = {
-+	.oas = 36,
-+	.fmt = APPLE_DART,
-+};
-+static const struct apple_dart_hw apple_dart_hw_t6000 = {
-+	.oas = 42,
-+	.fmt = APPLE_DART2,
-+};
-+
- static const struct of_device_id apple_dart_of_match[] = {
--	{ .compatible = "apple,t8103-dart", .data = NULL },
-+	{ .compatible = "apple,t8103-dart", .data = &apple_dart_hw_t8103 },
-+	{ .compatible = "apple,t6000-dart", .data = &apple_dart_hw_t6000 },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, apple_dart_of_match);
--- 
-2.35.1
 
+> 
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+>  drivers/base/power/domain.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+> index 739e52cd4aba..3e86772d5fac 100644
+> --- a/drivers/base/power/domain.c
+> +++ b/drivers/base/power/domain.c
+> @@ -2730,7 +2730,7 @@ static int __genpd_dev_pm_attach(struct device *dev, struct device *base_dev,
+>  		mutex_unlock(&gpd_list_lock);
+>  		dev_dbg(dev, "%s() failed to find PM domain: %ld\n",
+>  			__func__, PTR_ERR(pd));
+> -		return driver_deferred_probe_check_state(base_dev);
+> +		return -ENODEV;
+>  	}
+>  
+>  	dev_dbg(dev, "adding to PM domain %s\n", pd->name);
+> -- 
+> 2.36.1.255.ge46751e96f-goog
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
