@@ -1,57 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE6F5574FC
-	for <lists.iommu@lfdr.de>; Thu, 23 Jun 2022 10:09:34 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD7F557512
+	for <lists.iommu@lfdr.de>; Thu, 23 Jun 2022 10:12:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3D8968418E;
-	Thu, 23 Jun 2022 08:09:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3D8968418E
+	by smtp3.osuosl.org (Postfix) with ESMTP id C80E060E66;
+	Thu, 23 Jun 2022 08:12:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C80E060E66
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VZSJgNrn78rk; Thu, 23 Jun 2022 08:09:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5240583FFB;
-	Thu, 23 Jun 2022 08:09:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5240583FFB
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Bvx_HiawiW_9; Thu, 23 Jun 2022 08:12:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E875160E45;
+	Thu, 23 Jun 2022 08:12:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E875160E45
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CA2FC007E;
-	Thu, 23 Jun 2022 08:09:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8D75C007E;
+	Thu, 23 Jun 2022 08:12:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64D87C002D
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jun 2022 08:09:31 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 56E32C002D
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jun 2022 08:12:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3EEC08418E
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jun 2022 08:09:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3EEC08418E
+ by smtp2.osuosl.org (Postfix) with ESMTP id 2B6944055F
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jun 2022 08:12:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2B6944055F
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nCH5HUBx2FCR for <iommu@lists.linux-foundation.org>;
- Thu, 23 Jun 2022 08:09:30 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id m53VipsxzC7T for <iommu@lists.linux-foundation.org>;
+ Thu, 23 Jun 2022 08:12:17 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8FB0683FFB
-Received: from theia.8bytes.org (8bytes.org
- [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8FB0683FFB
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jun 2022 08:09:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8E5654055A
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8E5654055A
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jun 2022 08:12:17 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id B77B4447; Thu, 23 Jun 2022 10:09:28 +0200 (CEST)
-Date: Thu, 23 Jun 2022 10:09:27 +0200
+ id 6BAFD447; Thu, 23 Jun 2022 10:12:15 +0200 (CEST)
+Date: Thu, 23 Jun 2022 10:12:13 +0200
 From: Joerg Roedel <joro@8bytes.org>
 To: Vasant Hegde <vasant.hegde@amd.com>
-Subject: Re: [PATCH v1 4/7] iommu/amd: Initial support for AMD IOMMU v2 page
- table
-Message-ID: <YrQft/Gp/4VuQnHl@8bytes.org>
+Subject: Re: [PATCH v1 7/7] iommu/amd: Introduce amd_iommu_pgtable
+ command-line option
+Message-ID: <YrQgXfPWjsHvQLij@8bytes.org>
 References: <20220603112107.8603-1-vasant.hegde@amd.com>
- <20220603112107.8603-5-vasant.hegde@amd.com>
+ <20220603112107.8603-8-vasant.hegde@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220603112107.8603-5-vasant.hegde@amd.com>
+In-Reply-To: <20220603112107.8603-8-vasant.hegde@amd.com>
 Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -70,58 +69,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jun 03, 2022 at 04:51:04PM +0530, Vasant Hegde wrote:
-> +/* Allocate page table */
-> +static u64 *v2_alloc_pte(u64 *pgd, unsigned long iova,
-> +			 unsigned long pg_size, bool *updated)
-> +{
-> +	u64 *pte, *page;
-> +	int level, end_level;
+On Fri, Jun 03, 2022 at 04:51:07PM +0530, Vasant Hegde wrote:
+> +	amd_iommu_pgtable= [HW,X86-64]
+> +			Specifies one of the following AMD IOMMU page table to
+> +			be used for DMA remapping for DMA-API:
+> +			v1         - Use v1 page table (Default)
+> +			v2         - Use v2 page table
 > +
-> +	BUG_ON(!is_power_of_2(pg_size));
-> +
-> +	level = get_pgtable_level() - 1;
-> +	end_level = page_size_to_level(pg_size);
-> +	pte = &pgd[PM_LEVEL_INDEX(level, iova)];
-> +	iova = PAGE_SIZE_ALIGN(iova, PAGE_SIZE);
-> +
-> +	while (level >= end_level) {
-> +		u64 __pte, __npte;
-> +
-> +		__pte = *pte;
-> +
-> +		if (IOMMU_PTE_PRESENT(__pte) && is_large_pte(__pte)) {
-> +			/* Unmap large pte */
-> +			cmpxchg64(pte, *pte, 0ULL);
-> +			*updated = true;
-> +			continue;
-> +		}
-> +
-> +		if (!IOMMU_PTE_PRESENT(__pte)) {
-> +			page = alloc_pgtable_page();
-> +			if (!page)
-> +				return NULL;
-> +
-> +			__npte = set_pgtable_attr(page);
-> +			/* pte could have been changed somewhere. */
-> +			if (cmpxchg64(pte, __pte, __npte) != __pte)
-> +				free_pgtable_page(page);
-> +			else if (IOMMU_PTE_PRESENT(__pte))
-> +				*updated = true;
-> +
-> +			continue;
-> +		}
-> +
-> +		level -= 1;
-> +		pte = get_pgtable_pte(__pte);
-> +		pte = &pte[PM_LEVEL_INDEX(level, iova)];
-> +	}
 
-I know that the V1 page-table code also uses loops for the allocation
-path, but the main reason there is the variable amount of page-table
-levels. The v2 page-tables have a fixed amount levels, so it is better
-to unroll this loop here (and other loops iterating over page-table
-levels). This makes the code more clear.
+Can we handle this somehow in the amd_iommu= option? Something like
+amd_iommu=pgtbl_v2|pgtbl_v1?
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
