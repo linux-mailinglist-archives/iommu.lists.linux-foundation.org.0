@@ -1,71 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA41D559731
-	for <lists.iommu@lfdr.de>; Fri, 24 Jun 2022 12:00:36 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1ED4559734
+	for <lists.iommu@lfdr.de>; Fri, 24 Jun 2022 12:00:42 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3BB924114D;
-	Fri, 24 Jun 2022 10:00:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3BB924114D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=kEaRpXHI
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2B9E484902;
+	Fri, 24 Jun 2022 10:00:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2B9E484902
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=mAoW0KQS
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eJGJUcpEVJFn; Fri, 24 Jun 2022 10:00:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D54A241143;
-	Fri, 24 Jun 2022 10:00:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D54A241143
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cZOcC8CF1ono; Fri, 24 Jun 2022 10:00:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 25B8284900;
+	Fri, 24 Jun 2022 10:00:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 25B8284900
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 67FC0C0081;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F218DC0088;
 	Fri, 24 Jun 2022 10:00:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFA27C002D
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 10:00:31 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA831C0032
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 10:00:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 87FA8848FB
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 10:00:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 87FA8848FB
-Authentication-Results: smtp1.osuosl.org;
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6E2F4417A0
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 10:00:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6E2F4417A0
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com
- header.a=rsa-sha256 header.s=mail header.b=kEaRpXHI
+ header.a=rsa-sha256 header.s=mail header.b=mAoW0KQS
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BMHlkgLSsRbz for <iommu@lists.linux-foundation.org>;
- Fri, 24 Jun 2022 10:00:30 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FUx8ScMe66j3 for <iommu@lists.linux-foundation.org>;
+ Fri, 24 Jun 2022 10:00:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8E83D848FA
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8E83D848FA
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 10:00:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6028F41781
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6028F41781
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 10:00:31 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E9F066017FD;
- Fri, 24 Jun 2022 11:00:27 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D049D66017FE;
+ Fri, 24 Jun 2022 11:00:28 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656064828;
- bh=+tbA2mMjLvnob9i0FUJBkZUlvwlPPYOIKEfXsZGjTgQ=;
+ s=mail; t=1656064829;
+ bh=SNuQZ82iPD6n2FU8HWxWSruVLQ1bEVP9FnwStuIlpP8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kEaRpXHI1/TQ3qk2fDXhR1ySWEHNHCIoe8GPvUlpBe7t0mwvMJ4UMy5EmbA/95CPj
- j0wyRThFpyUBr8WA6d5OeXd7bs5Ae8XqEvHe31eSK8SJK4dFzVS3pKLz0n1RJQ+SVq
- YTy4BiTtJaqcTCrFm+fzTbIqy60UkrRB9WnyUclCyHYbXNztmrSIkUkN14nyblXm91
- WZZlCtia6FcZS0Z3GfplEISQS1GgYUsuHTFn3whF2aPMN11wI187L/4Nq0imSOp4jE
- cuZJEpcFHRgRSjoIFIYXesEF/h2z17exAyeMO+YRpGAcJ79p/vl4sez49PAjvgnxOW
- yj4uKAZsI6m9w==
+ b=mAoW0KQSbiyAYG1OI9ZLLKg7IzOdt008RS5YelHKJTBsEpwovOstw2FEvqRyiRbrU
+ rXmKSOscne4OfLZpaPbJ9IvhT/Ro9MUI3dAiTYlq0Y5cz9IVwXuRyO5brX+6Yxdprb
+ SA30vY6YhIZ0EcmsxDctQ+8ZtQsw2+OzlW7+FR0br27aqudwXk+pdFStLlrJcNs48w
+ 7cE8vDvnEzBWM7m2kR7oYTFKEuuRo4GBKPxNB7mga9SkP1jNK5PtxiuUw9/E4tMLgA
+ whSYSfNkOBJB1+66SB10AAj3djfnIWzlqCBbcUsjqGqVfKjAgyHjdCKd2/TnnZ3Ubq
+ 3/zS/5TpMS3Uw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: yong.wu@mediatek.com
-Subject: [PATCH v4 1/3] dt-bindings: mediatek: Add bindings for MT6795 M4U
-Date: Fri, 24 Jun 2022 12:00:14 +0200
-Message-Id: <20220624100016.246442-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v4 2/3] iommu/mediatek: Introduce new flag
+ TF_PORT_TO_ADDR_MT8173
+Date: Fri, 24 Jun 2022 12:00:15 +0200
+Message-Id: <20220624100016.246442-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220624100016.246442-1-angelogioacchino.delregno@collabora.com>
 References: <20220624100016.246442-1-angelogioacchino.delregno@collabora.com>
@@ -76,7 +76,7 @@ Cc: devicetree@vger.kernel.org, martin.botka@somainline.org,
  robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
  ~postmarketos/upstreaming@lists.sr.ht, krzysztof.kozlowski+dt@linaro.org,
  matthias.bgg@gmail.com, marijn.suijten@somainline.org,
- phone-devel@vger.kernel.org, will@kernel.org, Rob Herring <robh@kernel.org>,
+ phone-devel@vger.kernel.org, will@kernel.org,
  linux-arm-kernel@lists.infradead.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -96,153 +96,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add bindings for the MediaTek Helio X10 (MT6795) IOMMU/M4U.
+In preparation for adding support for MT6795, add a new flag named
+TF_PORT_TO_ADDR_MT8173 and use that instead of checking for m4u_plat
+type in mtk_iommu_hw_init() to avoid seeing a long list of m4u_plat
+checks there in the future.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Yong Wu <yong.wu@mediatek.com>
 ---
- .../bindings/iommu/mediatek,iommu.yaml        |  4 +
- include/dt-bindings/memory/mt6795-larb-port.h | 95 +++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 include/dt-bindings/memory/mt6795-larb-port.h
+ drivers/iommu/mtk_iommu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-index fee0241b5098..839e3be0bf3c 100644
---- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-@@ -73,6 +73,7 @@ properties:
-           - mediatek,mt2701-m4u  # generation one
-           - mediatek,mt2712-m4u  # generation two
-           - mediatek,mt6779-m4u  # generation two
-+          - mediatek,mt6795-m4u  # generation two
-           - mediatek,mt8167-m4u  # generation two
-           - mediatek,mt8173-m4u  # generation two
-           - mediatek,mt8183-m4u  # generation two
-@@ -124,6 +125,7 @@ properties:
-       dt-binding/memory/mt2701-larb-port.h for mt2701 and mt7623,
-       dt-binding/memory/mt2712-larb-port.h for mt2712,
-       dt-binding/memory/mt6779-larb-port.h for mt6779,
-+      dt-binding/memory/mt6795-larb-port.h for mt6795,
-       dt-binding/memory/mt8167-larb-port.h for mt8167,
-       dt-binding/memory/mt8173-larb-port.h for mt8173,
-       dt-binding/memory/mt8183-larb-port.h for mt8183,
-@@ -148,6 +150,7 @@ allOf:
-             enum:
-               - mediatek,mt2701-m4u
-               - mediatek,mt2712-m4u
-+              - mediatek,mt6795-m4u
-               - mediatek,mt8173-m4u
-               - mediatek,mt8186-iommu-mm
-               - mediatek,mt8192-m4u
-@@ -177,6 +180,7 @@ allOf:
-           contains:
-             enum:
-               - mediatek,mt2712-m4u
-+              - mediatek,mt6795-m4u
-               - mediatek,mt8173-m4u
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index b2ae84046249..63df612cf2e0 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -138,6 +138,7 @@
+ /* PM and clock always on. e.g. infra iommu */
+ #define PM_CLK_AO			BIT(15)
+ #define IFA_IOMMU_PCIE_SUPPORT		BIT(16)
++#define TF_PORT_TO_ADDR_MT8173		BIT(17)
  
-     then:
-diff --git a/include/dt-bindings/memory/mt6795-larb-port.h b/include/dt-bindings/memory/mt6795-larb-port.h
-new file mode 100644
-index 000000000000..58cf6a6b6372
---- /dev/null
-+++ b/include/dt-bindings/memory/mt6795-larb-port.h
-@@ -0,0 +1,95 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-+/*
-+ * Copyright (c) 2022 Collabora Ltd.
-+ * Author: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-+ */
-+
-+#ifndef _DT_BINDINGS_MEMORY_MT6795_LARB_PORT_H_
-+#define _DT_BINDINGS_MEMORY_MT6795_LARB_PORT_H_
-+
-+#include <dt-bindings/memory/mtk-memory-port.h>
-+
-+#define M4U_LARB0_ID			0
-+#define M4U_LARB1_ID			1
-+#define M4U_LARB2_ID			2
-+#define M4U_LARB3_ID			3
-+#define M4U_LARB4_ID			4
-+
-+/* larb0 */
-+#define M4U_PORT_DISP_OVL0		MTK_M4U_ID(M4U_LARB0_ID, 0)
-+#define M4U_PORT_DISP_RDMA0		MTK_M4U_ID(M4U_LARB0_ID, 1)
-+#define M4U_PORT_DISP_RDMA1		MTK_M4U_ID(M4U_LARB0_ID, 2)
-+#define M4U_PORT_DISP_WDMA0		MTK_M4U_ID(M4U_LARB0_ID, 3)
-+#define M4U_PORT_DISP_OVL1		MTK_M4U_ID(M4U_LARB0_ID, 4)
-+#define M4U_PORT_DISP_RDMA2		MTK_M4U_ID(M4U_LARB0_ID, 5)
-+#define M4U_PORT_DISP_WDMA1		MTK_M4U_ID(M4U_LARB0_ID, 6)
-+#define M4U_PORT_DISP_OD_R		MTK_M4U_ID(M4U_LARB0_ID, 7)
-+#define M4U_PORT_DISP_OD_W		MTK_M4U_ID(M4U_LARB0_ID, 8)
-+#define M4U_PORT_MDP_RDMA0		MTK_M4U_ID(M4U_LARB0_ID, 9)
-+#define M4U_PORT_MDP_RDMA1		MTK_M4U_ID(M4U_LARB0_ID, 10)
-+#define M4U_PORT_MDP_WDMA		MTK_M4U_ID(M4U_LARB0_ID, 11)
-+#define M4U_PORT_MDP_WROT0		MTK_M4U_ID(M4U_LARB0_ID, 12)
-+#define M4U_PORT_MDP_WROT1		MTK_M4U_ID(M4U_LARB0_ID, 13)
-+
-+/* larb1 */
-+#define M4U_PORT_VDEC_MC		MTK_M4U_ID(M4U_LARB1_ID, 0)
-+#define M4U_PORT_VDEC_PP		MTK_M4U_ID(M4U_LARB1_ID, 1)
-+#define M4U_PORT_VDEC_UFO		MTK_M4U_ID(M4U_LARB1_ID, 2)
-+#define M4U_PORT_VDEC_VLD		MTK_M4U_ID(M4U_LARB1_ID, 3)
-+#define M4U_PORT_VDEC_VLD2		MTK_M4U_ID(M4U_LARB1_ID, 4)
-+#define M4U_PORT_VDEC_AVC_MV		MTK_M4U_ID(M4U_LARB1_ID, 5)
-+#define M4U_PORT_VDEC_PRED_RD		MTK_M4U_ID(M4U_LARB1_ID, 6)
-+#define M4U_PORT_VDEC_PRED_WR		MTK_M4U_ID(M4U_LARB1_ID, 7)
-+#define M4U_PORT_VDEC_PPWRAP		MTK_M4U_ID(M4U_LARB1_ID, 8)
-+
-+/* larb2 */
-+#define M4U_PORT_CAM_IMGO		MTK_M4U_ID(M4U_LARB2_ID, 0)
-+#define M4U_PORT_CAM_RRZO		MTK_M4U_ID(M4U_LARB2_ID, 1)
-+#define M4U_PORT_CAM_AAO		MTK_M4U_ID(M4U_LARB2_ID, 2)
-+#define M4U_PORT_CAM_LCSO		MTK_M4U_ID(M4U_LARB2_ID, 3)
-+#define M4U_PORT_CAM_ESFKO		MTK_M4U_ID(M4U_LARB2_ID, 4)
-+#define M4U_PORT_CAM_IMGO_S		MTK_M4U_ID(M4U_LARB2_ID, 5)
-+#define M4U_PORT_CAM_LSCI		MTK_M4U_ID(M4U_LARB2_ID, 6)
-+#define M4U_PORT_CAM_LSCI_D		MTK_M4U_ID(M4U_LARB2_ID, 7)
-+#define M4U_PORT_CAM_BPCI		MTK_M4U_ID(M4U_LARB2_ID, 8)
-+#define M4U_PORT_CAM_BPCI_D		MTK_M4U_ID(M4U_LARB2_ID, 9)
-+#define M4U_PORT_CAM_UFDI		MTK_M4U_ID(M4U_LARB2_ID, 10)
-+#define M4U_PORT_CAM_IMGI		MTK_M4U_ID(M4U_LARB2_ID, 11)
-+#define M4U_PORT_CAM_IMG2O		MTK_M4U_ID(M4U_LARB2_ID, 12)
-+#define M4U_PORT_CAM_IMG3O		MTK_M4U_ID(M4U_LARB2_ID, 13)
-+#define M4U_PORT_CAM_VIPI		MTK_M4U_ID(M4U_LARB2_ID, 14)
-+#define M4U_PORT_CAM_VIP2I		MTK_M4U_ID(M4U_LARB2_ID, 15)
-+#define M4U_PORT_CAM_VIP3I		MTK_M4U_ID(M4U_LARB2_ID, 16)
-+#define M4U_PORT_CAM_LCEI		MTK_M4U_ID(M4U_LARB2_ID, 17)
-+#define M4U_PORT_CAM_RB			MTK_M4U_ID(M4U_LARB2_ID, 18)
-+#define M4U_PORT_CAM_RP			MTK_M4U_ID(M4U_LARB2_ID, 19)
-+#define M4U_PORT_CAM_WR			MTK_M4U_ID(M4U_LARB2_ID, 20)
-+
-+/* larb3 */
-+#define M4U_PORT_VENC_RCPU		MTK_M4U_ID(M4U_LARB3_ID, 0)
-+#define M4U_PORT_VENC_REC		MTK_M4U_ID(M4U_LARB3_ID, 1)
-+#define M4U_PORT_VENC_BSDMA		MTK_M4U_ID(M4U_LARB3_ID, 2)
-+#define M4U_PORT_VENC_SV_COMV		MTK_M4U_ID(M4U_LARB3_ID, 3)
-+#define M4U_PORT_VENC_RD_COMV		MTK_M4U_ID(M4U_LARB3_ID, 4)
-+#define M4U_PORT_JPGENC_BSDMA		MTK_M4U_ID(M4U_LARB3_ID, 5)
-+#define M4U_PORT_REMDC_SDMA		MTK_M4U_ID(M4U_LARB3_ID, 6)
-+#define M4U_PORT_REMDC_BSDMA		MTK_M4U_ID(M4U_LARB3_ID, 7)
-+#define M4U_PORT_JPGENC_RDMA		MTK_M4U_ID(M4U_LARB3_ID, 8)
-+#define M4U_PORT_JPGENC_SDMA		MTK_M4U_ID(M4U_LARB3_ID, 9)
-+#define M4U_PORT_JPGDEC_WDMA		MTK_M4U_ID(M4U_LARB3_ID, 10)
-+#define M4U_PORT_JPGDEC_BSDMA		MTK_M4U_ID(M4U_LARB3_ID, 11)
-+#define M4U_PORT_VENC_CUR_LUMA		MTK_M4U_ID(M4U_LARB3_ID, 12)
-+#define M4U_PORT_VENC_CUR_CHROMA	MTK_M4U_ID(M4U_LARB3_ID, 13)
-+#define M4U_PORT_VENC_REF_LUMA		MTK_M4U_ID(M4U_LARB3_ID, 14)
-+#define M4U_PORT_VENC_REF_CHROMA	MTK_M4U_ID(M4U_LARB3_ID, 15)
-+#define M4U_PORT_REMDC_WDMA		MTK_M4U_ID(M4U_LARB3_ID, 16)
-+#define M4U_PORT_VENC_NBM_RDMA		MTK_M4U_ID(M4U_LARB3_ID, 17)
-+#define M4U_PORT_VENC_NBM_WDMA		MTK_M4U_ID(M4U_LARB3_ID, 18)
-+
-+/* larb4 */
-+#define M4U_PORT_MJC_MV_RD		MTK_M4U_ID(M4U_LARB4_ID, 0)
-+#define M4U_PORT_MJC_MV_WR		MTK_M4U_ID(M4U_LARB4_ID, 1)
-+#define M4U_PORT_MJC_DMA_RD		MTK_M4U_ID(M4U_LARB4_ID, 2)
-+#define M4U_PORT_MJC_DMA_WR		MTK_M4U_ID(M4U_LARB4_ID, 3)
-+
-+#endif
+ #define MTK_IOMMU_HAS_FLAG_MASK(pdata, _x, mask)	\
+ 				((((pdata)->flags) & (mask)) == (_x))
+@@ -959,7 +960,7 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data, unsigned int ban
+ 	 * Global control settings are in bank0. May re-init these global registers
+ 	 * since no sure if there is bank0 consumers.
+ 	 */
+-	if (data->plat_data->m4u_plat == M4U_MT8173) {
++	if (MTK_IOMMU_HAS_FLAG(data->plat_data, TF_PORT_TO_ADDR_MT8173)) {
+ 		regval = F_MMU_PREFETCH_RT_REPLACE_MOD |
+ 			 F_MMU_TF_PROT_TO_PROGRAM_ADDR_MT8173;
+ 	} else {
+@@ -1432,7 +1433,8 @@ static const struct mtk_iommu_plat_data mt8167_data = {
+ static const struct mtk_iommu_plat_data mt8173_data = {
+ 	.m4u_plat     = M4U_MT8173,
+ 	.flags	      = HAS_4GB_MODE | HAS_BCLK | RESET_AXI |
+-			HAS_LEGACY_IVRP_PADDR | MTK_IOMMU_TYPE_MM,
++			HAS_LEGACY_IVRP_PADDR | MTK_IOMMU_TYPE_MM |
++			TF_PORT_TO_ADDR_MT8173,
+ 	.inv_sel_reg  = REG_MMU_INV_SEL_GEN1,
+ 	.banks_num    = 1,
+ 	.banks_enable = {true},
 -- 
 2.35.1
 
