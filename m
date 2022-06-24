@@ -1,84 +1,113 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74204559DAB
-	for <lists.iommu@lfdr.de>; Fri, 24 Jun 2022 17:53:02 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1135E559E00
+	for <lists.iommu@lfdr.de>; Fri, 24 Jun 2022 18:04:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 644CF83224;
-	Fri, 24 Jun 2022 15:53:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 644CF83224
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=c/cTXqeY
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1DA1F60C23;
+	Fri, 24 Jun 2022 16:04:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1DA1F60C23
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E9V3fR12
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bZFmDXaIRlWn; Fri, 24 Jun 2022 15:52:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 62AE883478;
-	Fri, 24 Jun 2022 15:52:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 62AE883478
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BcQGk8Zp24dL; Fri, 24 Jun 2022 16:04:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E6A4E60B6E;
+	Fri, 24 Jun 2022 16:04:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E6A4E60B6E
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 296E1C0081;
-	Fri, 24 Jun 2022 15:52:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99769C0081;
+	Fri, 24 Jun 2022 16:04:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91871C002D
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 15:52:57 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A2E07C002D
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 16:04:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 59E56404C4
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 15:52:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 59E56404C4
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=c/cTXqeY
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6D3CF60B69
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 16:04:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6D3CF60B69
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ifYrcEqHGcSn for <iommu@lists.linux-foundation.org>;
- Fri, 24 Jun 2022 15:52:55 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FPasWfZ1U8OH for <iommu@lists.linux-foundation.org>;
+ Fri, 24 Jun 2022 16:04:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6EAFF40377
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 6EAFF40377
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 15:52:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B267B62258;
- Fri, 24 Jun 2022 15:52:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0EA3C385A2;
- Fri, 24 Jun 2022 15:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656085974;
- bh=qAy2ChZPMRs3C4+p5+7OuByRb9+ppf0dQML5YBJK5HM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c/cTXqeYK2p3fuQ1Xr3B3yC2SRBuak2XApNreH6AJfBauKiBzRq4xsrR0vG6EyuKQ
- jI7LHAKVy7GFLXuvS6owV8fR1Wk0hp5Ti3G4MFduiECOCoRwCVNJNl7eKbLVBGfwuz
- avzZA12yuzHbh4yWwzBde0zmND9nzZyzJAxtFSHvozE/0gFZPY8f8WdLDnq+TB4aU3
- jz4w+5MyFDj2IBwl3wwKYFxnJujosKH2isR/xpXHALgJGcT4ERDBvK9Vps5uuKeOVB
- tp/9ZPN7StewQTejJKwV038Z1FISQ022Zdwch9DwoxIjtAbQ314m08HABqgFjF9iGr
- nzAWgUEMxnEqw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-scsi@vger.kernel.org
-Subject: [PATCH v3 3/3] arch/*/: remove CONFIG_VIRT_TO_BUS
-Date: Fri, 24 Jun 2022 17:52:26 +0200
-Message-Id: <20220624155226.2889613-4-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220624155226.2889613-1-arnd@kernel.org>
-References: <20220624155226.2889613-1-arnd@kernel.org>
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 704EC60AA8
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 704EC60AA8
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 16:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656086692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ln1Z2E1M7p8doCl1L1YnM9NdRf2Z0FbPrSaV1f2IMzE=;
+ b=E9V3fR12hLP99ec6uCVDDY6Qv/9q47k5/oi0uBKSbLntp45ibHXeI5NsTNeJPxnGZ1YxiQ
+ ArzM1axWsXdGxMQhhiIbWh1RAY2LzcEAdu1B/Y1/bAYwvhV1aelWE35Y8U53asnHXNW0yq
+ KBM/vZTDIDCWmtnHKuoktRaqR4Fkra8=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-_Qa6YGIKMniAChBxBg3O1w-1; Fri, 24 Jun 2022 12:04:50 -0400
+X-MC-Unique: _Qa6YGIKMniAChBxBg3O1w-1
+Received: by mail-il1-f199.google.com with SMTP id
+ i2-20020a056e021d0200b002d8ff49e7c4so1657346ila.8
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 09:04:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=Ln1Z2E1M7p8doCl1L1YnM9NdRf2Z0FbPrSaV1f2IMzE=;
+ b=NZKKXaxkGIFs2zn5z1hY/7GrrVN9RPGyVYWzh0Edq6XmnT3WPxqqtrojBH/KnQ8mMS
+ a700vhC9MDRY+M6TeBpu+kz2UaG3JJXBYhqeGxt0ah6NDcGS1STcb3Qs41sPNJRXNBhE
+ Ma8Xnu4MUlqdVuAJrrH7G2CsMp8mT51Jgm9LppsFAus+wB3Ofd+gwb+GF+xKG9xrwm6n
+ dCJ2zc5U9hvJSGA3XyseZ/N1yt1c05apoebF+nVWfqAVtA60TIeXFCVlX43AYoH82sg5
+ H35C2SP5puxQEXTAAwfAmdfiUN8bGzTqKlbWmkTt1jSzFwNipohFjBAf+rkhMPfCtOeD
+ e8CQ==
+X-Gm-Message-State: AJIora8C7bXJlBOWYr5s01DiKEWOQhUoxE4da/N1Mj7ATj0uMF+Iz9GN
+ HRiu/eacR0TxAmKxwR3xP7VUY4usLfFxCid3xTL0pz2WBS6Gc/Mbxg696+N6wA8RywpftRcU8t4
+ VGU9yt7ZIEzWye3dLKBNsB2cvleNhNg==
+X-Received: by 2002:a05:6638:300e:b0:335:c73c:3d25 with SMTP id
+ r14-20020a056638300e00b00335c73c3d25mr8993395jak.77.1656086689942; 
+ Fri, 24 Jun 2022 09:04:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tkLdQdoyXEGpgj4BclSWirmWj1t+0EzYv/auBwq1GquIs3qt+6zmVH3RnW4cPTN1eyU02Q0Q==
+X-Received: by 2002:a05:6638:300e:b0:335:c73c:3d25 with SMTP id
+ r14-20020a056638300e00b00335c73c3d25mr8993376jak.77.1656086689538; 
+ Fri, 24 Jun 2022 09:04:49 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ a30-20020a027a1e000000b00339c67df872sm1216387jac.129.2022.06.24.09.04.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jun 2022 09:04:49 -0700 (PDT)
+Date: Fri, 24 Jun 2022 10:04:47 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v2 1/2] vfio/type1: Simplify bus_type determination
+Message-ID: <20220624100447.4ec983fb.alex.williamson@redhat.com>
+In-Reply-To: <42679e49-4a04-4700-f420-f6ffe0f4b7d1@arm.com>
+References: <b1d13cade281a7d8acbfd0f6a33dcd086207952c.1655898523.git.robin.murphy@arm.com>
+ <20220622161721.469fc9eb.alex.williamson@redhat.com>
+ <68263bd7-4528-7acb-b11f-6b1c6c8c72ef@arm.com>
+ <20220623170044.1757267d.alex.williamson@redhat.com>
+ <20220624015030.GJ4147@nvidia.com>
+ <20220624081159.508baed3.alex.williamson@redhat.com>
+ <20220624141836.GS4147@nvidia.com>
+ <20220624082831.22de3d51.alex.williamson@redhat.com>
+ <42679e49-4a04-4700-f420-f6ffe0f4b7d1@arm.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Cc: linux-arch@vger.kernel.org, Miquel van Smoorenburg <mikevs@xs4all.net>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-parisc@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org,
- "Maciej W . Rozycki" <macro@orcam.me.uk>, linux-m68k@lists.linux-m68k.org,
- Denis Efremov <efremov@linux.com>, Mark Salyzyn <salyzyn@android.com>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- Matt Wang <wwentao@vmware.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linux-alpha@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Khalid Aziz <khalid@gonehiking.org>, Robin Murphy <robin.murphy@arm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Cc: kvm@vger.kernel.org, cohuck@redhat.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
+ Jason Gunthorpe <jgg@nvidia.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,700 +125,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Fri, 24 Jun 2022 16:12:55 +0100
+Robin Murphy <robin.murphy@arm.com> wrote:
 
-All architecture-independent users of virt_to_bus() and bus_to_virt()
-have been fixed to use the dma mapping interfaces or have been
-removed now.  This means the definitions on most architectures, and the
-CONFIG_VIRT_TO_BUS symbol are now obsolete and can be removed.
+> On 2022-06-24 15:28, Alex Williamson wrote:
+> > On Fri, 24 Jun 2022 11:18:36 -0300
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >   
+> >> On Fri, Jun 24, 2022 at 08:11:59AM -0600, Alex Williamson wrote:  
+> >>> On Thu, 23 Jun 2022 22:50:30 -0300
+> >>> Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >>>      
+> >>>> On Thu, Jun 23, 2022 at 05:00:44PM -0600, Alex Williamson wrote:
+> >>>>      
+> >>>>>>>> +struct vfio_device *vfio_device_get_from_iommu(struct iommu_group *iommu_group)
+> >>>>>>>> +{
+> >>>>>>>> +	struct vfio_group *group = vfio_group_get_from_iommu(iommu_group);
+> >>>>>>>> +	struct vfio_device *device;  
+> >>>>>>>
+> >>>>>>> Check group for NULL.  
+> >>>>>>
+> >>>>>> OK - FWIW in context this should only ever make sense to call with an
+> >>>>>> iommu_group which has already been derived from a vfio_group, and I did
+> >>>>>> initially consider a check with a WARN_ON(), but then decided that the
+> >>>>>> unguarded dereference would be a sufficiently strong message. No problem
+> >>>>>> with bringing that back to make it more defensive if that's what you prefer.  
+> >>>>>
+> >>>>> A while down the road, that's a bit too much implicit knowledge of the
+> >>>>> intent and single purpose of this function just to simply avoid a test.  
+> >>>>
+> >>>> I think we should just pass the 'struct vfio_group *' into the
+> >>>> attach_group op and have this API take that type in and forget the
+> >>>> vfio_group_get_from_iommu().  
+> >>>
+> >>> That's essentially what I'm suggesting, the vfio_group is passed as an
+> >>> opaque pointer which type1 can use for a
+> >>> vfio_group_for_each_vfio_device() type call.  Thanks,  
+> >>
+> >> I don't want to add a whole vfio_group_for_each_vfio_device()
+> >> machinery that isn't actually needed by anything.. This is all
+> >> internal, we don't need to design more than exactly what is needed.
+> >>
+> >> At this point if we change the signature of the attach then we may as
+> >> well just pass in the representative vfio_device, that is probably
+> >> less LOC overall.  
+> > 
+> > That means that vfio core still needs to pick an arbitrary
+> > representative device, which I find in fundamental conflict to the
+> > nature of groups.  Type1 is the interface to the IOMMU API, if through
+> > the IOMMU API we can make an assumption that all devices within the
+> > group are equivalent for a given operation, that should be done in type1
+> > code, not in vfio core.  A for-each interface is commonplace and not
+> > significantly more code or design than already proposed.  Thanks,  
+> 
+> It also occurred to me this morning that there's another middle-ground 
+> option staring out from the call-wrapping notion I mentioned yesterday - 
+> while I'm not keen to provide it from the IOMMU API, there's absolutely 
+> no reason that VFIO couldn't just use the building blocks by itself, and 
+> in fact it works out almost absurdly simple:
+> 
+> static bool vfio_device_capable(struct device *dev, void *data)
+> {
+> 	return device_iommu_capable(dev, (enum iommu_cap)data);
+> }
+> 
+> bool vfio_group_capable(struct iommu_group *group, enum iommu_cap cap)
+> {
+> 	return iommu_group_for_each_dev(group, (void *)cap, vfio_device_capable);
+> }
+> 
+> and much the same for iommu_domain_alloc() once I get that far. The 
+> locking concern neatly disappears because we're no longer holding any 
+> bus or device pointer that can go stale. How does that seem as a 
+> compromise for now, looking forward to Jason's longer-term view of 
+> rearranging the attach_group process such that a vfio_device falls 
+> naturally to hand?
 
-The only exceptions to this are a few network and scsi drivers for m68k
-Amiga and VME machines and ppc32 Macintosh. These drivers work correctly
-with the old interfaces and are probably not worth changing.
+Yup, that seems like another way to do it, a slight iteration on the
+current bus_type flow, and also avoids any sort of arbitrary
+representative device being passed around as an API.
 
-On alpha and parisc, virt_to_bus() were still used in asm/floppy.h.
-alpha can use isa_virt_to_bus() like x86 does, and parisc can just
-open-code the virt_to_phys() here, as this is architecture specific
-code.
+For clarity of the principle that all devices within the group should
+have the same capabilities, we could even further follow the existing
+bus_type and do a sanity test here at the same time, or perhaps simply
+stop after the first device to avoid the if-any-device-is-capable
+semantics implied above.  Thanks,
 
-I tried updating the bus-virt-phys-mapping.rst documentation, which
-started as an email from Linus to explain some details of the Linux-2.0
-driver interfaces. The bits about virt_to_bus() were declared obsolete
-backin 2000, and the rest is not all that relevant any more, so in the
-end I just decided to remove the file completely.
-
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- .../core-api/bus-virt-phys-mapping.rst        | 220 ------------------
- Documentation/core-api/dma-api-howto.rst      |  14 --
- Documentation/core-api/index.rst              |   1 -
- .../translations/zh_CN/core-api/index.rst     |   1 -
- arch/alpha/Kconfig                            |   1 -
- arch/alpha/include/asm/floppy.h               |   2 +-
- arch/alpha/include/asm/io.h                   |   8 +-
- arch/ia64/Kconfig                             |   1 -
- arch/ia64/include/asm/io.h                    |   8 -
- arch/m68k/Kconfig                             |   1 -
- arch/m68k/include/asm/virtconvert.h           |   4 +-
- arch/microblaze/Kconfig                       |   1 -
- arch/microblaze/include/asm/io.h              |   2 -
- arch/mips/Kconfig                             |   1 -
- arch/mips/include/asm/io.h                    |   9 -
- arch/parisc/Kconfig                           |   1 -
- arch/parisc/include/asm/floppy.h              |   4 +-
- arch/parisc/include/asm/io.h                  |   2 -
- arch/powerpc/Kconfig                          |   1 -
- arch/powerpc/include/asm/io.h                 |   2 -
- arch/riscv/include/asm/page.h                 |   1 -
- arch/x86/Kconfig                              |   1 -
- arch/x86/include/asm/io.h                     |   9 -
- arch/xtensa/Kconfig                           |   1 -
- arch/xtensa/include/asm/io.h                  |   3 -
- include/asm-generic/io.h                      |  14 --
- mm/Kconfig                                    |   8 -
- 27 files changed, 10 insertions(+), 311 deletions(-)
- delete mode 100644 Documentation/core-api/bus-virt-phys-mapping.rst
-
-diff --git a/Documentation/core-api/bus-virt-phys-mapping.rst b/Documentation/core-api/bus-virt-phys-mapping.rst
-deleted file mode 100644
-index c72b24a7d52c..000000000000
---- a/Documentation/core-api/bus-virt-phys-mapping.rst
-+++ /dev/null
-@@ -1,220 +0,0 @@
--==========================================================
--How to access I/O mapped memory from within device drivers
--==========================================================
--
--:Author: Linus
--
--.. warning::
--
--	The virt_to_bus() and bus_to_virt() functions have been
--	superseded by the functionality provided by the PCI DMA interface
--	(see Documentation/core-api/dma-api-howto.rst).  They continue
--	to be documented below for historical purposes, but new code
--	must not use them. --davidm 00/12/12
--
--::
--
--  [ This is a mail message in response to a query on IO mapping, thus the
--    strange format for a "document" ]
--
--The AHA-1542 is a bus-master device, and your patch makes the driver give the
--controller the physical address of the buffers, which is correct on x86
--(because all bus master devices see the physical memory mappings directly). 
--
--However, on many setups, there are actually **three** different ways of looking
--at memory addresses, and in this case we actually want the third, the
--so-called "bus address". 
--
--Essentially, the three ways of addressing memory are (this is "real memory",
--that is, normal RAM--see later about other details): 
--
-- - CPU untranslated.  This is the "physical" address.  Physical address 
--   0 is what the CPU sees when it drives zeroes on the memory bus.
--
-- - CPU translated address. This is the "virtual" address, and is 
--   completely internal to the CPU itself with the CPU doing the appropriate
--   translations into "CPU untranslated". 
--
-- - bus address. This is the address of memory as seen by OTHER devices, 
--   not the CPU. Now, in theory there could be many different bus 
--   addresses, with each device seeing memory in some device-specific way, but
--   happily most hardware designers aren't actually actively trying to make
--   things any more complex than necessary, so you can assume that all 
--   external hardware sees the memory the same way. 
--
--Now, on normal PCs the bus address is exactly the same as the physical
--address, and things are very simple indeed. However, they are that simple
--because the memory and the devices share the same address space, and that is
--not generally necessarily true on other PCI/ISA setups. 
--
--Now, just as an example, on the PReP (PowerPC Reference Platform), the 
--CPU sees a memory map something like this (this is from memory)::
--
--	0-2 GB		"real memory"
--	2 GB-3 GB	"system IO" (inb/out and similar accesses on x86)
--	3 GB-4 GB 	"IO memory" (shared memory over the IO bus)
--
--Now, that looks simple enough. However, when you look at the same thing from
--the viewpoint of the devices, you have the reverse, and the physical memory
--address 0 actually shows up as address 2 GB for any IO master.
--
--So when the CPU wants any bus master to write to physical memory 0, it 
--has to give the master address 0x80000000 as the memory address.
--
--So, for example, depending on how the kernel is actually mapped on the 
--PPC, you can end up with a setup like this::
--
-- physical address:	0
-- virtual address:	0xC0000000
-- bus address:		0x80000000
--
--where all the addresses actually point to the same thing.  It's just seen 
--through different translations..
--
--Similarly, on the Alpha, the normal translation is::
--
-- physical address:	0
-- virtual address:	0xfffffc0000000000
-- bus address:		0x40000000
--
--(but there are also Alphas where the physical address and the bus address
--are the same). 
--
--Anyway, the way to look up all these translations, you do::
--
--	#include <asm/io.h>
--
--	phys_addr = virt_to_phys(virt_addr);
--	virt_addr = phys_to_virt(phys_addr);
--	 bus_addr = virt_to_bus(virt_addr);
--	virt_addr = bus_to_virt(bus_addr);
--
--Now, when do you need these?
--
--You want the **virtual** address when you are actually going to access that
--pointer from the kernel. So you can have something like this::
--
--	/*
--	 * this is the hardware "mailbox" we use to communicate with
--	 * the controller. The controller sees this directly.
--	 */
--	struct mailbox {
--		__u32 status;
--		__u32 bufstart;
--		__u32 buflen;
--		..
--	} mbox;
--
--		unsigned char * retbuffer;
--
--		/* get the address from the controller */
--		retbuffer = bus_to_virt(mbox.bufstart);
--		switch (retbuffer[0]) {
--			case STATUS_OK:
--				...
--
--on the other hand, you want the bus address when you have a buffer that 
--you want to give to the controller::
--
--	/* ask the controller to read the sense status into "sense_buffer" */
--	mbox.bufstart = virt_to_bus(&sense_buffer);
--	mbox.buflen = sizeof(sense_buffer);
--	mbox.status = 0;
--	notify_controller(&mbox);
--
--And you generally **never** want to use the physical address, because you can't
--use that from the CPU (the CPU only uses translated virtual addresses), and
--you can't use it from the bus master. 
--
--So why do we care about the physical address at all? We do need the physical
--address in some cases, it's just not very often in normal code.  The physical
--address is needed if you use memory mappings, for example, because the
--"remap_pfn_range()" mm function wants the physical address of the memory to
--be remapped as measured in units of pages, a.k.a. the pfn (the memory
--management layer doesn't know about devices outside the CPU, so it
--shouldn't need to know about "bus addresses" etc).
--
--.. note::
--
--	The above is only one part of the whole equation. The above
--	only talks about "real memory", that is, CPU memory (RAM).
--
--There is a completely different type of memory too, and that's the "shared
--memory" on the PCI or ISA bus. That's generally not RAM (although in the case
--of a video graphics card it can be normal DRAM that is just used for a frame
--buffer), but can be things like a packet buffer in a network card etc. 
--
--This memory is called "PCI memory" or "shared memory" or "IO memory" or
--whatever, and there is only one way to access it: the readb/writeb and
--related functions. You should never take the address of such memory, because
--there is really nothing you can do with such an address: it's not
--conceptually in the same memory space as "real memory" at all, so you cannot
--just dereference a pointer. (Sadly, on x86 it **is** in the same memory space,
--so on x86 it actually works to just deference a pointer, but it's not
--portable). 
--
--For such memory, you can do things like:
--
-- - reading::
--
--	/*
--	 * read first 32 bits from ISA memory at 0xC0000, aka
--	 * C000:0000 in DOS terms
--	 */
--	unsigned int signature = isa_readl(0xC0000);
--
-- - remapping and writing::
--
--	/*
--	 * remap framebuffer PCI memory area at 0xFC000000,
--	 * size 1MB, so that we can access it: We can directly
--	 * access only the 640k-1MB area, so anything else
--	 * has to be remapped.
--	 */
--	void __iomem *baseptr = ioremap(0xFC000000, 1024*1024);
--
--	/* write a 'A' to the offset 10 of the area */
--	writeb('A',baseptr+10);
--
--	/* unmap when we unload the driver */
--	iounmap(baseptr);
--
-- - copying and clearing::
--
--	/* get the 6-byte Ethernet address at ISA address E000:0040 */
--	memcpy_fromio(kernel_buffer, 0xE0040, 6);
--	/* write a packet to the driver */
--	memcpy_toio(0xE1000, skb->data, skb->len);
--	/* clear the frame buffer */
--	memset_io(0xA0000, 0, 0x10000);
--
--OK, that just about covers the basics of accessing IO portably.  Questions?
--Comments? You may think that all the above is overly complex, but one day you
--might find yourself with a 500 MHz Alpha in front of you, and then you'll be
--happy that your driver works ;)
--
--Note that kernel versions 2.0.x (and earlier) mistakenly called the
--ioremap() function "vremap()".  ioremap() is the proper name, but I
--didn't think straight when I wrote it originally.  People who have to
--support both can do something like::
-- 
--	/* support old naming silliness */
--	#if LINUX_VERSION_CODE < 0x020100
--	#define ioremap vremap
--	#define iounmap vfree                                                     
--	#endif
-- 
--at the top of their source files, and then they can use the right names
--even on 2.0.x systems. 
--
--And the above sounds worse than it really is.  Most real drivers really
--don't do all that complex things (or rather: the complexity is not so
--much in the actual IO accesses as in error handling and timeouts etc). 
--It's generally not hard to fix drivers, and in many cases the code
--actually looks better afterwards::
--
--	unsigned long signature = *(unsigned int *) 0xC0000;
--		vs
--	unsigned long signature = readl(0xC0000);
--
--I think the second version actually is more readable, no?
-diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
-index 358d495456d1..828846804e25 100644
---- a/Documentation/core-api/dma-api-howto.rst
-+++ b/Documentation/core-api/dma-api-howto.rst
-@@ -707,20 +707,6 @@ to use the dma_sync_*() interfaces::
- 		}
- 	}
- 
--Drivers converted fully to this interface should not use virt_to_bus() any
--longer, nor should they use bus_to_virt(). Some drivers have to be changed a
--little bit, because there is no longer an equivalent to bus_to_virt() in the
--dynamic DMA mapping scheme - you have to always store the DMA addresses
--returned by the dma_alloc_coherent(), dma_pool_alloc(), and dma_map_single()
--calls (dma_map_sg() stores them in the scatterlist itself if the platform
--supports dynamic DMA mapping in hardware) in your driver structures and/or
--in the card registers.
--
--All drivers should be using these interfaces with no exceptions.  It
--is planned to completely remove virt_to_bus() and bus_to_virt() as
--they are entirely deprecated.  Some ports already do not provide these
--as it is impossible to correctly support them.
--
- Handling Errors
- ===============
- 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 972d46a5ddf6..fd5b20452ad5 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -39,7 +39,6 @@ Library functionality that is used throughout the kernel.
-    rbtree
-    generic-radix-tree
-    packing
--   bus-virt-phys-mapping
-    this_cpu_ops
-    timekeeping
-    errseq
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 26d9913fc8b6..c52175fc1b61 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -52,7 +52,6 @@ Todolist:
-    circular-buffers
-    generic-radix-tree
-    packing
--   bus-virt-phys-mapping
-    this_cpu_ops
-    timekeeping
-    errseq
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index 7d0d26b5b3f5..97fce7386b00 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -17,7 +17,6 @@ config ALPHA
- 	select HAVE_PERF_EVENTS
- 	select NEED_DMA_MAP_STATE
- 	select NEED_SG_DMA_LENGTH
--	select VIRT_TO_BUS
- 	select GENERIC_IRQ_PROBE
- 	select GENERIC_PCI_IOMAP
- 	select AUTO_IRQ_AFFINITY if SMP
-diff --git a/arch/alpha/include/asm/floppy.h b/arch/alpha/include/asm/floppy.h
-index 588758685439..64b42d9591fc 100644
---- a/arch/alpha/include/asm/floppy.h
-+++ b/arch/alpha/include/asm/floppy.h
-@@ -20,7 +20,7 @@
- #define fd_free_dma()           free_dma(FLOPPY_DMA)
- #define fd_clear_dma_ff()       clear_dma_ff(FLOPPY_DMA)
- #define fd_set_dma_mode(mode)   set_dma_mode(FLOPPY_DMA,mode)
--#define fd_set_dma_addr(addr)   set_dma_addr(FLOPPY_DMA,virt_to_bus(addr))
-+#define fd_set_dma_addr(addr)   set_dma_addr(FLOPPY_DMA,isa_virt_to_bus(addr))
- #define fd_set_dma_count(count) set_dma_count(FLOPPY_DMA,count)
- #define fd_enable_irq()         enable_irq(FLOPPY_IRQ)
- #define fd_disable_irq()        disable_irq(FLOPPY_IRQ)
-diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-index c9cb554fbe54..d277189b2677 100644
---- a/arch/alpha/include/asm/io.h
-+++ b/arch/alpha/include/asm/io.h
-@@ -106,15 +106,15 @@ static inline void * phys_to_virt(unsigned long address)
- extern unsigned long __direct_map_base;
- extern unsigned long __direct_map_size;
- 
--static inline unsigned long __deprecated virt_to_bus(volatile void *address)
-+static inline unsigned long __deprecated isa_virt_to_bus(volatile void *address)
- {
- 	unsigned long phys = virt_to_phys(address);
- 	unsigned long bus = phys + __direct_map_base;
- 	return phys <= __direct_map_size ? bus : 0;
- }
--#define isa_virt_to_bus virt_to_bus
-+#define isa_virt_to_bus isa_virt_to_bus
- 
--static inline void * __deprecated bus_to_virt(unsigned long address)
-+static inline void * __deprecated isa_bus_to_virt(unsigned long address)
- {
- 	void *virt;
- 
-@@ -125,7 +125,7 @@ static inline void * __deprecated bus_to_virt(unsigned long address)
- 	virt = phys_to_virt(address);
- 	return (long)address <= 0 ? NULL : virt;
- }
--#define isa_bus_to_virt bus_to_virt
-+#define isa_bus_to_virt isa_bus_to_virt
- 
- /*
-  * There are different chipsets to interface the Alpha CPUs to the world.
-diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
-index cb93769a9f2a..26ac8ea15a9e 100644
---- a/arch/ia64/Kconfig
-+++ b/arch/ia64/Kconfig
-@@ -39,7 +39,6 @@ config IA64
- 	select HAVE_FUNCTION_DESCRIPTORS
- 	select HAVE_VIRT_CPU_ACCOUNTING
- 	select HUGETLB_PAGE_SIZE_VARIABLE if HUGETLB_PAGE
--	select VIRT_TO_BUS
- 	select GENERIC_IRQ_PROBE
- 	select GENERIC_PENDING_IRQ if SMP
- 	select GENERIC_IRQ_SHOW
-diff --git a/arch/ia64/include/asm/io.h b/arch/ia64/include/asm/io.h
-index 6d93b923b379..ce66dfc0e719 100644
---- a/arch/ia64/include/asm/io.h
-+++ b/arch/ia64/include/asm/io.h
-@@ -96,14 +96,6 @@ extern u64 kern_mem_attribute (unsigned long phys_addr, unsigned long size);
- extern int valid_phys_addr_range (phys_addr_t addr, size_t count); /* efi.c */
- extern int valid_mmap_phys_addr_range (unsigned long pfn, size_t count);
- 
--/*
-- * The following two macros are deprecated and scheduled for removal.
-- * Please use the PCI-DMA interface defined in <asm/pci.h> instead.
-- */
--#define bus_to_virt	phys_to_virt
--#define virt_to_bus	virt_to_phys
--#define page_to_bus	page_to_phys
--
- # endif /* KERNEL */
- 
- /*
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index 936cce42ae9a..b06faf6c0b27 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -30,7 +30,6 @@ config M68K
- 	select OLD_SIGACTION
- 	select OLD_SIGSUSPEND3
- 	select UACCESS_MEMCPY if !MMU
--	select VIRT_TO_BUS
- 	select ZONE_DMA
- 
- config CPU_BIG_ENDIAN
-diff --git a/arch/m68k/include/asm/virtconvert.h b/arch/m68k/include/asm/virtconvert.h
-index ca91b32dc6ef..0a27905b0036 100644
---- a/arch/m68k/include/asm/virtconvert.h
-+++ b/arch/m68k/include/asm/virtconvert.h
-@@ -33,9 +33,11 @@ static inline void *phys_to_virt(unsigned long address)
- 
- /*
-  * IO bus memory addresses are 1:1 with the physical address,
-+ * deprecated globally but still used on two machines.
-  */
-+#if defined(CONFIG_AMIGA) || defined(CONFIG_VME)
- #define virt_to_bus virt_to_phys
--#define bus_to_virt phys_to_virt
-+#endif
- 
- #endif
- #endif
-diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
-index 8cf429ad1c84..415182eeb082 100644
---- a/arch/microblaze/Kconfig
-+++ b/arch/microblaze/Kconfig
-@@ -38,7 +38,6 @@ config MICROBLAZE
- 	select OF_EARLY_FLATTREE
- 	select PCI_DOMAINS_GENERIC if PCI
- 	select PCI_SYSCALL if PCI
--	select VIRT_TO_BUS
- 	select CPU_NO_EFFICIENT_FFS
- 	select MMU_GATHER_NO_RANGE
- 	select SPARSE_IRQ
-diff --git a/arch/microblaze/include/asm/io.h b/arch/microblaze/include/asm/io.h
-index b6a57f8468f0..c1d78b8977a6 100644
---- a/arch/microblaze/include/asm/io.h
-+++ b/arch/microblaze/include/asm/io.h
-@@ -30,8 +30,6 @@ extern resource_size_t isa_mem_base;
- #define PCI_IOBASE	((void __iomem *)_IO_BASE)
- #define IO_SPACE_LIMIT (0xFFFFFFFF)
- 
--#define page_to_bus(page)	(page_to_phys(page))
--
- extern void iounmap(volatile void __iomem *addr);
- 
- extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index de3b32a507d2..be21fba3c4a4 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -100,7 +100,6 @@ config MIPS
- 	select RTC_LIB
- 	select SYSCTL_EXCEPTION_TRACE
- 	select TRACE_IRQFLAGS_SUPPORT
--	select VIRT_TO_BUS
- 	select ARCH_HAS_ELFCORE_COMPAT
- 	select HAVE_ARCH_KCSAN if 64BIT
- 
-diff --git a/arch/mips/include/asm/io.h b/arch/mips/include/asm/io.h
-index 6f5c86d2bab4..cd9168f34fb7 100644
---- a/arch/mips/include/asm/io.h
-+++ b/arch/mips/include/asm/io.h
-@@ -147,15 +147,6 @@ static inline void *isa_bus_to_virt(unsigned long address)
- 	return phys_to_virt(address);
- }
- 
--/*
-- * However PCI ones are not necessarily 1:1 and therefore these interfaces
-- * are forbidden in portable PCI drivers.
-- *
-- * Allow them for x86 for legacy drivers, though.
-- */
--#define virt_to_bus virt_to_phys
--#define bus_to_virt phys_to_virt
--
- /*
-  * Change "struct page" to physical address.
-  */
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index bd22578859d0..169c9d0c5532 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -43,7 +43,6 @@ config PARISC
- 	select SYSCTL_ARCH_UNALIGN_ALLOW
- 	select SYSCTL_EXCEPTION_TRACE
- 	select HAVE_MOD_ARCH_SPECIFIC
--	select VIRT_TO_BUS
- 	select MODULES_USE_ELF_RELA
- 	select CLONE_BACKWARDS
- 	select TTY # Needed for pdc_cons.c
-diff --git a/arch/parisc/include/asm/floppy.h b/arch/parisc/include/asm/floppy.h
-index 762cfe7778c0..b318a7df52f6 100644
---- a/arch/parisc/include/asm/floppy.h
-+++ b/arch/parisc/include/asm/floppy.h
-@@ -179,7 +179,7 @@ static void _fd_chose_dma_mode(char *addr, unsigned long size)
- {
- 	if(can_use_virtual_dma == 2) {
- 		if((unsigned int) addr >= (unsigned int) high_memory ||
--		   virt_to_bus(addr) >= 0x1000000 ||
-+		   virt_to_phys(addr) >= 0x1000000 ||
- 		   _CROSS_64KB(addr, size, 0))
- 			use_virtual_dma = 1;
- 		else
-@@ -215,7 +215,7 @@ static int hard_dma_setup(char *addr, unsigned long size, int mode, int io)
- 	doing_pdma = 0;
- 	clear_dma_ff(FLOPPY_DMA);
- 	set_dma_mode(FLOPPY_DMA,mode);
--	set_dma_addr(FLOPPY_DMA,virt_to_bus(addr));
-+	set_dma_addr(FLOPPY_DMA,virt_to_phys(addr));
- 	set_dma_count(FLOPPY_DMA,size);
- 	enable_dma(FLOPPY_DMA);
- 	return 0;
-diff --git a/arch/parisc/include/asm/io.h b/arch/parisc/include/asm/io.h
-index 837ddddbac6a..42ffb60a6ea9 100644
---- a/arch/parisc/include/asm/io.h
-+++ b/arch/parisc/include/asm/io.h
-@@ -7,8 +7,6 @@
- 
- #define virt_to_phys(a) ((unsigned long)__pa(a))
- #define phys_to_virt(a) __va(a)
--#define virt_to_bus virt_to_phys
--#define bus_to_virt phys_to_virt
- 
- static inline unsigned long isa_bus_to_virt(unsigned long addr) {
- 	BUG();
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 174edabb74fa..a43d08c9ee01 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -272,7 +272,6 @@ config PPC
- 	select SYSCTL_EXCEPTION_TRACE
- 	select THREAD_INFO_IN_TASK
- 	select TRACE_IRQFLAGS_SUPPORT
--	select VIRT_TO_BUS			if !PPC64
- 	#
- 	# Please keep this list sorted alphabetically.
- 	#
-diff --git a/arch/powerpc/include/asm/io.h b/arch/powerpc/include/asm/io.h
-index fee979d3a1aa..9f80eaad38e5 100644
---- a/arch/powerpc/include/asm/io.h
-+++ b/arch/powerpc/include/asm/io.h
-@@ -987,8 +987,6 @@ static inline void * bus_to_virt(unsigned long address)
- }
- #define bus_to_virt bus_to_virt
- 
--#define page_to_bus(page)	(page_to_phys(page) + PCI_DRAM_OFFSET)
--
- #endif /* CONFIG_PPC32 */
- 
- /* access ports */
-diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-index 1526e410e802..ac70b0fd9a9a 100644
---- a/arch/riscv/include/asm/page.h
-+++ b/arch/riscv/include/asm/page.h
-@@ -167,7 +167,6 @@ extern phys_addr_t __phys_addr_symbol(unsigned long x);
- #define page_to_virt(page)	(pfn_to_virt(page_to_pfn(page)))
- 
- #define page_to_phys(page)	(pfn_to_phys(page_to_pfn(page)))
--#define page_to_bus(page)	(page_to_phys(page))
- #define phys_to_page(paddr)	(pfn_to_page(phys_to_pfn(paddr)))
- 
- #define sym_to_pfn(x)           __phys_to_pfn(__pa_symbol(x))
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 4bed3abf444d..314a998694ae 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -273,7 +273,6 @@ config X86
- 	select THREAD_INFO_IN_TASK
- 	select TRACE_IRQFLAGS_SUPPORT
- 	select USER_STACKTRACE_SUPPORT
--	select VIRT_TO_BUS
- 	select HAVE_ARCH_KCSAN			if X86_64
- 	select X86_FEATURE_NAMES		if PROC_FS
- 	select PROC_PID_ARCH_STATUS		if PROC_FS
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index e9736af126b2..67a2a6eebfac 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -168,15 +168,6 @@ static inline unsigned int isa_virt_to_bus(volatile void *address)
- }
- #define isa_bus_to_virt		phys_to_virt
- 
--/*
-- * However PCI ones are not necessarily 1:1 and therefore these interfaces
-- * are forbidden in portable PCI drivers.
-- *
-- * Allow them on x86 for legacy drivers, though.
-- */
--#define virt_to_bus virt_to_phys
--#define bus_to_virt phys_to_virt
--
- /*
-  * The default ioremap() behavior is non-cached; if you need something
-  * else, you probably want one of the following.
-diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
-index bd113bc6e192..a9e0d881d952 100644
---- a/arch/xtensa/Kconfig
-+++ b/arch/xtensa/Kconfig
-@@ -46,7 +46,6 @@ config XTENSA
- 	select MODULES_USE_ELF_RELA
- 	select PERF_USE_VMALLOC
- 	select TRACE_IRQFLAGS_SUPPORT
--	select VIRT_TO_BUS
- 	help
- 	  Xtensa processors are 32-bit RISC machines designed by Tensilica
- 	  primarily for embedded systems.  These processors are both
-diff --git a/arch/xtensa/include/asm/io.h b/arch/xtensa/include/asm/io.h
-index 54188e69b988..a5b707e1c0f4 100644
---- a/arch/xtensa/include/asm/io.h
-+++ b/arch/xtensa/include/asm/io.h
-@@ -63,9 +63,6 @@ static inline void iounmap(volatile void __iomem *addr)
- 		xtensa_iounmap(addr);
- }
- 
--#define virt_to_bus     virt_to_phys
--#define bus_to_virt     phys_to_virt
--
- #endif /* CONFIG_MMU */
- 
- #include <asm-generic/io.h>
-diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
-index 7ce93aaf69f8..f57015eaed73 100644
---- a/include/asm-generic/io.h
-+++ b/include/asm-generic/io.h
-@@ -1059,20 +1059,6 @@ static inline void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr)
- }
- #endif
- 
--#ifdef CONFIG_VIRT_TO_BUS
--#ifndef virt_to_bus
--static inline unsigned long virt_to_bus(void *address)
--{
--	return (unsigned long)address;
--}
--
--static inline void *bus_to_virt(unsigned long address)
--{
--	return (void *)address;
--}
--#endif
--#endif
--
- #ifndef memset_io
- #define memset_io memset_io
- /**
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 034d87953600..b3a6c36a743d 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -283,14 +283,6 @@ config BOUNCE
- 	  memory available to the CPU. Enabled by default when HIGHMEM is
- 	  selected, but you may say n to override this.
- 
--config VIRT_TO_BUS
--	bool
--	help
--	  An architecture should select this if it implements the
--	  deprecated interface virt_to_bus().  All new architectures
--	  should probably not select this.
--
--
- config MMU_NOTIFIER
- 	bool
- 	select SRCU
--- 
-2.29.2
+Alex
 
 _______________________________________________
 iommu mailing list
