@@ -1,85 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4A7558CEF
-	for <lists.iommu@lfdr.de>; Fri, 24 Jun 2022 03:43:50 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 800C8558CFC
+	for <lists.iommu@lfdr.de>; Fri, 24 Jun 2022 03:50:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D011E405E6;
-	Fri, 24 Jun 2022 01:43:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D011E405E6
+	by smtp2.osuosl.org (Postfix) with ESMTP id C630240629;
+	Fri, 24 Jun 2022 01:50:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C630240629
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cyYtJskW
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZudH0y3
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FQJTF4EoNM8x; Fri, 24 Jun 2022 01:43:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 811C34059B;
-	Fri, 24 Jun 2022 01:43:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 811C34059B
+	with ESMTP id srkzY7amq6Ok; Fri, 24 Jun 2022 01:50:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A941340441;
+	Fri, 24 Jun 2022 01:50:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A941340441
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4F34EC0081;
-	Fri, 24 Jun 2022 01:43:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C0A0C0081;
+	Fri, 24 Jun 2022 01:50:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A87B9C002D
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 01:43:45 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EEC80C002D;
+ Fri, 24 Jun 2022 01:50:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6F6CD84819
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 01:43:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6F6CD84819
+ by smtp1.osuosl.org (Postfix) with ESMTP id D6F2284825;
+ Fri, 24 Jun 2022 01:50:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D6F2284825
 Authentication-Results: smtp1.osuosl.org;
  dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
- header.a=rsa-sha256 header.s=Intel header.b=cyYtJskW
+ header.a=rsa-sha256 header.s=Intel header.b=IZudH0y3
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zJSDIWls5g-S for <iommu@lists.linux-foundation.org>;
- Fri, 24 Jun 2022 01:43:44 +0000 (UTC)
+ with ESMTP id 9Fv-OvKam7g7; Fri, 24 Jun 2022 01:50:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 77A1F84812
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 77A1F84812
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jun 2022 01:43:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 135218481B
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 135218481B;
+ Fri, 24 Jun 2022 01:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656035024; x=1687571024;
+ t=1656035437; x=1687571437;
  h=message-id:date:mime-version:cc:subject:to:references:
  from:in-reply-to:content-transfer-encoding;
- bh=jTo+mIJbSPpgoQqqhYkvcSrHq6LfhDu8DQk5ANuQhWU=;
- b=cyYtJskWWYz7zmJhqFA7e4fQZujjfxHnHQ6S55hVJP+K60IibwygX7dQ
- ZBhs2uCK1Q6yQhPV74C9PZ1jTa+IDKQU3DqqUaYG3yTSARUK2Zo8m7ZEx
- yAAHp7yWR4MlTcQfy8TpgUu/ZcG7NKM0yDqJujmOBM9diUxkcb0dwdybd
- IOTJs7MN8V0XU6QDswhrJhrJRJbPvc2wfRAWzCwy0X3OExJWk4WOAD/MM
- yYDiFOlDO/03hT/5o02FQtEK39FW2thANJt9j5juEGg1MXbzip/l8IAms
- lT/92/LP6lEtUJdXPVIZ8c1KGJMrbF8rfJJh6dC23yLAQbzq4+5bEeSor w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="342580436"
-X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; d="scan'208";a="342580436"
+ bh=IsvI1dwjNH7FPAzCwj0jEY++TlXnX8nTqkYbG4bsQ18=;
+ b=IZudH0y3zHeGkgnl/oJgpPoOLGMfWCxkj+eiQwrJ64jCRyAjl198DJy/
+ Sz5SzqSSzCzwgqUCi+cFZEjAk9xt6FzWju6rSLWoDOptDKz7dDFFlgtNt
+ zFxbHVDPFEvjZAiezQjMyU90TitJqPh2SKWCbB58reAbXIhHCeGBEOlZj
+ PxXz/82QWS05JK2SFwXNMnTQFXt3Nw1WfsYyBx/SS443GBQFmNCJyQ4O+
+ gg/Hr0kTZXnVFmsP6eXlRM2XpADTFc2qO5Xi98tW00pfvR9MvbC14Uton
+ mIAo7RsWRo9hM2/T4KxIpNvVqa4IF+OORBliyi5yE9cAMDZWQu6FIUSkG Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="306359524"
+X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; d="scan'208";a="306359524"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2022 18:43:43 -0700
-X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; d="scan'208";a="645042048"
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 18:50:35 -0700
+X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; d="scan'208";a="645044417"
 Received: from wenli3x-mobl.ccr.corp.intel.com (HELO [10.249.168.117])
  ([10.249.168.117])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2022 18:43:31 -0700
-Message-ID: <552074ff-fd32-8cdb-cc10-1d71319c71db@linux.intel.com>
-Date: Fri, 24 Jun 2022 09:43:30 +0800
+ 23 Jun 2022 18:50:27 -0700
+Message-ID: <450ce024-10c5-6626-c3dc-c2fd962fda61@linux.intel.com>
+Date: Fri, 24 Jun 2022 09:50:26 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: iommu_sva_bind_device question
+Subject: Re: [PATCH v3 2/5] vfio/iommu_type1: Prefer to reuse domains vs match
+ enforced cache coherency
 Content-Language: en-US
-To: Jerry Snitselaar <jsnitsel@redhat.com>
-References: <20220623170232.6whonfjuh3m5vcoy@cantor>
- <6639b21c-1544-a025-4da5-219a1608f06e@linux.intel.com>
- <20220624011446.2bexm4sjo2vabay5@cantor>
+To: Nicolin Chen <nicolinc@nvidia.com>, joro@8bytes.org, will@kernel.org,
+ marcan@marcan.st, sven@svenpeter.dev, robin.murphy@arm.com,
+ robdclark@gmail.com, matthias.bgg@gmail.com, orsonzhai@gmail.com,
+ baolin.wang7@gmail.com, zhang.lyra@gmail.com, jean-philippe@linaro.org,
+ alex.williamson@redhat.com, jgg@nvidia.com, kevin.tian@intel.com
+References: <20220623200029.26007-1-nicolinc@nvidia.com>
+ <20220623200029.26007-3-nicolinc@nvidia.com>
 From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220624011446.2bexm4sjo2vabay5@cantor>
-Cc: dmaengine@vger.kernel.org, iommu@lists.linux-foundation.org,
- Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20220623200029.26007-3-nicolinc@nvidia.com>
+Cc: jordan@cosmicpenguin.net, thierry.reding@gmail.com, alyssa@rosenzweig.io,
+ linux-s390@vger.kernel.org, kvm@vger.kernel.org, jonathanh@nvidia.com,
+ yangyingliang@huawei.com, gerald.schaefer@linux.ibm.com,
+ linux-arm-msm@vger.kernel.org, christophe.jaillet@wanadoo.fr,
+ linux-tegra@vger.kernel.org, tglx@linutronix.de,
+ virtualization@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, cohuck@redhat.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,133 +108,67 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022/6/24 09:14, Jerry Snitselaar wrote:
-> On Fri, Jun 24, 2022 at 08:55:08AM +0800, Baolu Lu wrote:
->> On 2022/6/24 01:02, Jerry Snitselaar wrote:
->>> Hi Baolu & Dave,
->>>
->>> I noticed last night that on a Sapphire Rapids system if you boot without
->>> intel_iommu=on, the idxd driver will crash during probe in iommu_sva_bind_device().
->>> Should there be a sanity check before calling dev_iommu_ops(), or is the expectation
->>> that the caller would verify it is safe to call? This seemed to be uncovered by
->>> the combination of 3f6634d997db ("iommu: Use right way to retrieve iommu_ops"), and
->>> 42a1b73852c4 ("dmaengine: idxd: Separate user and kernel pasid enabling").
->>>
->>> [   21.423729] BUG: kernel NULL pointer dereference, address: 0000000000000038
->>> [   21.445108] #PF: supervisor read access in kernel mode
->>> [   21.450912] #PF: error_code(0x0000) - not-present page
->>> [   21.456706] PGD 0
->>> [   21.459047] Oops: 0000 [#1] PREEMPT SMP NOPTI
->>> [   21.464004] CPU: 0 PID: 1420 Comm: kworker/0:3 Not tainted 5.19.0-0.rc3.27.eln120.x86_64 #1
->>> [   21.464011] Hardware name: Intel Corporation EAGLESTREAM/EAGLESTREAM, BIOS EGSDCRB1.SYS.0067.D12.2110190954 10/19/2021
->>> [   21.464015] Workqueue: events work_for_cpu_fn
->>> [   21.464030] RIP: 0010:iommu_sva_bind_device+0x1d/0xe0
->>> [   21.464046] Code: c3 cc 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41 57 41 56 49 89 d6 41 55 41 54 55 53 48 83 ec 08 48 8b 87 d8 02 00 00 <48> 8b 40 38 48 8b 50 10 48 83 7a 70 00 48 89 14 24 0f 84 91 00 00
->>> [   21.464050] RSP: 0018:ff7245d9096b7db8 EFLAGS: 00010296
->>> [   21.464054] RAX: 0000000000000000 RBX: ff1eadeec8a51000 RCX: 0000000000000000
->>> [   21.464058] RDX: ff7245d9096b7e24 RSI: 0000000000000000 RDI: ff1eadeec8a510d0
->>> [   21.464060] RBP: ff1eadeec8a51000 R08: ffffffffb1a12300 R09: ff1eadffbfce25b4
->>> [   21.464062] R10: ffffffffffffffff R11: 0000000000000038 R12: ffffffffc09f8000
->>> [   21.464065] R13: ff1eadeec8a510d0 R14: ff7245d9096b7e24 R15: ff1eaddf54429000
->>> [   21.464067] FS:  0000000000000000(0000) GS:ff1eadee7f600000(0000) knlGS:0000000000000000
->>> [   21.464070] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> [   21.464072] CR2: 0000000000000038 CR3: 00000008c0e10006 CR4: 0000000000771ef0
->>> [   21.464074] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->>> [   21.464076] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
->>> [   21.464078] PKRU: 55555554
->>> [   21.464079] Call Trace:
->>> [   21.464083]  <TASK>
->>> [   21.464092]  idxd_pci_probe+0x259/0x1070 [idxd]
->>> [   21.464121]  local_pci_probe+0x3e/0x80
->>> [   21.464132]  work_for_cpu_fn+0x13/0x20
->>> [   21.464136]  process_one_work+0x1c4/0x380
->>> [   21.464143]  worker_thread+0x1ab/0x380
->>> [   21.464147]  ? _raw_spin_lock_irqsave+0x23/0x50
->>> [   21.464158]  ? process_one_work+0x380/0x380
->>> [   21.464161]  kthread+0xe6/0x110
->>> [   21.464168]  ? kthread_complete_and_exit+0x20/0x20
->>> [   21.464172]  ret_from_fork+0x1f/0x30
->>>
->>> I figure either there needs to be a check in iommu_sva_bind_device, or
->>> idxd needs to check in idxd_enable_system_pasid that that
->>> idxd->pdev->dev.iommu is not null before it tries calling iommu_sva_bind_device.
->>
->> As documented around the iommu_sva_bind_device() interface:
->>
->>   * iommu_dev_enable_feature(dev, IOMMU_DEV_FEAT_SVA) must be called first,
->> to
->>   * initialize the required SVA features.
->>
->> idxd->pdev->dev.iommu should be checked in there.
->>
->> Dave, any thoughts?
->>
->> Best regards,
->> baolu
+On 2022/6/24 04:00, Nicolin Chen wrote:
+> From: Jason Gunthorpe <jgg@nvidia.com>
 > 
-> Duh, sorry I missed that in the comments.
+> The KVM mechanism for controlling wbinvd is based on OR of the coherency
+> property of all devices attached to a guest, no matter whether those
+> devices are attached to a single domain or multiple domains.
 > 
-> It calls iommu_dev_enable_feature(), but then goes into code that
-> calls iommu_sva_bind_device whether or not iommu_dev_enable_feature()
-> fails.
+> On the other hand, the benefit to using separate domains was that those
+> devices attached to domains supporting enforced cache coherency always
+> mapped with the attributes necessary to provide that feature, therefore
+> if a non-enforced domain was dropped, the associated group removal would
+> re-trigger an evaluation by KVM.
 > 
-> You also will get the following warning if you don't have scalable
-> mode enabled (either not enabled by default, or if enabled by default
-> and passed intel_iommu=on,sm_off):
+> In practice however, the only known cases of such mixed domains included
+> an Intel IGD device behind an IOMMU lacking snoop control, where such
+> devices do not support hotplug, therefore this scenario lacks testing and
+> is not considered sufficiently relevant to support.
+> 
+> After all, KVM won't take advantage of trying to push a device that could
+> do enforced cache coherency to a dedicated domain vs re-using an existing
+> domain, which is non-coherent.
+> 
+> Simplify this code and eliminate the test. This removes the only logic
+> that needed to have a dummy domain attached prior to searching for a
+> matching domain and simplifies the next patches.
+> 
+> It's unclear whether we want to further optimize the Intel driver to
+> update the domain coherency after a device is detached from it, at
+> least not before KVM can be verified to handle such dynamics in related
+> emulation paths (wbinvd, vcpu load, write_cr0, ept, etc.). In reality
+> we don't see an usage requiring such optimization as the only device
+> which imposes such non-coherency is Intel GPU which even doesn't
+> support hotplug/hot remove.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>   drivers/vfio/vfio_iommu_type1.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index c13b9290e357..f4e3b423a453 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -2285,9 +2285,7 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
+>   	 * testing if they're on the same bus_type.
+>   	 */
+>   	list_for_each_entry(d, &iommu->domain_list, next) {
+> -		if (d->domain->ops == domain->domain->ops &&
+> -		    d->enforce_cache_coherency ==
+> -			    domain->enforce_cache_coherency) {
+> +		if (d->domain->ops == domain->domain->ops) {
+>   			iommu_detach_group(domain->domain, group->iommu_group);
+>   			if (!iommu_attach_group(d->domain,
+>   						group->iommu_group)) {
 
-If scalable mode is disabled, iommu_dev_enable_feature(IOMMU_SVA) will
-return failure, hence driver should not call iommu_sva_bind_device().
-I guess below will disappear if above is fixed in the idxd driver.
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
 Best regards,
 baolu
-
-> 
-> [   24.645784] idxd 0000:6a:01.0: enabling device (0144 -> 0146)
-> [   24.645871] idxd 0000:6a:01.0: Unable to turn on user SVA feature.
-> [   24.645932] ------------[ cut here ]------------
-> [   24.645935] WARNING: CPU: 0 PID: 422 at drivers/iommu/intel/pasid.c:253 intel_pasid_get_entry.isra.0+0xcd/0xe0
-> [   24.675872] Modules linked in: intel_uncore(+) drm_ttm_helper isst_if_mbox_pci(+) idxd(+) snd i2c_i801(+) isst_if_mmio ttm isst_if_common mei fjes(+) soundcore intel_vsec i2c_ismt i2c_smbus idxd_bus ipmi_ssif acpi_ipmi ipmi_si acpi_pad acpi_power_meter pfr_telemetry pfr_update vfat fat fuse xfs crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel igc wmi pinctrl_emmitsburg ipmi_devintf ipmi_msghandler
-> [   24.716612] CPU: 0 PID: 422 Comm: kworker/0:2 Not tainted 5.19.0-0.rc3.27.eln120.x86_64 #1
-> [   24.716621] Hardware name: Intel Corporation EAGLESTREAM/EAGLESTREAM, BIOS EGSDCRB1.SYS.0067.D12.2110190954 10/19/2021
-> [   24.716625] Workqueue: events work_for_cpu_fn
-> [   24.716645] RIP: 0010:intel_pasid_get_entry.isra.0+0xcd/0xe0
-> [   24.716656] Code: a9 d1 ff ff 48 89 c7 48 85 c0 75 9e 31 c0 5b 5d 41 5c 41 5d c3 cc 41 83 e4 3f 5b 5d 49 c1 e4 06 4a 8d 04 27 41 5c 41 5d c3 cc <0f> 0b 31 c0 eb de 48 8b 05 e6 dd 59 01 eb 87 0f 1f 40 00 0f 1f 44
-> [   24.716664] RSP: 0018:ff848155c79bfd00 EFLAGS: 00010046
-> [   24.716671] RAX: 0000000000000206 RBX: ff3deaf807bfdcc0 RCX: 0000000000000001
-> [   24.716677] RDX: 0000000000000000 RSI: 0000000000000001 RDI: ff3deb0789f53240
-> [   24.716682] RBP: ff3deb0789f53780 R08: 0000000000000001 R09: 0000000000000003
-> [   24.716688] R10: ff848155c79bfcf8 R11: 0000000000000000 R12: 0000000000000003
-> [   24.716693] R13: 0000000000000001 R14: 0000000000000001 R15: ffffffff84e10000
-> [   24.716700] FS:  0000000000000000(0000) GS:ff3deb073f600000(0000) knlGS:0000000000000000
-> [   24.716705] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   24.716709] CR2: 0000558a19e81c58 CR3: 0000000108252005 CR4: 0000000000771ef0
-> [   24.716714] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [   24.716719] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-> [   24.716723] PKRU: 55555554
-> [   24.716726] Call Trace:
-> [   24.716731]  <TASK>
-> [   24.716738]  intel_pasid_setup_first_level+0x36/0x200
-> [   24.716753]  intel_svm_bind+0x2f8/0x3a0
-> [   24.716767]  iommu_sva_bind_device+0x9b/0xe0
-> [   24.716785]  idxd_pci_probe+0x259/0x1070 [idxd]
-> [   24.716866]  local_pci_probe+0x3e/0x80
-> [   24.716890]  work_for_cpu_fn+0x13/0x20
-> [   24.716900]  process_one_work+0x1c4/0x380
-> [   24.716912]  worker_thread+0x1ab/0x380
-> [   24.716922]  ? _raw_spin_lock_irqsave+0x23/0x50
-> [   24.716945]  ? process_one_work+0x380/0x380
-> [   24.716954]  kthread+0xe6/0x110
-> [   24.716967]  ? kthread_complete_and_exit+0x20/0x20
-> [   24.716976]  ret_from_fork+0x1f/0x30
-> [   24.716999]  </TASK>
-> [   24.717000] ---[ end trace 0000000000000000 ]---
-> [   24.717019] ------------[ cut here ]------------
-> 
-> regards,
-> Jerry
-> 
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
