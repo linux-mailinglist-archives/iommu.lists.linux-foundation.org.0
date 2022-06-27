@@ -1,107 +1,102 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB66855BABE
-	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 17:32:02 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7E155BB5D
+	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 19:50:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8FB1F83F64;
-	Mon, 27 Jun 2022 15:32:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8FB1F83F64
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=dI9T0VKs
+	by smtp4.osuosl.org (Postfix) with ESMTP id AA3E0416E9;
+	Mon, 27 Jun 2022 17:50:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AA3E0416E9
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nKcOnwxkJSfP; Mon, 27 Jun 2022 15:32:00 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NqliVD42SwkL; Mon, 27 Jun 2022 17:50:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A015783EAD;
-	Mon, 27 Jun 2022 15:32:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A015783EAD
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5B2D4415C3;
+	Mon, 27 Jun 2022 17:50:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5B2D4415C3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 469E4C0084;
-	Mon, 27 Jun 2022 15:32:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B371C007E;
+	Mon, 27 Jun 2022 17:50:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D321CC002D
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:57 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 08A83C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 17:50:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id ADFAB610B6
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org ADFAB610B6
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=dI9T0VKs
+ by smtp2.osuosl.org (Postfix) with ESMTP id D644E405A6
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 17:50:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D644E405A6
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Sam8On4FmOkx for <iommu@lists.linux-foundation.org>;
- Mon, 27 Jun 2022 15:31:57 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MaUi5XBcEguZ for <iommu@lists.linux-foundation.org>;
+ Mon, 27 Jun 2022 17:50:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1D8D6610A2
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1D8D6610A2
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:57 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id h192so9454872pgc.4
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LCgfBJhENgb3ojrVqpq/GHPBaWKu1KifC83EuVi6Y6g=;
- b=dI9T0VKsh98NfrTIu4AWRJ/2IXmjraWq+1P1LN/hLe29wRLZaR5rvvsVpTVGGWRsLM
- oRPcmybL+9qjIg6JEHoGAgGOFL/kGAFCsWLK7WCM0XkUuNwWOox1ThAs8KlnRPUzQcWt
- lLXhKF+E22CnMCpYiFyIF3YJPLw2bIZpNYTTkS1OfiFBIkhO+xMuQ3FTM2eDbKtI6xTk
- 1g/RosEGWW+aSKl566bZiWTywkleIjLQbsyLbh6bujMdhFvi6SkuXCgqzDnInJkA6X9V
- jxbkwdw0mafLIfRF2n+cmdU+c4npLFqnyiJ5MPEI7fj+2r7UycP6rBI7HtPEscl+zfdY
- 9fNg==
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9D23E400C1
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
+ [209.85.166.180])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9D23E400C1
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 17:50:50 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id k7so6526036ils.8
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 10:50:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LCgfBJhENgb3ojrVqpq/GHPBaWKu1KifC83EuVi6Y6g=;
- b=TtvWMq/FipcYqfsZLmq9zuzeq3l+R2vEafsDFItWV4arrHRJ5C9VvAGIvnNPy4RRwJ
- b7p3x/xxt1V5AjnBv9ehliy3gItABfmor1scHIp5YGhNBJ95Iu+UKf2ZizGmSi/1k3T4
- 5DHc6DqVaLPO1gIypx5OUII3I/CAYOR4xW9w7JVOcf9DK+MsOP+rTLf7Nic3U5KvkTnP
- 2kR3cF3rjECESCQW+BK6RpQAYYe51NYeHHv5deawDtaUchBRf+LqS1XJXh/U3/TcU+aK
- 1utVvYy83L7210bNBvf82ReI9onnzU32y4jkjiYB3GJ0dx46Lr7zSzcOO9EEpQIA5n2A
- bCog==
-X-Gm-Message-State: AJIora98TmRNwevthmvtFRx/sKrbwTdRKDN3xojA62Q/yA44wdyFTSRE
- IIkHNSEl+l3SWcZJr0W0Xmo=
-X-Google-Smtp-Source: AGRyM1u5LW9AITaIesZzlz5OplsMuM7fKSzm3w1NSzCcIsHcbNdQtjNjluJWhAENtSD4tzySP2ykWA==
-X-Received: by 2002:a05:6a00:17a8:b0:525:537a:b0df with SMTP id
- s40-20020a056a0017a800b00525537ab0dfmr15547134pfg.71.1656343916526; 
- Mon, 27 Jun 2022 08:31:56 -0700 (PDT)
-Received: from ubuntu-Virtual-Machine.corp.microsoft.com
- ([2001:4898:80e8:36:f0eb:a18:55d7:977b])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JMvotdxdopiZeRt2411RNmh3EgUkyNTiH64o+qllFfk=;
+ b=3KDzb0bjEjG2bRHa9oNc//IQBSFXDOL97nifTZhUexgo44gvBQ5laji5gSe1ch0Yaw
+ jrUOFztD8lN78o29DYqRlJrn59wc4pzEL69aU8k6fgmx7/MWjQFH/aNye3wBv2ypU1vS
+ xerv8jbmNPkQgeYWzOpq2DvBFcXHNo7oRtSsDfXaCU8wWX9u7n4A+hZs+CxBUyQUgaN6
+ IPtsN9nsnJ4xTNzc1pc5KsozBapKTbQRCMS9hgHsynzSpRjNVr2AGQg8M2j4bVIhtpUq
+ Z3nT596rfMDinmdg7X+BANO6WhrgYadyJxmvBrEFMFp+yDhIh+zkXtZBYW5/ReTEZKYI
+ lR8Q==
+X-Gm-Message-State: AJIora+L3v+dsNrYLeeOPAtSuC9SCBdkrBPVXXC3BOzWTYxXYxQCEvsj
+ 0FDatuLZUrd4yNNNR6THsQ==
+X-Google-Smtp-Source: AGRyM1vMlh69p3t3S82TZu1a3E/OZD68e6gmsrb96DKcUUIvaZw/486niMVTaLeFL863dLlg1DbVCA==
+X-Received: by 2002:a92:da4c:0:b0:2d5:4942:151c with SMTP id
+ p12-20020a92da4c000000b002d54942151cmr7774824ilq.54.1656352249605; 
+ Mon, 27 Jun 2022 10:50:49 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
  by smtp.gmail.com with ESMTPSA id
- y6-20020aa78f26000000b005251ec8bb5bsm7595705pfr.199.2022.06.27.08.31.55
+ f9-20020a02a109000000b00339e3a22dbbsm5056008jag.21.2022.06.27.10.50.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 08:31:55 -0700 (PDT)
-From: Tianyu Lan <ltykernel@gmail.com>
-To: corbet@lwn.net, rafael@kernel.org, len.brown@intel.com, pavel@ucw.cz,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- hch@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
- paulmck@kernel.org, akpm@linux-foundation.org, keescook@chromium.org,
- songmuchun@bytedance.com, rdunlap@infradead.org,
- damien.lemoal@opensource.wdc.com, michael.h.kelley@microsoft.com,
- kys@microsoft.com
-Subject: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number of
- lapic entry in MADT
-Date: Mon, 27 Jun 2022 11:31:50 -0400
-Message-Id: <20220627153150.106995-3-ltykernel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627153150.106995-1-ltykernel@gmail.com>
-References: <20220627153150.106995-1-ltykernel@gmail.com>
+ Mon, 27 Jun 2022 10:50:49 -0700 (PDT)
+Received: (nullmailer pid 2661321 invoked by uid 1000);
+ Mon, 27 Jun 2022 17:50:46 -0000
+Date: Mon, 27 Jun 2022 11:50:46 -0600
+From: Rob Herring <robh@kernel.org>
+To: sascha hauer <sha@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] of: base: Avoid console probe delay when
+ fw_devlink.strict=1
+Message-ID: <20220627175046.GA2644138-robh@kernel.org>
+References: <20220623080344.783549-1-saravanak@google.com>
+ <20220623080344.783549-3-saravanak@google.com>
+ <20220623100421.GY1615@pengutronix.de>
 MIME-Version: 1.0
-Cc: parri.andrea@gmail.com, thomas.lendacky@amd.com, wei.liu@kernel.org,
- Andi Kleen <ak@linux.intel.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- linux-hyperv@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kirill.shutemov@intel.com, iommu@lists.linux-foundation.org,
- andi.kleen@intel.com, vkuznets@redhat.com
+Content-Disposition: inline
+In-Reply-To: <20220623100421.GY1615@pengutronix.de>
+Cc: andrew lunn <andrew@lunn.ch>, peng fan <peng.fan@nxp.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ linus walleij <linus.walleij@linaro.org>, ulf hansson <ulf.hansson@linaro.org>,
+ eric dumazet <edumazet@google.com>, pavel machek <pavel@ucw.cz>,
+ will deacon <will@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ kevin hilman <khilman@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ russell king <linux@armlinux.org.uk>, linux-acpi@vger.kernel.org,
+ jakub kicinski <kuba@kernel.org>, paolo abeni <pabeni@redhat.com>,
+ kernel-team@android.com, Len Brown <lenb@kernel.org>,
+ len brown <len.brown@intel.com>, kernel@pengutronix.de,
+ linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ hideaki yoshifuji <yoshfuji@linux-ipv6.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ david ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, iommu@lists.linux-foundation.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, netdev@vger.kernel.org,
+ "david s. miller" <davem@davemloft.net>, devicetree@vger.kernel.org,
+ heiner kallweit <hkallweit1@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,43 +114,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+On Thu, Jun 23, 2022 at 12:04:21PM +0200, sascha hauer wrote:
+> On Thu, Jun 23, 2022 at 01:03:43AM -0700, Saravana Kannan wrote:
+> > Commit 71066545b48e ("driver core: Set fw_devlink.strict=1 by default")
+> > enabled iommus and dmas dependency enforcement by default. On some
+> > systems, this caused the console device's probe to get delayed until the
+> > deferred_probe_timeout expires.
+> > 
+> > We need consoles to work as soon as possible, so mark the console device
+> > node with FWNODE_FLAG_BEST_EFFORT so that fw_delink knows not to delay
+> > the probe of the console device for suppliers without drivers. The
+> > driver can then make the decision on where it can probe without those
+> > suppliers or defer its probe.
+> > 
+> > Fixes: 71066545b48e ("driver core: Set fw_devlink.strict=1 by default")
+> > Reported-by: Sascha Hauer <sha@pengutronix.de>
+> > Reported-by: Peng Fan <peng.fan@nxp.com>
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > Tested-by: Peng Fan <peng.fan@nxp.com>
+> > ---
+> >  drivers/of/base.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/of/base.c b/drivers/of/base.c
+> > index d4f98c8469ed..a19cd0c73644 100644
+> > --- a/drivers/of/base.c
+> > +++ b/drivers/of/base.c
+> > @@ -1919,6 +1919,8 @@ void of_alias_scan(void * (*dt_alloc)(u64 size, u64 align))
+> >  			of_property_read_string(of_aliases, "stdout", &name);
+> >  		if (name)
+> >  			of_stdout = of_find_node_opts_by_path(name, &of_stdout_options);
+> > +		if (of_stdout)
+> > +			of_stdout->fwnode.flags |= FWNODE_FLAG_BEST_EFFORT;
+> 
+> The device given in the stdout-path property doesn't necessarily have to
+> be consistent with the console= parameter. The former is usually
+> statically set in the device trees contained in the kernel while the
+> latter is dynamically set by the bootloader. So if you change the
+> console uart in the bootloader then you'll still run into this trap.
+> 
+> It's problematic to consult only the device tree for dependencies. I
+> found several examples of drivers in the tree for which dma support
+> is optional. They use it if they can, but continue without it when
+> not available. "hwlock" is another property which consider several
+> drivers as optional. Also consider SoCs in early upstreaming phases
+> when the device tree is merged with "dmas" or "hwlock" properties,
+> but the corresponding drivers are not yet upstreamed. It's not nice
+> to defer probing of all these devices for a long time.
+> 
+> I wonder if it wouldn't be a better approach to just probe all devices
+> and record the device(node) they are waiting on. Then you know that you
+> don't need to probe them again until the device they are waiting for
+> is available.
 
-When initialize swiotlb bounce buffer, smp_init() has not been
-called and cpu number can not be got from num_online_cpus().
-Use the number of lapic entry to set swiotlb area number and
-keep swiotlb area number equal to cpu number on the x86 platform.
+Can't we have a driver flag 'I have optional dependencies' that will 
+trigger probe without all dependencies and then the driver can defer 
+probe if required dependencies are not yet met.
 
-Based-on-idea-by: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- arch/x86/kernel/acpi/boot.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 907cc98b1938..7e13499f2c10 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -22,6 +22,7 @@
- #include <linux/efi-bgrt.h>
- #include <linux/serial_core.h>
- #include <linux/pgtable.h>
-+#include <linux/swiotlb.h>
- 
- #include <asm/e820/api.h>
- #include <asm/irqdomain.h>
-@@ -1131,6 +1132,8 @@ static int __init acpi_parse_madt_lapic_entries(void)
- 		return count;
- 	}
- 
-+	swiotlb_adjust_nareas(max(count, x2count));
-+
- 	x2count = acpi_table_parse_madt(ACPI_MADT_TYPE_LOCAL_X2APIC_NMI,
- 					acpi_parse_x2apic_nmi, 0);
- 	count = acpi_table_parse_madt(ACPI_MADT_TYPE_LOCAL_APIC_NMI,
--- 
-2.25.1
-
+Rob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
