@@ -1,75 +1,101 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BCF55B886
-	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 10:18:49 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 593FA55B8A2
+	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 10:33:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 608CA415D2;
-	Mon, 27 Jun 2022 08:18:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 608CA415D2
+	by smtp1.osuosl.org (Postfix) with ESMTP id EAC1382443;
+	Mon, 27 Jun 2022 08:33:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EAC1382443
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AdbaIhB0Ls2G; Mon, 27 Jun 2022 08:18:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id F41A8410D6;
-	Mon, 27 Jun 2022 08:18:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F41A8410D6
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id E6lHlChrPKot; Mon, 27 Jun 2022 08:33:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0A8EB826AA;
+	Mon, 27 Jun 2022 08:33:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0A8EB826AA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B9E25C007E;
-	Mon, 27 Jun 2022 08:18:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C1B65C007E;
+	Mon, 27 Jun 2022 08:33:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ACBF4C002D
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:18:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 84F30C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:33:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 789D9410A8
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:18:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 789D9410A8
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5192D4155F
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:33:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5192D4155F
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DnrniXPB_hD5 for <iommu@lists.linux-foundation.org>;
- Mon, 27 Jun 2022 08:18:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0EC7C40A05
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0EC7C40A05
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:18:42 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LWgY31qVdzhYn4;
- Mon, 27 Jun 2022 16:16:23 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 16:18:36 +0800
-Subject: Re: [PATCH v9 5/8] perf tool: Add support for HiSilicon PCIe Tune and
- Trace device driver
-To: Leo Yan <leo.yan@linaro.org>, Yicong Yang <yangyicong@hisilicon.com>
-References: <20220606115555.41103-1-yangyicong@hisilicon.com>
- <20220606115555.41103-6-yangyicong@hisilicon.com>
- <20220627020256.GB143063@leoy-ThinkPad-X240s>
-Message-ID: <fb55fdab-3ad6-a21a-315a-9dc404b35f11@huawei.com>
-Date: Mon, 27 Jun 2022 16:18:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ with ESMTP id 3Iue-K1BsfYx for <iommu@lists.linux-foundation.org>;
+ Mon, 27 Jun 2022 08:33:28 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 36ACB410DB
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
+ [209.85.160.51])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 36ACB410DB
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 08:33:28 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id
+ 586e51a60fabf-101d2e81bceso12150938fac.0
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 01:33:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ir7A3VG3rQ4e3U1bE1FV/pPr5VS7k4YiEaqfUpRXgys=;
+ b=PJDLHb9I1T91I91bIVIQJBPzkmikT2YA1QOvwbqgcLhj2puKc4Q7MFmO8hdKQTxyn4
+ MgD7OSXq+1SzOi98fNrHWliQUS041pZibJRmJntdpHPf+96YIrzMHEgsy+SiWie94XrW
+ gjGTeIpGqNm/3sF+GMAEpWKBtPkbIgIKA5rw+H9Kuc8kg8qMxokYedpXnW5NopcqHo97
+ 09E1Cy4F8zxZUO7tud2r6TVkkg+RaW39zRtmu++3QGbJFOVHhsJIC21OMwLnp5YyJ9Lz
+ 0pddNj4/Q9goqRfUWWv1mqmT3lYhzE8BDJ8CKu92GolRmZwe20GIQNAZYuOtOI8vVs09
+ hYUQ==
+X-Gm-Message-State: AJIora+x8TZbIRKJwnHKbr3dwDxIbZcADGuFOVGzkpc9XYzxLMSe/Ahz
+ oCTAUJAKAYu4O/KPjVe0NJwFKirnzzAb3A==
+X-Google-Smtp-Source: AGRyM1uvoZhfAIxujPEE1R7kVmTrJTCc/NYMadHzvXbxjxTpvgYShgcij/3X6808L83WcGGmtJ0Umw==
+X-Received: by 2002:a05:6870:9a18:b0:101:3954:9730 with SMTP id
+ fo24-20020a0568709a1800b0010139549730mr9454320oab.253.1656318807003; 
+ Mon, 27 Jun 2022 01:33:27 -0700 (PDT)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com.
+ [209.85.161.44]) by smtp.gmail.com with ESMTPSA id
+ f26-20020a4ada5a000000b004255ed1b6d9sm5545566oou.27.2022.06.27.01.33.26
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 01:33:26 -0700 (PDT)
+Received: by mail-oo1-f44.google.com with SMTP id
+ r8-20020a4ab508000000b0041bf4086124so1772793ooo.1
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 01:33:26 -0700 (PDT)
+X-Received: by 2002:a81:a092:0:b0:318:5c89:a935 with SMTP id
+ x140-20020a81a092000000b003185c89a935mr14193176ywg.383.1656318410280; Mon, 27
+ Jun 2022 01:26:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220627020256.GB143063@leoy-ThinkPad-X240s>
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Cc: mark.rutland@arm.com, prime.zeng@huawei.com,
- alexander.shishkin@linux.intel.com, linux-pci@vger.kernel.org,
- linuxarm@huawei.com, james.clark@arm.com, will@kernel.org,
- peterz@infradead.org, mingo@redhat.com, helgaas@kernel.org,
- liuqi115@huawei.com, suzuki.poulose@arm.com, acme@kernel.org,
- zhangshaokun@hisilicon.com, linux-arm-kernel@lists.infradead.org,
- mathieu.poirier@linaro.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com
+References: <20220617125750.728590-1-arnd@kernel.org>
+ <20220617125750.728590-4-arnd@kernel.org>
+ <6ba86afe-bf9f-1aca-7af1-d0d348d75ffc@gmail.com>
+In-Reply-To: <6ba86afe-bf9f-1aca-7af1-d0d348d75ffc@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 Jun 2022 10:26:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVewn0OYA9oJfStk0-+vCKAUou+4Mvd5H2kmrSks1p5jg@mail.gmail.com>
+Message-ID: <CAMuHMdVewn0OYA9oJfStk0-+vCKAUou+4Mvd5H2kmrSks1p5jg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arch/*/: remove CONFIG_VIRT_TO_BUS
+To: Michael Schmitz <schmitzmic@gmail.com>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+ scsi <linux-scsi@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Miquel van Smoorenburg <mikevs@xs4all.net>,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Denis Efremov <efremov@linux.com>, Mark Salyzyn <salyzyn@android.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>, Matt Wang <wwentao@vmware.com>,
+ Parisc List <linux-parisc@vger.kernel.org>,
+ alpha <linux-alpha@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Khalid Aziz <khalid@gonehiking.org>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,69 +108,42 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yicong Yang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yicong Yang <yangyicong@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2022/6/27 10:02, Leo Yan wrote:
-> On Mon, Jun 06, 2022 at 07:55:52PM +0800, Yicong Yang wrote:
->> From: Qi Liu <liuqi115@huawei.com>
->>
->> HiSilicon PCIe tune and trace device (PTT) could dynamically tune
->> the PCIe link's events, and trace the TLP headers).
->>
->> This patch add support for PTT device in perf tool, so users could
->> use 'perf record' to get TLP headers trace data.
->>
->> Signed-off-by: Qi Liu <liuqi115@huawei.com>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> Just one minor comment.
-> 
-> [...]
-> 
->> diff --git a/tools/perf/util/hisi-ptt.h b/tools/perf/util/hisi-ptt.h
->> new file mode 100644
->> index 000000000000..2db9b4056214
->> --- /dev/null
->> +++ b/tools/perf/util/hisi-ptt.h
->> @@ -0,0 +1,19 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * HiSilicon PCIe Trace and Tuning (PTT) support
->> + * Copyright (c) 2022 HiSilicon Technologies Co., Ltd.
->> + */
->> +
->> +#ifndef INCLUDE__PERF_HISI_PTT_H__
->> +#define INCLUDE__PERF_HISI_PTT_H__
->> +
->> +#define HISI_PTT_PMU_NAME		"hisi_ptt"
->> +#define HISI_PTT_AUXTRACE_PRIV_SIZE	sizeof(u64)
->> +
->> +struct auxtrace_record *hisi_ptt_recording_init(int *err,
->> +						struct perf_pmu *hisi_ptt_pmu);
->> +
->> +int hisi_ptt_process_auxtrace_info(union perf_event *event,
->> +				   struct perf_session *session);
-> 
-> The function hisi_ptt_process_auxtrace_info() is introduced by next
-> patch for support PTT decoding, for good practice (e.g. keep
-> bisection), it's good to introduce function declaration and definition
-> in one patch.
-> 
+Hi Michael,
 
-Thanks for catching this. There's something wrong when doing the patch splitting.
-Will fix this!
+On Sat, Jun 18, 2022 at 3:06 AM Michael Schmitz <schmitzmic@gmail.com> wrote:
+> Am 18.06.2022 um 00:57 schrieb Arnd Bergmann:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > All architecture-independent users of virt_to_bus() and bus_to_virt()
+> > have been fixed to use the dma mapping interfaces or have been
+> > removed now.  This means the definitions on most architectures, and the
+> > CONFIG_VIRT_TO_BUS symbol are now obsolete and can be removed.
+> >
+> > The only exceptions to this are a few network and scsi drivers for m68k
+> > Amiga and VME machines and ppc32 Macintosh. These drivers work correctly
+> > with the old interfaces and are probably not worth changing.
+>
+> The Amiga SCSI drivers are all old WD33C93 ones, and replacing
+> virt_to_bus by virt_to_phys in the dma_setup() function there would
+> cause no functional change at all.
 
-> With this fixing, this patch looks good to me:
-> 
-> Reviewed-by: Leo Yan <leo.yan@linaro.org>
-> 
+FTR, the sgiwd93 driver use dma_map_single().
 
-Thanks.
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
