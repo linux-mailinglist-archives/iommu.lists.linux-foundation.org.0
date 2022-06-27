@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E7855BAB9
-	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 17:31:51 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DB155BABA
+	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 17:31:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7653C40C3F;
-	Mon, 27 Jun 2022 15:31:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7653C40C3F
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7DC55610CA;
+	Mon, 27 Jun 2022 15:31:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7DC55610CA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4F0zCcFuJfBW; Mon, 27 Jun 2022 15:31:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 60E6640C38;
-	Mon, 27 Jun 2022 15:31:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 60E6640C38
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hi0imYXgi_df; Mon, 27 Jun 2022 15:31:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 947E1610C2;
+	Mon, 27 Jun 2022 15:31:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 947E1610C2
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3796FC007E;
-	Mon, 27 Jun 2022 15:31:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 666A6C007E;
+	Mon, 27 Jun 2022 15:31:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 884DFC002D
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:46 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5ADB3C002D
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 70DDC41977
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 70DDC41977
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2904683E72
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2904683E72
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RUqFM4h-Kl2e for <iommu@lists.linux-foundation.org>;
- Mon, 27 Jun 2022 15:31:45 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZmrRIVSz_5am for <iommu@lists.linux-foundation.org>;
+ Mon, 27 Jun 2022 15:31:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8960741951
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 77408831C1
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 8960741951
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:45 +0000 (UTC)
-Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LWsBb04P1z67wM8;
- Mon, 27 Jun 2022 23:31:03 +0800 (CST)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 77408831C1
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 15:31:49 +0000 (UTC)
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LWs6q2Lcmz6H8F0;
+ Mon, 27 Jun 2022 23:27:47 +0800 (CST)
 Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 17:31:43 +0200
+ 15.1.2375.24; Mon, 27 Jun 2022 17:31:47 +0200
 Received: from localhost.localdomain (10.69.192.58) by
  lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 16:31:39 +0100
+ 15.1.2375.24; Mon, 27 Jun 2022 16:31:43 +0100
 To: <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>, <will@kernel.org>, 
  <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <hch@lst.de>,
  <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
-Subject: [PATCH v4 3/5] scsi: core: Cap shost max_sectors according to DMA
- mapping limits only once
-Date: Mon, 27 Jun 2022 23:25:19 +0800
-Message-ID: <1656343521-62897-4-git-send-email-john.garry@huawei.com>
+Subject: [PATCH v4 4/5] scsi: scsi_transport_sas: Cap shost max_sectors
+ according to DMA optimal mapping limit
+Date: Mon, 27 Jun 2022 23:25:20 +0800
+Message-ID: <1656343521-62897-5-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
 References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
@@ -87,47 +87,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The shost->max_sectors is repeatedly capped according to the host DMA
-mapping limit for each sdev in __scsi_init_queue(). This is unnecessary, so
-set only once when adding the host.
+Streaming DMA mappings may be considerably slower when mappings go through
+an IOMMU and the total mapping length is somewhat long. This is because the
+IOMMU IOVA code allocates and free an IOVA for each mapping, which may
+affect performance.
+
+For performance reasons set the request queue max_sectors from
+dma_opt_mapping_size(), which knows this mapping limit.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/scsi/hosts.c    | 5 +++++
- drivers/scsi/scsi_lib.c | 4 ----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ drivers/scsi/scsi_transport_sas.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index 8352f90d997d..d04bd2c7c9f1 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -236,6 +236,11 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
+diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
+index 12bff64dade6..1b45248748e0 100644
+--- a/drivers/scsi/scsi_transport_sas.c
++++ b/drivers/scsi/scsi_transport_sas.c
+@@ -225,6 +225,7 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
+ {
+ 	struct Scsi_Host *shost = dev_to_shost(dev);
+ 	struct sas_host_attrs *sas_host = to_sas_host_attrs(shost);
++	struct device *dma_dev = shost->dma_dev;
  
- 	shost->dma_dev = dma_dev;
+ 	INIT_LIST_HEAD(&sas_host->rphy_list);
+ 	mutex_init(&sas_host->lock);
+@@ -236,6 +237,11 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
+ 		dev_printk(KERN_ERR, dev, "fail to a bsg device %d\n",
+ 			   shost->host_no);
  
-+	if (dma_dev->dma_mask) {
++	if (dma_dev) {
 +		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
-+				dma_max_mapping_size(dma_dev) >> SECTOR_SHIFT);
++				dma_opt_mapping_size(dma_dev) >> SECTOR_SHIFT);
 +	}
 +
- 	error = scsi_mq_setup_tags(shost);
- 	if (error)
- 		goto fail;
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 6ffc9e4258a8..6ce8acea322a 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1884,10 +1884,6 @@ void __scsi_init_queue(struct Scsi_Host *shost, struct request_queue *q)
- 		blk_queue_max_integrity_segments(q, shost->sg_prot_tablesize);
- 	}
+ 	return 0;
+ }
  
--	if (dev->dma_mask) {
--		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
--				dma_max_mapping_size(dev) >> SECTOR_SHIFT);
--	}
- 	blk_queue_max_hw_sectors(q, shost->max_sectors);
- 	blk_queue_segment_boundary(q, shost->dma_boundary);
- 	dma_set_seg_boundary(dev, shost->dma_boundary);
 -- 
 2.35.3
 
