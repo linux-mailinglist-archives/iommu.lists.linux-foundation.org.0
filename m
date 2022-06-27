@@ -1,95 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E2555BA14
-	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 15:33:42 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E60FD55BA9F
+	for <lists.iommu@lfdr.de>; Mon, 27 Jun 2022 17:01:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A59BE82A5D;
-	Mon, 27 Jun 2022 13:33:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A59BE82A5D
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Fkq1VTJF
+	by smtp3.osuosl.org (Postfix) with ESMTP id 34EB560D7F;
+	Mon, 27 Jun 2022 15:01:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 34EB560D7F
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9MlOtBTLO9Sq; Mon, 27 Jun 2022 13:33:39 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2MZsENFuFJTH; Mon, 27 Jun 2022 15:01:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 65963828C5;
-	Mon, 27 Jun 2022 13:33:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 65963828C5
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1010B60B1B;
+	Mon, 27 Jun 2022 15:01:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1010B60B1B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2323FC007E;
-	Mon, 27 Jun 2022 13:33:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D35AFC007E;
+	Mon, 27 Jun 2022 15:01:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 904A0C002D
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 13:33:37 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 40C6CC002D
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 11:45:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6AAC040C20
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 13:33:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6AAC040C20
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=Fkq1VTJF
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0C1714159A
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 11:45:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0C1714159A
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RqlJuxSbycpG for <iommu@lists.linux-foundation.org>;
- Mon, 27 Jun 2022 13:33:36 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EAE2840517
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp2.osuosl.org (Postfix) with ESMTPS id EAE2840517
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 13:33:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id I7iLTuzbqAco for <iommu@lists.linux-foundation.org>;
+ Mon, 27 Jun 2022 11:45:09 +0000 (UTC)
+X-Greylist: delayed 00:06:42 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 821314158B
+Received: from mx1.sbone.de (cross.sbone.de [195.201.62.131])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 821314158B
+ for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 11:45:09 +0000 (UTC)
+Received: from mail.sbone.de (mail.sbone.de [IPv6:fde9:577b:c1a9:31::2013:587])
+ (using TLSv1 with cipher ADH-CAMELLIA256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 25D0BB810F3
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 13:33:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6354C3411D
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 13:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656336810;
- bh=ozPyfku+IxLJ/xWqltXSkq39bDAVGGKGz9HK5lRI660=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Fkq1VTJFOkuvhF9ZwqPo6bJzy16pCxzVTJeuViLhRelToRK0Hvq/fWuw38TdAdRV5
- 4B1/J1XyjGuE7LftuaC4uVKzWNUs3ErO0Pz0SHULTDrXsfcoWNiBCb3LIeUh/0RoPL
- aJAwEbBcNnvjyVKqtigUnv5SRebMqIUKOr/P0Hzw0rH5QYT/IRD9QmDF1NEguf3sYY
- wfUeD5v7K+YGzswjx3RybigpyMiLpazt+bHuEFnEKdQvBqZjJPnJShcK01KeNRvT0c
- 0BUwXNa/cBfTufhkbvEPndL28QstvEeflccTaWssLO5l1yYFpI+STVOeSC+qrQWqxn
- sH7wsjPOir6Sw==
-Received: by mail-vk1-f174.google.com with SMTP id az35so4496157vkb.0
- for <iommu@lists.linux-foundation.org>; Mon, 27 Jun 2022 06:33:30 -0700 (PDT)
-X-Gm-Message-State: AJIora8BXclbs0u0IykIQ8IDH++CDm+tGWGPSKEQL1WdTEQCbGftJKHy
- i0TL5Gz0g7x9tWXW7uMKRmyP8WETv+C/YIlS3Q==
-X-Google-Smtp-Source: AGRyM1scsPUWNixG94RrMA/c0WdzqcCV5semb71Np32MVVYQN0Tnz33ChJSrmtGpjWTGsYsOWzKI4Q7hjj31Llm839Y=
-X-Received: by 2002:a1f:aac7:0:b0:35e:1c45:def with SMTP id
- t190-20020a1faac7000000b0035e1c450defmr4200423vke.35.1656336809878; Mon, 27
- Jun 2022 06:33:29 -0700 (PDT)
+ by mx1.sbone.de (Postfix) with ESMTPS id 179AF8D4A162;
+ Mon, 27 Jun 2022 11:38:18 +0000 (UTC)
+Received: from content-filter.sbone.de (content-filter.sbone.de
+ [IPv6:fde9:577b:c1a9:31::2013:2742])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mail.sbone.de (Postfix) with ESMTPS id D9724E70810;
+ Mon, 27 Jun 2022 11:38:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at sbone.de
+Received: from mail.sbone.de ([IPv6:fde9:577b:c1a9:31::2013:587])
+ by content-filter.sbone.de (content-filter.sbone.de
+ [fde9:577b:c1a9:31::2013:2742]) (amavisd-new, port 10024)
+ with ESMTP id hpfsF3TvzMS2; Mon, 27 Jun 2022 11:38:15 +0000 (UTC)
+Received: from nv.sbone.de (nv.sbone.de [IPv6:fde9:577b:c1a9:31::2013:138])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mail.sbone.de (Postfix) with ESMTPSA id C8185E7080F;
+ Mon, 27 Jun 2022 11:38:13 +0000 (UTC)
+Date: Mon, 27 Jun 2022 11:38:12 +0000 (UTC)
+From: "Bjoern A. Zeeb" <bzeeb-lists@lists.zabbadoz.net>
+To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+Subject: RE: [PATCH v13 0/9] ACPI/IORT: Support for IORT RMR node
+In-Reply-To: <44338c87254d4d439d29694de8f19435@huawei.com>
+Message-ID: <alpine.BSF.2.00.2206271005580.68830@ai.fobar.qr>
+References: <20220615101044.1972-1-shameerali.kolothum.thodi@huawei.com>
+ <03b03d88-87cd-0b29-863b-2cb2a9a117d1@arm.com>
+ <44338c87254d4d439d29694de8f19435@huawei.com>
+X-OpenPGP-Key-Id: 0x14003F198FEFA3E77207EE8D2B58B8F83CCF1842
 MIME-Version: 1.0
-References: <20220621151022.1416300-1-cyndis@kapsi.fi>
- <20220621151022.1416300-3-cyndis@kapsi.fi>
- <1656091594.348474.146331.nullmailer@robh.at.kernel.org>
-In-Reply-To: <1656091594.348474.146331.nullmailer@robh.at.kernel.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 27 Jun 2022 07:33:18 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJMDEf1_3P2q2XPKKuOqr=+sYixVfMwnouGXPkMPWtjGA@mail.gmail.com>
-Message-ID: <CAL_JsqJMDEf1_3P2q2XPKKuOqr=+sYixVfMwnouGXPkMPWtjGA@mail.gmail.com>
-Subject: Re: [PATCH v6 02/10] dt-bindings: display: tegra: Convert to
- json-schema
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Will Deacon <will@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-tegra <linux-tegra@vger.kernel.org>, Thierry Reding <treding@nvidia.com>,
- Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+X-Mailman-Approved-At: Mon, 27 Jun 2022 15:01:02 +0000
+Cc: "lorenzo.pieralisi@gmail.com" <lorenzo.pieralisi@gmail.com>,
+ "will@kernel.org" <will@kernel.org>, "jon@solid-run.com" <jon@solid-run.com>,
+ Linuxarm <linuxarm@huawei.com>, Steven Price <steven.price@arm.com>,
+ "hch@infradead.org" <hch@infradead.org>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ wanghuiqiang <wanghuiqiang@huawei.com>,
+ "Guohanjun \(Hanjun Guo\)" <guohanjun@huawei.com>,
+ "Sami.Mujawar@arm.com" <Sami.Mujawar@arm.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,120 +94,92 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jun 24, 2022 at 11:26 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, 21 Jun 2022 18:10:14 +0300, Mikko Perttunen wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > Convert the Tegra host1x controller bindings from the free-form text
-> > format to json-schema.
-> >
-> > This also adds the missing display-hub DT bindings that were not
-> > previously documented.
-> >
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  .../display/tegra/nvidia,tegra114-mipi.txt    |  41 --
-> >  .../display/tegra/nvidia,tegra114-mipi.yaml   |  74 ++
-> >  .../display/tegra/nvidia,tegra124-dpaux.yaml  | 149 ++++
-> >  .../display/tegra/nvidia,tegra124-sor.yaml    | 206 ++++++
-> >  .../display/tegra/nvidia,tegra124-vic.yaml    |  71 ++
-> >  .../display/tegra/nvidia,tegra186-dc.yaml     |  85 +++
-> >  .../tegra/nvidia,tegra186-display.yaml        | 310 ++++++++
-> >  .../tegra/nvidia,tegra186-dsi-padctl.yaml     |  45 ++
-> >  .../display/tegra/nvidia,tegra20-dc.yaml      | 181 +++++
-> >  .../display/tegra/nvidia,tegra20-dsi.yaml     | 159 +++++
-> >  .../display/tegra/nvidia,tegra20-epp.yaml     |  70 ++
-> >  .../display/tegra/nvidia,tegra20-gr2d.yaml    |  73 ++
-> >  .../display/tegra/nvidia,tegra20-gr3d.yaml    | 214 ++++++
-> >  .../display/tegra/nvidia,tegra20-hdmi.yaml    | 126 ++++
-> >  .../display/tegra/nvidia,tegra20-host1x.txt   | 675 ------------------
-> >  .../display/tegra/nvidia,tegra20-host1x.yaml  | 347 +++++++++
-> >  .../display/tegra/nvidia,tegra20-isp.yaml     |  67 ++
-> >  .../display/tegra/nvidia,tegra20-mpe.yaml     |  73 ++
-> >  .../display/tegra/nvidia,tegra20-tvo.yaml     |  58 ++
-> >  .../display/tegra/nvidia,tegra20-vi.yaml      | 163 +++++
-> >  .../display/tegra/nvidia,tegra210-csi.yaml    |  52 ++
-> >  .../pinctrl/nvidia,tegra124-dpaux-padctl.txt  |  59 --
-> >  22 files changed, 2523 insertions(+), 775 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-dpaux-padctl.txt
-> >
->
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml: allOf:1:if:not:properties: {'contains': {'const': 'nvidia,panel'}} should not be valid under {'$ref': '#/definitions/sub-schemas'}
->         hint: A json-schema keyword was found instead of a DT property name.
->         from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml: ignoring, error in schema: allOf: 1: if: not: properties
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.example.dtb: gr3d@54180000: resets: [[4294967295, 24]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.example.dtb: gr3d@54180000: reset-names: ['3d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr2d@54140000: resets: [[4294967295, 21]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr2d@54140000: reset-names: ['2d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr3d@54180000: resets: [[4294967295, 24]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr3d@54180000: reset-names: ['3d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.example.dtb:0:0: /example-0/sor@54540000: failed to match any schema with compatible: ['nvidia,tegra210-sor']
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.example.dtb: gr2d@54140000: resets: [[4294967295, 21]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.example.dtb: gr2d@54140000: reset-names: ['2d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
->
-> doc reference errors (make refcheckdocs):
-> MAINTAINERS: Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> MAINTAINERS: Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->
-> See https://patchwork.ozlabs.org/patch/
->
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit.
+On Fri, 24 Jun 2022, Shameerali Kolothum Thodi wrote:
 
-Now failing in linux-next. Please fix.
+Hi,
 
-Rob
+>> -----Original Message-----
+>> From: Steven Price [mailto:steven.price@arm.com]
+>> Sent: 17 June 2022 13:42
+>> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>;
+>> linux-arm-kernel@lists.infradead.org; linux-acpi@vger.kernel.org;
+>> iommu@lists.linux-foundation.org
+>> Cc: Linuxarm <linuxarm@huawei.com>; lorenzo.pieralisi@arm.com;
+>> joro@8bytes.org; robin.murphy@arm.com; will@kernel.org; wanghuiqiang
+>> <wanghuiqiang@huawei.com>; Guohanjun (Hanjun Guo)
+>> <guohanjun@huawei.com>; Sami.Mujawar@arm.com; jon@solid-run.com;
+>> eric.auger@redhat.com; laurentiu.tudor@nxp.com; hch@infradead.org
+>> Subject: Re: [PATCH v13 0/9] ACPI/IORT: Support for IORT RMR node
+>>
+>> On 15/06/2022 11:10, Shameer Kolothum wrote:
+>>> Hi
+>>>
+>>> v12 --> v13
+>>>   -No changes. Rebased to 5.19-rc1.
+>>>   -Picked up tags received from Laurentiu, Hanjun and Will. Thanks!.
+>>
+>> You've already got my Tested-by tags, but just to confirm I gave this a
+>> spin and it works fine.
+>
+> Thanks Steve.
+>
+> I think the series is now in a good shape to be merged.
+>
+> Hi Will/Robin,
+>
+> Appreciate, if you could please take a look at the remaining SMMU related
+> patches(7-9) and provide your approval?
+>
+> Thanks,
+> Shameer
+
+First of all thanks to all of you for keeping this going.
+
+I've read through most of this patch series and it doesn't read
+like the best sunny days.
+
+I do understand that there are incentives to get things right; sometimes
+first make it work, then make it better? Running code often seems a
+better alternative than wrong words on paper as users don't care about
+the paper.  They only care if their hardware becomes a paperweight
+because it's not working.
+
+I was trying to find diplomatic words but the general problem has become
+so much bigger than just this change as I am faced with the fact that
+vendors are talking to give up maintaining Arm/ACPI and go back to FDT
+exclusively, which I believe would be the wrong but an understandable
+exit out of a roundabout.
+
+For me this Arm/Linux/ACPI problem becomes double-impact, as I am not
+even a Linux person.  And part of what Arm/ACPI was solving was the
+any OS can just works on Arm hardware; for a while people were hoping
+it could make FDT the next Flash; it just seems it'll not be because
+people cannot get fixes or workarounds for real world problems into
+Linux timely?
+
+So a very polite but firm prod towards Cambridge from here as well in
+the hope that you can make a big change to this world by helping not
+to miss the next merge window/release leading to way bigger impact.
+It would be rather sad to close the Arm/ACPI chapter for good but it
+seems that we may be standing on the verge of it if things do not move
+quick now and different in the future.  It'll certainly need change from
+all sides but the good things is that at the end of the day we all want
+to make the world a better place.
+
+As I mentioned, I have no stakes in this Linux change.
+I just care about Arm and ACPI because I saw light and a chance in it
+and I would love to see it stay.
+Let's all work together in one direction and make it a brighter future
+for everyone.  Can we?  Are you in?
+
+
+May God bless you and your work,
+Bjoern
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
