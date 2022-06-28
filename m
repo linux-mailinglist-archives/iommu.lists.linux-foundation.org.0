@@ -1,77 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9F555C0BC
-	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 13:34:09 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C11BF55C0C4
+	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 13:41:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C4B588195D;
-	Tue, 28 Jun 2022 11:34:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C4B588195D
+	by smtp1.osuosl.org (Postfix) with ESMTP id A5D4182965;
+	Tue, 28 Jun 2022 11:41:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A5D4182965
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=REI6N21g
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WAmlOqX9uRq6; Tue, 28 Jun 2022 11:34:07 +0000 (UTC)
+	with ESMTP id AcmhIs3hrsuM; Tue, 28 Jun 2022 11:41:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B30078194A;
-	Tue, 28 Jun 2022 11:34:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B30078194A
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 340B482980;
+	Tue, 28 Jun 2022 11:41:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 340B482980
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 731B4C007E;
-	Tue, 28 Jun 2022 11:34:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1105C007E;
+	Tue, 28 Jun 2022 11:41:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7F48BC002D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:34:04 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EFD9FC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:41:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 520EE408F7
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:34:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 520EE408F7
+ by smtp1.osuosl.org (Postfix) with ESMTP id C478882965
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:41:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C478882965
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9_HM10Tjo8GY for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jun 2022 11:34:03 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id XPklxKuwTh_i for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jun 2022 11:41:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6BB1A408EE
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6BB1A408EE
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:34:03 +0000 (UTC)
-Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LXMnz3Xjcz686M3;
- Tue, 28 Jun 2022 19:29:59 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 28 Jun 2022 13:34:00 +0200
-Received: from [10.126.174.22] (10.126.174.22) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 28 Jun 2022 12:33:59 +0100
-Message-ID: <38ae1cc8-1411-bb54-e082-0f7b91cb9e63@huawei.com>
-Date: Tue, 28 Jun 2022 12:33:58 +0100
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DC6A182951
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DC6A182951
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656416510; x=1687952510;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=e5sDkMOObEeUMkZBt6eVhm9iKgpXHF4MwlPjCkr+LpE=;
+ b=REI6N21gsuOTi3JmTpAaX1IzM+GzllgIkJcv/p25gjKTVHO7PLrq1uJ8
+ v7oqvsc1j0mJjqZanYG5kyGJl4BX/HCp37J49PGACJBodqiLYqfsh0S/o
+ tPnL5d0cynYqCeayA6l86J6pFqrOG/P1aMDY8+Cly4egnvh9j2zB9eFZ0
+ W0WGZdMn14xncPUoxqcn59PkxetocPYVurj2egP+bTofM1s5IdSK7eCQj
+ z+5nODcZQV6NFyft/XM/DkDXrJzsFhMHHCSUtQvg3HZ3Dtix1p7MGktL2
+ I6oQOrpoGZnpgrNeNuYF0bxOzudHHNzxth3BJqCntBmSXVEJSasPBLYNn A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="261520772"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="261520772"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 04:41:33 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="646879736"
+Received: from ltang11-mobl1.ccr.corp.intel.com (HELO [10.249.169.64])
+ ([10.249.169.64])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 04:41:29 -0700
+Message-ID: <31116b7f-2ce5-ba18-bcc7-97076199d745@linux.intel.com>
+Date: Tue, 28 Jun 2022 19:41:28 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v4 5/5] libata-scsi: Cap ata_device->max_sectors according
- to shost->max_sectors
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, <hch@lst.de>
-References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
- <1656343521-62897-6-git-send-email-john.garry@huawei.com>
- <b69c6112-98b7-3890-9d11-bb321a7c877a@opensource.wdc.com>
- <6619638c-52e8-cb67-c56c-9c9d38c18161@huawei.com>
- <ba59a0da-a982-e3eb-1cb7-6e60f80fd319@opensource.wdc.com>
-In-Reply-To: <ba59a0da-a982-e3eb-1cb7-6e60f80fd319@opensource.wdc.com>
-X-Originating-IP: [10.126.174.22]
-X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
- linux-doc@vger.kernel.org, robin.murphy@arm.com, linuxarm@huawei.com,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
- iommu@lists.linux-foundation.org, will@kernel.org, jejb@linux.ibm.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v9 04/11] iommu: Add sva iommu_domain support
+Content-Language: en-US
+To: "Tian, Kevin" <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ "Raj, Ashok" <ashok.raj@intel.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ "Jiang, Dave" <dave.jiang@intel.com>, Vinod Koul <vkoul@kernel.org>
+References: <20220621144353.17547-1-baolu.lu@linux.intel.com>
+ <20220621144353.17547-5-baolu.lu@linux.intel.com>
+ <BN9PR11MB5276FA1A1A8C20786D958C048CB99@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <42825be5-e24c-0f95-f49d-5f50d608506d@linux.intel.com>
+ <BN9PR11MB527679FF12B6D990A5E596A88CB89@BN9PR11MB5276.namprd11.prod.outlook.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <BN9PR11MB527679FF12B6D990A5E596A88CB89@BN9PR11MB5276.namprd11.prod.outlook.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
+ Jacob jun" <jacob.jun.pan@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,27 +99,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: John Garry via iommu <iommu@lists.linux-foundation.org>
-Reply-To: John Garry <john.garry@huawei.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 28/06/2022 10:14, Damien Le Moal wrote:
->> BTW, this patch has no real dependency on the rest of the series, so
->> could be taken separately if you prefer.
-> Sure, you can send it separately. Adding it through the scsi tree is fine too.
+On 2022/6/28 16:50, Tian, Kevin wrote:
+>>>> +
+>>>> +	mutex_lock(&group->mutex);
+>>>> +	curr = xa_cmpxchg(&group->pasid_array, pasid, NULL, domain,
+>>>> GFP_KERNEL);
+>>>> +	if (curr)
+>>>> +		goto out_unlock;
+>>> Need check xa_is_err(old).
+>> Either
+>>
+>> (1) old entry is a valid pointer, or
+> return -EBUSY in this case
 > 
+>> (2) xa_is_err(curr)
+> return xa_err(cur)
+> 
+>> are failure cases. Hence, "curr == NULL" is the only check we need. Did
+>> I miss anything?
+>>
+> But now you always return -EBUSY for all kinds of xa errors.
 
-Well Christoph originally offered to take this series via the 
-dma-mapping tree.
+Fair enough. Updated like below.
 
-@Christoph, is that still ok with you? If so, would you rather I send 
-this libata patch separately?
+         curr = xa_cmpxchg(&group->pasid_array, pasid, NULL, domain, 
+GFP_KERNEL);
+         if (curr) {
+                 ret = xa_err(curr) ? : -EBUSY;
+                 goto out_unlock;
+         }
 
-Thanks,
-john
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
