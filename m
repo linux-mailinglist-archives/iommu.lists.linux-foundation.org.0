@@ -1,102 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9805855D1F6
-	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 15:10:12 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7E955E572
+	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 16:49:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BCD6E610A8;
-	Tue, 28 Jun 2022 13:10:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BCD6E610A8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kCf9o6/0
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 34X75uM4esQE; Tue, 28 Jun 2022 13:10:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C3FC160F04;
-	Tue, 28 Jun 2022 13:10:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C3FC160F04
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 78E3AC007E;
-	Tue, 28 Jun 2022 13:10:09 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0AABC002D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:10:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 953B582BE5
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:10:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 953B582BE5
+	by smtp1.osuosl.org (Postfix) with ESMTP id 65ED583FC5;
+	Tue, 28 Jun 2022 14:49:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 65ED583FC5
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
- header.a=rsa-sha256 header.s=google header.b=kCf9o6/0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jXMv+sJT
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J7hsTrNujCI6 for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jun 2022 13:10:06 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E84CD82A4E
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E84CD82A4E
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:10:05 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id q132so22081027ybg.10
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 06:10:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0ZW3XqarvTcGhZ4Peie0PakfFooFWkf6ipw6nAT5DK0=;
- b=kCf9o6/0aD5+Onn97DhZLKfxw23aiwSbWQ3wt8mFoCdH+LjvNVVhyHZrAjseX0NWrN
- zimXeTlzcsePfCsKfNUe2CcGIVa/wrTuQYf71uyvPNwYH5Toe8RyOGCqldn+XbJd+eXu
- Hf0DeQ66vCbWLYXux5M2YqXImKJiT37AMwrsS9i5deSkUrYmy22k7VDXkg3CoD9p5DRB
- Z5Mpogjkt5F719HhCMQYv6MEJuJR+ujHXe33gkTF33jPPsX+Eui0zRqLcqEJMHgL1FXw
- cjVcvfn72nIgSfSalkb/FiXX3YPX78N4BM8l8tTsT8dtjsfMK+aH+lkwQGW4Nt2h6hcn
- 6p2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0ZW3XqarvTcGhZ4Peie0PakfFooFWkf6ipw6nAT5DK0=;
- b=DIT+veQV1nuXDRlfN3n3o3zcd/bUDMsIyblqEtNhIKq+WBR8BHRz2aCEuUS1J+8iQF
- URJFynwyHYcAgPc41IBcP6nPkItmYP54+Pnk0rJkVXg0nnhJLUul5iKiK6jva6zj+r9J
- xftWgWAlmsrMCwubkmZmOpIWyDtZF75Uv8UOM9J0a9q5wIovMl2EXbeIyOyW+hz+LUSO
- fBLCdjOm/1O7LG7Ts/drlLbAjySEMuJYSw/FV1O9NQ8V4ZWUd+qUPZQn3rgSMP1aE9RZ
- +TOmHnCFrvMyEaBFtYHvblFp8GHXMD8n5hA2og8pvVR2UEWXdvqdiYxDZPD+gwHS2EIW
- qRVg==
-X-Gm-Message-State: AJIora8gJBun/HGKhoxFGzR4qpb+/N8R2SUDYgx2jaqDfGCuTVi/cMji
- ndTQXAJqGqkps/iyi9J3MHfZabMsbvVgKGpNUN1xtw==
-X-Google-Smtp-Source: AGRyM1tf6Oi2cTjL5Xen3Ry8mKIsaQdlmT4EjbmjDbOehmH4tttuvrwdwMm9BEXAu/FfRgr09oipji2FOAjmIeuskqo=
-X-Received: by 2002:a25:cac5:0:b0:66d:2c32:8593 with SMTP id
- a188-20020a25cac5000000b0066d2c328593mr2891580ybg.626.1656421804675; Tue, 28
- Jun 2022 06:10:04 -0700 (PDT)
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hgSJRGEixqRq; Tue, 28 Jun 2022 14:49:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 457DD84006;
+	Tue, 28 Jun 2022 14:49:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 457DD84006
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4736FC0084;
+	Tue, 28 Jun 2022 14:49:28 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AB8DAC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:11:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7807D60E64
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:11:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7807D60E64
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=jXMv+sJT
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bRqyHcY-DaYv for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jun 2022 13:11:29 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 867B8605AC
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 867B8605AC
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656421889; x=1687957889;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=DaNkICMn0cvyN3Nw69IWZXGw9/gClLhfsSUxhFyTR1w=;
+ b=jXMv+sJTbDcBV1TcFej9Hh4S/bAIsDUywfKEn+jD538wwdXhiTmbCB15
+ IC8vmCHZSIlG0VDVVZY8f5COWChAAiW9/s9PQ8oAfhNYuAHFZliCmvpJY
+ 06yGD3Zz2UoZwjl2XWZ9Xr1ZIt56lkTFN6nKDNph3jIKMNqf5nEnV3obe
+ sg7nxD6qDsVO6n0c5o8ag6WwDOp2TEcEc306cBMr35UOhpVnzQffyI/UT
+ ei6M8r934Am0jjU58F/vLBrr+tMA+6uj1dCw3nzKfetexy6V6lxco8dH7
+ 7gucsAXnqqcqBTDYnXI/BMefpeYfMDOqsixW6/Pi3JzwhGH1PHWkOTkZ6 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="261539975"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="261539975"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 06:11:29 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="646908165"
+Received: from iannetti-mobl.ger.corp.intel.com ([10.251.216.215])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 06:11:26 -0700
+Date: Tue, 28 Jun 2022 16:11:24 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Chao Gao <chao.gao@intel.com>
+Subject: Re: [PATCH v1 1/3] swiotlb: Use bitmap to track free slots
+In-Reply-To: <20220628070136.419163-2-chao.gao@intel.com>
+Message-ID: <ae35e2-f224-635f-442f-ce1a537374e3@linux.intel.com>
+References: <20220628070136.419163-1-chao.gao@intel.com>
+ <20220628070136.419163-2-chao.gao@intel.com>
 MIME-Version: 1.0
-References: <20220601070707.3946847-1-saravanak@google.com>
- <20220601070707.3946847-8-saravanak@google.com>
- <20220622074756.GA1647@pengutronix.de>
- <CACRpkdYe=u9Ozj_dtLVr6GSau8yS5H7LnBNNrQHki1CJ1zST0A@mail.gmail.com>
- <CAGETcx_qm7DWbNVTLfF9jTgGA8uH8oAQzbPcMDh4L6+5mdRFog@mail.gmail.com>
-In-Reply-To: <CAGETcx_qm7DWbNVTLfF9jTgGA8uH8oAQzbPcMDh4L6+5mdRFog@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 28 Jun 2022 15:09:53 +0200
-Message-ID: <CACRpkdYkbVWayPEukyKcSQuzMuV=BmhBwBA6GuoNvb3HLWLNUQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] driver core: Set fw_devlink.strict=1 by default
-To: Saravana Kannan <saravanak@google.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
- Sascha Hauer <sha@pengutronix.de>, Kevin Hilman <khilman@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, kernel-team@android.com,
- Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org,
- linux-gpio@vger.kernel.org, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, kernel@pengutronix.de,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: multipart/mixed; boundary="8323329-1081361240-1656421888=:1603"
+X-Mailman-Approved-At: Tue, 28 Jun 2022 14:49:26 +0000
+Cc: len.brown@intel.com, tony.luck@intel.com, rafael.j.wysocki@intel.com,
+ LKML <linux-kernel@vger.kernel.org>, dave.hansen@intel.com,
+ iommu@lists.linux-foundation.org, dan.j.williams@intel.com,
+ reinette.chatre@intel.com, kirill.shutemov@linux.intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,33 +91,164 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jun 22, 2022 at 9:40 PM Saravana Kannan <saravanak@google.com> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> Actually, why isn't earlyconsole being used? That doesn't get blocked
-> on anything and the main point of that is to have console working from
-> really early on.
+--8323329-1081361240-1656421888=:1603
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
 
-For Arm (arch/arm) there is a special low-level debug option call low-level
-debug, which you find in e.g:
-arch/arm/Kconfig.debug
-arch/arm/kernel/debug.S
+On Tue, 28 Jun 2022, Chao Gao wrote:
 
-This debug facility can print to the UART fifo before even MMU is up, pretty
-much from the first instruction the kernel executes.
+> Currently, each slot tracks the number of contiguous free slots starting
+> from itself. It helps to quickly check if there are enough contiguous
+> entries when dealing with an allocation request. But maintaining this
+> information can leads to some overhead. Specifically, if a slot is
+> allocated/freed, preceding slots may need to be updated as the number
+> of contiguous free slots can change. This process may access memory
+> scattering over multiple cachelines.
+> 
+> To reduce the overhead of maintaining the number of contiguous free
+> entries, use a global bitmap to track free slots; each bit represents
+> if a slot is available. The number of contiguous free slots can be
+> calculated by counting the number of consecutive 1s in the bitmap.
+> 
+> Tests show that the average cost of freeing slots drops by 120 cycles
+> while the average cost of allocation increases by 20 cycles. Overall,
+> 100 cycles are saved from a pair of allocation and freeing.
+> 
+> Signed-off-by: Chao Gao <chao.gao@intel.com>
 
-The versatility of LL-debug means that developers do not use earlyconsole
-much on Arm.
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-I don't know about arm64 though.
+One nit below.
 
-Yours,
-Linus Walleij
+> ---
+>  include/linux/swiotlb.h |  6 ++--
+>  kernel/dma/swiotlb.c    | 64 ++++++++++++++++++++---------------------
+>  2 files changed, 34 insertions(+), 36 deletions(-)
+> 
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index 7ed35dd3de6e..c3eab237991a 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -78,8 +78,6 @@ extern enum swiotlb_force swiotlb_force;
+>   *		@end. For default swiotlb, this is command line adjustable via
+>   *		setup_io_tlb_npages.
+>   * @used:	The number of used IO TLB block.
+> - * @list:	The free list describing the number of free entries available
+> - *		from each index.
+>   * @index:	The index to start searching in the next round.
+>   * @orig_addr:	The original address corresponding to a mapped entry.
+>   * @alloc_size:	Size of the allocated buffer.
+> @@ -89,6 +87,8 @@ extern enum swiotlb_force swiotlb_force;
+>   * @late_alloc:	%true if allocated using the page allocator
+>   * @force_bounce: %true if swiotlb bouncing is forced
+>   * @for_alloc:  %true if the pool is used for memory allocation
+> + * @bitmap:	The bitmap used to track free entries. 1 in bit X means the slot
+> + *		indexed by X is free.
+>   */
+>  struct io_tlb_mem {
+>  	phys_addr_t start;
+> @@ -105,8 +105,8 @@ struct io_tlb_mem {
+>  	struct io_tlb_slot {
+>  		phys_addr_t orig_addr;
+>  		size_t alloc_size;
+> -		unsigned int list;
+>  	} *slots;
+> +	unsigned long *bitmap;
+>  };
+>  extern struct io_tlb_mem io_tlb_default_mem;
+>  
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index cb50f8d38360..d7f68c0af7f5 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -207,7 +207,7 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+>  
+>  	spin_lock_init(&mem->lock);
+>  	for (i = 0; i < mem->nslabs; i++) {
+> -		mem->slots[i].list = IO_TLB_SEGSIZE - io_tlb_offset(i);
+> +		__set_bit(i, mem->bitmap);
+>  		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
+>  		mem->slots[i].alloc_size = 0;
+>  	}
+> @@ -274,6 +274,11 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
+>  		panic("%s: Failed to allocate %zu bytes align=0x%lx\n",
+>  		      __func__, alloc_size, PAGE_SIZE);
+>  
+> +	mem->bitmap = memblock_alloc(BITS_TO_BYTES(nslabs), SMP_CACHE_BYTES);
+> +	if (!mem->bitmap)
+> +		panic("%s: Failed to allocate %lu bytes align=0x%x\n",
+> +		      __func__, DIV_ROUND_UP(nslabs, BITS_PER_BYTE), SMP_CACHE_BYTES);
+> +
+>  	swiotlb_init_io_tlb_mem(mem, __pa(tlb), nslabs, flags, false);
+>  
+>  	if (flags & SWIOTLB_VERBOSE)
+> @@ -337,10 +342,13 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask,
+>  			(PAGE_SIZE << order) >> 20);
+>  	}
+>  
+> +	mem->bitmap = bitmap_zalloc(nslabs, GFP_KERNEL);
+>  	mem->slots = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
+>  		get_order(array_size(sizeof(*mem->slots), nslabs)));
+> -	if (!mem->slots) {
+> +	if (!mem->slots || !mem->bitmap) {
+>  		free_pages((unsigned long)vstart, order);
+> +		bitmap_free(mem->bitmap);
+> +		kfree(mem->slots);
+>  		return -ENOMEM;
+>  	}
+>  
+> @@ -498,7 +506,7 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
+>  	unsigned int iotlb_align_mask =
+>  		dma_get_min_align_mask(dev) & ~(IO_TLB_SIZE - 1);
+>  	unsigned int nslots = nr_slots(alloc_size), stride;
+> -	unsigned int index, wrap, count = 0, i;
+> +	unsigned int index, wrap, i;
+>  	unsigned int offset = swiotlb_align_offset(dev, orig_addr);
+>  	unsigned long flags;
+>  
+> @@ -514,6 +522,9 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
+>  		stride = max(stride, stride << (PAGE_SHIFT - IO_TLB_SHIFT));
+>  	stride = max(stride, (alloc_align_mask >> IO_TLB_SHIFT) + 1);
+>  
+> +	/* slots shouldn't cross one segment */
+> +	max_slots = min_t(unsigned long, max_slots, IO_TLB_SEGSIZE);
+> +
+>  	spin_lock_irqsave(&mem->lock, flags);
+>  	if (unlikely(nslots > mem->nslabs - mem->used))
+>  		goto not_found;
+> @@ -535,8 +546,15 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
+>  		if (!iommu_is_span_boundary(index, nslots,
+>  					    nr_slots(tbl_dma_addr),
+>  					    max_slots)) {
+> -			if (mem->slots[index].list >= nslots)
+> +			if (find_next_zero_bit(mem->bitmap, index + nslots, index) ==
+> +					index + nslots)
+>  				goto found;
+> +		} else {
+> +			/*
+> +			 * Remaining slots between current one and the next
+> +			 * bounary cannot meet our requirement.
+
+bounary -> boundary
+
+
+-- 
+ i.
+
+--8323329-1081361240-1656421888=:1603
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--8323329-1081361240-1656421888=:1603--
