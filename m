@@ -1,97 +1,95 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDEDA55C0B4
-	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 13:31:54 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C48855C0BD
+	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 13:34:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2B09940AC7;
-	Tue, 28 Jun 2022 11:31:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2B09940AC7
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=S9ev2a8N
+	by smtp3.osuosl.org (Postfix) with ESMTP id C6EAE60E64;
+	Tue, 28 Jun 2022 11:34:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C6EAE60E64
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NppW5tNI
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4gi2wltJB7V6; Tue, 28 Jun 2022 11:31:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3B6BA40A1E;
-	Tue, 28 Jun 2022 11:31:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3B6BA40A1E
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id H9aLXN6pn8z5; Tue, 28 Jun 2022 11:34:08 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id AEA1060EA7;
+	Tue, 28 Jun 2022 11:34:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AEA1060EA7
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E37D5C007E;
-	Tue, 28 Jun 2022 11:31:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5B11C0084;
+	Tue, 28 Jun 2022 11:34:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D9C1AC002D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:31:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 118F1C002D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:34:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A58E181CFE
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:31:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A58E181CFE
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=S9ev2a8N
+ by smtp4.osuosl.org (Postfix) with ESMTP id DF36A408EE
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:34:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DF36A408EE
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=NppW5tNI
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O8n9eQidGUIg for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jun 2022 11:31:50 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tl-usVRT2WeR for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jun 2022 11:34:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 10BC0817ED
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 10BC0817ED
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:31:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4201661AB0
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:31:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC4CC341D3
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656415908;
- bh=mGQ17FxEruXP1Se/YhPh1NXTTafvPHopAQxVYAQOAng=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=S9ev2a8N8YQmk0FkOdWFCB7fzksaF3TDIqbfcHvGcwSqAPQBjVarw4vw9M3l6HHmL
- ssCxgmsI8FHt9fG0XtnHdMUgr0QiYRCSQ79IVVpF+/C1G6eLSjq//dde0lc2VRCRaS
- 1FOEBaNxnclo7b2FYkWs82psE+DIlzk94a+i0CS0kc4yOVpaZiit6FGLCMgT4MtfTp
- CwGZaSPgvhkEFi/ozVYkEbtrBOACwSSrasTZCqcPAk1+8mx2bwdjGw8Jo6F9FVGxwT
- aWToqKSq2ntJ+svOn8tdm9iL+aJ6hyyGwGM/YXBZrhOMDyTMuQVPNXGFsy/i9skP/1
- Bv9FMX2w5oSmA==
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-31bf3656517so22825477b3.12
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 04:31:48 -0700 (PDT)
-X-Gm-Message-State: AJIora8Bv8uHdvrRx65+hdCdKMwPryakztS7Yz5/B+akUdhjNISqBK3Q
- 7TlnnVRoBJ0NrNrt6ew+RBmIDv7bzONP8Pg8NwE=
-X-Google-Smtp-Source: AGRyM1u6alRW6DNpLAw2CjiZONF/08UESoBCXDxfJxZHbJGIZ8WIqxSBVa0RkxHHh4KQrTbwBfw484vqcSO7R67ID6s=
-X-Received: by 2002:a81:230c:0:b0:31b:f368:d0b0 with SMTP id
- j12-20020a81230c000000b0031bf368d0b0mr4904055ywj.249.1656415907046; Tue, 28
- Jun 2022 04:31:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B1166408F2
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B1166408F2
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 11:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656416043; x=1687952043;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=WyQ7Lhg64UA7faLJ8umQR8gY+ay9xEU5cNZImGlhWOk=;
+ b=NppW5tNIEjrAqLxqc25wLCwP4m124+S9yyHQmbITugqOOMg/L44y6wxS
+ PObbhmkKt3SCSU2x0pXkJxx617E1s23Gb5A6q8Wr7tFu20eR0awWNp78C
+ zIF6XmQMqCIVgHjgu91rWIg98Hu1UI1xK3l2C9rIfBZO7DJhSePotrD1L
+ QTihzrphuIAhziibqAwsZlPXNuFdgrRsdcQkKsWTb5h2RC8doc2Zf+9W/
+ Yjl5mSzFAIP4gNp1tbazhCCCuhs4pDYSJql1Ox8o6j1PnnBjKL8LvmPhd
+ OaiFpmhsneF9UpFpVniJ3kmqD2IGlzhez/+lBA1eZDEpbsZf3YLoxlDxA w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="307196731"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="307196731"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 04:34:03 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="646877561"
+Received: from ltang11-mobl1.ccr.corp.intel.com (HELO [10.249.169.64])
+ ([10.249.169.64])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 04:33:59 -0700
+Message-ID: <89130952-155c-38f0-3318-1c071562661f@linux.intel.com>
+Date: Tue, 28 Jun 2022 19:33:57 +0800
 MIME-Version: 1.0
-References: <20220624155226.2889613-1-arnd@kernel.org>
- <yq1bkudh4va.fsf@ca-mkp.ca.oracle.com>
-In-Reply-To: <yq1bkudh4va.fsf@ca-mkp.ca.oracle.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Tue, 28 Jun 2022 13:31:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3-D_Ct1jBpKzv7OPZ3Mfkx4iD1QG8ELuib02aGXUAS6A@mail.gmail.com>
-Message-ID: <CAK8P3a3-D_Ct1jBpKzv7OPZ3Mfkx4iD1QG8ELuib02aGXUAS6A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] phase out CONFIG_VIRT_TO_BUS
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: linux-arch <linux-arch@vger.kernel.org>,
- Miquel van Smoorenburg <mikevs@xs4all.net>,
- linux-scsi <linux-scsi@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Denis Efremov <efremov@linux.com>, Mark Salyzyn <salyzyn@android.com>,
- Christoph Hellwig <hch@infradead.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Matt Wang <wwentao@vmware.com>, Parisc List <linux-parisc@vger.kernel.org>,
- alpha <linux-alpha@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Khalid Aziz <khalid@gonehiking.org>, Robin Murphy <robin.murphy@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v9 04/11] iommu: Add sva iommu_domain support
+Content-Language: en-US
+To: "Tian, Kevin" <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@infradead.org>,
+ "Raj, Ashok" <ashok.raj@intel.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ "Jiang, Dave" <dave.jiang@intel.com>, Vinod Koul <vkoul@kernel.org>
+References: <20220621144353.17547-1-baolu.lu@linux.intel.com>
+ <20220621144353.17547-5-baolu.lu@linux.intel.com>
+ <BN9PR11MB5276FA1A1A8C20786D958C048CB99@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <42825be5-e24c-0f95-f49d-5f50d608506d@linux.intel.com>
+ <BN9PR11MB527679FF12B6D990A5E596A88CB89@BN9PR11MB5276.namprd11.prod.outlook.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <BN9PR11MB527679FF12B6D990A5E596A88CB89@BN9PR11MB5276.namprd11.prod.outlook.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
+ Jacob jun" <jacob.jun.pan@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,29 +102,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jun 28, 2022 at 4:59 AM Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
-> Hi Arnd!
->
-> > If there are no more issues identified with this series, I'll merge it
-> > through the asm-generic tree. The SCSI patches can also get merged
-> > separately through the SCSI maintainers' tree if they prefer.
->
-> I put patches 1 and 2 in scsi-staging to see if anything breaks...
+On 2022/6/28 16:50, Tian, Kevin wrote:
+>> From: Baolu Lu<baolu.lu@linux.intel.com>
+>> Sent: Tuesday, June 28, 2022 1:41 PM
+>>>>    struct iommu_domain {
+>>>>    	unsigned type;
+>>>>    	const struct iommu_domain_ops *ops;
+>>>>    	unsigned long pgsize_bitmap;	/* Bitmap of page sizes in use */
+>>>> -	iommu_fault_handler_t handler;
+>>>> -	void *handler_token;
+>>>>    	struct iommu_domain_geometry geometry;
+>>>>    	struct iommu_dma_cookie *iova_cookie;
+>>>> +	union {
+>>>> +		struct {	/* IOMMU_DOMAIN_DMA */
+>>>> +			iommu_fault_handler_t handler;
+>>>> +			void *handler_token;
+>>>> +		};
+>>> why is it DMA domain specific? What about unmanaged
+>>> domain? Unrecoverable fault can happen on any type
+>>> including SVA. Hence I think above should be domain type
+>>> agnostic.
+>> The report_iommu_fault() should be replaced by the new
+>> iommu_report_device_fault(). Jean has already started this work.
+>>
+>> https://lore.kernel.org/linux-iommu/Yo4Nw9QyllT1RZbd@myrica/
+>>
+>> Currently this is only for DMA domains, hence Robin suggested to make it
+>> exclude with the SVA domain things.
+>>
+>> https://lore.kernel.org/linux-iommu/f3170016-4d7f-e78e-db48-
+>> 68305f683349@arm.com/
+> Then it's worthy a comment that those two fields are for
+> some legacy fault reporting stuff and DMA type only.
 
-Ok, thanks!
+The iommu_fault and SVA fields are exclusive. The former is used for
+unrecoverable DMA remapping faults, while the latter is only interested
+in the recoverable page faults.
 
-I have just the third patch in the asm-generic tree now. As long as it all
-make it into the merge window, this should work out fine without build
-issues, though there is a small bisection window during which the buslogic
-driver becomes hidden. I think that's ok here.
+I will update the commit message with above explanation. Does this work
+for you?
 
-       Arnd
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
