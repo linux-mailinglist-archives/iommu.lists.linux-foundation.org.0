@@ -1,108 +1,121 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E712455E509
-	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 15:41:48 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5781A55E573
+	for <lists.iommu@lfdr.de>; Tue, 28 Jun 2022 16:49:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7D48C60BD8;
-	Tue, 28 Jun 2022 13:41:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7D48C60BD8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hGw9T6Ca
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8BA8B84006;
+	Tue, 28 Jun 2022 14:49:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8BA8B84006
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id INnwTi0dpOkn; Tue, 28 Jun 2022 13:41:46 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QFZJv7EZbRnv; Tue, 28 Jun 2022 14:49:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7C4E760EA7;
-	Tue, 28 Jun 2022 13:41:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7C4E760EA7
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 807A883FE5;
+	Tue, 28 Jun 2022 14:49:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 807A883FE5
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50929C007E;
-	Tue, 28 Jun 2022 13:41:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81ADFC0088;
+	Tue, 28 Jun 2022 14:49:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99533C002D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:41:44 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3B30CC002D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 14:18:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 807E740607
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:41:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 807E740607
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
- header.a=rsa-sha256 header.s=google header.b=hGw9T6Ca
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0770482983
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 14:18:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0770482983
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c3eHYOzQjB54 for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jun 2022 13:41:43 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 968FB40217
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 968FB40217
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 13:41:43 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id v38so11566852ybi.3
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 06:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l0lBZBoRWVZwKeLsg5bhh62sfkY43Fuz7vbWyvz07jo=;
- b=hGw9T6CarZQ/NMBim5LFKd5YTY/o2ySRURtSkju9ltnp+I2dfsm1E743dkEP7vIdI2
- EF0DRNKbp1NoePxE8d03JMmSXIQyxTYmcA6StyWwY4r+YQPVJD8cCVXjq4KFryi4BOBX
- R1mZO/ER1L2SAM2BBGv6AMAXI5Jfk4vSpWXci5dnkjMyWFiBRxV+lukWKp040ydV0UYw
- pi8tg+vw420tIDHBWpl4HD2i87IuVJPBeZxJfEHlBvY0Am4KybIx85T311V7Sc3PDZDd
- 4o1lrjtE8IrlXi97SmhrBQzUpnLpRq4Op7bcrYUqg0s8X0We4xxPIjbi6qZfZCCR6FAX
- 0Wjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l0lBZBoRWVZwKeLsg5bhh62sfkY43Fuz7vbWyvz07jo=;
- b=pvAVYO9ERNgf5Qx6KdvOuMAunAmKmXxIlWFFTW2qrAhOd4DedZxtRE7O++6CSY9Kcy
- RxdQmqSGVJwLa2+nCkwEiyM1AQz+kt2u7Pdj3S3BC6kOIpsxWm5pYU9GsRkrCZp6DtId
- Myi6CA1crRthIWVRsy+5J5HEYC2GbiuMmqA17tOLR0KbuYBubPg1/WhVp7mLO7RjNTZg
- wI72gaXdoAmqqFw5foeaNfqUUDrq2ZaLUfg8+URvYE7RdeVYZHqrFVl3k91AkyFEvkJt
- MfLRgBqNdMOoYB/jZxur0FReLzmKOxYGaTeodMA7tospk7Gbx+D5c0xscMp4GWxo19S+
- cPAg==
-X-Gm-Message-State: AJIora/+vgRLAsmA/qE6969W/RCIF8/12hYcY61Xssan8tgTyTPvSeju
- 7VVpeqVfDQSIOm3URVUdNSkKoZrn6ZLsIHuNaKn1sw==
-X-Google-Smtp-Source: AGRyM1vMJc6mshbdVpv82z3JrgHLSlBVD5A4IKCtkqq06YBNSTzatN88O/XMo49PG0TuIqgDUg33Srr26PKhV2f0pQk=
-X-Received: by 2002:a25:1f57:0:b0:669:b6fa:167e with SMTP id
- f84-20020a251f57000000b00669b6fa167emr20917137ybf.295.1656423702377; Tue, 28
- Jun 2022 06:41:42 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zx0SL24Gd5fQ for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jun 2022 14:18:57 +0000 (UTC)
+X-Greylist: delayed 00:18:28 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B61EF827A0
+Received: from sym2.noone.org (sym.noone.org [178.63.92.236])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B61EF827A0
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jun 2022 14:18:57 +0000 (UTC)
+Received: by sym2.noone.org (Postfix, from userid 1002)
+ id 4LXR7Z2Gb9zvjfm; Tue, 28 Jun 2022 16:00:26 +0200 (CEST)
+Date: Tue, 28 Jun 2022 16:00:26 +0200
+From: Tobias Klauser <tklauser@distanz.ch>
+To: Saravana Kannan <saravanak@google.com>
+Subject: Re: [PATCH v1 2/2] serial: Set probe_no_timeout for all DT based
+ drivers
+Message-ID: <20220628140025.qpom64ptru4ub6fu@distanz.ch>
+References: <20220628020110.1601693-1-saravanak@google.com>
+ <20220628020110.1601693-3-saravanak@google.com>
 MIME-Version: 1.0
-References: <20220623080344.783549-1-saravanak@google.com>
- <20220623080344.783549-3-saravanak@google.com>
- <20220623100421.GY1615@pengutronix.de>
-In-Reply-To: <20220623100421.GY1615@pengutronix.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 28 Jun 2022 15:41:30 +0200
-Message-ID: <CACRpkdY+MfDHGw4QrFy=A64y7dSrno26vuKbt_AnFbVm9y_hoQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] of: base: Avoid console probe delay when
- fw_devlink.strict=1
-To: sascha hauer <sha@pengutronix.de>
+Content-Disposition: inline
+In-Reply-To: <20220628020110.1601693-3-saravanak@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Approved-At: Tue, 28 Jun 2022 14:49:26 +0000
 Cc: andrew lunn <andrew@lunn.ch>, peng fan <peng.fan@nxp.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, ulf hansson <ulf.hansson@linaro.org>,
- eric dumazet <edumazet@google.com>, pavel machek <pavel@ucw.cz>,
- will deacon <will@kernel.org>, Saravana Kannan <saravanak@google.com>,
- kevin hilman <khilman@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- russell king <linux@armlinux.org.uk>, linux-acpi@vger.kernel.org,
- jakub kicinski <kuba@kernel.org>, paolo abeni <pabeni@redhat.com>,
- kernel-team@android.com, Len Brown <lenb@kernel.org>,
- len brown <len.brown@intel.com>, kernel@pengutronix.de,
- linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linus walleij <linus.walleij@linaro.org>, Paul Mackerras <paulus@samba.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Peter Korsgaard <jacmet@sunsite.dk>,
+ linux-stm32@st-md-mailman.stormreply.com, Karol Gugala <kgugala@antmicro.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@xilinx.com>,
+ Hammer Hsieh <hammerh0314@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Vineet Gupta <vgupta@kernel.org>, len brown <len.brown@intel.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, linux-pm@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-unisoc@lists.infradead.org,
+ Scott Branden <sbranden@broadcom.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Richard Genoud <richard.genoud@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, pavel machek <pavel@ucw.cz>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ eric dumazet <edumazet@google.com>, Thierry Reding <thierry.reding@gmail.com>,
+ sascha hauer <sha@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Gabriel Somlo <gsomlo@gmail.com>,
+ linux-mips@vger.kernel.org, kernel-team@android.com,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Andreas Farber <afaerber@suse.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Pali Rohar <pali@kernel.org>,
+ heiner kallweit <hkallweit1@gmail.com>, ulf hansson <ulf.hansson@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Al Cooper <alcooperx@gmail.com>,
+ linux-tegra@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Mateusz Holenko <mholenko@antmicro.com>, Alexander Shiyan <shc_work@mail.ru>,
+ kevin hilman <khilman@kernel.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Joel Stanley <joel@jms.id.au>, Orson Zhai <orsonzhai@gmail.com>,
+ paolo abeni <pabeni@redhat.com>, Patrice Chotard <patrice.chotard@foss.st.com>,
+ Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ linux-snps-arc@lists.infradead.org, Timur Tabi <timur@kernel.org>,
+ hideaki yoshifuji <yoshfuji@linux-ipv6.org>, iommu@lists.linux-foundation.org,
+ Laxman Dewangan <ldewangan@nvidia.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Baolin Wang <baolin.wang7@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Baruch Siach <baruch@tkos.co.il>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Russell King <linux@armlinux.org.uk>, Andy Gross <agross@kernel.org>,
+ linux-serial@vger.kernel.org, jakub kicinski <kuba@kernel.org>,
+ will deacon <will@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ linux-mediatek@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- hideaki yoshifuji <yoshfuji@linux-ipv6.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- david ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, iommu@lists.linux-foundation.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>, netdev@vger.kernel.org,
- "david s. miller" <davem@davemloft.net>, devicetree@vger.kernel.org,
- heiner kallweit <hkallweit1@gmail.com>
+ Taichi Sugaya <sugaya.taichi@socionext.com>, netdev@vger.kernel.org,
+ david ahern <dsahern@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Takao Orito <orito.takao@socionext.com>,
+ linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,34 +133,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jun 23, 2022 at 12:05 PM sascha hauer <sha@pengutronix.de> wrote:
+On 2022-06-28 at 04:01:03 +0200, Saravana Kannan <saravanak@google.com> wrote:
+> diff --git a/drivers/tty/serial/8250/8250_acorn.c b/drivers/tty/serial/8250/8250_acorn.c
+> index 758c4aa203ab..5a6f2f67de4f 100644
+> --- a/drivers/tty/serial/8250/8250_acorn.c
+> +++ b/drivers/tty/serial/8250/8250_acorn.c
+> @@ -114,7 +114,6 @@ static const struct ecard_id serial_cids[] = {
+>  static struct ecard_driver serial_card_driver = {
+>  	.probe		= serial_card_probe,
+>  	.remove		= serial_card_remove,
+> -	.id_table	= serial_cids,
 
-> Also consider SoCs in early upstreaming phases
-> when the device tree is merged with "dmas" or "hwlock" properties,
-> but the corresponding drivers are not yet upstreamed. It's not nice
-> to defer probing of all these devices for a long time.
-
-Actually this drives a truck through the entire approach in a way.
-
-It is perfectly legal to have a device tree with dmas specified
-but leave them unused in the operating system. DT just describes
-what hardware is there, it does not mandate that the OS
-implement drivers for all of it.
-
-This approach really needs that the resolution mechanism
-is aware of whether:
-
-1. a driver exist for the resource at all so it will eventually resolve
-
-2. if that driver is compiled in or module at all (IS_ENABLED())
-
-3. If the resource should be grabbed early or optionally later
-    such as dmas for console UART
-
-Only then can the mechanism work in the generic case.
-
-Yours,
-Linus Walleij
+Is this change intentional? All other drivers are only changed to set
+.probe_no_time and I don't see anything mentioned in the commit message
+re. this driver's change.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
