@@ -1,55 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A555F70D
-	for <lists.iommu@lfdr.de>; Wed, 29 Jun 2022 08:46:38 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 070CD55F715
+	for <lists.iommu@lfdr.de>; Wed, 29 Jun 2022 08:49:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B36CF40AE9;
-	Wed, 29 Jun 2022 06:46:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B36CF40AE9
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H7h79kejnrG5; Wed, 29 Jun 2022 06:46:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BDB7F400A6;
-	Wed, 29 Jun 2022 06:46:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BDB7F400A6
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97FF6C007E;
-	Wed, 29 Jun 2022 06:46:35 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D0680C002D
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jun 2022 06:46:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id AA94C60C13
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jun 2022 06:46:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AA94C60C13
+	by smtp3.osuosl.org (Postfix) with ESMTP id 431806F693;
+	Wed, 29 Jun 2022 06:49:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 431806F693
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0H-IvxnWgEUi for <iommu@lists.linux-foundation.org>;
- Wed, 29 Jun 2022 06:46:33 +0000 (UTC)
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kPS1y7p3FuRi; Wed, 29 Jun 2022 06:49:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5384F6F5E5;
+	Wed, 29 Jun 2022 06:49:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5384F6F5E5
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 142ABC007E;
+	Wed, 29 Jun 2022 06:49:03 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 41995C002D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jun 2022 06:49:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1A69A814AB
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jun 2022 06:49:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1A69A814AB
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5zQFK07unBsn for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Jun 2022 06:49:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 06F0360B5E
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6824081358
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 06F0360B5E
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jun 2022 06:46:32 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6824081358
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jun 2022 06:49:00 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id DA93F67373; Wed, 29 Jun 2022 08:46:29 +0200 (CEST)
-Date: Wed, 29 Jun 2022 08:46:29 +0200
+ id D89A267373; Wed, 29 Jun 2022 08:48:54 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:48:54 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH v7 16/21] block: add check when merging zone device pages
-Message-ID: <20220629064629.GC17576@lst.de>
+Subject: Re: [PATCH v7 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+Message-ID: <20220629064854.GD17576@lst.de>
 References: <20220615161233.17527-1-logang@deltatee.com>
- <20220615161233.17527-17-logang@deltatee.com>
+ <20220615161233.17527-21-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220615161233.17527-17-logang@deltatee.com>
+In-Reply-To: <20220615161233.17527-21-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
  linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
@@ -61,7 +61,8 @@ Cc: linux-pci@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- linux-block@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ linux-block@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Dan Williams <dan.j.williams@intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>, linux-kernel@vger.kernel.org,
  iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
@@ -82,20 +83,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jun 15, 2022 at 10:12:28AM -0600, Logan Gunthorpe wrote:
-> Consecutive zone device pages should not be merged into the same sgl
-> or bvec segment with other types of pages or if they belong to different
-> pgmaps. Otherwise getting the pgmap of a given segment is not possible
-> without scanning the entire segment. This helper returns true either if
-> both pages are not zone device pages or both pages are zone device
-> pages with the same pgmap.
-> 
-> Add a helper to determine if zone device pages are mergeable and use
-> this helper in page_is_mergeable().
+On Wed, Jun 15, 2022 at 10:12:32AM -0600, Logan Gunthorpe wrote:
+> A pseudo mount is used to allocate an inode for each PCI device. The
+> inode's address_space is used in the file doing the mmap so that all
+> VMAs are collected and can be unmapped if the PCI device is unbound.
+> After unmapping, the VMAs are iterated through and their pages are
+> put so the device can continue to be unbound. An active flag is used
+> to signal to VMAs not to allocate any further P2P memory once the
+> removal process starts. The flag is synchronized with concurrent
+> access with an RCU lock.
 
-Any reason not to simply set REQ_NOMERGE for these requests?  We
-can't merge for passthrough requests anyway, and genrally don't merge
-for direct I/O either, so adding all this overhead seems a bit pointless.
+Can't we come up with a way of doing this without all the pseudo-fs
+garbagage?  I really hate all the overhead for that in the next
+nvme patch as well.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
