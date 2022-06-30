@@ -1,113 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36A2561665
-	for <lists.iommu@lfdr.de>; Thu, 30 Jun 2022 11:33:36 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 924F5561CA4
+	for <lists.iommu@lfdr.de>; Thu, 30 Jun 2022 16:00:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id AFC8F60B52;
-	Thu, 30 Jun 2022 09:33:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AFC8F60B52
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5EC4F423F8;
+	Thu, 30 Jun 2022 14:00:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5EC4F423F8
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nh//DLk7
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nkGaiPwhgts6; Thu, 30 Jun 2022 09:33:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8D56160EC8;
-	Thu, 30 Jun 2022 09:33:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8D56160EC8
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 96dn07g7ca39; Thu, 30 Jun 2022 14:00:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C512E423EA;
+	Thu, 30 Jun 2022 14:00:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C512E423EA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15AE5C0036;
-	Thu, 30 Jun 2022 09:33:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7112C007E;
+	Thu, 30 Jun 2022 14:00:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 53F5EC0011;
- Thu, 30 Jun 2022 09:33:31 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 42EF6C0011
+ for <iommu@lists.linux-foundation.org>; Thu, 30 Jun 2022 09:33:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2A74984387;
- Thu, 30 Jun 2022 09:33:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2A74984387
+ by smtp1.osuosl.org (Postfix) with ESMTP id 061FE8452F
+ for <iommu@lists.linux-foundation.org>; Thu, 30 Jun 2022 09:33:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 061FE8452F
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=nh//DLk7
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NKnICRhp50Ji; Thu, 30 Jun 2022 09:33:26 +0000 (UTC)
+ with ESMTP id hjNen4Ugg5lF for <iommu@lists.linux-foundation.org>;
+ Thu, 30 Jun 2022 09:33:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CB69F8452F
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp1.osuosl.org (Postfix) with ESMTPS id CB69F8452F;
- Thu, 30 Jun 2022 09:33:25 +0000 (UTC)
-X-UUID: d9a66131010f4958a9a685e7c5722af9-20220630
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:c6e5360c-aab8-43c5-8966-20f89b8b8363, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:87442a2, CLOUDID:2ace0d63-0b3f-4b2c-b3a6-ed5c044366a0,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: d9a66131010f4958a9a685e7c5722af9-20220630
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1924593644; Thu, 30 Jun 2022 17:33:20 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 30 Jun 2022 17:33:18 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 30 Jun 2022 17:33:16 +0800
-Message-ID: <63969062a55b1c520f276b9a4b5f79faa12da20b.camel@mediatek.com>
-Subject: Re: [PATCH v3 1/5] iommu: Return -EMEDIUMTYPE for incompatible
- domain and device/group
-To: Nicolin Chen <nicolinc@nvidia.com>
-Date: Thu, 30 Jun 2022 17:33:16 +0800
-In-Reply-To: <YrysUpY4mdzA0h76@Asurada-Nvidia>
-References: <20220623200029.26007-1-nicolinc@nvidia.com>
- <20220623200029.26007-2-nicolinc@nvidia.com>
- <270eec00-8aee-2288-4069-d604e6da2925@linux.intel.com>
- <YrUk8IINqDEZLfIa@Asurada-Nvidia>
- <8a5e9c81ab1487154828af3ca21e62e39bcce18c.camel@mediatek.com>
- <BN9PR11MB527629DEF740C909A7B7BEB38CB49@BN9PR11MB5276.namprd11.prod.outlook.com>
- <19cfb1b85a347c70c6b0937bbbca4a176a724454.camel@mediatek.com>
- <20220624181943.GV4147@nvidia.com> <YrysUpY4mdzA0h76@Asurada-Nvidia>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C969B84387
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C969B84387
+ for <iommu@lists.linux-foundation.org>; Thu, 30 Jun 2022 09:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656581631; x=1688117631;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=PgPzLl4LLLWiWoEp5qpCglqPZ3JOM/ueCvqywhPsDcA=;
+ b=nh//DLk73Sk/qA8Rf/5Eww21OalrxA2Ct46ybSFx+IObf8Lsw3Ie+6Gt
+ FaM9FOtlQeG3M/dAkLKWANN1TeyLlp2f0MdGUg1tpG0RXzI6gBFi077r4
+ Ocn4cSI3/VyQ9lfK8vGXW2jO4yPig2h/lMTzLMxH1kgXi7EZDrpHLMkCj
+ /YEct4D/Hewbs1F2pPkRwViaOqs6ZsO25wFgoNcWy+moJfh21G97/2fpg
+ 0sgD1VRZaLPrzk1KqvRBqCcsXRDVEuh4l4K8u5hIcMAUdi4aDrC/+l6ng
+ Wo+vkQ3rTiXGkGxAoYkx7qzCPDNpMCfYEp5Y5UlCOUQyR79/he9wPX3Bk A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="368615198"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; d="scan'208";a="368615198"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 02:33:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; d="scan'208";a="693983715"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.138])
+ by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2022 02:33:47 -0700
+Date: Thu, 30 Jun 2022 17:33:46 +0800
+From: Feng Tang <feng.tang@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] iommu/iova: change IOVA_MAG_SIZE to 127 to save memory
+Message-ID: <20220630093346.GD4668@shbuild999.sh.intel.com>
+References: <20220630073304.26945-1-feng.tang@intel.com>
+ <13db50bb-57c7-0d54-3857-84b8a4591d9e@arm.com>
 MIME-Version: 1.0
-X-MTK: N
-Cc: "marcan@marcan.st" <marcan@marcan.st>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jordan@cosmicpenguin.net" <jordan@cosmicpenguin.net>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "will@kernel.org" <will@kernel.org>,
- "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "zhang.lyra@gmail.com" <zhang.lyra@gmail.com>,
- "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
- Jason Gunthorpe <jgg@nvidia.com>,
- "yangyingliang@huawei.com" <yangyingliang@huawei.com>,
- "orsonzhai@gmail.com" <orsonzhai@gmail.com>,
- "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>, "Tian,
- Kevin" <kevin.tian@intel.com>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "baolin.wang7@gmail.com" <baolin.wang7@gmail.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "dwmw2@infradead.org" <dwmw2@infradead.org>
+Content-Disposition: inline
+In-Reply-To: <13db50bb-57c7-0d54-3857-84b8a4591d9e@arm.com>
+X-Mailman-Approved-At: Thu, 30 Jun 2022 14:00:37 +0000
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Christoph Lameter <cl@linux.com>,
+ Will Deacon <will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@suse.cz>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,49 +92,101 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yong Wu via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yong Wu <yong.wu@mediatek.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, 2022-06-29 at 12:47 -0700, Nicolin Chen wrote:
-> On Fri, Jun 24, 2022 at 03:19:43PM -0300, Jason Gunthorpe wrote:
-> > On Fri, Jun 24, 2022 at 06:35:49PM +0800, Yong Wu wrote:
+Hi Robin,
+
+On Thu, Jun 30, 2022 at 10:02:00AM +0100, Robin Murphy wrote:
+> On 2022-06-30 08:33, Feng Tang wrote:
+> > kmalloc will round up the request size to power of 2, and current
+> > iova_magazine's size is 1032 (1024+8) bytes, so each instance
+> > allocated will get 2048 bytes from kmalloc, causing around 1KB
+> > waste.
 > > 
-> > > > > It's not used in VFIO context. "return 0" just satisfy the
-> > > > > iommu
-> > > > > framework to go ahead. and yes, here we only allow the shared
-> > > > > "mapping-domain" (All the devices share a domain created
-> > > > > internally).
-> > 
-> > What part of the iommu framework is trying to attach a domain and
-> > wants to see success when the domain was not actually attached ?
-> > 
-> > > > What prevent this driver from being used in VFIO context?
-> > > 
-> > > Nothing prevent this. Just I didn't test.
-> > 
-> > This is why it is wrong to return success here.
+> > And in some exstreme case, the memory wasted can trigger OOM as
+> > reported in 2019 on a crash kernel with 256 MB memory [1].
 > 
-> Hi Yong, would you or someone you know be able to confirm whether
-> this "return 0" is still a must or not?
+> I don't think it really needs pointing out that excessive memory consumption
+> can cause OOM. Especially not in the particularly silly context of a system
+> with only 2MB of RAM per CPU - that's pretty much guaranteed to be doomed
+> one way or another.
+
+Yes, the 256MB for 128 CPU is kind of extreme, will remove this.
+
+> >    [    4.319253] iommu: Adding device 0000:06:00.2 to group 5
+> >    [    4.325869] iommu: Adding device 0000:20:01.0 to group 15
+> >    [    4.332648] iommu: Adding device 0000:20:02.0 to group 16
+> >    [    4.338946] swapper/0 invoked oom-killer: gfp_mask=0x6040c0(GFP_KERNEL|__GFP_COMP), nodemask=(null), order=0, oom_score_adj=0
+> >    [    4.350251] swapper/0 cpuset=/ mems_allowed=0
+> >    [    4.354618] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.19.57.mx64.282 #1
+> >    [    4.355612] Hardware name: Dell Inc. PowerEdge R7425/08V001, BIOS 1.9.3 06/25/2019
+> >    [    4.355612] Call Trace:
+> >    [    4.355612]  dump_stack+0x46/0x5b
+> >    [    4.355612]  dump_header+0x6b/0x289
+> >    [    4.355612]  out_of_memory+0x470/0x4c0
+> >    [    4.355612]  __alloc_pages_nodemask+0x970/0x1030
+> >    [    4.355612]  cache_grow_begin+0x7d/0x520
+> >    [    4.355612]  fallback_alloc+0x148/0x200
+> >    [    4.355612]  kmem_cache_alloc_trace+0xac/0x1f0
+> >    [    4.355612]  init_iova_domain+0x112/0x170
+> >    [    4.355612]  amd_iommu_domain_alloc+0x138/0x1a0
+> >    [    4.355612]  iommu_group_get_for_dev+0xc4/0x1a0
+> >    [    4.355612]  amd_iommu_add_device+0x13a/0x610
+> >    [    4.355612]  add_iommu_group+0x20/0x30
+> >    [    4.355612]  bus_for_each_dev+0x76/0xc0
+> >    [    4.355612]  bus_set_iommu+0xb6/0xf0
+> >    [    4.355612]  amd_iommu_init_api+0x112/0x132
+> >    [    4.355612]  state_next+0xfb1/0x1165
+> >    [    4.355612]  amd_iommu_init+0x1f/0x67
+> >    [    4.355612]  pci_iommu_init+0x16/0x3f
+> >    ...
+> >    [    4.670295] Unreclaimable slab info:
+> >    ...
+> >    [    4.857565] kmalloc-2048           59164KB      59164KB
+> > 
+> > Change IOVA_MAG_SIZE from 128 to 127 to make size of 'iova_magazine'
+> > 1024 bytes so that no memory will be wasted.
+> > 
+> > [1]. https://lkml.org/lkml/2019/8/12/266
+> > 
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> > ---
+> >   drivers/iommu/iova.c | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
+> > index db77aa675145b..27634ddd9b904 100644
+> > --- a/drivers/iommu/iova.c
+> > +++ b/drivers/iommu/iova.c
+> > @@ -614,7 +614,12 @@ EXPORT_SYMBOL_GPL(reserve_iova);
+> >    * dynamic size tuning described in the paper.
+> >    */
+> > -#define IOVA_MAG_SIZE 128
+> > +/*
+> > + * As kmalloc's buffer size is fixed to power of 2, 127 is chosen to
+> > + * assure size of 'iova_magzine' to be 1024 bytes, so that no memory
 > 
-> Considering that it's an old 32-bit platform for MTK, if it would
-> take time to do so, I'd like to drop the change in MTK driver and
-> note in commit log for you or other MTK folks to change in future.
+> Typo: iova_magazine
 
-Yes. Please help drop the change in this file.
+will fix.
 
-Sorry I don't have the board at hand right now and I could not list the
-backtrace where this is needed(should be bus_iommu_probe from the
-previous debug...)
-
+> > + * will be wasted.
+> > + */
+> > +#define IOVA_MAG_SIZE 127
 > 
-> Thanks
-> Nic
+> The change itself seems perfectly reasonable, though.
+> 
+> Acked-by: Robin Murphy <robin.murphy@arm.com>
+ 
+Thanks for the review!
 
+- Feng
+
+> >   #define MAX_GLOBAL_MAGS 32	/* magazines per bin */
+> >   struct iova_magazine {
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
