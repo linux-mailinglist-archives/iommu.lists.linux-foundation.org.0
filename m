@@ -1,106 +1,101 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1B4563A5B
-	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 22:11:01 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBF9563A5E
+	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 22:11:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0824F423E3;
-	Fri,  1 Jul 2022 20:10:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0824F423E3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=sholland.org header.i=@sholland.org header.a=rsa-sha256 header.s=fm3 header.b=AqGoMTSN;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=oa1e9Su6
+	by smtp1.osuosl.org (Postfix) with ESMTP id DF09984147;
+	Fri,  1 Jul 2022 20:10:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DF09984147
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=sholland.org header.i=@sholland.org header.a=rsa-sha256 header.s=fm3 header.b=hcAoBpvI;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HeWsMOcv
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id L-AX2hIZ5nLF; Fri,  1 Jul 2022 20:10:55 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QFtJ7BRTsDzi; Fri,  1 Jul 2022 20:10:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 59CF2423BA;
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D0E898476C;
 	Fri,  1 Jul 2022 20:10:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 59CF2423BA
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D0E898476C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24D78C0071;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 72E14C002D;
 	Fri,  1 Jul 2022 20:10:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2CEDC002D
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:51 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 05556C0082
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id AC3A460648
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8298E84142
  for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AC3A460648
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key, unprotected) header.d=sholland.org
- header.i=@sholland.org header.a=rsa-sha256 header.s=fm3 header.b=AqGoMTSN; 
- dkim=pass (2048-bit key,
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=oa1e9Su6
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8298E84142
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AuQ9H0KeP3MN for <iommu@lists.linux-foundation.org>;
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id X0nZ4NzgWURZ for <iommu@lists.linux-foundation.org>;
  Fri,  1 Jul 2022 20:10:50 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C0B09607D1
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D085084145
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C0B09607D1
+ by smtp1.osuosl.org (Postfix) with ESMTPS id D085084145
  for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:49 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 88D6C5802F4;
- Fri,  1 Jul 2022 16:01:41 -0400 (EDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id F1DE55802F6;
+ Fri,  1 Jul 2022 16:01:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 01 Jul 2022 16:01:41 -0400
+ by compute2.internal (MEProxy); Fri, 01 Jul 2022 16:01:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1656705701; x=1656712901; bh=0L
- WuRMkphck+oUsETtbUMciB/g6XpbS+D68bi898KtM=; b=AqGoMTSNUno8lOmyDh
- KCwBkoAA7CbRzCpTwUdrVZNLF/wgidvQ7dsm+84o2fZ7gQevOX9qgVYV5nm/9kgO
- AMuQd8xE3VTWjlAJ7GrdD9VG7BV18Jcp9kKqlP10nOfIKsoMI+rW7kzM0NAfbTyC
- NWr74D8Q3JSoeOaEx9LsHr33xds/373ohmcrmDKPwF8OjXUOpnM+aWDRtp6nuvq9
- kg59XMZJPKD6+LWdXV+szMDXjt+Bh7ouD13imUf0Q05dynZ6LTdGmF8mVgEGl3Bl
- ONZn3X292lorO+Z+uaZEodDFOzhGvINgJHQDr8YSLNCPUjVe/p4PN6U1+nlRcr03
- GbWw==
+ :subject:subject:to:to; s=fm3; t=1656705706; x=1656712906; bh=SS
+ qXvxPvOnT181Alnoj0HfgL9fqTJVzreJxmfCVyBec=; b=hcAoBpvIf8eiMsWnHm
+ b6RJp+0UU2OILuy21U79vOjusxjAcQG94kzCl/SLOhhz8J4ASW+y84iY/hEL50ms
+ +t+80HjBAylZNEJe73yGhHSZF1RSQ8RBU9Nk62QyCXZpUC4CexurEGTlBgY/Xqfo
+ fnfCIqYMFwRBTgEwEckqi0Kl9E6cHZVfUrF5kxIWdFViA5bUJ11OHLJ7T0XapXw2
+ hQWKkSyPabF2oJi63qd5eTn9Zl4sQmG20eYW/wqRNYdW/SrAsFhGxn4LKFrrzqDC
+ C0MqxbtLaYxpKOf9o9kKWlf6yKvCjeXy1x18+k24AKggcDhNdzIH/iJu5OZQ3wo4
+ ssMA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656705701; x=1656712901; bh=0LWuRMkphck+o
- UsETtbUMciB/g6XpbS+D68bi898KtM=; b=oa1e9Su6i+EtxBIhYMfUYN1BBIh7+
- NtLc3K9bSFNOEpdIhhM9orp+f/WF+uOfv1NI8kwLKLdemiOeS5HWJECGkfsHhJiH
- /wrY8WMMNhZUZUQf87Y6I2nlwQL4IKXSCH2sx7h4StxNsLo412pY5+cK8XhqNURa
- IF4psEvV+ZGo699etAF0/P+4jL5LalpbzQlttWsppbNEXfxA/dOghfaTOCAwlKrK
- KEvs69E1t/EoreKt1IwBdd8N4B9H428Bsjz94BHuby3lv0Gnlfekvlya7hY+n98C
- YWKS5+DGo6Bue2FdLbpuwQxoB2okv4DaH6kIF8BDFGbnyGUVJ78Jz+rvQ==
-X-ME-Sender: <xms:olK_YsFQaQWqF-aONlCFJ5uetgmJnec1thbISaSBgnaCH8jS6vgdlw>
- <xme:olK_YlXkRgS5TvEifhOxL8eAll0aQOmledIk1hyN2rgNMA13JYmstRmbpGOaRmTU-
- H2H_Gklvg3vNf_76g>
-X-ME-Received: <xmr:olK_YmLuD69cpfSzw-R4kmMPgu2jyauTWKCQHkDFAgmSZn9Gis4bbGNPIwkocA_DrrsH3sMvcbGjSDo8KSO7QZfNqsw4dV7PcL3l-1zAidbDC6DmKW4D1HlwVY3xH3m954qqMg>
+ :x-sasl-enc; s=fm2; t=1656705706; x=1656712906; bh=SSqXvxPvOnT18
+ 1Alnoj0HfgL9fqTJVzreJxmfCVyBec=; b=HeWsMOcvIEpk7+MFtWHCXsiI6BlFC
+ 2TQ2SkcGU6TjX/RAuIxgMoxDlrLAJRLOQUP5M4Vjn/Sk2LIfFF6zmyCdELkbAfiW
+ sNvfuqkLM1Vey2QklfYRRWjhcegVctGnxhxUwegYbB0z6YgklYBKnTe07fR9Aokx
+ OJk4Rl2PfNKRw931jKDBYNYjhcdhJJxhHzUaHJY1VFb0uXTx2Qq9+O7Z8+sDYq3K
+ dW+YTOeJLeT+EWHVFce25KHIXMDeukkeCTF05NMBW9QbVqWeENDneUsjCVRvIwS4
+ +pREO1Ryo1aq2EmzH+e4VaMl82vWzrZw+kMmsklRZow8dIJvLbZg3JAtQ==
+X-ME-Sender: <xms:qFK_YsIaYF4zQr4W2reW40ZCVdf18qMP0jUxBhRM2F9XT3OMoZE-fQ>
+ <xme:qFK_YsLMw7Ul-MFWvL5vjLl8kF8OII4_AxB68OblZjKrRy2kL3D-hexNKYm7eeilY
+ r3A0Nm-DvJnaB1bqw>
+X-ME-Received: <xmr:qFK_YsvSjEToVoJH77gEMjDuattqvftr9In9WoGGrsXJF0G4gbll_vSjSD0PfO7MeF139vM38mNTdntEoLC6DmjMwlneu3GzSMNeIsU0zW-j4HFzvCUiSUQZYQsfYrB4ht35Fw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgudeggecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghm
  uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
  ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
- gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfh
  hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:olK_YuH3L90nAfoF2N8s9mi1lvzCGpKg5B0fSYH1opyql0hpPhTvBg>
- <xmx:olK_YiV10CMXHptGh7LyGaSf02IoE_5CXIQLqvsRS8VJkIe4doHZvA>
- <xmx:olK_YhO7Ax5bd7URto_P8m9sgMbfhMUEE1FQyOCxW1mjUcM8gkrmbw>
- <xmx:pVK_YnWNuGw-JrwdgPZRMxAas6DoPrjYmDFLwWpctwyYTLAPtQGZKg>
+X-ME-Proxy: <xmx:qFK_YpaOX1fO-6TE3RDUrGUqEks9gqQTGKtyHpwS4EkpGFs3D_QX1g>
+ <xmx:qFK_YjY-VtD47ytaYrZ-MHfYlS9aFWa7-aZfO5UVVLGUS3nufnJ-2Q>
+ <xmx:qFK_YlCdS98PzzFa3RHRnOz63A6BS-YMIMrSNYdRpcIEip8IzR4YhQ>
+ <xmx:qlK_YnrH17XSu6_tw5n16RVzGLdNEhRKaiCIhf79YUHgEBSwJGS5nQ>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 16:01:36 -0400 (EDT)
+ 1 Jul 2022 16:01:41 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Marc Zyngier <maz@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH v3 4/8] genirq: Drop redundant irq_init_effective_affinity
-Date: Fri,  1 Jul 2022 15:00:52 -0500
-Message-Id: <20220701200056.46555-5-samuel@sholland.org>
+Subject: [PATCH v3 5/8] genirq: Refactor accessors to use
+ irq_data_get_affinity_mask
+Date: Fri,  1 Jul 2022 15:00:53 -0500
+Message-Id: <20220701200056.46555-6-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220701200056.46555-1-samuel@sholland.org>
 References: <20220701200056.46555-1-samuel@sholland.org>
@@ -158,47 +153,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-It does exactly the same thing as irq_data_update_effective_affinity.
+A couple of functions directly reference the affinity mask. Route them
+through irq_data_get_affinity_mask so they will pick up any refactoring
+done there.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-Changes in v3:
- - New patch to drop irq_init_effective_affinity
+(no changes since v1)
 
- kernel/irq/manage.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ include/linux/irq.h | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 8c396319d5ac..40fe7806cc8c 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -205,16 +205,8 @@ static void irq_validate_effective_affinity(struct irq_data *data)
- 	pr_warn_once("irq_chip %s did not update eff. affinity mask of irq %u\n",
- 		     chip->name, data->irq);
+diff --git a/include/linux/irq.h b/include/linux/irq.h
+index 505308253d23..69ee4e2f36ce 100644
+--- a/include/linux/irq.h
++++ b/include/linux/irq.h
+@@ -879,16 +879,16 @@ static inline int irq_data_get_node(struct irq_data *d)
+ 	return irq_common_data_get_node(d->common);
  }
+ 
+-static inline struct cpumask *irq_get_affinity_mask(int irq)
++static inline struct cpumask *irq_data_get_affinity_mask(struct irq_data *d)
+ {
+-	struct irq_data *d = irq_get_irq_data(irq);
 -
--static inline void irq_init_effective_affinity(struct irq_data *data,
--					       const struct cpumask *mask)
--{
--	cpumask_copy(irq_data_get_effective_affinity_mask(data), mask);
--}
- #else
- static inline void irq_validate_effective_affinity(struct irq_data *data) { }
--static inline void irq_init_effective_affinity(struct irq_data *data,
--					       const struct cpumask *mask) { }
+-	return d ? d->common->affinity : NULL;
++	return d->common->affinity;
+ }
+ 
+-static inline struct cpumask *irq_data_get_affinity_mask(struct irq_data *d)
++static inline struct cpumask *irq_get_affinity_mask(int irq)
+ {
+-	return d->common->affinity;
++	struct irq_data *d = irq_get_irq_data(irq);
++
++	return d ? irq_data_get_affinity_mask(d) : NULL;
+ }
+ 
+ #ifdef CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK
+@@ -910,7 +910,7 @@ static inline void irq_data_update_effective_affinity(struct irq_data *d,
+ static inline
+ struct cpumask *irq_data_get_effective_affinity_mask(struct irq_data *d)
+ {
+-	return d->common->affinity;
++	return irq_data_get_affinity_mask(d);
+ }
  #endif
  
- int irq_do_set_affinity(struct irq_data *data, const struct cpumask *mask,
-@@ -347,7 +339,7 @@ static bool irq_set_affinity_deactivated(struct irq_data *data,
- 		return false;
- 
- 	cpumask_copy(desc->irq_common_data.affinity, mask);
--	irq_init_effective_affinity(data, mask);
-+	irq_data_update_effective_affinity(data, mask);
- 	irqd_set(data, IRQD_AFFINITY_SET);
- 	return true;
- }
 -- 
 2.35.1
 
