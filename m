@@ -1,87 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C2C562AF5
-	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 07:41:15 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B40562C39
+	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 09:04:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0F39583FB0;
-	Fri,  1 Jul 2022 05:41:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0F39583FB0
+	by smtp4.osuosl.org (Postfix) with ESMTP id 613FF41737;
+	Fri,  1 Jul 2022 07:04:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 613FF41737
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wC9djZm0OCJ0; Fri,  1 Jul 2022 05:41:13 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kX5cmjAR9K0P; Fri,  1 Jul 2022 07:04:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 007DF83FA3;
-	Fri,  1 Jul 2022 05:41:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 007DF83FA3
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 2134541728;
+	Fri,  1 Jul 2022 07:04:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2134541728
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BF263C0079;
-	Fri,  1 Jul 2022 05:41:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5D3BC007C;
+	Fri,  1 Jul 2022 07:04:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08BE2C0011
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 05:41:11 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 64094C002D;
+ Fri,  1 Jul 2022 07:04:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id CAA9283FA3
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 05:41:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CAA9283FA3
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3099B60D89;
+ Fri,  1 Jul 2022 07:04:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3099B60D89
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Gq9F9AMmXYbl for <iommu@lists.linux-foundation.org>;
- Fri,  1 Jul 2022 05:41:10 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6V4IJ0DdrMiF; Fri,  1 Jul 2022 07:04:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0DB7883F9F
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0DB7883F9F
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 05:41:09 +0000 (UTC)
-X-UUID: b86730cb8abe4620b02d60a0081f2e0f-20220701
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:4a018eb4-7624-422c-b66c-91c8755b1681, OB:0,
- LO
- B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:95
-X-CID-INFO: VERSION:1.1.7, REQID:4a018eb4-7624-422c-b66c-91c8755b1681, OB:0,
- LOB:
- 10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:95
-X-CID-META: VersionHash:87442a2, CLOUDID:09852163-0b3f-4b2c-b3a6-ed5c044366a0,
- C
- OID:02898f0f4cc2,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: b86730cb8abe4620b02d60a0081f2e0f-20220701
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 590964244; Fri, 01 Jul 2022 13:41:03 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 1 Jul 2022 13:41:02 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 1 Jul 2022 13:41:00 +0800
-To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- Will Deacon <will@kernel.org>
-Subject: [PATCH v3 7/7] iommu/mediatek: Remove unused "mapping" member from
- mtk_iommu_data
-Date: Fri, 1 Jul 2022 13:39:42 +0800
-Message-ID: <20220701053942.3266-8-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220701053942.3266-1-yong.wu@mediatek.com>
-References: <20220701053942.3266-1-yong.wu@mediatek.com>
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 71072605E3
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from unicom146.biz-email.net (unicom146.biz-email.net
+ [210.51.26.146])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 71072605E3;
+ Fri,  1 Jul 2022 07:04:12 +0000 (UTC)
+Received: from ([60.208.111.195])
+ by unicom146.biz-email.net ((D)) with ASMTP (SSL) id VEE00141;
+ Fri, 01 Jul 2022 15:03:41 +0800
+Received: from localhost.localdomain (10.200.104.97) by
+ jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server id
+ 15.1.2507.9; Fri, 1 Jul 2022 15:03:44 +0800
+From: Bo Liu <liubo03@inspur.com>
+To: <jean-philippe@linaro.org>, <joro@8bytes.org>, <will@kernel.org>
+Subject: [PATCH] iommu/virtio: Handle return of iommu_device_register
+Date: Fri, 1 Jul 2022 01:43:04 -0400
+Message-ID: <20220701054304.6434-1-liubo03@inspur.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-X-MTK: N
-Cc: anan.sun@mediatek.com, chengci.xu@mediatek.com, xueqi.zhang@mediatek.com,
- iommu@lists.linux.dev, libo.kang@mediatek.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, yf.wang@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Guenter Roeck <groeck@chromium.org>, Dan Carpenter <dan.carpenter@oracle.com>,
- mingyuan.ma@mediatek.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+X-Originating-IP: [10.200.104.97]
+tUid: 20227011503418d5d708f5b31f05e32cd5086aa14c86f
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ iommu@lists.linux.dev, Bo Liu <liubo03@inspur.com>,
+ virtualization@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,39 +73,47 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Yong Wu via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Yong Wu <yong.wu@mediatek.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Just remove a unused variable that only is for mtk_iommu_v1.
+iommu_device_register returns an error code and, although it currently
+never fails, we should check its return value anyway.
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Signed-off-by: Bo Liu <liubo03@inspur.com>
 ---
- drivers/iommu/mtk_iommu.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/iommu/virtio-iommu.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 573b8a7f76f7..df49d3907f36 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -221,10 +221,7 @@ struct mtk_iommu_data {
- 	struct device			*smicomm_dev;
+diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
+index 25be4b822aa0..12e7d8364560 100644
+--- a/drivers/iommu/virtio-iommu.c
++++ b/drivers/iommu/virtio-iommu.c
+@@ -1144,7 +1144,9 @@ static int viommu_probe(struct virtio_device *vdev)
+ 	if (ret)
+ 		goto err_free_vqs;
  
- 	struct mtk_iommu_bank_data	*bank;
--
--	struct dma_iommu_mapping	*mapping; /* For mtk_iommu_v1.c */
- 	struct regmap			*pericfg;
--
- 	struct mutex			mutex; /* Protect m4u_group/m4u_dom above */
+-	iommu_device_register(&viommu->iommu, &viommu_ops, parent_dev);
++	ret = iommu_device_register(&viommu->iommu, &viommu_ops, parent_dev);
++	if (ret)
++		goto err_remove_sysfs;
  
- 	/*
+ #ifdef CONFIG_PCI
+ 	if (pci_bus_type.iommu_ops != &viommu_ops) {
+@@ -1175,8 +1177,9 @@ static int viommu_probe(struct virtio_device *vdev)
+ 	return 0;
+ 
+ err_unregister:
+-	iommu_device_sysfs_remove(&viommu->iommu);
+ 	iommu_device_unregister(&viommu->iommu);
++err_remove_sysfs:
++	iommu_device_sysfs_remove(&viommu->iommu);
+ err_free_vqs:
+ 	vdev->config->del_vqs(vdev);
+ 
 -- 
-2.18.0
+2.27.0
 
 _______________________________________________
 iommu mailing list
