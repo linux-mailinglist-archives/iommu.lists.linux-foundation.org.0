@@ -2,65 +2,111 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B40562C39
-	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 09:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0F0562B27
+	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 08:02:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 613FF41737;
-	Fri,  1 Jul 2022 07:04:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 613FF41737
+	by smtp4.osuosl.org (Postfix) with ESMTP id 141654177C;
+	Fri,  1 Jul 2022 06:02:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 141654177C
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=T/RD+sr6;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=K6Q2Cfyw
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kX5cmjAR9K0P; Fri,  1 Jul 2022 07:04:17 +0000 (UTC)
+	with ESMTP id 41vzWrrRBRj6; Fri,  1 Jul 2022 06:02:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 2134541728;
-	Fri,  1 Jul 2022 07:04:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2134541728
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A6D23417A8;
+	Fri,  1 Jul 2022 06:02:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A6D23417A8
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5D3BC007C;
-	Fri,  1 Jul 2022 07:04:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6226AC007C;
+	Fri,  1 Jul 2022 06:02:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64094C002D;
- Fri,  1 Jul 2022 07:04:15 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 02E25C0071
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 06:02:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3099B60D89;
- Fri,  1 Jul 2022 07:04:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3099B60D89
+ by smtp4.osuosl.org (Postfix) with ESMTP id D6DCD41795
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 06:02:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D6DCD41795
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6V4IJ0DdrMiF; Fri,  1 Jul 2022 07:04:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 71072605E3
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from unicom146.biz-email.net (unicom146.biz-email.net
- [210.51.26.146])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 71072605E3;
- Fri,  1 Jul 2022 07:04:12 +0000 (UTC)
-Received: from ([60.208.111.195])
- by unicom146.biz-email.net ((D)) with ASMTP (SSL) id VEE00141;
- Fri, 01 Jul 2022 15:03:41 +0800
-Received: from localhost.localdomain (10.200.104.97) by
- jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server id
- 15.1.2507.9; Fri, 1 Jul 2022 15:03:44 +0800
-From: Bo Liu <liubo03@inspur.com>
-To: <jean-philippe@linaro.org>, <joro@8bytes.org>, <will@kernel.org>
-Subject: [PATCH] iommu/virtio: Handle return of iommu_device_register
-Date: Fri, 1 Jul 2022 01:43:04 -0400
-Message-ID: <20220701054304.6434-1-liubo03@inspur.com>
-X-Mailer: git-send-email 2.18.2
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JVD8of_Oa8bE for <iommu@lists.linux-foundation.org>;
+ Fri,  1 Jul 2022 06:02:04 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E78F84177C
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E78F84177C
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 06:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1656655324; x=1688191324;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=88W0IhCdmASo0Tm8efAxg0rx5GK9cZqYIieLJEzdB/g=;
+ b=T/RD+sr6Glq4Z6Ft5QhkOPRZVMLQ+NhiXIK81iwbhsHp6Yd+r0v0PUdk
+ qW/OY3lbF+F78/xpgRQmb+2FycQuB24GWW3Aj1VILTNrpRZIRs7YKonIn
+ YpMk/wahVv6ixdOMbYoLGsMBX6mpWqBXfZCvCnLxo6tXtTQbIaHHHotYQ
+ 0ZUeh46Prd0NZj9kzia1M3IE3BCMvqKNoi54PRlO6oGmkAvUKOBmykSer
+ /IhB584dRqaRtTE/hXkacjWhfaEbdeNEdJMG7J3z3MLjpzz4r/vw3aUDx
+ W8XcqmO/IIpzN8NNcmHQi/E7DTRouTZR2pMfsfLzp7BujaBCfCIuquD2x A==;
+X-IronPort-AV: E=Sophos;i="5.92,236,1650924000"; d="scan'208";a="24791549"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 01 Jul 2022 08:01:59 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Fri, 01 Jul 2022 08:01:59 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Fri, 01 Jul 2022 08:01:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1656655319; x=1688191319;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=88W0IhCdmASo0Tm8efAxg0rx5GK9cZqYIieLJEzdB/g=;
+ b=K6Q2CfywRqDUvlFcJVmFu6SslcG04+Frpxyc2nE7tT9SSWUzopX9hnsx
+ i6hJLpLOtTHT9IVKGQC+koLLc/A/bGGIkSAIfUyMDrKbj4CHLsr+sUstl
+ aKw3+7dp0h/TxION+F2+Bk8XlOfNfla4YtFnUkE/YnWbuQ43uXkNzO17g
+ UCnShk/d3oJONlpNe5O3TXeunAeL5rX6ZhnfYiWsDMOQpN4WIeq0x9MvP
+ FUNanteNRubdyH9vtorxD286thuUKE7eIO6xZuLlN0TxahRJb8e/k6vez
+ V5LBq6rqg/eU0Vz1vkuGh6ZK93H6lyFCyiRsOzS4gP/elcCZNoqD85/w0 g==;
+X-IronPort-AV: E=Sophos;i="5.92,236,1650924000"; d="scan'208";a="24791548"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 01 Jul 2022 08:01:59 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8C3D0280071;
+ Fri,  1 Jul 2022 08:01:58 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Saravana Kannan <saravanak@google.com>
+Subject: Re: (EXT) Re: [PATCH v2 1/9] PM: domains: Delete usage of
+ driver_deferred_probe_check_state()
+Date: Fri, 01 Jul 2022 08:01:56 +0200
+Message-ID: <5265491.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAGETcx_1qa=gGT4LVkyPpcA1vFM9FzuJE+0DhL_nFyg5cbFjVg@mail.gmail.com>
+References: <20220601070707.3946847-1-saravanak@google.com>
+ <4799738.LvFx2qVVIh@steina-w>
+ <CAGETcx_1qa=gGT4LVkyPpcA1vFM9FzuJE+0DhL_nFyg5cbFjVg@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.200.104.97]
-tUid: 20227011503418d5d708f5b31f05e32cd5086aa14c86f
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- iommu@lists.linux.dev, Bo Liu <liubo03@inspur.com>,
- virtualization@lists.linux-foundation.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Eric Dumazet <edumazet@google.com>,
+ Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
+ Kevin Hilman <khilman@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, kernel-team@android.com,
+ Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,42 +124,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-iommu_device_register returns an error code and, although it currently
-never fails, we should check its return value anyway.
+Hi Saravana,
 
-Signed-off-by: Bo Liu <liubo03@inspur.com>
----
- drivers/iommu/virtio-iommu.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Am Freitag, 1. Juli 2022, 02:37:14 CEST schrieb Saravana Kannan:
+> On Thu, Jun 23, 2022 at 5:08 AM Alexander Stein
+> 
+> <alexander.stein@ew.tq-group.com> wrote:
+> > Hi,
+> > 
+> > Am Dienstag, 21. Juni 2022, 09:28:43 CEST schrieb Tony Lindgren:
+> > > Hi,
+> > > 
+> > > * Saravana Kannan <saravanak@google.com> [700101 02:00]:
+> > > > Now that fw_devlink=on by default and fw_devlink supports
+> > > > "power-domains" property, the execution will never get to the point
+> > > > where driver_deferred_probe_check_state() is called before the
+> > > > supplier
+> > > > has probed successfully or before deferred probe timeout has expired.
+> > > > 
+> > > > So, delete the call and replace it with -ENODEV.
+> > > 
+> > > Looks like this causes omaps to not boot in Linux next. With this
+> > > simple-pm-bus fails to probe initially as the power-domain is not
+> > > yet available. On platform_probe() genpd_get_from_provider() returns
+> > > -ENOENT.
+> > > 
+> > > Seems like other stuff is potentially broken too, any ideas on
+> > > how to fix this?
+> > 
+> > I think I'm hit by this as well, although I do not get a lockup.
+> > In my case I'm using
+> > arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dts and probing of
+> > 38320000.blk-ctrl fails as the power-domain is not (yet) registed.
+> 
+> Ok, took a look.
+> 
+> The problem is that there are two drivers for the same device and they
+> both initialize this device.
+> 
+>     gpc: gpc@303a0000 {
+>         compatible = "fsl,imx8mq-gpc";
+>     }
+> 
+> $ git grep -l "fsl,imx7d-gpc" -- drivers/
+> drivers/irqchip/irq-imx-gpcv2.c
+> drivers/soc/imx/gpcv2.c
+> 
+> IMHO, this is a bad/broken design.
+> 
+> So what's happening is that fw_devlink will block the probe of
+> 38320000.blk-ctrl until 303a0000.gpc is initialized. And it stops
+> blocking the probe of 38320000.blk-ctrl as soon as the first driver
+> initializes the device. In this case, it's the irqchip driver.
+> 
+> I'd recommend combining these drivers into one. Something like the
+> patch I'm attaching (sorry for the attachment, copy-paste is mangling
+> the tabs). Can you give it a shot please?
 
-diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index 25be4b822aa0..12e7d8364560 100644
---- a/drivers/iommu/virtio-iommu.c
-+++ b/drivers/iommu/virtio-iommu.c
-@@ -1144,7 +1144,9 @@ static int viommu_probe(struct virtio_device *vdev)
- 	if (ret)
- 		goto err_free_vqs;
- 
--	iommu_device_register(&viommu->iommu, &viommu_ops, parent_dev);
-+	ret = iommu_device_register(&viommu->iommu, &viommu_ops, parent_dev);
-+	if (ret)
-+		goto err_remove_sysfs;
- 
- #ifdef CONFIG_PCI
- 	if (pci_bus_type.iommu_ops != &viommu_ops) {
-@@ -1175,8 +1177,9 @@ static int viommu_probe(struct virtio_device *vdev)
- 	return 0;
- 
- err_unregister:
--	iommu_device_sysfs_remove(&viommu->iommu);
- 	iommu_device_unregister(&viommu->iommu);
-+err_remove_sysfs:
-+	iommu_device_sysfs_remove(&viommu->iommu);
- err_free_vqs:
- 	vdev->config->del_vqs(vdev);
- 
--- 
-2.27.0
+I tried this patch and it delayed the driver initialization (those of UART as 
+well BTW). Unfortunately the driver fails the same way:
+> [    1.125253] imx8m-blk-ctrl 38320000.blk-ctrl: error -ENODEV: failed to 
+attach power domain "bus"
+
+More than that it even introduced some more errors:
+> [    0.008160] irq: no irq domain found for gpc@303a0000 !
+> [    0.013251] Failed to map interrupt for
+> /soc@0/bus@30400000/timer@306a0000
+> [    0.020152] Failed to initialize '/soc@0/bus@30400000/timer@306a0000':
+> -22
+
+I kept the timestamps to show that these errors happen very early. So now the 
+usage of the "global" interrupt parent, set at line 18,
+> interrupt-parent = <&gpc>;
+is not possible at this point of boot time.
+
+Best regards,
+Alexander
+
+
 
 _______________________________________________
 iommu mailing list
