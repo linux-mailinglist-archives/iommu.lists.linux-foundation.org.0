@@ -1,113 +1,139 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F9A563992
-	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 21:13:59 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A75E7563A58
+	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 22:10:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 19D2D60BEC;
-	Fri,  1 Jul 2022 19:13:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 19D2D60BEC
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=YxJMJqn/
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7485C41765;
+	Fri,  1 Jul 2022 20:10:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7485C41765
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=sholland.org header.i=@sholland.org header.a=rsa-sha256 header.s=fm3 header.b=mK5frjjp;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=hcCVwh1P
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QEts4YLpkiYW; Fri,  1 Jul 2022 19:13:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B782F60B8B;
-	Fri,  1 Jul 2022 19:13:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B782F60B8B
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZbXaWhD3oitg; Fri,  1 Jul 2022 20:10:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C81E4423BD;
+	Fri,  1 Jul 2022 20:10:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C81E4423BD
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A1D0C0039;
-	Fri,  1 Jul 2022 19:13:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 85604C0039;
+	Fri,  1 Jul 2022 20:10:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 53CA1C002D
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 19:13:55 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 97846C002D
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2728840204
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 19:13:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2728840204
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
- header.a=rsa-sha256 header.s=20210112 header.b=YxJMJqn/
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4F656423B9
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4F656423B9
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hbDVi6jTCmz3 for <iommu@lists.linux-foundation.org>;
- Fri,  1 Jul 2022 19:13:54 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0A8DA400DB
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 0A8DA400DB
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 19:13:53 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id 194so624386ybc.4
- for <iommu@lists.linux-foundation.org>; Fri, 01 Jul 2022 12:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0QS+dcPV5O8kLzr2+REcEkzxVnC/iy1E7v+r8knheu0=;
- b=YxJMJqn/vOk+95wW9H3XyxhU7b6ot8wJfR5j/hJXXANi9ACWI8OWpYLc7idqKtR70V
- I3f03mBuDThOJwgTtewRvSXUMPEEQyG2ilkW3LrxcIy7/7G+z/lvGEKEHqAw36hYhA+D
- 6ECYWOChAVa+UxOkE+iS+daPXf69U0SflOW9HtDhl9SR2FAyXKxcYvKm3CgyTVMStMHC
- d3loWbDJUvP5cApZmY9sk39gsPipm7VWUwXpJ6tYDGtPK2MW5LBo5X+RScgoYXv7fbLo
- O9phoX29OCjJ0I+QGlNLfK3+Itz44Me8/dSf5Psw1rGo4PvdspD0oJiqYd3r+D2c9F2x
- uSLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0QS+dcPV5O8kLzr2+REcEkzxVnC/iy1E7v+r8knheu0=;
- b=Fxdv16zktGRrLf/cFzQY3XkRlmvNqVXw3j4Lnmhajw2QtpSxSxs9nmjpuWF0IUbROx
- 0do9A4AfdFVnGSJn8Su74yjnYf1gdyTo6LqI2DqvhiL/aCplst4oeriqCYJmvY1ra8ax
- LwUWYhJ9cNlqLYfcQp697v2gajbQ3R1nbdrxYT5XTVkkBmocW9rEaDHiPr1bEwCAgkL6
- 8Qr9Zen0rs8t8d/2B0TbdFLAZx3EYfrzgTFk9Sw4kDSMRzWWCfkumxXLXcOkJiLC1Hlc
- EFVt9HRIWL/6om7RHE5VNO7HhiFWmmsIlxQmLKVla5So2cUFCnYp4H+xqcHm5zOssjGH
- XnBw==
-X-Gm-Message-State: AJIora+IivCfgN4F/Ey4MzzrwO78sEnBCZpSCBIC1qMuAam8UTP8wvEO
- MiGSvQAqih8jTNjxvGqlpkoZOLIFq/7EpjjoSeC0dQ==
-X-Google-Smtp-Source: AGRyM1tQv6CCDFx3u07LEvOjaGIhnXAU5l72oCC5MmwYKS+JqS6dGPS426l3v4HvKqgb/fUO3PdDTLb3hZ+49n67IRs=
-X-Received: by 2002:a25:5bc3:0:b0:669:b722:beb8 with SMTP id
- p186-20020a255bc3000000b00669b722beb8mr16783331ybb.447.1656702832727; Fri, 01
- Jul 2022 12:13:52 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fy4Fh_kTs-Za for <iommu@lists.linux-foundation.org>;
+ Fri,  1 Jul 2022 20:10:49 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CEAE141765
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CEAE141765
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 20:10:48 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 28AC058020B;
+ Fri,  1 Jul 2022 16:01:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 01 Jul 2022 16:01:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm3; t=1656705670; x=1656712870; bh=h3WN3AcddFJuwhQ39XPEdgr5t
+ ejPWmRF9a5JWUKLi6w=; b=mK5frjjpRETCdaizhOvpq/mQo5UlOZqfHCt356wLu
+ +SqVP3qKJ9LvP7YyRWEopUxCgCJ/Co0nb1GRIXbVwdtlJ5JrYoRlSvc+27WDag9+
+ 3jqJC6Nc5lLjDB1EbFnpv2S6VMiJgoGG3ESQyrzvFx4wbwb1+hfvfkj14nzE1iZ9
+ iHVs2Uh7tOwAj5coKNt98E1KuIr4Dy7ZidSi8Si+tRxxbGIc8g9/Wkp/PXxkdKWp
+ GwXvkDhS2Mkt7Y8U+OzIUgUEfaENyM7PjR+7UVXgmM8J+652ddmFvBKyk157w8wr
+ Skl8C3hKCbHheCLVFZJbuy7hz1/cffoSdxxCfnrh8YV+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1656705670; x=1656712870; bh=h3WN3AcddFJuwhQ39XPEdgr5tejPWmRF9a5
+ JWUKLi6w=; b=hcCVwh1PvSeKLtV/WWesjzpJEJOw4znKr5Z/2vhxnZuKQA9kLw4
+ /4+bCBG81guTmscsfsRlkY2MRf/An6IfLb4PqUB9cFC2NzaudqFlvP/yY19K+3XC
+ pDHCoLiIcwUV2Xv5FAIqCmEYAOVR+oCL2f261uukUnOGmb9sZJ1Wjru1FpMPNx9q
+ O20C8qlSGZIk/uqxcd6LnT2yDuqwiTmpUUWND72se1ELzfF/mrU6icJu6Gm0jlH3
+ iWOFR5OoOCZxlEPQplc7c7ud1SjE6qek/nk6mnJ70FNjkvapXHjyVwlAV5qpv1MZ
+ 45+fzYTFXAvc9YboPqeOQ31my0wQpPDiZ5Q==
+X-ME-Sender: <xms:e1K_YqJAKXaKPgqyd59ldyt87npfqKJCG8Fa8IiJ1JGRiUiSXx5JZg>
+ <xme:e1K_YiIt8LjVqOvwpx_JqZXxhJz3pskkEoDpx0DfqF9QwrmlD77DvYrLphtzsH91c
+ 60EnwaE7sSCA8LhkQ>
+X-ME-Received: <xmr:e1K_YqsbiJXFwsSStjJJO67Bifhg0yOnU6Z4_h1F4ezRCF_0D6gcyJ1rBH7JskXj8BCpGV4CECN0ypLF1eSiq5ghfDtA6Nb3u4bteUm49CHrPVJYe6DLnAKCGajaiAQKWL5-Lw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgudeggecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+ lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+ frrghtthgvrhhnpeekheffteehtdetfffgfeetteejvdefleeuvedufffguedtjedvheel
+ vddvfffhveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
+ ugdrohhrgh
+X-ME-Proxy: <xmx:e1K_YvbVVgQANbs4tH6mMUrH5LaNLres37xpgQFzFinmY6f7nPb4Fg>
+ <xmx:e1K_YhbiP6yq2Gi3AoIAcfhp4QohMreFnvgTLD9awWXIWatRIZ3Cjw>
+ <xmx:e1K_YrCjgb2M3iT9zxycFn46jQ9pLIWED1rqKrx13LiM_I0tfM9RnQ>
+ <xmx:hlK_YgfaZPstR3sDyiLp39VIN104HgzzMuXBbFWrwe3H_JzEL7MHlA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Jul 2022 16:00:57 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH v3 0/8] genirq: Provide real IRQ affinity masks in non-SMP
+ configs
+Date: Fri,  1 Jul 2022 15:00:48 -0500
+Message-Id: <20220701200056.46555-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <YrQP3OZbe8aCQxKU@atomide.com>
- <CAGETcx9aFBzMcuOiTAEy5SJyWw3UfajZ8DVQfW2DGmzzDabZVg@mail.gmail.com>
- <Yrlz/P6Un2fACG98@atomide.com>
- <CAGETcx8c+P0r6ARmhv+ERaz9zAGBOVJQu3bSDXELBycEGfkYQw@mail.gmail.com>
- <CAL_JsqJd3J6k6pRar7CkHVaaPbY7jqvzAePd8rVDisRV-dLLtg@mail.gmail.com>
- <CAGETcx9ZmeTyP1sJCFZ9pBbMyXeifQFohFvWN3aBPx0sSOJ2VA@mail.gmail.com>
- <Yr6HQOtS4ctUYm9m@atomide.com> <Yr6QUzdoFWv/eAI6@atomide.com>
- <CAGETcx-0bStPx8sF3BtcJFiu74NwiB0btTQ+xx_B=8B37TEb8w@mail.gmail.com>
- <CAGETcx-Yp2JKgCNfaGD0SzZg9F2Xnu8A3zXmV5=WX1hY7uR=0g@mail.gmail.com>
- <20220701150848.75eeprptmb5beip7@bogus>
-In-Reply-To: <20220701150848.75eeprptmb5beip7@bogus>
-Date: Fri, 1 Jul 2022 12:13:16 -0700
-Message-ID: <CAGETcx_Y-9WBeRwf22v3NSuY8PGpPrTxtx_uBqe_Q7rD6mEQMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] PM: domains: Delete usage of
- driver_deferred_probe_check_state()
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>, Eric Dumazet <edumazet@google.com>,
- Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Kevin Hilman <khilman@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Android Kernel Team <kernel-team@android.com>,
- Len Brown <len.brown@intel.com>,
- "open list:THERMAL" <linux-pm@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Ahern <dsahern@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- netdev <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-hyperv@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-pci@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Jan Beulich <jbeulich@suse.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Sven Schnelle <svens@stackframe.org>, Rob Herring <robh@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Samuel Holland <samuel@sholland.org>, Will Deacon <will@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, x86@kernel.org,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Wei Xu <xuwei5@hisilicon.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ xen-devel@lists.xenproject.org, Matt Turner <mattst88@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-xtensa@linux-xtensa.org,
+ Kees Cook <keescook@chromium.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Maximilian Heyne <mheyne@amazon.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ linux-arm-kernel@lists.infradead.org, Richard Henderson <rth@twiddle.net>,
+ Juergen Gross <jgross@suse.com>, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ iommu@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Colin Ian King <colin.king@intel.com>,
+ Helge Deller <deller@gmx.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,105 +146,79 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Saravana Kannan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Saravana Kannan <saravanak@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jul 1, 2022 at 8:08 AM Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> Hi, Saravana,
->
-> On Fri, Jul 01, 2022 at 01:26:12AM -0700, Saravana Kannan wrote:
->
-> [...]
->
-> > Can you check if this hack helps? If so, then I can think about
-> > whether we can pick it up without breaking everything else. Copy-paste
-> > tab mess up warning.
->
-> Sorry for jumping in late and not even sure if this is right thread.
-> I have not bisected anything yet, but I am seeing issues on my Juno R2
-> with SCMI enabled power domains and Coresight AMBA devices.
->
-> OF: amba_device_add() failed (-19) for /etf@20010000
-> OF: amba_device_add() failed (-19) for /tpiu@20030000
-> OF: amba_device_add() failed (-19) for /funnel@20040000
-> OF: amba_device_add() failed (-19) for /etr@20070000
-> OF: amba_device_add() failed (-19) for /stm@20100000
-> OF: amba_device_add() failed (-19) for /replicator@20120000
-> OF: amba_device_add() failed (-19) for /cpu-debug@22010000
-> OF: amba_device_add() failed (-19) for /etm@22040000
-> OF: amba_device_add() failed (-19) for /cti@22020000
-> OF: amba_device_add() failed (-19) for /funnel@220c0000
-> OF: amba_device_add() failed (-19) for /cpu-debug@22110000
-> OF: amba_device_add() failed (-19) for /etm@22140000
-> OF: amba_device_add() failed (-19) for /cti@22120000
-> OF: amba_device_add() failed (-19) for /cpu-debug@23010000
-> OF: amba_device_add() failed (-19) for /etm@23040000
-> OF: amba_device_add() failed (-19) for /cti@23020000
-> OF: amba_device_add() failed (-19) for /funnel@230c0000
-> OF: amba_device_add() failed (-19) for /cpu-debug@23110000
-> OF: amba_device_add() failed (-19) for /etm@23140000
-> OF: amba_device_add() failed (-19) for /cti@23120000
-> OF: amba_device_add() failed (-19) for /cpu-debug@23210000
-> OF: amba_device_add() failed (-19) for /etm@23240000
-> OF: amba_device_add() failed (-19) for /cti@23220000
-> OF: amba_device_add() failed (-19) for /cpu-debug@23310000
-> OF: amba_device_add() failed (-19) for /etm@23340000
-> OF: amba_device_add() failed (-19) for /cti@23320000
-> OF: amba_device_add() failed (-19) for /cti@20020000
-> OF: amba_device_add() failed (-19) for /cti@20110000
-> OF: amba_device_add() failed (-19) for /funnel@20130000
-> OF: amba_device_add() failed (-19) for /etf@20140000
-> OF: amba_device_add() failed (-19) for /funnel@20150000
-> OF: amba_device_add() failed (-19) for /cti@20160000
->
-> These are working fine with deferred probe in the mainline.
-> I tried the hack you have suggested here(rather Tony's version),
+This series solves some inconsistency with how IRQ affinity masks are
+handled between SMP and non-SMP configurations.
 
-Thanks for trying that.
+In non-SMP configs, an IRQ's true affinity is always cpumask_of(0), so
+irq_{,data_}get_affinity_mask now return that, instead of returning an
+uninitialized per-IRQ cpumask. This change makes iterating over the
+affinity mask do the right thing in both SMP and non-SMP configurations.
 
-> also
-> tried with fw_devlink=0 and fw_devlink=1
+To accomplish that:
+ - patches 1-3 disable some library code that was broken anyway on !SMP
+ - patches 4-7 refactor the code so that irq_{,data_}get_affinity_mask
+   can return a const cpumask, since that is what cpumask_of provides
+ - patch 8 drops the per-IRQ cpumask and replaces it with cpumask_of(0)
 
-0 and 1 aren't valid input to fw_devlink. But yeah, I don't expect
-disabling it to make anything better.
+This series was split from the v2 series here, which uses the new
+behavior in the RISC-V PLIC irqchip driver:
 
-> && fw_devlink.strict=0
-> No change in the behaviour.
->
-> The DTS are in arch/arm64/boot/dts/arm/juno-*-scmi.dts and there
-> coresight devices are mostly in juno-cs-r1r2.dtsi
+https://lore.kernel.org/lkml/20220616064028.57933-1-samuel@sholland.org/
 
-Thanks
+Changes in v3:
+ - New patch to fix build errors in uniprocessor MIPS configs
+ - New patch to drop irq_init_effective_affinity
+ - New patch to introduce irq_data_update_affinity
+ - New patch to make the returned cpumasks const
+ - Use cpumask_of(0) instead of cpu_possible_mask
 
-> Let me know if there is anything obvious or you want me to bisect which
-> means I need more time. I can do that next week.
+Changes in v2:
+ - New patch to prevent GENERIC_IRQ_IPI from being selected on !SMP
 
-I'll let you know once I poke at the DTS. We need to figure out why
-fw_devlink wasn't blocking these from getting to the error (same as in
-Tony's case). But since these are amba devices, I think I have some
-guesses.
+Samuel Holland (8):
+  irqchip/mips-gic: Only register IPI domain when SMP is enabled
+  genirq: GENERIC_IRQ_IPI depends on SMP
+  genirq: GENERIC_IRQ_EFFECTIVE_AFF_MASK depends on SMP
+  genirq: Drop redundant irq_init_effective_affinity
+  genirq: Refactor accessors to use irq_data_get_affinity_mask
+  genirq: Add and use an irq_data_update_affinity helper
+  genirq: Return a const cpumask from irq_data_get_affinity_mask
+  genirq: Provide an IRQ affinity mask in non-SMP configs
 
-This is an old series that had some issues in some cases and I haven't
-gotten around to looking at it. You can give that a shot if you can
-apply it to a recent tree.
-https://lore.kernel.org/lkml/20210304195101.3843496-1-saravanak@google.com/
+ arch/alpha/kernel/irq.c              |  2 +-
+ arch/arm/mach-hisi/Kconfig           |  2 +-
+ arch/ia64/kernel/iosapic.c           |  2 +-
+ arch/ia64/kernel/irq.c               |  4 +-
+ arch/ia64/kernel/msi_ia64.c          |  4 +-
+ arch/mips/cavium-octeon/octeon-irq.c |  4 +-
+ arch/parisc/kernel/irq.c             |  2 +-
+ arch/sh/kernel/irq.c                 |  7 +--
+ arch/x86/hyperv/irqdomain.c          |  2 +-
+ arch/xtensa/kernel/irq.c             |  7 +--
+ drivers/iommu/hyperv-iommu.c         |  2 +-
+ drivers/irqchip/Kconfig              | 19 +++----
+ drivers/irqchip/irq-bcm6345-l1.c     |  4 +-
+ drivers/irqchip/irq-mips-gic.c       | 80 +++++++++++++++++++---------
+ drivers/parisc/iosapic.c             |  2 +-
+ drivers/pci/controller/pci-hyperv.c  | 10 ++--
+ drivers/sh/intc/chip.c               |  2 +-
+ drivers/xen/events/events_base.c     |  7 +--
+ include/linux/irq.h                  | 34 ++++++++----
+ kernel/irq/Kconfig                   |  2 +
+ kernel/irq/chip.c                    |  8 +--
+ kernel/irq/debugfs.c                 |  2 +-
+ kernel/irq/ipi.c                     | 16 +++---
+ kernel/irq/manage.c                  | 10 +---
+ 24 files changed, 140 insertions(+), 94 deletions(-)
 
-After looking at that old patch again, I think I know what's going on.
-For normal devices, the pm domain attach happens AFTER the device is
-added and fw_devlink has had a chance to set up device links. And if
-the suppliers aren't ready, really_probe() won't get as far as
-dev_pm_domain_attach(). But for amba, the clock and pm domain
-suppliers are "grabbed" before adding the device.
+-- 
+2.35.1
 
-So with that old patch + always returning -EPROBE_DEFER in
-amba_device_add() if amba_read_periphid() fails should fix your issue.
-
--Saravana
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
