@@ -2,102 +2,83 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D91C562C32
-	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 09:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98E4562C7A
+	for <lists.iommu@lfdr.de>; Fri,  1 Jul 2022 09:19:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 22E8F60FD1;
-	Fri,  1 Jul 2022 07:03:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 22E8F60FD1
+	by smtp3.osuosl.org (Postfix) with ESMTP id 19EFB60FD5;
+	Fri,  1 Jul 2022 07:19:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 19EFB60FD5
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=G4+aGmI0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UnFL8spe
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WkqBKgOPYN03; Fri,  1 Jul 2022 07:03:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C97B860FDD;
-	Fri,  1 Jul 2022 07:03:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C97B860FDD
+	with ESMTP id W5AIc31fHGpV; Fri,  1 Jul 2022 07:19:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 0BB1B60FC9;
+	Fri,  1 Jul 2022 07:19:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0BB1B60FC9
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DE97C007C;
-	Fri,  1 Jul 2022 07:03:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BBB04C007C;
+	Fri,  1 Jul 2022 07:19:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6D637C002D
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 07:03:00 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 282D4C002D
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 07:19:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4406C40260
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 07:03:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4406C40260
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
- header.a=rsa-sha256 header.s=20210112 header.b=G4+aGmI0
+ by smtp3.osuosl.org (Postfix) with ESMTP id F065A60FBF
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 07:19:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F065A60FBF
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PtNitTizm5zS for <iommu@lists.linux-foundation.org>;
- Fri,  1 Jul 2022 07:02:59 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 650A240182
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 650A240182
- for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 07:02:59 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-318889e6a2cso15081657b3.1
- for <iommu@lists.linux-foundation.org>; Fri, 01 Jul 2022 00:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3Oxpr/H6WS/cbatfKxunj+Rm+HXq43uwJ9TOx0tf4pg=;
- b=G4+aGmI06EueqwK7C5Qo4w/41Yp3wU/CWyAMnimOU3r1x56NK0xwWd5NnQsEtkPJT1
- j1wWR6jutsCmi+xE7hxYUqJNrQrMI+GL07X5ZYgIgqDAqQnMWhF8y5nc40xNPfhYS3jC
- 0nJhLPxfL1eyodYvq4oKHJFLeueGwA5XPbFVGoQA05bmNWxXq8PGbVqamZrTZs9J6qBh
- 1fRZx/U4bPFmJBSVu1knm/cNESUDsxYs6X7kurTJA14GFNtyIPF26073epdL9z6eSE2L
- X78efI4BN3icU+xkSEEQMO42kPgo3k8M7uVN2JrWdQyoK9p0Z0nOVmWHNbnRgASj9y0m
- xe+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3Oxpr/H6WS/cbatfKxunj+Rm+HXq43uwJ9TOx0tf4pg=;
- b=CbRSJ97EQNG1GQDRVpW+ogaYIrhJr3yDBPwfB00yVTGFLf6vcHr4uOX+euxfBSgZgG
- ypt/2M/BN3QVJjmG3bBb3CknZNqhgt5q8fhKYAyhUo1082ld4snxYo0bJ9jpcLXLUPv6
- hp3tcIR2wyzZ5j3YlAIhfNtp9ZUfdwJ7noe9A1P5pVNqp297o6aeCWlcvAcdfc51lRoJ
- FxUdyBm2RsGAVuT/4ULy5HfvXCzzE+znlIV4dRHOqmI+podfp615BrPkBMBh0WIbu6oP
- P051z0s6/RaxpA+u2Z7Nmc5ex0HAfBDEqFz+DwinvI2qg2mnrgxuc8+51bKJUVRQiPDg
- 3ZPg==
-X-Gm-Message-State: AJIora+4pEqAt0e+MQaduTJeOMl2jOhrVYDNlM4kaGzGrLxRw3+XEDP9
- srkQKq3OFQXi90vD48FrrX+HEzqTG0RblWiR7MOIlA==
-X-Google-Smtp-Source: AGRyM1sjHYE6b1ihEm8EzVroyoytiPu2X1qfGuWU3WGWHfolVcCLEjpB4ZdcYExvwYNCmCj3ip+B1gZf6PvcXiQN0KE=
-X-Received: by 2002:a81:4896:0:b0:317:f767:95f8 with SMTP id
- v144-20020a814896000000b00317f76795f8mr15214195ywa.218.1656658978077; Fri, 01
- Jul 2022 00:02:58 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FvEbGEsbGN85 for <iommu@lists.linux-foundation.org>;
+ Fri,  1 Jul 2022 07:19:22 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2936C60B5A
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2936C60B5A
+ for <iommu@lists.linux-foundation.org>; Fri,  1 Jul 2022 07:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656659962; x=1688195962;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=f2LF3fbG7J5Wrn29s+XWM8ikKjq+11FqN+GTp4OI9WM=;
+ b=UnFL8speaaok+35D/VwQdRPpArxFNZRpQEP/4eBap9akU6cGxcNx96mk
+ S5/LXUOlHGZ9zRjDb1QABXGqYzb4D8ZmXFpt+kMW9/QxoB36kVd+XRm4G
+ uQwjOxs4OvLqLNzFBTYV2+SVZz99NWhnTHLt9iZjfIPdZmBdQtkRW053Y
+ thkWGHd8pCJ3eIxc8Pn9Loq2UMqynxjuyTAchZwzD2lXklfxRRJhWAZy+
+ tIJGxLo9OdObtXSu7OIz8UiovGFb+fksNCgFKpsa2kgKEWIWBIcFKAek/
+ H96Tf+Xffv2jiPK7MnZDdjCnbuWaOWzW3cwm3NKTvo1LeM3h1MgccJZEa A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="346563600"
+X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; d="scan'208";a="346563600"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2022 00:19:19 -0700
+X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; d="scan'208";a="596143082"
+Received: from pchai-mobl.ccr.corp.intel.com (HELO [10.249.171.241])
+ ([10.249.171.241])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2022 00:19:16 -0700
+Message-ID: <ffca1789-1e96-ae01-74a0-942fecb9caac@linux.intel.com>
+Date: Fri, 1 Jul 2022 15:19:14 +0800
 MIME-Version: 1.0
-References: <20220601070707.3946847-1-saravanak@google.com>
- <4799738.LvFx2qVVIh@steina-w>
- <CAGETcx_1qa=gGT4LVkyPpcA1vFM9FzuJE+0DhL_nFyg5cbFjVg@mail.gmail.com>
- <5265491.31r3eYUQgx@steina-w>
-In-Reply-To: <5265491.31r3eYUQgx@steina-w>
-Date: Fri, 1 Jul 2022 00:02:22 -0700
-Message-ID: <CAGETcx-fLAXnG+1S4MHJwg9t7O6jj6Mp+q25bh==C_Z1CLs-mg@mail.gmail.com>
-Subject: Re: (EXT) Re: [PATCH v2 1/9] PM: domains: Delete usage of
- driver_deferred_probe_check_state()
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>, Eric Dumazet <edumazet@google.com>,
- Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
- Kevin Hilman <khilman@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, kernel-team@android.com,
- Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org,
- linux-gpio@vger.kernel.org, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 5/7] iommu/vt-d: Fix suspicious RCU usage in
+ probe_acpi_namespace_devices()
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>
+References: <20190612002851.17103-1-baolu.lu@linux.intel.com>
+ <20190612002851.17103-6-baolu.lu@linux.intel.com>
+ <f3619c80-14d3-d934-755a-4c3734bfde20@arm.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <f3619c80-14d3-d934-755a-4c3734bfde20@arm.com>
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, cai@lca.pw, jacob.jun.pan@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,125 +91,79 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Saravana Kannan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Saravana Kannan <saravanak@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jun 30, 2022 at 11:02 PM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Hi Saravana,
->
-> Am Freitag, 1. Juli 2022, 02:37:14 CEST schrieb Saravana Kannan:
-> > On Thu, Jun 23, 2022 at 5:08 AM Alexander Stein
-> >
-> > <alexander.stein@ew.tq-group.com> wrote:
-> > > Hi,
-> > >
-> > > Am Dienstag, 21. Juni 2022, 09:28:43 CEST schrieb Tony Lindgren:
-> > > > Hi,
-> > > >
-> > > > * Saravana Kannan <saravanak@google.com> [700101 02:00]:
-> > > > > Now that fw_devlink=on by default and fw_devlink supports
-> > > > > "power-domains" property, the execution will never get to the point
-> > > > > where driver_deferred_probe_check_state() is called before the
-> > > > > supplier
-> > > > > has probed successfully or before deferred probe timeout has expired.
-> > > > >
-> > > > > So, delete the call and replace it with -ENODEV.
-> > > >
-> > > > Looks like this causes omaps to not boot in Linux next. With this
-> > > > simple-pm-bus fails to probe initially as the power-domain is not
-> > > > yet available. On platform_probe() genpd_get_from_provider() returns
-> > > > -ENOENT.
-> > > >
-> > > > Seems like other stuff is potentially broken too, any ideas on
-> > > > how to fix this?
-> > >
-> > > I think I'm hit by this as well, although I do not get a lockup.
-> > > In my case I'm using
-> > > arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dts and probing of
-> > > 38320000.blk-ctrl fails as the power-domain is not (yet) registed.
-> >
-> > Ok, took a look.
-> >
-> > The problem is that there are two drivers for the same device and they
-> > both initialize this device.
-> >
-> >     gpc: gpc@303a0000 {
-> >         compatible = "fsl,imx8mq-gpc";
-> >     }
-> >
-> > $ git grep -l "fsl,imx7d-gpc" -- drivers/
-> > drivers/irqchip/irq-imx-gpcv2.c
-> > drivers/soc/imx/gpcv2.c
-> >
-> > IMHO, this is a bad/broken design.
-> >
-> > So what's happening is that fw_devlink will block the probe of
-> > 38320000.blk-ctrl until 303a0000.gpc is initialized. And it stops
-> > blocking the probe of 38320000.blk-ctrl as soon as the first driver
-> > initializes the device. In this case, it's the irqchip driver.
-> >
-> > I'd recommend combining these drivers into one. Something like the
-> > patch I'm attaching (sorry for the attachment, copy-paste is mangling
-> > the tabs). Can you give it a shot please?
->
-> I tried this patch and it delayed the driver initialization (those of UART as
-> well BTW). Unfortunately the driver fails the same way:
-
-Thanks for testing the patch!
-
-> > [    1.125253] imx8m-blk-ctrl 38320000.blk-ctrl: error -ENODEV: failed to
-> attach power domain "bus"
->
-> More than that it even introduced some more errors:
-> > [    0.008160] irq: no irq domain found for gpc@303a0000 !
-
-So the idea behind my change was that as long as the irqchip isn't the
-root of the irqdomain (might be using the terms incorrectly) like the
-gic, you can make it a platform driver. And I was trying to hack up a
-patch that's the equivalent of platform_irqchip_probe() (which just
-ends up eventually calling the callback you use in IRQCHIP_DECLARE().
-I probably made some mistake in the quick hack that I'm sure if
-fixable.
-
-> > [    0.013251] Failed to map interrupt for
-> > /soc@0/bus@30400000/timer@306a0000
-
-However, this timer driver also uses TIMER_OF_DECLARE() which can't
-handle failure to get the IRQ (because it's can't -EPROBE_DEFER). So,
-this means, the timer driver inturn needs to be converted to a
-platform driver if it's supposed to work with the IRQCHIP_DECLARE()
-being converted to a platform driver.
-
-But that's a can of worms not worth opening. But then I remembered
-this simpler workaround will work and it is pretty much a variant of
-the workaround that's already in the gpc's irqchip driver to allow two
-drivers to probe the same device (people really should stop doing
-that).
-
-Can you drop my previous hack patch and try this instead please? I'm
-99% sure this will work.
-
-diff --git a/drivers/irqchip/irq-imx-gpcv2.c b/drivers/irqchip/irq-imx-gpcv2.c
-index b9c22f764b4d..8a0e82067924 100644
---- a/drivers/irqchip/irq-imx-gpcv2.c
-+++ b/drivers/irqchip/irq-imx-gpcv2.c
-@@ -283,6 +283,7 @@ static int __init imx_gpcv2_irqchip_init(struct
-device_node *node,
-         * later the GPC power domain driver will not be skipped.
-         */
-        of_node_clear_flag(node, OF_POPULATED);
-+       fwnode_dev_initialized(domain->fwnode, false);
-        return 0;
- }
-
--Saravana
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAyMi82LzI5IDIxOjAzLCBSb2JpbiBNdXJwaHkgd3JvdGU6Cj4gT24gMjAxOS0wNi0xMiAw
+MToyOCwgTHUgQmFvbHUgd3JvdGU6Cj4+IFRoZSBkcmhkIGFuZCBkZXZpY2Ugc2NvcGUgbGlzdCBz
+aG91bGQgYmUgaXRlcmF0ZWQgd2l0aCB0aGUKPj4gaW9tbXUgZ2xvYmFsIGxvY2sgaGVsZC4gT3Ro
+ZXJ3aXNlLCBhIHN1c3BpY2lvdXMgUkNVIHVzYWdlCj4+IG1lc3NhZ2Ugd2lsbCBiZSBkaXNwbGF5
+ZWQuCj4+Cj4+IFvCoMKgwqAgMy42OTU4ODZdID09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+Cj4+IFvCoMKgwqAgMy42OTU5MTddIFdBUk5JTkc6IHN1c3BpY2lvdXMgUkNVIHVzYWdlCj4+IFvC
+oMKgwqAgMy42OTU5NTBdIDUuMi4wLXJjMisgIzI0NjcgTm90IHRhaW50ZWQKPj4gW8KgwqDCoCAz
+LjY5NTk4MV0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPj4gW8KgwqDCoCAzLjY5NjAx
+NF0gZHJpdmVycy9pb21tdS9pbnRlbC1pb21tdS5jOjQ1Njkgc3VzcGljaW91cyAKPj4gcmN1X2Rl
+cmVmZXJlbmNlX2NoZWNrKCkgdXNhZ2UhCj4+IFvCoMKgwqAgMy42OTYwNjldCj4+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvdGhlciBpbmZvIHRoYXQgbWlnaHQgaGVscCB1cyBkZWJ1
+ZyB0aGlzOgo+Pgo+PiBbwqDCoMKgIDMuNjk2MTI2XQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgcmN1X3NjaGVkdWxlcl9hY3RpdmUgPSAyLCBkZWJ1Z19sb2NrcyA9IDEKPj4gW8Kg
+wqDCoCAzLjY5NjE3M10gbm8gbG9ja3MgaGVsZCBieSBzd2FwcGVyLzAvMS4KPj4gW8KgwqDCoCAz
+LjY5NjIwNF0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0YWNrIGJhY2t0cmFj
+ZToKPj4gW8KgwqDCoCAzLjY5NjI0MV0gQ1BVOiAwIFBJRDogMSBDb21tOiBzd2FwcGVyLzAgTm90
+IHRhaW50ZWQgNS4yLjAtcmMyKyAjMjQ2Nwo+PiBbwqDCoMKgIDMuNjk2MzcwXSBDYWxsIFRyYWNl
+Ogo+PiBbwqDCoMKgIDMuNjk2NDA0XcKgIGR1bXBfc3RhY2srMHg4NS8weGNiCj4+IFvCoMKgwqAg
+My42OTY0NDFdwqAgaW50ZWxfaW9tbXVfaW5pdCsweDEyOGMvMHgxM2NlCj4+IFvCoMKgwqAgMy42
+OTY0NzhdwqAgPyBrbWVtX2NhY2hlX2ZyZWUrMHgxNmIvMHgyYzAKPj4gW8KgwqDCoCAzLjY5NjUx
+Nl3CoCA/IF9fZnB1dCsweDE0Yi8weDI3MAo+PiBbwqDCoMKgIDMuNjk2NTUwXcKgID8gX19jYWxs
+X3JjdSsweGI3LzB4MzAwCj4+IFvCoMKgwqAgMy42OTY1ODNdwqAgPyBnZXRfbWF4X2ZpbGVzKzB4
+MTAvMHgxMAo+PiBbwqDCoMKgIDMuNjk2NjMxXcKgID8gc2V0X2RlYnVnX3JvZGF0YSsweDExLzB4
+MTEKPj4gW8KgwqDCoCAzLjY5NjY2OF3CoCA/IGU4MjBfX21lbWJsb2NrX3NldHVwKzB4NjAvMHg2
+MAo+PiBbwqDCoMKgIDMuNjk2NzA0XcKgID8gcGNpX2lvbW11X2luaXQrMHgxNi8weDNmCj4+IFvC
+oMKgwqAgMy42OTY3MzddwqAgPyBzZXRfZGVidWdfcm9kYXRhKzB4MTEvMHgxMQo+PiBbwqDCoMKg
+IDMuNjk2NzcwXcKgIHBjaV9pb21tdV9pbml0KzB4MTYvMHgzZgo+PiBbwqDCoMKgIDMuNjk2ODA1
+XcKgIGRvX29uZV9pbml0Y2FsbCsweDVkLzB4MmU0Cj4+IFvCoMKgwqAgMy42OTY4NDRdwqAgPyBz
+ZXRfZGVidWdfcm9kYXRhKzB4MTEvMHgxMQo+PiBbwqDCoMKgIDMuNjk2ODgwXcKgID8gcmN1X3Jl
+YWRfbG9ja19zY2hlZF9oZWxkKzB4NmIvMHg4MAo+PiBbwqDCoMKgIDMuNjk2OTI0XcKgIGtlcm5l
+bF9pbml0X2ZyZWVhYmxlKzB4MWYwLzB4MjdjCj4+IFvCoMKgwqAgMy42OTY5NjFdwqAgPyByZXN0
+X2luaXQrMHgyNjAvMHgyNjAKPj4gW8KgwqDCoCAzLjY5Njk5N13CoCBrZXJuZWxfaW5pdCsweGEv
+MHgxMTAKPj4gW8KgwqDCoCAzLjY5NzAyOF3CoCByZXRfZnJvbV9mb3JrKzB4M2EvMHg1MAo+Pgo+
+PiBGaXhlczogZmEyMTJhOTdmM2EzNiAoImlvbW11L3Z0LWQ6IFByb2JlIERNQS1jYXBhYmxlIEFD
+UEkgbmFtZSBzcGFjZSAKPj4gZGV2aWNlcyIpCj4+IFNpZ25lZC1vZmYtYnk6IEx1IEJhb2x1IDxi
+YW9sdS5sdUBsaW51eC5pbnRlbC5jb20+Cj4+IC0tLQo+PiDCoCBkcml2ZXJzL2lvbW11L2ludGVs
+LWlvbW11LmMgfCAyICsrCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPj4K
+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW9tbXUvaW50ZWwtaW9tbXUuYyBiL2RyaXZlcnMvaW9t
+bXUvaW50ZWwtaW9tbXUuYwo+PiBpbmRleCAxOWM0YzM4N2EzZjYuLjg0ZTY1MGM2YTQ2ZCAxMDA2
+NDQKPj4gLS0tIGEvZHJpdmVycy9pb21tdS9pbnRlbC1pb21tdS5jCj4+ICsrKyBiL2RyaXZlcnMv
+aW9tbXUvaW50ZWwtaW9tbXUuYwo+PiBAQCAtNDc5Myw4ICs0NzkzLDEwIEBAIGludCBfX2luaXQg
+aW50ZWxfaW9tbXVfaW5pdCh2b2lkKQo+PiDCoMKgwqDCoMKgIGNwdWhwX3NldHVwX3N0YXRlKENQ
+VUhQX0lPTU1VX0lOVEVMX0RFQUQsICJpb21tdS9pbnRlbDpkZWFkIiwgTlVMTCwKPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGludGVsX2lvbW11X2NwdV9kZWFkKTsKPj4gK8KgwqDC
+oCBkb3duX3JlYWQoJmRtYXJfZ2xvYmFsX2xvY2spOwo+PiDCoMKgwqDCoMKgIGlmIChwcm9iZV9h
+Y3BpX25hbWVzcGFjZV9kZXZpY2VzKCkpCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBwcl93YXJuKCJB
+Q1BJIG5hbWUgc3BhY2UgZGV2aWNlcyBkaWRuJ3QgcHJvYmUgY29ycmVjdGx5XG4iKTsKPj4gK8Kg
+wqDCoCB1cF9yZWFkKCZkbWFyX2dsb2JhbF9sb2NrKTsKPiAKPiBEb2luZyBhIGJpdCBvZiBhcmNo
+YWVvbG9neSBoZXJlLCBpcyB0aGlzIGFjdHVhbGx5IGJyb2tlbj8gSWYgYW55IEFOREQgCj4gZW50
+cmllcyBleGlzdCwgd2UnZCBlbmQgdXAgZG9pbmc6Cj4gCj4gIMKgIGRvd25fcmVhZCgmZG1hcl9n
+bG9iYWxfbG9jaykKPiAgwqAgcHJvYmVfYWNwaV9uYW1lc3BhY2VfZGV2aWNlcygpCj4gIMKgIC0+
+IGlvbW11X3Byb2JlX2RldmljZSgpCj4gIMKgwqDCoMKgIC0+IGlvbW11X2NyZWF0ZV9kZXZpY2Vf
+ZGlyZWN0X21hcHBpbmdzKCkKPiAgwqDCoMKgwqDCoMKgwqAgLT4gaW9tbXVfZ2V0X3Jlc3ZfcmVn
+aW9ucygpCj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0+IGludGVsX2lvbW11X2dldF9yZXN2X3Jl
+Z2lvbnMoKQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtPiBkb3duX3JlYWQoJmRtYXJf
+Z2xvYmFsX2xvY2spCj4gCj4gSSdtIHdvbmRlcmluZyB3aGV0aGVyIHRoaXMgbWlnaHQgZXhwbGFp
+biB3aHkgbXkgYnVzX3NldF9pb21tdSBzZXJpZXMgCj4gcHJldmVudGVkIEJhb2x1J3MgbWFjaGlu
+ZSBmcm9tIGJvb3RpbmcsIHNpbmNlICJpb21tdTogTW92ZSBidXMgc2V0dXAgdG8gCj4gSU9NTVUg
+ZGV2aWNlIHJlZ2lzdHJhdGlvbiIgY3JlYXRlcyB0aGUgc2FtZSBjb25kaXRpb24gd2hlcmUgd2Ug
+ZW5kIHVwIGluIAo+IGdldF9yZXN2X3JlZ2lvbnMgKHZpYSBidXNfaW9tbXVfcHJvYmUoKSB0aGlz
+IHRpbWUpIGZyb20gdGhlIHNhbWUgdGFzayAKPiB0aGF0IGFscmVhZHkgaG9sZHMgZG1hcl9nbG9i
+YWxfbG9jay4gT2YgY291cnNlIHRoYXQgbGVhdmVzIG1lIHdvbmRlcmluZyAKPiBob3cgaXQgKmRp
+ZCogbWFuYWdlIHRvIGJvb3QgT0sgb24gbXkgWGVvbiBib3gsIGJ1dCBtYXliZSB0aGVyZSdzIGEg
+Cj4gY29uZmlnIGRpZmZlcmVuY2Ugb3IgZHVtYiBsdWNrIGF0IHBsYXk/CgpUaGlzIGlzIHJlYWxs
+eSBwcm9ibGVtYXRpYy4gV2hlcmUgZG9lcyB0aGUgbGF0ZXN0IGJ1c19zZXRfaW9tbXUgc2VyaWVz
+CmxvY2F0ZT8gSSdkIGxpa2UgdG8gdGFrZSBhIGNsb3NlciBsb29rIGF0IHdoYXQgaGFwcGVuZWQg
+aGVyZS4gUGVyaGFwcwp0d28gd2Vla3MgbGF0ZXI/IEknbSBidXN5IHdpdGggcHJlcGFyaW5nIElu
+dGVsIElPTU1VIHBhdGNoZXMgZm9yIHY1LjIwCnRoZXNlIGRheXMuCgpCZXN0IHJlZ2FyZHMsCmJh
+b2x1Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11
+IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xp
+c3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
