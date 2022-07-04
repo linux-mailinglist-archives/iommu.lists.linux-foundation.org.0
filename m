@@ -1,87 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961BD5652AF
-	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 12:44:17 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0205654F4
+	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:18:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A7FC560DCB;
-	Mon,  4 Jul 2022 10:44:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A7FC560DCB
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=CioOKrpD
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9268E401A2;
+	Mon,  4 Jul 2022 12:18:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9268E401A2
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yXCUjufocsG6; Mon,  4 Jul 2022 10:44:14 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UIw6wZDNQLC8; Mon,  4 Jul 2022 12:18:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9706860D67;
-	Mon,  4 Jul 2022 10:44:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9706860D67
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6CC85408CA;
+	Mon,  4 Jul 2022 12:18:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6CC85408CA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5CEF6C007C;
-	Mon,  4 Jul 2022 10:44:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38E14C0036;
+	Mon,  4 Jul 2022 12:18:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 18EC1C002D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:44:13 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CFBDAC002D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 11:22:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D4AE182628
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:44:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D4AE182628
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com
- header.a=rsa-sha256 header.s=mail header.b=CioOKrpD
+ by smtp2.osuosl.org (Postfix) with ESMTP id B8654404CF
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 11:22:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B8654404CF
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6vNCmovD5hBp for <iommu@lists.linux-foundation.org>;
- Mon,  4 Jul 2022 10:44:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 20C108261C
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 20C108261C
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:44:12 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 62B6766015A6;
- Mon,  4 Jul 2022 11:44:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656931450;
- bh=gjNEsUi0SsF/6vtg4n8Tc6Jg9gWEjEsUA2sD8bp3x9I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CioOKrpDBDzPBsG3sOxB6gSfHCwZY7y8rfYurcXucgtbNanLuZyEK65ugGX2LLs4V
- dFKRiesAMYgxiR47wQvDPJBuBmt3S/nD8IeQWXNnLvdnnYIFDESGu0b5o+6DQDSx22
- lc0gNcxYvD+zaz+qQS4DA6vBz/s6u+i6BKT5KnWjHv8FTNh5sIDZffjdxdZqZV3j0d
- OddSGfq5JlDhU6UWuMb75zhx69WQbzMPSCSmLu8ArrCKdV0wU9SpI4aEjTSPTyxFkB
- soyVnShjmhFu8A+ArMUl7Akqabr6UYyPG2qQqN9FTNJkDlual7BTuzAmndoUYsWB7R
- IRmJE2yXMbbwA==
-Message-ID: <84ce9b03-9edd-9ef1-aec1-127b34c23021@collabora.com>
-Date: Mon, 4 Jul 2022 12:44:06 +0200
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yOr1m_5Ib-nY for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Jul 2022 11:22:51 +0000 (UTC)
+X-Greylist: delayed 00:07:20 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 805ED4048C
+Received: from p3plsmtpa09-03.prod.phx3.secureserver.net
+ (p3plsmtpa09-03.prod.phx3.secureserver.net [173.201.193.232])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 805ED4048C
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 11:22:51 +0000 (UTC)
+Received: from localhost ([82.17.115.212]) by :SMTPAUTH: with ESMTPA
+ id 8K37oHcGkhLDC8K38oUuWd; Mon, 04 Jul 2022 04:15:31 -0700
+X-CMAE-Analysis: v=2.4 cv=LfT5VhTi c=1 sm=1 tr=0 ts=62c2cbd3
+ a=9gipVNR6X1CoIeAWHwLoWw==:117 a=9gipVNR6X1CoIeAWHwLoWw==:17
+ a=IkcTkHD0fZMA:10 a=GPr1rYa5ujshtZzWUQMA:9 a=QEXdDO2ut3YA:10
+X-SECURESERVER-ACCT: atomlin@atomlin.com
+Date: Mon, 4 Jul 2022 12:15:29 +0100
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [RFC PATCH 3/3] iommu/vt-d: Show region type in
+ arch_rmrr_sanity_check()
+Message-ID: <20220704111529.6pdlueeu2beo64ha@ava.usersys.com>
+References: <20220611204859.234975-1-atomlin@redhat.com>
+ <20220611204859.234975-3-atomlin@redhat.com>
+ <99632b76-3039-34a5-7615-b25e716e2621@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1 16/16] arm64: dts: mt8195: Add display node for vdosys0
-Content-Language: en-US
-To: Tinghan Shen <tinghan.shen@mediatek.com>, Yong Wu <yong.wu@mediatek.com>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Jie Chen <chun-jie.chen@mediatek.com>, Weiyi Lu <weiyi.lu@mediatek.com>
-References: <20220704100028.19932-1-tinghan.shen@mediatek.com>
- <20220704100028.19932-17-tinghan.shen@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220704100028.19932-17-tinghan.shen@mediatek.com>
-Cc: devicetree@vger.kernel.org, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- linux-kernel@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <99632b76-3039-34a5-7615-b25e716e2621@arm.com>
+X-CMAE-Envelope: MS4xfKPF35BvRczXniDFtllcvlL8GhpE6MwRfhiS3R7g0tcxEjsnemJKc93ZWS+yS/omPfyX3CX2HKI+uDxSceFX+Nymms5bGNwU1w6647Ll8b6U4mN+wAt5
+ 4C4D+z8FELgriEIm0J8Df1u8+3sw8RwqjLMbn7thchaJjGza86QkjqnGbualmIbbXquClhk0t0nHPscnfQOqQVksv7v9Ti4RfBMAc+1xpu4HedaeIjt3o4vO
+ IfjTwebIVCsWeKWM4H5WWOWrDlMoiZ/JeVCvH8IUiIvtATkOZ6HOLvtdYxljGjwpmr91xARF0V2Uz/Sgemv4lGQkX+6nO8OiDu/gNuiN6CNfVJC4WXXVcTe0
+ cvcr555yOPnn/Ny4V65OksAFEuodgPIEm0d23BL5RFzwLezBbT9KYbpSGQCwdQNOfglAFCf8AZqv4wsStB0oI2ZDTmWRsYBhEqqOT7txveTerZ/bU2+TE133
+ leWa1SUfK8twe3NM7u5zEJoiRFHo5RLytQYAX9mVbm86ibl7psl+88ZmKsnA74mMPyChHM0+nkAKEIs55UOj8emQPKFnHI4Bi1yMmg==
+X-Mailman-Approved-At: Mon, 04 Jul 2022 12:18:20 +0000
+Cc: hpa@zytor.com, dwmw2@infradead.org, dave.hansen@linux.intel.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ mingo@redhat.com, bp@alien8.de, Aaron Tomlin <atomlin@redhat.com>,
+ tglx@linutronix.de, will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,56 +79,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Il 04/07/22 12:00, Tinghan Shen ha scritto:
-> From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+On Mon 2022-07-04 11:39 +0100, Robin Murphy wrote:
+> On 2022-06-11 21:48, Aaron Tomlin wrote:
+> > This patch will attempt to describe the region type in the event
+> > that a given RMRR entry is not within a reserved region.
 > 
-> Add display node for vdosys0 of mt8195.
+> Hmm, is this useful information for the user? You'd hope the firmware vendor
+> knows the memory map already, but either way, is it particularly likely that
+> anyone would be noticing and caring about this warning in a context where
+> they couldn't just scroll further up the log and cross-reference the full
+> memory map listing? If so, it might be worth clarifying what that use-case
+> is, since as it stands there doesn't seem to be much justification for the
+> "why" here.
+
+Hi Robin,
+
+Thanks for looking at this.
+
+Honestly, the only justification for the modification/or proposed changes
+is to have more insight when this statement is provided in total isolation
+and the RAM map listing (as per e820__print_table()) is no longer available
+to reference.
+
+> > diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+> > index 95b994cf80cd..165e9a444bb9 100644
+> > --- a/arch/x86/kernel/e820.c
+> > +++ b/arch/x86/kernel/e820.c
+> > @@ -1073,7 +1073,7 @@ void __init e820__finish_early_params(void)
+> >   const char *__init e820_type_to_string(struct e820_entry *entry)
+> >   {
+> > -	switch (entry->type) {
+> > +	switch (entry && entry->type) {
 > 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
-> ---
->   arch/arm64/boot/dts/mediatek/mt8195.dtsi | 109 +++++++++++++++++++++++
->   1 file changed, 109 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> index 724c6ca837b6..faea8ef33e5a 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> @@ -1961,6 +1961,7 @@
->   		vdosys0: syscon@1c01a000 {
->   			compatible = "mediatek,mt8195-mmsys", "syscon";
->   			reg = <0 0x1c01a000 0 0x1000>;
-> +			mboxes = <&gce0 0 CMDQ_THR_PRIO_4>;
->   			#clock-cells = <1>;
->   		};
->   
-> @@ -1976,6 +1977,114 @@
->   			power-domains = <&spm MT8195_POWER_DOMAIN_VENC_CORE1>;
->   		};
->   
-> +		ovl0: ovl@1c000000 {
-> +			compatible = "mediatek,mt8195-disp-ovl",
-> +				     "mediatek,mt8183-disp-ovl";
+> Have you tested this for anything other than E820_TYPE_RAM? I think
+> sufficiently up-to-date compilers should warn you here anyway.
 
-This fits in one line, please fix, here and all of the other instances of that.
+I have not.
 
-> +			reg = <0 0x1c000000 0 0x1000>;
-> +			interrupts = <GIC_SPI 636 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_OVL0>;
-> +			iommus = <&iommu_vdo M4U_PORT_L0_DISP_OVL0_RDMA0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x0000 0x1000>;
 
-Same for gce-client-reg.
+Kind regards,
 
-Regards,
-Angelo
+-- 
+Aaron Tomlin
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
