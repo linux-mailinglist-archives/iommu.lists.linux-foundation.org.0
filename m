@@ -1,72 +1,109 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0205654F4
-	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:18:35 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 481F3565589
+	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:36:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9268E401A2;
-	Mon,  4 Jul 2022 12:18:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9268E401A2
+	by smtp4.osuosl.org (Postfix) with ESMTP id CBC414157A;
+	Mon,  4 Jul 2022 12:36:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CBC414157A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kakAYzAv
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UIw6wZDNQLC8; Mon,  4 Jul 2022 12:18:29 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pRKG16Bvaps9; Mon,  4 Jul 2022 12:36:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6CC85408CA;
-	Mon,  4 Jul 2022 12:18:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6CC85408CA
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5146541578;
+	Mon,  4 Jul 2022 12:36:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5146541578
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38E14C0036;
-	Mon,  4 Jul 2022 12:18:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3DA6C007C;
+	Mon,  4 Jul 2022 12:36:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CFBDAC002D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 11:22:52 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C6B3BC002D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 12:36:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B8654404CF
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 11:22:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B8654404CF
+ by smtp2.osuosl.org (Postfix) with ESMTP id 8C8604049F
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 12:36:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8C8604049F
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
+ header.a=rsa-sha256 header.s=google header.b=kakAYzAv
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yOr1m_5Ib-nY for <iommu@lists.linux-foundation.org>;
- Mon,  4 Jul 2022 11:22:51 +0000 (UTC)
-X-Greylist: delayed 00:07:20 by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 805ED4048C
-Received: from p3plsmtpa09-03.prod.phx3.secureserver.net
- (p3plsmtpa09-03.prod.phx3.secureserver.net [173.201.193.232])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 805ED4048C
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 11:22:51 +0000 (UTC)
-Received: from localhost ([82.17.115.212]) by :SMTPAUTH: with ESMTPA
- id 8K37oHcGkhLDC8K38oUuWd; Mon, 04 Jul 2022 04:15:31 -0700
-X-CMAE-Analysis: v=2.4 cv=LfT5VhTi c=1 sm=1 tr=0 ts=62c2cbd3
- a=9gipVNR6X1CoIeAWHwLoWw==:117 a=9gipVNR6X1CoIeAWHwLoWw==:17
- a=IkcTkHD0fZMA:10 a=GPr1rYa5ujshtZzWUQMA:9 a=QEXdDO2ut3YA:10
-X-SECURESERVER-ACCT: atomlin@atomlin.com
-Date: Mon, 4 Jul 2022 12:15:29 +0100
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [RFC PATCH 3/3] iommu/vt-d: Show region type in
- arch_rmrr_sanity_check()
-Message-ID: <20220704111529.6pdlueeu2beo64ha@ava.usersys.com>
-References: <20220611204859.234975-1-atomlin@redhat.com>
- <20220611204859.234975-3-atomlin@redhat.com>
- <99632b76-3039-34a5-7615-b25e716e2621@arm.com>
+ with ESMTP id 7_Wsd8GVXcyw for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Jul 2022 12:36:08 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 99C15401A2
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 99C15401A2
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 12:36:08 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id s14so10939392ljs.3
+ for <iommu@lists.linux-foundation.org>; Mon, 04 Jul 2022 05:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=iPKFsn5fgFC3dh7g4FEmoTkg1BmyHxMILE2vHE8EovU=;
+ b=kakAYzAv3NzfFeDUN+1/0H8cOwRS5NqlQ27nFKj7WIejGwKhWzq7PYg92rhzNELiok
+ ows4QwIkoF9T/PEjYcacupijYOGztmIJZX5YdHTCt3hjFdawbgKTdqTaV6X7nBRw7S3T
+ AXH0gKwluMjUJWlDwI5dk9h305balLQvjZXjNgfj8QNQkyOv5iSvci8Ht5scpAM7Igho
+ DCubFtKdQXghwAMldj0MDUQ4tO1CpDbwAuKH8DBDDNe3zPp6iys8MQwWuh+1QlJ5iG3q
+ 07cYHofieHH6/bTNQXBanUdfaKrMjdJKOLNvLTNTQg2AN2MO4crHODHokwL2rzBMdm9t
+ fT6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iPKFsn5fgFC3dh7g4FEmoTkg1BmyHxMILE2vHE8EovU=;
+ b=7e9tmyoXxRIjQJta3eL2n5Ca/LtXeNayc40HAAgfg/CjJfOy2ePd4FSIr01pURD7R+
+ 95L2lTpBGP+ZWHbN9G36NGffns63COnXC4zd/6XVD2DLplahcDJpprSy3LSbD12eGkvI
+ e3H3VpOiHctRTH0/yfgSgsSalcZmM01xizU1xX8VALYZKkclBbvdXdOWgEGhPtDCntnq
+ Do1QkTJZkc3tKZQY6FVQS3zZEAQOpzlymF23wlybdkI9Y6EkyKmO1kNwLluFuEE0WELd
+ lfF+89K9IJZb2P0jGwazGUdGBBESrRcy2VTnw1SkIInWRxBiucnMIBUjlcYBCvReRAuY
+ BE6Q==
+X-Gm-Message-State: AJIora/LlHcvFdZOaqd3QSMVg6/Lcb6UkZ2gc6hoHGtmUArbPJCCJdLb
+ gpV+5JiSbAldqQUKgfc9AK+PGg==
+X-Google-Smtp-Source: AGRyM1tXWRrB0b5dEJCLzGc/R5uafVj4v54jWmEi9eVLKfsI4Srl/ADg1V4X5sgKVHCa6i63d9K/IA==
+X-Received: by 2002:a2e:b713:0:b0:25a:90bd:cb6b with SMTP id
+ j19-20020a2eb713000000b0025a90bdcb6bmr16083013ljo.380.1656938166435; 
+ Mon, 04 Jul 2022 05:36:06 -0700 (PDT)
+Received: from [192.168.1.52] ([84.20.121.239])
+ by smtp.gmail.com with ESMTPSA id
+ f10-20020a056512360a00b0047255d211c2sm1727143lfs.241.2022.07.04.05.36.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 05:36:05 -0700 (PDT)
+Message-ID: <119f2a98-ef56-7b99-631f-221b737939ae@linaro.org>
+Date: Mon, 4 Jul 2022 14:36:04 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <99632b76-3039-34a5-7615-b25e716e2621@arm.com>
-X-CMAE-Envelope: MS4xfKPF35BvRczXniDFtllcvlL8GhpE6MwRfhiS3R7g0tcxEjsnemJKc93ZWS+yS/omPfyX3CX2HKI+uDxSceFX+Nymms5bGNwU1w6647Ll8b6U4mN+wAt5
- 4C4D+z8FELgriEIm0J8Df1u8+3sw8RwqjLMbn7thchaJjGza86QkjqnGbualmIbbXquClhk0t0nHPscnfQOqQVksv7v9Ti4RfBMAc+1xpu4HedaeIjt3o4vO
- IfjTwebIVCsWeKWM4H5WWOWrDlMoiZ/JeVCvH8IUiIvtATkOZ6HOLvtdYxljGjwpmr91xARF0V2Uz/Sgemv4lGQkX+6nO8OiDu/gNuiN6CNfVJC4WXXVcTe0
- cvcr555yOPnn/Ny4V65OksAFEuodgPIEm0d23BL5RFzwLezBbT9KYbpSGQCwdQNOfglAFCf8AZqv4wsStB0oI2ZDTmWRsYBhEqqOT7txveTerZ/bU2+TE133
- leWa1SUfK8twe3NM7u5zEJoiRFHo5RLytQYAX9mVbm86ibl7psl+88ZmKsnA74mMPyChHM0+nkAKEIs55UOj8emQPKFnHI4Bi1yMmg==
-X-Mailman-Approved-At: Mon, 04 Jul 2022 12:18:20 +0000
-Cc: hpa@zytor.com, dwmw2@infradead.org, dave.hansen@linux.intel.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- mingo@redhat.com, bp@alien8.de, Aaron Tomlin <atomlin@redhat.com>,
- tglx@linutronix.de, will@kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 02/16] dt-bindings: memory: mediatek: Update condition
+ for mt8195 smi node
+Content-Language: en-US
+To: Tinghan Shen <tinghan.shen@mediatek.com>, Yong Wu <yong.wu@mediatek.com>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Jie Chen <chun-jie.chen@mediatek.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Weiyi Lu <weiyi.lu@mediatek.com>
+References: <20220704100028.19932-1-tinghan.shen@mediatek.com>
+ <20220704100028.19932-3-tinghan.shen@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220704100028.19932-3-tinghan.shen@mediatek.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,48 +121,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon 2022-07-04 11:39 +0100, Robin Murphy wrote:
-> On 2022-06-11 21:48, Aaron Tomlin wrote:
-> > This patch will attempt to describe the region type in the event
-> > that a given RMRR entry is not within a reserved region.
+On 04/07/2022 12:00, Tinghan Shen wrote:
+> The max clock items for the dts node with compatible
+> 'mediatek,mt8195-smi-sub-common' should be 3.
 > 
-> Hmm, is this useful information for the user? You'd hope the firmware vendor
-> knows the memory map already, but either way, is it particularly likely that
-> anyone would be noticing and caring about this warning in a context where
-> they couldn't just scroll further up the log and cross-reference the full
-> memory map listing? If so, it might be worth clarifying what that use-case
-> is, since as it stands there doesn't seem to be much justification for the
-> "why" here.
-
-Hi Robin,
-
-Thanks for looking at this.
-
-Honestly, the only justification for the modification/or proposed changes
-is to have more insight when this statement is provided in total isolation
-and the RAM map listing (as per e820__print_table()) is no longer available
-to reference.
-
-> > diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
-> > index 95b994cf80cd..165e9a444bb9 100644
-> > --- a/arch/x86/kernel/e820.c
-> > +++ b/arch/x86/kernel/e820.c
-> > @@ -1073,7 +1073,7 @@ void __init e820__finish_early_params(void)
-> >   const char *__init e820_type_to_string(struct e820_entry *entry)
-> >   {
-> > -	switch (entry->type) {
-> > +	switch (entry && entry->type) {
+> However, the dtbs_check of such node will get following message,
+> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: smi@14010000: clock-names: ['apb', 'smi', 'gals0'] is too long
+>          From schema: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
 > 
-> Have you tested this for anything other than E820_TYPE_RAM? I think
-> sufficiently up-to-date compilers should warn you here anyway.
+> Remove the last 'else' checking to fix this error.
 
-I have not.
+Missing fixes tag.
+
+> 
+> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> ---
+>  .../memory-controllers/mediatek,smi-common.yaml        | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+> index a98b359bf909..e5f553e2e12a 100644
+> --- a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+> +++ b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+> @@ -143,7 +143,15 @@ allOf:
+>              - const: gals0
+>              - const: gals1
+>  
+> -    else:  # for gen2 HW that don't have gals
+> +  - if:  # for gen2 HW that don't have gals
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - mediatek,mt2712-smi-common
+> +            - mediatek,mt8167-smi-common
+> +            - mediatek,mt8173-smi-common
+> +
+
+Without looking at the code, it's impossible to understand what you are
+doing here. The commit msg says one, but you are doing something else.
+
+Write commit msg explaining what you want to achieve and what you are doing.
 
 
-Kind regards,
-
--- 
-Aaron Tomlin
+Best regards,
+Krzysztof
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
