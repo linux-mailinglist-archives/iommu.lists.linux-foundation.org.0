@@ -1,106 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4636565598
-	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:39:55 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C18AC565787
+	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 15:39:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3D54E405AD;
-	Mon,  4 Jul 2022 12:39:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3D54E405AD
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Q1X8I1wK
+	by smtp1.osuosl.org (Postfix) with ESMTP id 106B3828D1;
+	Mon,  4 Jul 2022 13:39:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 106B3828D1
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U6uy5edJTwIE; Mon,  4 Jul 2022 12:39:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1AD444058E;
-	Mon,  4 Jul 2022 12:39:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1AD444058E
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id J8YeOJDZ0vaW; Mon,  4 Jul 2022 13:39:01 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0126182862;
+	Mon,  4 Jul 2022 13:39:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0126182862
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1DA9C007C;
-	Mon,  4 Jul 2022 12:39:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C06D4C0032;
+	Mon,  4 Jul 2022 13:39:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD7B6C002D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 12:39:51 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 75D08C002D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 13:38:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id A731A4049F
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 12:39:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A731A4049F
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5C6DD8274E
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 13:38:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5C6DD8274E
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pFKfrgbVc5U9 for <iommu@lists.linux-foundation.org>;
- Mon,  4 Jul 2022 12:39:50 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6D49B401A2
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 6D49B401A2
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 12:39:50 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id bx13so10946511ljb.1
- for <iommu@lists.linux-foundation.org>; Mon, 04 Jul 2022 05:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=x880kuS6PNUF918Mktd1de/5BgyubBGYBWa3z9pZQa8=;
- b=Q1X8I1wKoipJvnCB/pUw1wiyXOfTGXV/Nce3Mgckmw5ubtkVsRjwxbMsqpkJm3xiEv
- +CvpKh3gKUq0c8sZYrc06FqHc7ANjERfslK4wf8ysBEN+unfPS0eA773kfKt4Af2FpaW
- R7LjUDuBKj8FRN4n+KdITPsrCdWA25m+GGLpGzelaTKyLPFTxD08NdWl7/+f1g0Zn+kO
- kRzfaeEbMcE8Ut6YeIYVUR0tSWxf6wzAR9qzveYFBRykOGJxwesuJsx/xyPMybmhfvj5
- efN3SuCztUGrs4cxI/7g9tbEBiQo1p4AfDn2w7oOuFhtYOkf5n9LhBsdoPhlr9n+yTN6
- XGEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x880kuS6PNUF918Mktd1de/5BgyubBGYBWa3z9pZQa8=;
- b=TVy8m6Gt2a7eGx3EMgtxZUWml1ZhKn5fQIoDQNg75eNXf3r2KmkxVOyGtDjhH7gaCn
- sgyHZyjl189l+3lEoHdaAGW7C91Db5jjmlQrXlBEI7qJEFl3TaVrBD8iwCCTRD5wgJPv
- j9MyFlh6+qM2Hc1WxYLs9AGU8FvZNSP/CQDdNBLB1qmQNPOS+OtFmiUFRI10mTmVaFVO
- NPvfol5F75uCR7/7g1NXnZbv74MwvDb8PeOXyOLpyYWS7f9TGKXcGEJ2+nwjmElEKZzV
- mWy6OHlKHc6Uj/SwDgWeYmIvcMjxSKLTCfHH7HwxMwoCNNJVzKPOlW2c47lmufkl3/iC
- 6Wtg==
-X-Gm-Message-State: AJIora/HWcu/AtpwUdBTDUl4BCcHymPiGD/twmzImbTkgS+PEx1//vD3
- WWmp2CqI3wKoq+dlaNeXxvPLIg==
-X-Google-Smtp-Source: AGRyM1vqUXvSAsn7AogRlPoSUu3j3CYCJPTYiSe4MRhkAljhqJZmpSrBqVZa8ahYb+Kd5xySXteurQ==
-X-Received: by 2002:a2e:730b:0:b0:25c:63cf:1ffd with SMTP id
- o11-20020a2e730b000000b0025c63cf1ffdmr8410032ljc.208.1656938388417; 
- Mon, 04 Jul 2022 05:39:48 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
- by smtp.gmail.com with ESMTPSA id
- p11-20020a056512234b00b0047f6b4a53cdsm5104577lfu.172.2022.07.04.05.39.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 05:39:47 -0700 (PDT)
-Message-ID: <27c8f7b1-c308-89c2-54be-2d6c1a5527b8@linaro.org>
-Date: Mon, 4 Jul 2022 14:39:46 +0200
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HuN7nm0vaHGu for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Jul 2022 13:38:56 +0000 (UTC)
+X-Greylist: delayed 00:17:01 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C12C8827FA
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C12C8827FA
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 13:38:55 +0000 (UTC)
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Lc5xz61v9zkWpk;
+ Mon,  4 Jul 2022 21:19:51 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Jul 2022 21:21:50 +0800
+Subject: Re: [PATCH v3 4/4] vfio: Require that devices support DMA cache
+ coherence
+To: Jason Gunthorpe <jgg@nvidia.com>, Cornelia Huck <cohuck@redhat.com>, David
+ Woodhouse <dwmw2@infradead.org>, <iommu@lists.linux-foundation.org>, Joerg
+ Roedel <joro@8bytes.org>, <kvm@vger.kernel.org>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>
+References: <4-v3-2cf356649677+a32-intel_no_snoop_jgg@nvidia.com>
+Message-ID: <40454b70-11e1-f9a1-6c26-27e7340f2109@hisilicon.com>
+Date: Mon, 4 Jul 2022 21:21:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1 16/16] arm64: dts: mt8195: Add display node for vdosys0
-Content-Language: en-US
-To: Tinghan Shen <tinghan.shen@mediatek.com>, Yong Wu <yong.wu@mediatek.com>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Jie Chen <chun-jie.chen@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Weiyi Lu <weiyi.lu@mediatek.com>
-References: <20220704100028.19932-1-tinghan.shen@mediatek.com>
- <20220704100028.19932-17-tinghan.shen@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220704100028.19932-17-tinghan.shen@mediatek.com>
-Cc: devicetree@vger.kernel.org, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- linux-kernel@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <4-v3-2cf356649677+a32-intel_no_snoop_jgg@nvidia.com>
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,160 +77,50 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: "chenxiang \(M\) via iommu" <iommu@lists.linux-foundation.org>
+Reply-To: "chenxiang \(M\)" <chenxiang66@hisilicon.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 04/07/2022 12:00, Tinghan Shen wrote:
-> From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-> 
-> Add display node for vdosys0 of mt8195.
-> 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
-> ---
->  arch/arm64/boot/dts/mediatek/mt8195.dtsi | 109 +++++++++++++++++++++++
->  1 file changed, 109 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> index 724c6ca837b6..faea8ef33e5a 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> @@ -1961,6 +1961,7 @@
->  		vdosys0: syscon@1c01a000 {
->  			compatible = "mediatek,mt8195-mmsys", "syscon";
->  			reg = <0 0x1c01a000 0 0x1000>;
-> +			mboxes = <&gce0 0 CMDQ_THR_PRIO_4>;
->  			#clock-cells = <1>;
->  		};
->  
-> @@ -1976,6 +1977,114 @@
->  			power-domains = <&spm MT8195_POWER_DOMAIN_VENC_CORE1>;
->  		};
->  
-> +		ovl0: ovl@1c000000 {
-> +			compatible = "mediatek,mt8195-disp-ovl",
-> +				     "mediatek,mt8183-disp-ovl";
-> +			reg = <0 0x1c000000 0 0x1000>;
-> +			interrupts = <GIC_SPI 636 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_OVL0>;
-> +			iommus = <&iommu_vdo M4U_PORT_L0_DISP_OVL0_RDMA0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x0000 0x1000>;
-> +		};
-> +
-> +		rdma0: rdma@1c002000 {
-> +			compatible = "mediatek,mt8195-disp-rdma";
-> +			reg = <0 0x1c002000 0 0x1000>;
-> +			interrupts = <GIC_SPI 638 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_RDMA0>;
-> +			iommus = <&iommu_vdo M4U_PORT_L0_DISP_RDMA0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x2000 0x1000>;
-> +		};
-> +
-> +		color0: color@1c003000 {
-> +			compatible = "mediatek,mt8195-disp-color",
-> +				     "mediatek,mt8173-disp-color";
-> +			reg = <0 0x1c003000 0 0x1000>;
-> +			interrupts = <GIC_SPI 639 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_COLOR0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x3000 0x1000>;
-> +		};
-> +
-> +		ccorr0: ccorr@1c004000 {
-> +			compatible = "mediatek,mt8195-disp-ccorr",
-> +				     "mediatek,mt8192-disp-ccorr";
-> +			reg = <0 0x1c004000 0 0x1000>;
-> +			interrupts = <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_CCORR0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x4000 0x1000>;
-> +		};
-> +
-> +		aal0: aal@1c005000 {
-> +			compatible = "mediatek,mt8195-disp-aal",
-> +				     "mediatek,mt8183-disp-aal";
-> +			reg = <0 0x1c005000 0 0x1000>;
-> +			interrupts = <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_AAL0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x5000 0x1000>;
-> +		};
-> +
-> +		gamma0: gamma@1c006000 {
-> +			compatible = "mediatek,mt8195-disp-gamma",
-> +				     "mediatek,mt8183-disp-gamma";
-> +			reg = <0 0x1c006000 0 0x1000>;
-> +			interrupts = <GIC_SPI 642 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_GAMMA0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x6000 0x1000>;
-> +		};
-> +
-> +		dither0: dither@1c007000 {
-> +			compatible = "mediatek,mt8195-disp-dither",
-> +				     "mediatek,mt8183-disp-dither";
-> +			reg = <0 0x1c007000 0 0x1000>;
-> +			interrupts = <GIC_SPI 643 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_DITHER0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x7000 0x1000>;
-> +		};
-> +
-> +		dsc0: dsc@1c009000 {
-> +			compatible = "mediatek,mt8195-disp-dsc";
-> +			reg = <0 0x1c009000 0 0x1000>;
-> +			interrupts = <GIC_SPI 645 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DSC_WRAP0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c00XXXX 0x9000 0x1000>;
-> +		};
-> +
-> +		merge0: merge0@1c014000 {
-
-Generic node name.
-
-> +			compatible = "mediatek,mt8195-disp-merge";
-> +			reg = <0 0x1c014000 0 0x1000>;
-> +			interrupts = <GIC_SPI 656 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_VPP_MERGE0>;
-> +			mediatek,gce-client-reg =
-> +				 <&gce0 SUBSYS_1c01XXXX 0x4000 0x1000>;
-> +		};
-> +
-> +		mutex: mutex0@1c016000 {
-
-Generic node name.
-
-> +			compatible = "mediatek,mt8195-disp-mutex";
-> +			reg = <0 0x1c016000 0 0x1000>;
-> +			interrupts = <GIC_SPI 658 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-> +			clocks = <&vdosys0 CLK_VDO0_DISP_MUTEX0>;
-> +			mediatek,gce-events =
-> +				 <CMDQ_EVENT_VDO0_DISP_STREAM_DONE_0>;
-> +		};
-> +
->  		larb0: larb@1c018000 {
->  			compatible = "mediatek,mt8195-smi-larb";
->  			reg = <0 0x1c018000 0 0x1000>;
-
-
-Best regards,
-Krzysztof
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGksCgpXZSBlbmNvdW50ZXIgYSBpc3N1ZSB3aXRoIHRoZSBwYXRjaDogb3VyIHBsYXRmb3JtIGlz
+IEFSTTY0LCBhbmQgd2UgcnVuIApEUERLIHdpdGggc21tdSBkaXNhYmxlIG9uIFZNICh3aXRob3V0
+IGlvbW11PXNtbXV2MyBldGMpLAoKc28gd2UgdXNlIG5vaW9tbXUgbW9kZSB3aXRoIGVuYWJsZV91
+bnNhZmVfbm9pb21tdV9tb2RlPTEgdG8gcGFzc3Rocm91Z2ggCnRoZSBkZXZpY2UgdG8gVk0gd2l0
+aCBmb2xsb3dpbmcgc3RlcHMgKHRob3NlIHN0ZXBzIGFyZSBvbiBWTSkgOgoKaW5zbW9kIHZmaW8u
+a28gZW5hYmxlX3Vuc2FmZV9ub2lvbW11X21vZGU9MQppbnNtb2QgdmZpb192aXJxZmQua28KaW5z
+bW9kIHZmaW8tcGNpLWNvcmUua28KaW5zbWRvIHZmaW8tcGNpLmtvCmluc21vZCB2ZmlvX2lvbW11
+X3R5cGUxLmtvCgplY2hvIHZmaW8tcGNpID4gL3N5cy9idXMvcGNpL2RldmljZXMvMDAwMDowMDow
+Mi4wL2RyaXZlcl9vdmVycmlkZQplY2hvIDAwMDA6MDA6MDIuMCA+IC9zeXMvYnVzL3BjaS9kcml2
+ZXJzX3Byb2JlIC0tLS0tLS0tLS0tLS0tLS0tLSBmYWlsZWQKCkkgZmluZCB0aGF0IHZmaW8tcGNp
+IGRldmljZSBpcyBub3QgcHJvYmVkIGJlY2F1c2Ugb2YgdGhlIGFkZGl0aW9uYWwgCmNoZWNrLiBJ
+dCB3b3JrcyB3ZWxsIHdpdGhvdXQgdGhpcyBwYXRjaC4KCkRvIHdlIG5lZWQgdG8gc2tpcCB0aGUg
+Y2hlY2sgaWYgZW5hYmxlX3Vuc2FmZV9ub2lvbW11X21vZGU9MT8KCkJlc3QgcmVnYXJkcywKClhp
+YW5nIENoZW4KCgrlnKggMjAyMi80LzExIDIzOjE2LCBKYXNvbiBHdW50aG9ycGUg5YaZ6YGTOgo+
+IElPTU1VX0NBQ0hFIG1lYW5zIHRoYXQgbm9ybWFsIERNQXMgZG8gbm90IHJlcXVpcmUgYW55IGFk
+ZGl0aW9uYWwgY29oZXJlbmN5Cj4gbWVjaGFuaXNtIGFuZCBpcyB0aGUgYmFzaWMgdUFQSSB0aGF0
+IFZGSU8gZXhwb3NlcyB0byB1c2Vyc3BhY2UuIEZvcgo+IGluc3RhbmNlIFZGSU8gYXBwbGljYXRp
+b25zIGxpa2UgRFBESyB3aWxsIG5vdCB3b3JrIGlmIGFkZGl0aW9uYWwgY29oZXJlbmN5Cj4gb3Bl
+cmF0aW9ucyBhcmUgcmVxdWlyZWQuCj4KPiBUaGVyZWZvcmUgY2hlY2sgSU9NTVVfQ0FQX0NBQ0hF
+X0NPSEVSRU5DWSBsaWtlIHZkcGEgJiB1c25pYyBkbyBiZWZvcmUKPiBhbGxvd2luZyBhbiBJT01N
+VSBiYWNrZWQgVkZJTyBkZXZpY2UgdG8gYmUgY3JlYXRlZC4KPgo+IFJldmlld2VkLWJ5OiBLZXZp
+biBUaWFuIDxrZXZpbi50aWFuQGludGVsLmNvbT4KPiBBY2tlZC1ieTogQWxleCBXaWxsaWFtc29u
+IDxhbGV4LndpbGxpYW1zb25AcmVkaGF0LmNvbT4KPiBBY2tlZC1ieTogUm9iaW4gTXVycGh5IDxy
+b2Jpbi5tdXJwaHlAYXJtLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbiBHdW50aG9ycGUgPGpn
+Z0BudmlkaWEuY29tPgo+IC0tLQo+ICAgZHJpdmVycy92ZmlvL3ZmaW8uYyB8IDcgKysrKysrKwo+
+ICAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvdmZpby92ZmlvLmMgYi9kcml2ZXJzL3ZmaW8vdmZpby5jCj4gaW5kZXggYTQ1NTUwMTRiZDFl
+NzIuLjllZGFkNzY3Y2ZkYWQzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmZpby92ZmlvLmMKPiAr
+KysgYi9kcml2ZXJzL3ZmaW8vdmZpby5jCj4gQEAgLTgxNSw2ICs4MTUsMTMgQEAgc3RhdGljIGlu
+dCBfX3ZmaW9fcmVnaXN0ZXJfZGV2KHN0cnVjdCB2ZmlvX2RldmljZSAqZGV2aWNlLAo+ICAgCj4g
+ICBpbnQgdmZpb19yZWdpc3Rlcl9ncm91cF9kZXYoc3RydWN0IHZmaW9fZGV2aWNlICpkZXZpY2Up
+Cj4gICB7Cj4gKwkvKgo+ICsJICogVkZJTyBhbHdheXMgc2V0cyBJT01NVV9DQUNIRSBiZWNhdXNl
+IHdlIG9mZmVyIG5vIHdheSBmb3IgdXNlcnNwYWNlIHRvCj4gKwkgKiByZXN0b3JlIGNhY2hlIGNv
+aGVyZW5jeS4KPiArCSAqLwo+ICsJaWYgKCFpb21tdV9jYXBhYmxlKGRldmljZS0+ZGV2LT5idXMs
+IElPTU1VX0NBUF9DQUNIRV9DT0hFUkVOQ1kpKQo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiAg
+IAlyZXR1cm4gX192ZmlvX3JlZ2lzdGVyX2RldihkZXZpY2UsCj4gICAJCXZmaW9fZ3JvdXBfZmlu
+ZF9vcl9hbGxvYyhkZXZpY2UtPmRldikpOwo+ICAgfQoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxp
+bnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2lvbW11
