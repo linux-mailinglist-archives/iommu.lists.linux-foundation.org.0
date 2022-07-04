@@ -1,68 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC59565295
-	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 12:41:35 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224F2565296
+	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 12:41:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 09E3541518;
-	Mon,  4 Jul 2022 10:41:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 09E3541518
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=DjCzIisR
+	by smtp1.osuosl.org (Postfix) with ESMTP id B91FF82505;
+	Mon,  4 Jul 2022 10:41:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B91FF82505
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=oLs8awQw
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GFB1pBcI5FT2; Mon,  4 Jul 2022 10:41:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id BB5C541505;
-	Mon,  4 Jul 2022 10:41:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BB5C541505
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nJV9W2BCAJXk; Mon,  4 Jul 2022 10:41:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D362382681;
+	Mon,  4 Jul 2022 10:41:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D362382681
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 706C7C007C;
-	Mon,  4 Jul 2022 10:41:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97F95C007C;
+	Mon,  4 Jul 2022 10:41:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 296C3C002D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:41:31 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9E62EC002D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:41:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 01595410E4
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:41:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 01595410E4
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6C0D960DE5
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:41:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6C0D960DE5
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com
+ header.a=rsa-sha256 header.s=mail header.b=oLs8awQw
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zQdBn9fOV-Tz for <iommu@lists.linux-foundation.org>;
- Mon,  4 Jul 2022 10:41:30 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7TirSsTos3t0 for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Jul 2022 10:41:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 27E5341496
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 27E5341496
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:41:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CF49D60E14
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CF49D60E14
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:41:32 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7F3BE6601987;
- Mon,  4 Jul 2022 11:41:27 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7056A660198A;
+ Mon,  4 Jul 2022 11:41:30 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656931288;
- bh=LL/n3GPAuDdNhREU+FWUQSZmRh57acNgvIGkF1czuv4=;
+ s=mail; t=1656931291;
+ bh=0SlVAsGcawQhzBIfHNTx//M3DY6rnjdPrfiIE/snMy4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DjCzIisRVqSrR31WKiNO11au6koHVyx7SzuzBq10Mw1HUsyPz4sb1tJGJ7LQVroxR
- eYTG0AghWV7HL5IM70Y6N7W5Hz2qIVvO3y+HnP8E+8t4SrxPZERKPlD4/I4zJLwaW/
- w3l3ZReM1yz/8rQWDxI+p7kWlgCKMO2cMLKi/IM5sqQK1+tVl7hQ/jbLpKFbOVZkdf
- aK107u0zs45SyE+O0l9t3eHENbhIIOHH7xJ4DD0VXATv/WTDzxr8VocXtknHgnq6sT
- 8hTlNDdFRBd3sDqtqQPz1kWTQrmUMPcQDsN28X4tkhuYQbnTfSfIgxVqRmvR5VApTR
- 1BqPxqwYp8F9Q==
-Message-ID: <97834627-a2c2-71d2-5a96-4b59c5856dd3@collabora.com>
-Date: Mon, 4 Jul 2022 12:41:25 +0200
+ b=oLs8awQwuu8NUFYad9CWS42fLD5oGA54IlN7Yek6KuOVjC91jN4ZEBELy8Klk1RWm
+ t2/IL97FaYoJrxHlnrOP8O/2n5hnNK/scqHh9Xf2YBKCokVvY8FgEbjcWHNKV8yMhu
+ CkBlS+3fzXi225G3rAUoZ0vbB5pE3Z3/+cOdIONkSBVQsPI5HD+T5l1BJMmi1E4Gwv
+ aOc7ZFR8DThpkS88IjshlaZwTbCwsjeD0z3DVVpBHKHKCteAuWFbcQ8FKU9IXkmFKe
+ gmqSCLHb10uByfOs5QB6ffsLW0cntfITwLKpOzZrbuH1pBB6KR5xLdJtWYsRoyzKR0
+ QSHInhZVmvpXQ==
+Message-ID: <c478ab1d-c6ce-30c3-5f15-1cce47db17a6@collabora.com>
+Date: Mon, 4 Jul 2022 12:41:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v1 09/16] arm64: dts: mt8195: Add spmi node
+Subject: Re: [PATCH v1 08/16] arm64: dts: mt8195: Add power domains controller
 Content-Language: en-US
 To: Tinghan Shen <tinghan.shen@mediatek.com>, Yong Wu <yong.wu@mediatek.com>, 
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -71,11 +75,10 @@ To: Tinghan Shen <tinghan.shen@mediatek.com>, Yong Wu <yong.wu@mediatek.com>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Chun-Jie Chen <chun-jie.chen@mediatek.com>, Weiyi Lu <weiyi.lu@mediatek.com>
 References: <20220704100028.19932-1-tinghan.shen@mediatek.com>
- <20220704100028.19932-10-tinghan.shen@mediatek.com>
+ <20220704100028.19932-9-tinghan.shen@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220704100028.19932-10-tinghan.shen@mediatek.com>
+In-Reply-To: <20220704100028.19932-9-tinghan.shen@mediatek.com>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Henry Chen <henryc.chen@mediatek.com>,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
  iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
@@ -97,9 +100,9 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Il 04/07/22 12:00, Tinghan Shen ha scritto:
-> Add spmi node to mt8195.
+> Add power domains controller node for mt8195.
 > 
-> Signed-off-by: Henry Chen <henryc.chen@mediatek.com>
+> Signed-off-by: Weiyi Lu <weiyi.lu@mediatek.com>
 > Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
