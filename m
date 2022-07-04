@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFB25654E4
-	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:18:30 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E605654F1
+	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:18:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9A93E826D5;
-	Mon,  4 Jul 2022 12:18:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9A93E826D5
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8CAF6415C2;
+	Mon,  4 Jul 2022 12:18:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8CAF6415C2
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jWZEjGWjZQIR; Mon,  4 Jul 2022 12:18:24 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9vwVfzw2JoyF; Mon,  4 Jul 2022 12:18:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5A14D826F5;
-	Mon,  4 Jul 2022 12:18:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5A14D826F5
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4E4C5415AC;
+	Mon,  4 Jul 2022 12:18:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4E4C5415AC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5876FC0085;
-	Mon,  4 Jul 2022 12:18:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C0057C0081;
+	Mon,  4 Jul 2022 12:18:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35C7BC002D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:45 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D2411C002D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id F326682438
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F326682438
+ by smtp1.osuosl.org (Postfix) with ESMTP id 81A8382628
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 81A8382628
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hLuv3MgPlLhs for <iommu@lists.linux-foundation.org>;
- Mon,  4 Jul 2022 10:00:39 +0000 (UTC)
+ with ESMTP id YT34EaGVeDgw for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Jul 2022 10:00:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3E93E8244D
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6E302826B0
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3E93E8244D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:38 +0000 (UTC)
-X-UUID: 8ee507cb629e40e5895c477df1bb089e-20220704
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6E302826B0
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:41 +0000 (UTC)
+X-UUID: 07c28425318b4b879d344e843323ffb8-20220704
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:37879cd2-baa6-4cd5-b270-8060a643fab1, OB:0,
+X-CID-O-INFO: VERSION:1.1.7, REQID:b106e80e-0aaf-4c3f-9f2a-94ce5786c5cc, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:87442a2, CLOUDID:d6915b63-0b3f-4b2c-b3a6-ed5c044366a0,
+X-CID-META: VersionHash:87442a2, CLOUDID:6c2e7e86-57f0-47ca-ba27-fe8c57fbf305,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 8ee507cb629e40e5895c477df1bb089e-20220704
+X-UUID: 07c28425318b4b879d344e843323ffb8-20220704
 Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
  mailgw01.mediatek.com (envelope-from <tinghan.shen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 541517677; Mon, 04 Jul 2022 18:00:30 +0800
+ with ESMTP id 397539904; Mon, 04 Jul 2022 18:00:30 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
  mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
@@ -67,10 +67,10 @@ To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>, Will
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Enric
  Balletbo i Serra <enric.balletbo@collabora.com>, Tinghan Shen
  <tinghan.shen@mediatek.com>, Weiyi Lu <weiyi.lu@mediatek.com>
-Subject: [PATCH v1 01/16] dt-bindings: iommu: mediatek: Increase max interrupt
- number
-Date: Mon, 4 Jul 2022 18:00:13 +0800
-Message-ID: <20220704100028.19932-2-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 02/16] dt-bindings: memory: mediatek: Update condition for
+ mt8195 smi node
+Date: Mon, 4 Jul 2022 18:00:14 +0800
+Message-ID: <20220704100028.19932-3-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220704100028.19932-1-tinghan.shen@mediatek.com>
 References: <20220704100028.19932-1-tinghan.shen@mediatek.com>
@@ -100,46 +100,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-mt8195 infra iommu has max 5 interrupts.
+The max clock items for the dts node with compatible
+'mediatek,mt8195-smi-sub-common' should be 3.
+
+However, the dtbs_check of such node will get following message,
+arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: smi@14010000: clock-names: ['apb', 'smi', 'gals0'] is too long
+         From schema: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+
+Remove the last 'else' checking to fix this error.
 
 Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 ---
- .../devicetree/bindings/iommu/mediatek,iommu.yaml    | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ .../memory-controllers/mediatek,smi-common.yaml        | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-index 2ae3bbad7f1a..27eb9f6aa3ce 100644
---- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-@@ -91,7 +91,8 @@ properties:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+index a98b359bf909..e5f553e2e12a 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+@@ -143,7 +143,15 @@ allOf:
+             - const: gals0
+             - const: gals1
  
-   interrupts:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 5
- 
-   clocks:
-     items:
-@@ -175,9 +176,18 @@ allOf:
-               const: mediatek,mt8195-iommu-infra
- 
-     then:
+-    else:  # for gen2 HW that don't have gals
++  - if:  # for gen2 HW that don't have gals
 +      properties:
-+        interrupts:
-+          maxItems: 1
++        compatible:
++          enum:
++            - mediatek,mt2712-smi-common
++            - mediatek,mt8167-smi-common
++            - mediatek,mt8173-smi-common
 +
-       required:
-         - mediatek,larbs
- 
-+    else:
-+      properties:
-+        interrupts:
-+          maxItems: 5
-+
- additionalProperties: false
- 
- examples:
++    then:
+       properties:
+         clocks:
+           minItems: 2
 -- 
 2.18.0
 
