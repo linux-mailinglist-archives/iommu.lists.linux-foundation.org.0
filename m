@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A6C5654DF
-	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:18:28 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 462955654F5
+	for <lists.iommu@lfdr.de>; Mon,  4 Jul 2022 14:18:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6A6CC405F8;
-	Mon,  4 Jul 2022 12:18:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6A6CC405F8
+	by smtp4.osuosl.org (Postfix) with ESMTP id C67F341581;
+	Mon,  4 Jul 2022 12:18:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C67F341581
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ECr3pcKTKAle; Mon,  4 Jul 2022 12:18:26 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JO05p667gDkA; Mon,  4 Jul 2022 12:18:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id F026540608;
-	Mon,  4 Jul 2022 12:18:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F026540608
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B1AA6415C3;
+	Mon,  4 Jul 2022 12:18:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B1AA6415C3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7154BC0032;
-	Mon,  4 Jul 2022 12:18:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE01CC007C;
+	Mon,  4 Jul 2022 12:18:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC6CFC002D
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:50 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B82A2C002D
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4812D826C1
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4812D826C1
+ by smtp1.osuosl.org (Postfix) with ESMTP id 41324826B0
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 41324826B0
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8lui3JIOl5W2 for <iommu@lists.linux-foundation.org>;
- Mon,  4 Jul 2022 10:00:42 +0000 (UTC)
+ with ESMTP id aSKDOCvGvZgo for <iommu@lists.linux-foundation.org>;
+ Mon,  4 Jul 2022 10:00:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3B4A282681
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3B4A282681
- for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:40 +0000 (UTC)
-X-UUID: 23f7023660df4b0c9587f1b802ebd709-20220704
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 81DD582438
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 81DD582438
+ for <iommu@lists.linux-foundation.org>; Mon,  4 Jul 2022 10:00:45 +0000 (UTC)
+X-UUID: ffd65cceb9d34fbc865e8de69de3d55c-20220704
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:55a2ac7a-6bec-4b15-aa0f-4384b2abef32, OB:0,
+X-CID-O-INFO: VERSION:1.1.7, REQID:3ef2b95f-f484-4e8b-8234-70389ef818c7, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:87442a2, CLOUDID:c7d68dd6-5d6d-4eaf-a635-828a3ee48b7c,
+X-CID-META: VersionHash:87442a2, CLOUDID:15925b63-0b3f-4b2c-b3a6-ed5c044366a0,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 23f7023660df4b0c9587f1b802ebd709-20220704
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <tinghan.shen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1630907575; Mon, 04 Jul 2022 18:00:30 +0800
+X-UUID: ffd65cceb9d34fbc865e8de69de3d55c-20220704
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <tinghan.shen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1739505395; Mon, 04 Jul 2022 18:00:32 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
  mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
@@ -67,9 +67,9 @@ To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>, Will
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Enric
  Balletbo i Serra <enric.balletbo@collabora.com>, Tinghan Shen
  <tinghan.shen@mediatek.com>, Weiyi Lu <weiyi.lu@mediatek.com>
-Subject: [PATCH v1 06/16] arm64: dts: mt8195: Add cpufreq node
-Date: Mon, 4 Jul 2022 18:00:18 +0800
-Message-ID: <20220704100028.19932-7-tinghan.shen@mediatek.com>
+Subject: [PATCH v1 07/16] arm64: dts: mt8195: Add vdosys and vppsys clock nodes
+Date: Mon, 4 Jul 2022 18:00:19 +0800
+Message-ID: <20220704100028.19932-8-tinghan.shen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220704100028.19932-1-tinghan.shen@mediatek.com>
 References: <20220704100028.19932-1-tinghan.shen@mediatek.com>
@@ -79,7 +79,6 @@ X-Mailman-Approved-At: Mon, 04 Jul 2022 12:18:20 +0000
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
  iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- YT Lee <yt.lee@mediatek.corp-partner.google.com>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -100,97 +99,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: YT Lee <yt.lee@mediatek.corp-partner.google.com>
+Add display clock nodes.
 
-Add cpufreq node for mt8195.
-
-Signed-off-by: YT Lee <yt.lee@mediatek.corp-partner.google.com>
 Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index 8032b839dfe8..900aaa16f862 100644
+index 900aaa16f862..8d59a7da3271 100644
 --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -26,6 +26,7 @@
- 			compatible = "arm,cortex-a55";
- 			reg = <0x000>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 0>;
- 			clock-frequency = <1701000000>;
- 			capacity-dmips-mhz = <578>;
- 			cpu-idle-states = <&cpu_off_l &cluster_off_l>;
-@@ -38,6 +39,7 @@
- 			compatible = "arm,cortex-a55";
- 			reg = <0x100>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 0>;
- 			clock-frequency = <1701000000>;
- 			capacity-dmips-mhz = <578>;
- 			cpu-idle-states = <&cpu_off_l &cluster_off_l>;
-@@ -50,6 +52,7 @@
- 			compatible = "arm,cortex-a55";
- 			reg = <0x200>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 0>;
- 			clock-frequency = <1701000000>;
- 			capacity-dmips-mhz = <578>;
- 			cpu-idle-states = <&cpu_off_l &cluster_off_l>;
-@@ -62,6 +65,7 @@
- 			compatible = "arm,cortex-a55";
- 			reg = <0x300>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 0>;
- 			clock-frequency = <1701000000>;
- 			capacity-dmips-mhz = <578>;
- 			cpu-idle-states = <&cpu_off_l &cluster_off_l>;
-@@ -74,6 +78,7 @@
- 			compatible = "arm,cortex-a78";
- 			reg = <0x400>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 1>;
- 			clock-frequency = <2171000000>;
- 			capacity-dmips-mhz = <1024>;
- 			cpu-idle-states = <&cpu_off_b &cluster_off_b>;
-@@ -86,6 +91,7 @@
- 			compatible = "arm,cortex-a78";
- 			reg = <0x500>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 1>;
- 			clock-frequency = <2171000000>;
- 			capacity-dmips-mhz = <1024>;
- 			cpu-idle-states = <&cpu_off_b &cluster_off_b>;
-@@ -98,6 +104,7 @@
- 			compatible = "arm,cortex-a78";
- 			reg = <0x600>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 1>;
- 			clock-frequency = <2171000000>;
- 			capacity-dmips-mhz = <1024>;
- 			cpu-idle-states = <&cpu_off_b &cluster_off_b>;
-@@ -110,6 +117,7 @@
- 			compatible = "arm,cortex-a78";
- 			reg = <0x700>;
- 			enable-method = "psci";
-+			performance-domains = <&performance 1>;
- 			clock-frequency = <2171000000>;
- 			capacity-dmips-mhz = <1024>;
- 			cpu-idle-states = <&cpu_off_b &cluster_off_b>;
-@@ -231,6 +239,12 @@
- 		clock-output-names = "clk32k";
- 	};
+@@ -983,6 +983,12 @@
+ 			#clock-cells = <1>;
+ 		};
  
-+	performance: performance-controller@11bc10 {
-+		compatible = "mediatek,cpufreq-hw";
-+		reg = <0 0x0011bc10 0 0x120>, <0 0x0011bd30 0 0x120>;
-+		#performance-domain-cells = <1>;
-+	};
++		vppsys0: clock-controller@14000000 {
++			compatible = "mediatek,mt8195-vppsys0";
++			reg = <0 0x14000000 0 0x1000>;
++			#clock-cells = <1>;
++		};
 +
- 	pmu-a55 {
- 		compatible = "arm,cortex-a55-pmu";
- 		interrupt-parent = <&gic>;
+ 		wpesys: clock-controller@14e00000 {
+ 			compatible = "mediatek,mt8195-wpesys";
+ 			reg = <0 0x14e00000 0 0x1000>;
+@@ -1001,6 +1007,12 @@
+ 			#clock-cells = <1>;
+ 		};
+ 
++		vppsys1: clock-controller@14f00000 {
++			compatible = "mediatek,mt8195-vppsys1";
++			reg = <0 0x14f00000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
+ 		imgsys: clock-controller@15000000 {
+ 			compatible = "mediatek,mt8195-imgsys";
+ 			reg = <0 0x15000000 0 0x1000>;
+@@ -1108,5 +1120,17 @@
+ 			reg = <0 0x1b000000 0 0x1000>;
+ 			#clock-cells = <1>;
+ 		};
++
++		vdosys0: syscon@1c01a000 {
++			compatible = "mediatek,mt8195-mmsys", "syscon";
++			reg = <0 0x1c01a000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
++		vdosys1: syscon@1c100000 {
++			compatible = "mediatek,mt8195-mmsys", "syscon";
++			reg = <0 0x1c100000 0 0x1000>;
++			#clock-cells = <1>;
++		};
+ 	};
+ };
 -- 
 2.18.0
 
