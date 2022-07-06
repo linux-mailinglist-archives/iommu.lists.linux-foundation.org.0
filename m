@@ -1,80 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0C9568748
-	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 13:50:43 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF10568776
+	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 13:56:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DDC9180DB4;
-	Wed,  6 Jul 2022 11:50:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DDC9180DB4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AZcs/8PQ
+	by smtp3.osuosl.org (Postfix) with ESMTP id AEBC56079D;
+	Wed,  6 Jul 2022 11:56:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AEBC56079D
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=n/XQDNnH
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3oXa_Af86gmP; Wed,  6 Jul 2022 11:50:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id ECBC680CEA;
-	Wed,  6 Jul 2022 11:50:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org ECBC680CEA
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oeY9bkeLjo0S; Wed,  6 Jul 2022 11:56:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B3FBF60FCC;
+	Wed,  6 Jul 2022 11:56:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B3FBF60FCC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B746EC0077;
-	Wed,  6 Jul 2022 11:50:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CBB2C0077;
+	Wed,  6 Jul 2022 11:56:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6250DC002D
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:50:39 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E4D9C002D
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:56:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3BE44404F6
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:50:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3BE44404F6
-Authentication-Results: smtp2.osuosl.org;
+ by smtp1.osuosl.org (Postfix) with ESMTP id 03B5982668
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:56:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 03B5982668
+Authentication-Results: smtp1.osuosl.org;
  dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=AZcs/8PQ
+ header.a=rsa-sha256 header.s=k20201202 header.b=n/XQDNnH
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SdcCA5b-bZQ2 for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jul 2022 11:50:38 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6Wmqz3yGRlCv for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jul 2022 11:56:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9A6B0400AC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 53652824DF
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9A6B0400AC
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:50:38 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 53652824DF
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:56:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E559B61EF0;
- Wed,  6 Jul 2022 11:50:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43FFC3411C;
- Wed,  6 Jul 2022 11:50:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8DA3761E73;
+ Wed,  6 Jul 2022 11:56:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBF2C341C0;
+ Wed,  6 Jul 2022 11:56:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657108237;
- bh=pIkja7u4jVh70cjtOcr/icdaQPCTUe5JoMbq34s2vCA=;
+ s=k20201202; t=1657108605;
+ bh=JhfNIBk6QV+You43ySQJl94/5cn2lk5MAMXG7si7Ar4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AZcs/8PQUqBcCYbonWkSDNfeylddwt8DzSYGJceY9yQoymUm1LGtSSG4b7LjShl/7
- WZ2qs49p9ECdbmNoFL8nhUg0Q0m7QIs0zLU37eHfOGr1GFyMoHEh8juucfoVjyMmIR
- ajvq7TmLNCUyZHv4keoy/mTWt3SOqE0iwG5syLwvpZymYoObj/wihM6BGcOawmgbrz
- 9uQ1gruOt4q9DFe5vAQv1ino7n6NpOQ+V3+FOiz3OSXF0FdnoZ5C9r6yFG2643vVpN
- 9/N7yibHBWvj1Zmjy0dc0nHzxgb9JO/SxG+7fIHDKcyvqfDrpbhM0h+SSJGjUP1So6
- OMmUMmPsp7dHw==
-Date: Wed, 6 Jul 2022 12:50:31 +0100
+ b=n/XQDNnHedixbjgH5tLXVkiiS6yP2P29RGmNN5aGNS9kjcwJYBr1jfoklSS6NGgNs
+ UZzlaIe/sNXx963pZsvf1uWRgJjTKF+ZbzRgEkiBVQvumbK6D2cdTdxMMdZoapsNM0
+ Hs8iTTrk1RmrS0fcpA6hWUbba/aGm+wtnLj+YFKoOE9B9LoNTWcCARJV5eujMdtMD+
+ F41ha2s2HXU9wR02GaG7zMoJcoIOiBLUcMVLimqybrXgeD7zKGClr/BNsw++YsLTlG
+ 2pTjEfRCzdxoJa1nrxwuw9IQM9wK8Z4cZKRYXCNkPmNndi+1VTHcqn5vkRcVMtRoTV
+ EMvD8ncAdj7bA==
+Date: Wed, 6 Jul 2022 12:56:39 +0100
 From: Will Deacon <will@kernel.org>
-To: yf.wang@mediatek.com
-Subject: Re: [PATCH v12 0/2] iommu/mediatek: TTBR up to 35bit support
-Message-ID: <20220706115028.GC2403@willie-the-truck>
-References: <20220630092927.24925-1-yf.wang@mediatek.com>
+To: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+Subject: Re: [PATCHv2] iommu/arm-smmu-qcom: Add debug support for TLB sync
+ timeouts
+Message-ID: <20220706115638.GD2403@willie-the-truck>
+References: <20220526041403.9984-1-quic_saipraka@quicinc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220630092927.24925-1-yf.wang@mediatek.com>
+In-Reply-To: <20220526041403.9984-1-quic_saipraka@quicinc.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-arm-kernel@lists.infradead.org, wsd_upstream@mediatek.com,
- iommu@lists.linux-foundation.org, Libo Kang <Libo.Kang@mediatek.com>,
- linux-kernel@vger.kernel.org, Miles Chen <miles.chen@mediatek.com>,
- linux-mediatek@lists.infradead.org, Ning Li <ning.li@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ quic_guptap@quicinc.com, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,20 +92,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jun 30, 2022 at 05:29:24PM +0800, yf.wang@mediatek.com wrote:
-> This patchset adds MediaTek TTBR up to 35bit support for single normal zone.
+On Thu, May 26, 2022 at 09:44:03AM +0530, Sai Prakash Ranjan wrote:
+> TLB sync timeouts can be due to various reasons such as TBU power down
+> or pending TCU/TBU invalidation/sync and so on. Debugging these often
+> require dumping of some implementation defined registers to know the
+> status of TBU/TCU operations and some of these registers are not
+> accessible in non-secure world such as from kernel and requires SMC
+> calls to read them in the secure world. So, add this debug support
+> to dump implementation defined registers for TLB sync timeout issues.
 > 
-> Changes in v12:
-> - Update [PATCH 1/2]: remove GENMASK(31, 7)
-> - Update [PATCH 2/2]: remove MMU_PT_ADDR_MASK definition.
+> Signed-off-by: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+> ---
+> 
+> Changes in v2:
+>  * Use scm call consistently so that it works on older chipsets where
+>    some of these regs are secure registers.
+>  * Add device specific data to get the implementation defined register
+>    offsets.
+> 
+> ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 161 ++++++++++++++++++---
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c      |   2 +
+>  drivers/iommu/arm/arm-smmu/arm-smmu.h      |   1 +
+>  3 files changed, 146 insertions(+), 18 deletions(-)
 
-For both patches:
+If this is useful to you, then I suppose it's something we could support,
+however I'm pretty worried about our ability to maintain/scale this stuff
+as it is extended to support additional SoCs and other custom debugging
+features.
 
-Acked-by: Will Deacon <will@kernel.org>
-
-Joerg -- please can you pick these up for 5.20?
-
-Thanks,
+Perhaps you could stick it all in arm-smmu-qcom-debug.c and have a new
+config option for that, so at least it's even further out of the way?
 
 Will
 _______________________________________________
