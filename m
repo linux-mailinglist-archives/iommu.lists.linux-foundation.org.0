@@ -1,104 +1,102 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBFF56923C
-	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 20:55:38 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467715696C7
+	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 02:17:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C9E5440122;
-	Wed,  6 Jul 2022 18:55:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C9E5440122
+	by smtp2.osuosl.org (Postfix) with ESMTP id 61F9040C4C;
+	Thu,  7 Jul 2022 00:17:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 61F9040C4C
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=hpe.com header.i=@hpe.com header.a=rsa-sha256 header.s=pps0720 header.b=pUw4L9rT
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=qiUwOsPC
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xu30uEBh3bwy; Wed,  6 Jul 2022 18:55:34 +0000 (UTC)
+	with ESMTP id BIgP4NjeSJp7; Thu,  7 Jul 2022 00:17:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CD10540003;
-	Wed,  6 Jul 2022 18:55:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CD10540003
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1C84C40B5C;
+	Thu,  7 Jul 2022 00:17:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1C84C40B5C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89140C0077;
-	Wed,  6 Jul 2022 18:55:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5D3DC0077;
+	Thu,  7 Jul 2022 00:17:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3BE0EC002D
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 18:55:32 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4818BC002D
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 04D2160783
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 18:55:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 04D2160783
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com
- header.a=rsa-sha256 header.s=pps0720 header.b=pUw4L9rT
+ by smtp1.osuosl.org (Postfix) with ESMTP id 29BD283E64
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 29BD283E64
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=qiUwOsPC
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RXFgwonk30Xw for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jul 2022 18:55:30 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C12AE606B0
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com
- [148.163.147.86])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C12AE606B0
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 18:55:30 +0000 (UTC)
-Received: from pps.filterd (m0150242.ppops.net [127.0.0.1])
- by mx0a-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 266IYSeV028868;
- Wed, 6 Jul 2022 18:55:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pps0720; bh=V/RKn4cwO8Jde9mbP6eJbdj72qAcC8xBRDOOWhNiMSQ=;
- b=pUw4L9rTo/LcMp9rbfH5fVTlVoZPIp2IpjUUFCXGswZVBnMVRknIQWCdfywOivE7pwU/
- amOiqGfhXKw53yx3Xc+dIp6/NP7oHWKsbNUeiaog+z2orlR0oBcl7EaKxtFNHe+/C1CM
- cL33+GW86PUOpuIX8JmVtR9AnblimvI0TEaXupudK67nNhwqG/7RocOXX123ITXehd3A
- vIXzfs+DP/asTrOpSRMXWY9l4Te9pqbEk1Ph1vQJyuat0Ynxm8mrpE7csbXme3VhP7Wg
- ZM2GjUQ2CrK5zvQrRP6JctuvGNjjLI8nO6GdmAN4CfmbUKxhhMwnVZT8xml8dbyXJYMR Ug== 
-Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
- by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3h5fst04wu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 06 Jul 2022 18:55:15 +0000
-Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by p1lg14880.it.hpe.com (Postfix) with ESMTPS id B307B80022C;
- Wed,  6 Jul 2022 18:55:13 +0000 (UTC)
-Received: from swahl-home.5wahls.com (unknown [16.231.227.36])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id CF5F2809A09;
- Wed,  6 Jul 2022 18:55:11 +0000 (UTC)
-Date: Wed, 6 Jul 2022 13:55:10 -0500
-From: Steve Wahl <steve.wahl@hpe.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v1 0/6] iommu/vt-d: Reset DMAR_UNITS_SUPPORTED
-Message-ID: <YsXajixg7mN8PLtX@swahl-home.5wahls.com>
-References: <20220625125204.2199437-1-baolu.lu@linux.intel.com>
-Content-Disposition: inline
-In-Reply-To: <20220625125204.2199437-1-baolu.lu@linux.intel.com>
-X-Proofpoint-GUID: 7ym3B4n5N3oaqW6wr62eHBRkqpjXsZps
-X-Proofpoint-ORIG-GUID: 7ym3B4n5N3oaqW6wr62eHBRkqpjXsZps
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IUeEfJvlT5V7 for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jul 2022 19:51:23 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CECD883E35
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id CECD883E35
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:22 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id y8so14828424eda.3
+ for <iommu@lists.linux-foundation.org>; Wed, 06 Jul 2022 12:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T/Uniy8LBcxVwi6NUSTS6A3GCA+91o6vI7rMz3Wtdlk=;
+ b=qiUwOsPCNmCmsMJzHRsMCaqHx/A29XFx+rEtXjpqLg05bj73vgI77R8nubnEYJ+G4/
+ p3lABAQJJTZVJuLPfbcf0/Fbe8CGrKSC202O5G+CGOx6Ltsc0jTW4ZBsabqe1nhSvicM
+ hGITTa5Eqvo/4HZ2OLE8sSJ1r0Z5cDjhIo9poy31FT4uT+YeMzQBou6F7hhhgFNb0vJB
+ gmaOFBXvzYhqf5RoSr/SXJ6AaRWj15Xso85XVvRCE/8azbqlsFTr9Nc43wazo2H6U4Up
+ 0lZgKwKvQDF3FBwGEZ7WpsN1gQthA4oR2esJEp+LJQ6WbXe6sXLmZpHrG7GEeW8fjJtk
+ O26g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T/Uniy8LBcxVwi6NUSTS6A3GCA+91o6vI7rMz3Wtdlk=;
+ b=PpZYAqEZJ2LRsgCnDcZShJbd5SmLq9cgIFVjKYeymftXtrfhp8dMFRbx2gnoXdW76U
+ QPeZF/kV9ikIvTKvSv/YnxC7jwFTHAwqJJafqFXhgwxml5Ji1s2JnuZ21xKdE1nF2670
+ 7oibXPvQ4z9jEe9RnJla76OfhQuufuvYQIqLOus25ioh9f8QOSVbR/6fL5UA5H73UMAh
+ S6CXbLTOAn0kzXlxVCF4IEnoursdxYRUJ/yK8i2wxJlfIicJq3n90Rfahb8Wk5E9VCx0
+ 0eATyIQWiZfyFzwLcC4yJKU3gA+eJ4CssJOTWWBvAahGTUqPFV4z+Cj393+dmqWHpew8
+ DzCA==
+X-Gm-Message-State: AJIora/q3jOgyQ06aPGsFd38mCNQe2XaZ0fslfeE2Vs15gRKaEp8DpDB
+ PnrHidIao2/wtTtMd78VLx8=
+X-Google-Smtp-Source: AGRyM1tL5OpzeEvjnryKM1zyCU6rO5tLkN/wI78MRbQT2J+6bNMgnN1GnuVvmU0S8Pptetfi9UCRhA==
+X-Received: by 2002:a05:6402:42cb:b0:43a:5df2:bb5d with SMTP id
+ i11-20020a05640242cb00b0043a5df2bb5dmr23876112edc.36.1657137080986; 
+ Wed, 06 Jul 2022 12:51:20 -0700 (PDT)
+Received: from anparri.mshome.net (host-79-49-199-193.retail.telecomitalia.it.
+ [79.49.199.193]) by smtp.gmail.com with ESMTPSA id
+ kz11-20020a17090777cb00b0072af18329c4sm1968127ejc.225.2022.07.06.12.51.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Jul 2022 12:51:20 -0700 (PDT)
+From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+To: Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, KY Srinivasan <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Michael Kelley <mikelley@microsoft.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Peter Anvin <hpa@zytor.com>
+Subject: [RFC PATCH 0/2] dma_direct_{alloc,free}() for Hyper-V IVMs
+Date: Wed,  6 Jul 2022 21:50:25 +0200
+Message-Id: <20220706195027.76026-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-06_11,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 malwarescore=0
- clxscore=1011 mlxscore=0 mlxlogscore=773 priorityscore=1501 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207060073
-Cc: Dimitri Sivanich <sivanich@hpe.com>, Kevin Tian <kevin.tian@intel.com>,
- Russ Anderson <russ.anderson@hpe.com>, Steve Wahl <steve.wahl@hpe.com>,
- Mike Travis <mike.travis@hpe.com>, Jerry Snitselaar <jsnitsel@redhat.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>
+X-Mailman-Approved-At: Thu, 07 Jul 2022 00:17:33 +0000
+Cc: "Andrea Parri \(Microsoft\)" <parri.andrea@gmail.com>,
+ linux-hyperv@vger.kernel.org, iommu@lists.linux.dev, x86@kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,25 +114,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Jun 25, 2022 at 08:51:58PM +0800, Lu Baolu wrote:
-> Hi folks,
-> 
-> This is a follow-up series of changes proposed by this patch:
-> 
-> https://lore.kernel.org/linux-iommu/20220615183650.32075-1-steve.wahl@hpe.com/
-> 
-> It removes several static arrays of size DMAR_UNITS_SUPPORTED and sets
-> the DMAR_UNITS_SUPPORTED to 1024.
-> 
+Through swiotlb_unencrypted_base.
 
-After Kevin Tian's comments, for the whole series:
+P.S.  I'm on vacation for the next couple of weeks starting next Monday;
+Dexuan/Michael should be able to address review feedback in that period.
 
-Reviewed-by: Steve Wahl <steve.wahl@hpe.com>
+Andrea Parri (Microsoft) (2):
+  swiotlb,dma-direct: Move swiotlb_unencrypted_base to direct.c
+  dma-direct: Fix dma_direct_{alloc,free}() for Hyperv-V IVMs
 
---> Steve
+ arch/x86/kernel/cpu/mshyperv.c |  6 +++---
+ include/linux/dma-direct.h     |  2 ++
+ include/linux/swiotlb.h        |  2 --
+ kernel/dma/direct.c            | 38 +++++++++++++++++++++++++++++++++-
+ kernel/dma/swiotlb.c           | 12 +++++------
+ 5 files changed, 47 insertions(+), 13 deletions(-)
 
 -- 
-Steve Wahl, Hewlett Packard Enterprise
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
