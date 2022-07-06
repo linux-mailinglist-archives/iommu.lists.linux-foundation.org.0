@@ -1,83 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C93568714
-	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 13:45:50 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0C9568748
+	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 13:50:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2571A404F6;
-	Wed,  6 Jul 2022 11:45:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2571A404F6
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KMVJJ+Ju
+	by smtp1.osuosl.org (Postfix) with ESMTP id DDC9180DB4;
+	Wed,  6 Jul 2022 11:50:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DDC9180DB4
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AZcs/8PQ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H9epYLY61jQW; Wed,  6 Jul 2022 11:45:48 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3oXa_Af86gmP; Wed,  6 Jul 2022 11:50:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1F1C640B16;
-	Wed,  6 Jul 2022 11:45:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1F1C640B16
+	by smtp1.osuosl.org (Postfix) with ESMTPS id ECBC680CEA;
+	Wed,  6 Jul 2022 11:50:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org ECBC680CEA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D315CC0077;
-	Wed,  6 Jul 2022 11:45:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B746EC0077;
+	Wed,  6 Jul 2022 11:50:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1104C002D
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:45:46 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6250DC002D
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:50:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6DACD40921
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:45:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6DACD40921
-Authentication-Results: smtp4.osuosl.org;
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3BE44404F6
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:50:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3BE44404F6
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=KMVJJ+Ju
+ header.a=rsa-sha256 header.s=k20201202 header.b=AZcs/8PQ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wvS5Y1zqhKpA for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jul 2022 11:45:45 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SdcCA5b-bZQ2 for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jul 2022 11:50:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9621B40289
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9A6B0400AC
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 9621B40289
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:45:45 +0000 (UTC)
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9A6B0400AC
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:50:38 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3DEC861EE5;
- Wed,  6 Jul 2022 11:45:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51827C3411C;
- Wed,  6 Jul 2022 11:45:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E559B61EF0;
+ Wed,  6 Jul 2022 11:50:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43FFC3411C;
+ Wed,  6 Jul 2022 11:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657107943;
- bh=aBdtVMhRidxJCeoJx5DEXlpzuQlURSLwQpWLFBNxTts=;
+ s=k20201202; t=1657108237;
+ bh=pIkja7u4jVh70cjtOcr/icdaQPCTUe5JoMbq34s2vCA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KMVJJ+JukHbibk6ztwsiqZjPY7NNGnu5ye/kkkr65U8rnR50ws1YnUZgNFk5+4LZc
- qrbPtRrZznfI6mp0+7/SBCTIuK0aG3D3ThJ7VLx2nNaiiNl9OpsfDK46GwzWVI7h2s
- 5Ddwh1l7nAR/g30vK7bn6t3ky+UZJFIeAD7s8RkA/GT1UGOlPd+fv2yaHwJZYA+LeP
- oGdC0e0RO7pFN3Q/dmlVtqZVcVLeIuY7H1u1dOPKEtzBve5qL1g19QKv7seksr02zn
- lbmy3N4magjeo+Y2st5Z7HoMGPOHMilLgnLHgoDR52kgWGTLrcjbXaeFhwRj7HJn5l
- E+rKgbU5XqcVA==
-Date: Wed, 6 Jul 2022 12:45:37 +0100
+ b=AZcs/8PQUqBcCYbonWkSDNfeylddwt8DzSYGJceY9yQoymUm1LGtSSG4b7LjShl/7
+ WZ2qs49p9ECdbmNoFL8nhUg0Q0m7QIs0zLU37eHfOGr1GFyMoHEh8juucfoVjyMmIR
+ ajvq7TmLNCUyZHv4keoy/mTWt3SOqE0iwG5syLwvpZymYoObj/wihM6BGcOawmgbrz
+ 9uQ1gruOt4q9DFe5vAQv1ino7n6NpOQ+V3+FOiz3OSXF0FdnoZ5C9r6yFG2643vVpN
+ 9/N7yibHBWvj1Zmjy0dc0nHzxgb9JO/SxG+7fIHDKcyvqfDrpbhM0h+SSJGjUP1So6
+ OMmUMmPsp7dHw==
+Date: Wed, 6 Jul 2022 12:50:31 +0100
 From: Will Deacon <will@kernel.org>
-To: Luca Weiss <luca@z3ntu.xyz>
-Subject: Re: [PATCH v2 1/4] dt-bindings: qcom-iommu: Add Qualcomm MSM8953
- compatible
-Message-ID: <20220706114536.GA2403@willie-the-truck>
-References: <20220612092218.424809-1-luca@z3ntu.xyz>
- <20220612092218.424809-2-luca@z3ntu.xyz>
+To: yf.wang@mediatek.com
+Subject: Re: [PATCH v12 0/2] iommu/mediatek: TTBR up to 35bit support
+Message-ID: <20220706115028.GC2403@willie-the-truck>
+References: <20220630092927.24925-1-yf.wang@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220612092218.424809-2-luca@z3ntu.xyz>
+In-Reply-To: <20220630092927.24925-1-yf.wang@mediatek.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, wsd_upstream@mediatek.com,
+ iommu@lists.linux-foundation.org, Libo Kang <Libo.Kang@mediatek.com>,
+ linux-kernel@vger.kernel.org, Miles Chen <miles.chen@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Ning Li <ning.li@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,28 +92,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, Jun 12, 2022 at 11:22:13AM +0200, Luca Weiss wrote:
-> Document the compatible used for IOMMU on the msm8953 SoC.
+On Thu, Jun 30, 2022 at 05:29:24PM +0800, yf.wang@mediatek.com wrote:
+> This patchset adds MediaTek TTBR up to 35bit support for single normal zone.
 > 
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
-> Changes from v1:
-> - new patch
-> 
->  Documentation/devicetree/bindings/iommu/qcom,iommu.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-> index 059139abce35..e6cecfd360eb 100644
-> --- a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-> +++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-> @@ -10,6 +10,7 @@ to non-secure vs secure interrupt line.
->  - compatible       : Should be one of:
->  
->                          "qcom,msm8916-iommu"
-> +                        "qcom,msm8953-iommu"
+> Changes in v12:
+> - Update [PATCH 1/2]: remove GENMASK(31, 7)
+> - Update [PATCH 2/2]: remove MMU_PT_ADDR_MASK definition.
 
-I'm assuming Andy or Bjorn will pick this up.
+For both patches:
+
+Acked-by: Will Deacon <will@kernel.org>
+
+Joerg -- please can you pick these up for 5.20?
+
+Thanks,
 
 Will
 _______________________________________________
