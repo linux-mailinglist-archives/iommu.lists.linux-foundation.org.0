@@ -1,83 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467715696C7
-	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 02:17:38 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8045696C8
+	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 02:17:39 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 61F9040C4C;
-	Thu,  7 Jul 2022 00:17:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 61F9040C4C
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=qiUwOsPC
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9648A41869;
+	Thu,  7 Jul 2022 00:17:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9648A41869
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=WD0C7sqA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BIgP4NjeSJp7; Thu,  7 Jul 2022 00:17:35 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id c4E0uHrRdgBc; Thu,  7 Jul 2022 00:17:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1C84C40B5C;
-	Thu,  7 Jul 2022 00:17:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1C84C40B5C
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 18FDF4189A;
+	Thu,  7 Jul 2022 00:17:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 18FDF4189A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B5D3DC0077;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F26C8C002D;
 	Thu,  7 Jul 2022 00:17:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4818BC002D
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:24 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BBB94C002D
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 29BD283E64
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 29BD283E64
-Authentication-Results: smtp1.osuosl.org;
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9501540120
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9501540120
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=qiUwOsPC
+ header.a=rsa-sha256 header.s=20210112 header.b=WD0C7sqA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IUeEfJvlT5V7 for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jul 2022 19:51:23 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id KcEOBUrHuOJx for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jul 2022 19:51:32 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CECD883E35
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by smtp1.osuosl.org (Postfix) with ESMTPS id CECD883E35
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:22 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id y8so14828424eda.3
- for <iommu@lists.linux-foundation.org>; Wed, 06 Jul 2022 12:51:22 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 39C87400E9
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 39C87400E9
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 19:51:32 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id fd6so20574483edb.5
+ for <iommu@lists.linux-foundation.org>; Wed, 06 Jul 2022 12:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T/Uniy8LBcxVwi6NUSTS6A3GCA+91o6vI7rMz3Wtdlk=;
- b=qiUwOsPCNmCmsMJzHRsMCaqHx/A29XFx+rEtXjpqLg05bj73vgI77R8nubnEYJ+G4/
- p3lABAQJJTZVJuLPfbcf0/Fbe8CGrKSC202O5G+CGOx6Ltsc0jTW4ZBsabqe1nhSvicM
- hGITTa5Eqvo/4HZ2OLE8sSJ1r0Z5cDjhIo9poy31FT4uT+YeMzQBou6F7hhhgFNb0vJB
- gmaOFBXvzYhqf5RoSr/SXJ6AaRWj15Xso85XVvRCE/8azbqlsFTr9Nc43wazo2H6U4Up
- 0lZgKwKvQDF3FBwGEZ7WpsN1gQthA4oR2esJEp+LJQ6WbXe6sXLmZpHrG7GEeW8fjJtk
- O26g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=940NON5ZiCzvUCu0CiIkGxD8PkrHui9fksTxAlvFF2Q=;
+ b=WD0C7sqAbS/txx8ZqA2ZODw2GWOvOZUpy0KcNt4GEbk3hexy6PqipKnUOgnU/RQZj7
+ DAPrsGVCzF2QPmv9S6BDYMgfx9Ic7s1TIWhwJSf5xBaivP9Ymlr9cWWFdW78LXCa3ZJc
+ zdIU2bTW3ijEsmGqK7YeX+sgqONpDpotZUTnlmvDJ0YT4D/t1pYpKal5WjL2bp5NUxNu
+ PcOP/CfQqL+bX9x27rKyKKehJ6719Bl0f7yb+57RBkEOO6GZtffD2YffmLbr9nRfGTi2
+ GrbJNHqUcZNtdn52CTSFohmmQ6/2uaCCLchXKCO8IHROMUd7DXmlGifRDXi6wOjdOEog
+ GtrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T/Uniy8LBcxVwi6NUSTS6A3GCA+91o6vI7rMz3Wtdlk=;
- b=PpZYAqEZJ2LRsgCnDcZShJbd5SmLq9cgIFVjKYeymftXtrfhp8dMFRbx2gnoXdW76U
- QPeZF/kV9ikIvTKvSv/YnxC7jwFTHAwqJJafqFXhgwxml5Ji1s2JnuZ21xKdE1nF2670
- 7oibXPvQ4z9jEe9RnJla76OfhQuufuvYQIqLOus25ioh9f8QOSVbR/6fL5UA5H73UMAh
- S6CXbLTOAn0kzXlxVCF4IEnoursdxYRUJ/yK8i2wxJlfIicJq3n90Rfahb8Wk5E9VCx0
- 0eATyIQWiZfyFzwLcC4yJKU3gA+eJ4CssJOTWWBvAahGTUqPFV4z+Cj393+dmqWHpew8
- DzCA==
-X-Gm-Message-State: AJIora/q3jOgyQ06aPGsFd38mCNQe2XaZ0fslfeE2Vs15gRKaEp8DpDB
- PnrHidIao2/wtTtMd78VLx8=
-X-Google-Smtp-Source: AGRyM1tL5OpzeEvjnryKM1zyCU6rO5tLkN/wI78MRbQT2J+6bNMgnN1GnuVvmU0S8Pptetfi9UCRhA==
-X-Received: by 2002:a05:6402:42cb:b0:43a:5df2:bb5d with SMTP id
- i11-20020a05640242cb00b0043a5df2bb5dmr23876112edc.36.1657137080986; 
- Wed, 06 Jul 2022 12:51:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=940NON5ZiCzvUCu0CiIkGxD8PkrHui9fksTxAlvFF2Q=;
+ b=uLVc7/E9b3U3Mw06wb67woc80gww+06ITH8wsABTeP7/fHYPMhPVho8KwpcStDdsh8
+ u9WVHeMr0p/hwDFlihumPuAOgj9S0a4v8Plgd8AQIYhp+k0H3fQVI3mSYb4QH04JI8Ca
+ vT/108vdpWE0fwtUab3PCjcgPwncoE1Wi7UdFtbqOTgmGk3xAZRp+Dwp8jUZcoz/dgZn
+ A1cTPkbmR9qbhPpBrBiq1QMPrxFx58RyoeABrU0xh2xxMF7V7A1xY5Kr1sbzAk/l99nc
+ SUUs0OXwfRMmcDEmoSXaUFQwv3bz7lzL+cT/8JaR0nZF7GBnS9xwNO2wPTID9HrCwH/M
+ Nydw==
+X-Gm-Message-State: AJIora8ULHK8BNVjKYpMzWw01BCCim15WaygL2g3a0Xi8sh3RcTnuc3s
+ j0ZFAwO+KH9Hcb4c4e75fcE=
+X-Google-Smtp-Source: AGRyM1uUFyCfr9/9lM3NU3hu2Vav+/0R7nlwqn8fsfMebpuG36p/QatZHggyU+N4+LYrdP/Tmf2M8A==
+X-Received: by 2002:a05:6402:4507:b0:43a:5b42:2be5 with SMTP id
+ ez7-20020a056402450700b0043a5b422be5mr23610276edb.392.1657137090388; 
+ Wed, 06 Jul 2022 12:51:30 -0700 (PDT)
 Received: from anparri.mshome.net (host-79-49-199-193.retail.telecomitalia.it.
  [79.49.199.193]) by smtp.gmail.com with ESMTPSA id
- kz11-20020a17090777cb00b0072af18329c4sm1968127ejc.225.2022.07.06.12.51.18
+ kz11-20020a17090777cb00b0072af18329c4sm1968127ejc.225.2022.07.06.12.51.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 12:51:20 -0700 (PDT)
+ Wed, 06 Jul 2022 12:51:30 -0700 (PDT)
 From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To: Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -88,10 +88,13 @@ To: Christoph Hellwig <hch@lst.de>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
  Peter Anvin <hpa@zytor.com>
-Subject: [RFC PATCH 0/2] dma_direct_{alloc,free}() for Hyper-V IVMs
-Date: Wed,  6 Jul 2022 21:50:25 +0200
-Message-Id: <20220706195027.76026-1-parri.andrea@gmail.com>
+Subject: [RFC PATCH 1/2] swiotlb,
+ dma-direct: Move swiotlb_unencrypted_base to direct.c
+Date: Wed,  6 Jul 2022 21:50:26 +0200
+Message-Id: <20220706195027.76026-2-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220706195027.76026-1-parri.andrea@gmail.com>
+References: <20220706195027.76026-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 07 Jul 2022 00:17:33 +0000
 Cc: "Andrea Parri \(Microsoft\)" <parri.andrea@gmail.com>,
@@ -114,22 +117,150 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Through swiotlb_unencrypted_base.
+The variable will come in handy to enable dma_direct_{alloc,free}()
+for Hyper-V AMD SEV-SNP Isolated VMs.
 
-P.S.  I'm on vacation for the next couple of weeks starting next Monday;
-Dexuan/Michael should be able to address review feedback in that period.
+Rename swiotlb_unencrypted_base to dma_unencrypted_base to indicate
+that the notion is not restricted to SWIOTLB.
 
-Andrea Parri (Microsoft) (2):
-  swiotlb,dma-direct: Move swiotlb_unencrypted_base to direct.c
-  dma-direct: Fix dma_direct_{alloc,free}() for Hyperv-V IVMs
+No functional change.
+
+Suggested-by: Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+---
+Yeah, this is in some sense trading the dependency on SWIOTLB for a
+dependency on HAS_DMA:
+
+Q1. I'm unable to envision a scenario where SWIOTLB without HAS_DMA
+would make sense but I'm also expecting one of the kernel test bots
+to try such a nonsensical configuration... should the references to
+dma_unencrypted_base in swiotlb.c be protected with HAS_DMA? other?
+
+Q2. Can the #ifdef CONFIG_HAS_DMA in arch/x86/kernel/cpu/mshyperv.c
+be removed? can we make HYPERV "depends on HAS_DMA"?
+
+...
 
  arch/x86/kernel/cpu/mshyperv.c |  6 +++---
  include/linux/dma-direct.h     |  2 ++
  include/linux/swiotlb.h        |  2 --
- kernel/dma/direct.c            | 38 +++++++++++++++++++++++++++++++++-
- kernel/dma/swiotlb.c           | 12 +++++------
- 5 files changed, 47 insertions(+), 13 deletions(-)
+ kernel/dma/direct.c            |  8 ++++++++
+ kernel/dma/swiotlb.c           | 12 +++++-------
+ 5 files changed, 18 insertions(+), 12 deletions(-)
 
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 831613959a92a..47e9cece86ff8 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -18,7 +18,7 @@
+ #include <linux/kexec.h>
+ #include <linux/i8253.h>
+ #include <linux/random.h>
+-#include <linux/swiotlb.h>
++#include <linux/dma-direct.h>
+ #include <asm/processor.h>
+ #include <asm/hypervisor.h>
+ #include <asm/hyperv-tlfs.h>
+@@ -333,8 +333,8 @@ static void __init ms_hyperv_init_platform(void)
+ 
+ 		if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP) {
+ 			static_branch_enable(&isolation_type_snp);
+-#ifdef CONFIG_SWIOTLB
+-			swiotlb_unencrypted_base = ms_hyperv.shared_gpa_boundary;
++#ifdef CONFIG_HAS_DMA
++			dma_unencrypted_base = ms_hyperv.shared_gpa_boundary;
+ #endif
+ 		}
+ 		/* Isolation VMs are unenlightened SEV-based VMs, thus this check: */
+diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
+index 18aade195884d..0b7e4c4b7b34c 100644
+--- a/include/linux/dma-direct.h
++++ b/include/linux/dma-direct.h
+@@ -14,6 +14,8 @@
+ 
+ extern unsigned int zone_dma_bits;
+ 
++extern phys_addr_t dma_unencrypted_base;
++
+ /*
+  * Record the mapping of CPU physical to DMA addresses for a given region.
+  */
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 7ed35dd3de6e7..fa2e85f21af61 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -190,6 +190,4 @@ static inline bool is_swiotlb_for_alloc(struct device *dev)
+ }
+ #endif /* CONFIG_DMA_RESTRICTED_POOL */
+ 
+-extern phys_addr_t swiotlb_unencrypted_base;
+-
+ #endif /* __LINUX_SWIOTLB_H */
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 8d0b68a170422..06b2b901e37a3 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -22,6 +22,14 @@
+  */
+ unsigned int zone_dma_bits __ro_after_init = 24;
+ 
++/*
++ * Certain Confidential Computing solutions, such as Hyper-V AMD SEV-SNP
++ * isolated VMs, use dma_unencrypted_base as a watermark: memory addresses
++ * below dma_unencrypted_base are treated as private, while memory above
++ * dma_unencrypted_base is treated as shared.
++ */
++phys_addr_t dma_unencrypted_base;
++
+ static inline dma_addr_t phys_to_dma_direct(struct device *dev,
+ 		phys_addr_t phys)
+ {
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index cb50f8d383606..78d4f5294a56c 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -67,8 +67,6 @@ static bool swiotlb_force_disable;
+ 
+ struct io_tlb_mem io_tlb_default_mem;
+ 
+-phys_addr_t swiotlb_unencrypted_base;
+-
+ static unsigned long default_nslabs = IO_TLB_DEFAULT_SIZE >> IO_TLB_SHIFT;
+ 
+ static int __init
+@@ -142,7 +140,7 @@ static inline unsigned long nr_slots(u64 val)
+ 
+ /*
+  * Remap swioltb memory in the unencrypted physical address space
+- * when swiotlb_unencrypted_base is set. (e.g. for Hyper-V AMD SEV-SNP
++ * when dma_unencrypted_base is set. (e.g. for Hyper-V AMD SEV-SNP
+  * Isolation VMs).
+  */
+ #ifdef CONFIG_HAS_IOMEM
+@@ -150,8 +148,8 @@ static void *swiotlb_mem_remap(struct io_tlb_mem *mem, unsigned long bytes)
+ {
+ 	void *vaddr = NULL;
+ 
+-	if (swiotlb_unencrypted_base) {
+-		phys_addr_t paddr = mem->start + swiotlb_unencrypted_base;
++	if (dma_unencrypted_base) {
++		phys_addr_t paddr = mem->start + dma_unencrypted_base;
+ 
+ 		vaddr = memremap(paddr, bytes, MEMREMAP_WB);
+ 		if (!vaddr)
+@@ -213,10 +211,10 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+ 	}
+ 
+ 	/*
+-	 * If swiotlb_unencrypted_base is set, the bounce buffer memory will
++	 * If dma_unencrypted_base is set, the bounce buffer memory will
+ 	 * be remapped and cleared in swiotlb_update_mem_attributes.
+ 	 */
+-	if (swiotlb_unencrypted_base)
++	if (dma_unencrypted_base)
+ 		return;
+ 
+ 	memset(vaddr, 0, bytes);
 -- 
 2.25.1
 
