@@ -1,56 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0785686C6
-	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 13:38:43 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C93568714
+	for <lists.iommu@lfdr.de>; Wed,  6 Jul 2022 13:45:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0680883E35;
-	Wed,  6 Jul 2022 11:38:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0680883E35
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QzHmKxEgn72f; Wed,  6 Jul 2022 11:38:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 104AD83E2A;
-	Wed,  6 Jul 2022 11:38:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 104AD83E2A
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CA5D9C0078;
-	Wed,  6 Jul 2022 11:38:40 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 365B9C002D
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:38:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0320D404C5
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:38:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0320D404C5
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2571A404F6;
+	Wed,  6 Jul 2022 11:45:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2571A404F6
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KMVJJ+Ju
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mKHpvTUlBp6h for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jul 2022 11:38:39 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 55C9E400AC
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 55C9E400AC
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:38:39 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 4018F4CC; Wed,  6 Jul 2022 13:38:37 +0200 (CEST)
-Date: Wed, 6 Jul 2022 13:38:36 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Bo Liu <liubo03@inspur.com>
-Subject: Re: [PATCH] iommu/amd: Handle return of iommu_device_sysfs_add
-Message-ID: <YsV0POm9lLEbQyIB@8bytes.org>
-References: <20220701062008.6988-1-liubo03@inspur.com>
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id H9epYLY61jQW; Wed,  6 Jul 2022 11:45:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1F1C640B16;
+	Wed,  6 Jul 2022 11:45:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1F1C640B16
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D315CC0077;
+	Wed,  6 Jul 2022 11:45:47 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A1104C002D
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:45:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6DACD40921
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:45:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6DACD40921
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=KMVJJ+Ju
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wvS5Y1zqhKpA for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jul 2022 11:45:45 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9621B40289
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 9621B40289
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jul 2022 11:45:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3DEC861EE5;
+ Wed,  6 Jul 2022 11:45:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51827C3411C;
+ Wed,  6 Jul 2022 11:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657107943;
+ bh=aBdtVMhRidxJCeoJx5DEXlpzuQlURSLwQpWLFBNxTts=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KMVJJ+JukHbibk6ztwsiqZjPY7NNGnu5ye/kkkr65U8rnR50ws1YnUZgNFk5+4LZc
+ qrbPtRrZznfI6mp0+7/SBCTIuK0aG3D3ThJ7VLx2nNaiiNl9OpsfDK46GwzWVI7h2s
+ 5Ddwh1l7nAR/g30vK7bn6t3ky+UZJFIeAD7s8RkA/GT1UGOlPd+fv2yaHwJZYA+LeP
+ oGdC0e0RO7pFN3Q/dmlVtqZVcVLeIuY7H1u1dOPKEtzBve5qL1g19QKv7seksr02zn
+ lbmy3N4magjeo+Y2st5Z7HoMGPOHMilLgnLHgoDR52kgWGTLrcjbXaeFhwRj7HJn5l
+ E+rKgbU5XqcVA==
+Date: Wed, 6 Jul 2022 12:45:37 +0100
+From: Will Deacon <will@kernel.org>
+To: Luca Weiss <luca@z3ntu.xyz>
+Subject: Re: [PATCH v2 1/4] dt-bindings: qcom-iommu: Add Qualcomm MSM8953
+ compatible
+Message-ID: <20220706114536.GA2403@willie-the-truck>
+References: <20220612092218.424809-1-luca@z3ntu.xyz>
+ <20220612092218.424809-2-luca@z3ntu.xyz>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220701062008.6988-1-liubo03@inspur.com>
-Cc: iommu@lists.linux-foundation.org, will@kernel.org, iommu@lists.linux.dev,
- linux-kernel@vger.kernel.org
+In-Reply-To: <20220612092218.424809-2-luca@z3ntu.xyz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ phone-devel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,16 +95,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jul 01, 2022 at 02:20:08AM -0400, Bo Liu wrote:
-> As iommu_device_sysfs_add() can fail, we should check the return value.
+On Sun, Jun 12, 2022 at 11:22:13AM +0200, Luca Weiss wrote:
+> Document the compatible used for IOMMU on the msm8953 SoC.
 > 
-> Signed-off-by: Bo Liu <liubo03@inspur.com>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 > ---
->  drivers/iommu/amd/init.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Changes from v1:
+> - new patch
+> 
+>  Documentation/devicetree/bindings/iommu/qcom,iommu.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
+> index 059139abce35..e6cecfd360eb 100644
+> --- a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
+> +++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
+> @@ -10,6 +10,7 @@ to non-secure vs secure interrupt line.
+>  - compatible       : Should be one of:
+>  
+>                          "qcom,msm8916-iommu"
+> +                        "qcom,msm8953-iommu"
 
-Applied, thanks.
+I'm assuming Andy or Bjorn will pick this up.
 
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
