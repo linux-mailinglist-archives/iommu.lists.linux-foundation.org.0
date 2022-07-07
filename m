@@ -1,87 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3851956A695
-	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 17:06:08 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF1756CD5C
+	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:37:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CEC2F61226;
-	Thu,  7 Jul 2022 15:06:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CEC2F61226
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=SY18HDXH
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5750B60E31;
+	Sun, 10 Jul 2022 06:37:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5750B60E31
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xCZOnbeik1Eq; Thu,  7 Jul 2022 15:06:03 +0000 (UTC)
+	with ESMTP id aPucW5S2QMuR; Sun, 10 Jul 2022 06:37:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D113661225;
-	Thu,  7 Jul 2022 15:06:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D113661225
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5FEBF60AAC;
+	Sun, 10 Jul 2022 06:37:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5FEBF60AAC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 874C1C007D;
-	Thu,  7 Jul 2022 15:06:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AA40C0035;
+	Sun, 10 Jul 2022 06:37:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C1306C002D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 14:29:20 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2C1DCC002D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 16:19:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9A64F61225
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 14:29:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9A64F61225
+ by smtp4.osuosl.org (Postfix) with ESMTP id 070C741BDD
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 16:19:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 070C741BDD
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mKcX1kNl5Him for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jul 2022 14:29:20 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C7A9B61219
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C7A9B61219
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 14:29:19 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id g14so22912273qto.9
- for <iommu@lists.linux-foundation.org>; Thu, 07 Jul 2022 07:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=date:from:to:subject:message-id:mime-version:content-disposition;
- bh=BUX3WMFYAEnPL/c65L33A7PAl0MmI35FiK9zEtWBc4k=;
- b=SY18HDXHaoYBAw5YtvF95ZHHOllk2uHUknYmRZwcZLZweTgEV/dKeKRSOCRcmd4HnS
- pHW6leOwEOCyNx2yHNtgIyT0ZthAOHVpBTH61YvXnq/d+AM5QjEyTqthDK0WyoUjKbsz
- iJO9JMfhT6YvzNjJH+eLAwMgQelXCQ8UjCkgg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition;
- bh=BUX3WMFYAEnPL/c65L33A7PAl0MmI35FiK9zEtWBc4k=;
- b=DG/lgfT6DtOo9cEuKEGokkpU8wIk08gw5QDQFYBhtCKOKYNNA7NFYeUOX3W336HRGX
- DFMce6JYVADDFzA3Q3twpCIqA35b/1AwhQoHEtpPwiYl2p326AOYAPlEY9xSR8HvYdhk
- 9vEFV+8X6It+9mowtVqdkpcWfdImcx25d0K1klVBnkvFsGPPGG++EZ5SAcEjM4VbG+9b
- njTkaGg6LVaFE3h1rh2MBfCZhnTOm3okG5FskMthB5+DadCWlddRT2qlJGFY/cjGSMOB
- yjfWbBB1Nqw/HLaf1mGIr+ZOvPKBgAS/ceIA4jhFUFeBKyMKz+jfvBmukR60WDaCdnub
- LuMg==
-X-Gm-Message-State: AJIora+36elkvO+snWqIyk6+9lbwJPPY2HdKcFbfHx3AN/B+nn/I4KFd
- Gpmlsfcr07yc4nTv17CoJtMQzm6NMHAl6i14
-X-Google-Smtp-Source: AGRyM1vOwPcspw97/TQ6cKFUtIYLYVvLQ+77x205joyZwYzNuH+AypoB3LV+O6e+X5mnet5ZZzpeQQ==
-X-Received: by 2002:ac8:7f46:0:b0:31e:9dba:acf3 with SMTP id
- g6-20020ac87f46000000b0031e9dbaacf3mr1600864qtk.556.1657204157626; 
- Thu, 07 Jul 2022 07:29:17 -0700 (PDT)
-Received: from meerkat.local
- (bras-base-mtrlpq5031w-grc-30-209-226-106-245.dsl.bell.ca. [209.226.106.245])
- by smtp.gmail.com with ESMTPSA id
- v6-20020a05620a0f0600b006b55036fd3fsm1685514qkl.70.2022.07.07.07.29.17
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 07:29:17 -0700 (PDT)
-Date: Thu, 7 Jul 2022 10:29:15 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: iommu@lists.linux-foundation.org
-Subject: Test posting to old list
-Message-ID: <20220707142915.l3ovwhpa2oo2snoj@meerkat.local>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hcD9Q9DGVMM9 for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jul 2022 16:19:41 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EAAF441BD7
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id EAAF441BD7
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 16:19:40 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 3197E67373; Thu,  7 Jul 2022 18:19:34 +0200 (CEST)
+Date: Thu, 7 Jul 2022 18:19:33 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: fully convert arm to use dma-direct v3
+Message-ID: <20220707161933.GA27911@lst.de>
+References: <20220614092047.572235-1-hch@lst.de>
+ <20220629062837.GA17140@lst.de> <Yrv0HLSj3xAHa+av@kroah.com>
+ <20220707045840.GA12672@lst.de> <YsaUtzVsobF1WNVI@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-X-Mailman-Approved-At: Thu, 07 Jul 2022 15:06:01 +0000
+In-Reply-To: <YsaUtzVsobF1WNVI@kroah.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Mailman-Approved-At: Sun, 10 Jul 2022 06:37:28 +0000
+Cc: Arnd Bergmann <arnd@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-usb@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ iommu@lists.linux-foundation.org, Alan Stern <stern@rowland.harvard.edu>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,9 +79,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Test that this will receive the auto-responder rejection.
+On Thu, Jul 07, 2022 at 10:09:27AM +0200, Greg Kroah-Hartman wrote:
+> > Anyone who has real concerns, please scream now.
+> 
+> Sounds like a good plan to me, pull it in and let's see if anyone even
+> notices.
 
--k
+Ok, I've added the series to the dma-mapping tree now.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
