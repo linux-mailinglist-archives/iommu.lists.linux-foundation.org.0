@@ -2,148 +2,128 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1634569D92
-	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 10:40:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C10E569DB1
+	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 10:45:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B5A8D40C7B;
-	Thu,  7 Jul 2022 08:40:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B5A8D40C7B
+	by smtp2.osuosl.org (Postfix) with ESMTP id C724540C95;
+	Thu,  7 Jul 2022 08:45:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C724540C95
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=uLIozQmE
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HiiJL9Rx
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YFZ4N2x1TvSU; Thu,  7 Jul 2022 08:40:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7341640C93;
-	Thu,  7 Jul 2022 08:40:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7341640C93
+	with ESMTP id akzvAJP74bLa; Thu,  7 Jul 2022 08:45:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A2EC040C91;
+	Thu,  7 Jul 2022 08:45:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A2EC040C91
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2506EC002D;
-	Thu,  7 Jul 2022 08:40:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 539B5C002D;
+	Thu,  7 Jul 2022 08:45:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 45894C002D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:40:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA6ECC002D;
+ Thu,  7 Jul 2022 08:45:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1FAFC830E2
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:40:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1FAFC830E2
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=uLIozQmE
+ by smtp4.osuosl.org (Postfix) with ESMTP id B18F0419DA;
+ Thu,  7 Jul 2022 08:45:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B18F0419DA
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=HiiJL9Rx
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Oepwx4LdkoMG for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jul 2022 08:40:07 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id aRh2nAyp6XSA; Thu,  7 Jul 2022 08:45:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C960D8301F
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C960D8301F
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:40:07 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DF0926209B;
- Thu,  7 Jul 2022 08:40:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19CFC3411E;
- Thu,  7 Jul 2022 08:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657183206;
- bh=WbGmo8M7SuEpA4hho4LukBL6BvfNcnRlmWQ1qO9HJ/U=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=uLIozQmEuSEh/XitGSDU3I1WWg/wxHMYC8XcC0CKDSDzcPTnDKZ0WJpx/VEqUIrA6
- 90D1f2r+lQ/rkAoV0TsA7oITj6H3B4i9g/nqgpiUDGl1GBu9VW5UjrTUzUDkFxOd3t
- R011UxxdpHW1T1R9fwf8PvtZV61+cE8woR4NEOXyGsg98KLqjAIolLU8cqYo39f3uD
- 797WFWDXG+i4pUi5B49w4dAlDdo9l/by+B+rEyxEBVcat8WMWleVU9h22Q2v2qbO/H
- sZsFgrBRKSO1tpk8gVBtKIl4XC7u0rzO2ivKAc+YeTliCPwcnfyMVDLl7P8QP2Dxjk
- hWtBucMBog50Q==
-Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29]
- helo=wait-a-minute.misterjones.org)
- by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <maz@kernel.org>) id 1o9N3L-005rnz-LP;
- Thu, 07 Jul 2022 09:40:03 +0100
-Date: Thu, 07 Jul 2022 09:39:58 +0100
-Message-ID: <87bku1mi3l.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Oleksandr <olekstysh@gmail.com>
-Subject: Re: [PATCH v3 6/8] genirq: Add and use an irq_data_update_affinity
- helper
-In-Reply-To: <c7171195-796a-e61e-f270-864985adc5c3@gmail.com>
-References: <20220701200056.46555-1-samuel@sholland.org>
- <20220701200056.46555-7-samuel@sholland.org>
- <c7171195-796a-e61e-f270-864985adc5c3@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-X-SA-Exim-Connect-IP: 185.104.136.29
-X-SA-Exim-Rcpt-To: olekstysh@gmail.com, samuel@sholland.org, tglx@linutronix.de,
- andy.shevchenko@gmail.com, brgl@bgdev.pl, bhelgaas@google.com,
- boris.ostrovsky@oracle.com, bp@alien8.de,
- bcm-kernel-feedback-list@broadcom.com, chris@zankel.net, colin.king@intel.com,
- dave.hansen@linux.intel.com, decui@microsoft.com, f.fainelli@gmail.com,
- guoren@kernel.org, hpa@zytor.com, haiyangz@microsoft.com, deller@gmx.de,
- mingo@redhat.com, ink@jurassic.park.msu.ru,
- James.Bottomley@HansenPartnership.com, jbeulich@suse.com, joro@8bytes.org,
- jgross@suse.com, Julia.Lawall@inria.fr, kys@microsoft.com,
- keescook@chromium.org, kw@linux.com, linus.walleij@linaro.org,
- lpieralisi@kernel.org, mark.rutland@arm.com, mattst88@gmail.com,
- jcmvbkbc@gmail.com, mheyne@amazon.de, oleksandr_tyshchenko@epam.com,
- dalias@libc.org, rth@twiddle.net, rikard.falkeborn@gmail.com, robh@kernel.org,
- linux@armlinux.org.uk, fancer.lancer@gmail.com, sstabellini@kernel.org,
- sthemmin@microsoft.com, svens@stackframe.org, tsbogend@alpha.f
- ranken.de, wei.liu@kernel.org, xuwei5@hisilicon.com, will@kernel.org,
- ysato@users.sourceforge.jp, iommu@lists.linux-foundation.org,
- iommu@lists.linux.dev, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, x86@kernel.org, xen-devel@lists.xenproject.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
- linux-hyperv@vger.kernel.org, Rich Felker <dalias@libc.org>,
- linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-pci@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Jan Beulich <jbeulich@suse.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Sven Schnelle <svens@stackframe.org>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, Rob Herring <robh@kernel.org>,
- Wei Liu <wei.liu@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Samuel Holland <samuel@sholland.org>, Will Deacon <will@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, x86@kernel.org,
- Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
- Wei Xu <xuwei5@hisilicon.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Ingo Molnar <mingo@redhat.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- xen-devel@lists.xenproject.org, Matt Turner <mattst88@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-xtensa@linux-xtensa.org,
- Kees Cook <keescook@chromium.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Maximilian Heyne <mheyne@amazon.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, Julia Lawall <Julia.Lawall@inria.fr>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- iommu@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
- Borislav Petkov <bp@alien8.de>, Colin Ian King <colin.king@intel.com>,
- Helge Deller <deller@gmx.de>
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1D6AD419D8
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1D6AD419D8;
+ Thu,  7 Jul 2022 08:45:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657183507; x=1688719507;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=edbKoKalbvq90CBmxogPesuIiDjl8rwJ49B+zZvetjQ=;
+ b=HiiJL9RxGyH8rKpUv2MWjjUuOC/zS0tS8qIGjDPsnd81FSwzIJx2E7o5
+ 6/44FElUWps9i5zOXK8V4qHj80Eagp/wB8tJfWMVhL/VUDgOGp95vZINp
+ yEHrFlQOoL9vTDD4lmTGee6/WtJFe4IVTinHz3HWT1nhuPtXWPafTZNyS
+ xcwwxUTDdd9PzQwC0B/i0XZ7C0tVzf+VWqaNOG03Nq3uT8dAKwoWC8i8z
+ q6n7mZnnZB8ksFyNbnXS3f+Vk8I9XyuXQif31Icmp+YKj9VASQdgCGExm
+ mEgN5Ob5btwwwlK51t52mn6wIU3ziGf4KXkiiy0HfEv8ZHv2jkdaEa5Cz A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="285095395"
+X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; d="scan'208";a="285095395"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 01:45:06 -0700
+X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; d="scan'208";a="651047273"
+Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.255.31.6])
+ ([10.255.31.6])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 01:44:45 -0700
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 088b9c375534d905a4d337c78db3b3bfbb52c4a0
+To: Greg KH <gregkh@linuxfoundation.org>, kernel test robot <lkp@intel.com>
+References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+ <YsaUgfPbOg7WuBuB@kroah.com>
+From: "Chen, Rong A" <rong.a.chen@intel.com>
+Message-ID: <c86816fd-aaba-01a9-5def-44868f0a46c9@intel.com>
+Date: Thu, 7 Jul 2022 16:44:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <YsaUgfPbOg7WuBuB@kroah.com>
+Content-Language: en-US
+Cc: nvdimm@lists.linux.dev, legousb-devel@lists.sourceforge.net,
+ dri-devel@lists.freedesktop.org, linux-sctp@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ ceph-devel@vger.kernel.org, linux-pm@vger.kernel.org,
+ usbb2k-api-dev@nongnu.org, linux-omap@vger.kernel.org,
+ megaraidlinux.pdl@broadcom.com, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-wpan@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-parport@lists.infradead.org, linux-doc@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-cxl@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, dm-devel@redhat.com,
+ target-devel@vger.kernel.org, dev@openvswitch.org, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ iommu@lists.linux.dev, coreteam@netfilter.org, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, greybus-dev@lists.linaro.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-mtd@lists.infradead.org, cgroups@vger.kernel.org,
+ linux-phy@lists.infradead.org, sound-open-firmware@alsa-project.org,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, isdn4linux@listserv.isdn4linux.de,
+ linux-input@vger.kernel.org, linux-ext4@vger.kernel.org,
+ ath11k@lists.infradead.org, mjpeg-users@lists.sourceforge.net,
+ openipmi-developer@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-mmc@vger.kernel.org, iommu@lists.linux-foundation.org,
+ keyrings@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
+ damon@lists.linux.dev, linux-mm@kvack.org,
+ accessrunner-general@lists.sourceforge.net,
+ linux1394-devel@lists.sourceforge.net, linux-leds@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-x25@vger.kernel.org, dccp@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-nfc@lists.01.org,
+ osmocom-net-gprs@lists.osmocom.org, apparmor@lists.ubuntu.com,
+ linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-scsi@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-unionfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ ntb@lists.linux.dev, tipc-discussion@lists.sourceforge.net,
+ linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -156,197 +136,89 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, 03 Jul 2022 16:22:03 +0100,
-Oleksandr <olekstysh@gmail.com> wrote:
-> 
-> 
-> On 01.07.22 23:00, Samuel Holland wrote:
-> 
-> 
-> Hello Samuel
-> 
-> > Some architectures and irqchip drivers modify the cpumask returned by
-> > irq_data_get_affinity_mask, usually by copying in to it. This is
-> > problematic for uniprocessor configurations, where the affinity mask
-> > should be constant, as it is known at compile time.
-> > 
-> > Add and use a setter for the affinity mask, following the pattern of
-> > irq_data_update_effective_affinity. This allows the getter function to
-> > return a const cpumask pointer.
-> > 
-> > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> > ---
-> > 
-> > Changes in v3:
-> >   - New patch to introduce irq_data_update_affinity
-> > 
-> >   arch/alpha/kernel/irq.c          | 2 +-
-> >   arch/ia64/kernel/iosapic.c       | 2 +-
-> >   arch/ia64/kernel/irq.c           | 4 ++--
-> >   arch/ia64/kernel/msi_ia64.c      | 4 ++--
-> >   arch/parisc/kernel/irq.c         | 2 +-
-> >   drivers/irqchip/irq-bcm6345-l1.c | 4 ++--
-> >   drivers/parisc/iosapic.c         | 2 +-
-> >   drivers/sh/intc/chip.c           | 2 +-
-> >   drivers/xen/events/events_base.c | 7 ++++---
-> >   include/linux/irq.h              | 6 ++++++
-> >   10 files changed, 21 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/arch/alpha/kernel/irq.c b/arch/alpha/kernel/irq.c
-> > index f6d2946edbd2..15f2effd6baf 100644
-> > --- a/arch/alpha/kernel/irq.c
-> > +++ b/arch/alpha/kernel/irq.c
-> > @@ -60,7 +60,7 @@ int irq_select_affinity(unsigned int irq)
-> >   		cpu = (cpu < (NR_CPUS-1) ? cpu + 1 : 0);
-> >   	last_cpu = cpu;
-> >   -	cpumask_copy(irq_data_get_affinity_mask(data),
-> > cpumask_of(cpu));
-> > +	irq_data_update_affinity(data, cpumask_of(cpu));
-> >   	chip->irq_set_affinity(data, cpumask_of(cpu), false);
-> >   	return 0;
-> >   }
-> > diff --git a/arch/ia64/kernel/iosapic.c b/arch/ia64/kernel/iosapic.c
-> > index 35adcf89035a..99300850abc1 100644
-> > --- a/arch/ia64/kernel/iosapic.c
-> > +++ b/arch/ia64/kernel/iosapic.c
-> > @@ -834,7 +834,7 @@ iosapic_unregister_intr (unsigned int gsi)
-> >   	if (iosapic_intr_info[irq].count == 0) {
-> >   #ifdef CONFIG_SMP
-> >   		/* Clear affinity */
-> > -		cpumask_setall(irq_get_affinity_mask(irq));
-> > +		irq_data_update_affinity(irq_get_irq_data(irq), cpu_all_mask);
-> >   #endif
-> >   		/* Clear the interrupt information */
-> >   		iosapic_intr_info[irq].dest = 0;
-> > diff --git a/arch/ia64/kernel/irq.c b/arch/ia64/kernel/irq.c
-> > index ecef17c7c35b..275b9ea58c64 100644
-> > --- a/arch/ia64/kernel/irq.c
-> > +++ b/arch/ia64/kernel/irq.c
-> > @@ -57,8 +57,8 @@ static char irq_redir [NR_IRQS]; // = { [0 ... NR_IRQS-1] = 1 };
-> >   void set_irq_affinity_info (unsigned int irq, int hwid, int redir)
-> >   {
-> >   	if (irq < NR_IRQS) {
-> > -		cpumask_copy(irq_get_affinity_mask(irq),
-> > -			     cpumask_of(cpu_logical_id(hwid)));
-> > +		irq_data_update_affinity(irq_get_irq_data(irq),
-> > +					 cpumask_of(cpu_logical_id(hwid)));
-> >   		irq_redir[irq] = (char) (redir & 0xff);
-> >   	}
-> >   }
-> > diff --git a/arch/ia64/kernel/msi_ia64.c b/arch/ia64/kernel/msi_ia64.c
-> > index df5c28f252e3..025e5133c860 100644
-> > --- a/arch/ia64/kernel/msi_ia64.c
-> > +++ b/arch/ia64/kernel/msi_ia64.c
-> > @@ -37,7 +37,7 @@ static int ia64_set_msi_irq_affinity(struct irq_data *idata,
-> >   	msg.data = data;
-> >     	pci_write_msi_msg(irq, &msg);
-> > -	cpumask_copy(irq_data_get_affinity_mask(idata), cpumask_of(cpu));
-> > +	irq_data_update_affinity(idata, cpumask_of(cpu));
-> >     	return 0;
-> >   }
-> > @@ -132,7 +132,7 @@ static int dmar_msi_set_affinity(struct irq_data *data,
-> >   	msg.address_lo |= MSI_ADDR_DEST_ID_CPU(cpu_physical_id(cpu));
-> >     	dmar_msi_write(irq, &msg);
-> > -	cpumask_copy(irq_data_get_affinity_mask(data), mask);
-> > +	irq_data_update_affinity(data, mask);
-> >     	return 0;
-> >   }
-> > diff --git a/arch/parisc/kernel/irq.c b/arch/parisc/kernel/irq.c
-> > index 0fe2d79fb123..5ebb1771b4ab 100644
-> > --- a/arch/parisc/kernel/irq.c
-> > +++ b/arch/parisc/kernel/irq.c
-> > @@ -315,7 +315,7 @@ unsigned long txn_affinity_addr(unsigned int irq, int cpu)
-> >   {
-> >   #ifdef CONFIG_SMP
-> >   	struct irq_data *d = irq_get_irq_data(irq);
-> > -	cpumask_copy(irq_data_get_affinity_mask(d), cpumask_of(cpu));
-> > +	irq_data_update_affinity(d, cpumask_of(cpu));
-> >   #endif
-> >     	return per_cpu(cpu_data, cpu).txn_addr;
-> > diff --git a/drivers/irqchip/irq-bcm6345-l1.c b/drivers/irqchip/irq-bcm6345-l1.c
-> > index 142a7431745f..6899e37810a8 100644
-> > --- a/drivers/irqchip/irq-bcm6345-l1.c
-> > +++ b/drivers/irqchip/irq-bcm6345-l1.c
-> > @@ -216,11 +216,11 @@ static int bcm6345_l1_set_affinity(struct irq_data *d,
-> >   		enabled = intc->cpus[old_cpu]->enable_cache[word] & mask;
-> >   		if (enabled)
-> >   			__bcm6345_l1_mask(d);
-> > -		cpumask_copy(irq_data_get_affinity_mask(d), dest);
-> > +		irq_data_update_affinity(d, dest);
-> >   		if (enabled)
-> >   			__bcm6345_l1_unmask(d);
-> >   	} else {
-> > -		cpumask_copy(irq_data_get_affinity_mask(d), dest);
-> > +		irq_data_update_affinity(d, dest);
-> >   	}
-> >   	raw_spin_unlock_irqrestore(&intc->lock, flags);
-> >   diff --git a/drivers/parisc/iosapic.c b/drivers/parisc/iosapic.c
-> > index 8a3b0c3a1e92..3a8c98615634 100644
-> > --- a/drivers/parisc/iosapic.c
-> > +++ b/drivers/parisc/iosapic.c
-> > @@ -677,7 +677,7 @@ static int iosapic_set_affinity_irq(struct irq_data *d,
-> >   	if (dest_cpu < 0)
-> >   		return -1;
-> >   -	cpumask_copy(irq_data_get_affinity_mask(d),
-> > cpumask_of(dest_cpu));
-> > +	irq_data_update_affinity(d, cpumask_of(dest_cpu));
-> >   	vi->txn_addr = txn_affinity_addr(d->irq, dest_cpu);
-> >     	spin_lock_irqsave(&iosapic_lock, flags);
-> > diff --git a/drivers/sh/intc/chip.c b/drivers/sh/intc/chip.c
-> > index 358df7510186..828d81e02b37 100644
-> > --- a/drivers/sh/intc/chip.c
-> > +++ b/drivers/sh/intc/chip.c
-> > @@ -72,7 +72,7 @@ static int intc_set_affinity(struct irq_data *data,
-> >   	if (!cpumask_intersects(cpumask, cpu_online_mask))
-> >   		return -1;
-> >   -	cpumask_copy(irq_data_get_affinity_mask(data), cpumask);
-> > +	irq_data_update_affinity(data, cpumask);
-> >     	return IRQ_SET_MASK_OK_NOCOPY;
-> >   }
-> > diff --git a/drivers/xen/events/events_base.c b/drivers/xen/events/events_base.c
-> > index 46d9295d9a6e..5e8321f43cbd 100644
-> > --- a/drivers/xen/events/events_base.c
-> > +++ b/drivers/xen/events/events_base.c
-> > @@ -528,9 +528,10 @@ static void bind_evtchn_to_cpu(evtchn_port_t evtchn, unsigned int cpu,
-> >   	BUG_ON(irq == -1);
-> >     	if (IS_ENABLED(CONFIG_SMP) && force_affinity) {
-> > -		cpumask_copy(irq_get_affinity_mask(irq), cpumask_of(cpu));
-> > -		cpumask_copy(irq_get_effective_affinity_mask(irq),
-> > -			     cpumask_of(cpu));
-> > +		struct irq_data *data = irq_get_irq_data(irq);
-> > +
-> > +		irq_data_update_affinity(data, cpumask_of(cpu));
-> > +		irq_data_update_effective_affinity(data, cpumask_of(cpu));
-> >   	}
-> 
-> 
-> 
-> Nit: commit description says about reusing irq_data_update_affinity()
-> only, but here we also reuse irq_data_update_effective_affinity(), so
-> I would mention that in the description.
-> 
-> Reviewed-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com> # Xen bits
 
-b4 shouts because of your email address:
 
-NOTE: some trailers ignored due to from/email mismatches:
-    ! Trailer: Reviewed-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com> # Xen bits
-     Msg From: Oleksandr <olekstysh@gmail.com>
+On 7/7/2022 4:08 PM, Greg KH wrote:
+> On Thu, Jul 07, 2022 at 02:56:34PM +0800, kernel test robot wrote:
+>> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> branch HEAD: 088b9c375534d905a4d337c78db3b3bfbb52c4a0  Add linux-next specific files for 20220706
+>>
+>> Error/Warning reports:
+>>
+>> https://lore.kernel.org/linux-doc/202207070644.x48XOOvs-lkp@intel.com
+>>
+>> Error/Warning: (recently discovered and may have been fixed)
+>>
+>> Documentation/arm/google/chromebook-boot-flow.rst: WARNING: document isn't included in any toctree
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1108): undefined reference to `__aeabi_ddiv'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1124): undefined reference to `__aeabi_ui2d'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1164): undefined reference to `__aeabi_dmul'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1170): undefined reference to `__aeabi_dadd'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1180): undefined reference to `__aeabi_dsub'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1190): undefined reference to `__aeabi_d2uiz'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x162c): undefined reference to `__aeabi_d2iz'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x16b0): undefined reference to `__aeabi_i2d'
+>> dc_dmub_srv.c:(.text+0x10f8): undefined reference to `__aeabi_ui2d'
+>> dc_dmub_srv.c:(.text+0x464): undefined reference to `__floatunsidf'
+>> dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x33c): undefined reference to `__floatunsidf'
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
+>> drivers/vfio/vfio_iommu_type1.c:2141:35: warning: cast to smaller integer type 'enum iommu_cap' from 'void *' [-Wvoid-pointer-to-enum-cast]
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x34c): undefined reference to `__floatunsidf'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x378): undefined reference to `__divdf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x38c): undefined reference to `__muldf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3a0): undefined reference to `__adddf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3b4): undefined reference to `__subdf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3d4): undefined reference to `__fixunsdfsi'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x750): undefined reference to `__fixdfsi'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x7c0): undefined reference to `__floatsidf'
+>> powerpc-linux-ld: drivers/pci/endpoint/functions/pci-epf-vntb.c:174: undefined reference to `ntb_link_event'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x468): undefined reference to `__divdf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x46c): undefined reference to `__muldf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x470): undefined reference to `__adddf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x474): undefined reference to `__subdf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x478): undefined reference to `__fixunsdfsi'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x47c): undefined reference to `__fixdfsi'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x480): undefined reference to `__floatsidf'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x60c): undefined reference to `__floatunsidf'
+>>
+>> Unverified Error/Warning (likely false positive, please contact us if interested):
+>>
+>> arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
+>> drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
+>> drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
+>> drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
+>> drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
+>> drivers/base/regmap/regmap.c:1996:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/char/random.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
+>> drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/greybus/operation.c:617:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> 
+> <snip>
+> 
+> When the compiler crashes, why are you blaming all of these different
+> mailing lists?  Perhaps you need to fix your compiler :)
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-I've used the tag anyway, but you may want to fix your setup in the
-future.
+Hi Greg,
 
-Thanks,
+Sorry for the inconvience, we'll fix it ASAP.
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Best Regards,
+Rong Chen
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
