@@ -1,186 +1,104 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBDD56CD8A
-	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:38:04 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B41E56CD8B
+	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:38:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3CE2982BA1;
-	Sun, 10 Jul 2022 06:37:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3CE2982BA1
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=GbvmAVZc;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=tMwsc1WJ
+	by smtp3.osuosl.org (Postfix) with ESMTP id 44BB160E29;
+	Sun, 10 Jul 2022 06:37:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 44BB160E29
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=xnJ9jBf8
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id icPLJvXNF_uC; Sun, 10 Jul 2022 06:37:52 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ab7l9JydZrZi; Sun, 10 Jul 2022 06:37:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4D4E482AF5;
-	Sun, 10 Jul 2022 06:37:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4D4E482AF5
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 4885360BAA;
+	Sun, 10 Jul 2022 06:37:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4885360BAA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21085C007D;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44B93C002D;
 	Sun, 10 Jul 2022 06:37:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD180C002D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 20:36:17 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D502FC002D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 21:47:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A6DC4612CE
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 20:36:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A6DC4612CE
-Authentication-Results: smtp3.osuosl.org;
+ by smtp4.osuosl.org (Postfix) with ESMTP id B6D6F408B2
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 21:47:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B6D6F408B2
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com
- header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=GbvmAVZc; 
- dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com
- header.i=@oracle.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-oracle-onmicrosoft-com header.b=tMwsc1WJ
+ header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=xnJ9jBf8
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dIYUsgdjp9TF for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jul 2022 20:36:16 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id e5w1sv7OmvnL for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jul 2022 21:47:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D35E960B5D
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 99961408A8
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
  [205.220.165.32])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D35E960B5D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 20:36:15 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 267KCWWG026734;
- Thu, 7 Jul 2022 20:35:51 GMT
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 99961408A8
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 21:47:42 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 267KCRZY003652;
+ Thu, 7 Jul 2022 21:47:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2021-07-09;
- bh=JEwTLRQwPwbx/HnD6Itcy6locqmh/Uv7uewcx2vF1kM=;
- b=GbvmAVZcmtXQzQuNuvlmNiaplgH5lfZh+8veqHYHFTObXvQpFfLlFIefJ1d5/MV+6qCX
- yfoI1qR+MvgcCTebyyuiVhmQ1oowm8dY28GERtKbu3n+4IfkfiedFmMpveJUXns481I5
- Q3XDBTcN/a8PC6uuplimDalCjLaRQJmiH3bWNBPSy0JUtJBOQMQZL+10hu4GPNLu9ZKK
- 5hp9+kwfOLSeQnNvY4BOs2ewYiZQKenrv7uz1mGvlGCmRcWpb4d4eX/dz61UC7HetZZc
- 2grN/ufjWnKHPOavJDGQp/A+wQ9B0z2NYatO16gw76E8ZxSJWFQXS/4q9+VDbKSlCEUt GQ== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubypdnh-1
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=mYUReDqAAtD2Mc/Slejp/JsQFVi9e1ncghZX3Vavmh0=;
+ b=xnJ9jBf8Ufq6J0JVjaiWi0JryS/PVZ3dV0d11TbTkdML8UPIRmyHYhNMlt6sUKGAbpGU
+ k64Gx9anLLCmwum/I538ASOgU7UbRmo0/u29MVFnQku7yXhDpqdJGknQJgZIIC+7PFfP
+ 6qYda/BRPr3r6+vj493eF+dScvU9YM4s8t2JLgWLYQl/zXR8xZlQ8D3ZS3wKx1kMJb2F
+ Wuvi0Du4suhANFR9tbfeGAiD3ULI9Pz2yiGidy2GDPuTmHeR5W5sEf3iPLZfq0hS05mS
+ g2ODR6pqBet/WF8GYQOzJ13vdtCxaIsKTlR+/B8gSHDywC5rA0KruYY4lScx0RauYNvz yQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubye73u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jul 2022 20:35:51 +0000
+ Thu, 07 Jul 2022 21:47:28 +0000
 Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 267KVYxV012781; Thu, 7 Jul 2022 20:35:50 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2105.outbound.protection.outlook.com [104.47.58.105])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h4ud70qbk-1
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 267LjM4l030275; Thu, 7 Jul 2022 21:47:27 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3h4ud7c5bw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jul 2022 20:35:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hjZ7rFbnjbEVNeaCawSQD00xm7H7/9mBXkQnzarMBC8TdihPbRdDsninMBY7KXUZ3EpJziHr8+NlKqroOGN7fOZyS0vvUvaGWmXaY3YX/FC35In/ksckgLV8KucSF8fIyWmnlPAjNMvkEkHjfVFzw427yqIePIoq71bAb3M1V4mXZK+mH6SB+KKGTrguDNvydxNtMFxvR+PEYR2G4ck0j0p2+tZGQhEalKESNjO/fwxERNPrHCld5oUZ9NXDIJ8sN6NZJ3n98ZpdKENBHxSV/iAEcjDyGow1ls9VYy3VzrGGyeMiP7PulpKYZvODtBNpFMZLNI+IIgZ7M54aEHERcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JEwTLRQwPwbx/HnD6Itcy6locqmh/Uv7uewcx2vF1kM=;
- b=GlHn+AqbiMGZw8frfgsP9EFomAJxS05DJH5JavrUo3BOn++++swhusHZJyKjzRuwtmOF0bz/6L3qPYPY1j/hZcEVgHCNB9Z/OEeFl/Ej7FNcq2e3PTd92VT1sYjV5SnvFclN23AqYyKD839BvNmYOtwfaKF4IJs6UxbwumJ7EjI8j+pRZ77P6fmzPKVAa0ANMvnZTSlqqF/Uls+gwj2/G2q/Oem8YMRH7MRsl7qvAtJeMaD2EeOa0eVXWt05X+ZLHv5xxaP6ChLT1uWOuij+1kbDEJYjvG8JMfrJh762YWrFRFMzl10Uoe0Gq36WbJO107XdGNWvQldpDmeTHflYHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JEwTLRQwPwbx/HnD6Itcy6locqmh/Uv7uewcx2vF1kM=;
- b=tMwsc1WJp4wf89lWF0+qsa0ZkhtEXO+nFOZLhQx0qMr/PfBOr0ApNQCEgDUW7tzWwUeApLnvbda2GI5SO1/Jsa+4zjdUlIC9UJ+mjx4wnvK1RGyRK3nGEFxwU+QfWHma4T8TXOgRwpo+Eh7Frf1FS3SzkegWuJ8ZhhAp0XZMKyo=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by BL3PR10MB6259.namprd10.prod.outlook.com (2603:10b6:208:38e::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.22; Thu, 7 Jul
- 2022 20:35:48 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::6516:e908:d2bd:ca45]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::6516:e908:d2bd:ca45%6]) with mapi id 15.20.5395.022; Thu, 7 Jul 2022
- 20:35:48 +0000
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v5 0/5] DMA mapping changes for SCSI core
+ Thu, 07 Jul 2022 21:47:27 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 267LlRsY033607;
+ Thu, 7 Jul 2022 21:47:27 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3h4ud7c5ag-1; Thu, 07 Jul 2022 21:47:27 +0000
 From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1y1x47jgn.fsf@ca-mkp.ca.oracle.com>
-References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
- <b5f80062-e8ef-9597-1b0c-393140950dfb@huawei.com>
- <20220706134447.GA23753@lst.de>
-Date: Thu, 07 Jul 2022 16:35:41 -0400
-In-Reply-To: <20220706134447.GA23753@lst.de> (Christoph Hellwig's message of
- "Wed, 6 Jul 2022 15:44:47 +0200")
-X-ClientProxiedBy: MN2PR19CA0029.namprd19.prod.outlook.com
- (2603:10b6:208:178::42) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+To: linux-scsi@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH v3 0/3] phase out CONFIG_VIRT_TO_BUS
+Date: Thu,  7 Jul 2022 17:47:20 -0400
+Message-Id: <165723020283.18731.6642678816129479253.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220624155226.2889613-1-arnd@kernel.org>
+References: <20220624155226.2889613-1-arnd@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7714e85e-4f4f-4b53-62c2-08da605845ac
-X-MS-TrafficTypeDiagnostic: BL3PR10MB6259:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zbOJVTOL/khiyq20oecW+g96an0x8U3uZSEtjim5ID0YW9TRcfeRL6Jva8TB3Qqa8pqqNhV0hx5bkdebR6LyfdDI3YWY/YJ7U/gB7jpi7E3owZFhKOHOFSD3aU99pn0NiU7eAC3q0AtxDhvZZQutnZRqywDmsQeQCRNhx1/57HOoDd4rnMRqDhNZcK2/QxzTc3WLIN2rBQgWbp/Ejo+tHNwjbSiy058CL/WvguY8buI1DMHQLxzu1nmL7uT2KJDLB16J3hXqb4mydCTfEmWFSF87ALWXvBv23RNU7jm7uo2M3adx7J0ZJqYG+vdkQv53s962n4l1WItORray/zz5U1goX0sewzdubV+MelTbMMkkXzTaK8B16toxRuApRuIGQ6JzpIuLpCAAmvJKCCW9zur+CfuaxSKW+aURE28+9QYgDdAOCfVr/V1FkRkGVvLaVDo3qR54J+UvAdXgEUEeHZHbXNNSEPvcGYXwJySNBze0Uk7fw3Hg6s067+7150k8McL79kDlZEx8+3tiVmHkYJlyfXPayvPIgin9wUP2rK+fY+QlTxq5L3C7Bhg+zaPkDQrthHHqi+7yLpG5phhK9xiYvuc95+ACQ3Mqbp+sRaeH5DkLHwv47oACmP87mXbOnJ22iQxNQc2X2RviYzGFTfalvXqxmsZTXiLfpIxx0xRMBbgyRrStPRbUb5/M2q/Be8DZ98tJqeTXBzoS7fzDYIwOe2/oFtmsGDRkBtpWBo5t5uq2cl4OVFIdET0fFQBBrFBc7RuEnVoBcFn449OLQ5wUVCkxywfaWoJvgDVnET6y/66RjQAiXU5CVR8XA3R7
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(346002)(39860400002)(376002)(366004)(136003)(186003)(26005)(83380400001)(8676002)(4326008)(66476007)(66946007)(478600001)(4744005)(66556008)(5660300002)(7416002)(6486002)(86362001)(8936002)(316002)(38350700002)(38100700002)(2906002)(41300700001)(6666004)(52116002)(36916002)(6916009)(6512007)(6506007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UE9E9ilSzkCIB3ArhYSZw7NERCywP6yEU+vpNtD9nkeTxyzz0kynr0oE1AyB?=
- =?us-ascii?Q?OGpkhtHvOJcrih7IMn2yqPnKVCGT5OprLTYYTfCzshX4b1eJxSLBOPi55vTA?=
- =?us-ascii?Q?vn75kVCNj9p8T+1NznOjEOOnzSv4M5vUl6QKvkZ0hIktRqNeYM3ywY02SnKp?=
- =?us-ascii?Q?31c7JT64dugtSemxIx75zo0SMpIQEGKzopzchV8KfPpAicl1u5llstY4+gza?=
- =?us-ascii?Q?M3EJs3jllGN2UgoSmXx7xy2zbj9YoUAnI1Ke+9ieYqhHjHGGpnr7pTTxAYt2?=
- =?us-ascii?Q?h37vitSUd36ctdGMVDgSFD/4W4UWxwiqcuJ77HaMUe04KYSK81TNFhnThgbl?=
- =?us-ascii?Q?HVZxbMSzseC4xItS+MfNVOTTXfPjUfRmKZpz125HEcj77r+tfZyLOBxzPFsb?=
- =?us-ascii?Q?Z3+8zXBMtjXnkKu8INrzP9oxHJ0g2V7V9WKeMQ860FTcFNQtjjQtCuoE0LOL?=
- =?us-ascii?Q?EPo1z2FxdPNW+W9rMZbp000S8OC+e+mkAqVppgCnUA1waRaCBosC2zuL8YFd?=
- =?us-ascii?Q?D9ocDgMPe4dJj/lhZUixLMiAFmRhv86DFqOW8LWYtmgIkAZCCm2EjzjbKDjV?=
- =?us-ascii?Q?cAfbrvnXu2XNKeq5DwrK8jUHQLhWI3qnNyFRwJfQ2b5b4Jq1f4RJRiId9osZ?=
- =?us-ascii?Q?RGGDNdyXEkj7JhFMsNRClH1Af0tZyGd8WUDptXQ3Zaqs7jzXp80BzWBBqOTr?=
- =?us-ascii?Q?iROvDczfBfVBCsuYLWU36OPXTrZMj4m+9FJth2a2ZooKLAahzeNN2nL1z1BT?=
- =?us-ascii?Q?kySir7rjucLd23qMgDEV9JQodcWaLY2VNGf8cgrd4XY6s0WOdSp1gi8Oe7OM?=
- =?us-ascii?Q?4Fl2Q1HXl6AxymIsReozMka/sYuK2eRsHn0sJ+ncvVASjEmD+RVdacGr/5mA?=
- =?us-ascii?Q?XUAtlSgKy4TNrNKv7p9fJEiwQaeKpN16RHnhZF/ltdtfl48zVMrBe7LDfz63?=
- =?us-ascii?Q?6MDenEhwWX8Vs9ZRc9DSlkRjffH7wNxerveajONJbhOy2RUFb0id8yJKb92n?=
- =?us-ascii?Q?+Ipeo4mCHS3aoC2JkXnJW78yPCa9gVTSIS5JgkjS7C/7I+ByVTwJU9LiXRYY?=
- =?us-ascii?Q?VY6Y1mqhYcxGsH9RJqsrBams0Y4c77p6p3ZyV+0val91BFTUAgK+GbuCs3Uz?=
- =?us-ascii?Q?/vxizdq7ePCTOKqnBDsdFbByjNXy6ioW27Vss3DnP5E0Ktkc9Sn/Sc/HjHjs?=
- =?us-ascii?Q?SnqJBOK+qXAtvAMinsMi02ixOtZbK905DcLuTvysKFJbhmH+w3Lz7CjjhfxW?=
- =?us-ascii?Q?yiG8YzV+1NAOmewBZF6Gu13MUMLuQrcffO2jwrCDVrWeDNLo2EgwYOfjyunV?=
- =?us-ascii?Q?7wYWgDwuFuk/jB/CtWmwVQ13+JJdRheQ9w8/QyfWaMl0UgayjBrI4VuhLqjr?=
- =?us-ascii?Q?zyc79HmcuTs3F+9baJ4/JDcVTFQJ9yIO8mCreWKORtLqUkjHxxM9LrXOiguK?=
- =?us-ascii?Q?4rsWN8F9kFkAZr3jQa4oXkkb91lumQWX3WbQJMO8ReKgyfOaJ7ZJO1EJXB7Q?=
- =?us-ascii?Q?jRLpi0o8qORFOUZxwJ9GZfjDfjZIK99HgBTKFskTv0jZq9kmy/8uctwH9Thg?=
- =?us-ascii?Q?LbYk7SrXvsKDFmWT3kuHoo2/dsjkaDAv4uEW+I235pKCg6xmpMFY4u3F3XkV?=
- =?us-ascii?Q?ww=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7714e85e-4f4f-4b53-62c2-08da605845ac
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 20:35:48.0140 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UHlMYzNsmTTNyb7n73w1YpS1LMF5NHdWsuog1X1gOzDfULUFactXTfOx3dnYyiUH8NttPTgtmAqk/q31Cc5559EMfpimEQkEIa7M6QKVRLU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR10MB6259
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
- definitions=2022-07-07_17:2022-06-28,
- 2022-07-07 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 adultscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207070082
-X-Proofpoint-GUID: oJxmQg2oyJBFOvKz88mlYtDLBrkZQiMp
-X-Proofpoint-ORIG-GUID: oJxmQg2oyJBFOvKz88mlYtDLBrkZQiMp
+X-Proofpoint-GUID: HrfrZsc4HaH6Tm6et7M--Pti1gCHS_F-
+X-Proofpoint-ORIG-GUID: HrfrZsc4HaH6Tm6et7M--Pti1gCHS_F-
 X-Mailman-Approved-At: Sun, 10 Jul 2022 06:37:51 +0000
-Cc: iommu@lists.linux.dev, linux-scsi@vger.kernel.org,
- martin.petersen@oracle.com, jejb@linux.ibm.com, robin.murphy@arm.com,
- damien.lemoal@opensource.wdc.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linuxarm@huawei.com, linux-ide@vger.kernel.org,
- iommu@lists.linux-foundation.org, will@kernel.org
+Cc: linux-arch@vger.kernel.org, Miquel van Smoorenburg <mikevs@xs4all.net>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-parisc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>, linux-m68k@lists.linux-m68k.org,
+ Denis Efremov <efremov@linux.com>, Mark Salyzyn <salyzyn@android.com>,
+ Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
+ Matt Wang <wwentao@vmware.com>, linux-alpha@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ Arnd Bergmann <arnd@arndb.de>, Khalid Aziz <khalid@gonehiking.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -198,16 +116,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Fri, 24 Jun 2022 17:52:23 +0200, Arnd Bergmann wrote:
 
-Christoph,
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The virt_to_bus/bus_to_virt interface has been deprecated for
+> decades. After Jakub Kicinski put a lot of work into cleaning out the
+> network drivers using them, there are only a couple of other drivers
+> left, which can all be removed or otherwise cleaned up, to remove the
+> old interface for good.
+> 
+> [...]
 
-> Yes, I've mostly been waiting for an ACK from Martin.
+Applied to 5.20/scsi-queue, thanks!
 
-Sorry, I'm on vacation this week. The series looks OK to me although I
-do agree that it would be great if the max was reflected in the queue's
-hard limit and opt in the soft limit.
-
-Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
+[1/3] scsi: BusLogic remove bus_to_virt
+      https://git.kernel.org/mkp/scsi/c/9f7c2232e131
+[2/3] scsi: dpt_i2o: remove obsolete driver
+      https://git.kernel.org/mkp/scsi/c/b04e75a4a8a8
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
