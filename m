@@ -1,84 +1,149 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8350B569CAE
-	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 10:09:35 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C619B569D2B
+	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 10:23:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1F50883409;
-	Thu,  7 Jul 2022 08:09:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1F50883409
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bQhnK1KE
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6728A610CD;
+	Thu,  7 Jul 2022 08:23:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6728A610CD
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=C4XXSYfq
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HMizZAQWUwG6; Thu,  7 Jul 2022 08:09:33 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2W52Eov1zxnQ; Thu,  7 Jul 2022 08:23:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 35BDA83EBD;
-	Thu,  7 Jul 2022 08:09:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 35BDA83EBD
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6EA5860FBE;
+	Thu,  7 Jul 2022 08:23:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6EA5860FBE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 10405C007D;
-	Thu,  7 Jul 2022 08:09:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33887C007D;
+	Thu,  7 Jul 2022 08:23:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4649BC002D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:09:31 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83707C002D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:23:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 12EAA40C8B
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:09:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 12EAA40C8B
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
- header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
- header.b=bQhnK1KE
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5EA9D80B7C
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:23:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5EA9D80B7C
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=C4XXSYfq
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JxB0WIuDvkGx for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jul 2022 08:09:30 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 705A340C85
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cfan-n3rAMG5 for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jul 2022 08:23:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 75AA780A98
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 705A340C85
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:09:30 +0000 (UTC)
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 75AA780A98
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:23:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B483F61EFE;
- Thu,  7 Jul 2022 08:09:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 037BBC341CF;
- Thu,  7 Jul 2022 08:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1657181369;
- bh=vpVtewxY4/wedaaT/1GGlBycY026cAD5naxa3pWaPTE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bQhnK1KEzTmujTim2Q65duWMHpbCJ8Q+cLzs5MTsotRv47C2S75HDOMqlA5bbdgNf
- 9LldUwMLIkTu+1uPVuGuJV09KvApakAEP6ZEqgu7wJvwfF0nBkcxm/ai2J4a4MzSbt
- HJ83dnFP6ZpSzzj8RExcazmKgov7BlI8E9PaLcW8=
-Date: Thu, 7 Jul 2022 10:09:27 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: fully convert arm to use dma-direct v3
-Message-ID: <YsaUtzVsobF1WNVI@kroah.com>
-References: <20220614092047.572235-1-hch@lst.de>
- <20220629062837.GA17140@lst.de> <Yrv0HLSj3xAHa+av@kroah.com>
- <20220707045840.GA12672@lst.de>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220707045840.GA12672@lst.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Andre Przywara <andre.przywara@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-usb@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- iommu@lists.linux-foundation.org, Alan Stern <stern@rowland.harvard.edu>,
- Robin Murphy <robin.murphy@arm.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- linux-arm-kernel@lists.infradead.org,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6D0FD62016;
+ Thu,  7 Jul 2022 08:23:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF301C3411E;
+ Thu,  7 Jul 2022 08:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657182181;
+ bh=77PtLpTS/qpbww/8J/LGrQtKTBirOJTX8MN8Ui9XQsg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=C4XXSYfqBm7jhADxfzqk/6WEI/haJhe/1MyTEVUiYwb5P0Ar3A4NKXEAQujuPspPd
+ s3qSefHxSM6yAycSBOEk1x5rsX41Lz5CXWMfbKx+MFmlkdtWT2//rWeC4JZmK+kuzf
+ ECU/jn91qz2SjvVIYKTSlVgpyAEteSUY53CHGeOdfan/ZYOpV2RhOmIOCcQwf6MG7i
+ sgmXwysrqKOA4mKnZ3tQfGEWbFUHusfDO84IAYjAhD58ooo5Ed5J2OwoavWvff5Afm
+ EAomLwlKGskSsbFGf0ELGfPJoWMt9Y95OsdWqoGMlW85HJC5m/Hz4sRuAeBe6tWwp9
+ HHg5eNbfeNzNA==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1o9Mmp-005rXS-7E;
+ Thu, 07 Jul 2022 09:22:59 +0100
+Date: Thu, 07 Jul 2022 09:22:26 +0100
+Message-ID: <87czehmiwt.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Serge Semin <fancer.lancer@gmail.com>
+Subject: Re: [PATCH v3 1/8] irqchip/mips-gic: Only register IPI domain when
+ SMP is enabled
+In-Reply-To: <20220705135243.ydbwfo4kois64elr@mobilestation>
+References: <20220701200056.46555-1-samuel@sholland.org>
+ <20220701200056.46555-2-samuel@sholland.org>
+ <20220705135243.ydbwfo4kois64elr@mobilestation>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: fancer.lancer@gmail.com, samuel@sholland.org,
+ tglx@linutronix.de, andy.shevchenko@gmail.com, brgl@bgdev.pl,
+ bhelgaas@google.com, boris.ostrovsky@oracle.com, bp@alien8.de,
+ bcm-kernel-feedback-list@broadcom.com, chris@zankel.net, colin.king@intel.com,
+ dave.hansen@linux.intel.com, decui@microsoft.com, f.fainelli@gmail.com,
+ guoren@kernel.org, hpa@zytor.com, haiyangz@microsoft.com, deller@gmx.de,
+ mingo@redhat.com, ink@jurassic.park.msu.ru,
+ James.Bottomley@HansenPartnership.com, jbeulich@suse.com, joro@8bytes.org,
+ jgross@suse.com, Julia.Lawall@inria.fr, kys@microsoft.com,
+ keescook@chromium.org, kw@linux.com, linus.walleij@linaro.org,
+ lpieralisi@kernel.org, mark.rutland@arm.com, mattst88@gmail.com,
+ jcmvbkbc@gmail.com, mheyne@amazon.de, oleksandr_tyshchenko@epam.com,
+ dalias@libc.org, rth@twiddle.net, rikard.falkeborn@gmail.com, robh@kernel.org,
+ linux@armlinux.org.uk, sstabellini@kernel.org, sthemmin@microsoft.com,
+ svens@stackframe.org, tsbogend@alpha.franken.de, wei.liu@ke
+ rnel.org, xuwei5@hisilicon.com, will@kernel.org, ysato@users.sourceforge.jp,
+ iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org, x86@kernel.org,
+ xen-devel@lists.xenproject.org, lkp@intel.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
+ linux-hyperv@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-pci@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Jan Beulich <jbeulich@suse.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Sven Schnelle <svens@stackframe.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Rob Herring <robh@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>, kernel test robot <lkp@intel.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Samuel Holland <samuel@sholland.org>, Will Deacon <will@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, x86@kernel.org,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Wei Xu <xuwei5@hisilicon.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ xen-devel@lists.xenproject.org, Matt Turner <mattst88@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-xtensa@linux-xtensa.org,
+ Kees Cook <keescook@chromium.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Maximilian Heyne <mheyne@amazon.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Julia Lawall <Julia.Lawall@inria.fr>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ iommu@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Colin Ian King <colin.king@intel.com>,
+ Helge Deller <deller@gmx.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,25 +161,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jul 07, 2022 at 06:58:40AM +0200, Christoph Hellwig wrote:
-> On Wed, Jun 29, 2022 at 08:41:32AM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Jun 29, 2022 at 08:28:37AM +0200, Christoph Hellwig wrote:
-> > > Any comments or additional testing?  It would be really great to get
-> > > this off the table.
-> > 
-> > For the USB bits:
-> > 
-> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Tue, 05 Jul 2022 14:52:43 +0100,
+Serge Semin <fancer.lancer@gmail.com> wrote:
 > 
-> So given that we're not making any progress on getting anyone interested
-> on the series, I'm tempted to just pull it into the dma-mapping tree
-> this weekend so that we'll finally have all architectures using the
-> common code.
+> Hi Samuel
 > 
-> Anyone who has real concerns, please scream now.
+> On Fri, Jul 01, 2022 at 03:00:49PM -0500, Samuel Holland wrote:
+> > The MIPS GIC irqchip driver may be selected in a uniprocessor
+> > configuration, but it unconditionally registers an IPI domain.
+> > 
+> > Limit the part of the driver dealing with IPIs to only be compiled when
+> > GENERIC_IRQ_IPI is enabled, which corresponds to an SMP configuration.
+> 
+> Thanks for the patch. Some comment is below.
+> 
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> > ---
+> > 
+> > Changes in v3:
+> >  - New patch to fix build errors in uniprocessor MIPS configs
+> > 
+> >  drivers/irqchip/Kconfig        |  3 +-
+> >  drivers/irqchip/irq-mips-gic.c | 80 +++++++++++++++++++++++-----------
+> >  2 files changed, 56 insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> > index 1f23a6be7d88..d26a4ff7c99f 100644
+> > --- a/drivers/irqchip/Kconfig
+> > +++ b/drivers/irqchip/Kconfig
+> > @@ -322,7 +322,8 @@ config KEYSTONE_IRQ
+> >  
+> >  config MIPS_GIC
+> >  	bool
+> > -	select GENERIC_IRQ_IPI
+> > +	select GENERIC_IRQ_IPI if SMP
+> 
+> > +	select IRQ_DOMAIN_HIERARCHY
+> 
+> It seems to me that the IRQ domains hierarchy is supposed to be
+> created only if IPI is required. At least that's what the MIPS GIC
+> driver implies. Thus we can go further and CONFIG_IRQ_DOMAIN_HIERARCHY
+> ifdef-out the gic_irq_domain_alloc() and gic_irq_domain_free()
+> methods definition together with the initialization:
+> 
+>  static const struct irq_domain_ops gic_irq_domain_ops = {
+>  	.xlate = gic_irq_domain_xlate,
+> +#ifdef CONFIG_IRQ_DOMAIN_HIERARCHY
+>  	.alloc = gic_irq_domain_alloc,
+>  	.free = gic_irq_domain_free,
+> +#endif
+>  	.map = gic_irq_domain_map,
+> };
+> 
+> If the GENERIC_IRQ_IPI config is enabled, CONFIG_IRQ_DOMAIN_HIERARCHY
+> will be automatically selected (see the config definition in
+> kernel/irq/Kconfig). If the IRQs hierarchy is needed for some another
+> functionality like GENERIC_MSI_IRQ_DOMAIN or GPIOs then they will
+> explicitly enable the IRQ_DOMAIN_HIERARCHY config thus activating the
+> denoted .alloc and .free methods definitions.
+> 
+> To sum up you can get rid of the IRQ_DOMAIN_HIERARCHY config
+> force-select from this patch and make the MIPS GIC driver code a bit
+> more coherent.
+> 
+> @Marc, please correct me if were wrong.
 
-Sounds like a good plan to me, pull it in and let's see if anyone even
-notices.
+Either way probably works correctly, but Samuel's approach is more
+readable IMO. It is far easier to reason about a high-level feature
+(GENERIC_IRQ_IPI) than an implementation detail (IRQ_DOMAIN_HIERARCHY).
+
+If you really want to save a handful of bytes, you can make the
+callbacks conditional on GENERIC_IRQ_IPI, and be done with it. But
+this can come as an additional patch.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
