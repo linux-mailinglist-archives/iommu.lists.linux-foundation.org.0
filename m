@@ -1,87 +1,149 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9F4569D75
-	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 10:31:15 +0200 (CEST)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1634569D92
+	for <lists.iommu@lfdr.de>; Thu,  7 Jul 2022 10:40:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C330C419D4;
-	Thu,  7 Jul 2022 08:31:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C330C419D4
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ERqbBkNm
+	by smtp2.osuosl.org (Postfix) with ESMTP id B5A8D40C7B;
+	Thu,  7 Jul 2022 08:40:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B5A8D40C7B
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=uLIozQmE
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yInPuX4YHW2m; Thu,  7 Jul 2022 08:31:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E97FB419DA;
-	Thu,  7 Jul 2022 08:31:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E97FB419DA
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YFZ4N2x1TvSU; Thu,  7 Jul 2022 08:40:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7341640C93;
+	Thu,  7 Jul 2022 08:40:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7341640C93
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A84A3C007D;
-	Thu,  7 Jul 2022 08:31:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2506EC002D;
+	Thu,  7 Jul 2022 08:40:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 67E9CC002D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:31:09 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 45894C002D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:40:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3400961167
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:31:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3400961167
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
- header.a=rsa-sha256 header.s=Intel header.b=ERqbBkNm
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1FAFC830E2
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:40:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1FAFC830E2
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=uLIozQmE
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wg55LAHA3A12 for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jul 2022 08:31:04 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Oepwx4LdkoMG for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jul 2022 08:40:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 68AF861153
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 68AF861153
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:31:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657182664; x=1688718664;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=CW2qH8xRXygGMim18BCG25WW79oAhAeO2CwuMIH8YZU=;
- b=ERqbBkNmtjH19pC3ubHI4k5ErU6/1Q0ACjumxZUJSOSWlMMeX9TpK+W6
- glcvxuS8iTLoJ+XaupQ8KZZEt1ZCLq7Z+YzU7BndtuZp8YSfQ0VQEk/Md
- iI0bRM5CJydkllNFdwGYDZj5SDAifYi9gn52yd0Dqp3VqHjEefl35atIU
- k0tQUN2U5RNJE842gkjGlS0mvlcnMtOxLk7l4ee9//kF8wMsm5YM3ja0i
- zgI44iCGHJ218FdqgUtES65xZGO/MtMFjQ674lYrMrsO88B5l6/vh0Jsq
- U4PSdkxGwKxpW2VnmT3rwDgbdtLLJRU8FtJaNvOFOvafIvJ6ytKO5epuk Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="283991554"
-X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; 
- d="scan'208,217";a="283991554"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 01:31:03 -0700
-X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; 
- d="scan'208,217";a="568426193"
-Received: from zhaohaif-mobl1.ccr.corp.intel.com (HELO [10.254.214.11])
- ([10.254.214.11])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 01:31:00 -0700
-Message-ID: <849557ab-9c1b-a2ff-6fc6-6564f38d1187@linux.intel.com>
-Date: Thu, 7 Jul 2022 16:30:58 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 01/11] iommu/vt-d: debugfs: Remove device_domain_lock
- usage
-To: Lu Baolu <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
- iommu@lists.linux.dev
-References: <20220706025524.2904370-1-baolu.lu@linux.intel.com>
- <20220706025524.2904370-2-baolu.lu@linux.intel.com>
-From: Ethan Zhao <haifeng.zhao@linux.intel.com>
-In-Reply-To: <20220706025524.2904370-2-baolu.lu@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
- Ashok Raj <ashok.raj@intel.com>, Jacob jun Pan <jacob.jun.pan@intel.com>
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C960D8301F
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C960D8301F
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 08:40:07 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DF0926209B;
+ Thu,  7 Jul 2022 08:40:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19CFC3411E;
+ Thu,  7 Jul 2022 08:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657183206;
+ bh=WbGmo8M7SuEpA4hho4LukBL6BvfNcnRlmWQ1qO9HJ/U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=uLIozQmEuSEh/XitGSDU3I1WWg/wxHMYC8XcC0CKDSDzcPTnDKZ0WJpx/VEqUIrA6
+ 90D1f2r+lQ/rkAoV0TsA7oITj6H3B4i9g/nqgpiUDGl1GBu9VW5UjrTUzUDkFxOd3t
+ R011UxxdpHW1T1R9fwf8PvtZV61+cE8woR4NEOXyGsg98KLqjAIolLU8cqYo39f3uD
+ 797WFWDXG+i4pUi5B49w4dAlDdo9l/by+B+rEyxEBVcat8WMWleVU9h22Q2v2qbO/H
+ sZsFgrBRKSO1tpk8gVBtKIl4XC7u0rzO2ivKAc+YeTliCPwcnfyMVDLl7P8QP2Dxjk
+ hWtBucMBog50Q==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1o9N3L-005rnz-LP;
+ Thu, 07 Jul 2022 09:40:03 +0100
+Date: Thu, 07 Jul 2022 09:39:58 +0100
+Message-ID: <87bku1mi3l.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Oleksandr <olekstysh@gmail.com>
+Subject: Re: [PATCH v3 6/8] genirq: Add and use an irq_data_update_affinity
+ helper
+In-Reply-To: <c7171195-796a-e61e-f270-864985adc5c3@gmail.com>
+References: <20220701200056.46555-1-samuel@sholland.org>
+ <20220701200056.46555-7-samuel@sholland.org>
+ <c7171195-796a-e61e-f270-864985adc5c3@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: olekstysh@gmail.com, samuel@sholland.org, tglx@linutronix.de,
+ andy.shevchenko@gmail.com, brgl@bgdev.pl, bhelgaas@google.com,
+ boris.ostrovsky@oracle.com, bp@alien8.de,
+ bcm-kernel-feedback-list@broadcom.com, chris@zankel.net, colin.king@intel.com,
+ dave.hansen@linux.intel.com, decui@microsoft.com, f.fainelli@gmail.com,
+ guoren@kernel.org, hpa@zytor.com, haiyangz@microsoft.com, deller@gmx.de,
+ mingo@redhat.com, ink@jurassic.park.msu.ru,
+ James.Bottomley@HansenPartnership.com, jbeulich@suse.com, joro@8bytes.org,
+ jgross@suse.com, Julia.Lawall@inria.fr, kys@microsoft.com,
+ keescook@chromium.org, kw@linux.com, linus.walleij@linaro.org,
+ lpieralisi@kernel.org, mark.rutland@arm.com, mattst88@gmail.com,
+ jcmvbkbc@gmail.com, mheyne@amazon.de, oleksandr_tyshchenko@epam.com,
+ dalias@libc.org, rth@twiddle.net, rikard.falkeborn@gmail.com, robh@kernel.org,
+ linux@armlinux.org.uk, fancer.lancer@gmail.com, sstabellini@kernel.org,
+ sthemmin@microsoft.com, svens@stackframe.org, tsbogend@alpha.f
+ ranken.de, wei.liu@kernel.org, xuwei5@hisilicon.com, will@kernel.org,
+ ysato@users.sourceforge.jp, iommu@lists.linux-foundation.org,
+ iommu@lists.linux.dev, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-xtensa@linux-xtensa.org, x86@kernel.org, xen-devel@lists.xenproject.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
+ linux-hyperv@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-pci@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Jan Beulich <jbeulich@suse.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Sven Schnelle <svens@stackframe.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Rob Herring <robh@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Samuel Holland <samuel@sholland.org>, Will Deacon <will@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, x86@kernel.org,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Wei Xu <xuwei5@hisilicon.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ xen-devel@lists.xenproject.org, Matt Turner <mattst88@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-xtensa@linux-xtensa.org,
+ Kees Cook <keescook@chromium.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Maximilian Heyne <mheyne@amazon.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ iommu@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Colin Ian King <colin.king@intel.com>,
+ Helge Deller <deller@gmx.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,314 +156,198 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1948052728205963179=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This is a multi-part message in MIME format.
---===============1948052728205963179==
-Content-Type: multipart/alternative;
- boundary="------------pLNgg0XHmaGg0Ki01g7V8O10"
+On Sun, 03 Jul 2022 16:22:03 +0100,
+Oleksandr <olekstysh@gmail.com> wrote:
+> 
+> 
+> On 01.07.22 23:00, Samuel Holland wrote:
+> 
+> 
+> Hello Samuel
+> 
+> > Some architectures and irqchip drivers modify the cpumask returned by
+> > irq_data_get_affinity_mask, usually by copying in to it. This is
+> > problematic for uniprocessor configurations, where the affinity mask
+> > should be constant, as it is known at compile time.
+> > 
+> > Add and use a setter for the affinity mask, following the pattern of
+> > irq_data_update_effective_affinity. This allows the getter function to
+> > return a const cpumask pointer.
+> > 
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> > ---
+> > 
+> > Changes in v3:
+> >   - New patch to introduce irq_data_update_affinity
+> > 
+> >   arch/alpha/kernel/irq.c          | 2 +-
+> >   arch/ia64/kernel/iosapic.c       | 2 +-
+> >   arch/ia64/kernel/irq.c           | 4 ++--
+> >   arch/ia64/kernel/msi_ia64.c      | 4 ++--
+> >   arch/parisc/kernel/irq.c         | 2 +-
+> >   drivers/irqchip/irq-bcm6345-l1.c | 4 ++--
+> >   drivers/parisc/iosapic.c         | 2 +-
+> >   drivers/sh/intc/chip.c           | 2 +-
+> >   drivers/xen/events/events_base.c | 7 ++++---
+> >   include/linux/irq.h              | 6 ++++++
+> >   10 files changed, 21 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/arch/alpha/kernel/irq.c b/arch/alpha/kernel/irq.c
+> > index f6d2946edbd2..15f2effd6baf 100644
+> > --- a/arch/alpha/kernel/irq.c
+> > +++ b/arch/alpha/kernel/irq.c
+> > @@ -60,7 +60,7 @@ int irq_select_affinity(unsigned int irq)
+> >   		cpu = (cpu < (NR_CPUS-1) ? cpu + 1 : 0);
+> >   	last_cpu = cpu;
+> >   -	cpumask_copy(irq_data_get_affinity_mask(data),
+> > cpumask_of(cpu));
+> > +	irq_data_update_affinity(data, cpumask_of(cpu));
+> >   	chip->irq_set_affinity(data, cpumask_of(cpu), false);
+> >   	return 0;
+> >   }
+> > diff --git a/arch/ia64/kernel/iosapic.c b/arch/ia64/kernel/iosapic.c
+> > index 35adcf89035a..99300850abc1 100644
+> > --- a/arch/ia64/kernel/iosapic.c
+> > +++ b/arch/ia64/kernel/iosapic.c
+> > @@ -834,7 +834,7 @@ iosapic_unregister_intr (unsigned int gsi)
+> >   	if (iosapic_intr_info[irq].count == 0) {
+> >   #ifdef CONFIG_SMP
+> >   		/* Clear affinity */
+> > -		cpumask_setall(irq_get_affinity_mask(irq));
+> > +		irq_data_update_affinity(irq_get_irq_data(irq), cpu_all_mask);
+> >   #endif
+> >   		/* Clear the interrupt information */
+> >   		iosapic_intr_info[irq].dest = 0;
+> > diff --git a/arch/ia64/kernel/irq.c b/arch/ia64/kernel/irq.c
+> > index ecef17c7c35b..275b9ea58c64 100644
+> > --- a/arch/ia64/kernel/irq.c
+> > +++ b/arch/ia64/kernel/irq.c
+> > @@ -57,8 +57,8 @@ static char irq_redir [NR_IRQS]; // = { [0 ... NR_IRQS-1] = 1 };
+> >   void set_irq_affinity_info (unsigned int irq, int hwid, int redir)
+> >   {
+> >   	if (irq < NR_IRQS) {
+> > -		cpumask_copy(irq_get_affinity_mask(irq),
+> > -			     cpumask_of(cpu_logical_id(hwid)));
+> > +		irq_data_update_affinity(irq_get_irq_data(irq),
+> > +					 cpumask_of(cpu_logical_id(hwid)));
+> >   		irq_redir[irq] = (char) (redir & 0xff);
+> >   	}
+> >   }
+> > diff --git a/arch/ia64/kernel/msi_ia64.c b/arch/ia64/kernel/msi_ia64.c
+> > index df5c28f252e3..025e5133c860 100644
+> > --- a/arch/ia64/kernel/msi_ia64.c
+> > +++ b/arch/ia64/kernel/msi_ia64.c
+> > @@ -37,7 +37,7 @@ static int ia64_set_msi_irq_affinity(struct irq_data *idata,
+> >   	msg.data = data;
+> >     	pci_write_msi_msg(irq, &msg);
+> > -	cpumask_copy(irq_data_get_affinity_mask(idata), cpumask_of(cpu));
+> > +	irq_data_update_affinity(idata, cpumask_of(cpu));
+> >     	return 0;
+> >   }
+> > @@ -132,7 +132,7 @@ static int dmar_msi_set_affinity(struct irq_data *data,
+> >   	msg.address_lo |= MSI_ADDR_DEST_ID_CPU(cpu_physical_id(cpu));
+> >     	dmar_msi_write(irq, &msg);
+> > -	cpumask_copy(irq_data_get_affinity_mask(data), mask);
+> > +	irq_data_update_affinity(data, mask);
+> >     	return 0;
+> >   }
+> > diff --git a/arch/parisc/kernel/irq.c b/arch/parisc/kernel/irq.c
+> > index 0fe2d79fb123..5ebb1771b4ab 100644
+> > --- a/arch/parisc/kernel/irq.c
+> > +++ b/arch/parisc/kernel/irq.c
+> > @@ -315,7 +315,7 @@ unsigned long txn_affinity_addr(unsigned int irq, int cpu)
+> >   {
+> >   #ifdef CONFIG_SMP
+> >   	struct irq_data *d = irq_get_irq_data(irq);
+> > -	cpumask_copy(irq_data_get_affinity_mask(d), cpumask_of(cpu));
+> > +	irq_data_update_affinity(d, cpumask_of(cpu));
+> >   #endif
+> >     	return per_cpu(cpu_data, cpu).txn_addr;
+> > diff --git a/drivers/irqchip/irq-bcm6345-l1.c b/drivers/irqchip/irq-bcm6345-l1.c
+> > index 142a7431745f..6899e37810a8 100644
+> > --- a/drivers/irqchip/irq-bcm6345-l1.c
+> > +++ b/drivers/irqchip/irq-bcm6345-l1.c
+> > @@ -216,11 +216,11 @@ static int bcm6345_l1_set_affinity(struct irq_data *d,
+> >   		enabled = intc->cpus[old_cpu]->enable_cache[word] & mask;
+> >   		if (enabled)
+> >   			__bcm6345_l1_mask(d);
+> > -		cpumask_copy(irq_data_get_affinity_mask(d), dest);
+> > +		irq_data_update_affinity(d, dest);
+> >   		if (enabled)
+> >   			__bcm6345_l1_unmask(d);
+> >   	} else {
+> > -		cpumask_copy(irq_data_get_affinity_mask(d), dest);
+> > +		irq_data_update_affinity(d, dest);
+> >   	}
+> >   	raw_spin_unlock_irqrestore(&intc->lock, flags);
+> >   diff --git a/drivers/parisc/iosapic.c b/drivers/parisc/iosapic.c
+> > index 8a3b0c3a1e92..3a8c98615634 100644
+> > --- a/drivers/parisc/iosapic.c
+> > +++ b/drivers/parisc/iosapic.c
+> > @@ -677,7 +677,7 @@ static int iosapic_set_affinity_irq(struct irq_data *d,
+> >   	if (dest_cpu < 0)
+> >   		return -1;
+> >   -	cpumask_copy(irq_data_get_affinity_mask(d),
+> > cpumask_of(dest_cpu));
+> > +	irq_data_update_affinity(d, cpumask_of(dest_cpu));
+> >   	vi->txn_addr = txn_affinity_addr(d->irq, dest_cpu);
+> >     	spin_lock_irqsave(&iosapic_lock, flags);
+> > diff --git a/drivers/sh/intc/chip.c b/drivers/sh/intc/chip.c
+> > index 358df7510186..828d81e02b37 100644
+> > --- a/drivers/sh/intc/chip.c
+> > +++ b/drivers/sh/intc/chip.c
+> > @@ -72,7 +72,7 @@ static int intc_set_affinity(struct irq_data *data,
+> >   	if (!cpumask_intersects(cpumask, cpu_online_mask))
+> >   		return -1;
+> >   -	cpumask_copy(irq_data_get_affinity_mask(data), cpumask);
+> > +	irq_data_update_affinity(data, cpumask);
+> >     	return IRQ_SET_MASK_OK_NOCOPY;
+> >   }
+> > diff --git a/drivers/xen/events/events_base.c b/drivers/xen/events/events_base.c
+> > index 46d9295d9a6e..5e8321f43cbd 100644
+> > --- a/drivers/xen/events/events_base.c
+> > +++ b/drivers/xen/events/events_base.c
+> > @@ -528,9 +528,10 @@ static void bind_evtchn_to_cpu(evtchn_port_t evtchn, unsigned int cpu,
+> >   	BUG_ON(irq == -1);
+> >     	if (IS_ENABLED(CONFIG_SMP) && force_affinity) {
+> > -		cpumask_copy(irq_get_affinity_mask(irq), cpumask_of(cpu));
+> > -		cpumask_copy(irq_get_effective_affinity_mask(irq),
+> > -			     cpumask_of(cpu));
+> > +		struct irq_data *data = irq_get_irq_data(irq);
+> > +
+> > +		irq_data_update_affinity(data, cpumask_of(cpu));
+> > +		irq_data_update_effective_affinity(data, cpumask_of(cpu));
+> >   	}
+> 
+> 
+> 
+> Nit: commit description says about reusing irq_data_update_affinity()
+> only, but here we also reuse irq_data_update_effective_affinity(), so
+> I would mention that in the description.
+> 
+> Reviewed-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com> # Xen bits
 
-This is a multi-part message in MIME format.
---------------pLNgg0XHmaGg0Ki01g7V8O10
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+b4 shouts because of your email address:
 
-Baolu，
+NOTE: some trailers ignored due to from/email mismatches:
+    ! Trailer: Reviewed-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com> # Xen bits
+     Msg From: Oleksandr <olekstysh@gmail.com>
 
-在 2022/7/6 10:55, Lu Baolu 写道:
-> The domain_translation_struct debugfs node is used to dump the DMAR page
-> tables for the PCI devices. It potentially races with setting domains to
-> devices. The existing code uses the global spinlock device_domain_lock to
-> avoid the races.
->
-> This removes the use of device_domain_lock outside of iommu.c by replacing
-> it with the group mutex lock. Using the group mutex lock is cleaner and
-> more compatible to following cleanups.
->
-> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
-> Reviewed-by: Kevin Tian<kevin.tian@intel.com>
-> ---
->   drivers/iommu/intel/iommu.h   |  1 -
->   drivers/iommu/intel/debugfs.c | 43 +++++++++++++++++++++++++----------
->   drivers/iommu/intel/iommu.c   |  2 +-
->   3 files changed, 32 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/iommu/intel/iommu.h b/drivers/iommu/intel/iommu.h
-> index 8285fcfa5fea..8deb745d8b36 100644
-> --- a/drivers/iommu/intel/iommu.h
-> +++ b/drivers/iommu/intel/iommu.h
-> @@ -480,7 +480,6 @@ enum {
->   #define VTD_FLAG_SVM_CAPABLE		(1 << 2)
->   
->   extern int intel_iommu_sm;
-> -extern spinlock_t device_domain_lock;
->   
->   #define sm_supported(iommu)	(intel_iommu_sm && ecap_smts((iommu)->ecap))
->   #define pasid_supported(iommu)	(sm_supported(iommu) &&			\
-> diff --git a/drivers/iommu/intel/debugfs.c b/drivers/iommu/intel/debugfs.c
-> index d927ef10641b..6e1a3f88abc8 100644
-> --- a/drivers/iommu/intel/debugfs.c
-> +++ b/drivers/iommu/intel/debugfs.c
-> @@ -342,13 +342,13 @@ static void pgtable_walk_level(struct seq_file *m, struct dma_pte *pde,
->   	}
->   }
->   
-> -static int show_device_domain_translation(struct device *dev, void *data)
-> +static int __show_device_domain_translation(struct device *dev, void *data)
->   {
-> -	struct device_domain_info *info = dev_iommu_priv_get(dev);
-> -	struct dmar_domain *domain = info->domain;
-> +	struct dmar_domain *domain;
->   	struct seq_file *m = data;
->   	u64 path[6] = { 0 };
->   
-> +	domain = to_dmar_domain(iommu_get_domain_for_dev(dev));
->   	if (!domain)
->   		return 0;
->   
-> @@ -359,20 +359,39 @@ static int show_device_domain_translation(struct device *dev, void *data)
->   	pgtable_walk_level(m, domain->pgd, domain->agaw + 2, 0, path);
->   	seq_putc(m, '\n');
->   
-> -	return 0;
-> +	/* Don't iterate */
-> +	return 1;
->   }
-
-Using this return value trick to change the caller behaviour, seems not 
-saving
-
-anything, but really cost me a few seconds more to know the 
-*incantation* --
-
-'Don't iterate' :) .
-
+I've used the tag anyway, but you may want to fix your setup in the
+future.
 
 Thanks,
 
-Ethan
-
->   
-> -static int domain_translation_struct_show(struct seq_file *m, void *unused)
-> +static int show_device_domain_translation(struct device *dev, void *data)
->   {
-> -	unsigned long flags;
-> -	int ret;
-> +	struct iommu_group *group;
->   
-> -	spin_lock_irqsave(&device_domain_lock, flags);
-> -	ret = bus_for_each_dev(&pci_bus_type, NULL, m,
-> -			       show_device_domain_translation);
-> -	spin_unlock_irqrestore(&device_domain_lock, flags);
-> +	group = iommu_group_get(dev);
-> +	if (group) {
-> +		/*
-> +		 * The group->mutex is held across the callback, which will
-> +		 * block calls to iommu_attach/detach_group/device. Hence,
-> +		 * the domain of the device will not change during traversal.
-> +		 *
-> +		 * All devices in an iommu group share a single domain, hence
-> +		 * we only dump the domain of the first device. Even though,
-> +		 * this code still possibly races with the iommu_unmap()
-> +		 * interface. This could be solved by RCU-freeing the page
-> +		 * table pages in the iommu_unmap() path.
-> +		 */
-> +		iommu_group_for_each_dev(group, data,
-> +					 __show_device_domain_translation);
-> +		iommu_group_put(group);
-> +	}
->   
-> -	return ret;
-> +	return 0;
-> +}
-> +
-> +static int domain_translation_struct_show(struct seq_file *m, void *unused)
-> +{
-> +	return bus_for_each_dev(&pci_bus_type, NULL, m,
-> +				show_device_domain_translation);
->   }
->   DEFINE_SHOW_ATTRIBUTE(domain_translation_struct);
->   
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 10bda4bec8fe..3b6571681bdd 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -314,7 +314,7 @@ static int iommu_skip_te_disable;
->   #define IDENTMAP_GFX		2
->   #define IDENTMAP_AZALIA		4
->   
-> -DEFINE_SPINLOCK(device_domain_lock);
-> +static DEFINE_SPINLOCK(device_domain_lock);
->   static LIST_HEAD(device_domain_list);
->   
->   const struct iommu_ops intel_iommu_ops;
+	M.
 
 -- 
-"firm, enduring, strong, and long-lived"
-
---------------pLNgg0XHmaGg0Ki01g7V8O10
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Baolu，<br>
-    </p>
-    <div class="moz-cite-prefix">在 2022/7/6 10:55, Lu Baolu 写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20220706025524.2904370-2-baolu.lu@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">The domain_translation_struct debugfs node is used to dump the DMAR page
-tables for the PCI devices. It potentially races with setting domains to
-devices. The existing code uses the global spinlock device_domain_lock to
-avoid the races.
-
-This removes the use of device_domain_lock outside of iommu.c by replacing
-it with the group mutex lock. Using the group mutex lock is cleaner and
-more compatible to following cleanups.
-
-Signed-off-by: Lu Baolu <a class="moz-txt-link-rfc2396E" href="mailto:baolu.lu@linux.intel.com">&lt;baolu.lu@linux.intel.com&gt;</a>
-Reviewed-by: Kevin Tian <a class="moz-txt-link-rfc2396E" href="mailto:kevin.tian@intel.com">&lt;kevin.tian@intel.com&gt;</a>
----
- drivers/iommu/intel/iommu.h   |  1 -
- drivers/iommu/intel/debugfs.c | 43 +++++++++++++++++++++++++----------
- drivers/iommu/intel/iommu.c   |  2 +-
- 3 files changed, 32 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/iommu/intel/iommu.h b/drivers/iommu/intel/iommu.h
-index 8285fcfa5fea..8deb745d8b36 100644
---- a/drivers/iommu/intel/iommu.h
-+++ b/drivers/iommu/intel/iommu.h
-@@ -480,7 +480,6 @@ enum {
- #define VTD_FLAG_SVM_CAPABLE		(1 &lt;&lt; 2)
- 
- extern int intel_iommu_sm;
--extern spinlock_t device_domain_lock;
- 
- #define sm_supported(iommu)	(intel_iommu_sm &amp;&amp; ecap_smts((iommu)-&gt;ecap))
- #define pasid_supported(iommu)	(sm_supported(iommu) &amp;&amp;			\
-diff --git a/drivers/iommu/intel/debugfs.c b/drivers/iommu/intel/debugfs.c
-index d927ef10641b..6e1a3f88abc8 100644
---- a/drivers/iommu/intel/debugfs.c
-+++ b/drivers/iommu/intel/debugfs.c
-@@ -342,13 +342,13 @@ static void pgtable_walk_level(struct seq_file *m, struct dma_pte *pde,
- 	}
- }
- 
--static int show_device_domain_translation(struct device *dev, void *data)
-+static int __show_device_domain_translation(struct device *dev, void *data)
- {
--	struct device_domain_info *info = dev_iommu_priv_get(dev);
--	struct dmar_domain *domain = info-&gt;domain;
-+	struct dmar_domain *domain;
- 	struct seq_file *m = data;
- 	u64 path[6] = { 0 };
- 
-+	domain = to_dmar_domain(iommu_get_domain_for_dev(dev));
- 	if (!domain)
- 		return 0;
- 
-@@ -359,20 +359,39 @@ static int show_device_domain_translation(struct device *dev, void *data)
- 	pgtable_walk_level(m, domain-&gt;pgd, domain-&gt;agaw + 2, 0, path);
- 	seq_putc(m, '\n');
- 
--	return 0;
-+	/* Don't iterate */
-+	return 1;
- } </pre>
-    </blockquote>
-    <p>Using this return value trick to change the caller behaviour,
-      seems not saving</p>
-    <p> anything, but really cost me a few seconds more to know the <span
-        style="FONT-SIZE: 10.5pt; COLOR: #000000; LINE-HEIGHT: normal"><b>incantation</b></span>
-      -- <br>
-    </p>
-    <p>'Don't iterate' :) . <br>
-    </p>
-    <p><br>
-    </p>
-    <p>Thanks,</p>
-    <p>Ethan<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20220706025524.2904370-2-baolu.lu@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">
- 
--static int domain_translation_struct_show(struct seq_file *m, void *unused)
-+static int show_device_domain_translation(struct device *dev, void *data)
- {
--	unsigned long flags;
--	int ret;
-+	struct iommu_group *group;
- 
--	spin_lock_irqsave(&amp;device_domain_lock, flags);
--	ret = bus_for_each_dev(&amp;pci_bus_type, NULL, m,
--			       show_device_domain_translation);
--	spin_unlock_irqrestore(&amp;device_domain_lock, flags);
-+	group = iommu_group_get(dev);
-+	if (group) {
-+		/*
-+		 * The group-&gt;mutex is held across the callback, which will
-+		 * block calls to iommu_attach/detach_group/device. Hence,
-+		 * the domain of the device will not change during traversal.
-+		 *
-+		 * All devices in an iommu group share a single domain, hence
-+		 * we only dump the domain of the first device. Even though,
-+		 * this code still possibly races with the iommu_unmap()
-+		 * interface. This could be solved by RCU-freeing the page
-+		 * table pages in the iommu_unmap() path.
-+		 */
-+		iommu_group_for_each_dev(group, data,
-+					 __show_device_domain_translation);
-+		iommu_group_put(group);
-+	}
- 
--	return ret;
-+	return 0;
-+}
-+
-+static int domain_translation_struct_show(struct seq_file *m, void *unused)
-+{
-+	return bus_for_each_dev(&amp;pci_bus_type, NULL, m,
-+				show_device_domain_translation);
- }
- DEFINE_SHOW_ATTRIBUTE(domain_translation_struct);
- 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 10bda4bec8fe..3b6571681bdd 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -314,7 +314,7 @@ static int iommu_skip_te_disable;
- #define IDENTMAP_GFX		2
- #define IDENTMAP_AZALIA		4
- 
--DEFINE_SPINLOCK(device_domain_lock);
-+static DEFINE_SPINLOCK(device_domain_lock);
- static LIST_HEAD(device_domain_list);
- 
- const struct iommu_ops intel_iommu_ops;
-</pre>
-    </blockquote>
-    <pre class="moz-signature" cols="72">-- 
-"firm, enduring, strong, and long-lived"</pre>
-  </body>
-</html>
-
---------------pLNgg0XHmaGg0Ki01g7V8O10--
-
---===============1948052728205963179==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Without deviation from the norm, progress is not possible.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============1948052728205963179==--
