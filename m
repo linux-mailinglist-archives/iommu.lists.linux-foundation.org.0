@@ -1,95 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDC556CD7A
-	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:37:52 +0200 (CEST)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533EE56CD86
+	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:38:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 958E041895;
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2DA4B82B2F;
 	Sun, 10 Jul 2022 06:37:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 958E041895
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PyBdwpT1
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2DA4B82B2F
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yG_Q_JuGCen2; Sun, 10 Jul 2022 06:37:46 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PNzZfIT0QNZI; Sun, 10 Jul 2022 06:37:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E403340510;
-	Sun, 10 Jul 2022 06:37:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E403340510
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 21DD98137B;
+	Sun, 10 Jul 2022 06:37:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 21DD98137B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E50BC0098;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 58390C00AE;
 	Sun, 10 Jul 2022 06:37:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10C83C002D
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 18:13:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DA65BC002D
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 20:33:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id DEA1B60ABB
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 18:13:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DEA1B60ABB
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
- header.a=rsa-sha256 header.s=google header.b=PyBdwpT1
+ by smtp4.osuosl.org (Postfix) with ESMTP id A652D425F7
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 20:33:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A652D425F7
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xZLyEYjjurzV for <iommu@lists.linux-foundation.org>;
- Fri,  8 Jul 2022 18:13:20 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9FDA360ADE
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9FDA360ADE
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 18:13:19 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id y18so15958632ljj.6
- for <iommu@lists.linux-foundation.org>; Fri, 08 Jul 2022 11:13:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xxakuRjObUCkye3AQ22V76C+V/wXWgeyU417sI5Erhk=;
- b=PyBdwpT1kw0OeeUw6KnFZnNBkmCt38SG1b76RSoRpK1WOdDZj894b0A0jFL7O5PKx+
- pUHfiV99aQJAcxfxTWtJLs5RXrnjz/xPTcGUsVVpqmdleDtM/GZOu0hn35XCT2PY3ipq
- SaE+FYpbHu24g1jgO23mGYgMKYAD2EBwkoaC1zx4VlSQ2YC+fT7rEGvvkuueN10p/b4g
- U3lPgzcYW7/HcxfRrz/6DAR1DKMU8Ki7pHUaUWqvexJ5WzcrKNGX3EcigmIZNLEDcLX/
- 1WbECeQ03q2bCSJdvufKe2C+923wmsFO+0xpjv0d49bF3ePzdeZkKoVCb8jAa+7+Sxgp
- L7nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xxakuRjObUCkye3AQ22V76C+V/wXWgeyU417sI5Erhk=;
- b=ZY9OJYiJJ+oKg91VIgO6ABcGpksM8ryKcFAktYDrXHhGldLBekQ5EkDh9D/zamnZAi
- E0Na3bQgfRB6tf+eEGjnUU4NgUXEPyoPWvdp4mVriByjwVkRat+KyqiRF4pXKkAo0q2G
- fUvxS0XrSpMNx8tPTXrquEx9rSR8IBfdbgq9cDy31Mn9PhwdcTVErFZtZ1gxMS7yyZFF
- Ff1dSRb4fsTP3Ob5sEmKBx353zEZGgRpl+93XslpRCWDsXdk/1L3wtYuo9lIKoSJPsmq
- H2u/qIFwDbzdVfAxRSBW/CRQVaR9vmYcCHEbKHA5chxrH0KX37rql5BwXi4viEIwklZb
- lz/Q==
-X-Gm-Message-State: AJIora9B3qHVla/H1qn6CmzDmgrFp8cdxhATUPB1H5Dz11l7HL10srWb
- mgK6joPJEa8jPjRwWuYuqwRRdqewgUAL+we7xTGGkw==
-X-Google-Smtp-Source: AGRyM1s4khtAdDPD9uAtpQbZOOwGGF2BRshqhouC45A+O1rPRIXlXk8YUZSNdivuO908GgYbfwpcIOkx4P2VtlZmLr8=
-X-Received: by 2002:a2e:bd11:0:b0:25d:4f94:ac79 with SMTP id
- n17-20020a2ebd11000000b0025d4f94ac79mr2689388ljq.4.1657303997519; Fri, 08 Jul
- 2022 11:13:17 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HfLRFrWpnhXU for <iommu@lists.linux-foundation.org>;
+ Fri,  8 Jul 2022 20:33:10 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 74591425E9
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 74591425E9
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 20:33:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF3601063;
+ Fri,  8 Jul 2022 13:33:09 -0700 (PDT)
+Received: from [10.57.86.102] (unknown [10.57.86.102])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9CF9F3F70D;
+ Fri,  8 Jul 2022 13:33:08 -0700 (PDT)
+Message-ID: <fdf5d34e-7668-c05c-9098-30e34939c88a@arm.com>
+Date: Fri, 8 Jul 2022 21:32:46 +0100
 MIME-Version: 1.0
-References: <20220702213724.3949-1-semen.protsenko@linaro.org>
- <20220702213724.3949-4-semen.protsenko@linaro.org>
- <925751c3-83e8-02b8-6a8b-549290522a9e@linaro.org>
-In-Reply-To: <925751c3-83e8-02b8-6a8b-549290522a9e@linaro.org>
-From: Sam Protsenko <semen.protsenko@linaro.org>
-Date: Fri, 8 Jul 2022 21:13:06 +0300
-Message-ID: <CAPLW+4kc86aOVspBz52vt+uhs8GXDNfekd-7jKhyNjUpi8XwLQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] iommu/exynos: Use lookup based approach to access v7
- registers
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] swiotlb: ensure io_tlb_default_mem spinlock always
+ initialised
+Content-Language: en-GB
+To: Ben Dooks <ben.dooks@sifive.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, iommu@lists.linux-foundation.org
+References: <20220708170811.270589-1-ben.dooks@sifive.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220708170811.270589-1-ben.dooks@sifive.com>
 X-Mailman-Approved-At: Sun, 10 Jul 2022 06:37:28 +0000
-Cc: Janghyuck Kim <janghyuck.kim@samsung.com>,
- linux-samsung-soc@vger.kernel.org, Will Deacon <will@kernel.org>,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Cho KyongHo <pullip.cho@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Sudip Mukherjee <sudip.mukherjee@sifive.com>,
+ Jude Onyenegecha <jude.onyenegecha@sifive.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,162 +72,63 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, 3 Jul 2022 at 22:29, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 02/07/2022 23:37, Sam Protsenko wrote:
-> > SysMMU v7 might have different register layouts (VM capable or non-VM
-> > capable). Check which layout is implemented in current SysMMU module and
-> > prepare the corresponding register table for futher usage. This way is
-> > faster and more elegant than checking corresponding condition (if it's
-> > VM or non-VM SysMMU) each time before accessing v7 registers. For now
-> > the register table contains only most basic registers needed to add the
-> > SysMMU v7 support.
-> >
-> > This patch is based on downstream work of next authors:
-> >   - Janghyuck Kim <janghyuck.kim@samsung.com>
-> >   - Daniel Mentz <danielmentz@google.com>
-> >
-> > Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
-> > ---
-> >  drivers/iommu/exynos-iommu.c | 46 ++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 46 insertions(+)
-> >
-> > diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
-> > index df6ddbebbe2b..47017e8945c5 100644
-> > --- a/drivers/iommu/exynos-iommu.c
-> > +++ b/drivers/iommu/exynos-iommu.c
-> > @@ -180,6 +180,47 @@ static u32 lv2ent_offset(sysmmu_iova_t iova)
-> >
-> >  #define has_sysmmu(dev)              (dev_iommu_priv_get(dev) != NULL)
-> >
-> > +#define MMU_REG(data, idx)           \
-> > +     ((data)->sfrbase + (data)->regs[idx].off)
->
-> I would expect to see users of this - convert all existing regs.
->
+On 2022-07-08 18:08, Ben Dooks wrote:
+> If the io_tlb_default_mem is used by a device that then gets used
+> by the swiotlb code, the spinlock warning is triggered causing a
+> lot of stack-trace.
 
-I was thinking about doing that as a consequent patch (adding SysMMU
-v1/v5 register sets). But ok, will add in v2. And will probably split
-it per 2 patches:
-  1. Rework existing driver to use register sets (lookup table). To
-keep it as "no functional change" patch.
-  2. Add SysMMU v7 support.
+Hang on, how have we got as far as trying to allocate out of an 
+uninitialised SWIOTLB at all? That seems like either something's gone 
+more fundamentally wrong or we're missing a proper check somewhere. I 
+don't think papering over it like this is right.
 
-Also, I will probably replace MMU_REG() with more standard approach,
-i.e. will add sysmmu_read() / sysmmu_write() functions instead. It
-should make the code tidier.
+Thanks,
+Robin.
 
-> > +#define MMU_VM_REG(data, idx, vmid)  \
-> > +     (MMU_REG(data, idx) + (vmid) * (data)->regs[idx].mult)
-> > +
-> > +enum {
-> > +     REG_SET_NON_VM,
-> > +     REG_SET_VM,
-> > +     MAX_REG_SET
-> > +};
-> > +
-> > +enum {
-> > +     IDX_CTRL_VM,
-> > +     IDX_CFG_VM,
-> > +     IDX_FLPT_BASE,
->
-> Isn't this called REG_MMU_FLUSH? If yes, it's a bit confusing to see
-> different name used.
->
-
-I used v7 registers naming, as I only added support for v7 register
-set in this patch series. As I said above, I'll add SysMMU v1/v5
-register sets in v2, and rename those indexes to have old register
-names. Despite the differences between register names in SysMMU v1/v5
-and v7, their purpose is the same.
-
-> > +     IDX_ALL_INV,
->
-> Isn't this called REG_MMU_FLUSH_ENTRY?
->
-> > +     MAX_REG_IDX
-> > +};
-> > +
-> > +struct sysmmu_vm_reg {
-> > +     unsigned int off;       /* register offset */
-> > +     unsigned int mult;      /* VM index offset multiplier */
-> > +};
-> > +
-> > +static const struct sysmmu_vm_reg sysmmu_regs[MAX_REG_SET][MAX_REG_IDX] = {
-> > +     /* Default register set (non-VM) */
-> > +     {
-> > +             /*
-> > +              * SysMMUs without VM support do not have CTRL_VM and CFG_VM
-> > +              * registers. Setting the offsets to 1 will trigger an unaligned
-> > +              * access exception.
->
-> So why are you setting offset 1? To trigger unaligned access?
->
-
-Yes, as comment suggests, 0x1 offset is set intentionally to cause the
-exception. That might be useful for debugging (if driver is trying to
-access some non-existing register on some particular SysMMU version).
-I'll improve the comment in v2.
-
-> > +              */
-> > +             {0x1}, {0x1}, {0x000c}, {0x0010},
-> > +     },
-> > +     /* VM capable register set */
-> > +     {
-> > +             {0x8000, 0x1000}, {0x8004, 0x1000}, {0x800c, 0x1000},
-> > +             {0x8010, 0x1000},
-> > +     },
-> You add here quite a bit of dead code and some hard-coded numbers.
->
-
-Ok, will remove those multiplier bits for now. It can be added later,
-when implementing domains support (to use VM registers other than n=0
-instance).
-
-> > +};
-> > +
-> >  static struct device *dma_dev;
-> >  static struct kmem_cache *lv2table_kmem_cache;
-> >  static sysmmu_pte_t *zero_lv2_table;
-> > @@ -284,6 +325,7 @@ struct sysmmu_drvdata {
-> >
-> >       /* v7 fields */
-> >       bool has_vcr;                   /* virtual machine control register */
-> > +     const struct sysmmu_vm_reg *regs; /* register set */
-> >  };
-> >
-> >  static struct exynos_iommu_domain *to_exynos_domain(struct iommu_domain *dom)
-> > @@ -407,6 +449,10 @@ static void sysmmu_get_hw_info(struct sysmmu_drvdata *data)
-> >       __sysmmu_get_version(data);
-> >       if (MMU_MAJ_VER(data->version) >= 7 && __sysmmu_has_capa1(data))
-> >               __sysmmu_get_vcr(data);
-> > +     if (data->has_vcr)
-> > +             data->regs = sysmmu_regs[REG_SET_VM];
-> > +     else
-> > +             data->regs = sysmmu_regs[REG_SET_NON_VM];
->
-> This is set and not read.
->
-
-It's used in patch 4/4. But as discussed above, I will convert
-existing code (SysMMU v1/v3/v5) to benefit from register set as well.
-Will send in v2.
-
-Thanks for the review!
-
-> >
-> >       __sysmmu_disable_clocks(data);
-> >  }
->
->
-> Best regards,
-> Krzysztof
+> Fix this by making the structure's lock initialised at build time.
+> 
+> Avoids the following BUG trigger:
+> 
+> [    3.046401] BUG: spinlock bad magic on CPU#3, kworker/u8:0/7
+> [    3.046689]  lock: io_tlb_default_mem+0x30/0x60, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+> [    3.047217] CPU: 3 PID: 7 Comm: kworker/u8:0 Not tainted 5.17.0-00056-g1e9bac738084-dirty #310
+> [    3.048363] Workqueue: events_unbound deferred_probe_work_func
+> [    3.048892] Call Trace:
+> [    3.049224] [<ffffffff800048aa>] dump_backtrace+0x1c/0x24
+> [    3.049576] [<ffffffff805c5f74>] show_stack+0x2c/0x38
+> [    3.049898] [<ffffffff805cade2>] dump_stack_lvl+0x40/0x58
+> [    3.050216] [<ffffffff805cae0e>] dump_stack+0x14/0x1c
+> [    3.050460] [<ffffffff805c69f6>] spin_dump+0x62/0x6e
+> [    3.050681] [<ffffffff8004e000>] do_raw_spin_lock+0xb0/0xd0
+> [    3.050934] [<ffffffff805d5b58>] _raw_spin_lock_irqsave+0x20/0x2c
+> [    3.051157] [<ffffffff80067e38>] swiotlb_tbl_map_single+0xce/0x3da
+> [    3.051372] [<ffffffff80068320>] swiotlb_map+0x3a/0x15c
+> [    3.051668] [<ffffffff80065a56>] dma_map_page_attrs+0x76/0x162
+> [    3.051975] [<ffffffff8031d542>] dw_pcie_host_init+0x326/0x3f2
+> 
+> Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
+> ---
+>   kernel/dma/swiotlb.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index cb50f8d38360..a707a944c39a 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -65,7 +65,7 @@
+>   static bool swiotlb_force_bounce;
+>   static bool swiotlb_force_disable;
+>   
+> -struct io_tlb_mem io_tlb_default_mem;
+> +struct io_tlb_mem io_tlb_default_mem = { .lock = __SPIN_LOCK_UNLOCKED(io_tlb_default_mem.lock) } ;
+>   
+>   phys_addr_t swiotlb_unencrypted_base;
+>   
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
