@@ -1,104 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAFC56CD87
-	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:38:02 +0200 (CEST)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2E356CD78
+	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:37:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BDECD60E67;
-	Sun, 10 Jul 2022 06:37:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BDECD60E67
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=WQyaLzDG
+	by smtp4.osuosl.org (Postfix) with ESMTP id 25CCB41864;
+	Sun, 10 Jul 2022 06:37:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 25CCB41864
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sifive.com header.i=@sifive.com header.a=rsa-sha256 header.s=google header.b=MDtkeEsI
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Gh9L1YWCMT0V; Sun, 10 Jul 2022 06:37:44 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KOy5BFsBqARJ; Sun, 10 Jul 2022 06:37:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6053E60E61;
-	Sun, 10 Jul 2022 06:37:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6053E60E61
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 58C994188F;
+	Sun, 10 Jul 2022 06:37:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 58C994188F
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25BCDC00A7;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C60A5C00AB;
 	Sun, 10 Jul 2022 06:37:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 172AFC002D
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 16:51:25 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F2720C002D
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 17:08:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id BBD9B84843
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 16:51:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BBD9B84843
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com
- header.a=rsa-sha256 header.s=20200525 header.b=WQyaLzDG
+ by smtp3.osuosl.org (Postfix) with ESMTP id BEAD8607C0
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 17:08:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BEAD8607C0
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com
+ header.a=rsa-sha256 header.s=google header.b=MDtkeEsI
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ms_nVLQAeBc8 for <iommu@lists.linux-foundation.org>;
- Fri,  8 Jul 2022 16:51:19 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C4ACA8483F
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C4ACA8483F
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 16:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=8e834mcfkj5DyYp2F7UpIZpl608YuXQCo9cN4RiJA8E=; b=WQyaLzDGqtTKF10L2+k70xp9Zo
- NYO4sof7irrsBjsiQVjw1cHzkTxZgXB1h5a5O6NMRW89IIoXRNEpVv7KFcBTW6j1OvJcmHsLoJCxn
- /mEJsikT4B81IGCKUlRCAWy1fZAyQtibqwdtEx9aZxIEgxlSPuXnj12feUz+Be1smzXTtG3cMnLpr
- dTw46g/FTQ55xAU5+nCGsBrSJ/7qPQcXPPeoZynV3DebYjPLYCOff7+AaQKaksgShCUC08bgOokwT
- J0OuyWraBgjmAEa2EuGyOYPvCqb2K1T55hrlC5reJaTouQYCjCr2r5r2JIgBk9y/EtpL+8b/QMTdL
- ELRV/teQ==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <gunthorp@deltatee.com>)
- id 1o9rCD-009xkH-83; Fri, 08 Jul 2022 10:51:14 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
- 4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1o9rCB-0001KT-5B; Fri, 08 Jul 2022 10:51:11 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, iommu@lists.linux.dev
-Date: Fri,  8 Jul 2022 10:51:04 -0600
-Message-Id: <20220708165104.5005-14-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220708165104.5005-1-logang@deltatee.com>
-References: <20220708165104.5005-1-logang@deltatee.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id i1iIs45fgpbK for <iommu@lists.linux-foundation.org>;
+ Fri,  8 Jul 2022 17:08:17 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9675660AF2
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9675660AF2
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 17:08:16 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bi22-20020a05600c3d9600b003a04de22ab6so1429956wmb.1
+ for <iommu@lists.linux-foundation.org>; Fri, 08 Jul 2022 10:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rjtnXjJTM76a8uBuPAjTSUIAKlaLeiPacD9QEtS4qDw=;
+ b=MDtkeEsInPqXPzZim3GXqcRJnQOfNrk0zyh69sg/F7vVFzZs7k4LbrmXCyoJMhe+pk
+ hV6nsVlhB1c8j3aePLXYPVgjfKdkU6l80MZxTr3QLcbG11/Pkn1zcGUlv8v9uLrr+Y2R
+ zUbnawCQw1MwEaiv2QUN9UWeC6sUxoBqBUMkGsmZnfBgcqnehNvhJ6lSuElTcEB5F4ov
+ fnl76H5vXeqI5YM0r2YMAhMa7Oe2ouD2XUJMLO8XC02bnjHKvz8/Z/bRDT6kP06yvLlp
+ E3VxyeGZdW978yMpMTQWBWvM8vblfY6+0by9evAAG1hP2wYpL7l/LhvUnhkHrHW2V5+B
+ TUHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rjtnXjJTM76a8uBuPAjTSUIAKlaLeiPacD9QEtS4qDw=;
+ b=LPdjAeI9TUTIWtSLcZh6oi06xQj1Haqn9dLFhJQM13KOL+D3netHpRiHOCJj8drdWe
+ yP134by2YJPNm/T5lxPYUzjkMFQbzYvAbg9DMYlup85Igwx8/l6I8mOPXbaJPQp9UphB
+ nbS6zdzmSJPENYKDsnkyvBQMmnOfly/LbS3ZH3ynV77Xz7yRRyyBgkxifzTo/TKvOemp
+ G908c/td4qa39yExtlZyCnezGhs6jzQypZDLkSmAkfZziN9GnDOtnSHw9G8kRqz+ZqT8
+ Wf3elGXr7Ju/SuxHndzcUeNT67V3X9o4/pQo9aIytzptCTl2UrnnYWTlf30FmB/NUy1H
+ 41wg==
+X-Gm-Message-State: AJIora/n8m5ya4bFUw/ZiCrQNBmCXfGPjq6tOE52+VE0sthWazL2aXAf
+ t+iRmbdm2Vq4LJYa0SEnG37Flg==
+X-Google-Smtp-Source: AGRyM1uLwrXqWANfQe+1Wila+2ISVN7BYY7M0YDfWZQ2VfUWRzFwS//um4Nxt9sS7P6MX4Tl60U/tQ==
+X-Received: by 2002:a1c:7405:0:b0:3a2:de4f:5f07 with SMTP id
+ p5-20020a1c7405000000b003a2de4f5f07mr840272wmc.117.1657300094872; 
+ Fri, 08 Jul 2022 10:08:14 -0700 (PDT)
+Received: from rainbowdash.office.codethink.co.uk ([167.98.27.226])
+ by smtp.gmail.com with ESMTPSA id
+ k9-20020a5d4289000000b0021d9591c64fsm92701wrq.33.2022.07.08.10.08.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jul 2022 10:08:14 -0700 (PDT)
+From: Ben Dooks <ben.dooks@sifive.com>
+To: linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ iommu@lists.linux-foundation.org
+Subject: [PATCH] swiotlb: ensure io_tlb_default_mem spinlock always initialised
+Date: Fri,  8 Jul 2022 18:08:11 +0100
+Message-Id: <20220708170811.270589-1-ben.dooks@sifive.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com,
- hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com,
- willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
- dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
- dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com,
- robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com,
- logang@deltatee.com, bhelgaas@google.com, jhubbard@nvidia.com,
- rcampbell@nvidia.com, jgg@nvidia.com, mgurtovoy@nvidia.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v8 13/13] PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-Mailman-Approved-At: Sun, 10 Jul 2022 06:37:28 +0000
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, Stephen Bates <sbates@raithlin.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Ira Weiny <ira.weiny@intel.com>,
- Christoph Hellwig <hch@lst.de>, Minturn Dave B <dave.b.minturn@intel.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Robin Murphy <robin.murphy@arm.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sudip Mukherjee <sudip.mukherjee@sifive.com>,
+ Ben Dooks <ben.dooks@sifive.com>,
+ Jude Onyenegecha <jude.onyenegecha@sifive.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,148 +108,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This interface is superseded by support in dma_map_sg() which now supports
-heterogeneous scatterlists. There are no longer any users, so remove it.
+If the io_tlb_default_mem is used by a device that then gets used
+by the swiotlb code, the spinlock warning is triggered causing a
+lot of stack-trace.
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Fix this by making the structure's lock initialised at build time.
+
+Avoids the following BUG trigger:
+
+[    3.046401] BUG: spinlock bad magic on CPU#3, kworker/u8:0/7
+[    3.046689]  lock: io_tlb_default_mem+0x30/0x60, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+[    3.047217] CPU: 3 PID: 7 Comm: kworker/u8:0 Not tainted 5.17.0-00056-g1e9bac738084-dirty #310
+[    3.048363] Workqueue: events_unbound deferred_probe_work_func
+[    3.048892] Call Trace:
+[    3.049224] [<ffffffff800048aa>] dump_backtrace+0x1c/0x24
+[    3.049576] [<ffffffff805c5f74>] show_stack+0x2c/0x38
+[    3.049898] [<ffffffff805cade2>] dump_stack_lvl+0x40/0x58
+[    3.050216] [<ffffffff805cae0e>] dump_stack+0x14/0x1c
+[    3.050460] [<ffffffff805c69f6>] spin_dump+0x62/0x6e
+[    3.050681] [<ffffffff8004e000>] do_raw_spin_lock+0xb0/0xd0
+[    3.050934] [<ffffffff805d5b58>] _raw_spin_lock_irqsave+0x20/0x2c
+[    3.051157] [<ffffffff80067e38>] swiotlb_tbl_map_single+0xce/0x3da
+[    3.051372] [<ffffffff80068320>] swiotlb_map+0x3a/0x15c
+[    3.051668] [<ffffffff80065a56>] dma_map_page_attrs+0x76/0x162
+[    3.051975] [<ffffffff8031d542>] dw_pcie_host_init+0x326/0x3f2
+
+Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
 ---
- drivers/pci/p2pdma.c       | 66 --------------------------------------
- include/linux/pci-p2pdma.h | 27 ----------------
- 2 files changed, 93 deletions(-)
+ kernel/dma/swiotlb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 5d2538aa0778..4496a7c5c478 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -872,72 +872,6 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
- 	return type;
- }
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index cb50f8d38360..a707a944c39a 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -65,7 +65,7 @@
+ static bool swiotlb_force_bounce;
+ static bool swiotlb_force_disable;
  
--static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
--		struct device *dev, struct scatterlist *sg, int nents)
--{
--	struct scatterlist *s;
--	int i;
--
--	for_each_sg(sg, s, nents, i) {
--		s->dma_address = sg_phys(s) + p2p_pgmap->bus_offset;
--		sg_dma_len(s) = s->length;
--	}
--
--	return nents;
--}
--
--/**
-- * pci_p2pdma_map_sg_attrs - map a PCI peer-to-peer scatterlist for DMA
-- * @dev: device doing the DMA request
-- * @sg: scatter list to map
-- * @nents: elements in the scatterlist
-- * @dir: DMA direction
-- * @attrs: DMA attributes passed to dma_map_sg() (if called)
-- *
-- * Scatterlists mapped with this function should be unmapped using
-- * pci_p2pdma_unmap_sg_attrs().
-- *
-- * Returns the number of SG entries mapped or 0 on error.
-- */
--int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	struct pci_p2pdma_pagemap *p2p_pgmap =
--		to_p2p_pgmap(sg_page(sg)->pgmap);
--
--	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev)) {
--	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
--		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
--	case PCI_P2PDMA_MAP_BUS_ADDR:
--		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
--	default:
--		/* Mapping is not Supported */
--		return 0;
--	}
--}
--EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
--
--/**
-- * pci_p2pdma_unmap_sg_attrs - unmap a PCI peer-to-peer scatterlist that was
-- *	mapped with pci_p2pdma_map_sg()
-- * @dev: device doing the DMA request
-- * @sg: scatter list to map
-- * @nents: number of elements returned by pci_p2pdma_map_sg()
-- * @dir: DMA direction
-- * @attrs: DMA attributes passed to dma_unmap_sg() (if called)
-- */
--void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	enum pci_p2pdma_map_type map_type;
--
--	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev);
--
--	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
--		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
--}
--EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
--
- /**
-  * pci_p2pdma_map_segment - map an sg segment determining the mapping type
-  * @state: State structure that should be declared outside of the for_each_sg()
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index 8318a97c9c61..2c07aa6b7665 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -30,10 +30,6 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
--int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs);
--void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -83,17 +79,6 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
--static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--	return 0;
--}
--static inline void pci_p2pdma_unmap_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--}
- static inline int pci_p2pdma_enable_store(const char *page,
- 		struct pci_dev **p2p_dev, bool *use_p2pdma)
- {
-@@ -119,16 +104,4 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
+-struct io_tlb_mem io_tlb_default_mem;
++struct io_tlb_mem io_tlb_default_mem = { .lock = __SPIN_LOCK_UNLOCKED(io_tlb_default_mem.lock) } ;
  
--static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
--				    int nents, enum dma_data_direction dir)
--{
--	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
--}
--
--static inline void pci_p2pdma_unmap_sg(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir)
--{
--	pci_p2pdma_unmap_sg_attrs(dev, sg, nents, dir, 0);
--}
--
- #endif /* _LINUX_PCI_P2P_H */
+ phys_addr_t swiotlb_unencrypted_base;
+ 
 -- 
-2.30.2
+2.35.1
 
 _______________________________________________
 iommu mailing list
