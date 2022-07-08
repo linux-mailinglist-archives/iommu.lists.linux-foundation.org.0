@@ -1,104 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B41E56CD8B
-	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:38:06 +0200 (CEST)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFEE56CD5F
+	for <lists.iommu@lfdr.de>; Sun, 10 Jul 2022 08:37:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 44BB160E29;
-	Sun, 10 Jul 2022 06:37:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 44BB160E29
+	by smtp3.osuosl.org (Postfix) with ESMTP id B06BD60E3A;
+	Sun, 10 Jul 2022 06:37:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B06BD60E3A
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=xnJ9jBf8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=E4lKfjJ3
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ab7l9JydZrZi; Sun, 10 Jul 2022 06:37:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 4885360BAA;
-	Sun, 10 Jul 2022 06:37:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4885360BAA
+	with ESMTP id jWVR2f3xTwaw; Sun, 10 Jul 2022 06:37:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 49E696079E;
+	Sun, 10 Jul 2022 06:37:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 49E696079E
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44B93C002D;
-	Sun, 10 Jul 2022 06:37:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B567C008D;
+	Sun, 10 Jul 2022 06:37:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D502FC002D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 21:47:43 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4512CC002D
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 08:06:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B6D6F408B2
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 21:47:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B6D6F408B2
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com
- header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=xnJ9jBf8
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1A28760B1B
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 08:06:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1A28760B1B
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e5w1sv7OmvnL for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jul 2022 21:47:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 99961408A8
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 99961408A8
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jul 2022 21:47:42 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 267KCRZY003652;
- Thu, 7 Jul 2022 21:47:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=mYUReDqAAtD2Mc/Slejp/JsQFVi9e1ncghZX3Vavmh0=;
- b=xnJ9jBf8Ufq6J0JVjaiWi0JryS/PVZ3dV0d11TbTkdML8UPIRmyHYhNMlt6sUKGAbpGU
- k64Gx9anLLCmwum/I538ASOgU7UbRmo0/u29MVFnQku7yXhDpqdJGknQJgZIIC+7PFfP
- 6qYda/BRPr3r6+vj493eF+dScvU9YM4s8t2JLgWLYQl/zXR8xZlQ8D3ZS3wKx1kMJb2F
- Wuvi0Du4suhANFR9tbfeGAiD3ULI9Pz2yiGidy2GDPuTmHeR5W5sEf3iPLZfq0hS05mS
- g2ODR6pqBet/WF8GYQOzJ13vdtCxaIsKTlR+/B8gSHDywC5rA0KruYY4lScx0RauYNvz yQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubye73u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jul 2022 21:47:28 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 267LjM4l030275; Thu, 7 Jul 2022 21:47:27 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3h4ud7c5bw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jul 2022 21:47:27 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 267LlRsY033607;
- Thu, 7 Jul 2022 21:47:27 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3h4ud7c5ag-1; Thu, 07 Jul 2022 21:47:27 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: linux-scsi@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH v3 0/3] phase out CONFIG_VIRT_TO_BUS
-Date: Thu,  7 Jul 2022 17:47:20 -0400
-Message-Id: <165723020283.18731.6642678816129479253.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220624155226.2889613-1-arnd@kernel.org>
-References: <20220624155226.2889613-1-arnd@kernel.org>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ABfxyfsvTG5j for <iommu@lists.linux-foundation.org>;
+ Fri,  8 Jul 2022 08:06:33 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DEF29607B0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id DEF29607B0
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jul 2022 08:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=/jeGv9mEZOusV9Vo91Vc08OeDqWQ3vhFgoWncg1wJuA=; b=E4lKfjJ3r2gswO1DUI+/iqc/A6
+ oc9oJCOHm/qWI908rkBuVEAaezDPmbLKrJralr+YnoZYvNMjmBSwtY0PS8YEXPvUqm52znfSxqCI0
+ gsx7Lr3OHhv/fffdzG5EJYdV5f+4BgIcRQ11v/vGIY15ZdPxJFKNMIhgb2YugoBKB/RtDXMiTSyPq
+ Wfkp+PTaDXUa55R0h7LP1/y67db8JpArViZqwMwY4jYx1tODRLUTLK5FOShCRCzn+MevVgPTWpNAQ
+ nPXMoWI7Vyph4PG7WVlq/UDziXza5vEOvjvnrX4p+XPGWh2K9W6QJnVjNhEGpTquWn7mTiDtsT/SF
+ 3mEsxiuA==;
+Received: from [2001:4bb8:189:3c4a:86c3:3c19:e6d7:68ff] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1o9j0E-002MoB-Gw; Fri, 08 Jul 2022 08:06:19 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Joerg Roedel <joro@8bytes.org>, Sven Peter <sven@svenpeter.dev>,
+ David Woodhouse <dwmw2@infradead.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Yong Wu <yong.wu@mediatek.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: remove dead iommu code v2
+Date: Fri,  8 Jul 2022 10:06:12 +0200
+Message-Id: <20220708080616.238833-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Proofpoint-GUID: HrfrZsc4HaH6Tm6et7M--Pti1gCHS_F-
-X-Proofpoint-ORIG-GUID: HrfrZsc4HaH6Tm6et7M--Pti1gCHS_F-
-X-Mailman-Approved-At: Sun, 10 Jul 2022 06:37:51 +0000
-Cc: linux-arch@vger.kernel.org, Miquel van Smoorenburg <mikevs@xs4all.net>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-parisc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>, linux-m68k@lists.linux-m68k.org,
- Denis Efremov <efremov@linux.com>, Mark Salyzyn <salyzyn@android.com>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- Matt Wang <wwentao@vmware.com>, linux-alpha@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- Arnd Bergmann <arnd@arndb.de>, Khalid Aziz <khalid@gonehiking.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Mailman-Approved-At: Sun, 10 Jul 2022 06:37:28 +0000
+Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,27 +86,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 24 Jun 2022 17:52:23 +0200, Arnd Bergmann wrote:
+Hi all,
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The virt_to_bus/bus_to_virt interface has been deprecated for
-> decades. After Jakub Kicinski put a lot of work into cleaning out the
-> network drivers using them, there are only a couple of other drivers
-> left, which can all be removed or otherwise cleaned up, to remove the
-> old interface for good.
-> 
-> [...]
+this removes a bit of dead code and methods from the iommu code and the
+cleans up the arm-smmu-v3 driver a little bit based on that.
 
-Applied to 5.20/scsi-queue, thanks!
+Changes since v1:
+ - rebased to the latest iommu/core branch
+ - don't accidentally change an error code in arm_smmu_dev_enable_feature
+ - add a kerneldoc comment to iommu_put_resv_regions
 
-[1/3] scsi: BusLogic remove bus_to_virt
-      https://git.kernel.org/mkp/scsi/c/9f7c2232e131
-[2/3] scsi: dpt_i2o: remove obsolete driver
-      https://git.kernel.org/mkp/scsi/c/b04e75a4a8a8
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Diffstat:
+ drivers/iommu/amd/iommu.c                   |    1 
+ drivers/iommu/apple-dart.c                  |    1 
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   58 ++++++----------------------
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       |    1 
+ drivers/iommu/intel/iommu.c                 |    1 
+ drivers/iommu/iommu.c                       |   34 +---------------
+ drivers/iommu/mtk_iommu.c                   |    1 
+ drivers/iommu/virtio-iommu.c                |    5 --
+ include/linux/iommu.h                       |   17 --------
+ 9 files changed, 21 insertions(+), 98 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
